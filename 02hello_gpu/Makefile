@@ -1,3 +1,3 @@
 
-hello : hello.cu
+hello_gpu : hello_gpu.cu
 	nvcc -o $@ $< 
