@@ -55,7 +55,7 @@ typedef struct {
 typedef struct {
   coo_elem_t * elems;           /**< elements array */
 #ifdef __NVCC__
-  coo_elem_t * elems_dev;
+  coo_elem_t * elems_dev;       /**< copy of elems on device */
 #endif
 } coo_t;
 
@@ -64,29 +64,29 @@ typedef struct {
   idx_t * row_start;            /**< elems[row_start[i]] is the first element of row i */
   csr_elem_t * elems;           /**< elements array */
 #ifdef __NVCC__
-  idx_t * row_start_dev;        /**< device copy of row_start */
-  csr_elem_t * elems_dev;       /**< device copy of elems */
+  idx_t * row_start_dev;        /**< copy of row_start on device */
+  csr_elem_t * elems_dev;       /**< copy of elems on device */
 #endif
 } csr_t;
 
 /** @brief sparse matrix (in any format) */
 typedef struct {
-  sparse_format_t format;   /**< format */
-  idx_t M;                      /**< number of rows */
-  idx_t N;                      /**< number of columns */
-  idx_t nnz;                    /**< number of non-zeros */
+  sparse_format_t format;  /**< format */
+  idx_t M;                 /**< number of rows */
+  idx_t N;                 /**< number of columns */
+  idx_t nnz;               /**< number of non-zeros */
   union {
-    coo_t coo;                  /**< coo or sorted coo */
-    csr_t csr;                  /**< csr */
+    coo_t coo;             /**< coo or sorted coo */
+    csr_t csr;             /**< csr */
   };
 } sparse_t;
 
 /** @brief vector */
 typedef struct {
-  idx_t n;
-  real * elems;
+  idx_t n;                 /**< number of elements */
+  real * elems;            /**< array of elements */
 #ifdef __NVCC__
-  real * elems_dev;
+  real * elems_dev;        /**< copy of elems on device */
 #endif
 } vec_t;
 
