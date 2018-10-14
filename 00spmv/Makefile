@@ -1,25 +1,50 @@
-exe := spmv
-cflags :=
-cflags += -Wall -Wextra
+app := spmv
 
+#
+# CPU options
+#
+cxxflags :=
+cxxflags += -Wall -Wextra
 ## use debug options or optimization
-#cflags += -O0 -g
-cflags += -O3
-
+#cxxflags += -O0 -g
+cxxflags += -O3
 ## use either -fopenmp or -Wno-unknown-pragmas to supress warnings around unknown omp pragmas
-cflags += -fopenmp
-#cflags += -Wno-unknown-pragmas
+cxxflags += -fopenmp
+#cxxflags += -Wno-unknown-pragmas
 
-CXX:=g++
-CXXFLAGS:=$(cflags)
+#
+# GPU options
+#
+nvcxxflags :=
+nvcxxflags += --gpu-code sm_60
+nvcxxflags += --gpu-architecture compute_60
+#nvcxxflags += --maxrregcount 64
+#nvcxxflags += -O0 -Xptxas -O0,-v -g -G
+nvcxxflags += -O3 -Xptxas -O3,-v
 
-LDFLAGS:=$(cflags)
-LIBS:=
+################################
+
+CXX := g++
+CXXFLAGS := $(cxxflags)
+LDFLAGS :=
+LIBS :=
+
+NVCXX := nvcc
+NVCXXFLAGS := $(nvcxxflags)
+NVLDFLAGS :=
+NVLIBS :=
+
+exe :=
+exe += $(app).gcc
+exe += $(app).nvcc
 
 all : $(exe)
 
-$(exe) : % : %.o
-	$(CXX) -o $@ $< $(LDFLAGS) $(LIBS)
+$(app).gcc : %.gcc : %.cc
+	$(CXX) -o $@ $< $(CXXFLAGS) $(LDFLAGS) $(LIBS)
+
+$(app).nvcc : %.nvcc : %.cc
+	$(NVCXX) -o $@ -x cu $< $(NVCXXFLAGS) $(NVLDFLAGS) $(NVLIBS)
 
 clean :
 	rm -f *.o

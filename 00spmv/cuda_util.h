@@ -6,10 +6,25 @@
  */
 
 /**
-   @brief check kernel invocation error and show an error msg if any
+   @brief check if a CUDA API invocation succeeded and show the error msg if any
  */
 
-void check_kernel_error_(const char * msg, const char * file, int line) {
+static void check_cuda_error_(cudaError_t e,
+                              const char * msg, const char * file, int line) {
+  if (e) {
+    fprintf(stderr, "%s:%d:error: %s %s\n",
+            file, line, msg, cudaGetErrorString(e));
+    exit(1);
+  }
+}
+
+#define check_cuda_error(e) check_cuda_error_(e, #e, __FILE__, __LINE__)
+
+/**
+   @brief check if a kernel invocation succeeded and show the error msg if any
+ */
+
+static void check_kernel_error_(const char * msg, const char * file, int line) {
   cudaError_t e = cudaGetLastError();
   if (e) {
     fprintf(stderr, "%s:%d:error: %s %s\n",
@@ -37,16 +52,16 @@ __device__ uint get_smid(void) {
 /**
    @brief get device frequency
  */
-int get_freq() {
+static int get_freq() {
   struct cudaDeviceProp prop[1];
-  check_error(cudaGetDeviceProperties(prop, 0));
+  check_cuda_error(cudaGetDeviceProperties(prop, 0));
   return prop->clockRate;
 }
 
 /**
    @brief cuda malloc
  */
-void * cu_malloc(size_t sz) {
+static void * dev_malloc(size_t sz) {
   void * a = 0;
   cudaError_t e = cudaMalloc(&a, sz);
   if (!a) {
@@ -59,7 +74,7 @@ void * cu_malloc(size_t sz) {
 /**
    @brief cuda free
  */
-void cu_free(void * a) {
+static void dev_free(void * a) {
   cudaFree(a);
 }
 
@@ -67,14 +82,14 @@ void cu_free(void * a) {
    @brief copy from dev to host
  */
 void to_host(void * dst, void * src, size_t sz) {
-  check_error(cudaMemcpy(dst, src, sz, cudaMemcpyDeviceToHost));
+  check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyDeviceToHost));
 }
 
 /**
    @brief copy from host to dev
  */
-void to_dev(void * dst, void * src, size_t sz) {
-  check_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
+static void to_dev(void * dst, void * src, size_t sz) {
+  check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
 }
 
 __device__ inline int get_thread_id_x() {
@@ -113,7 +128,7 @@ __device__ inline int get_thread_id() {
 __device__ inline int get_nthreads() {
   int nx = get_nthreads_x();
   int ny = get_nthreads_y();
-  int ny = get_nthreads_z();
+  int nz = get_nthreads_z();
   return nx * ny * nz;
 }
 

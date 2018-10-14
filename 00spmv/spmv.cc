@@ -13,6 +13,10 @@
 #include <getopt.h>
 #include <time.h>
 
+#if __NVCC__
+#include "cuda_util.h"
+#endif
+
 /** @brief type of matrix index (i,j,...) */
 typedef int idx_t;
 /** @brief type of a matrix element */
@@ -50,12 +54,19 @@ typedef struct {
 /** @brief sparse matrix in coodinate list format */
 typedef struct {
   coo_elem_t * elems;           /**< elements array */
+#ifdef __NVCC__
+  coo_elem_t * elems_dev;
+#endif
 } coo_t;
 
 /** @brief sparse matrix in compressed row format */
 typedef struct {
   idx_t * row_start;            /**< elems[row_start[i]] is the first element of row i */
   csr_elem_t * elems;           /**< elements array */
+#ifdef __NVCC__
+  idx_t * row_start_dev;        /**< device copy of row_start */
+  csr_elem_t * elems_dev;       /**< device copy of elems */
+#endif
 } csr_t;
 
 /** @brief sparse matrix (in any format) */
@@ -74,6 +85,9 @@ typedef struct {
 typedef struct {
   idx_t n;
   real * elems;
+#ifdef __NVCC__
+  real * elems_dev;
+#endif
 } vec_t;
 
 /**
@@ -288,13 +302,10 @@ sparse_t mk_sparse_random(sparse_format_t format,
   switch (format) {
   case sparse_format_coo:
     return mk_coo_random(M, N, nnz, rg);
-    break;
   case sparse_format_coo_sorted:
     return mk_coo_sorted_random(M, N, nnz, rg);
-    break;
   case sparse_format_csr:
     return mk_csr_random(M, N, nnz, rg);
-    break;
   default:
     fprintf(stderr, "mk_sparse_random: invalid format %d\n", format);
     sparse_t A = { sparse_format_invalid, 0, 0, 0, { } };
@@ -354,6 +365,60 @@ sparse_t sparse_transpose(sparse_t A) {
   }
 }
 
+#if __NVCC__
+int coo_to_dev(sparse_t& A) {
+  idx_t nnz = A.nnz;
+  size_t sz = sizeof(coo_elem_t) * nnz;
+  coo_elem_t * elems = A.coo.elems;
+  coo_elem_t * elems_dev = (coo_elem_t *)dev_malloc(sz);
+  to_dev(elems_dev, elems, sz);
+  A.coo.elems_dev = elems_dev;
+  return 1;
+}
+
+int csr_to_dev(sparse_t& A) {
+  idx_t nnz = A.nnz;
+  size_t sz = sizeof(csr_elem_t) * nnz;
+  csr_elem_t * elems = A.csr.elems;
+  csr_elem_t * elems_dev = (csr_elem_t *)dev_malloc(sz);
+  to_dev(elems_dev, elems, sz);
+  A.csr.elems_dev = elems_dev;
+  return 1;
+}
+
+
+/** 
+    @brief send contents to device
+*/
+int sparse_to_dev(sparse_t& A) {
+  switch (A.format) {
+  case sparse_format_coo: {
+    return coo_to_dev(A);
+  }
+  case sparse_format_coo_sorted: {
+    return coo_to_dev(A);
+  }
+  case sparse_format_csr: {
+    return csr_to_dev(A);
+  }
+  default: {
+    fprintf(stderr, "sparse_to_dev: invalid format %d\n", A.format);
+    return 0;
+  }
+  }
+}
+
+int vec_to_dev(vec_t& v) {
+  idx_t n = v.n;
+  size_t sz = sizeof(real) * n;
+  real * elems = v.elems;
+  real * elems_dev = (real *)dev_malloc(sz);
+  to_dev(elems_dev, elems, sz);
+  v.elems_dev = elems_dev;
+  return 1;
+}
+#endif
+
 
 /** 
     @brief y = A * x in serial for coordinate list format
@@ -404,16 +469,16 @@ long spmv_coo_parallel(sparse_t A, vec_t vx, vec_t vy) {
   return 2 * (long)nnz;
 }
 
-__global__ init_const_dev(vec_t v, real c) {
+#if __NVCC__
+__global__ void init_const_dev(vec_t v, real c) {
   idx_t i = get_thread_id_x();
   real * x = v.elems_dev;
-  if (i < M) {
+  if (i < v.n) {
     x[i] = 0.0;
   }
 }
 
-__global__ spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
-  idx_t M = A.M;
+__global__ void spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
   idx_t nnz = A.nnz;
   coo_elem_t * elems = A.coo.elems_dev;
   real * x = vx.elems_dev;
@@ -425,7 +490,8 @@ __global__ spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
     idx_t i = e->i;
     idx_t j = e->j;
     real  a = e->a;
-    atomicAdd(&y[i], a * x[j]);
+    real ax = a * x[j];
+    atomicAdd(&y[i], ax);
   }
 }
 
@@ -438,14 +504,15 @@ long spmv_coo_cuda(sparse_t A, vec_t vx, vec_t vy) {
 
   int init_block_sz = 1024;
   int n_init_blocks = (M + init_block_sz - 1) / init_block_sz;
-  init_const_dev<<<n_init_blocks,init_block_sz>>>(vy, 0.0);
+  check_kernel_error((init_const_dev<<<n_init_blocks,init_block_sz>>>(vy, 0.0)));
 
   int spmv_block_sz = 1024;
   int n_spmv_blocks = (nnz + spmv_block_sz - 1) / spmv_block_sz;
-  spmv_coo_dev<<<n_spmv_blocks,spmv_block_sz>>>(A, vx, vy);
+  check_kernel_error((spmv_coo_dev<<<n_spmv_blocks,spmv_block_sz>>>(A, vx, vy)));
   
   return 2 * (long)nnz;
 }
+#endif                                 
 
 /** 
     @brief y = A * x for coordinate list format
@@ -456,8 +523,10 @@ long spmv_coo(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
     return spmv_coo_serial(A, x, y);
   case spmv_algo_parallel:
     return spmv_coo_parallel(A, x, y);
+#if __NVCC__
   case spmv_algo_cuda:
     return spmv_coo_cuda(A, x, y);
+#endif
   default:
     fprintf(stderr, "spmv_coo: invalid algorithm %d\n", algo);
     return -1;
@@ -553,9 +622,9 @@ long spmv(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
 }
 
 /** 
-    @brief square norm of a vector 
+    @brief square norm of a vector (serial)
 */
-real vec_norm2(vec_t v) {
+real vec_norm2_serial(vec_t v) {
   real s = 0.0;
   real * x = v.elems;
   idx_t n = v.n;
@@ -566,17 +635,136 @@ real vec_norm2(vec_t v) {
 }
 
 /** 
-    @brief normalize a vector
+    @brief square norm of a vector (parallel)
 */
-real vec_normalize(vec_t v) {
-  real s2 = vec_norm2(v);
-  real s = sqrt(s2);
-  real t = 1/s;
+real vec_norm2_parallel(vec_t v) {
+  real s = 0.0;
+  real * x = v.elems;
+  idx_t n = v.n;
+#pragma omp parallel for reduction(+:s)
+  for (idx_t i = 0; i < n; i++) {
+    s += x[i] * x[i];
+  }
+  return s;
+}
+
+#if __NVCC__
+__global__ void vec_norm2_dev(vec_t v, real * s) {
+  idx_t n = v.n;
+  idx_t i = get_thread_id_x();
+  real * x = v.elems_dev;
+  if (i < n) {
+    atomicAdd(s, x[i] * x[i]);
+  }
+}
+
+/** 
+    @brief square norm of a vector (parallel)
+*/
+real vec_norm2_cuda(vec_t v) {
+  idx_t n = v.n;
+  int vec_norm2_block_sz = 1024;
+  int n_vec_norm2_blocks = (n + vec_norm2_block_sz - 1) / vec_norm2_block_sz;
+  real * s_dev = (real *)dev_malloc(sizeof(real));
+  check_kernel_error((vec_norm2_dev<<<n_vec_norm2_blocks,vec_norm2_block_sz>>>(v, s_dev)));
+  real s = 0.0;
+  to_host(&s, s_dev, sizeof(real));
+  dev_free(s_dev);
+  return s;
+}
+#endif
+
+real vec_norm2(spmv_algo_t algo, vec_t v) {
+  switch(algo) {
+  case spmv_algo_serial:
+    return vec_norm2_serial(v);
+  case spmv_algo_parallel:
+    return vec_norm2_parallel(v);
+#if __NVCC__
+  case spmv_algo_cuda:
+    return vec_norm2_cuda(v);
+#endif
+  default:
+    fprintf(stderr, "vec_norm2: invalid algo %d\n", algo);
+    return -1.0;
+  }
+}
+  
+/** 
+    @brief scalar x vector (serial)
+*/
+int scalar_vec_serial(real k, vec_t v) {
   idx_t n = v.n;
   real * x = v.elems;
   for (idx_t i = 0; i < n; i++) {
-    x[i] *= t;
+    x[i] *= k;
   }
+  return 1;
+}
+
+/** 
+    @brief scalar x vector (parallel)
+*/
+int scalar_vec_parallel(real k, vec_t v) {
+  idx_t n = v.n;
+  real * x = v.elems;
+#pragma omp parallel for
+  for (idx_t i = 0; i < n; i++) {
+    x[i] *= k;
+  }
+  return 1;
+}
+
+/** 
+    @brief scalar x vector (cuda)
+*/
+#if __NVCC__
+__global__ void scalar_vec_dev(real k, vec_t v) {
+  idx_t n = v.n;
+  real * x = v.elems_dev;
+  idx_t i = get_thread_id_x();
+  if (i < n) {
+    x[i] *= k;
+  }
+}
+
+int scalar_vec_cuda(real k, vec_t v) {
+  idx_t n = v.n;
+  int scalar_vec_block_sz = 1024;
+  int n_scalar_vec_blocks = (n + scalar_vec_block_sz - 1) / scalar_vec_block_sz;
+  check_kernel_error((scalar_vec_dev<<<n_scalar_vec_blocks,scalar_vec_block_sz>>>(k, v)));
+  return 1;
+}
+#endif
+
+/**
+   @brief scalar x vector
+ */
+
+int scalar_vec(spmv_algo_t algo, real k, vec_t v) {
+  switch(algo) {
+  case spmv_algo_serial:
+    return scalar_vec_serial(k, v);
+  case spmv_algo_parallel:
+    return scalar_vec_parallel(k, v);
+#if __NVCC__
+  case spmv_algo_cuda:
+    return scalar_vec_cuda(k, v);
+#endif
+  default:
+    fprintf(stderr, "scalar_vec: invalid algo %d\n", algo);
+    return 0;
+  }
+}
+  
+/** 
+    @brief normalize a vector
+*/
+real vec_normalize(spmv_algo_t algo, vec_t v) {
+  real s2 = vec_norm2(algo, v);
+  if (s2 < 0.0) return -1.0;
+  real s = sqrt(s2);
+  if (!scalar_vec(algo, 1/s, v)) return -1.0;
   return s;
 }
 
@@ -593,24 +781,41 @@ long cur_time_ns() {
     @brief repeat y = A x; x = tA y; many times
 */
 real repeat_spmv(spmv_algo_t algo,
-                 sparse_t A, sparse_t tA,
-                 vec_t x, vec_t y, idx_t repeat) {
+                 sparse_t& A, sparse_t& tA,
+                 vec_t& x, vec_t& y, idx_t repeat) {
+#if __NVCC__
+  if (algo == spmv_algo_cuda) {
+    sparse_to_dev(A);
+    sparse_to_dev(tA);
+    vec_to_dev(x);
+    vec_to_dev(y);
+  }
+#endif
+  
   printf("repeat_spmv : warm up + error check\n");
-  if (spmv(algo, A, x, y) == -1) {              // y = A x
+  fflush(stdout);
+  if (spmv(algo, A, x, y) < 0.0) {              // y = A x
     return -1.0;
   }
-  if (spmv(algo, tA, y, x) == -1) {              // y = A x
+  if (vec_norm2(algo, y) < 0.0) {
+    return -1.0;
+  }
+  if (spmv(algo, tA, y, x) < 0.0) {              // y = A x
+    return -1.0;
+  }
+  if (vec_normalize(algo, x) < 0.0) {
     return -1.0;
   }
   printf("repeat_spmv : start\n");
+  fflush(stdout);
   real lambda = 0.0;
   long flops = 0;
   long t0 = cur_time_ns();
   for (idx_t r = 0; r < repeat; r++) {
     flops += spmv(algo,  A, x, y);
-    lambda = sqrt(vec_norm2(y));
+    lambda = sqrt(vec_norm2(algo, y));
     flops += spmv(algo, tA, y, x);
-    vec_normalize(x);
+    vec_normalize(algo, x);
     flops += 2 * y.n + 3 * y.n;
   }
   long t1 = cur_time_ns();
@@ -637,7 +842,7 @@ vec_t mk_vec_random(idx_t n, unsigned short rg[3]) {
 */
 vec_t mk_vec_unit_random(idx_t n, unsigned short rg[3]) {
   vec_t x = mk_vec_random(n, rg);
-  vec_normalize(x);
+  vec_normalize(spmv_algo_serial, x);
   return x;
 }
 
@@ -850,11 +1055,13 @@ int main(int argc, char ** argv) {
     (unsigned short)((opt.seed >> 16) & ((1 << 16) - 1)),
     (unsigned short)((opt.seed >> 0 ) & ((1 << 16) - 1)),
   };
-  long flops = 2 * nnz * repeat;
+  long flops = 2 * 2 * nnz * repeat;
   printf("A : %ld x %ld, %ld non-zeros %ld bytes for non-zeros\n",
          (long)M, (long)N, (long)nnz, nnz * sizeof(real));
   printf("repeat : %ld times\n", repeat);
-  printf("%ld flops\n", flops);
+  printf("format : %s\n", opt.format_str);
+  printf("algo : %s\n", opt.algo_str);
+  printf("%ld flops for spmv\n", flops);
 
   sparse_t A = mk_sparse_random(opt.format, M, N, nnz, rg);
   sparse_t tA = sparse_transpose(A);
