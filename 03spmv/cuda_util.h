@@ -6,7 +6,8 @@
  */
 
 /**
-   @brief check if a CUDA API invocation succeeded and show the error msg if any
+   @brief do not use this function directly. use check_cuda_error macro
+   @sa check_cuda_error
  */
 
 static void check_cuda_error_(cudaError_t e,
@@ -18,10 +19,17 @@ static void check_cuda_error_(cudaError_t e,
   }
 }
 
+/**
+   @brief check if a CUDA API invocation succeeded and show the error msg if any
+   @details usage:  check_cuda_error(cuda_api_call()). for example,
+   check_cuda_error(cudaMalloc(&p, size));
+ */
+
 #define check_cuda_error(e) check_cuda_error_(e, #e, __FILE__, __LINE__)
 
 /**
-   @brief check if a kernel invocation succeeded and show the error msg if any
+   @brief do not use this function directly. use check_kernel_error macro
+   @sa check_kernel_error
  */
 
 static void check_kernel_error_(const char * msg, const char * file, int line) {
@@ -35,7 +43,9 @@ static void check_kernel_error_(const char * msg, const char * file, int line) {
 
 /**
    @brief check kernel invocation error
-   @details check_kernel_error(kernel-launch-expression)
+   @details usage: check_kernel_error((kernel-launch-expression)). for example,
+   check_kernel_error((your_gpu_kernel<<<n_blocks,block_sz>>>(a,b,c))). 
+   note that you need to put parens around the expression.
  */
 
 #define check_kernel_error(exp) do { exp; check_kernel_error_(#exp, __FILE__, __LINE__); } while (0)
@@ -59,7 +69,7 @@ static int get_freq() {
 }
 
 /**
-   @brief cuda malloc
+   @brief wrap cudaMalloc.  cudaMalloc + error check + more ordinary malloc-like interface (return pointer)
  */
 static void * dev_malloc(size_t sz) {
   void * a = 0;
@@ -72,50 +82,71 @@ static void * dev_malloc(size_t sz) {
 }
 
 /**
-   @brief cuda free
+   @brief wrap cudaFree
  */
 static void dev_free(void * a) {
   cudaFree(a);
 }
 
 /**
-   @brief copy from dev to host
+   @brief wrap cudaMemcpy to copy from device to host (and check an error if any)
  */
 void to_host(void * dst, void * src, size_t sz) {
   check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyDeviceToHost));
 }
 
 /**
-   @brief copy from host to dev
+   @brief wrap cudaMemcpy to copy from host to device (and check an error if any)
  */
 static void to_dev(void * dst, void * src, size_t sz) {
   check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
 }
 
+/**
+   @brief thread ID along x-dimension
+ */
 __device__ inline int get_thread_id_x() {
   return blockDim.x * blockIdx.x + threadIdx.x;
 }
 
+/**
+   @brief thread ID along y-dimension
+ */
 __device__ inline int get_thread_id_y() {
   return blockDim.y * blockIdx.y + threadIdx.y;
 }
 
+/**
+   @brief thread ID along z-dimension
+ */
 __device__ inline int get_thread_id_z() {
   return blockDim.z * blockIdx.z + threadIdx.z;
 }
 
+/**
+   @brief number of threads along x-dimension
+ */
 __device__ inline int get_nthreads_x() {
   return gridDim.x * blockDim.x;
 }
 
+/**
+   @brief number of threads along y-dimension
+ */
 __device__ inline int get_nthreads_y() {
   return gridDim.y * blockDim.y;
 }
 
+/**
+   @brief number of threads along z-dimension
+ */
 __device__ inline int get_nthreads_z() {
   return gridDim.z * blockDim.z;
 }
 
+/**
+   @brief global (x,y,z combined into an integer) thread ID
+ */
 __device__ inline int get_thread_id() {
   int x = get_thread_id_x();
   int y = get_thread_id_y();
@@ -125,6 +156,9 @@ __device__ inline int get_thread_id() {
   return nx * ny * z + nx * y + x;
 }
 
+/**
+   @brief total number of threads
+ */
 __device__ inline int get_nthreads() {
   int nx = get_nthreads_x();
   int ny = get_nthreads_y();

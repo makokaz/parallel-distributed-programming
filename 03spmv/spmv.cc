@@ -14,10 +14,16 @@
 #include <time.h>
 
 #if __NVCC__
+/* cuda_util.h incudes various utilities to make CUDA 
+   programming less error-prone. check it before you
+
+   proceed with rewriting it for CUDA */
 #include "cuda_util.h"
 #endif
 
-/** @brief type of matrix index (i,j,...) */
+/** @brief type of matrix index (i,j,...)
+    @details for large matrices, we might want to make it 64 bits
+ */
 typedef int idx_t;
 /** @brief type of a matrix element */
 typedef double real;
@@ -54,7 +60,7 @@ typedef struct {
 /** @brief sparse matrix in coodinate list format */
 typedef struct {
   coo_elem_t * elems;           /**< elements array */
-#ifdef __NVCC__
+#ifdef __NVCC__                 /* defined when compiling with nvcc */
   coo_elem_t * elems_dev;       /**< copy of elems on device */
 #endif
 } coo_t;
@@ -367,28 +373,30 @@ sparse_t sparse_transpose(sparse_t A) {
 
 #if __NVCC__
 int coo_to_dev(sparse_t& A) {
-  idx_t nnz = A.nnz;
-  size_t sz = sizeof(coo_elem_t) * nnz;
-  coo_elem_t * elems = A.coo.elems;
-  coo_elem_t * elems_dev = (coo_elem_t *)dev_malloc(sz);
-  to_dev(elems_dev, elems, sz);
-  A.coo.elems_dev = elems_dev;
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that copies the coo elements of A to the device.\n"
+          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
   return 1;
 }
 
 int csr_to_dev(sparse_t& A) {
-  idx_t nnz = A.nnz;
-  size_t sz = sizeof(csr_elem_t) * nnz;
-  csr_elem_t * elems = A.csr.elems;
-  csr_elem_t * elems_dev = (csr_elem_t *)dev_malloc(sz);
-  to_dev(elems_dev, elems, sz);
-  A.csr.elems_dev = elems_dev;
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that copies the csr elements of A to the device.\n"
+          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
   return 1;
 }
 
 
 /** 
-    @brief send contents to device
+    @brief copy elements to device
 */
 int sparse_to_dev(sparse_t& A) {
   switch (A.format) {
@@ -409,12 +417,12 @@ int sparse_to_dev(sparse_t& A) {
 }
 
 int vec_to_dev(vec_t& v) {
-  idx_t n = v.n;
-  size_t sz = sizeof(real) * n;
-  real * elems = v.elems;
-  real * elems_dev = (real *)dev_malloc(sz);
-  to_dev(elems_dev, elems, sz);
-  v.elems_dev = elems_dev;
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that copies the elements of v to the device.\n"
+          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
   return 1;
 }
 #endif
@@ -447,68 +455,76 @@ long spmv_coo_serial(sparse_t A, vec_t vx, vec_t vy) {
     @brief y = A * x in parallel for coordinate list format
 */
 long spmv_coo_parallel(sparse_t A, vec_t vx, vec_t vy) {
+
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that performs SPMV with COO format in parallel\n"
+          "using OpenMP parallel for directives.\n"
+          "you need to insert a few programs into the serial version below.\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+  
   idx_t M = A.M;
   idx_t nnz = A.nnz;
   coo_elem_t * elems = A.coo.elems;
   real * x = vx.elems;
   real * y = vy.elems;
-#pragma omp parallel for
   for (idx_t i = 0; i < M; i++) {
     y[i] = 0.0;
   }
-#pragma omp parallel for
   for (idx_t k = 0; k < nnz; k++) {
     coo_elem_t * e = elems + k;
     idx_t i = e->i;
     idx_t j = e->j;
     real  a = e->a;
     real ax = a * x[j];
-#pragma omp atomic
     y[i] += ax;
   }
   return 2 * (long)nnz;
 }
 
 #if __NVCC__
+
+// placeholders to define kernels for your convenience
+
 __global__ void init_const_dev(vec_t v, real c) {
-  idx_t i = get_thread_id_x();
-  real * x = v.elems_dev;
-  if (i < v.n) {
-    x[i] = 0.0;
-  }
+
 }
 
 __global__ void spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
-  idx_t nnz = A.nnz;
-  coo_elem_t * elems = A.coo.elems_dev;
-  real * x = vx.elems_dev;
-  real * y = vy.elems_dev;
 
-  idx_t k = get_thread_id_x();
-  if (k < nnz) {
-    coo_elem_t * e = elems + k;
-    idx_t i = e->i;
-    idx_t j = e->j;
-    real  a = e->a;
-    real ax = a * x[j];
-    atomicAdd(&y[i], ax);
-  }
 }
 
 /** 
     @brief y = A * x with cuda for coordinate list format
 */
 long spmv_coo_cuda(sparse_t A, vec_t vx, vec_t vy) {
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that performs SPMV with COO format in parallel\n"
+          "using CUDA kernel functions.\n"
+          "you need to convert the for loops to kernels + kernel launches.\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+
   idx_t M = A.M;
   idx_t nnz = A.nnz;
-
-  int init_block_sz = 1024;
-  int n_init_blocks = (M + init_block_sz - 1) / init_block_sz;
-  check_kernel_error((init_const_dev<<<n_init_blocks,init_block_sz>>>(vy, 0.0)));
-
-  int spmv_block_sz = 1024;
-  int n_spmv_blocks = (nnz + spmv_block_sz - 1) / spmv_block_sz;
-  check_kernel_error((spmv_coo_dev<<<n_spmv_blocks,spmv_block_sz>>>(A, vx, vy)));
+  coo_elem_t * elems = A.coo.elems;
+  real * x = vx.elems;
+  real * y = vy.elems;
+  for (idx_t i = 0; i < M; i++) { // convert this to kernel + kernel launch
+    y[i] = 0.0;
+  }
+  for (idx_t k = 0; k < nnz; k++) { // convert this to kernel + kernel launch
+    coo_elem_t * e = elems + k;
+    idx_t i = e->i;
+    idx_t j = e->j;
+    real  a = e->a;
+    real ax = a * x[j];
+    y[i] += ax;
+  }
   
   return 2 * (long)nnz;
 }
@@ -563,17 +579,25 @@ long spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
     @brief y = A * x in parallel for csr format
 */
 long spmv_csr_parallel(sparse_t A, vec_t vx, vec_t vy) {
+
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that performs SPMV with CSR format in parallel\n"
+          "using CUDA kernel functions.\n"
+          "you need to convert the for loops to kernels + kernel launches.\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+  
   idx_t M = A.M;
   idx_t nnz = A.nnz;
   idx_t * row_start = A.csr.row_start;
   csr_elem_t * elems = A.csr.elems;
   real * x = vx.elems;
   real * y = vy.elems;
-#pragma omp parallel for
   for (idx_t i = 0; i < M; i++) {
     y[i] = 0.0;
   }
-#pragma omp parallel for
   for (idx_t i = 0; i < M; i++) {
     idx_t start = row_start[i];
     idx_t end = row_start[i + 1];
@@ -584,8 +608,51 @@ long spmv_csr_parallel(sparse_t A, vec_t vx, vec_t vy) {
       y[i] += a * x[j];
     }
   }
+
   return 2 * (long)nnz;
 }
+
+/** 
+    @brief y = A * x with cuda for csr format
+*/
+
+// add necessary kernel definitions by yourself
+
+long spmv_csr_cuda(sparse_t A, vec_t vx, vec_t vy) {
+
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that performs SPMV with CSR format in parallel\n"
+          "using CUDA kernel functions.\n"
+          "you need to convert the for loops to kernels + kernel launches.\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+  
+  idx_t M = A.M;
+  idx_t nnz = A.nnz;
+  idx_t * row_start = A.csr.row_start;
+  csr_elem_t * elems = A.csr.elems;
+  real * x = vx.elems;
+  real * y = vy.elems;
+  for (idx_t i = 0; i < M; i++) { // conver to kernel + kernel launch
+    y[i] = 0.0;
+  }
+  for (idx_t i = 0; i < M; i++) { // conver to kernel + kernel launch
+    idx_t start = row_start[i];
+    idx_t end = row_start[i + 1];
+    for (idx_t k = start; k < end; k++) {
+      csr_elem_t * e = elems + k;
+      idx_t j = e->j;
+      real  a = e->a;
+      y[i] += a * x[j];
+    }
+  }
+
+  return 2 * (long)nnz;
+}
+
+
 
 /** 
     @brief y = A * x for csr format
@@ -596,6 +663,10 @@ long spmv_csr(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
     return spmv_csr_serial(A, x, y);
   case spmv_algo_parallel:
     return spmv_csr_parallel(A, x, y);
+#if __NVCC__
+  case spmv_algo_cuda:
+    return spmv_csr_cuda(A, x, y);
+#endif
   default:
     fprintf(stderr, "spmv_coo: invalid algorithm %d\n", algo);
     return -1;
@@ -638,10 +709,18 @@ real vec_norm2_serial(vec_t v) {
     @brief square norm of a vector (parallel)
 */
 real vec_norm2_parallel(vec_t v) {
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that computes square norm of a vector v\n"
+          "using omp parallel for.\n"
+          "you need to insert a few pragmas into the serial version below\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+
   real s = 0.0;
   real * x = v.elems;
   idx_t n = v.n;
-#pragma omp parallel for reduction(+:s)
   for (idx_t i = 0; i < n; i++) {
     s += x[i] * x[i];
   }
@@ -650,26 +729,28 @@ real vec_norm2_parallel(vec_t v) {
 
 #if __NVCC__
 __global__ void vec_norm2_dev(vec_t v, real * s) {
-  idx_t n = v.n;
-  idx_t i = get_thread_id_x();
-  real * x = v.elems_dev;
-  if (i < n) {
-    atomicAdd(s, x[i] * x[i]);
-  }
+  
 }
 
 /** 
     @brief square norm of a vector (parallel)
 */
 real vec_norm2_cuda(vec_t v) {
-  idx_t n = v.n;
-  int vec_norm2_block_sz = 1024;
-  int n_vec_norm2_blocks = (n + vec_norm2_block_sz - 1) / vec_norm2_block_sz;
-  real * s_dev = (real *)dev_malloc(sizeof(real));
-  check_kernel_error((vec_norm2_dev<<<n_vec_norm2_blocks,vec_norm2_block_sz>>>(v, s_dev)));
+  fprintf(stderr,
+          "*************************************************************\n"
+          "%s:%d: write a code that computes square norm of a vector v\n"
+          "using CUDA.\n"
+          "you need to convert a loop to kernel + kernel launch\n"
+          "*************************************************************\n",
+          __FILE__, __LINE__);
+  exit(1);
+
   real s = 0.0;
-  to_host(&s, s_dev, sizeof(real));
-  dev_free(s_dev);
+  real * x = v.elems;
+  idx_t n = v.n;
+  for (idx_t i = 0; i < n; i++) {
+    s += x[i] * x[i];
+  }
   return s;
 }
 #endif
