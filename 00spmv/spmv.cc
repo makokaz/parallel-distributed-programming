@@ -30,6 +30,7 @@ typedef enum {
 typedef enum {
   spmv_algo_serial,             /**< serial */
   spmv_algo_parallel,           /**< simple parallel */
+  spmv_algo_cuda,               /**< cuda */
   spmv_algo_invalid             /**< invalid */
 } spmv_algo_t;
 
@@ -403,6 +404,49 @@ long spmv_coo_parallel(sparse_t A, vec_t vx, vec_t vy) {
   return 2 * (long)nnz;
 }
 
+__global__ init_const_dev(vec_t v, real c) {
+  idx_t i = get_thread_id_x();
+  real * x = v.elems_dev;
+  if (i < M) {
+    x[i] = 0.0;
+  }
+}
+
+__global__ spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
+  idx_t M = A.M;
+  idx_t nnz = A.nnz;
+  coo_elem_t * elems = A.coo.elems_dev;
+  real * x = vx.elems_dev;
+  real * y = vy.elems_dev;
+
+  idx_t k = get_thread_id_x();
+  if (k < nnz) {
+    coo_elem_t * e = elems + k;
+    idx_t i = e->i;
+    idx_t j = e->j;
+    real  a = e->a;
+    atomicAdd(&y[i], a * x[j]);
+  }
+}
+
+/** 
+    @brief y = A * x with cuda for coordinate list format
+*/
+long spmv_coo_cuda(sparse_t A, vec_t vx, vec_t vy) {
+  idx_t M = A.M;
+  idx_t nnz = A.nnz;
+
+  int init_block_sz = 1024;
+  int n_init_blocks = (M + init_block_sz - 1) / init_block_sz;
+  init_const_dev<<<n_init_blocks,init_block_sz>>>(vy, 0.0);
+
+  int spmv_block_sz = 1024;
+  int n_spmv_blocks = (nnz + spmv_block_sz - 1) / spmv_block_sz;
+  spmv_coo_dev<<<n_spmv_blocks,spmv_block_sz>>>(A, vx, vy);
+  
+  return 2 * (long)nnz;
+}
+
 /** 
     @brief y = A * x for coordinate list format
 */
@@ -412,6 +456,8 @@ long spmv_coo(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
     return spmv_coo_serial(A, x, y);
   case spmv_algo_parallel:
     return spmv_coo_parallel(A, x, y);
+  case spmv_algo_cuda:
+    return spmv_coo_cuda(A, x, y);
   default:
     fprintf(stderr, "spmv_coo: invalid algorithm %d\n", algo);
     return -1;
@@ -683,6 +729,8 @@ spmv_algo_t parse_spmv_algo(char * s) {
     return spmv_algo_serial;
   } else if (strcasecmp(s, "parallel") == 0) {
     return spmv_algo_parallel;
+  } else if (strcasecmp(s, "cuda") == 0) {
+    return spmv_algo_cuda;
   } else {
     fprintf(stderr, "error: invalid spmv algo (%s)\n", s);
     fprintf(stderr, "  must be one of { serial, parallel }\n");
