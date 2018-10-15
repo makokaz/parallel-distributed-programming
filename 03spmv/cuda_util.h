@@ -6,8 +6,8 @@
  */
 
 /**
-   @brief do not use this function directly. use check_cuda_error macro
-   @sa check_cuda_error
+   @brief do not use this function directly. use check_api_error macro
+   @sa check_api_error
  */
 
 static void check_api_error_(cudaError_t e,
@@ -21,15 +21,15 @@ static void check_api_error_(cudaError_t e,
 
 /**
    @brief check if a CUDA API invocation succeeded and show the error msg if any
-   @details usage:  check_cuda_error(cuda_api_call()). for example,
-   check_cuda_error(cudaMalloc(&p, size));
+   @details usage:  check_api_error(cuda_api_call()). for example,
+   check_api_error(cudaMalloc(&p, size));
  */
 
 #define check_api_error(e) check_api_error_(e, #e, __FILE__, __LINE__)
 
 /**
-   @brief do not use this function directly. use check_kernel_error macro
-   @sa check_kernel_error
+   @brief do not use this function directly. use check_launch_error macro
+   @sa check_launch_error
  */
 
 static void check_launch_error_(const char * msg, const char * file, int line) {
@@ -42,13 +42,13 @@ static void check_launch_error_(const char * msg, const char * file, int line) {
 }
 
 /**
-   @brief check kernel invocation error
-   @details usage: check_kernel_error((kernel-launch-expression)). for example,
-   check_kernel_error((your_gpu_kernel<<<n_blocks,block_sz>>>(a,b,c))). 
+   @brief check kernel launch error
+   @details usage: check_launch_error((kernel-launch-expression)). for example,
+   check_launch_error((your_gpu_kernel<<<n_blocks,block_sz>>>(a,b,c))). 
    note that you need to put parens around the expression.
  */
 
-#define check_launch_error(exp) do { exp; check_kernel_error_(#exp, __FILE__, __LINE__); } while (0)
+#define check_launch_error(exp) do { exp; check_launch_error_(#exp, __FILE__, __LINE__); } while (0)
 
 /**
    @brief get SM executing the caller
@@ -64,7 +64,7 @@ __device__ uint get_smid(void) {
  */
 static int get_freq() {
   struct cudaDeviceProp prop[1];
-  check_cuda_error(cudaGetDeviceProperties(prop, 0));
+  check_api_error(cudaGetDeviceProperties(prop, 0));
   return prop->clockRate;
 }
 
@@ -92,14 +92,14 @@ static void dev_free(void * a) {
    @brief wrap cudaMemcpy to copy from device to host (and check an error if any)
  */
 void to_host(void * dst, void * src, size_t sz) {
-  check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyDeviceToHost));
+  check_api_error(cudaMemcpy(dst, src, sz, cudaMemcpyDeviceToHost));
 }
 
 /**
    @brief wrap cudaMemcpy to copy from host to device (and check an error if any)
  */
 static void to_dev(void * dst, void * src, size_t sz) {
-  check_cuda_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
+  check_api_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
 }
 
 /**
