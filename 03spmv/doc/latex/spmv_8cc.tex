@@ -1,5 +1,5 @@
-\hypertarget{spmv_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/ex/00spmv/spmv.cc File Reference}
-\label{spmv_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/ex/00spmv/spmv.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/ex/00spmv/spmv.\+cc}}
+\hypertarget{spmv_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.cc File Reference}
+\label{spmv_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.\+cc}}
 
 
 sparse matrix vector multiplication  
@@ -12,8 +12,7 @@ sparse matrix vector multiplication
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$getopt.\+h$>$}\newline
 {\ttfamily \#include $<$time.\+h$>$}\newline
-Include dependency graph for spmv.\+cc\+:
-\nopagebreak
+Include dependency graph for spmv.\+cc\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -40,7 +39,6 @@ struct \hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}\label{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}} 
 typedef int \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}
 \begin{DoxyCompactList}\small\item\em type of matrix index (i,j,...) \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}\label{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}} 
@@ -49,24 +47,35 @@ typedef double \hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real}
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} \{ \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9}{sparse\+\_\+format\+\_\+coo}, 
+enum \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} \{ \newline
+\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9}{sparse\+\_\+format\+\_\+coo}, 
 \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076}{sparse\+\_\+format\+\_\+coo\+\_\+sorted}, 
 \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7}{sparse\+\_\+format\+\_\+csr}, 
-\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5}{sparse\+\_\+format\+\_\+invalid}
+\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5}{sparse\+\_\+format\+\_\+invalid}, 
+\newline
+{\bfseries sparse\+\_\+format\+\_\+coo}, 
+{\bfseries sparse\+\_\+format\+\_\+coo\+\_\+sorted}, 
+{\bfseries sparse\+\_\+format\+\_\+csr}, 
+{\bfseries sparse\+\_\+format\+\_\+invalid}
  \}\begin{DoxyCompactList}\small\item\em sparse matrix storage format \end{DoxyCompactList}
 \item 
-enum \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} \{ \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a}{spmv\+\_\+algo\+\_\+serial}, 
+enum \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} \{ \newline
+\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a}{spmv\+\_\+algo\+\_\+serial}, 
 \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81}{spmv\+\_\+algo\+\_\+parallel}, 
+\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09}{spmv\+\_\+algo\+\_\+cuda}, 
+\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0}{spmv\+\_\+algo\+\_\+invalid}, 
+\newline
+{\bfseries spmv\+\_\+algo\+\_\+serial}, 
+{\bfseries spmv\+\_\+algo\+\_\+parallel}, 
+{\bfseries spmv\+\_\+algo\+\_\+cuda}, 
 {\bfseries spmv\+\_\+algo\+\_\+invalid}
  \}\begin{DoxyCompactList}\small\item\em spmv matrix algorithm \end{DoxyCompactList}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}\label{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}} 
 void $\ast$ \hyperlink{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}{xalloc} (size\+\_\+t sz)
 \begin{DoxyCompactList}\small\item\em malloc + check \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}\label{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}} 
 void \hyperlink{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}{xfree} (void $\ast$a)
 \begin{DoxyCompactList}\small\item\em wrap free \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a886d462f047a9680c3a5b9359a082469}\label{spmv_8cc_a886d462f047a9680c3a5b9359a082469}} 
@@ -125,23 +134,40 @@ long \hyperlink{spmv_8cc_ac028553adb9a6c59a82109179f5e8d51}{spmv\+\_\+csr\+\_\+s
 \mbox{\Hypertarget{spmv_8cc_a0a599d46a47b7019b7083f2aa3847ac1}\label{spmv_8cc_a0a599d46a47b7019b7083f2aa3847ac1}} 
 long \hyperlink{spmv_8cc_a0a599d46a47b7019b7083f2aa3847ac1}{spmv\+\_\+csr\+\_\+parallel} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{structvec__t}{vec\+\_\+t} vx, \hyperlink{structvec__t}{vec\+\_\+t} vy)
 \begin{DoxyCompactList}\small\item\em y = A $\ast$ x in parallel for csr format \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_a9ecae50cc6d1aa3563880cc1e64eba4e}\label{spmv_8cc_a9ecae50cc6d1aa3563880cc1e64eba4e}} 
+long \hyperlink{spmv_8cc_a9ecae50cc6d1aa3563880cc1e64eba4e}{spmv\+\_\+csr\+\_\+cuda} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{structvec__t}{vec\+\_\+t} vx, \hyperlink{structvec__t}{vec\+\_\+t} vy)
+\begin{DoxyCompactList}\small\item\em y = A $\ast$ x with cuda for csr format \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a2a769e363b1cf135e05e68c57e070eba}\label{spmv_8cc_a2a769e363b1cf135e05e68c57e070eba}} 
 long \hyperlink{spmv_8cc_a2a769e363b1cf135e05e68c57e070eba}{spmv\+\_\+csr} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{structvec__t}{vec\+\_\+t} x, \hyperlink{structvec__t}{vec\+\_\+t} y)
 \begin{DoxyCompactList}\small\item\em y = A $\ast$ x for csr format \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_ad8db62e7d883972f292708fd2d963714}\label{spmv_8cc_ad8db62e7d883972f292708fd2d963714}} 
 long \hyperlink{spmv_8cc_ad8db62e7d883972f292708fd2d963714}{spmv} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{structvec__t}{vec\+\_\+t} x, \hyperlink{structvec__t}{vec\+\_\+t} y)
 \begin{DoxyCompactList}\small\item\em y = A $\ast$ x \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{spmv_8cc_a3f92724879c2d612bf5310ab707724cd}\label{spmv_8cc_a3f92724879c2d612bf5310ab707724cd}} 
-\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a3f92724879c2d612bf5310ab707724cd}{vec\+\_\+norm2} (\hyperlink{structvec__t}{vec\+\_\+t} v)
-\begin{DoxyCompactList}\small\item\em square norm of a vector \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{spmv_8cc_a131c8ac0a310b45de83d8ba4aee5daa2}\label{spmv_8cc_a131c8ac0a310b45de83d8ba4aee5daa2}} 
-\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a131c8ac0a310b45de83d8ba4aee5daa2}{vec\+\_\+normalize} (\hyperlink{structvec__t}{vec\+\_\+t} v)
+\mbox{\Hypertarget{spmv_8cc_a7dcaa96768b63c86dd193494b0a6df64}\label{spmv_8cc_a7dcaa96768b63c86dd193494b0a6df64}} 
+\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a7dcaa96768b63c86dd193494b0a6df64}{vec\+\_\+norm2\+\_\+serial} (\hyperlink{structvec__t}{vec\+\_\+t} v)
+\begin{DoxyCompactList}\small\item\em square norm of a vector (serial) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_a7d1bb54190f62789c27709a36ab4b345}\label{spmv_8cc_a7d1bb54190f62789c27709a36ab4b345}} 
+\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a7d1bb54190f62789c27709a36ab4b345}{vec\+\_\+norm2\+\_\+parallel} (\hyperlink{structvec__t}{vec\+\_\+t} v)
+\begin{DoxyCompactList}\small\item\em square norm of a vector (parallel) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_aba0c2cbb28d7e4fe24d7e65be99296cd}\label{spmv_8cc_aba0c2cbb28d7e4fe24d7e65be99296cd}} 
+\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} {\bfseries vec\+\_\+norm2} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structvec__t}{vec\+\_\+t} v)
+\item 
+\mbox{\Hypertarget{spmv_8cc_a2ff0d1bd1f91a94c5f5abb3af9db4a6f}\label{spmv_8cc_a2ff0d1bd1f91a94c5f5abb3af9db4a6f}} 
+int \hyperlink{spmv_8cc_a2ff0d1bd1f91a94c5f5abb3af9db4a6f}{scalar\+\_\+vec\+\_\+serial} (\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} k, \hyperlink{structvec__t}{vec\+\_\+t} v)
+\begin{DoxyCompactList}\small\item\em scalar x vector (serial) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_a2890982982786fc04160dc49418f0901}\label{spmv_8cc_a2890982982786fc04160dc49418f0901}} 
+int \hyperlink{spmv_8cc_a2890982982786fc04160dc49418f0901}{scalar\+\_\+vec\+\_\+parallel} (\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} k, \hyperlink{structvec__t}{vec\+\_\+t} v)
+\begin{DoxyCompactList}\small\item\em scalar x vector (parallel) \end{DoxyCompactList}\item 
+int \hyperlink{spmv_8cc_a96b35243e788d2284701ec78c2d5e3f5}{scalar\+\_\+vec} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} k, \hyperlink{structvec__t}{vec\+\_\+t} v)
+\begin{DoxyCompactList}\small\item\em scalar x vector (cuda) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_a43cf36d8e34ff2b64c1dba580ec4661c}\label{spmv_8cc_a43cf36d8e34ff2b64c1dba580ec4661c}} 
+\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a43cf36d8e34ff2b64c1dba580ec4661c}{vec\+\_\+normalize} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structvec__t}{vec\+\_\+t} v)
 \begin{DoxyCompactList}\small\item\em normalize a vector \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a1cf75d2ce89a2cc6dd553506b6ac7fae}\label{spmv_8cc_a1cf75d2ce89a2cc6dd553506b6ac7fae}} 
 long \hyperlink{spmv_8cc_a1cf75d2ce89a2cc6dd553506b6ac7fae}{cur\+\_\+time\+\_\+ns} ()
 \begin{DoxyCompactList}\small\item\em current time in nano second \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{spmv_8cc_aec765aa23a1aa4d745c881c2c35622cf}\label{spmv_8cc_aec765aa23a1aa4d745c881c2c35622cf}} 
-\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_aec765aa23a1aa4d745c881c2c35622cf}{repeat\+\_\+spmv} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{structsparse__t}{sparse\+\_\+t} tA, \hyperlink{structvec__t}{vec\+\_\+t} x, \hyperlink{structvec__t}{vec\+\_\+t} y, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} repeat)
+\mbox{\Hypertarget{spmv_8cc_ac5ba83af350c927bf6ed232d7bdca2d9}\label{spmv_8cc_ac5ba83af350c927bf6ed232d7bdca2d9}} 
+\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_ac5ba83af350c927bf6ed232d7bdca2d9}{repeat\+\_\+spmv} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structsparse__t}{sparse\+\_\+t} \&A, \hyperlink{structsparse__t}{sparse\+\_\+t} \&tA, \hyperlink{structvec__t}{vec\+\_\+t} \&x, \hyperlink{structvec__t}{vec\+\_\+t} \&y, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} repeat)
 \begin{DoxyCompactList}\small\item\em repeat y = A x; x = tA y; many times \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_ad7949349d6b359f1fe6350b4d46fadb8}\label{spmv_8cc_ad7949349d6b359f1fe6350b4d46fadb8}} 
 \hyperlink{structvec__t}{vec\+\_\+t} \hyperlink{spmv_8cc_ad7949349d6b359f1fe6350b4d46fadb8}{mk\+\_\+vec\+\_\+random} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} n, unsigned short rg\mbox{[}3\mbox{]})
@@ -191,6 +217,19 @@ Oct. 14, 2018
 \end{DoxyDate}
 
 
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}\label{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}} 
+\index{spmv.\+cc@{spmv.\+cc}!idx\+\_\+t@{idx\+\_\+t}}
+\index{idx\+\_\+t@{idx\+\_\+t}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{idx\+\_\+t}{idx\_t}}
+{\footnotesize\ttfamily typedef int \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}
+
+
+
+type of matrix index (i,j,...) 
+
+for large matrices, we might want to make it 64 bits 
+
 \subsection{Enumeration Type Documentation}
 \mbox{\Hypertarget{spmv_8cc_a8c0094893526c01b430903b2d9227256}\label{spmv_8cc_a8c0094893526c01b430903b2d9227256}} 
 \index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+format\+\_\+t@{sparse\+\_\+format\+\_\+t}}
@@ -239,6 +278,14 @@ spmv\+\_\+algo\+\_\+serial&serial \\
 spmv\+\_\+algo\+\_\+parallel&simple parallel \\
 \hline
 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{spmv\+\_\+algo\+\_\+cuda@{spmv\+\_\+algo\+\_\+cuda}!spmv.\+cc@{spmv.\+cc}}\index{spmv.\+cc@{spmv.\+cc}!spmv\+\_\+algo\+\_\+cuda@{spmv\+\_\+algo\+\_\+cuda}}}\mbox{\Hypertarget{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09}\label{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09}} 
+spmv\+\_\+algo\+\_\+cuda&cuda \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{spmv\+\_\+algo\+\_\+invalid@{spmv\+\_\+algo\+\_\+invalid}!spmv.\+cc@{spmv.\+cc}}\index{spmv.\+cc@{spmv.\+cc}!spmv\+\_\+algo\+\_\+invalid@{spmv\+\_\+algo\+\_\+invalid}}}\mbox{\Hypertarget{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0}\label{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0}} 
+spmv\+\_\+algo\+\_\+invalid&invalid \\
+\hline
+
 \end{DoxyEnumFields}
 
 
@@ -253,7 +300,56 @@ spmv\+\_\+algo\+\_\+parallel&simple parallel \\
 
 coo -\/$>$ csr 
 
-if update\+\_\+A is true, A\textquotesingle{}s elements will become sorted in place as a side effect 
+if update\+\_\+A is true, A\textquotesingle{}s elements will become sorted in place as a side effect \mbox{\Hypertarget{spmv_8cc_a96b35243e788d2284701ec78c2d5e3f5}\label{spmv_8cc_a96b35243e788d2284701ec78c2d5e3f5}} 
+\index{spmv.\+cc@{spmv.\+cc}!scalar\+\_\+vec@{scalar\+\_\+vec}}
+\index{scalar\+\_\+vec@{scalar\+\_\+vec}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{scalar\+\_\+vec()}{scalar\_vec()}}
+{\footnotesize\ttfamily int scalar\+\_\+vec (\begin{DoxyParamCaption}\item[{\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t}}]{algo,  }\item[{\hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real}}]{k,  }\item[{\hyperlink{structvec__t}{vec\+\_\+t}}]{v }\end{DoxyParamCaption})}
+
+
+
+scalar x vector (cuda) 
+
+scalar x vector \mbox{\Hypertarget{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}\label{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}} 
+\index{spmv.\+cc@{spmv.\+cc}!xalloc@{xalloc}}
+\index{xalloc@{xalloc}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{xalloc()}{xalloc()}}
+{\footnotesize\ttfamily void$\ast$ xalloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{sz }\end{DoxyParamCaption})}
+
+
+
+malloc + check 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (sz)} & size to alloc in bytes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the allocated memory 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}{xfree} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}\label{spmv_8cc_a3ef938bd87c574f4deb4e5b05de27fc2}} 
+\index{spmv.\+cc@{spmv.\+cc}!xfree@{xfree}}
+\index{xfree@{xfree}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{xfree()}{xfree()}}
+{\footnotesize\ttfamily void xfree (\begin{DoxyParamCaption}\item[{void $\ast$}]{a }\end{DoxyParamCaption})}
+
+
+
+wrap free 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (a)} & a pointer returned by calling xalloc \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{spmv_8cc_a79a33f2f3ea6bfd4bd5fc8bc1c026a5b}{xalloc} 
+\end{DoxySeeAlso}
+
 
 \subsection{Variable Documentation}
 \mbox{\Hypertarget{spmv_8cc_ab5b68aa8f898c499ca2c3092ecd9e552}\label{spmv_8cc_ab5b68aa8f898c499ca2c3092ecd9e552}} 

@@ -943,17 +943,17 @@ vec_t mk_vec_zero(idx_t n) {
     @brief command line option
 */
 typedef struct {
-  idx_t M;
-  idx_t N;
-  idx_t nnz;
-  long repeat;
-  char * format_str;
-  char * algo_str;
-  sparse_format_t format;
-  spmv_algo_t algo;
-  long seed;
-  int error;
-  int help;
+  idx_t M;                 /**< number of rows */
+  idx_t N;                 /**< number of columns */
+  idx_t nnz;               /**< number of non-zero elements */
+  long repeat;             /**< number of iterations (tA (Ax)) */
+  char * format_str;       /**< format string (coo, coo_sorted, csr) */
+  char * algo_str;         /**< algorithm string (serial, parallel, cuda) */
+  sparse_format_t format;  /**< format_str converted to enum */
+  spmv_algo_t algo;        /**< algo_str converted to enum */
+  long seed;               /**< random number generator seed */
+  int error;               /**< set when we encounter an error */
+  int help;                /**< set when -h / --help is given */
 } cmdline_options_t;
 
 /** 

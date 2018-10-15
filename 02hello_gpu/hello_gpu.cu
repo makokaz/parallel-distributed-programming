@@ -4,20 +4,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-/*
-
-  warning : the following code does not check any error returned from
-  API calls or kernel launches to keep the textual complexity of the
-  program low.  This is a highly discouraged practice.  When you don't
-  check errors from kernel launches, your program keeps running and 
-  you notice it by wrong results.  
-
-  This code is just to illustrate the concepts you need to master when
-  writing CUDA programs.
-
-
- */
-
 __global__ void cuda_thread_fun(int n) {
   int i        = blockDim.x * blockIdx.x + threadIdx.x;
   int nthreads = gridDim.x * blockDim.x;

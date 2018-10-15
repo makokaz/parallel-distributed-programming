@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>spmv: /home/tau/public_html/lecture/parallel_distributed/2018/ex/00spmv/spmv.cc File Reference</title>
+<title>spmv: /home/tau/public_html/lecture/parallel_distributed/2018/parallel-distributed-handson/03spmv/spmv.cc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ $(function() {
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">/home/tau/public_html/lecture/parallel_distributed/2018/ex/00spmv/spmv.cc File Reference</div>  </div>
+<div class="title">/home/tau/public_html/lecture/parallel_distributed/2018/parallel-distributed-handson/03spmv/spmv.cc File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -81,9 +81,7 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for spmv.cc:</div>
 <div class="dyncontent">
-<div class="center"><img src="spmv_8cc__incl.png" border="0" usemap="#_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2ex_200spmv_2spmv_8cc" alt=""/></div>
-<map name="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2ex_200spmv_2spmv_8cc" id="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2ex_200spmv_2spmv_8cc">
-</map>
+<div class="center"><img src="spmv_8cc__incl.png" border="0" usemap="#_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc" alt=""/></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -112,9 +110,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a8e93478a00e685bea5e6a3f617bf03a3"><td class="memItemLeft" align="right" valign="top"><a id="a8e93478a00e685bea5e6a3f617bf03a3"></a>
-typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a></td></tr>
-<tr class="memdesc:a8e93478a00e685bea5e6a3f617bf03a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of matrix index (i,j,...) <br /></td></tr>
+<tr class="memitem:a8e93478a00e685bea5e6a3f617bf03a3"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a></td></tr>
+<tr class="memdesc:a8e93478a00e685bea5e6a3f617bf03a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of matrix index (i,j,...)  <a href="#a8e93478a00e685bea5e6a3f617bf03a3">More...</a><br /></td></tr>
 <tr class="separator:a8e93478a00e685bea5e6a3f617bf03a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11d147c64891830c9e79b3315b1b2e21"><td class="memItemLeft" align="right" valign="top"><a id="a11d147c64891830c9e79b3315b1b2e21"></a>
 typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a></td></tr>
@@ -123,29 +120,42 @@ typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a8c0094893526c01b430903b2d9227256"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> { <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a>, 
+<tr class="memitem:a8c0094893526c01b430903b2d9227256"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> { <br />
+&#160;&#160;<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a>, 
 <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076">sparse_format_coo_sorted</a>, 
 <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7">sparse_format_csr</a>, 
-<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5">sparse_format_invalid</a>
+<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5">sparse_format_invalid</a>, 
+<br />
+&#160;&#160;<b>sparse_format_coo</b>, 
+<b>sparse_format_coo_sorted</b>, 
+<b>sparse_format_csr</b>, 
+<b>sparse_format_invalid</b>
+<br />
  }<tr class="memdesc:a8c0094893526c01b430903b2d9227256"><td class="mdescLeft">&#160;</td><td class="mdescRight">sparse matrix storage format  <a href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a8c0094893526c01b430903b2d9227256"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2cf0493af54bf76c5be68b4634fcab7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> { <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a">spmv_algo_serial</a>, 
+<tr class="memitem:ad2cf0493af54bf76c5be68b4634fcab7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> { <br />
+&#160;&#160;<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a">spmv_algo_serial</a>, 
 <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81">spmv_algo_parallel</a>, 
+<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09">spmv_algo_cuda</a>, 
+<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0">spmv_algo_invalid</a>, 
+<br />
+&#160;&#160;<b>spmv_algo_serial</b>, 
+<b>spmv_algo_parallel</b>, 
+<b>spmv_algo_cuda</b>, 
 <b>spmv_algo_invalid</b>
+<br />
  }<tr class="memdesc:ad2cf0493af54bf76c5be68b4634fcab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">spmv matrix algorithm  <a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ad2cf0493af54bf76c5be68b4634fcab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="memItemLeft" align="right" valign="top"><a id="a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">xalloc</a> (size_t sz)</td></tr>
-<tr class="memdesc:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">malloc + check <br /></td></tr>
+<tr class="memitem:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">xalloc</a> (size_t sz)</td></tr>
+<tr class="memdesc:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">malloc + check  <a href="#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">More...</a><br /></td></tr>
 <tr class="separator:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="memItemLeft" align="right" valign="top"><a id="a3ef938bd87c574f4deb4e5b05de27fc2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3ef938bd87c574f4deb4e5b05de27fc2">xfree</a> (void *a)</td></tr>
-<tr class="memdesc:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrap free <br /></td></tr>
+<tr class="memitem:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3ef938bd87c574f4deb4e5b05de27fc2">xfree</a> (void *a)</td></tr>
+<tr class="memdesc:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrap free  <a href="#a3ef938bd87c574f4deb4e5b05de27fc2">More...</a><br /></td></tr>
 <tr class="separator:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a886d462f047a9680c3a5b9359a082469"><td class="memItemLeft" align="right" valign="top"><a id="a886d462f047a9680c3a5b9359a082469"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a886d462f047a9680c3a5b9359a082469">coo_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
@@ -222,6 +232,10 @@ long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a0a599d46a47b7019b7083f2aa3847ac1">spmv_csr_parallel</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
 <tr class="memdesc:a0a599d46a47b7019b7083f2aa3847ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in parallel for csr format <br /></td></tr>
 <tr class="separator:a0a599d46a47b7019b7083f2aa3847ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="memItemLeft" align="right" valign="top"><a id="a9ecae50cc6d1aa3563880cc1e64eba4e"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9ecae50cc6d1aa3563880cc1e64eba4e">spmv_csr_cuda</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
+<tr class="memdesc:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x with cuda for csr format <br /></td></tr>
+<tr class="separator:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a769e363b1cf135e05e68c57e070eba"><td class="memItemLeft" align="right" valign="top"><a id="a2a769e363b1cf135e05e68c57e070eba"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2a769e363b1cf135e05e68c57e070eba">spmv_csr</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
 <tr class="memdesc:a2a769e363b1cf135e05e68c57e070eba"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for csr format <br /></td></tr>
@@ -230,22 +244,40 @@ long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad8db62e7d883972f292708fd2d963714">spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
 <tr class="memdesc:ad8db62e7d883972f292708fd2d963714"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x <br /></td></tr>
 <tr class="separator:ad8db62e7d883972f292708fd2d963714"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f92724879c2d612bf5310ab707724cd"><td class="memItemLeft" align="right" valign="top"><a id="a3f92724879c2d612bf5310ab707724cd"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3f92724879c2d612bf5310ab707724cd">vec_norm2</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a3f92724879c2d612bf5310ab707724cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector <br /></td></tr>
-<tr class="separator:a3f92724879c2d612bf5310ab707724cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a131c8ac0a310b45de83d8ba4aee5daa2"><td class="memItemLeft" align="right" valign="top"><a id="a131c8ac0a310b45de83d8ba4aee5daa2"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a131c8ac0a310b45de83d8ba4aee5daa2">vec_normalize</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a131c8ac0a310b45de83d8ba4aee5daa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">normalize a vector <br /></td></tr>
-<tr class="separator:a131c8ac0a310b45de83d8ba4aee5daa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dcaa96768b63c86dd193494b0a6df64"><td class="memItemLeft" align="right" valign="top"><a id="a7dcaa96768b63c86dd193494b0a6df64"></a>
+<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7dcaa96768b63c86dd193494b0a6df64">vec_norm2_serial</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a7dcaa96768b63c86dd193494b0a6df64"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector (serial) <br /></td></tr>
+<tr class="separator:a7dcaa96768b63c86dd193494b0a6df64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d1bb54190f62789c27709a36ab4b345"><td class="memItemLeft" align="right" valign="top"><a id="a7d1bb54190f62789c27709a36ab4b345"></a>
+<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7d1bb54190f62789c27709a36ab4b345">vec_norm2_parallel</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a7d1bb54190f62789c27709a36ab4b345"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector (parallel) <br /></td></tr>
+<tr class="separator:a7d1bb54190f62789c27709a36ab4b345"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba0c2cbb28d7e4fe24d7e65be99296cd"><td class="memItemLeft" align="right" valign="top"><a id="aba0c2cbb28d7e4fe24d7e65be99296cd"></a>
+<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>vec_norm2</b> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="separator:aba0c2cbb28d7e4fe24d7e65be99296cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="memItemLeft" align="right" valign="top"><a id="a2ff0d1bd1f91a94c5f5abb3af9db4a6f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2ff0d1bd1f91a94c5f5abb3af9db4a6f">scalar_vec_serial</a> (<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (serial) <br /></td></tr>
+<tr class="separator:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2890982982786fc04160dc49418f0901"><td class="memItemLeft" align="right" valign="top"><a id="a2890982982786fc04160dc49418f0901"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2890982982786fc04160dc49418f0901">scalar_vec_parallel</a> (<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a2890982982786fc04160dc49418f0901"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (parallel) <br /></td></tr>
+<tr class="separator:a2890982982786fc04160dc49418f0901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b35243e788d2284701ec78c2d5e3f5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a96b35243e788d2284701ec78c2d5e3f5">scalar_vec</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a96b35243e788d2284701ec78c2d5e3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (cuda)  <a href="#a96b35243e788d2284701ec78c2d5e3f5">More...</a><br /></td></tr>
+<tr class="separator:a96b35243e788d2284701ec78c2d5e3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="memItemLeft" align="right" valign="top"><a id="a43cf36d8e34ff2b64c1dba580ec4661c"></a>
+<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a43cf36d8e34ff2b64c1dba580ec4661c">vec_normalize</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="mdescLeft">&#160;</td><td class="mdescRight">normalize a vector <br /></td></tr>
+<tr class="separator:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="memItemLeft" align="right" valign="top"><a id="a1cf75d2ce89a2cc6dd553506b6ac7fae"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1cf75d2ce89a2cc6dd553506b6ac7fae">cur_time_ns</a> ()</td></tr>
 <tr class="memdesc:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">current time in nano second <br /></td></tr>
 <tr class="separator:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec765aa23a1aa4d745c881c2c35622cf"><td class="memItemLeft" align="right" valign="top"><a id="aec765aa23a1aa4d745c881c2c35622cf"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aec765aa23a1aa4d745c881c2c35622cf">repeat_spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structsparse__t.html">sparse_t</a> tA, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> repeat)</td></tr>
-<tr class="memdesc:aec765aa23a1aa4d745c881c2c35622cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">repeat y = A x; x = tA y; many times <br /></td></tr>
-<tr class="separator:aec765aa23a1aa4d745c881c2c35622cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="memItemLeft" align="right" valign="top"><a id="ac5ba83af350c927bf6ed232d7bdca2d9"></a>
+<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac5ba83af350c927bf6ed232d7bdca2d9">repeat_spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;A, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;tA, <a class="el" href="structvec__t.html">vec_t</a> &amp;x, <a class="el" href="structvec__t.html">vec_t</a> &amp;y, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> repeat)</td></tr>
+<tr class="memdesc:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">repeat y = A x; x = tA y; many times <br /></td></tr>
+<tr class="separator:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7949349d6b359f1fe6350b4d46fadb8"><td class="memItemLeft" align="right" valign="top"><a id="ad7949349d6b359f1fe6350b4d46fadb8"></a>
 <a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad7949349d6b359f1fe6350b4d46fadb8">mk_vec_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n, unsigned short rg[3])</td></tr>
 <tr class="memdesc:ad7949349d6b359f1fe6350b4d46fadb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random vector <br /></td></tr>
@@ -297,7 +329,25 @@ Variables</h2></td></tr>
 <div class="textblock"><p>sparse matrix vector multiplication </p>
 <dl class="section author"><dt>Author</dt><dd>Kenjiro Taura </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>Oct. 14, 2018 </dd></dl>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a8e93478a00e685bea5e6a3f617bf03a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e93478a00e685bea5e6a3f617bf03a3">&#9670;&nbsp;</a></span>idx_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>type of matrix index (i,j,...) </p>
+<p>for large matrices, we might want to make it 64 bits </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a8c0094893526c01b430903b2d9227256"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c0094893526c01b430903b2d9227256">&#9670;&nbsp;</a></span>sparse_format_t</h2>
 
@@ -342,6 +392,10 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81"></a>spmv_algo_parallel&#160;</td><td class="fielddoc"><p>simple parallel </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09"></a>spmv_algo_cuda&#160;</td><td class="fielddoc"><p>cuda </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0"></a>spmv_algo_invalid&#160;</td><td class="fielddoc"><p>invalid </p>
+</td></tr>
 </table>
 
 </div>
@@ -375,6 +429,98 @@ Variables</h2></td></tr>
 
 <p>coo -&gt; csr </p>
 <p>if update_A is true, A's elements will become sorted in place as a side effect </p>
+
+</div>
+</div>
+<a id="a96b35243e788d2284701ec78c2d5e3f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96b35243e788d2284701ec78c2d5e3f5">&#9670;&nbsp;</a></span>scalar_vec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int scalar_vec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>scalar x vector (cuda) </p>
+<p>scalar x vector </p>
+
+</div>
+</div>
+<a id="a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">&#9670;&nbsp;</a></span>xalloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* xalloc </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>sz</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>malloc + check </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(sz)</td><td>size to alloc in bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the allocated memory </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a3ef938bd87c574f4deb4e5b05de27fc2" title="wrap free ">xfree</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3ef938bd87c574f4deb4e5b05de27fc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef938bd87c574f4deb4e5b05de27fc2">&#9670;&nbsp;</a></span>xfree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void xfree </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>wrap free </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(a)</td><td>a pointer returned by calling xalloc </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b" title="malloc + check ">xalloc</a> </dd></dl>
 
 </div>
 </div>
