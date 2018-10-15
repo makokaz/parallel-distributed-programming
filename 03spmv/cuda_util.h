@@ -10,7 +10,7 @@
    @sa check_cuda_error
  */
 
-static void check_cuda_error_(cudaError_t e,
+static void check_api_error_(cudaError_t e,
                               const char * msg, const char * file, int line) {
   if (e) {
     fprintf(stderr, "%s:%d:error: %s %s\n",
@@ -25,14 +25,14 @@ static void check_cuda_error_(cudaError_t e,
    check_cuda_error(cudaMalloc(&p, size));
  */
 
-#define check_cuda_error(e) check_cuda_error_(e, #e, __FILE__, __LINE__)
+#define check_api_error(e) check_api_error_(e, #e, __FILE__, __LINE__)
 
 /**
    @brief do not use this function directly. use check_kernel_error macro
    @sa check_kernel_error
  */
 
-static void check_kernel_error_(const char * msg, const char * file, int line) {
+static void check_launch_error_(const char * msg, const char * file, int line) {
   cudaError_t e = cudaGetLastError();
   if (e) {
     fprintf(stderr, "%s:%d:error: %s %s\n",
@@ -48,7 +48,7 @@ static void check_kernel_error_(const char * msg, const char * file, int line) {
    note that you need to put parens around the expression.
  */
 
-#define check_kernel_error(exp) do { exp; check_kernel_error_(#exp, __FILE__, __LINE__); } while (0)
+#define check_launch_error(exp) do { exp; check_kernel_error_(#exp, __FILE__, __LINE__); } while (0)
 
 /**
    @brief get SM executing the caller
