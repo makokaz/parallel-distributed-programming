@@ -813,7 +813,7 @@ int scalar_vec_cuda(real k, vec_t v) {
   idx_t n = v.n;
   int scalar_vec_block_sz = 1024;
   int n_scalar_vec_blocks = (n + scalar_vec_block_sz - 1) / scalar_vec_block_sz;
-  check_kernel_error((scalar_vec_dev<<<n_scalar_vec_blocks,scalar_vec_block_sz>>>(k, v)));
+  check_launch_error((scalar_vec_dev<<<n_scalar_vec_blocks,scalar_vec_block_sz>>>(k, v)));
   return 1;
 }
 #endif
