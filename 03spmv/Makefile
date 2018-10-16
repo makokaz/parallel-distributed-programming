@@ -29,7 +29,7 @@ CXXFLAGS := $(cxxflags)
 LDFLAGS :=
 LIBS :=
 
-NVCXX := nvcc
+NVCXX := /usr/local/cuda/bin/nvcc
 NVCXXFLAGS := $(nvcxxflags)
 NVLDFLAGS :=
 NVLIBS :=
