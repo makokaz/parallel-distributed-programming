@@ -10,3 +10,9 @@ Work in the order of directory numbers (00slurm, 01hello, 02hello_gpu, ...)
  * 02hello_gpu : play with CUDA
  * 03spmv : an exercise to parallelize sparse matrix vector multiply
 
+(Incomplete) Change Log
+==========================================
+
+ * fixed spmv.cc so it now compiles with nvcc
+ * replace nvcc with its absolute path /usr/local/cuda/bin
+ 
