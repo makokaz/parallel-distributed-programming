@@ -9,6 +9,7 @@ Work in the order of directory numbers (00slurm, 01hello, 02hello_gpu, ...)
  * 01hello : play with OpenMP
  * 02hello_gpu : play with CUDA
  * 03spmv : an exercise to parallelize sparse matrix vector multiply
+ * 04udr : an example showing how to use user-defined reductions in OpenMP
 
 (Incomplete) Change Log
 ==========================================
