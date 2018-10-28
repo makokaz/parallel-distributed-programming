@@ -1929,15 +1929,17 @@ int main(int argc, char ** argv) {
   printf("algo : %s\n", opt.algo_str);
 
   //sparse_t A = mk_sparse_random(opt.format, M, N, nnz, rg);
-  printf("%s:%d:main: generating matrix starts ... \n", __FILE__, __LINE__); fflush(stdout);
+  printf("%s:%d:main: generate a matrix ... \n", __FILE__, __LINE__); fflush(stdout);
   sparse_t A = mk_sparse_matrix(opt, M, N, nnz, rg);
-  printf("%s:%d:main: generating matrix ends %ld x %ld with %ld non-zeros\n",
+  printf("%s:%d:main: generate a matrix ends %ld x %ld with %ld non-zeros\n",
          __FILE__, __LINE__,
          (long)A.M, (long)A.N, (long)A.nnz); fflush(stdout);
   if (opt.dump) {
     dump_sparse_file(A, opt.dump, opt.dump_points, opt.dump_seed);
   }
+  printf("%s:%d:main: transpose the matrix ... \n", __FILE__, __LINE__); fflush(stdout);
   sparse_t tA = sparse_transpose(A);
+  printf("%s:%d:main: transpose the matrix ends ... \n", __FILE__, __LINE__); fflush(stdout);
   vec_t x = mk_vec_unit_random(N, rg);
   vec_t y = mk_vec_zero(M);
   real lambda = repeat_spmv(opt.algo, A, tA, x, y, repeat);
