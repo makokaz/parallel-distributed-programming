@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['i',['i',['../structcoo__elem__t.html#a4bba7fd2cc28e3a6dd2eea0fed6b5a06',1,'coo_elem_t']]]
+  ['help',['help',['../structcmdline__options__t.html#ab02741e43bb19900e87caaec3a8dd794',1,'cmdline_options_t']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['get_5ffreq',['get_freq',['../cuda__util_8h.html#a859de24e23ee0450818ab96ea6a4798a',1,'cuda_util.h']]],
   ['get_5fnthreads',['get_nthreads',['../cuda__util_8h.html#a74d008c0d996e10f203bdd1fdee76511',1,'cuda_util.h']]],
   ['get_5fnthreads_5fx',['get_nthreads_x',['../cuda__util_8h.html#ae13980c33ac8f950ed35d613415034c0',1,'cuda_util.h']]],
   ['get_5fnthreads_5fy',['get_nthreads_y',['../cuda__util_8h.html#a79fd9ff68db3a81b8b0feb446e4e9b99',1,'cuda_util.h']]],

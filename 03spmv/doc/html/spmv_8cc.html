@@ -78,10 +78,42 @@ $(function() {
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;getopt.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__parallel_8cc.html">work/spmv_coo_parallel.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__task_8cc.html">work/spmv_coo_task.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__udr_8cc.html">work/spmv_coo_udr.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__sorted__parallel_8cc.html">work/spmv_coo_sorted_parallel.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__sorted__task_8cc.html">work/spmv_coo_sorted_task.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__coo__sorted__udr_8cc.html">work/spmv_coo_sorted_udr.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__csr__parallel_8cc.html">work/spmv_csr_parallel.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__csr__task_8cc.html">work/spmv_csr_task.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="spmv__csr__udr_8cc.html">work/spmv_csr_udr.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vec__norm2__parallel_8cc.html">work/vec_norm2_parallel.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vec__norm2__task_8cc.html">work/vec_norm2_task.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vec__norm2__udr_8cc.html">work/vec_norm2_udr.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="scalar__vec__parallel_8cc.html">work/scalar_vec_parallel.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="scalar__vec__task_8cc.html">work/scalar_vec_task.cc</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="scalar__vec__udr_8cc.html">work/scalar_vec_udr.cc</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for spmv.cc:</div>
 <div class="dyncontent">
 <div class="center"><img src="spmv_8cc__incl.png" border="0" usemap="#_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc" alt=""/></div>
+<map name="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc" id="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc">
+<area shape="rect" id="node9" href="spmv__coo__parallel_8cc.html" title="y = A * x for coo with parallel for " alt="" coords="627,131,807,158"/>
+<area shape="rect" id="node10" href="spmv__coo__task_8cc.html" title="y = A * x for coo with tasks " alt="" coords="831,131,995,158"/>
+<area shape="rect" id="node11" href="spmv__coo__udr_8cc.html" title="y = A * x for coo with parallel for + user&#45;defined reductions " alt="" coords="1020,131,1177,158"/>
+<area shape="rect" id="node12" href="spmv__coo__sorted__parallel_8cc.html" title="y = A * x for coo_sorted with parallel for " alt="" coords="1201,124,1359,165"/>
+<area shape="rect" id="node13" href="spmv__coo__sorted__task_8cc.html" title="y = A * x with tasks for coo_sorted " alt="" coords="1383,124,1540,165"/>
+<area shape="rect" id="node14" href="spmv__coo__sorted__udr_8cc.html" title="y = A * x for coo_sorted with parallel for + user&#45;defined reductions " alt="" coords="1564,124,1721,165"/>
+<area shape="rect" id="node15" href="spmv__csr__parallel_8cc.html" title="y = A * x for csr with parallel for " alt="" coords="1746,131,1923,158"/>
+<area shape="rect" id="node16" href="spmv__csr__task_8cc.html" title="y = A * x for csr with tasks " alt="" coords="1947,131,2109,158"/>
+<area shape="rect" id="node17" href="spmv__csr__udr_8cc.html" title="y = A * x for csr with parallel for + user&#45;defined functions " alt="" coords="2133,131,2288,158"/>
+<area shape="rect" id="node18" href="vec__norm2__parallel_8cc.html" title="square norm of a vector in serial " alt="" coords="2312,131,2496,158"/>
+<area shape="rect" id="node19" href="vec__norm2__task_8cc.html" title="square norm of a vector in serial " alt="" coords="2520,131,2688,158"/>
+<area shape="rect" id="node20" href="vec__norm2__udr_8cc.html" title="square norm of a vector in parallel using user&#45;defined reduction " alt="" coords="2713,131,2874,158"/>
+<area shape="rect" id="node21" href="scalar__vec__parallel_8cc.html" title="scalar x vector multiply with parallel for " alt="" coords="2898,131,3081,158"/>
+<area shape="rect" id="node22" href="scalar__vec__task_8cc.html" title="scalar x vector multiply with tasks " alt="" coords="3105,131,3271,158"/>
+<area shape="rect" id="node23" href="scalar__vec__udr_8cc.html" title="scalar x vector multiply with parallel for + user&#45;defined reductions " alt="" coords="3296,131,3456,158"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -107,6 +139,30 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html">cmdline_options_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">command line option  <a href="structcmdline__options__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsparse__format__table__entry__t.html">sparse_format_table_entry_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">pair of the index value (sparse_format_t) and its name  <a href="structsparse__format__table__entry__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsparse__format__table__t.html">sparse_format_table_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of sparse format and their names  <a href="structsparse__format__table__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsparse__matrix__type__table__entry__t.html">sparse_matrix_type_table_entry_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">pair of the index value (matrix_type_t) and its name  <a href="structsparse__matrix__type__table__entry__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsparse__matrix__type__table__t.html">sparse_matrix_type_table_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of sparse matrix types and their names  <a href="structsparse__matrix__type__table__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structspmv__algo__table__entry__t.html">spmv_algo_table_entry_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">pair of the index value (spmv_algo_t) and its name  <a href="structspmv__algo__table__entry__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structspmv__algo__table__t.html">spmv_algo_table_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of spmv algorithms and their names  <a href="structspmv__algo__table__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structidx__pair__t.html">idx_pair_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">a pair of two indices (i and j)  <a href="structidx__pair__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structimage__t.html">image_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">data structure through which to convert a matrix into a gnuplot file  <a href="structimage__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -120,30 +176,32 @@ typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a8c0094893526c01b430903b2d9227256"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> { <br />
-&#160;&#160;<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a>, 
+<tr class="memitem:a8c0094893526c01b430903b2d9227256"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> { <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a>, 
 <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076">sparse_format_coo_sorted</a>, 
 <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7">sparse_format_csr</a>, 
-<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5">sparse_format_invalid</a>, 
-<br />
-&#160;&#160;<b>sparse_format_coo</b>, 
-<b>sparse_format_coo_sorted</b>, 
-<b>sparse_format_csr</b>, 
-<b>sparse_format_invalid</b>
-<br />
+<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5">sparse_format_invalid</a>
  }<tr class="memdesc:a8c0094893526c01b430903b2d9227256"><td class="mdescLeft">&#160;</td><td class="mdescRight">sparse matrix storage format  <a href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a8c0094893526c01b430903b2d9227256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43a568fb26bc32aeaad07769cc524c45"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45">sparse_matrix_type_t</a> { <br />
+&#160;&#160;<a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e">sparse_matrix_type_random</a>, 
+<a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae">sparse_matrix_type_rmat</a>, 
+<a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc">sparse_matrix_type_one</a>, 
+<a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6">sparse_matrix_type_coo_file</a>, 
+<br />
+&#160;&#160;<a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45adbd59ebb0cfb220b9035a64fc2ed28dc">sparse_matrix_type_invalid</a>
+<br />
+ }<tr class="memdesc:a43a568fb26bc32aeaad07769cc524c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of sparse matrix we work on (how to generate elements)  <a href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a43a568fb26bc32aeaad07769cc524c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2cf0493af54bf76c5be68b4634fcab7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> { <br />
 &#160;&#160;<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a">spmv_algo_serial</a>, 
 <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81">spmv_algo_parallel</a>, 
 <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09">spmv_algo_cuda</a>, 
-<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0">spmv_algo_invalid</a>, 
+<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abf06dbea21c647da540099ac2b982c7c">spmv_algo_task</a>, 
 <br />
-&#160;&#160;<b>spmv_algo_serial</b>, 
-<b>spmv_algo_parallel</b>, 
-<b>spmv_algo_cuda</b>, 
-<b>spmv_algo_invalid</b>
+&#160;&#160;<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a874bdd20649b02a010a566b72759db44">spmv_algo_udr</a>, 
+<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0">spmv_algo_invalid</a>
 <br />
  }<tr class="memdesc:ad2cf0493af54bf76c5be68b4634fcab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">spmv matrix algorithm  <a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">More...</a><br /></td></tr>
 </td></tr>
@@ -151,179 +209,194 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">xalloc</a> (size_t sz)</td></tr>
-<tr class="memdesc:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">malloc + check  <a href="#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">More...</a><br /></td></tr>
-<tr class="separator:a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3ef938bd87c574f4deb4e5b05de27fc2">xfree</a> (void *a)</td></tr>
-<tr class="memdesc:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrap free  <a href="#a3ef938bd87c574f4deb4e5b05de27fc2">More...</a><br /></td></tr>
-<tr class="separator:a3ef938bd87c574f4deb4e5b05de27fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a886d462f047a9680c3a5b9359a082469"><td class="memItemLeft" align="right" valign="top"><a id="a886d462f047a9680c3a5b9359a082469"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a886d462f047a9680c3a5b9359a082469">coo_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
-<tr class="memdesc:a886d462f047a9680c3a5b9359a082469"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy coo <br /></td></tr>
-<tr class="separator:a886d462f047a9680c3a5b9359a082469"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ae3b530bd4c6af7148b8d6f0350d5b7"><td class="memItemLeft" align="right" valign="top"><a id="a3ae3b530bd4c6af7148b8d6f0350d5b7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3ae3b530bd4c6af7148b8d6f0350d5b7">csr_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
-<tr class="memdesc:a3ae3b530bd4c6af7148b8d6f0350d5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy csr <br /></td></tr>
-<tr class="separator:a3ae3b530bd4c6af7148b8d6f0350d5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9743d89de22a2978402684c73921c2f7"><td class="memItemLeft" align="right" valign="top"><a id="a9743d89de22a2978402684c73921c2f7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9743d89de22a2978402684c73921c2f7">sparse_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
-<tr class="memdesc:a9743d89de22a2978402684c73921c2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy sparse matrix in any format <br /></td></tr>
-<tr class="separator:a9743d89de22a2978402684c73921c2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a174b34f4428f02a25bcaf8bb40309198"><td class="memItemLeft" align="right" valign="top"><a id="a174b34f4428f02a25bcaf8bb40309198"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a174b34f4428f02a25bcaf8bb40309198">vec_destroy</a> (<a class="el" href="structvec__t.html">vec_t</a> x)</td></tr>
-<tr class="memdesc:a174b34f4428f02a25bcaf8bb40309198"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy vector <br /></td></tr>
-<tr class="separator:a174b34f4428f02a25bcaf8bb40309198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4eb7b1ede09476134c12ed6a60687b5"><td class="memItemLeft" align="right" valign="top"><a id="ab4eb7b1ede09476134c12ed6a60687b5"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab4eb7b1ede09476134c12ed6a60687b5">mk_coo_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
-<tr class="memdesc:ab4eb7b1ede09476134c12ed6a60687b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random coo matrix <br /></td></tr>
-<tr class="separator:ab4eb7b1ede09476134c12ed6a60687b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2429d70711dfd86b1a7ed6f5b72be673"><td class="memItemLeft" align="right" valign="top"><a id="a2429d70711dfd86b1a7ed6f5b72be673"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2429d70711dfd86b1a7ed6f5b72be673">coo_elem_cmp</a> (const void *a_, const void *b_)</td></tr>
-<tr class="memdesc:a2429d70711dfd86b1a7ed6f5b72be673"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two coo elements <br /></td></tr>
-<tr class="separator:a2429d70711dfd86b1a7ed6f5b72be673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3c168861ef8e87bf6189ae4d2e24883"><td class="memItemLeft" align="right" valign="top"><a id="ae3c168861ef8e87bf6189ae4d2e24883"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae3c168861ef8e87bf6189ae4d2e24883">coo_to_coo_sorted</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
-<tr class="memdesc:ae3c168861ef8e87bf6189ae4d2e24883"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert A to coo_sorted format. if in_place is true, update elements of A in place. <br /></td></tr>
-<tr class="separator:ae3c168861ef8e87bf6189ae4d2e24883"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b858a5780a6aa5027b9dae5fb7906b"><td class="memItemLeft" align="right" valign="top"><a id="a54b858a5780a6aa5027b9dae5fb7906b"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a54b858a5780a6aa5027b9dae5fb7906b">mk_coo_sorted_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
-<tr class="memdesc:a54b858a5780a6aa5027b9dae5fb7906b"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random coo matrix, with elements sorted in the dictionary order of (i, j) <br /></td></tr>
-<tr class="separator:a54b858a5780a6aa5027b9dae5fb7906b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92703aefc64c5c8929dc483a0434c637"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a92703aefc64c5c8929dc483a0434c637">coo_to_csr</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int update_A)</td></tr>
-<tr class="memdesc:a92703aefc64c5c8929dc483a0434c637"><td class="mdescLeft">&#160;</td><td class="mdescRight">coo -&gt; csr  <a href="#a92703aefc64c5c8929dc483a0434c637">More...</a><br /></td></tr>
-<tr class="separator:a92703aefc64c5c8929dc483a0434c637"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af13023640a314474736dfc03be80b500"><td class="memItemLeft" align="right" valign="top"><a id="af13023640a314474736dfc03be80b500"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#af13023640a314474736dfc03be80b500">csr_to_coo</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
-<tr class="memdesc:af13023640a314474736dfc03be80b500"><td class="mdescLeft">&#160;</td><td class="mdescRight">csr -&gt; coo <br /></td></tr>
-<tr class="separator:af13023640a314474736dfc03be80b500"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5e761ffaea4d448caa367585792f23c"><td class="memItemLeft" align="right" valign="top"><a id="ab5e761ffaea4d448caa367585792f23c"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab5e761ffaea4d448caa367585792f23c">mk_csr_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
-<tr class="memdesc:ab5e761ffaea4d448caa367585792f23c"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random csr matrix <br /></td></tr>
-<tr class="separator:ab5e761ffaea4d448caa367585792f23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9936542a2f858311996f17bdf8996264"><td class="memItemLeft" align="right" valign="top"><a id="a9936542a2f858311996f17bdf8996264"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9936542a2f858311996f17bdf8996264">mk_sparse_random</a> (<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
-<tr class="memdesc:a9936542a2f858311996f17bdf8996264"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random sparse matrix of kind (coo, csr, etc.) <br /></td></tr>
-<tr class="separator:a9936542a2f858311996f17bdf8996264"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef0dc6d491152684cdeba40fa8a98010"><td class="memItemLeft" align="right" valign="top"><a id="aef0dc6d491152684cdeba40fa8a98010"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aef0dc6d491152684cdeba40fa8a98010">coo_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
-<tr class="memdesc:aef0dc6d491152684cdeba40fa8a98010"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in coordinate list format <br /></td></tr>
-<tr class="separator:aef0dc6d491152684cdeba40fa8a98010"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad530dc3dbde6b6ee8e075bb82e38a0a5"><td class="memItemLeft" align="right" valign="top"><a id="ad530dc3dbde6b6ee8e075bb82e38a0a5"></a>
-<a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad530dc3dbde6b6ee8e075bb82e38a0a5">sparse_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
-<tr class="memdesc:ad530dc3dbde6b6ee8e075bb82e38a0a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in any format <br /></td></tr>
-<tr class="separator:ad530dc3dbde6b6ee8e075bb82e38a0a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a1ce86dfa6920a65796860f1b7fd858"><td class="memItemLeft" align="right" valign="top"><a id="a8a1ce86dfa6920a65796860f1b7fd858"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8a1ce86dfa6920a65796860f1b7fd858">spmv_coo_serial</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
-<tr class="memdesc:a8a1ce86dfa6920a65796860f1b7fd858"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in serial for coordinate list format <br /></td></tr>
-<tr class="separator:a8a1ce86dfa6920a65796860f1b7fd858"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5f800ac71c8b2ffded8bb69e4f584fe"><td class="memItemLeft" align="right" valign="top"><a id="ab5f800ac71c8b2ffded8bb69e4f584fe"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab5f800ac71c8b2ffded8bb69e4f584fe">spmv_coo_parallel</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
-<tr class="memdesc:ab5f800ac71c8b2ffded8bb69e4f584fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in parallel for coordinate list format <br /></td></tr>
-<tr class="separator:ab5f800ac71c8b2ffded8bb69e4f584fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c2f88615681aac89eb9a972b2ef24c3"><td class="memItemLeft" align="right" valign="top"><a id="a2c2f88615681aac89eb9a972b2ef24c3"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2c2f88615681aac89eb9a972b2ef24c3">spmv_coo</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
-<tr class="memdesc:a2c2f88615681aac89eb9a972b2ef24c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for coordinate list format <br /></td></tr>
-<tr class="separator:a2c2f88615681aac89eb9a972b2ef24c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac028553adb9a6c59a82109179f5e8d51"><td class="memItemLeft" align="right" valign="top"><a id="ac028553adb9a6c59a82109179f5e8d51"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac028553adb9a6c59a82109179f5e8d51">spmv_csr_serial</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
-<tr class="memdesc:ac028553adb9a6c59a82109179f5e8d51"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in serial for csr format <br /></td></tr>
-<tr class="separator:ac028553adb9a6c59a82109179f5e8d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a599d46a47b7019b7083f2aa3847ac1"><td class="memItemLeft" align="right" valign="top"><a id="a0a599d46a47b7019b7083f2aa3847ac1"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a0a599d46a47b7019b7083f2aa3847ac1">spmv_csr_parallel</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
-<tr class="memdesc:a0a599d46a47b7019b7083f2aa3847ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in parallel for csr format <br /></td></tr>
-<tr class="separator:a0a599d46a47b7019b7083f2aa3847ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="memItemLeft" align="right" valign="top"><a id="a9ecae50cc6d1aa3563880cc1e64eba4e"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9ecae50cc6d1aa3563880cc1e64eba4e">spmv_csr_cuda</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
-<tr class="memdesc:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x with cuda for csr format <br /></td></tr>
-<tr class="separator:a9ecae50cc6d1aa3563880cc1e64eba4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a769e363b1cf135e05e68c57e070eba"><td class="memItemLeft" align="right" valign="top"><a id="a2a769e363b1cf135e05e68c57e070eba"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2a769e363b1cf135e05e68c57e070eba">spmv_csr</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
-<tr class="memdesc:a2a769e363b1cf135e05e68c57e070eba"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for csr format <br /></td></tr>
-<tr class="separator:a2a769e363b1cf135e05e68c57e070eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8db62e7d883972f292708fd2d963714"><td class="memItemLeft" align="right" valign="top"><a id="ad8db62e7d883972f292708fd2d963714"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad8db62e7d883972f292708fd2d963714">spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
-<tr class="memdesc:ad8db62e7d883972f292708fd2d963714"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x <br /></td></tr>
-<tr class="separator:ad8db62e7d883972f292708fd2d963714"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dcaa96768b63c86dd193494b0a6df64"><td class="memItemLeft" align="right" valign="top"><a id="a7dcaa96768b63c86dd193494b0a6df64"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7dcaa96768b63c86dd193494b0a6df64">vec_norm2_serial</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a7dcaa96768b63c86dd193494b0a6df64"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector (serial) <br /></td></tr>
-<tr class="separator:a7dcaa96768b63c86dd193494b0a6df64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d1bb54190f62789c27709a36ab4b345"><td class="memItemLeft" align="right" valign="top"><a id="a7d1bb54190f62789c27709a36ab4b345"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7d1bb54190f62789c27709a36ab4b345">vec_norm2_parallel</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a7d1bb54190f62789c27709a36ab4b345"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector (parallel) <br /></td></tr>
-<tr class="separator:a7d1bb54190f62789c27709a36ab4b345"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba0c2cbb28d7e4fe24d7e65be99296cd"><td class="memItemLeft" align="right" valign="top"><a id="aba0c2cbb28d7e4fe24d7e65be99296cd"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>vec_norm2</b> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="separator:aba0c2cbb28d7e4fe24d7e65be99296cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="memItemLeft" align="right" valign="top"><a id="a2ff0d1bd1f91a94c5f5abb3af9db4a6f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2ff0d1bd1f91a94c5f5abb3af9db4a6f">scalar_vec_serial</a> (<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (serial) <br /></td></tr>
-<tr class="separator:a2ff0d1bd1f91a94c5f5abb3af9db4a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2890982982786fc04160dc49418f0901"><td class="memItemLeft" align="right" valign="top"><a id="a2890982982786fc04160dc49418f0901"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2890982982786fc04160dc49418f0901">scalar_vec_parallel</a> (<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a2890982982786fc04160dc49418f0901"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (parallel) <br /></td></tr>
-<tr class="separator:a2890982982786fc04160dc49418f0901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96b35243e788d2284701ec78c2d5e3f5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a96b35243e788d2284701ec78c2d5e3f5">scalar_vec</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a96b35243e788d2284701ec78c2d5e3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar x vector (cuda)  <a href="#a96b35243e788d2284701ec78c2d5e3f5">More...</a><br /></td></tr>
-<tr class="separator:a96b35243e788d2284701ec78c2d5e3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="memItemLeft" align="right" valign="top"><a id="a43cf36d8e34ff2b64c1dba580ec4661c"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a43cf36d8e34ff2b64c1dba580ec4661c">vec_normalize</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
-<tr class="memdesc:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="mdescLeft">&#160;</td><td class="mdescRight">normalize a vector <br /></td></tr>
-<tr class="separator:a43cf36d8e34ff2b64c1dba580ec4661c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="memItemLeft" align="right" valign="top"><a id="a1cf75d2ce89a2cc6dd553506b6ac7fae"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1cf75d2ce89a2cc6dd553506b6ac7fae">cur_time_ns</a> ()</td></tr>
-<tr class="memdesc:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">current time in nano second <br /></td></tr>
-<tr class="separator:a1cf75d2ce89a2cc6dd553506b6ac7fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="memItemLeft" align="right" valign="top"><a id="ac5ba83af350c927bf6ed232d7bdca2d9"></a>
-<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac5ba83af350c927bf6ed232d7bdca2d9">repeat_spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;A, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;tA, <a class="el" href="structvec__t.html">vec_t</a> &amp;x, <a class="el" href="structvec__t.html">vec_t</a> &amp;y, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> repeat)</td></tr>
-<tr class="memdesc:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">repeat y = A x; x = tA y; many times <br /></td></tr>
-<tr class="separator:ac5ba83af350c927bf6ed232d7bdca2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7949349d6b359f1fe6350b4d46fadb8"><td class="memItemLeft" align="right" valign="top"><a id="ad7949349d6b359f1fe6350b4d46fadb8"></a>
-<a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ad7949349d6b359f1fe6350b4d46fadb8">mk_vec_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n, unsigned short rg[3])</td></tr>
-<tr class="memdesc:ad7949349d6b359f1fe6350b4d46fadb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random vector <br /></td></tr>
-<tr class="separator:ad7949349d6b359f1fe6350b4d46fadb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7087e5f081d6e211cbca607dc03aedfa"><td class="memItemLeft" align="right" valign="top"><a id="a7087e5f081d6e211cbca607dc03aedfa"></a>
-<a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7087e5f081d6e211cbca607dc03aedfa">mk_vec_unit_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n, unsigned short rg[3])</td></tr>
-<tr class="memdesc:a7087e5f081d6e211cbca607dc03aedfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a unit-length random vector <br /></td></tr>
-<tr class="separator:a7087e5f081d6e211cbca607dc03aedfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22ac9fee564d3ed893e7a57af08d65b9"><td class="memItemLeft" align="right" valign="top"><a id="a22ac9fee564d3ed893e7a57af08d65b9"></a>
-<a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a22ac9fee564d3ed893e7a57af08d65b9">mk_vec_zero</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n)</td></tr>
-<tr class="memdesc:a22ac9fee564d3ed893e7a57af08d65b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a zero vector <br /></td></tr>
-<tr class="separator:a22ac9fee564d3ed893e7a57af08d65b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09b8e85d2892697f77b3b0eeae5de59a"><td class="memItemLeft" align="right" valign="top"><a id="a09b8e85d2892697f77b3b0eeae5de59a"></a>
-<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a09b8e85d2892697f77b3b0eeae5de59a">default_opts</a> ()</td></tr>
-<tr class="memdesc:a09b8e85d2892697f77b3b0eeae5de59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">default values for command line options <br /></td></tr>
-<tr class="separator:a09b8e85d2892697f77b3b0eeae5de59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10ca6251cec6f3b812ec1a3ee9a81501"><td class="memItemLeft" align="right" valign="top"><a id="a10ca6251cec6f3b812ec1a3ee9a81501"></a>
-<a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a10ca6251cec6f3b812ec1a3ee9a81501">parse_sparse_format</a> (char *s)</td></tr>
-<tr class="memdesc:a10ca6251cec6f3b812ec1a3ee9a81501"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string for matrix format and return an enum value <br /></td></tr>
-<tr class="separator:a10ca6251cec6f3b812ec1a3ee9a81501"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefe1c65fa2eb16b63ce6663af0f07af6"><td class="memItemLeft" align="right" valign="top"><a id="aefe1c65fa2eb16b63ce6663af0f07af6"></a>
-<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aefe1c65fa2eb16b63ce6663af0f07af6">parse_spmv_algo</a> (char *s)</td></tr>
-<tr class="memdesc:aefe1c65fa2eb16b63ce6663af0f07af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string for spmv algo and return an enum value <br /></td></tr>
-<tr class="separator:aefe1c65fa2eb16b63ce6663af0f07af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9da0c69919e3b08e9df0bf1affb54804"><td class="memItemLeft" align="right" valign="top"><a id="a9da0c69919e3b08e9df0bf1affb54804"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9da0c69919e3b08e9df0bf1affb54804">cmdline_options_destroy</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt)</td></tr>
-<tr class="memdesc:a9da0c69919e3b08e9df0bf1affb54804"><td class="mdescLeft">&#160;</td><td class="mdescRight">release memory for cmdline_options <br /></td></tr>
-<tr class="separator:a9da0c69919e3b08e9df0bf1affb54804"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a364112f4dc61f0649eec6b78e586509d"><td class="memItemLeft" align="right" valign="top"><a id="a364112f4dc61f0649eec6b78e586509d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a364112f4dc61f0649eec6b78e586509d">usage</a> (const char *prog)</td></tr>
-<tr class="memdesc:a364112f4dc61f0649eec6b78e586509d"><td class="mdescLeft">&#160;</td><td class="mdescRight">usage <br /></td></tr>
-<tr class="separator:a364112f4dc61f0649eec6b78e586509d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae46c60a3daf9f5acbb90a2d9c412c550"><td class="memItemLeft" align="right" valign="top"><a id="ae46c60a3daf9f5acbb90a2d9c412c550"></a>
-<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae46c60a3daf9f5acbb90a2d9c412c550">parse_args</a> (int argc, char **argv)</td></tr>
-<tr class="memdesc:ae46c60a3daf9f5acbb90a2d9c412c550"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse command line args <br /></td></tr>
-<tr class="separator:ae46c60a3daf9f5acbb90a2d9c412c550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d14968d7ef360d5dc0f32527754de79"><td class="memItemLeft" align="right" valign="top"><a id="a9d14968d7ef360d5dc0f32527754de79"></a>
+static <a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9d14968d7ef360d5dc0f32527754de79">default_opts</a> ()</td></tr>
+<tr class="memdesc:a9d14968d7ef360d5dc0f32527754de79"><td class="mdescLeft">&#160;</td><td class="mdescRight">default values for command line options <br /></td></tr>
+<tr class="separator:a9d14968d7ef360d5dc0f32527754de79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a848c0ca46d3e3ecc39d2fccc4d85fa12">usage</a> (const char *prog)</td></tr>
+<tr class="memdesc:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="mdescLeft">&#160;</td><td class="mdescRight">print usage  <a href="#a848c0ca46d3e3ecc39d2fccc4d85fa12">More...</a><br /></td></tr>
+<tr class="separator:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3363fba87122e57b925704a8394f405d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3363fba87122e57b925704a8394f405d">parse_sparse_format</a> (char *s)</td></tr>
+<tr class="memdesc:a3363fba87122e57b925704a8394f405d"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string for matrix format and return an enum value  <a href="#a3363fba87122e57b925704a8394f405d">More...</a><br /></td></tr>
+<tr class="separator:a3363fba87122e57b925704a8394f405d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7975e4e4d7080a5380dba1a9d11b3d99"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45">sparse_matrix_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7975e4e4d7080a5380dba1a9d11b3d99">parse_sparse_matrix_type</a> (char *s)</td></tr>
+<tr class="memdesc:a7975e4e4d7080a5380dba1a9d11b3d99"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string for sparse matrix type and return an enum value  <a href="#a7975e4e4d7080a5380dba1a9d11b3d99">More...</a><br /></td></tr>
+<tr class="separator:a7975e4e4d7080a5380dba1a9d11b3d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9719a9f5e00e078d0ee1039b890a9f7a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9719a9f5e00e078d0ee1039b890a9f7a">parse_spmv_algo</a> (char *s)</td></tr>
+<tr class="memdesc:a9719a9f5e00e078d0ee1039b890a9f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string for spmv algorithm and return an enum value  <a href="#a9719a9f5e00e078d0ee1039b890a9f7a">More...</a><br /></td></tr>
+<tr class="separator:a9719a9f5e00e078d0ee1039b890a9f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac20283b7c6670bcd771e99ebbe84dcac"><td class="memItemLeft" align="right" valign="top"><a id="ac20283b7c6670bcd771e99ebbe84dcac"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac20283b7c6670bcd771e99ebbe84dcac">parse_error_rmat_probability</a> (char *rmat_str)</td></tr>
+<tr class="memdesc:ac20283b7c6670bcd771e99ebbe84dcac"><td class="mdescLeft">&#160;</td><td class="mdescRight">print error meessage during rmat string (a,b,c,d) <br /></td></tr>
+<tr class="separator:ac20283b7c6670bcd771e99ebbe84dcac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f85d868c74dc8293760c01c26699663"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a4f85d868c74dc8293760c01c26699663">parse_rmat_probability</a> (char *rmat_str, double rmat[2][2])</td></tr>
+<tr class="memdesc:a4f85d868c74dc8293760c01c26699663"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse a string of the form a,b,c,d and put it into 2x2 matrix  <a href="#a4f85d868c74dc8293760c01c26699663">More...</a><br /></td></tr>
+<tr class="separator:a4f85d868c74dc8293760c01c26699663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cab6fa93276c69712c867ea0c9480c9"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3cab6fa93276c69712c867ea0c9480c9">xalloc</a> (size_t sz)</td></tr>
+<tr class="memdesc:a3cab6fa93276c69712c867ea0c9480c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">malloc + check  <a href="#a3cab6fa93276c69712c867ea0c9480c9">More...</a><br /></td></tr>
+<tr class="separator:a3cab6fa93276c69712c867ea0c9480c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74147af88fbc62f9076539683737f69"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab74147af88fbc62f9076539683737f69">xfree</a> (void *a)</td></tr>
+<tr class="memdesc:ab74147af88fbc62f9076539683737f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrap free  <a href="#ab74147af88fbc62f9076539683737f69">More...</a><br /></td></tr>
+<tr class="separator:ab74147af88fbc62f9076539683737f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2564bee68cf55b040dde9891e850fd60"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2564bee68cf55b040dde9891e850fd60">parse_args</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a2564bee68cf55b040dde9891e850fd60"><td class="mdescLeft">&#160;</td><td class="mdescRight">parse command line args  <a href="#a2564bee68cf55b040dde9891e850fd60">More...</a><br /></td></tr>
+<tr class="separator:a2564bee68cf55b040dde9891e850fd60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a722d5677632ee1f02e98ddbd8a5be12c"><td class="memItemLeft" align="right" valign="top"><a id="a722d5677632ee1f02e98ddbd8a5be12c"></a>
+static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a722d5677632ee1f02e98ddbd8a5be12c">mk_sparse_invalid</a> ()</td></tr>
+<tr class="memdesc:a722d5677632ee1f02e98ddbd8a5be12c"><td class="mdescLeft">&#160;</td><td class="mdescRight">make an invalid matrix <br /></td></tr>
+<tr class="separator:a722d5677632ee1f02e98ddbd8a5be12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd0154a7fd92d751e3db7fad63a11c7"><td class="memItemLeft" align="right" valign="top"><a id="a7cd0154a7fd92d751e3db7fad63a11c7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a7cd0154a7fd92d751e3db7fad63a11c7">coo_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a7cd0154a7fd92d751e3db7fad63a11c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy coo <br /></td></tr>
+<tr class="separator:a7cd0154a7fd92d751e3db7fad63a11c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6431a82194d2f65cb5111edbd4b6a80e"><td class="memItemLeft" align="right" valign="top"><a id="a6431a82194d2f65cb5111edbd4b6a80e"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a6431a82194d2f65cb5111edbd4b6a80e">csr_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a6431a82194d2f65cb5111edbd4b6a80e"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy csr <br /></td></tr>
+<tr class="separator:a6431a82194d2f65cb5111edbd4b6a80e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0572abe0596fb337714fec7fb9a264fd"><td class="memItemLeft" align="right" valign="top"><a id="a0572abe0596fb337714fec7fb9a264fd"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a0572abe0596fb337714fec7fb9a264fd">sparse_destroy</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a0572abe0596fb337714fec7fb9a264fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy sparse matrix in any format <br /></td></tr>
+<tr class="separator:a0572abe0596fb337714fec7fb9a264fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ce914cc82d0a77c7c53c1e1fd3afe0d"><td class="memItemLeft" align="right" valign="top"><a id="a8ce914cc82d0a77c7c53c1e1fd3afe0d"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8ce914cc82d0a77c7c53c1e1fd3afe0d">vec_destroy</a> (<a class="el" href="structvec__t.html">vec_t</a> x)</td></tr>
+<tr class="memdesc:a8ce914cc82d0a77c7c53c1e1fd3afe0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">destroy vector <br /></td></tr>
+<tr class="separator:a8ce914cc82d0a77c7c53c1e1fd3afe0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6069ac893592050e619f9077c99f7493"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a6069ac893592050e619f9077c99f7493">mk_coo_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
+<tr class="memdesc:a6069ac893592050e619f9077c99f7493"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a uniform random coo matrix  <a href="#a6069ac893592050e619f9077c99f7493">More...</a><br /></td></tr>
+<tr class="separator:a6069ac893592050e619f9077c99f7493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1de2a8faf2f1567e0c4038c3115bef1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structidx__pair__t.html">idx_pair_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae1de2a8faf2f1567e0c4038c3115bef1">rmat_choose_01</a> (double p[2][2], unsigned short rg[3])</td></tr>
+<tr class="memdesc:ae1de2a8faf2f1567e0c4038c3115bef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">choose a pair of 0/1s according to 2x2 probability matrix p[2][2].  <a href="#ae1de2a8faf2f1567e0c4038c3115bef1">More...</a><br /></td></tr>
+<tr class="separator:ae1de2a8faf2f1567e0c4038c3115bef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b363aef130851519b0decb6895ad348"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structidx__pair__t.html">idx_pair_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9b363aef130851519b0decb6895ad348">rmat_choose_pair</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, double p[2][2], unsigned short rg[3])</td></tr>
+<tr class="memdesc:a9b363aef130851519b0decb6895ad348"><td class="mdescLeft">&#160;</td><td class="mdescRight">choose (i,j) 0 &lt;= i &lt; M and 0 &lt;= j &lt; N according to the probability p.  <a href="#a9b363aef130851519b0decb6895ad348">More...</a><br /></td></tr>
+<tr class="separator:a9b363aef130851519b0decb6895ad348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a34835dc746f4196b1c9b0f0ab4be68dd">mk_coo_rmat</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, double p[2][2], unsigned short rg[3])</td></tr>
+<tr class="memdesc:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random R-MAT (<a href="https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43">https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43</a>)  <a href="#a34835dc746f4196b1c9b0f0ab4be68dd">More...</a><br /></td></tr>
+<tr class="separator:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a60b341089660b30457053be4eafc76"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9a60b341089660b30457053be4eafc76">mk_coo_all_one</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz)</td></tr>
+<tr class="memdesc:a9a60b341089660b30457053be4eafc76"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a uniform random coo matrix  <a href="#a9a60b341089660b30457053be4eafc76">More...</a><br /></td></tr>
+<tr class="separator:a9a60b341089660b30457053be4eafc76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc6740cae208e212acc9b0d4079aa3d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#abbc6740cae208e212acc9b0d4079aa3d">coo_elem_cmp</a> (const void *a_, const void *b_)</td></tr>
+<tr class="memdesc:abbc6740cae208e212acc9b0d4079aa3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two coo elements  <a href="#abbc6740cae208e212acc9b0d4079aa3d">More...</a><br /></td></tr>
+<tr class="separator:abbc6740cae208e212acc9b0d4079aa3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d10b280a1ae620210020791ed083b2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a23d10b280a1ae620210020791ed083b2">sparse_coo_to_coo_sorted</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
+<tr class="memdesc:a23d10b280a1ae620210020791ed083b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert coo matrix A to coo_sorted format. if in_place is true, update elements of A in place  <a href="#a23d10b280a1ae620210020791ed083b2">More...</a><br /></td></tr>
+<tr class="separator:a23d10b280a1ae620210020791ed083b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2379e3737fa6620dbfd47469ca0a607d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2379e3737fa6620dbfd47469ca0a607d">sparse_coo_to_csr</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int update_A)</td></tr>
+<tr class="memdesc:a2379e3737fa6620dbfd47469ca0a607d"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in coo format to csr format.  <a href="#a2379e3737fa6620dbfd47469ca0a607d">More...</a><br /></td></tr>
+<tr class="separator:a2379e3737fa6620dbfd47469ca0a607d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a917a91538ae84e031c8e06f47b5e6d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3a917a91538ae84e031c8e06f47b5e6d">sparse_coo_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format, int update_A)</td></tr>
+<tr class="memdesc:a3a917a91538ae84e031c8e06f47b5e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert sparse matrix in coo format to any specified format.  <a href="#a3a917a91538ae84e031c8e06f47b5e6d">More...</a><br /></td></tr>
+<tr class="separator:a3a917a91538ae84e031c8e06f47b5e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac798b76107ea7ecf5b15736bfa0e79bb">sparse_csr_to_coo_sorted</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in csr format to coo sorted format.  <a href="#ac798b76107ea7ecf5b15736bfa0e79bb">More...</a><br /></td></tr>
+<tr class="separator:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b6db8fe4111d00253055e79c76cbef2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a5b6db8fe4111d00253055e79c76cbef2">sparse_csr_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format)</td></tr>
+<tr class="memdesc:a5b6db8fe4111d00253055e79c76cbef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert sparse matrix in csr format to any specified format  <a href="#a5b6db8fe4111d00253055e79c76cbef2">More...</a><br /></td></tr>
+<tr class="separator:a5b6db8fe4111d00253055e79c76cbef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3d741078626193f453756ae8d0313f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1c3d741078626193f453756ae8d0313f">sparse_any_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format, int update_A)</td></tr>
+<tr class="memdesc:a1c3d741078626193f453756ae8d0313f"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix of any format to any specified format  <a href="#a1c3d741078626193f453756ae8d0313f">More...</a><br /></td></tr>
+<tr class="separator:a1c3d741078626193f453756ae8d0313f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a699fcadba85b607a7d6f801ec01d1f21"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a699fcadba85b607a7d6f801ec01d1f21">read_coo_file</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, char *file)</td></tr>
+<tr class="memdesc:a699fcadba85b607a7d6f801ec01d1f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">read a matrix file and return a sparse matrix in coo formated  <a href="#a699fcadba85b607a7d6f801ec01d1f21">More...</a><br /></td></tr>
+<tr class="separator:a699fcadba85b607a7d6f801ec01d1f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f5814f1a6cb86bbdc3dc6d99a2f0bb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac2f5814f1a6cb86bbdc3dc6d99a2f0bb">mk_sparse_matrix_coo</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
+<tr class="memdesc:ac2f5814f1a6cb86bbdc3dc6d99a2f0bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a sparse matrix in coo format by the desiginated generation method  <a href="#ac2f5814f1a6cb86bbdc3dc6d99a2f0bb">More...</a><br /></td></tr>
+<tr class="separator:ac2f5814f1a6cb86bbdc3dc6d99a2f0bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aaaea896bc16745cbe40e0c8f7c8122b6">mk_sparse_matrix</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
+<tr class="memdesc:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">make (read or generate) a sparse matrix with the specified matrix generation method  <a href="#aaaea896bc16745cbe40e0c8f7c8122b6">More...</a><br /></td></tr>
+<tr class="separator:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8795ef73f2ce870a5f4d22a3bbe3a4f1">coo_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
+<tr class="memdesc:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in coordinate list format  <a href="#a8795ef73f2ce870a5f4d22a3bbe3a4f1">More...</a><br /></td></tr>
+<tr class="separator:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2c4e3e9eaa31cfe79eae1706c4f17402">sparse_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in any format  <a href="#a2c4e3e9eaa31cfe79eae1706c4f17402">More...</a><br /></td></tr>
+<tr class="separator:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412810ce929de396176940d889f65cff"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a412810ce929de396176940d889f65cff">spmv_coo_serial</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
+<tr class="memdesc:a412810ce929de396176940d889f65cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in serial for coo format  <a href="#a412810ce929de396176940d889f65cff">More...</a><br /></td></tr>
+<tr class="separator:a412810ce929de396176940d889f65cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e784ac12f70b7ec0aa027afae47fdb2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3e784ac12f70b7ec0aa027afae47fdb2">spmv_coo</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
+<tr class="memdesc:a3e784ac12f70b7ec0aa027afae47fdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for coo format, with the specified algorithm  <a href="#a3e784ac12f70b7ec0aa027afae47fdb2">More...</a><br /></td></tr>
+<tr class="separator:a3e784ac12f70b7ec0aa027afae47fdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c6271c89e03dfba15b7d3e8870dc367"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a0c6271c89e03dfba15b7d3e8870dc367">spmv_coo_sorted_serial</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
+<tr class="memdesc:a0c6271c89e03dfba15b7d3e8870dc367"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in serial for coo_sorted format  <a href="#a0c6271c89e03dfba15b7d3e8870dc367">More...</a><br /></td></tr>
+<tr class="separator:a0c6271c89e03dfba15b7d3e8870dc367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12ff0f51c705a939cfbc88d2a3e57666"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a12ff0f51c705a939cfbc88d2a3e57666">spmv_coo_sorted</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
+<tr class="memdesc:a12ff0f51c705a939cfbc88d2a3e57666"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for coo_sorted format, with the specified algorithm  <a href="#a12ff0f51c705a939cfbc88d2a3e57666">More...</a><br /></td></tr>
+<tr class="separator:a12ff0f51c705a939cfbc88d2a3e57666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed522b06ef48963006af213f6c31ff0"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8ed522b06ef48963006af213f6c31ff0">spmv_csr_serial</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> vx, <a class="el" href="structvec__t.html">vec_t</a> vy)</td></tr>
+<tr class="memdesc:a8ed522b06ef48963006af213f6c31ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x in serial for csr format  <a href="#a8ed522b06ef48963006af213f6c31ff0">More...</a><br /></td></tr>
+<tr class="separator:a8ed522b06ef48963006af213f6c31ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c45a35e7f86149cec61f9378c32f2e4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1c45a35e7f86149cec61f9378c32f2e4">spmv_csr</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
+<tr class="memdesc:a1c45a35e7f86149cec61f9378c32f2e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for csr format, with the specified algorithm  <a href="#a1c45a35e7f86149cec61f9378c32f2e4">More...</a><br /></td></tr>
+<tr class="separator:a1c45a35e7f86149cec61f9378c32f2e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b17c7c1f5341c44b046f2f96173dbb3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a0b17c7c1f5341c44b046f2f96173dbb3">spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="structvec__t.html">vec_t</a> x, <a class="el" href="structvec__t.html">vec_t</a> y)</td></tr>
+<tr class="memdesc:a0b17c7c1f5341c44b046f2f96173dbb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">y = A * x for any format, with the specified algorithm  <a href="#a0b17c7c1f5341c44b046f2f96173dbb3">More...</a><br /></td></tr>
+<tr class="separator:a0b17c7c1f5341c44b046f2f96173dbb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa238f5dc75b2607322dc4b8af535033"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#afa238f5dc75b2607322dc4b8af535033">vec_norm2_serial</a> (<a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:afa238f5dc75b2607322dc4b8af535033"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector in serial  <a href="#afa238f5dc75b2607322dc4b8af535033">More...</a><br /></td></tr>
+<tr class="separator:afa238f5dc75b2607322dc4b8af535033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a821b3dbaf3109c1340408d104a32849d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a821b3dbaf3109c1340408d104a32849d">vec_norm2</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a821b3dbaf3109c1340408d104a32849d"><td class="mdescLeft">&#160;</td><td class="mdescRight">square norm of a vector with the specified algorithm  <a href="#a821b3dbaf3109c1340408d104a32849d">More...</a><br /></td></tr>
+<tr class="separator:a821b3dbaf3109c1340408d104a32849d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99456e0344c1c61bd3040fe14b215cba"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a99456e0344c1c61bd3040fe14b215cba">scalar_vec_serial</a> (<a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a99456e0344c1c61bd3040fe14b215cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">k x v in serial  <a href="#a99456e0344c1c61bd3040fe14b215cba">More...</a><br /></td></tr>
+<tr class="separator:a99456e0344c1c61bd3040fe14b215cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc75d6198977fcb25da335869bccb18"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aacc75d6198977fcb25da335869bccb18">scalar_vec</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> k, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:aacc75d6198977fcb25da335869bccb18"><td class="mdescLeft">&#160;</td><td class="mdescRight">k x v in parallel with the specified algorithm  <a href="#aacc75d6198977fcb25da335869bccb18">More...</a><br /></td></tr>
+<tr class="separator:aacc75d6198977fcb25da335869bccb18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241e0fa53a3f51410d20d83e2a3029c0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a241e0fa53a3f51410d20d83e2a3029c0">vec_normalize</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
+<tr class="memdesc:a241e0fa53a3f51410d20d83e2a3029c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">normalize a vector with the specified algortihm  <a href="#a241e0fa53a3f51410d20d83e2a3029c0">More...</a><br /></td></tr>
+<tr class="separator:a241e0fa53a3f51410d20d83e2a3029c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memItemLeft" align="right" valign="top">static long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae8a11dfbc1a073b8ea09b2b25484df8e">cur_time_ns</a> ()</td></tr>
+<tr class="memdesc:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">current time in nano second  <a href="#ae8a11dfbc1a073b8ea09b2b25484df8e">More...</a><br /></td></tr>
+<tr class="separator:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cd4c7a560d79a951f87fae71f800def"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a4cd4c7a560d79a951f87fae71f800def">repeat_spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;A, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;tA, <a class="el" href="structvec__t.html">vec_t</a> &amp;x, <a class="el" href="structvec__t.html">vec_t</a> &amp;y, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> repeat)</td></tr>
+<tr class="memdesc:a4cd4c7a560d79a951f87fae71f800def"><td class="mdescLeft">&#160;</td><td class="mdescRight">repeat y = A x; x = tA y; many times, with the specified algorithm  <a href="#a4cd4c7a560d79a951f87fae71f800def">More...</a><br /></td></tr>
+<tr class="separator:a4cd4c7a560d79a951f87fae71f800def"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c4281acee355d11976dcd1bdea57a5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a47c4281acee355d11976dcd1bdea57a5">mk_vec_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n, unsigned short rg[3])</td></tr>
+<tr class="memdesc:a47c4281acee355d11976dcd1bdea57a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random vector of n elements  <a href="#a47c4281acee355d11976dcd1bdea57a5">More...</a><br /></td></tr>
+<tr class="separator:a47c4281acee355d11976dcd1bdea57a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11f770f55b8dbdfd51fb5e6c3764f0d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a11f770f55b8dbdfd51fb5e6c3764f0d7">mk_vec_unit_random</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n, unsigned short rg[3])</td></tr>
+<tr class="memdesc:a11f770f55b8dbdfd51fb5e6c3764f0d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random unit-length vector of n elements  <a href="#a11f770f55b8dbdfd51fb5e6c3764f0d7">More...</a><br /></td></tr>
+<tr class="separator:a11f770f55b8dbdfd51fb5e6c3764f0d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5980ab044cde4d173d802a048724abe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae5980ab044cde4d173d802a048724abe">mk_vec_zero</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n)</td></tr>
+<tr class="memdesc:ae5980ab044cde4d173d802a048724abe"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a zero vector of n elements  <a href="#ae5980ab044cde4d173d802a048724abe">More...</a><br /></td></tr>
+<tr class="separator:ae5980ab044cde4d173d802a048724abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#adf81d1a5d4b0a2db9fcf090141069e7c">cmdline_options_destroy</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt)</td></tr>
+<tr class="memdesc:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">release memory for cmdline_options  <a href="#adf81d1a5d4b0a2db9fcf090141069e7c">More...</a><br /></td></tr>
+<tr class="separator:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52e2288d46ba0c89efbf1aed93378539"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structimage__t.html">image_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a52e2288d46ba0c89efbf1aed93378539">mk_image</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> img_width, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> img_height)</td></tr>
+<tr class="memdesc:a52e2288d46ba0c89efbf1aed93378539"><td class="mdescLeft">&#160;</td><td class="mdescRight">make an img_width x img_height image for M x N matrix  <a href="#a52e2288d46ba0c89efbf1aed93378539">More...</a><br /></td></tr>
+<tr class="separator:a52e2288d46ba0c89efbf1aed93378539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cecb5caff155e86cf45de90f165c760"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1cecb5caff155e86cf45de90f165c760">image_destroy</a> (<a class="el" href="structimage__t.html">image_t</a> *img)</td></tr>
+<tr class="memdesc:a1cecb5caff155e86cf45de90f165c760"><td class="mdescLeft">&#160;</td><td class="mdescRight">release memory for image  <a href="#a1cecb5caff155e86cf45de90f165c760">More...</a><br /></td></tr>
+<tr class="separator:a1cecb5caff155e86cf45de90f165c760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b1587c4f3bccd366674af1b793a46dc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2b1587c4f3bccd366674af1b793a46dc">image_add_pixel</a> (<a class="el" href="structimage__t.html">image_t</a> *img, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> i, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> j, double p)</td></tr>
+<tr class="memdesc:a2b1587c4f3bccd366674af1b793a46dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a non-zero pixel to an image  <a href="#a2b1587c4f3bccd366674af1b793a46dc">More...</a><br /></td></tr>
+<tr class="separator:a2b1587c4f3bccd366674af1b793a46dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4977b9f200b7b8fb52267afd94a3cba7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a4977b9f200b7b8fb52267afd94a3cba7">dump_sparse_file</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> img_width, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> img_height, char *file)</td></tr>
+<tr class="memdesc:a4977b9f200b7b8fb52267afd94a3cba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">dump a sparse matrix A into img_width x img_height bitmap (gnuplot file) with the specified filename.  <a href="#a4977b9f200b7b8fb52267afd94a3cba7">More...</a><br /></td></tr>
+<tr class="separator:a4977b9f200b7b8fb52267afd94a3cba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top"><a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
-<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">main <br /></td></tr>
+<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">the main function <br /></td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab5b68aa8f898c499ca2c3092ecd9e552"><td class="memItemLeft" align="right" valign="top">struct option&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab5b68aa8f898c499ca2c3092ecd9e552">long_options</a> []</td></tr>
+<tr class="memitem:ab5b68aa8f898c499ca2c3092ecd9e552"><td class="memItemLeft" align="right" valign="top">static struct option&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab5b68aa8f898c499ca2c3092ecd9e552">long_options</a> []</td></tr>
 <tr class="memdesc:ab5b68aa8f898c499ca2c3092ecd9e552"><td class="mdescLeft">&#160;</td><td class="mdescRight">command line options  <a href="#ab5b68aa8f898c499ca2c3092ecd9e552">More...</a><br /></td></tr>
 <tr class="separator:ab5b68aa8f898c499ca2c3092ecd9e552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a63e464ce787eca8e38b0e0f07c2d89"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__format__table__t.html">sparse_format_table_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2a63e464ce787eca8e38b0e0f07c2d89">sparse_format_table</a></td></tr>
+<tr class="memdesc:a2a63e464ce787eca8e38b0e0f07c2d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of index value - sparse format name pairs  <a href="#a2a63e464ce787eca8e38b0e0f07c2d89">More...</a><br /></td></tr>
+<tr class="separator:a2a63e464ce787eca8e38b0e0f07c2d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adec640e50da4fb074b68501e65917636"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__matrix__type__table__t.html">sparse_matrix_type_table_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#adec640e50da4fb074b68501e65917636">sparse_matrix_type_table</a></td></tr>
+<tr class="memdesc:adec640e50da4fb074b68501e65917636"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of index value - matrix type name pairs  <a href="#adec640e50da4fb074b68501e65917636">More...</a><br /></td></tr>
+<tr class="separator:adec640e50da4fb074b68501e65917636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d235696eb55e3c85abdf590c6da3cb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structspmv__algo__table__t.html">spmv_algo_table_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ab5d235696eb55e3c85abdf590c6da3cb">spmv_algo_table</a></td></tr>
+<tr class="memdesc:ab5d235696eb55e3c85abdf590c6da3cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">table of index value - matrix type name pairs  <a href="#ab5d235696eb55e3c85abdf590c6da3cb">More...</a><br /></td></tr>
+<tr class="separator:ab5d235696eb55e3c85abdf590c6da3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>sparse matrix vector multiplication </p>
@@ -343,7 +416,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>type of matrix index (i,j,...) </p>
-<p>for large matrices, we might want to make it 64 bits </p>
+<p>for large matrices, we might want to make it 64 bits. </p>
 
 </div>
 </div>
@@ -361,6 +434,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>sparse matrix storage format </p>
+<p>add more if you want to use another format </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9"></a>sparse_format_coo&#160;</td><td class="fielddoc"><p>coordinate list </p>
 </td></tr>
@@ -369,6 +443,34 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7"></a>sparse_format_csr&#160;</td><td class="fielddoc"><p>compressed sparse row </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8c0094893526c01b430903b2d9227256adc326179d0d559f82edc8cd35be11de5"></a>sparse_format_invalid&#160;</td><td class="fielddoc"><p>invalid </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a43a568fb26bc32aeaad07769cc524c45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43a568fb26bc32aeaad07769cc524c45">&#9670;&nbsp;</a></span>sparse_matrix_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45">sparse_matrix_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>type of sparse matrix we work on (how to generate elements) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e"></a>sparse_matrix_type_random&#160;</td><td class="fielddoc"><p>uniform random matrix </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae"></a>sparse_matrix_type_rmat&#160;</td><td class="fielddoc"><p>R-MAT (recursive random matrix) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc"></a>sparse_matrix_type_one&#160;</td><td class="fielddoc"><p>all one on a subset of rows/columns </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6"></a>sparse_matrix_type_coo_file&#160;</td><td class="fielddoc"><p>input from file </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a43a568fb26bc32aeaad07769cc524c45adbd59ebb0cfb220b9035a64fc2ed28dc"></a>sparse_matrix_type_invalid&#160;</td><td class="fielddoc"><p>invalid </p>
 </td></tr>
 </table>
 
@@ -390,9 +492,13 @@ Variables</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a"></a>spmv_algo_serial&#160;</td><td class="fielddoc"><p>serial </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81"></a>spmv_algo_parallel&#160;</td><td class="fielddoc"><p>simple parallel </p>
+<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81"></a>spmv_algo_parallel&#160;</td><td class="fielddoc"><p>OpenMP parallel for </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09"></a>spmv_algo_cuda&#160;</td><td class="fielddoc"><p>cuda </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7abf06dbea21c647da540099ac2b982c7c"></a>spmv_algo_task&#160;</td><td class="fielddoc"><p>task parallel </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7a874bdd20649b02a010a566b72759db44"></a>spmv_algo_udr&#160;</td><td class="fielddoc"><p>user-defined reduction </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ad2cf0493af54bf76c5be68b4634fcab7add2a1e0329d677ee5f5fcc7ee8077dd0"></a>spmv_algo_invalid&#160;</td><td class="fielddoc"><p>invalid </p>
 </td></tr>
@@ -401,14 +507,90 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a92703aefc64c5c8929dc483a0434c637"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92703aefc64c5c8929dc483a0434c637">&#9670;&nbsp;</a></span>coo_to_csr()</h2>
+<a id="adf81d1a5d4b0a2db9fcf090141069e7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf81d1a5d4b0a2db9fcf090141069e7c">&#9670;&nbsp;</a></span>cmdline_options_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structsparse__t.html">sparse_t</a> coo_to_csr </td>
+          <td class="memname">static void cmdline_options_destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td>
+          <td class="paramname"><em>opt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>release memory for cmdline_options </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(opt)</td><td>the command line option to release the memory of </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abbc6740cae208e212acc9b0d4079aa3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbc6740cae208e212acc9b0d4079aa3d">&#9670;&nbsp;</a></span>coo_elem_cmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int coo_elem_cmp </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>a_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>b_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>compare two coo elements </p>
+<p>callback used to sort coo elements in the dictionary order </p><dl class="section return"><dt>Returns</dt><dd>-1 if a_ &lt; b, 1 if a_ &gt; b and 0 if a_ = b </dd></dl>
+
+</div>
+</div>
+<a id="a8795ef73f2ce870a5f4d22a3bbe3a4f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8795ef73f2ce870a5f4d22a3bbe3a4f1">&#9670;&nbsp;</a></span>coo_transpose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> coo_transpose </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
           <td class="paramname"><em>A</em>, </td>
@@ -417,7 +599,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>update_A</em>&#160;</td>
+          <td class="paramname"><em>in_place</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -425,21 +607,1153 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>coo -&gt; csr </p>
-<p>if update_A is true, A's elements will become sorted in place as a side effect </p>
+<p>transpose a matrix in coordinate list format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in coo or coo_sorted format </td></tr>
+    <tr><td class="paramname">(in_place)</td><td>if true, A is sorted in place </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the transposed sparse matrix in coo format </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a2c4e3e9eaa31cfe79eae1706c4f17402" title="transpose a matrix in any format ">sparse_transpose</a> </dd></dl>
 
 </div>
 </div>
-<a id="a96b35243e788d2284701ec78c2d5e3f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96b35243e788d2284701ec78c2d5e3f5">&#9670;&nbsp;</a></span>scalar_vec()</h2>
+<a id="ae8a11dfbc1a073b8ea09b2b25484df8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8a11dfbc1a073b8ea09b2b25484df8e">&#9670;&nbsp;</a></span>cur_time_ns()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int scalar_vec </td>
+          <td class="memname">static long cur_time_ns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>current time in nano second </p>
+<dl class="section return"><dt>Returns</dt><dd>the current time in nano second </dd></dl>
+
+</div>
+</div>
+<a id="a4977b9f200b7b8fb52267afd94a3cba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4977b9f200b7b8fb52267afd94a3cba7">&#9670;&nbsp;</a></span>dump_sparse_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int dump_sparse_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>img_width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>img_height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>dump a sparse matrix A into img_width x img_height bitmap (gnuplot file) with the specified filename. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix to dump </td></tr>
+    <tr><td class="paramname">(img_width)</td><td>the width of the image </td></tr>
+    <tr><td class="paramname">(img_height)</td><td>the height of the image </td></tr>
+    <tr><td class="paramname">(file)</td><td>the file name to dump A into </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2b1587c4f3bccd366674af1b793a46dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b1587c4f3bccd366674af1b793a46dc">&#9670;&nbsp;</a></span>image_add_pixel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void image_add_pixel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structimage__t.html">image_t</a> *&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>add a non-zero pixel to an image </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(img)</td><td>a pointer to an <a class="el" href="structimage__t.html" title="data structure through which to convert a matrix into a gnuplot file ">image_t</a> object to put a pixel into </td></tr>
+    <tr><td class="paramname">(i)</td><td>the row number of the pixel </td></tr>
+    <tr><td class="paramname">(j)</td><td>the column number of the pixel </td></tr>
+    <tr><td class="paramname">(p)</td><td>the value of the matrix element</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>call it to indicate the matrix's (i,j) element is p (A(i,j) = p). image_add_pixel(img, i, j, p) converts (i,j) into the corresponding index in the bitmap and put one at the position (p is actually not used but we might consider using p to reflect it to the density of the pixel) </p>
+
+</div>
+</div>
+<a id="a1cecb5caff155e86cf45de90f165c760"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cecb5caff155e86cf45de90f165c760">&#9670;&nbsp;</a></span>image_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void image_destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structimage__t.html">image_t</a> *&#160;</td>
+          <td class="paramname"><em>img</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>release memory for image </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(img)</td><td><a class="el" href="structimage__t.html" title="data structure through which to convert a matrix into a gnuplot file ">image_t</a> object to destroy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9a60b341089660b30457053be4eafc76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a60b341089660b30457053be4eafc76">&#9670;&nbsp;</a></span>mk_coo_all_one()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_coo_all_one </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a uniform random coo matrix </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>the number of non-zeros</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix whose elements are all zero or one (see details)</dd></dl>
+<p>generate a matrix good for debugging. specifically, it chooses a certain number of rows and columns and make elements one only in the intersection of those rows and columns. for example, if rows chosen are { 2, 5, 8 } and columns chosen are { 1, 4 }, we have 3 x 2 = 6 non-zeros, at (2,1), (2,4), (5,1), (5,4), (8,1) and (8,4). more specifically, we first determine the number rows (m) and columns (n) as follows. starting from (m,n) = (1,1), we repeat incrementing them by one alternatively, until m x n exceeds the specified number of non-zeros (nnz) or either one reaches its respective limit (i.e., when m reaches M or n reaches N), after which we increment only the one that still does not reach the limit. for example, if nnz = 50 and M and N large, we end with m = 7 and n = 7. if nnz = 10^6 M = 10^2 and N = 10^7, we will end with m = 10^2 and N 10^4. note that the actual number of elements you got may be slightly smaller than nnz you specified. it is never above the specified nnz. after the number of these non-zero rows and columns are determined, we simply evenly distribute the actual set of non-zero rows/columns. for example, if M = 100 and the number of non-zero rows = 8, we divide 99 by (8 - 1), obtaining 14, and the set of non-zero rows will be { 0, 14, 28, ..., 98 } </p>
+
+</div>
+</div>
+<a id="a6069ac893592050e619f9077c99f7493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6069ac893592050e619f9077c99f7493">&#9670;&nbsp;</a></span>mk_coo_random()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_coo_random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a uniform random coo matrix </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>number of non-zeros </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number state (passed to erand48) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo format </dd></dl>
+
+</div>
+</div>
+<a id="a34835dc746f4196b1c9b0f0ab4be68dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34835dc746f4196b1c9b0f0ab4be68dd">&#9670;&nbsp;</a></span>mk_coo_rmat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_coo_rmat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>p</em>[2][2], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a random R-MAT (<a href="https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43">https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43</a>) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>the number of non-zeros </td></tr>
+    <tr><td class="paramname">(p)</td><td>2x2 matrix designating the probability </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number state (passed to erand48)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo fromat</dd></dl>
+<p>generate R-MAT (<a href="https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43">https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43</a>) with the specified probability p. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a9b363aef130851519b0decb6895ad348" title="choose (i,j) 0 &lt;= i &lt; M and 0 &lt;= j &lt; N according to the probability p. ">rmat_choose_pair</a> </dd></dl>
+
+</div>
+</div>
+<a id="a52e2288d46ba0c89efbf1aed93378539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52e2288d46ba0c89efbf1aed93378539">&#9670;&nbsp;</a></span>mk_image()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structimage__t.html">image_t</a> mk_image </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>img_width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>img_height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make an img_width x img_height image for M x N matrix </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>the number of rows in the matrix </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns in the matrix </td></tr>
+    <tr><td class="paramname">(img_width)</td><td>the number of horizontal pixels (for N) </td></tr>
+    <tr><td class="paramname">(img_height)</td><td>the number of vertial pixels (for M) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structimage__t.html" title="data structure through which to convert a matrix into a gnuplot file ">image_t</a> object </dd></dl>
+
+</div>
+</div>
+<a id="aaaea896bc16745cbe40e0c8f7c8122b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaea896bc16745cbe40e0c8f7c8122b6">&#9670;&nbsp;</a></span>mk_sparse_matrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_sparse_matrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td>
+          <td class="paramname"><em>opt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make (read or generate) a sparse matrix with the specified matrix generation method </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(opt)</td><td>command line options specifying matrix format, matrix type, and other parameters necessary for some matrix types </td></tr>
+    <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>the number of non-zeros </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number generator state (passed to erand48) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo format </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#ac2f5814f1a6cb86bbdc3dc6d99a2f0bb" title="make a sparse matrix in coo format by the desiginated generation method ">mk_sparse_matrix_coo</a> </dd>
+<dd>
+sparse_coo_to </dd></dl>
+
+</div>
+</div>
+<a id="ac2f5814f1a6cb86bbdc3dc6d99a2f0bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2f5814f1a6cb86bbdc3dc6d99a2f0bb">&#9670;&nbsp;</a></span>mk_sparse_matrix_coo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_sparse_matrix_coo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcmdline__options__t.html">cmdline_options_t</a>&#160;</td>
+          <td class="paramname"><em>opt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a sparse matrix in coo format by the desiginated generation method </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(opt)</td><td>command line options specifying matrix type and other parameters necessary for some matrix types </td></tr>
+    <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>the number of non-zeros </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number generator state (passed to erand48) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo format </dd></dl>
+
+</div>
+</div>
+<a id="a47c4281acee355d11976dcd1bdea57a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c4281acee355d11976dcd1bdea57a5">&#9670;&nbsp;</a></span>mk_vec_random()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvec__t.html">vec_t</a> mk_vec_random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a random vector of n elements </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(n)</td><td>the number of elements of the vector </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number generator state (passed to erand48) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of n elements </dd></dl>
+
+</div>
+</div>
+<a id="a11f770f55b8dbdfd51fb5e6c3764f0d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11f770f55b8dbdfd51fb5e6c3764f0d7">&#9670;&nbsp;</a></span>mk_vec_unit_random()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvec__t.html">vec_t</a> mk_vec_unit_random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a random unit-length vector of n elements </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(n)</td><td>the number of elements of the vector </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number generator state (passed to erand48) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of n elements </dd></dl>
+
+</div>
+</div>
+<a id="ae5980ab044cde4d173d802a048724abe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5980ab044cde4d173d802a048724abe">&#9670;&nbsp;</a></span>mk_vec_zero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvec__t.html">vec_t</a> mk_vec_zero </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a zero vector of n elements </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(n)</td><td>the number of elements of the vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a zero vector of n elements </dd></dl>
+
+</div>
+</div>
+<a id="a2564bee68cf55b040dde9891e850fd60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2564bee68cf55b040dde9891e850fd60">&#9670;&nbsp;</a></span>parse_args()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> parse_args </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parse command line args </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(argc)</td><td>size of argv </td></tr>
+    <tr><td class="paramname">(argv)</td><td>array of argc strings (command line arguments) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4f85d868c74dc8293760c01c26699663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f85d868c74dc8293760c01c26699663">&#9670;&nbsp;</a></span>parse_rmat_probability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int parse_rmat_probability </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>rmat_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rmat</em>[2][2]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parse a string of the form a,b,c,d and put it into 2x2 matrix </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(rmat_str)</td><td>string to parse </td></tr>
+    <tr><td class="paramname">(rmat)</td><td>2x2 array to put the result into</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>a string must be comma-separated list of four numbers (integers or floating point numbers), without any spaces. it parses the string into four probability numbers (numbers whose sum is one). e.g., "1,1,1,1" -&gt; { { 0.25, 0.25 }, { 0.25, 0.25 } } "1,2,3,4" -&gt; { { 0.1, 0.2 }, { 0.3, 0.4 } } </p>
+
+</div>
+</div>
+<a id="a3363fba87122e57b925704a8394f405d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3363fba87122e57b925704a8394f405d">&#9670;&nbsp;</a></span>parse_sparse_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> parse_sparse_format </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parse a string for matrix format and return an enum value </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(s)</td><td>the string to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7975e4e4d7080a5380dba1a9d11b3d99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7975e4e4d7080a5380dba1a9d11b3d99">&#9670;&nbsp;</a></span>parse_sparse_matrix_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45">sparse_matrix_type_t</a> parse_sparse_matrix_type </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parse a string for sparse matrix type and return an enum value </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(s)</td><td>the string to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9719a9f5e00e078d0ee1039b890a9f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9719a9f5e00e078d0ee1039b890a9f7a">&#9670;&nbsp;</a></span>parse_spmv_algo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> parse_spmv_algo </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parse a string for spmv algorithm and return an enum value </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(s)</td><td>the string to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a699fcadba85b607a7d6f801ec01d1f21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a699fcadba85b607a7d6f801ec01d1f21">&#9670;&nbsp;</a></span>read_coo_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> read_coo_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>nnz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>read a matrix file and return a sparse matrix in coo formated </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
+    <tr><td class="paramname">(N)</td><td>the number of columns </td></tr>
+    <tr><td class="paramname">(nnz)</td><td>the number of non-zeros </td></tr>
+    <tr><td class="paramname">(file)</td><td>filename </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo format </dd></dl>
+
+</div>
+</div>
+<a id="a4cd4c7a560d79a951f87fae71f800def"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd4c7a560d79a951f87fae71f800def">&#9670;&nbsp;</a></span>repeat_spmv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> repeat_spmv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>tA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>repeat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>repeat y = A x; x = tA y; many times, with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td></td></tr>
+    <tr><td class="paramname">(A)</td><td>the reference to a sparse vector </td></tr>
+    <tr><td class="paramname">(tA)</td><td>the reference to A's transpose </td></tr>
+    <tr><td class="paramname">(x)</td><td>the reference to a vector </td></tr>
+    <tr><td class="paramname">(y)</td><td>the reference to a vector </td></tr>
+    <tr><td class="paramname">(repeat)</td><td>the number of times to repeat </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the largest singular value of A (= the largest eigenvalue of (tA A))</dd></dl>
+<p>it repeats, (repeat + 1) times, y = Ax; x = tA y; x = x/|x|; the first iteration is the "warm-up", which checks if it does not encounter an error (e.g., kernel launch failure) and makes sure to touch all allocated memory once.</p>
+<p>in the end of each iteration it takes |x| and returns that of the last iteration, which is the largest singular value of A if enough iterations have been made. </p>
+
+</div>
+</div>
+<a id="ae1de2a8faf2f1567e0c4038c3115bef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1de2a8faf2f1567e0c4038c3115bef1">&#9670;&nbsp;</a></span>rmat_choose_01()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structidx__pair__t.html">idx_pair_t</a> rmat_choose_01 </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>p</em>[2][2], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>choose a pair of 0/1s according to 2x2 probability matrix p[2][2]. </p>
+<dl class="section return"><dt>Returns</dt><dd>a pair of two 0/1s ({0,0}, {0,1}, {1,0} or {1,1})</dd></dl>
+<p>returns {0,0} with probability p[0][0], {0,1} with probability p[0][1], {1,0} with probability p[1][0] and {1,1} with probability p[1][1] </p>
+
+</div>
+</div>
+<a id="a9b363aef130851519b0decb6895ad348"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b363aef130851519b0decb6895ad348">&#9670;&nbsp;</a></span>rmat_choose_pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structidx__pair__t.html">idx_pair_t</a> rmat_choose_pair </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>p</em>[2][2], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>rg</em>[3]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>choose (i,j) 0 &lt;= i &lt; M and 0 &lt;= j &lt; N according to the probability p. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(M)</td><td>the maximum value i can take plus 1 </td></tr>
+    <tr><td class="paramname">(N)</td><td>the maximum value j can take plus 1 </td></tr>
+    <tr><td class="paramname">(p)</td><td>2x2 matrix designating the probability </td></tr>
+    <tr><td class="paramname">(rg)</td><td>random number state (passed to erand48)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>with probability p[0][0], 0 &lt;= i &lt; M/2 and 0 &lt;= j &lt; N/2. with probability p[0][1], 0 &lt;= i &lt; M/2 and N/2 &lt;= j &lt; N. with probability p[1][0], M/2 &lt;= i &lt; M and 0 &lt;= j &lt; N/2. with probability p[1][1], M/2 &lt;= i &lt; M and N/2 &lt;= j &lt; N. we apply this recursively. </p>
+
+</div>
+</div>
+<a id="aacc75d6198977fcb25da335869bccb18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc75d6198977fcb25da335869bccb18">&#9670;&nbsp;</a></span>scalar_vec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int scalar_vec </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
           <td class="paramname"><em>algo</em>, </td>
@@ -462,27 +1776,965 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>scalar x vector (cuda) </p>
-<p>scalar x vector </p>
+<p>k x v in parallel with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm (serial, parallel, task, cuda, etc.) </td></tr>
+    <tr><td class="paramname">(k)</td><td>a scalar </td></tr>
+    <tr><td class="paramname">(v)</td><td>a vector</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>multiply each element of v by k </p>
 
 </div>
 </div>
-<a id="a79a33f2f3ea6bfd4bd5fc8bc1c026a5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b">&#9670;&nbsp;</a></span>xalloc()</h2>
+<a id="a99456e0344c1c61bd3040fe14b215cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99456e0344c1c61bd3040fe14b215cba">&#9670;&nbsp;</a></span>scalar_vec_serial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int scalar_vec_serial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>k x v in serial </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(k)</td><td>a scalar </td></tr>
+    <tr><td class="paramname">(v)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed</dd></dl>
+<p>multiply each element of v by k </p>
+
+</div>
+</div>
+<a id="a1c3d741078626193f453756ae8d0313f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c3d741078626193f453756ae8d0313f">&#9670;&nbsp;</a></span>sparse_any_to_any()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* xalloc </td>
+          <td class="memname"><a class="el" href="structsparse__t.html">sparse_t</a> sparse_any_to_any </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>update_A</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>convert a sparse matrix of any format to any specified format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in csr format </td></tr>
+    <tr><td class="paramname">(format)</td><td>the destination format </td></tr>
+    <tr><td class="paramname">(update_A)</td><td>if true, A's elements may be updated in place </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse format in the specified format </dd></dl>
+
+</div>
+</div>
+<a id="a3a917a91538ae84e031c8e06f47b5e6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a917a91538ae84e031c8e06f47b5e6d">&#9670;&nbsp;</a></span>sparse_coo_to_any()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_any </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>update_A</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert sparse matrix in coo format to any specified format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
+    <tr><td class="paramname">(format)</td><td>the destination format </td></tr>
+    <tr><td class="paramname">(update_A)</td><td>if update_A is true, the elements of A will be sorted as a side effect. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in the specified format </dd></dl>
+
+</div>
+</div>
+<a id="a23d10b280a1ae620210020791ed083b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23d10b280a1ae620210020791ed083b2">&#9670;&nbsp;</a></span>sparse_coo_to_coo_sorted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_coo_sorted </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>in_place</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert coo matrix A to coo_sorted format. if in_place is true, update elements of A in place </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
+    <tr><td class="paramname">(in_place)</td><td>if in_place is true, the elements of A will be sorted in place </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in the coo_sorted format </dd></dl>
+
+</div>
+</div>
+<a id="a2379e3737fa6620dbfd47469ca0a607d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2379e3737fa6620dbfd47469ca0a607d">&#9670;&nbsp;</a></span>sparse_coo_to_csr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_csr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>update_A</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert a sparse matrix in coo format to csr format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
+    <tr><td class="paramname">(update_A)</td><td>if update_A is true, the elements of A will be sorted as a side effect. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in the csr format </dd></dl>
+
+</div>
+</div>
+<a id="a5b6db8fe4111d00253055e79c76cbef2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b6db8fe4111d00253055e79c76cbef2">&#9670;&nbsp;</a></span>sparse_csr_to_any()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_csr_to_any </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert sparse matrix in csr format to any specified format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in csr format </td></tr>
+    <tr><td class="paramname">(format)</td><td>the destination format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse format in the specified format </dd></dl>
+
+</div>
+</div>
+<a id="ac798b76107ea7ecf5b15736bfa0e79bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac798b76107ea7ecf5b15736bfa0e79bb">&#9670;&nbsp;</a></span>sparse_csr_to_coo_sorted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_csr_to_coo_sorted </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert a sparse matrix in csr format to coo sorted format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in csr format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in coo_sorted format </dd></dl>
+
+</div>
+</div>
+<a id="a2c4e3e9eaa31cfe79eae1706c4f17402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c4e3e9eaa31cfe79eae1706c4f17402">&#9670;&nbsp;</a></span>sparse_transpose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_transpose </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>transpose a matrix in any format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the transposed matrix in the same format with A </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a8795ef73f2ce870a5f4d22a3bbe3a4f1" title="transpose a matrix in coordinate list format ">coo_transpose</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0b17c7c1f5341c44b046f2f96173dbb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b17c7c1f5341c44b046f2f96173dbb3">&#9670;&nbsp;</a></span>spmv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x for any format, with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm </td></tr>
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(x)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(y)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a3e784ac12f70b7ec0aa027afae47fdb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e784ac12f70b7ec0aa027afae47fdb2">&#9670;&nbsp;</a></span>spmv_coo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_coo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x for coo format, with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm </td></tr>
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(x)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(y)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a412810ce929de396176940d889f65cff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a412810ce929de396176940d889f65cff">&#9670;&nbsp;</a></span>spmv_coo_serial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_coo_serial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x in serial for coo format </p>
+<hr/>
+<p> SpMV, finally there are matrix of procedures depending on the sparse matrix format and the algorithm</p>
+<p>spmv | serial | parallel | cuda | task | udr | -----&mdash;&mdash;+--&mdash;&mdash;+----&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+ coo | [T1] | [M1] | [M3] | N/S | N/S | coo_sorted | [T1] | [M1] | [M3] | [O5] | [O7] | csr | [T1] | [M2] | [M4] | [O6] | [O8] |</p>
+<p>vec_norm2, scalar_vec | serial | parallel | cuda | task | udr | -----&mdash;&mdash;+--&mdash;&mdash;+----&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+ coo | [T1] | [M1] | [M3] | N/S | N/S | coo_sorted | [T1] | [M1] | [M3] | [M1] | [ csr | [T1] | [M1] | [M3] | [M1] | </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(vx)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(vy)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a12ff0f51c705a939cfbc88d2a3e57666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12ff0f51c705a939cfbc88d2a3e57666">&#9670;&nbsp;</a></span>spmv_coo_sorted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_coo_sorted </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x for coo_sorted format, with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm </td></tr>
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(x)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(y)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a0c6271c89e03dfba15b7d3e8870dc367"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c6271c89e03dfba15b7d3e8870dc367">&#9670;&nbsp;</a></span>spmv_coo_sorted_serial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_coo_sorted_serial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x in serial for coo_sorted format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(vx)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(vy)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1c45a35e7f86149cec61f9378c32f2e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c45a35e7f86149cec61f9378c32f2e4">&#9670;&nbsp;</a></span>spmv_csr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_csr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x for csr format, with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm </td></tr>
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(x)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(y)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a8ed522b06ef48963006af213f6c31ff0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ed522b06ef48963006af213f6c31ff0">&#9670;&nbsp;</a></span>spmv_csr_serial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int spmv_csr_serial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>vy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>y = A * x in serial for csr format </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix </td></tr>
+    <tr><td class="paramname">(vx)</td><td>a vector </td></tr>
+    <tr><td class="paramname">(vy)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if succeed, 0 if failed </dd></dl>
+
+</div>
+</div>
+<a id="a848c0ca46d3e3ecc39d2fccc4d85fa12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a848c0ca46d3e3ecc39d2fccc4d85fa12">&#9670;&nbsp;</a></span>usage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void usage </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>prog</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>print usage </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(prog)</td><td>name of the program </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a821b3dbaf3109c1340408d104a32849d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a821b3dbaf3109c1340408d104a32849d">&#9670;&nbsp;</a></span>vec_norm2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> vec_norm2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>square norm of a vector with the specified algorithm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm (serial, parallel, task, cuda, ...) </td></tr>
+    <tr><td class="paramname">(v)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the square norm of v (v[0]^2 + ... + v[n-1]^2) </dd></dl>
+
+</div>
+</div>
+<a id="afa238f5dc75b2607322dc4b8af535033"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa238f5dc75b2607322dc4b8af535033">&#9670;&nbsp;</a></span>vec_norm2_serial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> vec_norm2_serial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>square norm of a vector in serial </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(v)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the square norm of v (v[0]^2 + ... + v[n-1]^2) </dd></dl>
+
+</div>
+</div>
+<a id="a241e0fa53a3f51410d20d83e2a3029c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241e0fa53a3f51410d20d83e2a3029c0">&#9670;&nbsp;</a></span>vec_normalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a> vec_normalize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a>&#160;</td>
+          <td class="paramname"><em>algo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec__t.html">vec_t</a>&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>normalize a vector with the specified algortihm </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(algo)</td><td>algorithm (serial, parallel, task, cuda, etc.) </td></tr>
+    <tr><td class="paramname">(v)</td><td>a vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>|v|</dd></dl>
+<p>make v a unit-length vector (i.e., v = v/|v|) </p>
+
+</div>
+</div>
+<a id="a3cab6fa93276c69712c867ea0c9480c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cab6fa93276c69712c867ea0c9480c9">&#9670;&nbsp;</a></span>xalloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void* xalloc </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>sz</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>malloc + check </p>
@@ -493,24 +2745,32 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to the allocated memory </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a3ef938bd87c574f4deb4e5b05de27fc2" title="wrap free ">xfree</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#ab74147af88fbc62f9076539683737f69" title="wrap free ">xfree</a> </dd></dl>
 
 </div>
 </div>
-<a id="a3ef938bd87c574f4deb4e5b05de27fc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ef938bd87c574f4deb4e5b05de27fc2">&#9670;&nbsp;</a></span>xfree()</h2>
+<a id="ab74147af88fbc62f9076539683737f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74147af88fbc62f9076539683737f69">&#9670;&nbsp;</a></span>xfree()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void xfree </td>
+          <td class="memname">static void xfree </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>wrap free </p>
@@ -520,7 +2780,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a79a33f2f3ea6bfd4bd5fc8bc1c026a5b" title="malloc + check ">xalloc</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a3cab6fa93276c69712c867ea0c9480c9" title="malloc + check ">xalloc</a> </dd></dl>
 
 </div>
 </div>
@@ -530,14 +2790,106 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">struct option long_options[]</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {<span class="stringliteral">&quot;M&quot;</span>,         required_argument, 0,  <span class="charliteral">&#39;M&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;N&quot;</span>,         required_argument, 0,  <span class="charliteral">&#39;N&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;nnz&quot;</span>,       required_argument, 0,  <span class="charliteral">&#39;z&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;repeat&quot;</span>,    required_argument, 0,  <span class="charliteral">&#39;r&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;format&quot;</span>,    required_argument, 0,  <span class="charliteral">&#39;f&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;algo&quot;</span>,      required_argument, 0,  <span class="charliteral">&#39;a&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;seed&quot;</span>,      required_argument, 0,  <span class="charliteral">&#39;s&#39;</span>},</div><div class="line">  {<span class="stringliteral">&quot;help&quot;</span>,      required_argument, 0,  <span class="charliteral">&#39;h&#39;</span>},</div><div class="line">  {0,           0,                 0,  0 }</div><div class="line">}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {<span class="stringliteral">&quot;M&quot;</span>,           required_argument, 0,  <span class="charliteral">&#39;M&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;N&quot;</span>,           required_argument, 0,  <span class="charliteral">&#39;N&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;nnz&quot;</span>,         required_argument, 0,  <span class="charliteral">&#39;z&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;repeat&quot;</span>,      required_argument, 0,  <span class="charliteral">&#39;r&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;format&quot;</span>,      required_argument, 0,  <span class="charliteral">&#39;f&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;matrix-type&quot;</span>, required_argument, 0,  <span class="charliteral">&#39;t&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;algo&quot;</span>,        required_argument, 0,  <span class="charliteral">&#39;a&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;coo-file&quot;</span>,    required_argument, 0,   0  },</div><div class="line">  {<span class="stringliteral">&quot;rmat&quot;</span>,        required_argument, 0,   0  },</div><div class="line">  {<span class="stringliteral">&quot;dump&quot;</span>,        required_argument, 0,   0  },</div><div class="line">  {<span class="stringliteral">&quot;img-W&quot;</span>,       required_argument, 0,   0  },</div><div class="line">  {<span class="stringliteral">&quot;img-H&quot;</span>,       required_argument, 0,   0  },</div><div class="line">  {<span class="stringliteral">&quot;seed&quot;</span>,        required_argument, 0,  <span class="charliteral">&#39;s&#39;</span>},</div><div class="line">  {<span class="stringliteral">&quot;help&quot;</span>,        required_argument, 0,  <span class="charliteral">&#39;h&#39;</span>},</div><div class="line">  {0,             0,                 0,  0 }</div><div class="line">}</div></div><!-- fragment -->
 <p>command line options </p>
+
+</div>
+</div>
+<a id="a2a63e464ce787eca8e38b0e0f07c2d89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a63e464ce787eca8e38b0e0f07c2d89">&#9670;&nbsp;</a></span>sparse_format_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsparse__format__table__t.html">sparse_format_table_t</a> sparse_format_table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {</div><div class="line">    { <a class="code" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a>,        <span class="stringliteral">&quot;coo&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076">sparse_format_coo_sorted</a>, <span class="stringliteral">&quot;coo_sorted&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7">sparse_format_csr</a>,        <span class="stringliteral">&quot;csr&quot;</span> },</div><div class="line">  }</div><div class="line">}</div><div class="ttc" id="spmv_8cc_html_a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7"><div class="ttname"><a href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a8d3a61cb0ac76c8b5334c24c7618c4c7">sparse_format_csr</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:36</div></div>
+<div class="ttc" id="spmv_8cc_html_a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076"><div class="ttname"><a href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256ae622b3c6575c5efae6930339af50e076">sparse_format_coo_sorted</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:35</div></div>
+<div class="ttc" id="spmv_8cc_html_a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9"><div class="ttname"><a href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256a3873dfc9b4303f69130d325bb9d5d3d9">sparse_format_coo</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:34</div></div>
+</div><!-- fragment -->
+<p>table of index value - sparse format name pairs </p>
+
+</div>
+</div>
+<a id="adec640e50da4fb074b68501e65917636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adec640e50da4fb074b68501e65917636">&#9670;&nbsp;</a></span>sparse_matrix_type_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsparse__matrix__type__table__t.html">sparse_matrix_type_table_t</a> sparse_matrix_type_table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {</div><div class="line">    { <a class="code" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e">sparse_matrix_type_random</a>,   <span class="stringliteral">&quot;random&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae">sparse_matrix_type_rmat</a>,     <span class="stringliteral">&quot;rmat&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc">sparse_matrix_type_one</a>,      <span class="stringliteral">&quot;one&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6">sparse_matrix_type_coo_file</a>, <span class="stringliteral">&quot;csr&quot;</span> },</div><div class="line">  }</div><div class="line">}</div><div class="ttc" id="spmv_8cc_html_a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6"><div class="ttname"><a href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6">sparse_matrix_type_coo_file</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:45</div></div>
+<div class="ttc" id="spmv_8cc_html_a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae"><div class="ttname"><a href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae">sparse_matrix_type_rmat</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:43</div></div>
+<div class="ttc" id="spmv_8cc_html_a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e"><div class="ttname"><a href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e">sparse_matrix_type_random</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:42</div></div>
+<div class="ttc" id="spmv_8cc_html_a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc"><div class="ttname"><a href="spmv_8cc.html#a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc">sparse_matrix_type_one</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:44</div></div>
+</div><!-- fragment -->
+<p>table of index value - matrix type name pairs </p>
+
+</div>
+</div>
+<a id="ab5d235696eb55e3c85abdf590c6da3cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d235696eb55e3c85abdf590c6da3cb">&#9670;&nbsp;</a></span>spmv_algo_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structspmv__algo__table__t.html">spmv_algo_table_t</a> spmv_algo_table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {</div><div class="line">    { <a class="code" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a">spmv_algo_serial</a>,   <span class="stringliteral">&quot;serial&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81">spmv_algo_parallel</a>, <span class="stringliteral">&quot;parallel&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09">spmv_algo_cuda</a>,     <span class="stringliteral">&quot;cuda&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abf06dbea21c647da540099ac2b982c7c">spmv_algo_task</a>,     <span class="stringliteral">&quot;task&quot;</span> },</div><div class="line">    { <a class="code" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a874bdd20649b02a010a566b72759db44">spmv_algo_udr</a>,      <span class="stringliteral">&quot;udr&quot;</span> },</div><div class="line">  }</div><div class="line">}</div><div class="ttc" id="spmv_8cc_html_ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09"><div class="ttname"><a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a1f9366271f2cabad112a5a32d3c25b09">spmv_algo_cuda</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:53</div></div>
+<div class="ttc" id="spmv_8cc_html_ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81"><div class="ttname"><a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abbdcd58ce962bc8134af08a7f4310f81">spmv_algo_parallel</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:52</div></div>
+<div class="ttc" id="spmv_8cc_html_ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a"><div class="ttname"><a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a8239a128e5970e7f36aec71d6265d78a">spmv_algo_serial</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:51</div></div>
+<div class="ttc" id="spmv_8cc_html_ad2cf0493af54bf76c5be68b4634fcab7a874bdd20649b02a010a566b72759db44"><div class="ttname"><a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7a874bdd20649b02a010a566b72759db44">spmv_algo_udr</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:55</div></div>
+<div class="ttc" id="spmv_8cc_html_ad2cf0493af54bf76c5be68b4634fcab7abf06dbea21c647da540099ac2b982c7c"><div class="ttname"><a href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7abf06dbea21c647da540099ac2b982c7c">spmv_algo_task</a></div><div class="ttdef"><b>Definition:</b> spmv.cc:54</div></div>
+</div><!-- fragment -->
+<p>table of index value - matrix type name pairs </p>
 
 </div>
 </div>

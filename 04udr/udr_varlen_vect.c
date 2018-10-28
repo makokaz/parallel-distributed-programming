@@ -1,3 +1,8 @@
+/**
+   @file udr_varlen_vect.c
+   @brief a simple demonstration of how to use user-defined reductions
+   to reduce variable-length vectors
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,6 +21,9 @@ int vec_init(vec_t * v, long n) {
   return 0;
 }
 
+/**
+   @brief initialize v, taking the number of elements from orig
+ */
 int vec_init_from(vec_t * v, vec_t * orig) {
   long n = orig->n;
   double * a = (double *)malloc(sizeof(double) * n);

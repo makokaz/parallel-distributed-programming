@@ -16,19 +16,20 @@
 #if __NVCC__
 /* cuda_util.h incudes various utilities to make CUDA 
    programming less error-prone. check it before you
-
    proceed with rewriting it for CUDA */
 #include "cuda_util.h"
 #endif
 
 /** @brief type of matrix index (i,j,...)
-    @details for large matrices, we might want to make it 64 bits
+    @details 
+    for large matrices, we might want to make it 64 bits.
  */
 typedef int idx_t;
 /** @brief type of a matrix element */
 typedef double real;
 
-/** @brief sparse matrix storage format */
+/** @brief sparse matrix storage format
+    @details add more if you want to use another format */
 typedef enum {
   sparse_format_coo,        /**< coordinate list */
   sparse_format_coo_sorted, /**< sorted coordinate list */
@@ -36,20 +37,22 @@ typedef enum {
   sparse_format_invalid,    /**< invalid */
 } sparse_format_t;
 
-/** @brief type of sparse matrix we work on */
+/** @brief type of sparse matrix we work on (how to generate elements) */
 typedef enum {
-  sparse_matrix_type_random, /**< uniform random matrix */
-  sparse_matrix_type_rmat,   /**< R-MAT (recursive random matrix) */
-  sparse_matrix_type_all_one, /**< all one (recursive random matrix) */
-  sparse_matrix_type_coo_file, /**< input from file */
-  sparse_matrix_type_invalid, /**< invalid */
+  sparse_matrix_type_random,  /**< uniform random matrix */
+  sparse_matrix_type_rmat,    /**< R-MAT (recursive random matrix) */
+  sparse_matrix_type_one,  /**< all one on a subset of rows/columns */
+  sparse_matrix_type_coo_file,  /**< input from file */
+  sparse_matrix_type_invalid,   /**< invalid */
 } sparse_matrix_type_t;
 
 /** @brief spmv matrix algorithm */
 typedef enum {
   spmv_algo_serial,             /**< serial */
-  spmv_algo_parallel,           /**< simple parallel */
+  spmv_algo_parallel,           /**< OpenMP parallel for */
   spmv_algo_cuda,               /**< cuda */
+  spmv_algo_task,               /**< task parallel */
+  spmv_algo_udr,                /**< user-defined reduction */
   spmv_algo_invalid             /**< invalid */
 } spmv_algo_t;
 
@@ -76,7 +79,7 @@ typedef struct {
 
 /** @brief sparse matrix in compressed row format */
 typedef struct {
-  idx_t * row_start;            /**< elems[row_start[i]] is the first element of row i */
+  idx_t * row_start; /**< elems[row_start[i]] is the first element of row i */
   csr_elem_t * elems;           /**< elements array */
 #ifdef __NVCC__
   idx_t * row_start_dev;        /**< copy of row_start on device */
@@ -126,20 +129,45 @@ typedef struct {
   char * rmat_str;         /**< a,b,c,d probability of rmat */
   double rmat[2][2];       /**< { { a, b }, { c, d } } probability of rmat */
   char * dump;             /**< file name to dump image (gnuplot) data */
-  idx_t img_M;             /**< number of rows in the dumped image */
-  idx_t img_N;             /**< number of columns in the dumped image */
+  long dump_points;        /**< max number of points in the dump data */
+  long dump_seed;          /**< random number seed to randomly choose elements dumped */
   long seed;               /**< random number generator seed */
   int error;               /**< set when we encounter an error */
   int help;                /**< set when -h / --help is given */
 } cmdline_options_t;
 
+/**
+   @brief malloc + check
+   @param (sz) size to alloc in bytes
+   @return pointer to the allocated memory
+   @sa xfree
+ */
+
+static void * xalloc(size_t sz) {
+  void * a = malloc(sz);
+  if (!a) {
+    perror("malloc");
+    exit(1);
+  }
+  return a;
+}
+
+/**
+   @brief wrap free
+   @param (a) a pointer returned by calling xalloc
+   @sa xalloc
+ */
+static void xfree(void * a) {
+  free(a);
+}
+
 /** 
     @brief default values for command line options
 */
-cmdline_options_t default_opts() {
+static cmdline_options_t default_opts() {
   cmdline_options_t opt = {
-    .M = 100000,
-    .N = 0,
+    .M = 20000,
+    .N = 10000,
     .nnz = 0,
     .repeat = 5,
     .format_str = strdup("coo"),
@@ -149,11 +177,11 @@ cmdline_options_t default_opts() {
     .algo_str = strdup("serial"),
     .algo = spmv_algo_invalid,
     .coo_file = strdup("mat.txt"),
-    .rmat_str = strdup("4,1,2,3"),
+    .rmat_str = strdup("5,0,1,2"),
     .rmat = { { 0, 0, }, { 0, 0, } },
     .dump = 0,
-    .img_M = 512,
-    .img_N = 512,
+    .dump_points = 20000,
+    .dump_seed = 91807290723,
     .seed = 4567890123,
     .error = 0,
     .help = 0,
@@ -164,33 +192,37 @@ cmdline_options_t default_opts() {
 /** 
     @brief command line options
 */
-struct option long_options[] = {
-  {"M",           required_argument, 0,  'M' },
-  {"N",           required_argument, 0,  'N' },
-  {"nnz",         required_argument, 0,  'z' },
-  {"repeat",      required_argument, 0,  'r' },
-  {"format",      required_argument, 0,  'f' },
-  {"matrix-type", required_argument, 0,  't' },
-  {"algo",        required_argument, 0,  'a' },
-  {"coo-file",    required_argument, 0,   0  },
-  {"rmat",        required_argument, 0,   0  },
-  {"dump",        required_argument, 0,   0  },
-  {"img-M",       required_argument, 0,   0  },
-  {"img-N",       required_argument, 0,   0  },
-  {"seed",        required_argument, 0,  's'},
-  {"help",        required_argument, 0,  'h'},
+static struct option long_options[] = {
+  {"M",           required_argument, 0, 'M' },
+  {"N",           required_argument, 0, 'N' },
+  {"nnz",         required_argument, 0, 'z' },
+  {"repeat",      required_argument, 0, 'r' },
+  {"format",      required_argument, 0, 'f' },
+  {"matrix-type", required_argument, 0, 't' },
+  {"algo",        required_argument, 0, 'a' },
+  {"coo-file",    required_argument, 0,  0  },
+  {"rmat",        required_argument, 0,  0  },
+  {"dump",        required_argument, 0,  0  },
+  {"dump-points", required_argument, 0,  0  },
+  {"dump-seed",   required_argument, 0,  0  },
+  {"seed",        required_argument, 0, 's'},
+  {"help",        required_argument, 0, 'h'},
   {0,             0,                 0,  0 }
 };
 
+static char * sparse_format_strs();
+static char * sparse_matrix_type_strs();
+static char * spmv_algo_strs();
 /**
-   @brief usage
+   @brief print usage
+   @param (prog) name of the program
   */
-void usage(const char * prog) {
+static void usage(const char * prog) {
   cmdline_options_t o = default_opts();
   fprintf(stderr,
           "usage:\n"
           "\n"
-          "%s [options ...]\n"
+          "  %s [options ...]\n"
           "\n"
           "options:\n"
           "  --help             show this help\n"
@@ -198,90 +230,242 @@ void usage(const char * prog) {
           "  --N N              set the number of colums to N [%ld]\n"
           "  -z,--nnz N         set the number of non-zero elements to N [%ld]\n"
           "  -r,--repeat N      repeat N times [%ld]\n"
-          "  -f,--format F      set sparse matrix format to F [%s]\n"
-          "  -t,--matrix-type M set matrix type to T [%s]\n"
-          "  -a,--algo A        set algorithm to A [%s]\n"
+          "  -f,--format F      set sparse matrix format to F (%s) [%s]\n"
+          "  -t,--matrix-type M set matrix type to T (%s) [%s]\n"
+          "  -a,--algo A        set algorithm to A (%s) [%s]\n"
           "  --coo-file F       read matrix from F [%s]\n"
           "  --rmat a,b,c,d     set rmat probability [%s]\n"
-          "  --dump F           dump matrix to image (gnuplot) file [%s]\n"
-          "  --img-M M          number of rows in the dumped image [%ld]\n"
-          "  --img-N N          number of columns in the dumped image [%ld]\n"
-          "  -s,--seed S        set random seed to S [%ld]\n"
+          "  -s,--seed S        set random seed to S (use it with -t random or -t rmat) [%ld]\n"
+          "  --dump F           dump matrix to a gnuplot file [%s]\n"
+          "  --dump-points N    dump up to N points to a gnuplot file (use it with --dump) [%ld]\n"
+          "  --dump-seed S      set random number seed to S to choose N points (use it with --dump-points) [%ld]\n"
           ,
           prog,
-          (long)o.M, (long)o.N,
-          (long)o.nnz, o.repeat,
-          o.format_str, o.matrix_type_str, o.algo_str,
+          (long)o.M,
+          (long)o.N,
+          (long)o.nnz,
+          o.repeat,
+          sparse_format_strs(),      o.format_str,
+          sparse_matrix_type_strs(), o.matrix_type_str, 
+          spmv_algo_strs(),          o.algo_str,        
           (o.coo_file ? o.coo_file : ""),
           o.rmat_str,
+          o.seed,
           (o.dump ? o.dump : ""),
-          (long)o.img_M, (long)o.img_N, 
-          o.seed);
+          (long)o.dump_points,
+          o.dump_seed
+          );
+}
+
+/** 
+    @brief pair of the index value (sparse_format_t) and its name
+*/
+typedef struct {
+  sparse_format_t idx;          /**< index value */ 
+  const char * name;            /**< name */
+} sparse_format_table_entry_t;
+
+/** 
+    @brief table of sparse format and their names
+*/
+typedef struct {
+  sparse_format_table_entry_t t[sparse_format_invalid]; /**< array of index value - name pairs */ 
+} sparse_format_table_t;
+
+/** 
+    @brief table of index value - sparse format name pairs
+*/
+static sparse_format_table_t sparse_format_table = {
+  {
+    { sparse_format_coo,        "coo" },
+    { sparse_format_coo_sorted, "coo_sorted" },
+    { sparse_format_csr,        "csr" },
+  }
+};
+
+/** 
+    @brief a comma-separated list of available sparse formats
+*/
+static char * sparse_format_strs() {
+  sparse_format_table_entry_t * t = sparse_format_table.t;
+  const char * sep = ",";
+  size_t n = 0;
+  for (int i = 0; i < (int)sparse_format_invalid; i++) {
+    if (i > 0) n += strlen(sep);
+    n += strlen(t[i].name);
+  }
+  char * s = (char *)xalloc(n + 1);
+  s[0] = 0;
+  for (int i = 0; i < (int)sparse_format_invalid; i++) {
+    if (i > 0) {
+      strncat(s, sep, n - strlen(s));
+    }
+    strncat(s, t[i].name, n - strlen(s));
+  }
+  assert(strlen(s) == n);
+  return s;
 }
 
 /** 
     @brief parse a string for matrix format and return an enum value
+    @param (s) the string to parse
 */
-sparse_format_t parse_sparse_format(char * s) {
-  if (strcasecmp(s, "coo") == 0) {
-    return sparse_format_coo;
-  } else if (strcasecmp(s, "coo_sorted") == 0) {
-    return sparse_format_coo_sorted;
-  } else if (strcasecmp(s, "csr") == 0) {
-    return sparse_format_csr;
-  } else {
-    fprintf(stderr,
-            "error:%s:%d: invalid sparse format (%s)\n",
-            __FILE__, __LINE__, s);
-    fprintf(stderr, "  must be one of { coo, coo_sorted, csr }\n");
-    return sparse_format_invalid;
+static sparse_format_t parse_sparse_format(char * s) {
+  sparse_format_table_entry_t * t = sparse_format_table.t;
+  for (int i = 0; i < (int)sparse_format_invalid; i++) {
+    if (strcasecmp(s, t[i].name) == 0) {
+      return t[i].idx;
+    }
   }
+  fprintf(stderr,
+          "error:%s:%d: invalid sparse format (%s)\n",
+          __FILE__, __LINE__, s);
+  fprintf(stderr, "  must be one of { %s }\n", sparse_format_strs());
+  return sparse_format_invalid;
 }
 
 /** 
-    @brief parse a string for matrix format and return an enum value
+    @brief pair of the index value (matrix_type_t) and its name
 */
-sparse_matrix_type_t parse_sparse_matrix_type(char * s) {
-  if (strcasecmp(s, "random") == 0) {
-    return sparse_matrix_type_random;
-  } else if (strcasecmp(s, "rmat") == 0) {
-    return sparse_matrix_type_rmat;
-  } else if (strcasecmp(s, "one") == 0) {
-    return sparse_matrix_type_all_one;
-  } else if (strcasecmp(s, "coo_file") == 0) {
-    return sparse_matrix_type_coo_file;
-  } else {
-    fprintf(stderr,
-            "error:%s:%d: invalid matrix type (%s)\n",
-            __FILE__, __LINE__, s);
-    fprintf(stderr, "  must be one of { random, rmat, coo_file }\n");
-    return sparse_matrix_type_invalid;
+typedef struct {
+  sparse_matrix_type_t idx;     /**< index value */ 
+  const char * name;            /**< name */ 
+} sparse_matrix_type_table_entry_t;
+
+/** 
+    @brief table of sparse matrix types and their names
+*/
+typedef struct {
+  sparse_matrix_type_table_entry_t t[sparse_matrix_type_invalid]; /**< array of index value - name pairs */ 
+} sparse_matrix_type_table_t;
+
+/** 
+    @brief table of index value - matrix type name pairs
+*/
+static sparse_matrix_type_table_t sparse_matrix_type_table = {
+  {
+    { sparse_matrix_type_random,   "random" },
+    { sparse_matrix_type_rmat,     "rmat" },
+    { sparse_matrix_type_one,      "one" },
+    { sparse_matrix_type_coo_file, "file" },
   }
+};
+
+/** 
+    @brief a comma-separated list of available matrix types
+*/
+static char * sparse_matrix_type_strs() {
+  sparse_matrix_type_table_entry_t * t = sparse_matrix_type_table.t;
+  const char * sep = ",";
+  size_t n = 0;
+  for (int i = 0; i < (int)sparse_matrix_type_invalid; i++) {
+    if (i > 0) n += strlen(sep);
+    n += strlen(t[i].name);
+  }
+  char * s = (char *)xalloc(n + 1);
+  s[0] = 0;
+  for (int i = 0; i < (int)sparse_matrix_type_invalid; i++) {
+    if (i > 0) {
+      strncat(s, sep, n - strlen(s));
+    }
+    strncat(s, t[i].name, n - strlen(s));
+  }
+  assert(strlen(s) == n);
+  return s;
 }
 
 /** 
-    @brief parse a string for spmv algo and return an enum value
+    @brief parse a string for sparse matrix type and return an enum value
+    @param (s) the string to parse
 */
-spmv_algo_t parse_spmv_algo(char * s) {
-  if (strcasecmp(s, "serial") == 0) {
-    return spmv_algo_serial;
-  } else if (strcasecmp(s, "parallel") == 0) {
-    return spmv_algo_parallel;
-  } else if (strcasecmp(s, "cuda") == 0) {
-    return spmv_algo_cuda;
-  } else {
-    fprintf(stderr,
-            "error:%s:%d: invalid spmv algo (%s)\n",
-            __FILE__, __LINE__, s);
-    fprintf(stderr, "  must be one of { serial, parallel }\n");
-    return spmv_algo_invalid;
+static sparse_matrix_type_t parse_sparse_matrix_type(char * s) {
+  sparse_matrix_type_table_entry_t * t = sparse_matrix_type_table.t;
+  for (int i = 0; i < (int)sparse_matrix_type_invalid; i++) {
+    if (strcasecmp(s, t[i].name) == 0) {
+      return t[i].idx;
+    }
   }
+  fprintf(stderr,
+          "error:%s:%d: invalid matrix type (%s)\n",
+          __FILE__, __LINE__, s);
+  fprintf(stderr, "  must be one of { %s }\n", sparse_matrix_type_strs());
+  return sparse_matrix_type_invalid;
+}
+
+
+/** 
+    @brief pair of the index value (spmv_algo_t) and its name
+*/
+typedef struct {
+  spmv_algo_t idx;              /**< index value */ 
+  const char * name;            /**< name */ 
+} spmv_algo_table_entry_t;
+
+/** 
+    @brief table of spmv algorithms and their names
+*/
+typedef struct {
+  spmv_algo_table_entry_t t[spmv_algo_invalid]; /**< array of index value - name pairs */ 
+} spmv_algo_table_t;
+
+/** 
+    @brief table of index value - matrix type name pairs
+*/
+static spmv_algo_table_t spmv_algo_table = {
+  {
+    { spmv_algo_serial,   "serial" },
+    { spmv_algo_parallel, "parallel" },
+    { spmv_algo_cuda,     "cuda" },
+    { spmv_algo_task,     "task" },
+    { spmv_algo_udr,      "udr" },
+  }
+};
+
+/** 
+    @brief print a comma-separated list of available algorithms to the standard error
+*/
+static char * spmv_algo_strs() {
+  spmv_algo_table_entry_t * t = spmv_algo_table.t;
+  const char * sep = ",";
+  size_t n = 0;
+  for (int i = 0; i < (int)spmv_algo_invalid; i++) {
+    if (i > 0) n += strlen(sep);
+    n += strlen(t[i].name);
+  }
+  char * s = (char *)xalloc(n + 1);
+  s[0] = 0;
+  for (int i = 0; i < (int)spmv_algo_invalid; i++) {
+    if (i > 0) {
+      strncat(s, sep, n - strlen(s));
+    }
+    strncat(s, t[i].name, n - strlen(s));
+  }
+  assert(strlen(s) == n);
+  return s;
+}
+
+/** 
+    @brief parse a string for spmv algorithm and return an enum value
+    @param (s) the string to parse
+*/
+static spmv_algo_t parse_spmv_algo(char * s) {
+  spmv_algo_table_entry_t * t = spmv_algo_table.t;
+  for (int i = 0; i < (int)spmv_algo_invalid; i++) {
+    if (strcasecmp(s, t[i].name) == 0) {
+      return t[i].idx;
+    }
+  }
+  fprintf(stderr,
+          "error:%s:%d: invalid algorithm type (%s)\n",
+          __FILE__, __LINE__, s);
+  fprintf(stderr, "  must be one of { %s }\n", spmv_algo_strs());
+  return spmv_algo_invalid;
 }
 
 /** 
     @brief print error meessage during rmat string (a,b,c,d)
 */
-void parse_error_rmat_probability(char * rmat_str) {
+static void parse_error_rmat_probability(char * rmat_str) {
   fprintf(stderr,
           "error:%s:%d: argument to --rmat (%s)"
           " must be F,F,F,F where F is a floating point number\n",
@@ -289,8 +473,16 @@ void parse_error_rmat_probability(char * rmat_str) {
 }
 /** 
     @brief parse a string of the form a,b,c,d and put it into 2x2 matrix
+    @param (rmat_str) string to parse
+    @param (rmat) 2x2 array to put the result into
+    @details a string must be comma-separated list of four numbers 
+    (integers or floating point numbers), without any spaces.
+    it parses the string into four probability numbers (numbers whose
+    sum is one).
+    e.g., "1,1,1,1" -> { { 0.25, 0.25 }, { 0.25, 0.25 } }
+    "1,2,3,4" -> { { 0.1, 0.2 }, { 0.3, 0.4 } }
 */
-int parse_rmat_probability(char * rmat_str, double rmat[2][2]) {
+static int parse_rmat_probability(char * rmat_str, double rmat[2][2]) {
   char * s = rmat_str;
   for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 2; j++) {
@@ -329,9 +521,10 @@ int parse_rmat_probability(char * rmat_str, double rmat[2][2]) {
 
 /** 
     @brief parse command line args
+    @param (argc) size of argv
+    @param (argv) array of argc strings (command line arguments)
 */
-void xfree(void*);
-cmdline_options_t parse_args(int argc, char ** argv) {
+static cmdline_options_t parse_args(int argc, char ** argv) {
   char * prog = argv[0];
   cmdline_options_t opt = default_opts();
   while (1) {
@@ -354,10 +547,10 @@ cmdline_options_t parse_args(int argc, char ** argv) {
             xfree(opt.dump);
           }
           opt.dump = strdup(optarg);
-        } else if (strcmp(o, "img-M") == 0) {
-          opt.img_M = atol(optarg);
-        } else if (strcmp(o, "img-N") == 0) {
-          opt.img_N = atol(optarg);
+        } else if (strcmp(o, "dump-points") == 0) {
+          opt.dump_points = atol(optarg);
+        } else if (strcmp(o, "dump-seed") == 0) {
+          opt.dump_seed = atol(optarg);
         } else {
           fprintf(stderr,
                   "bug:%s:%d: should handle option %s\n",
@@ -425,37 +618,10 @@ cmdline_options_t parse_args(int argc, char ** argv) {
   return opt;
 }
 
-
-
-/**
-   @brief malloc + check
-   @param (sz) size to alloc in bytes
-   @return pointer to the allocated memory
-   @sa xfree
- */
-
-void * xalloc(size_t sz) {
-  void * a = malloc(sz);
-  if (!a) {
-    perror("malloc");
-    exit(1);
-  }
-  return a;
-}
-
-/**
-   @brief wrap free
-   @param (a) a pointer returned by calling xalloc
-   @sa xalloc
- */
-void xfree(void * a) {
-  free(a);
-}
-
 /** 
     @brief make an invalid matrix
 */
-sparse_t mk_sparse_invalid() {
+static sparse_t mk_sparse_invalid() {
   sparse_t A = { sparse_format_invalid, 0, 0, 0, { } };
   return A;
 }
@@ -463,21 +629,21 @@ sparse_t mk_sparse_invalid() {
 /** 
     @brief destroy coo 
 */
-void coo_destroy(sparse_t A) {
+static void coo_destroy(sparse_t A) {
   xfree(A.coo.elems);
 }
 
 /** 
     @brief destroy csr
 */
-void csr_destroy(sparse_t A) {
+static void csr_destroy(sparse_t A) {
   xfree(A.csr.elems);
 }
 
 /** 
     @brief destroy sparse matrix in any format
 */
-void sparse_destroy(sparse_t A) {
+static void sparse_destroy(sparse_t A) {
   switch (A.format) {
   case sparse_format_coo:
   case sparse_format_coo_sorted:
@@ -497,15 +663,20 @@ void sparse_destroy(sparse_t A) {
 /**
    @brief destroy vector
  */
-void vec_destroy(vec_t x) {
+static void vec_destroy(vec_t x) {
   xfree(x.elems);
 }
 
 /** 
     @brief make a uniform random coo matrix
+    @param (M) number of rows
+    @param (N) number of columns
+    @param (nnz) number of non-zeros
+    @param (rg) random number state (passed to erand48)
+    @return a sparse matrix in coo format
 */
-sparse_t mk_coo_random(idx_t M, idx_t N, idx_t nnz,
-                       unsigned short rg[3]) {
+static sparse_t mk_coo_random(idx_t M, idx_t N, idx_t nnz,
+                              unsigned short rg[3]) {
   coo_elem_t * elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
   for (idx_t k = 0; k < nnz; k++) {
     idx_t i = nrand48(rg) % M;
@@ -521,15 +692,24 @@ sparse_t mk_coo_random(idx_t M, idx_t N, idx_t nnz,
   return A;
 }
 
+/**
+   @brief a pair of two indices (i and j)
+ */
 typedef struct {
-  idx_t i, j;
+  idx_t i;                      /**< row number */
+  idx_t j;                      /**< column number */
 } idx_pair_t;
 
 /**
-   @brief return a pair of 0/1 ({0,0}, {0,1}, {1,0}, {1,1})
-   according to 2x2 probability matrix p[2][2]
+   @brief choose a pair of 0/1s according to 2x2 probability matrix p[2][2].
+   @return a pair of two 0/1s ({0,0}, {0,1}, {1,0} or {1,1})
+   @details
+   returns {0,0} with probability p[0][0],
+   {0,1} with probability p[0][1],
+   {1,0} with probability p[1][0] and
+   {1,1} with probability p[1][1]
  */
-idx_pair_t rmat_choose_01(double p[2][2], unsigned short rg[3]) {
+static idx_pair_t rmat_choose_01(double p[2][2], unsigned short rg[3]) {
   double x = erand48(rg);
   double q = 0.0;
   for (int i = 0; i < 2; i++) {
@@ -546,17 +726,21 @@ idx_pair_t rmat_choose_01(double p[2][2], unsigned short rg[3]) {
 }
 
 /** 
-    @brief choose (i,j) s.t. 0 <= i < M and 0 <= j < N
-    for R-MAT.
+    @brief choose (i,j) 0 <= i < M and 0 <= j < N
+    according to the probability p.
+    @param (M) the maximum value i can take plus 1
+    @param (N) the maximum value j can take plus 1
+    @param (p) 2x2 matrix designating the probability
+    @param (rg) random number state (passed to erand48)
     @details
-    according to the probability p[2][2];
-    p[0][0] is the probability that it is chosen from the
-    upper left (i.e., 0 <= i < M/2 and 0 <= j < N/2),
-    p[0][1] the probability that it is chosen from the
-    upper right (i.e., 0 <= i < M/2 and 0 <= j < N/2), and so on
+    with probability p[0][0], 0 <= i < M/2 and 0 <= j < N/2.
+    with probability p[0][1], 0 <= i < M/2 and N/2 <= j < N.
+    with probability p[1][0], M/2 <= i < M and 0 <= j < N/2.
+    with probability p[1][1], M/2 <= i < M and N/2 <= j < N.
+    we apply this recursively.
 */
-idx_pair_t rmat_choose_pair(idx_t M, idx_t N, double p[2][2],
-                            unsigned short rg[3]) {
+static idx_pair_t rmat_choose_pair(idx_t M, idx_t N, double p[2][2],
+                                   unsigned short rg[3]) {
   idx_t M0 = 0, M1 = M, N0 = 0, N1 = N;
   while (M1 - M0 > 1 || N1 - N0 > 1) {
     idx_pair_t zo = rmat_choose_01(p, rg);
@@ -586,10 +770,22 @@ idx_pair_t rmat_choose_pair(idx_t M, idx_t N, double p[2][2],
 /** 
     @brief make a random R-MAT 
     (https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43)
+
+    @param (M) the number of rows
+    @param (N) the number of columns
+    @param (nnz) the number of non-zeros
+    @param (p) 2x2 matrix designating the probability
+    @param (rg) random number state (passed to erand48)
+
+    @return a sparse matrix in coo fromat
+    @details generate R-MAT 
+    (https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43)
+    with the specified probability p.
+    @sa rmat_choose_pair
 */
-sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
-                     double p[2][2], 
-                     unsigned short rg[3]) {
+static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
+                            double p[2][2], 
+                            unsigned short rg[3]) {
   coo_elem_t * elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
   for (idx_t k = 0; k < nnz; k++) {
     idx_pair_t ij = rmat_choose_pair(M, N, p, rg);
@@ -605,8 +801,36 @@ sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
 
 /** 
     @brief make a uniform random coo matrix
+    @param (M) the number of rows
+    @param (N) the number of columns
+    @param (nnz) the number of non-zeros
+
+    @return a sparse matrix whose elements are all zero or one (see details)
+
+    @details generate a matrix good for debugging. specifically, it
+    chooses a certain number of rows and columns and make elements one
+    only in the intersection of those rows and columns.  for example,
+    if rows chosen are { 2, 5, 8 } and columns chosen are { 1, 4 }, we
+    have 3 x 2 = 6 non-zeros, at (2,1), (2,4), (5,1), (5,4), (8,1) and
+    (8,4).  more specifically, we first determine the number rows (m)
+    and columns (n) as follows. starting from (m,n) = (1,1), we repeat
+    incrementing them by one alternatively, until m x n exceeds the
+    specified number of non-zeros (nnz) or either one reaches its
+    respective limit (i.e., when m reaches M or n reaches N), after
+    which we increment only the one that still does not reach the
+    limit.  for example, if nnz = 50 and M and N large, we end with m
+    = 7 and n = 7.  if nnz = 10^6 M = 10^2 and N = 10^7, we will end
+    with m = 10^2 and N 10^4.  note that the actual number of elements
+    you got may be slightly smaller than nnz you specified.  it is
+    never above the specified nnz.  after the number of these non-zero
+    rows and columns are determined, we simply evenly distribute the
+    actual set of non-zero rows/columns.  for example, if M = 100 and
+    the number of non-zero rows = 8, we divide 99 by (8 - 1),
+    obtaining 14, and the set of non-zero rows will be { 0, 14, 28,
+    ..., 98 }
+
 */
-sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
+static sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
   idx_t nnz_M = 0;
   idx_t nnz_N = 0;
   int cont = 1;
@@ -631,8 +855,8 @@ sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
             __FILE__, __LINE__, (long)real_nnz);
   }
   coo_elem_t * elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * real_nnz);
-  idx_t skip_M = M / nnz_M;
-  idx_t skip_N = N / nnz_N;
+  idx_t skip_M = (nnz_M > 1 ? (M - 1) / (nnz_M - 1) : M);
+  idx_t skip_N = (nnz_N > 1 ? (N - 1) / (nnz_N - 1) : N);
   idx_t k = 0;
   for (idx_t i = 0; i < nnz_M; i++) {
     for (idx_t j = 0; j < nnz_N; j++) {
@@ -640,6 +864,8 @@ sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
       coo_elem_t * e = elems + k;
       e->i = i * skip_M;
       e->j = j * skip_N;
+      assert(e->i < M);
+      assert(e->j < N);
       e->a = a;
       k++;
     }
@@ -650,10 +876,25 @@ sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
   return A;
 }
 
+/*********************************************************
+ *
+ * matrix format conversion (coo <-> coo_sorted <-> csr <-> ...)
+ * only "signficant" ones are:
+ * coo ---> coo_sorted ---> csr ---> coo_sorted
+ * others can be easily built from them.
+ * coo ---> any (see above)
+ * coo_sorted ---> any (coo_sorted ---> coo is no-op)
+ * csr ---> any (csr -> coo_sorted)
+
+ *
+ *********************************************************/
+
 /** 
     @brief compare two coo elements 
+    @details callback used to sort coo elements in the dictionary order
+    @return -1 if a_ < b, 1 if a_ > b and 0 if a_ = b
 */
-int coo_elem_cmp(const void * a_, const void * b_) {
+static int coo_elem_cmp(const void * a_, const void * b_) {
   coo_elem_t * a = (coo_elem_t *)a_;
   coo_elem_t * b = (coo_elem_t *)b_;
   if (a->i < b->i) return -1;
@@ -664,21 +905,26 @@ int coo_elem_cmp(const void * a_, const void * b_) {
 }
 
 /** 
-    @brief
-    convert A to coo_sorted format.
-    if in_place is true, update elements of A in place.
+    @brief convert coo matrix A to coo_sorted format.
+    if in_place is true, update elements of A in place
+    @param (A) a sparse matrix in coo format
+    @param (in_place) if in_place is true, the elements of A will be
+    sorted in place
+    @return a sparse matrix in the coo_sorted format
  */
-sparse_t sparse_coo_to_coo_sorted(sparse_t A, int in_place) {
+static sparse_t sparse_coo_to_coo_sorted(sparse_t A, int in_place) {
   if (A.format == sparse_format_coo
       || A.format == sparse_format_coo_sorted) {
     idx_t nnz = A.nnz;
     coo_elem_t * B_elems = 0;
+    /* if asked not to update A in place, make a copy */
     if (in_place) {
       B_elems = A.coo.elems;
     } else {
       B_elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
       memcpy(B_elems, A.coo.elems, sizeof(coo_elem_t) * nnz);
     }
+    /* sort elements in the dictionary order */
     if (A.format == sparse_format_coo) {
       qsort((void*)B_elems, nnz, sizeof(coo_elem_t), coo_elem_cmp);
     }
@@ -694,13 +940,16 @@ sparse_t sparse_coo_to_coo_sorted(sparse_t A, int in_place) {
 }
 
 /**
-   @brief coo -> csr
-   @details if update_A is true, A's elements will become sorted
-   in place as a side effect
+   @brief convert a sparse matrix in coo format to csr format.
+   @param (A) a sparse matrix in coo format
+   @param (update_A) if update_A is true, the elements of A will be
+   sorted as a side effect.
+   @return a sparse matrix in the csr format
  */
-sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
+static sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
   if (A.format == sparse_format_coo ||
       A.format == sparse_format_coo_sorted) {
+    /* first get coo_sorted format */
     sparse_t B = sparse_coo_to_coo_sorted(A, update_A);
     idx_t M = B.M;
     idx_t N = B.N;
@@ -711,12 +960,16 @@ sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
     for (idx_t i = 0; i < M + 1; i++) {
       row_start[i] = 0;
     }
+    /* scan A's elements (in the dictionary order).
+       count the number of non-zeros in each row along the way */
     for (idx_t k = 0; k < nnz; k++) {
       coo_elem_t * e = B_elems + k;
       row_start[e->i]++;
       C_elems[k].j = e->j;
       C_elems[k].a = e->a;
     }
+    /* row_start[i] = the number of non-zeros in ith row.
+       now calculate where ith row starts. */
     idx_t s = 0;
     for (idx_t i = 0; i < M; i++) {
       idx_t t = s + row_start[i];
@@ -737,9 +990,14 @@ sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
 }
 
 /**
-   @brief convert sparse matrix in coo format to any specified format
+   @brief convert sparse matrix in coo format to any specified format.
+   @param (A) a sparse matrix in coo format
+   @param (format) the destination format
+   @param (update_A) if update_A is true, the elements of A will be
+   sorted as a side effect.
+   @return a sparse matrix in the specified format
  */
-sparse_t sparse_coo_to(sparse_t A, sparse_format_t format, int update_A) {
+static sparse_t sparse_coo_to_any(sparse_t A, sparse_format_t format, int update_A) {
   if (A.format == sparse_format_coo
       || A.format == sparse_format_coo_sorted) {
     switch (format) {
@@ -765,9 +1023,11 @@ sparse_t sparse_coo_to(sparse_t A, sparse_format_t format, int update_A) {
 
 
 /**
-   @brief csr -> coo
+   @brief convert a sparse matrix in csr format to coo sorted format.
+   @param (A) a sparse matrix in csr format
+   @return a sparse matrix in coo_sorted format
  */
-sparse_t sparse_csr_to_coo_sorted(sparse_t A) {
+static sparse_t sparse_csr_to_coo_sorted(sparse_t A) {
   if (A.format == sparse_format_csr) {
     idx_t M = A.M;
     idx_t N = A.N;
@@ -796,11 +1056,13 @@ sparse_t sparse_csr_to_coo_sorted(sparse_t A) {
   }
 }
 
-
 /**
-   @brief convert sparse matrix in coo format to any specified format
+   @brief convert sparse matrix in csr format to any specified format
+   @param (A) a sparse matrix in csr format
+   @param (format) the destination format
+   @return a sparse format in the specified format
  */
-sparse_t sparse_csr_to(sparse_t A, sparse_format_t format) {
+static sparse_t sparse_csr_to_any(sparse_t A, sparse_format_t format) {
   if (A.format == sparse_format_csr) {
     switch (format) {
     case sparse_format_coo:
@@ -824,66 +1086,42 @@ sparse_t sparse_csr_to(sparse_t A, sparse_format_t format) {
 }
 
 /**
-   @brief convert any sparse matrix to coo format
+   @brief convert a sparse matrix of any format to any specified format
+   @param (A) a sparse matrix in csr format
+   @param (format) the destination format
+   @param (update_A) if true, A's elements may be updated in place
+   @return a sparse format in the specified format
  */
-sparse_t sparse_to_coo(sparse_t A) {
+sparse_t sparse_any_to_any(sparse_t A, sparse_format_t format, int update_A) {
   switch (A.format) {
   case sparse_format_coo:
-    return A;
+    return sparse_coo_to_any(A, format, update_A);
   case sparse_format_coo_sorted:
-    return A;
+    return sparse_coo_to_any(A, format, update_A);
   case sparse_format_csr:
-    return sparse_csr_to_coo_sorted(A);
+    return sparse_csr_to_any(A, format);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid input format %d\n",
-            __FILE__, __LINE__, A.format);
+            __FILE__, __LINE__, format);
     return mk_sparse_invalid();
   }
 }
-  
+/*********************************************************
+ *
+ * make (generate or read) a sparse matrix
+ *
+ *********************************************************/
+
 /**
-   @brief convert any sparse matrix to coo sorted format
+   @brief read a matrix file and return a sparse matrix in coo formated
+   @param (M) the number of rows
+   @param (N) the number of columns
+   @param (nnz) the number of non-zeros
+   @param (file) filename
+   @return a sparse matrix in coo format
  */
-sparse_t sparse_to_coo_sorted(sparse_t A, int update_A) {
-  switch (A.format) {
-  case sparse_format_coo:
-    return sparse_coo_to_coo_sorted(A, update_A);
-  case sparse_format_coo_sorted:
-    return A;
-  case sparse_format_csr:
-    return sparse_coo_to_csr(A, update_A);
-  default:
-    fprintf(stderr,
-            "error:%s:%d: invalid input format %d\n",
-            __FILE__, __LINE__, A.format);
-    return mk_sparse_invalid();
-  }
-}
-  
-/**
-   @brief convert any sparse matrix to csr format
- */
-sparse_t sparse_to_csr(sparse_t A, int update_A) {
-  switch (A.format) {
-  case sparse_format_coo:
-    return sparse_coo_to_csr(A, update_A);
-  case sparse_format_coo_sorted:
-    return sparse_coo_to_csr(A, update_A);
-  case sparse_format_csr:
-    return A;
-  default:
-    fprintf(stderr,
-            "error:%s:%d: invalid input format %d\n",
-            __FILE__, __LINE__, A.format);
-    return mk_sparse_invalid();
-  }
-}
-  
-/**
-   @brief read a coo file
- */
-sparse_t read_coo_file(idx_t M, idx_t N, idx_t nnz, char * file) {
+static sparse_t read_coo_file(idx_t M, idx_t N, idx_t nnz, char * file) {
   (void)M;
   (void)N;
   (void)nnz;
@@ -894,17 +1132,25 @@ sparse_t read_coo_file(idx_t M, idx_t N, idx_t nnz, char * file) {
 }
 
 /**
-   @brief make a sparse matrix in coo format
+   @brief make a sparse matrix in coo format by the desiginated generation
+   method
+   @param (opt) command line options specifying matrix type and other
+   parameters necessary for some matrix types
+   @param (M) the number of rows
+   @param (N) the number of columns
+   @param (nnz) the number of non-zeros
+   @param (rg) random number generator state (passed to erand48)
+   @return a sparse matrix in coo format
  */
-sparse_t mk_sparse_matrix_coo(cmdline_options_t opt,
-                              idx_t M, idx_t N, idx_t nnz,
-                              unsigned short rg[3]) {
+static sparse_t mk_sparse_matrix_coo(cmdline_options_t opt,
+                                     idx_t M, idx_t N, idx_t nnz,
+                                     unsigned short rg[3]) {
   switch (opt.matrix_type) {
   case sparse_matrix_type_random:
     return mk_coo_random(M, N, nnz, rg);
   case sparse_matrix_type_rmat:
     return mk_coo_rmat(M, N, nnz, opt.rmat, rg);
-  case sparse_matrix_type_all_one:
+  case sparse_matrix_type_one:
     return mk_coo_all_one(M, N, nnz);
   case sparse_matrix_type_coo_file:
     return read_coo_file(M, N, nnz, opt.coo_file);
@@ -917,29 +1163,41 @@ sparse_t mk_sparse_matrix_coo(cmdline_options_t opt,
 }
 
 /** 
-    @brief make (read or generate) a sparse matrix with the specified method
+    @brief make (read or generate) a sparse matrix with the specified 
+    matrix generation method
 
-    @param (opt) command line options
-    @param (M) number of rows
-    @param (N) number of columns
-    @param (nnz) number of non-zeros
-    @param (rg) random number generator state
-
-    @details make a MxN sparse matrix with nnz non-zero elements
-    either by generating one or reading one from a file.
+    @param (opt) command line options specifying matrix format, 
+    matrix type, and other parameters necessary for some matrix types
+    @param (M) the number of rows
+    @param (N) the number of columns
+    @param (nnz) the number of non-zeros
+    @param (rg) random number generator state (passed to erand48)
+    @return a sparse matrix in coo format
+    @sa mk_sparse_matrix_coo
+    @sa sparse_coo_to
 */
-sparse_t mk_sparse_matrix(cmdline_options_t opt,
-                          idx_t M, idx_t N, idx_t nnz,
-                          unsigned short rg[3]) {
+static sparse_t mk_sparse_matrix(cmdline_options_t opt,
+                                 idx_t M, idx_t N, idx_t nnz,
+                                 unsigned short rg[3]) {
   sparse_t A = mk_sparse_matrix_coo(opt, M, N, nnz, rg);
-  sparse_t B = sparse_coo_to(A, opt.format, 1);
+  sparse_t B = sparse_coo_to_any(A, opt.format, 1);
   return B;
 }
 
+/*********************************************************
+ *
+ * transpose a sparse matrix
+ *
+ *********************************************************/
+
 /** 
     @brief transpose a matrix in coordinate list format
+    @param (A) a sparse matrix in coo or coo_sorted format
+    @param (in_place) if true, A is sorted in place
+    @return the transposed sparse matrix in coo format
+    @sa sparse_transpose
 */
-sparse_t coo_transpose(sparse_t A, int in_place) {
+static sparse_t coo_transpose(sparse_t A, int in_place) {
   assert(A.format == sparse_format_coo
          || A.format == sparse_format_coo_sorted);
   idx_t nnz = A.nnz;
@@ -963,8 +1221,11 @@ sparse_t coo_transpose(sparse_t A, int in_place) {
 
 /** 
     @brief transpose a matrix in any format
+    @param (A) a sparse matrix
+    @return the transposed matrix in the same format with A
+    @sa coo_transpose
 */
-sparse_t sparse_transpose(sparse_t A) {
+static sparse_t sparse_transpose(sparse_t A) {
   switch (A.format) {
   case sparse_format_coo: {
     return coo_transpose(A, 0);
@@ -989,34 +1250,29 @@ sparse_t sparse_transpose(sparse_t A) {
   }
 }
 
+/*********************************************************
+ *
+ * copy data from host to device (CUDA)
+ *
+ *********************************************************/
+
 #if __NVCC__
-int coo_to_dev(sparse_t& A) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that copies the coo elements of A to the device.\n"
-          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-  return 1;
-}
+static int coo_to_dev(sparse_t& A);
+#include "work/coo_to_dev.cc"
 
-int csr_to_dev(sparse_t& A) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that copies the csr elements of A to the device.\n"
-          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-  return 1;
-}
-
+static int csr_to_dev(sparse_t& A);
+#include "work/csr_to_dev.cc"
 
 /** 
-    @brief copy elements to device
+    @brief make a deivce copy of a sparse matrix.
+    @param (A) the reference to a matrix whose elem_dev has not 
+    been set (i.e., = NULL)
+    @return 1 if succeed, 0 if failed.
+    @sa coo_to_dev
+    @sa csr_to_dev
+    @sa vec_to_dev
 */
-int sparse_to_dev(sparse_t& A) {
+static int sparse_to_dev(sparse_t& A) {
   switch (A.format) {
   case sparse_format_coo: {
     return coo_to_dev(A);
@@ -1036,30 +1292,52 @@ int sparse_to_dev(sparse_t& A) {
   }
 }
 
-int vec_to_dev(vec_t& v) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that copies the elements of v to the device.\n"
-          "use dev_malloc and to_dev utility functions in cuda_util.h\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  return 1;
-}
+static int vec_to_dev(vec_t& v);
+#include "work/vec_to_dev.cc"
+
 #endif
 
+/** ************************************************************
+    SpMV, finally
+    there are matrix of procedures depending on the sparse matrix
+    format and the algorithm
+
+spmv
+               | serial | parallel | cuda | task | udr  |
+    -----------+--------+----------+------+------+------+
+    coo        | [T1]   | [M1]     | [M3] | N/S  | N/S  |
+    coo_sorted | [T1]   | [M1]     | [M3] | [O5] | [O7] |
+    csr        | [T1]   | [M2]     | [M4] | [O6] | [O8] |
+
+vec_norm2, scalar_vec
+               | serial | parallel | cuda | task | udr  |
+    -----------+--------+----------+------+------+------+
+    coo        | [T1]   | [M1]     | [M3] | N/S  | N/S  |
+    coo_sorted | [T1]   | [M1]     | [M3] | [M1] | [
+    csr        | [T1]   | [M1]     | [M3] | [M1] |
+
+    
+*************************************************************/
+
 
 /** 
-    @brief y = A * x in serial for coordinate list format
+    @brief y = A * x in serial for coo format
+    @param (A) a sparse matrix
+    @param (vx) a vector
+    @param (vy) a vector
+    @return 1 if succeed, 0 if failed
 */
-long spmv_coo_serial(sparse_t A, vec_t vx, vec_t vy) {
+static int spmv_coo_serial(sparse_t A, vec_t vx, vec_t vy) {
   idx_t M = A.M;
   idx_t nnz = A.nnz;
   coo_elem_t * elems = A.coo.elems;
   real * x = vx.elems;
   real * y = vy.elems;
+  /* initialize y */
   for (idx_t i = 0; i < M; i++) {
     y[i] = 0.0;
   }
+  /* work on all non-zeros */
   for (idx_t k = 0; k < nnz; k++) {
     coo_elem_t * e = elems + k;
     idx_t i = e->i;
@@ -1068,92 +1346,25 @@ long spmv_coo_serial(sparse_t A, vec_t vx, vec_t vy) {
     real ax = a * x[j];
     y[i] += ax;
   }
-  return 2 * (long)nnz;
+  return 1;                     /* OK */
 }
 
-/** 
-    @brief y = A * x in parallel for coordinate list format
-*/
-long spmv_coo_parallel(sparse_t A, vec_t vx, vec_t vy) {
-
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that performs SPMV with COO format in parallel\n"
-          "using OpenMP parallel for directives.\n"
-          "you need to insert a few programs into the serial version below.\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-  
-  idx_t M = A.M;
-  idx_t nnz = A.nnz;
-  coo_elem_t * elems = A.coo.elems;
-  real * x = vx.elems;
-  real * y = vy.elems;
-  for (idx_t i = 0; i < M; i++) {
-    y[i] = 0.0;
-  }
-  for (idx_t k = 0; k < nnz; k++) {
-    coo_elem_t * e = elems + k;
-    idx_t i = e->i;
-    idx_t j = e->j;
-    real  a = e->a;
-    real ax = a * x[j];
-    y[i] += ax;
-  }
-  return 2 * (long)nnz;
-}
-
+#include "work/spmv_coo_parallel.cc"
 #if __NVCC__
-
-// placeholders to define kernels for your convenience
-
-__global__ void init_const_dev(vec_t v, real c) {
-
-}
-
-__global__ void spmv_coo_dev(sparse_t A, vec_t vx, vec_t vy) {
-
-}
-
-/** 
-    @brief y = A * x with cuda for coordinate list format
-*/
-long spmv_coo_cuda(sparse_t A, vec_t vx, vec_t vy) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that performs SPMV with COO format in parallel\n"
-          "using CUDA kernel functions.\n"
-          "you need to convert the for loops to kernels + kernel launches.\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-
-  idx_t M = A.M;
-  idx_t nnz = A.nnz;
-  coo_elem_t * elems = A.coo.elems;
-  real * x = vx.elems;
-  real * y = vy.elems;
-  for (idx_t i = 0; i < M; i++) { // convert this to kernel + kernel launch
-    y[i] = 0.0;
-  }
-  for (idx_t k = 0; k < nnz; k++) { // convert this to kernel + kernel launch
-    coo_elem_t * e = elems + k;
-    idx_t i = e->i;
-    idx_t j = e->j;
-    real  a = e->a;
-    real ax = a * x[j];
-    y[i] += ax;
-  }
-  
-  return 2 * (long)nnz;
-}
+#include "work/spmv_coo_cuda.cc"
 #endif                                 
+#include "work/spmv_coo_task.cc"
+#include "work/spmv_coo_udr.cc"
 
 /** 
-    @brief y = A * x for coordinate list format
+    @brief y = A * x for coo format, with the specified algorithm
+    @param (algo) algorithm
+    @param (A) a sparse matrix
+    @param (x) a vector
+    @param (y) a vector
+    @return 1 if succeed, 0 if failed
 */
-long spmv_coo(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
+static int spmv_coo(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
   switch (algo) {
   case spmv_algo_serial:
     return spmv_coo_serial(A, x, y);
@@ -1163,20 +1374,77 @@ long spmv_coo(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
   case spmv_algo_cuda:
     return spmv_coo_cuda(A, x, y);
 #endif
+  case spmv_algo_task:
+    return spmv_coo_task(A, x, y);
+  case spmv_algo_udr:
+    return spmv_coo_udr(A, x, y);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid algorithm %d\n",
             __FILE__, __LINE__, algo);
-    return -1;
+    return 0;
+  }
+}
+
+/** 
+    @brief y = A * x in serial for coo_sorted format
+    @param (A) a sparse matrix
+    @param (vx) a vector
+    @param (vy) a vector
+*/
+static int spmv_coo_sorted_serial(sparse_t A, vec_t vx, vec_t vy) {
+  /* the same no matter whether elements are sorted. 
+     just call spmv_coo_serial and we are done */
+  return spmv_coo_serial(A, vx, vy);
+}
+
+#include "work/spmv_coo_sorted_parallel.cc"
+#if __NVCC__
+#include "work/spmv_coo_sorted_cuda.cc"
+#endif                                 
+#include "work/spmv_coo_sorted_task.cc"
+#include "work/spmv_coo_sorted_udr.cc"
+
+
+/** 
+    @brief y = A * x for coo_sorted format, with the specified algorithm
+    @param (algo) algorithm
+    @param (A) a sparse matrix
+    @param (x) a vector
+    @param (y) a vector
+    @return 1 if succeed, 0 if failed
+*/
+static int spmv_coo_sorted(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
+  switch (algo) {
+  case spmv_algo_serial:
+    return spmv_coo_sorted_serial(A, x, y);
+  case spmv_algo_parallel:
+    return spmv_coo_sorted_parallel(A, x, y);
+#if __NVCC__
+  case spmv_algo_cuda:
+    return spmv_coo_sorted_cuda(A, x, y);
+#endif
+  case spmv_algo_task:
+    return spmv_coo_sorted_task(A, x, y);
+  case spmv_algo_udr:
+    return spmv_coo_sorted_udr(A, x, y);
+  default:
+    fprintf(stderr,
+            "error:%s:%d: invalid algorithm %d\n",
+            __FILE__, __LINE__, algo);
+    return 0;
   }
 }
 
 /** 
     @brief y = A * x in serial for csr format
+    @param (A) a sparse matrix
+    @param (vx) a vector
+    @param (vy) a vector
+    @return 1 if succeed, 0 if failed
 */
-long spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
+static int spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
   idx_t M = A.M;
-  idx_t nnz = A.nnz;
   idx_t * row_start = A.csr.row_start;
   csr_elem_t * elems = A.csr.elems;
   real * x = vx.elems;
@@ -1194,92 +1462,26 @@ long spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
       y[i] += a * x[j];
     }
   }
-  return 2 * (long)nnz;
+  return 0;
 }
 
-/** 
-    @brief y = A * x in parallel for csr format
-*/
-long spmv_csr_parallel(sparse_t A, vec_t vx, vec_t vy) {
-
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that performs SPMV with CSR format in parallel\n"
-          "using CUDA kernel functions.\n"
-          "you need to convert the for loops to kernels + kernel launches.\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-  
-  idx_t M = A.M;
-  idx_t nnz = A.nnz;
-  idx_t * row_start = A.csr.row_start;
-  csr_elem_t * elems = A.csr.elems;
-  real * x = vx.elems;
-  real * y = vy.elems;
-  for (idx_t i = 0; i < M; i++) {
-    y[i] = 0.0;
-  }
-  for (idx_t i = 0; i < M; i++) {
-    idx_t start = row_start[i];
-    idx_t end = row_start[i + 1];
-    for (idx_t k = start; k < end; k++) {
-      csr_elem_t * e = elems + k;
-      idx_t j = e->j;
-      real  a = e->a;
-      y[i] += a * x[j];
-    }
-  }
-
-  return 2 * (long)nnz;
-}
-
-/** 
-    @brief y = A * x with cuda for csr format
-*/
-
-// add necessary kernel definitions by yourself
-
-long spmv_csr_cuda(sparse_t A, vec_t vx, vec_t vy) {
-
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that performs SPMV with CSR format in parallel\n"
-          "using CUDA kernel functions.\n"
-          "you need to convert the for loops to kernels + kernel launches.\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-  
-  idx_t M = A.M;
-  idx_t nnz = A.nnz;
-  idx_t * row_start = A.csr.row_start;
-  csr_elem_t * elems = A.csr.elems;
-  real * x = vx.elems;
-  real * y = vy.elems;
-  for (idx_t i = 0; i < M; i++) { // conver to kernel + kernel launch
-    y[i] = 0.0;
-  }
-  for (idx_t i = 0; i < M; i++) { // conver to kernel + kernel launch
-    idx_t start = row_start[i];
-    idx_t end = row_start[i + 1];
-    for (idx_t k = start; k < end; k++) {
-      csr_elem_t * e = elems + k;
-      idx_t j = e->j;
-      real  a = e->a;
-      y[i] += a * x[j];
-    }
-  }
-
-  return 2 * (long)nnz;
-}
-
+#include "work/spmv_csr_parallel.cc"
+#if __NVCC__
+#include "work/spmv_csr_cuda.cc"
+#endif
+#include "work/spmv_csr_task.cc"
+#include "work/spmv_csr_udr.cc"
 
 
 /** 
-    @brief y = A * x for csr format
+    @brief y = A * x for csr format, with the specified algorithm
+    @param (algo) algorithm
+    @param (A) a sparse matrix
+    @param (x) a vector
+    @param (y) a vector
+    @return 1 if succeed, 0 if failed
 */
-long spmv_csr(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
+static int spmv_csr(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
   switch (algo) {
   case spmv_algo_serial:
     return spmv_csr_serial(A, x, y);
@@ -1289,39 +1491,56 @@ long spmv_csr(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
   case spmv_algo_cuda:
     return spmv_csr_cuda(A, x, y);
 #endif
+  case spmv_algo_task:
+    return spmv_csr_task(A, x, y);
+  case spmv_algo_udr:
+    return spmv_csr_udr(A, x, y);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid algorithm %d\n",
             __FILE__, __LINE__, algo);
-    return -1;
+    return 0;
   }
 }
 
 /** 
-    @brief y = A * x
+    @brief y = A * x for any format, with the specified algorithm
+    @param (algo) algorithm
+    @param (A) a sparse matrix
+    @param (x) a vector
+    @param (y) a vector
+    @return 1 if succeed, 0 if failed
 */
-long spmv(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
+static int spmv(spmv_algo_t algo, sparse_t A, vec_t x, vec_t y) {
   assert(x.n == A.N);
   assert(y.n == A.M);
   switch (A.format) {
   case sparse_format_coo:
     return spmv_coo(algo, A, x, y);
   case sparse_format_coo_sorted:
-    return spmv_coo(algo, A, x, y);
+    return spmv_coo_sorted(algo, A, x, y);
   case sparse_format_csr:
     return spmv_csr(algo, A, x, y);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid format %d\n",
             __FILE__, __LINE__, A.format);
-    return -1;
+    return 0;
   }
 }
 
+/*********************************************************
+ *
+ * square norm of a vector
+ *
+ *********************************************************/
+
 /** 
-    @brief square norm of a vector (serial)
+    @brief square norm of a vector in serial
+    @param (v) a vector
+    @return the square norm of v (v[0]^2 + ... + v[n-1]^2)
 */
-real vec_norm2_serial(vec_t v) {
+static real vec_norm2_serial(vec_t v) {
   real s = 0.0;
   real * x = v.elems;
   idx_t n = v.n;
@@ -1331,57 +1550,20 @@ real vec_norm2_serial(vec_t v) {
   return s;
 }
 
-/** 
-    @brief square norm of a vector (parallel)
-*/
-real vec_norm2_parallel(vec_t v) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that computes square norm of a vector v\n"
-          "using omp parallel for.\n"
-          "you need to insert a few pragmas into the serial version below\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-
-  real s = 0.0;
-  real * x = v.elems;
-  idx_t n = v.n;
-  for (idx_t i = 0; i < n; i++) {
-    s += x[i] * x[i];
-  }
-  return s;
-}
-
+#include "work/vec_norm2_parallel.cc"
 #if __NVCC__
-__global__ void vec_norm2_dev(vec_t v, real * s) {
-  
-}
+#include "work/vec_norm2_cuda.cc"
+#endif
+#include "work/vec_norm2_task.cc"
+#include "work/vec_norm2_udr.cc"
 
 /** 
-    @brief square norm of a vector (parallel)
+    @brief square norm of a vector with the specified algorithm
+    @param (algo) algorithm (serial, parallel, task, cuda, ...)
+    @param (v) a vector
+    @return the square norm of v (v[0]^2 + ... + v[n-1]^2)
 */
-real vec_norm2_cuda(vec_t v) {
-  fprintf(stderr,
-          "*************************************************************\n"
-          "%s:%d: write a code that computes square norm of a vector v\n"
-          "using CUDA.\n"
-          "you need to convert a loop to kernel + kernel launch\n"
-          "*************************************************************\n",
-          __FILE__, __LINE__);
-  exit(1);
-
-  real s = 0.0;
-  real * x = v.elems;
-  idx_t n = v.n;
-  for (idx_t i = 0; i < n; i++) {
-    s += x[i] * x[i];
-  }
-  return s;
-}
-#endif
-
-real vec_norm2(spmv_algo_t algo, vec_t v) {
+static real vec_norm2(spmv_algo_t algo, vec_t v) {
   switch(algo) {
   case spmv_algo_serial:
     return vec_norm2_serial(v);
@@ -1391,6 +1573,10 @@ real vec_norm2(spmv_algo_t algo, vec_t v) {
   case spmv_algo_cuda:
     return vec_norm2_cuda(v);
 #endif
+  case spmv_algo_task:
+    return vec_norm2_task(v);
+  case spmv_algo_udr:
+    return vec_norm2_udr(v);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid algo %d\n",
@@ -1400,9 +1586,13 @@ real vec_norm2(spmv_algo_t algo, vec_t v) {
 }
   
 /** 
-    @brief scalar x vector (serial)
+    @brief k x v in serial
+    @param (k) a scalar
+    @param (v) a vector
+    @return 1 if succeed, 0 if failed
+    @details multiply each element of v by k
 */
-int scalar_vec_serial(real k, vec_t v) {
+static int scalar_vec_serial(real k, vec_t v) {
   idx_t n = v.n;
   real * x = v.elems;
   for (idx_t i = 0; i < n; i++) {
@@ -1411,46 +1601,21 @@ int scalar_vec_serial(real k, vec_t v) {
   return 1;
 }
 
-/** 
-    @brief scalar x vector (parallel)
-*/
-int scalar_vec_parallel(real k, vec_t v) {
-  idx_t n = v.n;
-  real * x = v.elems;
-#pragma omp parallel for
-  for (idx_t i = 0; i < n; i++) {
-    x[i] *= k;
-  }
-  return 1;
-}
-
-/** 
-    @brief scalar x vector (cuda)
-*/
+#include "work/scalar_vec_parallel.cc"
 #if __NVCC__
-__global__ void scalar_vec_dev(real k, vec_t v) {
-  idx_t n = v.n;
-  real * x = v.elems_dev;
-  idx_t i = get_thread_id_x();
-  if (i < n) {
-    x[i] *= k;
-  }
-}
-
-int scalar_vec_cuda(real k, vec_t v) {
-  idx_t n = v.n;
-  int scalar_vec_block_sz = 1024;
-  int n_scalar_vec_blocks = (n + scalar_vec_block_sz - 1) / scalar_vec_block_sz;
-  check_launch_error((scalar_vec_dev<<<n_scalar_vec_blocks,scalar_vec_block_sz>>>(k, v)));
-  return 1;
-}
+#include "work/scalar_vec_cuda.cc"
 #endif
+#include "work/scalar_vec_task.cc"
+#include "work/scalar_vec_udr.cc"
 
-/**
-   @brief scalar x vector
- */
-
-int scalar_vec(spmv_algo_t algo, real k, vec_t v) {
+/** 
+    @brief k x v in parallel with the specified algorithm
+    @param (algo) algorithm (serial, parallel, task, cuda, etc.)
+    @param (k) a scalar
+    @param (v) a vector
+    @details multiply each element of v by k
+*/
+static int scalar_vec(spmv_algo_t algo, real k, vec_t v) {
   switch(algo) {
   case spmv_algo_serial:
     return scalar_vec_serial(k, v);
@@ -1460,6 +1625,10 @@ int scalar_vec(spmv_algo_t algo, real k, vec_t v) {
   case spmv_algo_cuda:
     return scalar_vec_cuda(k, v);
 #endif
+  case spmv_algo_task:
+    return scalar_vec_task(k, v);
+  case spmv_algo_udr:
+    return scalar_vec_udr(k, v);
   default:
     fprintf(stderr,
             "error:%s:%d: invalid algo %d\n",
@@ -1469,9 +1638,13 @@ int scalar_vec(spmv_algo_t algo, real k, vec_t v) {
 }
   
 /** 
-    @brief normalize a vector
+    @brief normalize a vector with the specified algortihm
+    @param (algo) algorithm (serial, parallel, task, cuda, etc.)
+    @param (v) a vector
+    @return |v|
+    @details make v a unit-length vector (i.e., v = v/|v|)
 */
-real vec_normalize(spmv_algo_t algo, vec_t v) {
+static real vec_normalize(spmv_algo_t algo, vec_t v) {
   real s2 = vec_norm2(algo, v);
   if (s2 < 0.0) return -1.0;
   real s = sqrt(s2);
@@ -1481,21 +1654,43 @@ real vec_normalize(spmv_algo_t algo, vec_t v) {
 
 /** 
     @brief current time in nano second
+    @return the current time in nano second
 */
-long cur_time_ns() {
+static long cur_time_ns() {
   struct timespec ts[1];
   clock_gettime(CLOCK_REALTIME, ts);
   return ts->tv_sec * 1000000000L + ts->tv_nsec;
 }
 
 /** 
-    @brief repeat y = A x; x = tA y; many times
+    @brief repeat y = A x; x = tA y; many times, with the
+    specified algorithm
+    @param (algo)
+    @param (A) the reference to a sparse vector
+    @param (tA) the reference to A's transpose
+    @param (x) the reference to a vector
+    @param (y) the reference to a vector
+    @param (repeat) the number of times to repeat
+    @return the largest singular value of A (= the largest
+    eigenvalue of (tA A))
+    @details it repeats, (repeat + 1) times, 
+        y = Ax; x = tA y; x = x/|x|;
+    the first iteration is the "warm-up", which
+    checks if it does not encounter an error
+    (e.g., kernel launch failure) and makes sure
+    to touch all allocated memory once.
+
+    in the end of each iteration it takes |x| and returns that
+    of the last iteration, which is the largest
+    singular value of A if enough iterations have been made.
+    
 */
-real repeat_spmv(spmv_algo_t algo,
-                 sparse_t& A, sparse_t& tA,
-                 vec_t& x, vec_t& y, idx_t repeat) {
+static real repeat_spmv(spmv_algo_t algo,
+                        sparse_t& A, sparse_t& tA,
+                        vec_t& x, vec_t& y, idx_t repeat) {
 #if __NVCC__
   if (algo == spmv_algo_cuda) {
+    /* make device copies of matrix and vectors */
     sparse_to_dev(A);
     sparse_to_dev(tA);
     vec_to_dev(x);
@@ -1503,43 +1698,46 @@ real repeat_spmv(spmv_algo_t algo,
   }
 #endif
   
-  printf("repeat_spmv : warm up + error check\n");
+  printf("%s:%d:repeat_spmv: warm up + error check starts\n", __FILE__, __LINE__);
   fflush(stdout);
-  if (spmv(algo, A, x, y) < 0.0) {              // y = A x
+  /* y = A x and check error */
+  if (!spmv(algo, A, x, y))
     return -1.0;
-  }
-  if (vec_norm2(algo, y) < 0.0) {
+  /* x = tA y and check error */
+  if (!spmv(algo, tA, y, x)) 
     return -1.0;
-  }
-  if (spmv(algo, tA, y, x) < 0.0) {              // y = A x
+  /* x = x/|x| and check error */
+  if (vec_normalize(algo, x) < 0.0)
     return -1.0;
-  }
-  if (vec_normalize(algo, x) < 0.0) {
-    return -1.0;
-  }
-  printf("repeat_spmv : start\n");
+  printf("%s:%d:repeat_spmv: warm up + error check ends\n", __FILE__, __LINE__);
+
+  /* the real iterations to measure */
+  printf("%s:%d:repeat_spmv: starts\n", __FILE__, __LINE__);
   fflush(stdout);
+  long nnz = A.nnz;
   real lambda = 0.0;
-  long flops = 0;
+  long flops = (4 * (long)nnz + 3 * (long)x.n) * (long)repeat;
   long t0 = cur_time_ns();
   for (idx_t r = 0; r < repeat; r++) {
-    flops += spmv(algo,  A, x, y);
-    lambda = sqrt(vec_norm2(algo, y));
-    flops += spmv(algo, tA, y, x);
-    vec_normalize(algo, x);
-    flops += 2 * y.n + 3 * y.n;
+    spmv(algo,  A, x, y); /* y = A * x   (2 nnz flops) */
+    spmv(algo, tA, y, x); /* x = tA * y  (2 nnz flops) */
+    lambda = vec_normalize(algo, x); /* x = x/|x| (and lambda = |x|) */
   }
   long t1 = cur_time_ns();
   long dt = t1 - t0;
+  printf("%s:%d:repeat_spmv: ends\n", __FILE__, __LINE__);
   printf("%ld flops in %.9e sec (%.9e GFLOPS)\n",
          flops, dt*1.0e-9, flops/(double)dt);
   return lambda;
 }
   
 /** 
-    @brief make a random vector
+    @brief make a random vector of n elements
+    @param (n) the number of elements of the vector
+    @param (rg) random number generator state (passed to erand48)
+    @return a vector of n elements
 */
-vec_t mk_vec_random(idx_t n, unsigned short rg[3]) {
+static vec_t mk_vec_random(idx_t n, unsigned short rg[3]) {
   real * x = (real *)xalloc(sizeof(real) * n);
   for (idx_t i = 0; i < n; i++) {
     x[i] = erand48(rg);
@@ -1549,18 +1747,23 @@ vec_t mk_vec_random(idx_t n, unsigned short rg[3]) {
 }
 
 /** 
-    @brief make a unit-length random vector
+    @brief make a random unit-length vector of n elements
+    @param (n) the number of elements of the vector
+    @param (rg) random number generator state (passed to erand48)
+    @return a vector of n elements
 */
-vec_t mk_vec_unit_random(idx_t n, unsigned short rg[3]) {
+static vec_t mk_vec_unit_random(idx_t n, unsigned short rg[3]) {
   vec_t x = mk_vec_random(n, rg);
   vec_normalize(spmv_algo_serial, x);
   return x;
 }
 
 /** 
-    @brief make a zero vector
+    @brief make a zero vector of n elements
+    @param (n) the number of elements of the vector
+    @return a zero vector of n elements
 */
-vec_t mk_vec_zero(idx_t n) {
+static vec_t mk_vec_zero(idx_t n) {
   real * x = (real *)xalloc(sizeof(real) * n);
   for (idx_t i = 0; i < n; i++) {
     x[i] = 0.0;
@@ -1569,11 +1772,11 @@ vec_t mk_vec_zero(idx_t n) {
   return v;
 }
 
-
 /** 
     @brief release memory for cmdline_options
+    @param (opt) the command line option to release the memory of
 */
-void cmdline_options_destroy(cmdline_options_t opt) {
+static void cmdline_options_destroy(cmdline_options_t opt) {
   xfree(opt.format_str);
   xfree(opt.matrix_type_str);
   xfree(opt.algo_str);
@@ -1586,104 +1789,117 @@ void cmdline_options_destroy(cmdline_options_t opt) {
   }
 }
 
-/**
-   @brief data structure to dump matrix into a gnuplot file
- */
-typedef struct {
-  double * a;
-  idx_t M;
-  idx_t N;
-  idx_t img_M;
-  idx_t img_N;
-  double scale_i;
-  double scale_j;
-} image_t;
+static int cmp_idx_fun(const void * a_, const void * b_) {
+  idx_t * a = (idx_t *)a_;
+  idx_t * b = (idx_t *)b_;
+  return *a - *b;
+}
 
-/**
-   @brief make an img_M x img_N image for M x N matrix
- */
-image_t mk_image(idx_t M, idx_t N, idx_t img_M, idx_t img_N) {
-  if (img_M == 0) img_M = M;
-  if (img_N == 0) img_N = N;
-  double scale_i = img_M / (double)M;
-  double scale_j = img_N / (double)N;
-  double * a = (double *)xalloc(sizeof(double) * img_M * img_N);
-  for (idx_t i = 0; i < img_M; i++) {
-    for (idx_t j = 0; j < img_N; j++) {
-      a[i * img_N + j] = 0.0;
-    }
+/** 
+    @brief dump a sparse matrix A into img_width x img_height bitmap
+    (gnuplot file) with the specified filename.
+    @param (A) a sparse matrix to dump
+    @param (img_width) the width of the image
+    @param (img_height) the height of the image
+    @param (file) the file name to dump A into 
+*/
+
+static int dump_sparse_file(sparse_t A, char * file, idx_t max_points, long seed) {
+  printf("%s:%d:dump_sparse_file:"
+         " dumping to matrix %ld x %ld (%ld nnz) -> %s\n",
+         __FILE__, __LINE__,
+         (long)A.M, (long)A.N, (long)A.nnz, file);
+  fflush(stdout);
+  sparse_t B = sparse_any_to_any(A, sparse_format_coo, 0);
+  idx_t M = B.M;
+  idx_t N = B.N;
+  idx_t nnz = B.nnz;
+  coo_elem_t * elems = B.coo.elems;
+
+  idx_t * row_nnz = (idx_t *)malloc(sizeof(idx_t) * M);
+  for (idx_t i = 0; i < M; i++) {
+    row_nnz[i] = 0;
   }
-  image_t img = { a, M, N, img_M, img_N, scale_i, scale_j };
-  return img;
-}
-
-void image_destroy(image_t * img) {
-  xfree(img->a);
-}
-
-/**
-   @brief add a pixel to an img.
- */
-void image_add_pixel(image_t * img, idx_t i, idx_t j, double p) {
-  idx_t min_img_i = (idx_t)(i * img->scale_i);
-  idx_t min_img_j = (idx_t)(j * img->scale_j);
-  idx_t max_img_i = (idx_t)((i + 1) * img->scale_i);
-  idx_t max_img_j = (idx_t)((j + 1) * img->scale_j);
-  if (min_img_i == max_img_i) max_img_i = min_img_i + 1;
-  if (min_img_j == max_img_j) max_img_j = min_img_j + 1;
-  idx_t img_M = img->img_M;
-  idx_t img_N = img->img_N;
-  assert(min_img_i < img_M);
-  assert(min_img_j < img_N);
-  assert(max_img_i <= img_M);
-  assert(max_img_j <= img_N);
-  for (idx_t x = min_img_i; x < max_img_i; x++) {
-    for (idx_t y = min_img_j; y < max_img_j; y++) {
-      if (0 <= x && x < img_M && 0 <= y && y < img_N) {
-        (void)p;
-        //img->a[x * img_N + y] += p;
-        img->a[x * img_N + y] = 1;
+  /* randomly choose up to max_points */
+  unsigned short rg[3] = {
+    (unsigned short)((seed >> 32) & ((1 << 16) - 1)),
+    (unsigned short)((seed >> 16) & ((1 << 16) - 1)),
+    (unsigned short)((seed >> 0 ) & ((1 << 16) - 1)),
+  };
+  idx_t * chosen = (idx_t *)malloc(sizeof(idx_t) * max_points);
+  idx_t n_points = 0;
+  for (idx_t k = 0; k < nnz; k++) {
+    /* count non-zeros in each row */
+    idx_t i = elems[k].i;
+    row_nnz[i]++;
+    /* choose it with an equal probability */
+    if (n_points < max_points) {
+      chosen[n_points] = k;
+      n_points++;
+    } else {
+      if (erand48(rg) < n_points / (double)max_points) {
+        idx_t replaced = nrand48(rg) % n_points;
+        chosen[replaced] = k;
       }
     }
   }
-}
-
-int dump_sparse_file(sparse_t A, idx_t img_M, idx_t img_N, char * file) {
-  printf("dumping to %s (matrix size %ld x %ld -> image size: %ld x %ld)\n",
-         file, (long)A.M, (long)A.N, (long)img_M, (long)img_N);
-  sparse_t B = sparse_to_coo(A);
-  idx_t nnz = B.nnz;
-  coo_elem_t * elems = B.coo.elems;
-  image_t img[1] = { mk_image(A.M, A.N, img_M, img_N) };
-  for (idx_t k = 0; k < nnz; k++) {
-    coo_elem_t * e = elems + k;
-    image_add_pixel(img, e->i, e->j, e->a);
-  }
+  qsort((void *)chosen, n_points, sizeof(idx_t), cmp_idx_fun);
+    
   FILE * wp = fopen(file, "w");
   if (!wp) {
     perror(file);
     return 0;
   }
-  fprintf(wp, "set title \"\"\n"); /* white -> blue */
-  fprintf(wp, "set palette rgbformula -3,-3,2\n"); /* white -> blue */
+  fprintf(wp, "# add -e 'term=\"png\"' etc. to the gnuplot commad line to generate a file instead of showing it on the screen. e.g. gnuplot -e 'term=\"png\"' x.gnuplot\n");
+  fprintf(wp, "if (exists(\"term\")) set terminal term\n");
+  
+  fprintf(wp, "# add -e 'nnz_mat=\"FILENAME\"' etc. to the gnuplot commad line to output non-zero matrix to the specified file name . e.g. gnuplot -e 'term=\"png\"' -e 'nnz_mat=\"nnz_mat.png\"' x.gnuplot\n");
+  fprintf(wp, "if (exists(\"nnz_mat\")) set output nnz_mat\n");
+  fprintf(wp, "set title \"nnz_mat : matrix of non zero elements\"\n");
+  fprintf(wp, "set xlabel \"row\"\n");
+  fprintf(wp, "set xrange [0:%ld]\n", (long)M);
+  fprintf(wp, "set ylabel \"column\"\n");
+  fprintf(wp, "set yrange [0:%ld]\n", (long)N);
   fprintf(wp, "$mat << EOD\n");
-  idx_t k = 0;
-  for (idx_t i = 0; i < img->img_M; i++) {
-    for (idx_t j = 0; j < img->img_N; j++) {
-      fprintf(wp, "%f ", img->a[k]);
-      k++;
-    }
-    fprintf(wp, "\n");
+  for (idx_t i = 0; i < n_points; i++) {
+    idx_t k = chosen[i];
+    coo_elem_t * e = elems + k;
+    fprintf(wp, "%ld %ld %f\n", (long)e->i, (long)e->j, e->a);
   }
   fprintf(wp, "EOD\n");
-  fprintf(wp, "plot '$mat' matrix using 1:2:3 with image\n");
+  fprintf(wp, "plot '$mat' with points\n");
+  fprintf(wp, "if (!exists(\"nnz_mat\")) pause -1\n");
+
+  /* reset everything to go ahead to the second graph */
+  fprintf(wp, "reset\n");
+  
+  /* non-zero distribution */
+  fprintf(wp, "# add -e 'nnz_row=\"FILENAME\"' etc. to the gnuplot commad line to output non-zero distribution over rows. e.g. gnuplot -e 'term=\"png\"' -e 'nnz_mat=\"nnz_mat.png\"' x.gnuplot\n");
+  fprintf(wp, "if (exists(\"nnz_row\")) set output nnz_row\n");
+  
+  fprintf(wp, "set title \"nnz_row : the number of non zeros in each row\"\n");
+  fprintf(wp, "set xlabel \"row\"\n");
+  fprintf(wp, "set xrange [0:%ld]\n", (long)M);
+  fprintf(wp, "set ylabel \"the number of non zeros\"\n");
+  fprintf(wp, "set yrange [0:]\n");
+  fprintf(wp, "$row_nnz << EOD\n");
+  for (idx_t i = 0; i < M; i++) {
+    fprintf(wp, "%ld %ld\n", (long)i, (long)row_nnz[i]);
+  }
+  fprintf(wp, "EOD\n");
+  fprintf(wp, "plot '$row_nnz' with lines title \"\"\n");
+  fprintf(wp, "if (!exists(\"nnz_row\")) pause -1\n");
+  
   fclose(wp);
-  image_destroy(img);
+  xfree(row_nnz);
+  printf("%s:%d:dump_sparse_file: done\n",
+         __FILE__, __LINE__);
+  fflush(stdout);
   return 1;
 }
 
 /** 
-    @brief main
+    @brief the main function
 */
 int main(int argc, char ** argv) {
   cmdline_options_t opt = parse_args(argc, argv);
@@ -1700,23 +1916,21 @@ int main(int argc, char ** argv) {
     (unsigned short)((opt.seed >> 16) & ((1 << 16) - 1)),
     (unsigned short)((opt.seed >> 0 ) & ((1 << 16) - 1)),
   };
-  long flops = 2 * 2 * nnz * repeat;
-  printf("A : %ld x %ld, %ld non-zeros %ld bytes for non-zeros\n",
-         (long)M, (long)N, (long)nnz, nnz * sizeof(real));
+  printf("A : %ld x %ld, %ld requested non-zeros\n",
+         (long)M, (long)N, (long)nnz);
   printf("repeat : %ld times\n", repeat);
   printf("format : %s\n", opt.format_str);
   printf("matrix : %s\n", opt.matrix_type_str);
   printf("algo : %s\n", opt.algo_str);
-  printf("%ld flops for spmv\n", flops);
 
   //sparse_t A = mk_sparse_random(opt.format, M, N, nnz, rg);
-  printf("generating %ld x %ld matrix (%ld non-zeros) ... ",
-         (long)M, (long)N, (long)nnz);
-  fflush(stdout);
+  printf("%s:%d:main: generating matrix starts ... \n", __FILE__, __LINE__); fflush(stdout);
   sparse_t A = mk_sparse_matrix(opt, M, N, nnz, rg);
-  printf(" done\n"); fflush(stdout);
+  printf("%s:%d:main: generating matrix ends %ld x %ld with %ld non-zeros\n",
+         __FILE__, __LINE__,
+         (long)A.M, (long)A.N, (long)A.nnz); fflush(stdout);
   if (opt.dump) {
-    dump_sparse_file(A, opt.img_M, opt.img_N, opt.dump);
+    dump_sparse_file(A, opt.dump, opt.dump_points, opt.dump_seed);
   }
   sparse_t tA = sparse_transpose(A);
   vec_t x = mk_vec_unit_random(N, rg);

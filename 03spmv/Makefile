@@ -36,7 +36,7 @@ NVLIBS :=
 
 exe :=
 exe += $(app).gcc
-exe += $(app).nvcc
+#exe += $(app).nvcc
 
 all : $(exe)
 

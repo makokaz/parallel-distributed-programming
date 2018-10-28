@@ -1,2 +1,17 @@
 <map id="/home/tau/public_html/lecture/parallel_distributed/2018/parallel&#45;distributed&#45;handson/03spmv/spmv.cc" name="/home/tau/public_html/lecture/parallel_distributed/2018/parallel&#45;distributed&#45;handson/03spmv/spmv.cc">
+<area shape="rect" id="node9" href="$spmv__coo__parallel_8cc.html" title="y = A * x for coo with parallel for " alt="" coords="627,131,807,158"/>
+<area shape="rect" id="node10" href="$spmv__coo__task_8cc.html" title="y = A * x for coo with tasks " alt="" coords="831,131,995,158"/>
+<area shape="rect" id="node11" href="$spmv__coo__udr_8cc.html" title="y = A * x for coo with parallel for + user&#45;defined reductions " alt="" coords="1020,131,1177,158"/>
+<area shape="rect" id="node12" href="$spmv__coo__sorted__parallel_8cc.html" title="y = A * x for coo_sorted with parallel for " alt="" coords="1201,124,1359,165"/>
+<area shape="rect" id="node13" href="$spmv__coo__sorted__task_8cc.html" title="y = A * x with tasks for coo_sorted " alt="" coords="1383,124,1540,165"/>
+<area shape="rect" id="node14" href="$spmv__coo__sorted__udr_8cc.html" title="y = A * x for coo_sorted with parallel for + user&#45;defined reductions " alt="" coords="1564,124,1721,165"/>
+<area shape="rect" id="node15" href="$spmv__csr__parallel_8cc.html" title="y = A * x for csr with parallel for " alt="" coords="1746,131,1923,158"/>
+<area shape="rect" id="node16" href="$spmv__csr__task_8cc.html" title="y = A * x for csr with tasks " alt="" coords="1947,131,2109,158"/>
+<area shape="rect" id="node17" href="$spmv__csr__udr_8cc.html" title="y = A * x for csr with parallel for + user&#45;defined functions " alt="" coords="2133,131,2288,158"/>
+<area shape="rect" id="node18" href="$vec__norm2__parallel_8cc.html" title="square norm of a vector in serial " alt="" coords="2312,131,2496,158"/>
+<area shape="rect" id="node19" href="$vec__norm2__task_8cc.html" title="square norm of a vector in serial " alt="" coords="2520,131,2688,158"/>
+<area shape="rect" id="node20" href="$vec__norm2__udr_8cc.html" title="square norm of a vector in parallel using user&#45;defined reduction " alt="" coords="2713,131,2874,158"/>
+<area shape="rect" id="node21" href="$scalar__vec__parallel_8cc.html" title="scalar x vector multiply with parallel for " alt="" coords="2898,131,3081,158"/>
+<area shape="rect" id="node22" href="$scalar__vec__task_8cc.html" title="scalar x vector multiply with tasks " alt="" coords="3105,131,3271,158"/>
+<area shape="rect" id="node23" href="$scalar__vec__udr_8cc.html" title="scalar x vector multiply with parallel for + user&#45;defined reductions " alt="" coords="3296,131,3456,158"/>
 </map>
