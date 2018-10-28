@@ -92,9 +92,27 @@ pre {
 
 <h1>SpMV hands-on instructions</h1>
 
+<a name=toc> </a>
+<h2>Table of Contents</h2>
+<div>
+  <ul><a href="#fork">Fork the code to get your own repository</a></ul>
+  <ul><a href="#clone">Clone your repository</a></ul>
+  <ul><a href="#roadmap">The roadmap</a></ul>
+  <ul><a href="#play-with-it">Play with it</a></ul>
+  <ul><a href="#structure">How the code is structured</a></ul>
+  <ul><a href="#ex1">Exercise 1</a></ul>
+  <ul><a href="#ex2">Exercise 2</a></ul>
+  <ul><a href="#ex3">Exercise 3</a></ul>
+  <ul><a href="#ex4">Exercise 4</a></ul>
+  <ul><a href="#ex5">Exercise 5</a></ul>
+  <ul><a href="#ex6">Exercise 6</a></ul>
+</div>
+
+
 <a name=fork> </a>
 <h2>Fork the code to get your own repository</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <p><i><font color=red>Everybody needs to do this.</font>
       Instructions have been updated since the last week, so that I can
       track your code easily and you can easily transfer you code between your laptop
@@ -138,6 +156,7 @@ pre {
 <a name=clone> </a>
 <h2>Clone your repository</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <p>
     <ol>
       <li>Clone the repository you just created.  At the minimum, you need to clone it
@@ -163,6 +182,7 @@ I'll defer how to do it later and go ahead for now
 <a name=roadmap> </a>
 <h2>The roadmap</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <p>
     You see the detailed instructions of hands-on exercise below
     from the basics of git and gdb to how to exactly send your work to me.
@@ -175,6 +195,9 @@ I'll defer how to do it later and go ahead for now
 
 <a name=play-with-it> </a>
 <h2>Play with it</h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+</div>
 <h3>Make it</h3>
 <div>
   <p>If you clone the directory, you will find <tt>03spmv</tt> directory,
@@ -531,6 +554,9 @@ The distribution of non-zeros over rows looks like this.
 
 <a name=structure> </a>
 <h2>How the code is structured</h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+</div>  
 <h3>Browsing the documentation</h3>
 <div>
   <p>
@@ -704,6 +730,7 @@ specify the executable file (e.g., <tt>./spmv.gcc</tt>) you want to trace.
 <a name=ex1></a>
 <h2>Exercise 1</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <blockquote>
     Parallelize
     spmv for coo format
@@ -814,6 +841,18 @@ if you are interested.
 <a name=check_how_fast_1></a>
 <h3>Check how fast your code is</h3>
 <div>
+  <p>Command shown above all run <tt>./spmv.gcc</tt> on the machine
+    you typed the command.  It is OK if the machine is yours
+    or the command finishes very quickly.
+    Before measuring the performance,
+    make sure you study <tt>01hello/README.md</tt> so that
+    how to submit OpenMP jobs with srun and
+    you know which cores you are actually using.
+  </p>
+  <p>You are also recommended to run jobs through a shell script
+    or a makefile that contains several commands you want to run.
+    You don't have to type similar commands many times.
+  </p>
   <p>Run the code at least with the following three settings.</p>
   <ol>
     <li><tt>-a serial</tt> That is, with the serial algorithm.</li>
@@ -856,9 +895,28 @@ if you are interested.
   </p>
 </div>
 
+<a name=submit_1></a>
+<h3>Submit your work</h3>
+<div>
+  <p>What needs to be exactly reported will come here.
+    Stay tuned.
+    For now,
+    <ul>
+      <li>follow the above instructions.</li>
+      <li>commit and push your code
+<pre>
+$ git commit "submit exercise 1" -a
+$ git push
+</pre>
+      </li>
+    </ul>  
+  </p>
+</div>
+
 <a name=ex2> </a>
 <h2>Exercise 2</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <blockquote>
     Parallelize
     spmv for coo format
@@ -872,17 +930,17 @@ if you are interested.
 <div>
   <p>
     The goal is to make the following command run successfully.
-<pre>      
-$ <u>./spmv.nvcc -f coo -a cuda</u>
+<pre>
+$ <u>srun -p p ./spmv.nvcc -f coo -a cuda</u>
 </pre>
 and
-<pre>      
-$ <u>./spmv.nvcc -f coo_sorted -a cuda</u>
+<pre>
+$ <u>srun -p p ./spmv.nvcc -f coo_sorted -a cuda</u>
 </pre>
 Similarly to Exercise 1,
 if you run the above command without any work, you will get
 the following error.
-<pre>      
+<pre>
 $ <u>srun -p p ./spmv.nvcc -f coo -a parallel</u>
    ...
 *************************************************************
@@ -891,18 +949,9 @@ write a code that performs SPMV for COO format in parallel
 using CUDA.
 *************************************************************
 </pre>
-Look into the file <tt>include/spmv_coo_cuda.cc</tt>
-and implement <tt>spmv_coo_cuda</tt> function in it.
-There is another function you need to implement
-(<tt>include/vec_norm2_cuda.cc:vec_norm2_cuda</tt>)
-and you will similarly encounter an error if you don't.
-  </p>
-  <p>If you make it work for the coo format,
-    it will automatically work for coo_sorted format as well.
-    Unless you come up with an algorithm that takes advantage
-    of the fact that elements are sorted, you do not
-    have to write it separately.
-  </p>
+The remaining instructions are the same with
+<a href="#which_functions_1">Exercise 1</a>.
+Implement functions you need to implement.
 </div>
 
 <a name=check_your_code_2></a>
@@ -935,16 +984,137 @@ and you will similarly encounter an error if you don't.
   </p>
 </div>
 
+<a name=ex3></a>
+<h2>Exercise 3</h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Parallelize
+    spmv for csr format
+    with OpenMP "parallel for" and run it on multicore/many core CPUs.
+    Read and follow the details below.
+  </blockquote>
+</div>
+
+<a name=which_functions_3></a>
+<h3>Which functions/files to change</h3>
+<div>
+  <p>
+    The goal is to make the following command run successfully.
+<pre>
+$ <u>OMP_NUM_THREADS=<i>n</i> ./spmv.gcc -f csr -a parallel</u>
+</pre>
+for <i>n</i> &gt; 1.
+The remaining instructions are the same with
+<a href="#which_functions_1">Exercise 1</a>.
+This time you do not need to implement <tt>vec_norm2</tt>
+function, which you should have done in Exercise 1.
+  </p>
+  <p>Also check your result and measure the performance.
+  </p>
+</div>
+
+
+<a name=ex4></a>
+<h2>Exercise 4</h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Parallelize
+    spmv for csr format
+    with CUDA.
+    Read and follow the details below.
+  </blockquote>
+</div>
+
+<a name=which_functions_4></a>
+<h3>Which functions/files to change</h3>
+<div>
+  <p>
+    The goal is to make the following command run successfully.
+<pre>
+$ <u>srun -p p ./spmv.nvcc -f csr -a cuda</u>
+</pre>
+<p>
+The remaining instructions are the same with
+<a href="#which_functions_1">Exercise 1</a>.
+Implement functions you need to implement.
+</p>
+  <p>Also check your result and measure the performance.</p>
+</div>
+
+
+<a name=ex5></a>
+<h2>Optional Exercise 5 </h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Parallelize
+    spmv for csr format
+    with tasks.
+    Read and follow the details below.
+  </blockquote>
+</div>
+
+<a name=which_functions_5></a>
+<h3>Which functions/files to change</h3>
+<div>
+  <p>
+    The goal is to make the following command run successfully.
+<pre>
+$ <u>OMP_NUM_THREADS=<i>n</i> ./spmv.gcc -f csr -a task</u>
+</pre>
+for <i>n</i> &gt; 1.
+<p>
+The remaining instructions are the same with
+<a href="#which_functions_1">Exercise 1</a>.
+Implement functions you need to implement.
+</p>
+  <p>Also check your result and measure the performance.</p>
+</div>
+
+
+<a name=ex6></a>
+<h2>Optional Exercise 6</h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Parallelize
+    spmv for coo_sorted format
+    with parallel for + user-defined reductions.
+    Read and follow the details below.
+  </blockquote>
+</div>
+
+<a name=which_functions_6></a>
+<h3>Which functions/files to change</h3>
+<div>
+  <p>
+    The goal is to make the following command run successfully.
+<pre>
+$ <u>srun -p <i>cpu_partition</i> ./spmv.gcc -f coo_sorted -a udr</u>
+</pre>
+<p>
+The remaining instructions are the same with
+<a href="#which_functions_1">Exercise 1</a>.
+Implement functions you need to implement.
+</p>
+  <p>Also check your result and measure the performance.</p>
+</div>
+
+  
 
 
 <a name=gitlab-ssh> </a>
 <h2>Register your SSH key to the gitlab server</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
 </div>
 
 <a name=fetch> </a>
 <h2>Getting updates on hands-on material</h2>
 <div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
   <p>
     Do this once after you clone the repository
 <pre>
