@@ -39,9 +39,9 @@ typedef enum {
 
 /** @brief type of sparse matrix we work on (how to generate elements) */
 typedef enum {
-  sparse_matrix_type_random,  /**< uniform random matrix */
-  sparse_matrix_type_rmat,    /**< R-MAT (recursive random matrix) */
-  sparse_matrix_type_one,  /**< all one on a subset of rows/columns */
+  sparse_matrix_type_random,    /**< uniform random matrix */
+  sparse_matrix_type_rmat,      /**< R-MAT (recursive random matrix) */
+  sparse_matrix_type_one,       /**< all one on a subset of rows/columns */
   sparse_matrix_type_coo_file,  /**< input from file */
   sparse_matrix_type_invalid,   /**< invalid */
 } sparse_matrix_type_t;
@@ -800,7 +800,7 @@ static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
 }
 
 /** 
-    @brief make a uniform random coo matrix
+    @brief make a sparse matrix whose elements are one on certain rows/columns and zero anywhere else
     @param (M) the number of rows
     @param (N) the number of columns
     @param (nnz) the number of non-zeros
@@ -830,7 +830,7 @@ static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
     ..., 98 }
 
 */
-static sparse_t mk_coo_all_one(idx_t M, idx_t N, idx_t nnz) {
+static sparse_t mk_coo_one(idx_t M, idx_t N, idx_t nnz) {
   idx_t nnz_M = 0;
   idx_t nnz_N = 0;
   int cont = 1;
@@ -1151,7 +1151,7 @@ static sparse_t mk_sparse_matrix_coo(cmdline_options_t opt,
   case sparse_matrix_type_rmat:
     return mk_coo_rmat(M, N, nnz, opt.rmat, rg);
   case sparse_matrix_type_one:
-    return mk_coo_all_one(M, N, nnz);
+    return mk_coo_one(M, N, nnz);
   case sparse_matrix_type_coo_file:
     return read_coo_file(M, N, nnz, opt.coo_file);
   default:
@@ -1726,7 +1726,7 @@ static real repeat_spmv(spmv_algo_t algo,
   long t1 = cur_time_ns();
   long dt = t1 - t0;
   printf("%s:%d:repeat_spmv: ends\n", __FILE__, __LINE__);
-  printf("%ld flops in %.9e sec (%.9e GFLOPS)\n",
+  printf("%ld flops in %.6f sec (%.6f GFLOPS)\n",
          flops, dt*1.0e-9, flops/(double)dt);
   return lambda;
 }
