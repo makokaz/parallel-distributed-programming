@@ -853,6 +853,55 @@ if you are interested.
 </div>
 
 
+<h2>Exercise 2</h2>
+<div>
+  <blockquote>
+    Parallelize
+    spmv for coo format
+    with CUDA.
+    Follow the instruction below.
+  </blockquote>
+</div>
+
+<h3>Which functions/files to change</h3>
+<div>
+  <p>
+    The goal is to make the following command run successfully.
+<pre>      
+$ <u>./spmv.nvcc -f coo -a cuda</u>
+</pre>
+and
+<pre>      
+$ <u>./spmv.nvcc -f coo_sorted -a cuda</u>
+</pre>
+Similarly to Exercise 1,
+if you run the above command without any work, you will get
+the following error.
+<pre>      
+$ <u>OMP_NUM_THREADS=<i>n</i> ./spmv.gcc -f coo -a parallel</u>
+   ...
+*************************************************************
+include/spmv_coo_parallel.cc:20:spmv_coo_parallel:
+write a code that performs SPMV for COO format in parallel
+using parallel for + atomic directives
+*************************************************************
+</pre>
+Look into the file <tt>include/spmv_coo_parallel.cc</tt>
+and implement <tt>spmv_coo_parallel</tt> function in it.
+There is another function you need to implement
+(<tt>include/vec_norm2_parallel.cc:vec_norm2_parallel</tt>)
+and you will similarly encounter an error if you don't.
+  </p>
+  <p>If you make it work for the coo format,
+    it will automatically work for coo_sorted format as well.
+    Unless you come up with an algorithm that takes advantage
+    of the fact that elements are sorted, you do not
+    have to write it separately.
+  </p>
+</div>
+
+
+
 <a name=gitlab-ssh> </a>
 <h2>Register your SSH key to the gitlab server</h2>
 <div>
