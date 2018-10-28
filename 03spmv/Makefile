@@ -22,6 +22,11 @@ nvcxxflags += --gpu-architecture compute_60
 #nvcxxflags += -O0 -Xptxas -O0,-v -g -G
 nvcxxflags += -O3 -Xptxas -O3,-v
 
+#
+# include sources
+# 
+srcs := $(wildcard include/*.h include/*.cc)
+
 ################################
 
 CXX := g++
@@ -40,10 +45,10 @@ exe += $(app).gcc
 
 all : $(exe)
 
-$(app).gcc : %.gcc : %.cc
+$(app).gcc : %.gcc : %.cc $(srcs)
 	$(CXX) -o $@ $< $(CXXFLAGS) $(LDFLAGS) $(LIBS)
 
-$(app).nvcc : %.nvcc : %.cc
+$(app).nvcc : %.nvcc : %.cc $(srcs)
 	$(NVCXX) -o $@ -x cu $< $(NVCXXFLAGS) $(NVLDFLAGS) $(NVLIBS)
 
 clean :
