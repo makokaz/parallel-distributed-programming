@@ -1258,10 +1258,10 @@ static sparse_t sparse_transpose(sparse_t A) {
 
 #if __NVCC__
 static int coo_to_dev(sparse_t& A);
-#include "work/coo_to_dev.cc"
+#include "include/coo_to_dev.cc"
 
 static int csr_to_dev(sparse_t& A);
-#include "work/csr_to_dev.cc"
+#include "include/csr_to_dev.cc"
 
 /** 
     @brief make a deivce copy of a sparse matrix.
@@ -1293,7 +1293,7 @@ static int sparse_to_dev(sparse_t& A) {
 }
 
 static int vec_to_dev(vec_t& v);
-#include "work/vec_to_dev.cc"
+#include "include/vec_to_dev.cc"
 
 #endif
 
@@ -1349,12 +1349,12 @@ static int spmv_coo_serial(sparse_t A, vec_t vx, vec_t vy) {
   return 1;                     /* OK */
 }
 
-#include "work/spmv_coo_parallel.cc"
+#include "include/spmv_coo_parallel.cc"
 #if __NVCC__
-#include "work/spmv_coo_cuda.cc"
+#include "include/spmv_coo_cuda.cc"
 #endif                                 
-#include "work/spmv_coo_task.cc"
-#include "work/spmv_coo_udr.cc"
+#include "include/spmv_coo_task.cc"
+#include "include/spmv_coo_udr.cc"
 
 /** 
     @brief y = A * x for coo format, with the specified algorithm
@@ -1398,12 +1398,12 @@ static int spmv_coo_sorted_serial(sparse_t A, vec_t vx, vec_t vy) {
   return spmv_coo_serial(A, vx, vy);
 }
 
-#include "work/spmv_coo_sorted_parallel.cc"
+#include "include/spmv_coo_sorted_parallel.cc"
 #if __NVCC__
-#include "work/spmv_coo_sorted_cuda.cc"
+#include "include/spmv_coo_sorted_cuda.cc"
 #endif                                 
-#include "work/spmv_coo_sorted_task.cc"
-#include "work/spmv_coo_sorted_udr.cc"
+#include "include/spmv_coo_sorted_task.cc"
+#include "include/spmv_coo_sorted_udr.cc"
 
 
 /** 
@@ -1465,12 +1465,12 @@ static int spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
   return 0;
 }
 
-#include "work/spmv_csr_parallel.cc"
+#include "include/spmv_csr_parallel.cc"
 #if __NVCC__
-#include "work/spmv_csr_cuda.cc"
+#include "include/spmv_csr_cuda.cc"
 #endif
-#include "work/spmv_csr_task.cc"
-#include "work/spmv_csr_udr.cc"
+#include "include/spmv_csr_task.cc"
+#include "include/spmv_csr_udr.cc"
 
 
 /** 
@@ -1550,12 +1550,12 @@ static real vec_norm2_serial(vec_t v) {
   return s;
 }
 
-#include "work/vec_norm2_parallel.cc"
+#include "include/vec_norm2_parallel.cc"
 #if __NVCC__
-#include "work/vec_norm2_cuda.cc"
+#include "include/vec_norm2_cuda.cc"
 #endif
-#include "work/vec_norm2_task.cc"
-#include "work/vec_norm2_udr.cc"
+#include "include/vec_norm2_task.cc"
+#include "include/vec_norm2_udr.cc"
 
 /** 
     @brief square norm of a vector with the specified algorithm
@@ -1601,12 +1601,12 @@ static int scalar_vec_serial(real k, vec_t v) {
   return 1;
 }
 
-#include "work/scalar_vec_parallel.cc"
+#include "include/scalar_vec_parallel.cc"
 #if __NVCC__
-#include "work/scalar_vec_cuda.cc"
+#include "include/scalar_vec_cuda.cc"
 #endif
-#include "work/scalar_vec_task.cc"
-#include "work/scalar_vec_udr.cc"
+#include "include/scalar_vec_task.cc"
+#include "include/scalar_vec_udr.cc"
 
 /** 
     @brief k x v in parallel with the specified algorithm
@@ -1789,6 +1789,11 @@ static void cmdline_options_destroy(cmdline_options_t opt) {
   }
 }
 
+/** 
+    @brief compare two elements in an array of idx_t 
+    @param (a_) the pointer to an element 1
+    @param (b_) the pointer to an element 2
+*/
 static int cmp_idx_fun(const void * a_, const void * b_) {
   idx_t * a = (idx_t *)a_;
   idx_t * b = (idx_t *)b_;
@@ -1799,9 +1804,9 @@ static int cmp_idx_fun(const void * a_, const void * b_) {
     @brief dump a sparse matrix A into img_width x img_height bitmap
     (gnuplot file) with the specified filename.
     @param (A) a sparse matrix to dump
-    @param (img_width) the width of the image
-    @param (img_height) the height of the image
     @param (file) the file name to dump A into 
+    @param (max_points) the maximum number of points dumped into the file
+    @param (seed) the random number seed to choose elements to dump
 */
 
 static int dump_sparse_file(sparse_t A, char * file, idx_t max_points, long seed) {

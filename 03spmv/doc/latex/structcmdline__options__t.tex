@@ -36,9 +36,9 @@ double \hyperlink{structcmdline__options__t_a60e05c62d3fd439c03fd26d9f8078a4b}{r
 \item 
 char $\ast$ \hyperlink{structcmdline__options__t_aa4b96337328846dd1d2c0ca8eee7933f}{dump}
 \item 
-\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structcmdline__options__t_ad1c5aa9c8877bae151ca40373f68a848}{img\+\_\+W}
+long \hyperlink{structcmdline__options__t_a8034ee34658dd09267c9bdbd53050c9a}{dump\+\_\+points}
 \item 
-\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structcmdline__options__t_a463c33340772fb1baf377fb67f3d7a40}{img\+\_\+H}
+long \hyperlink{structcmdline__options__t_afa92e5953f8c49714b09ccdd12a1f8a7}{dump\+\_\+seed}
 \item 
 long \hyperlink{structcmdline__options__t_a065412d7cdc54cdae630389c3fda266e}{seed}
 \item 
@@ -76,7 +76,19 @@ file \mbox{\Hypertarget{structcmdline__options__t_aa4b96337328846dd1d2c0ca8eee79
 \subsubsection{\texorpdfstring{dump}{dump}}
 {\footnotesize\ttfamily char$\ast$ cmdline\+\_\+options\+\_\+t\+::dump}
 
-file name to dump image (gnuplot) data \mbox{\Hypertarget{structcmdline__options__t_a25f9087b240da0b93a4295fa5f173c88}\label{structcmdline__options__t_a25f9087b240da0b93a4295fa5f173c88}} 
+file name to dump image (gnuplot) data \mbox{\Hypertarget{structcmdline__options__t_a8034ee34658dd09267c9bdbd53050c9a}\label{structcmdline__options__t_a8034ee34658dd09267c9bdbd53050c9a}} 
+\index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!dump\+\_\+points@{dump\+\_\+points}}
+\index{dump\+\_\+points@{dump\+\_\+points}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
+\subsubsection{\texorpdfstring{dump\+\_\+points}{dump\_points}}
+{\footnotesize\ttfamily long cmdline\+\_\+options\+\_\+t\+::dump\+\_\+points}
+
+max number of points in the dump data \mbox{\Hypertarget{structcmdline__options__t_afa92e5953f8c49714b09ccdd12a1f8a7}\label{structcmdline__options__t_afa92e5953f8c49714b09ccdd12a1f8a7}} 
+\index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!dump\+\_\+seed@{dump\+\_\+seed}}
+\index{dump\+\_\+seed@{dump\+\_\+seed}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
+\subsubsection{\texorpdfstring{dump\+\_\+seed}{dump\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+options\+\_\+t\+::dump\+\_\+seed}
+
+random number seed to randomly choose elements dumped \mbox{\Hypertarget{structcmdline__options__t_a25f9087b240da0b93a4295fa5f173c88}\label{structcmdline__options__t_a25f9087b240da0b93a4295fa5f173c88}} 
 \index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!error@{error}}
 \index{error@{error}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
 \subsubsection{\texorpdfstring{error}{error}}
@@ -100,19 +112,7 @@ format string (coo, coo\+\_\+sorted, csr) \mbox{\Hypertarget{structcmdline__opti
 \subsubsection{\texorpdfstring{help}{help}}
 {\footnotesize\ttfamily int cmdline\+\_\+options\+\_\+t\+::help}
 
-set when -\/h / --help is given \mbox{\Hypertarget{structcmdline__options__t_a463c33340772fb1baf377fb67f3d7a40}\label{structcmdline__options__t_a463c33340772fb1baf377fb67f3d7a40}} 
-\index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!img\+\_\+H@{img\+\_\+H}}
-\index{img\+\_\+H@{img\+\_\+H}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
-\subsubsection{\texorpdfstring{img\+\_\+H}{img\_H}}
-{\footnotesize\ttfamily \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} cmdline\+\_\+options\+\_\+t\+::img\+\_\+H}
-
-height of the dumped image \mbox{\Hypertarget{structcmdline__options__t_ad1c5aa9c8877bae151ca40373f68a848}\label{structcmdline__options__t_ad1c5aa9c8877bae151ca40373f68a848}} 
-\index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!img\+\_\+W@{img\+\_\+W}}
-\index{img\+\_\+W@{img\+\_\+W}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
-\subsubsection{\texorpdfstring{img\+\_\+W}{img\_W}}
-{\footnotesize\ttfamily \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} cmdline\+\_\+options\+\_\+t\+::img\+\_\+W}
-
-width of the dumped image \mbox{\Hypertarget{structcmdline__options__t_aeb40f98dbcd53dc727b1d7dbb566924f}\label{structcmdline__options__t_aeb40f98dbcd53dc727b1d7dbb566924f}} 
+set when -\/h / --help is given \mbox{\Hypertarget{structcmdline__options__t_aeb40f98dbcd53dc727b1d7dbb566924f}\label{structcmdline__options__t_aeb40f98dbcd53dc727b1d7dbb566924f}} 
 \index{cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}!M@{M}}
 \index{M@{M}!cmdline\+\_\+options\+\_\+t@{cmdline\+\_\+options\+\_\+t}}
 \subsubsection{\texorpdfstring{M}{M}}

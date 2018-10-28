@@ -99,10 +99,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a60e05c62d3fd439c03fd26d9f8078a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4b96337328846dd1d2c0ca8eee7933f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#aa4b96337328846dd1d2c0ca8eee7933f">dump</a></td></tr>
 <tr class="separator:aa4b96337328846dd1d2c0ca8eee7933f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1c5aa9c8877bae151ca40373f68a848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#ad1c5aa9c8877bae151ca40373f68a848">img_W</a></td></tr>
-<tr class="separator:ad1c5aa9c8877bae151ca40373f68a848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a463c33340772fb1baf377fb67f3d7a40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#a463c33340772fb1baf377fb67f3d7a40">img_H</a></td></tr>
-<tr class="separator:a463c33340772fb1baf377fb67f3d7a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8034ee34658dd09267c9bdbd53050c9a"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#a8034ee34658dd09267c9bdbd53050c9a">dump_points</a></td></tr>
+<tr class="separator:a8034ee34658dd09267c9bdbd53050c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa92e5953f8c49714b09ccdd12a1f8a7"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#afa92e5953f8c49714b09ccdd12a1f8a7">dump_seed</a></td></tr>
+<tr class="separator:afa92e5953f8c49714b09ccdd12a1f8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a065412d7cdc54cdae630389c3fda266e"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#a065412d7cdc54cdae630389c3fda266e">seed</a></td></tr>
 <tr class="separator:a065412d7cdc54cdae630389c3fda266e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25f9087b240da0b93a4295fa5f173c88"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcmdline__options__t.html#a25f9087b240da0b93a4295fa5f173c88">error</a></td></tr>
@@ -173,6 +173,36 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8034ee34658dd09267c9bdbd53050c9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8034ee34658dd09267c9bdbd53050c9a">&#9670;&nbsp;</a></span>dump_points</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long cmdline_options_t::dump_points</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>max number of points in the dump data </p>
+
+</div>
+</div>
+<a id="afa92e5953f8c49714b09ccdd12a1f8a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa92e5953f8c49714b09ccdd12a1f8a7">&#9670;&nbsp;</a></span>dump_seed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long cmdline_options_t::dump_seed</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>random number seed to randomly choose elements dumped </p>
+
+</div>
+</div>
 <a id="a25f9087b240da0b93a4295fa5f173c88"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a25f9087b240da0b93a4295fa5f173c88">&#9670;&nbsp;</a></span>error</h2>
 
@@ -230,36 +260,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>set when -h / &ndash;help is given </p>
-
-</div>
-</div>
-<a id="a463c33340772fb1baf377fb67f3d7a40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a463c33340772fb1baf377fb67f3d7a40">&#9670;&nbsp;</a></span>img_H</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> cmdline_options_t::img_H</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>height of the dumped image </p>
-
-</div>
-</div>
-<a id="ad1c5aa9c8877bae151ca40373f68a848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1c5aa9c8877bae151ca40373f68a848">&#9670;&nbsp;</a></span>img_W</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> cmdline_options_t::img_W</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>width of the dumped image </p>
 
 </div>
 </div>

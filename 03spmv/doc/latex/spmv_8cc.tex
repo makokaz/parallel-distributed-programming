@@ -12,23 +12,22 @@ sparse matrix vector multiplication
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$getopt.\+h$>$}\newline
 {\ttfamily \#include $<$time.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+parallel.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+task.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+udr.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+sorted\+\_\+parallel.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+sorted\+\_\+task.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+coo\+\_\+sorted\+\_\+udr.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+csr\+\_\+parallel.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+csr\+\_\+task.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/spmv\+\_\+csr\+\_\+udr.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/vec\+\_\+norm2\+\_\+parallel.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/vec\+\_\+norm2\+\_\+task.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/vec\+\_\+norm2\+\_\+udr.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/scalar\+\_\+vec\+\_\+parallel.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/scalar\+\_\+vec\+\_\+task.\+cc\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}work/scalar\+\_\+vec\+\_\+udr.\+cc\char`\"{}}\newline
-Include dependency graph for spmv.\+cc\+:
-\nopagebreak
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+parallel.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+task.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+udr.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+sorted\+\_\+parallel.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+sorted\+\_\+task.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+coo\+\_\+sorted\+\_\+udr.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+csr\+\_\+parallel.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+csr\+\_\+task.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/spmv\+\_\+csr\+\_\+udr.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/vec\+\_\+norm2\+\_\+parallel.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/vec\+\_\+norm2\+\_\+task.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/vec\+\_\+norm2\+\_\+udr.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/scalar\+\_\+vec\+\_\+parallel.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/scalar\+\_\+vec\+\_\+task.\+cc\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/scalar\+\_\+vec\+\_\+udr.\+cc\char`\"{}}\newline
+Include dependency graph for spmv.\+cc\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -65,9 +64,7 @@ struct \hyperlink{structspmv__algo__table__entry__t}{spmv\+\_\+algo\+\_\+table\+
 struct \hyperlink{structspmv__algo__table__t}{spmv\+\_\+algo\+\_\+table\+\_\+t}
 \begin{DoxyCompactList}\small\item\em table of spmv algorithms and their names \end{DoxyCompactList}\item 
 struct \hyperlink{structidx__pair__t}{idx\+\_\+pair\+\_\+t}
-\begin{DoxyCompactList}\small\item\em a pair of two indices (i and j) \end{DoxyCompactList}\item 
-struct \hyperlink{structimage__t}{image\+\_\+t}
-\begin{DoxyCompactList}\small\item\em data structure through which to convert a matrix into a gnuplot file \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em a pair of two indices (i and j) \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -107,9 +104,22 @@ enum \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+static void $\ast$ \hyperlink{spmv_8cc_a3cab6fa93276c69712c867ea0c9480c9}{xalloc} (size\+\_\+t sz)
+\begin{DoxyCompactList}\small\item\em malloc + check \end{DoxyCompactList}\item 
+static void \hyperlink{spmv_8cc_ab74147af88fbc62f9076539683737f69}{xfree} (void $\ast$a)
+\begin{DoxyCompactList}\small\item\em wrap free \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a9d14968d7ef360d5dc0f32527754de79}\label{spmv_8cc_a9d14968d7ef360d5dc0f32527754de79}} 
 static \hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} \hyperlink{spmv_8cc_a9d14968d7ef360d5dc0f32527754de79}{default\+\_\+opts} ()
 \begin{DoxyCompactList}\small\item\em default values for command line options \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_ae06a8b4681f9cd8d90bee9de540a0d13}\label{spmv_8cc_ae06a8b4681f9cd8d90bee9de540a0d13}} 
+static char $\ast$ \hyperlink{spmv_8cc_ae06a8b4681f9cd8d90bee9de540a0d13}{sparse\+\_\+format\+\_\+strs} ()
+\begin{DoxyCompactList}\small\item\em a comma-\/separated list of available sparse formats \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_a5aeee7bb92b870eab6ebc6a6ad55228e}\label{spmv_8cc_a5aeee7bb92b870eab6ebc6a6ad55228e}} 
+static char $\ast$ \hyperlink{spmv_8cc_a5aeee7bb92b870eab6ebc6a6ad55228e}{sparse\+\_\+matrix\+\_\+type\+\_\+strs} ()
+\begin{DoxyCompactList}\small\item\em a comma-\/separated list of available matrix types \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}\label{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}} 
+static char $\ast$ \hyperlink{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}{spmv\+\_\+algo\+\_\+strs} ()
+\begin{DoxyCompactList}\small\item\em print a comma-\/separated list of available algorithms to the standard error \end{DoxyCompactList}\item 
 static void \hyperlink{spmv_8cc_a848c0ca46d3e3ecc39d2fccc4d85fa12}{usage} (const char $\ast$prog)
 \begin{DoxyCompactList}\small\item\em print usage \end{DoxyCompactList}\item 
 static \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} \hyperlink{spmv_8cc_a3363fba87122e57b925704a8394f405d}{parse\+\_\+sparse\+\_\+format} (char $\ast$s)
@@ -123,10 +133,6 @@ static void \hyperlink{spmv_8cc_ac20283b7c6670bcd771e99ebbe84dcac}{parse\+\_\+er
 \begin{DoxyCompactList}\small\item\em print error meessage during rmat string (a,b,c,d) \end{DoxyCompactList}\item 
 static int \hyperlink{spmv_8cc_a4f85d868c74dc8293760c01c26699663}{parse\+\_\+rmat\+\_\+probability} (char $\ast$rmat\+\_\+str, double rmat\mbox{[}2\mbox{]}\mbox{[}2\mbox{]})
 \begin{DoxyCompactList}\small\item\em parse a string of the form a,b,c,d and put it into 2x2 matrix \end{DoxyCompactList}\item 
-static void $\ast$ \hyperlink{spmv_8cc_a3cab6fa93276c69712c867ea0c9480c9}{xalloc} (size\+\_\+t sz)
-\begin{DoxyCompactList}\small\item\em malloc + check \end{DoxyCompactList}\item 
-static void \hyperlink{spmv_8cc_ab74147af88fbc62f9076539683737f69}{xfree} (void $\ast$a)
-\begin{DoxyCompactList}\small\item\em wrap free \end{DoxyCompactList}\item 
 static \hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} \hyperlink{spmv_8cc_a2564bee68cf55b040dde9891e850fd60}{parse\+\_\+args} (int argc, char $\ast$$\ast$argv)
 \begin{DoxyCompactList}\small\item\em parse command line args \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a722d5677632ee1f02e98ddbd8a5be12c}\label{spmv_8cc_a722d5677632ee1f02e98ddbd8a5be12c}} 
@@ -214,13 +220,9 @@ static \hyperlink{structvec__t}{vec\+\_\+t} \hyperlink{spmv_8cc_ae5980ab044cde4d
 \begin{DoxyCompactList}\small\item\em make a zero vector of n elements \end{DoxyCompactList}\item 
 static void \hyperlink{spmv_8cc_adf81d1a5d4b0a2db9fcf090141069e7c}{cmdline\+\_\+options\+\_\+destroy} (\hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} opt)
 \begin{DoxyCompactList}\small\item\em release memory for cmdline\+\_\+options \end{DoxyCompactList}\item 
-static \hyperlink{structimage__t}{image\+\_\+t} \hyperlink{spmv_8cc_a52e2288d46ba0c89efbf1aed93378539}{mk\+\_\+image} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} img\+\_\+width, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} img\+\_\+height)
-\begin{DoxyCompactList}\small\item\em make an img\+\_\+width x img\+\_\+height image for M x N matrix \end{DoxyCompactList}\item 
-static void \hyperlink{spmv_8cc_a1cecb5caff155e86cf45de90f165c760}{image\+\_\+destroy} (\hyperlink{structimage__t}{image\+\_\+t} $\ast$img)
-\begin{DoxyCompactList}\small\item\em release memory for image \end{DoxyCompactList}\item 
-static void \hyperlink{spmv_8cc_a2b1587c4f3bccd366674af1b793a46dc}{image\+\_\+add\+\_\+pixel} (\hyperlink{structimage__t}{image\+\_\+t} $\ast$img, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} j, double p)
-\begin{DoxyCompactList}\small\item\em add a non-\/zero pixel to an image \end{DoxyCompactList}\item 
-static int \hyperlink{spmv_8cc_a4977b9f200b7b8fb52267afd94a3cba7}{dump\+\_\+sparse\+\_\+file} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} img\+\_\+width, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} img\+\_\+height, char $\ast$file)
+static int \hyperlink{spmv_8cc_a99d82b31b353c22a745c729d4fdeb64b}{cmp\+\_\+idx\+\_\+fun} (const void $\ast$a\+\_\+, const void $\ast$b\+\_\+)
+\begin{DoxyCompactList}\small\item\em compare two elements in an array of idx\+\_\+t \end{DoxyCompactList}\item 
+static int \hyperlink{spmv_8cc_a17faa502dfeb98749ed61e827cb83137}{dump\+\_\+sparse\+\_\+file} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, char $\ast$file, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} max\+\_\+points, long seed)
 \begin{DoxyCompactList}\small\item\em dump a sparse matrix A into img\+\_\+width x img\+\_\+height bitmap (gnuplot file) with the specified filename. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{spmv_8cc_a3c04138a5bfe5d72780bb7e82a18e627}\label{spmv_8cc_a3c04138a5bfe5d72780bb7e82a18e627}} 
 int \hyperlink{spmv_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
@@ -377,6 +379,23 @@ release memory for cmdline\+\_\+options
 {\em (opt)} & the command line option to release the memory of \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{spmv_8cc_a99d82b31b353c22a745c729d4fdeb64b}\label{spmv_8cc_a99d82b31b353c22a745c729d4fdeb64b}} 
+\index{spmv.\+cc@{spmv.\+cc}!cmp\+\_\+idx\+\_\+fun@{cmp\+\_\+idx\+\_\+fun}}
+\index{cmp\+\_\+idx\+\_\+fun@{cmp\+\_\+idx\+\_\+fun}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{cmp\+\_\+idx\+\_\+fun()}{cmp\_idx\_fun()}}
+{\footnotesize\ttfamily static int cmp\+\_\+idx\+\_\+fun (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a\+\_\+,  }\item[{const void $\ast$}]{b\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+compare two elements in an array of idx\+\_\+t 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (a\+\_\+)} & the pointer to an element 1 \\
+\hline
+{\em (b\+\_\+)} & the pointer to an element 2 \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{spmv_8cc_abbc6740cae208e212acc9b0d4079aa3d}\label{spmv_8cc_abbc6740cae208e212acc9b0d4079aa3d}} 
 \index{spmv.\+cc@{spmv.\+cc}!coo\+\_\+elem\+\_\+cmp@{coo\+\_\+elem\+\_\+cmp}}
 \index{coo\+\_\+elem\+\_\+cmp@{coo\+\_\+elem\+\_\+cmp}!spmv.\+cc@{spmv.\+cc}}
@@ -426,11 +445,11 @@ current time in nano second
 \begin{DoxyReturn}{Returns}
 the current time in nano second 
 \end{DoxyReturn}
-\mbox{\Hypertarget{spmv_8cc_a4977b9f200b7b8fb52267afd94a3cba7}\label{spmv_8cc_a4977b9f200b7b8fb52267afd94a3cba7}} 
+\mbox{\Hypertarget{spmv_8cc_a17faa502dfeb98749ed61e827cb83137}\label{spmv_8cc_a17faa502dfeb98749ed61e827cb83137}} 
 \index{spmv.\+cc@{spmv.\+cc}!dump\+\_\+sparse\+\_\+file@{dump\+\_\+sparse\+\_\+file}}
 \index{dump\+\_\+sparse\+\_\+file@{dump\+\_\+sparse\+\_\+file}!spmv.\+cc@{spmv.\+cc}}
 \subsubsection{\texorpdfstring{dump\+\_\+sparse\+\_\+file()}{dump\_sparse\_file()}}
-{\footnotesize\ttfamily static int dump\+\_\+sparse\+\_\+file (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{img\+\_\+width,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{img\+\_\+height,  }\item[{char $\ast$}]{file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static int dump\+\_\+sparse\+\_\+file (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{char $\ast$}]{file,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{max\+\_\+points,  }\item[{long}]{seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -440,47 +459,11 @@ dump a sparse matrix A into img\+\_\+width x img\+\_\+height bitmap (gnuplot fil
 \begin{DoxyParams}{Parameters}
 {\em (\+A)} & a sparse matrix to dump \\
 \hline
-{\em (img\+\_\+width)} & the width of the image \\
-\hline
-{\em (img\+\_\+height)} & the height of the image \\
-\hline
 {\em (file)} & the file name to dump A into \\
 \hline
-\end{DoxyParams}
-\mbox{\Hypertarget{spmv_8cc_a2b1587c4f3bccd366674af1b793a46dc}\label{spmv_8cc_a2b1587c4f3bccd366674af1b793a46dc}} 
-\index{spmv.\+cc@{spmv.\+cc}!image\+\_\+add\+\_\+pixel@{image\+\_\+add\+\_\+pixel}}
-\index{image\+\_\+add\+\_\+pixel@{image\+\_\+add\+\_\+pixel}!spmv.\+cc@{spmv.\+cc}}
-\subsubsection{\texorpdfstring{image\+\_\+add\+\_\+pixel()}{image\_add\_pixel()}}
-{\footnotesize\ttfamily static void image\+\_\+add\+\_\+pixel (\begin{DoxyParamCaption}\item[{\hyperlink{structimage__t}{image\+\_\+t} $\ast$}]{img,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{j,  }\item[{double}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-add a non-\/zero pixel to an image 
-
-
-\begin{DoxyParams}{Parameters}
-{\em (img)} & a pointer to an \hyperlink{structimage__t}{image\+\_\+t} object to put a pixel into \\
+{\em (max\+\_\+points)} & the maximum number of points dumped into the file \\
 \hline
-{\em (i)} & the row number of the pixel \\
-\hline
-{\em (j)} & the column number of the pixel \\
-\hline
-{\em (p)} & the value of the matrix element\\
-\hline
-\end{DoxyParams}
-call it to indicate the matrix\textquotesingle{}s (i,j) element is p (A(i,j) = p). image\+\_\+add\+\_\+pixel(img, i, j, p) converts (i,j) into the corresponding index in the bitmap and put one at the position (p is actually not used but we might consider using p to reflect it to the density of the pixel) \mbox{\Hypertarget{spmv_8cc_a1cecb5caff155e86cf45de90f165c760}\label{spmv_8cc_a1cecb5caff155e86cf45de90f165c760}} 
-\index{spmv.\+cc@{spmv.\+cc}!image\+\_\+destroy@{image\+\_\+destroy}}
-\index{image\+\_\+destroy@{image\+\_\+destroy}!spmv.\+cc@{spmv.\+cc}}
-\subsubsection{\texorpdfstring{image\+\_\+destroy()}{image\_destroy()}}
-{\footnotesize\ttfamily static void image\+\_\+destroy (\begin{DoxyParamCaption}\item[{\hyperlink{structimage__t}{image\+\_\+t} $\ast$}]{img }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-release memory for image 
-
-
-\begin{DoxyParams}{Parameters}
-{\em (img)} & \hyperlink{structimage__t}{image\+\_\+t} object to destroy \\
+{\em (seed)} & the random number seed to choose elements to dump \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{spmv_8cc_a9a60b341089660b30457053be4eafc76}\label{spmv_8cc_a9a60b341089660b30457053be4eafc76}} 
@@ -558,30 +541,6 @@ a sparse matrix in coo fromat
 generate R-\/\+M\+AT (\href{https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43}{\tt https\+://epubs.\+siam.\+org/doi/abs/10.\+1137/1.\+9781611972740.\+43}) with the specified probability p. \begin{DoxySeeAlso}{See also}
 \hyperlink{spmv_8cc_a9b363aef130851519b0decb6895ad348}{rmat\+\_\+choose\+\_\+pair} 
 \end{DoxySeeAlso}
-\mbox{\Hypertarget{spmv_8cc_a52e2288d46ba0c89efbf1aed93378539}\label{spmv_8cc_a52e2288d46ba0c89efbf1aed93378539}} 
-\index{spmv.\+cc@{spmv.\+cc}!mk\+\_\+image@{mk\+\_\+image}}
-\index{mk\+\_\+image@{mk\+\_\+image}!spmv.\+cc@{spmv.\+cc}}
-\subsubsection{\texorpdfstring{mk\+\_\+image()}{mk\_image()}}
-{\footnotesize\ttfamily static \hyperlink{structimage__t}{image\+\_\+t} mk\+\_\+image (\begin{DoxyParamCaption}\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{M,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{N,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{img\+\_\+width,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{img\+\_\+height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-make an img\+\_\+width x img\+\_\+height image for M x N matrix 
-
-
-\begin{DoxyParams}{Parameters}
-{\em (\+M)} & the number of rows in the matrix \\
-\hline
-{\em (\+N)} & the number of columns in the matrix \\
-\hline
-{\em (img\+\_\+width)} & the number of horizontal pixels (for N) \\
-\hline
-{\em (img\+\_\+height)} & the number of vertial pixels (for M) \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\hyperlink{structimage__t}{image\+\_\+t} object 
-\end{DoxyReturn}
 \mbox{\Hypertarget{spmv_8cc_aaaea896bc16745cbe40e0c8f7c8122b6}\label{spmv_8cc_aaaea896bc16745cbe40e0c8f7c8122b6}} 
 \index{spmv.\+cc@{spmv.\+cc}!mk\+\_\+sparse\+\_\+matrix@{mk\+\_\+sparse\+\_\+matrix}}
 \index{mk\+\_\+sparse\+\_\+matrix@{mk\+\_\+sparse\+\_\+matrix}!spmv.\+cc@{spmv.\+cc}}
@@ -1335,20 +1294,20 @@ wrap free
 {\bfseries Initial value\+:}
 \begin{DoxyCode}
 = \{
-  \{\textcolor{stringliteral}{"M"},           required\_argument, 0,  \textcolor{charliteral}{'M'} \},
-  \{\textcolor{stringliteral}{"N"},           required\_argument, 0,  \textcolor{charliteral}{'N'} \},
-  \{\textcolor{stringliteral}{"nnz"},         required\_argument, 0,  \textcolor{charliteral}{'z'} \},
-  \{\textcolor{stringliteral}{"repeat"},      required\_argument, 0,  \textcolor{charliteral}{'r'} \},
-  \{\textcolor{stringliteral}{"format"},      required\_argument, 0,  \textcolor{charliteral}{'f'} \},
-  \{\textcolor{stringliteral}{"matrix-type"}, required\_argument, 0,  \textcolor{charliteral}{'t'} \},
-  \{\textcolor{stringliteral}{"algo"},        required\_argument, 0,  \textcolor{charliteral}{'a'} \},
-  \{\textcolor{stringliteral}{"coo-file"},    required\_argument, 0,   0  \},
-  \{\textcolor{stringliteral}{"rmat"},        required\_argument, 0,   0  \},
-  \{\textcolor{stringliteral}{"dump"},        required\_argument, 0,   0  \},
-  \{\textcolor{stringliteral}{"img-W"},       required\_argument, 0,   0  \},
-  \{\textcolor{stringliteral}{"img-H"},       required\_argument, 0,   0  \},
-  \{\textcolor{stringliteral}{"seed"},        required\_argument, 0,  \textcolor{charliteral}{'s'}\},
-  \{\textcolor{stringliteral}{"help"},        required\_argument, 0,  \textcolor{charliteral}{'h'}\},
+  \{\textcolor{stringliteral}{"M"},           required\_argument, 0, \textcolor{charliteral}{'M'} \},
+  \{\textcolor{stringliteral}{"N"},           required\_argument, 0, \textcolor{charliteral}{'N'} \},
+  \{\textcolor{stringliteral}{"nnz"},         required\_argument, 0, \textcolor{charliteral}{'z'} \},
+  \{\textcolor{stringliteral}{"repeat"},      required\_argument, 0, \textcolor{charliteral}{'r'} \},
+  \{\textcolor{stringliteral}{"format"},      required\_argument, 0, \textcolor{charliteral}{'f'} \},
+  \{\textcolor{stringliteral}{"matrix-type"}, required\_argument, 0, \textcolor{charliteral}{'t'} \},
+  \{\textcolor{stringliteral}{"algo"},        required\_argument, 0, \textcolor{charliteral}{'a'} \},
+  \{\textcolor{stringliteral}{"coo-file"},    required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"rmat"},        required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"dump"},        required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"dump-points"}, required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"dump-seed"},   required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"seed"},        required\_argument, 0, \textcolor{charliteral}{'s'}\},
+  \{\textcolor{stringliteral}{"help"},        required\_argument, 0, \textcolor{charliteral}{'h'}\},
   \{0,             0,                 0,  0 \}
 \}
 \end{DoxyCode}
@@ -1389,7 +1348,7 @@ table of index value -\/ sparse format name pairs
     \{ \hyperlink{spmv_8cc_a43a568fb26bc32aeaad07769cc524c45a7d1a4297606841df02daaf788b3c747e}{sparse\_matrix\_type\_random},   \textcolor{stringliteral}{"random"} \},
     \{ \hyperlink{spmv_8cc_a43a568fb26bc32aeaad07769cc524c45ad678d1380d3392961348a30105bfa5ae}{sparse\_matrix\_type\_rmat},     \textcolor{stringliteral}{"rmat"} \},
     \{ \hyperlink{spmv_8cc_a43a568fb26bc32aeaad07769cc524c45a279601049abdf78851fca2cd657d59fc}{sparse\_matrix\_type\_one},      \textcolor{stringliteral}{"one"} \},
-    \{ \hyperlink{spmv_8cc_a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6}{sparse\_matrix\_type\_coo\_file}, \textcolor{stringliteral}{"csr"} \},
+    \{ \hyperlink{spmv_8cc_a43a568fb26bc32aeaad07769cc524c45a86751f08b859e672050ab331cc3aefd6}{sparse\_matrix\_type\_coo\_file}, \textcolor{stringliteral}{"file"} \},
   \}
 \}
 \end{DoxyCode}

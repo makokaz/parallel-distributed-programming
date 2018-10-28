@@ -6,6 +6,7 @@ var searchData=
   ['check_5flaunch_5ferror_5f',['check_launch_error_',['../cuda__util_8h.html#a522422f538aba091ae7b9ec113871075',1,'cuda_util.h']]],
   ['cmdline_5foptions_5fdestroy',['cmdline_options_destroy',['../spmv_8cc.html#adf81d1a5d4b0a2db9fcf090141069e7c',1,'spmv.cc']]],
   ['cmdline_5foptions_5ft',['cmdline_options_t',['../structcmdline__options__t.html',1,'']]],
+  ['cmp_5fidx_5ffun',['cmp_idx_fun',['../spmv_8cc.html#a99d82b31b353c22a745c729d4fdeb64b',1,'spmv.cc']]],
   ['coo',['coo',['../structsparse__t.html#ad0391f2782f49ea2eb248ed255e9d732',1,'sparse_t']]],
   ['coo_5fdestroy',['coo_destroy',['../spmv_8cc.html#a7cd0154a7fd92d751e3db7fad63a11c7',1,'spmv.cc']]],
   ['coo_5felem_5fcmp',['coo_elem_cmp',['../spmv_8cc.html#abbc6740cae208e212acc9b0d4079aa3d',1,'spmv.cc']]],
