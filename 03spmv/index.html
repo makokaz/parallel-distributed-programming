@@ -120,7 +120,7 @@ pre {
         to make your own copy of the project.
       </li>
       <li>After you successfully forked it, visit the repository you just created.
-        Find it by cliking on "Project" -&gt; "Your project".
+        Find it by clicking on "Project" -&gt; "Your project".
         The project page should be like "YOUR NAME/parallel-distributed-handson".
         Make sure it is NOT "Kenjiro Taura/parallel-distributed-handson".
       </li>
@@ -164,7 +164,7 @@ I'll defer how to do it later and go ahead for now
 <h2>The roadmap</h2>
 <div>
   <p>
-    You see the detailed instructions of hands-on excercise below
+    You see the detailed instructions of hands-on exercise below
     from the basics of git and gdb to how to exactly send your work to me.
     You can follow them basically on a paragraph by paragraph basis,
     but if you think you already know the basics and want to jump into
@@ -185,7 +185,7 @@ g++ -o spmv.gcc spmv.cc  -Wall -Wextra -O3 -fopenmp
 /usr/local/cuda/bin/nvcc -o spmv.nvcc -x cu spmv.cc  --gpu-code sm_60 --gpu-architecture compute_60 -O3 -Xptxas -O3,-v  
 </pre>
 If successful, you will get two executable <tt>spmv.gcc</tt> (compiled by g++)
-and <tt>spmv.nvcc</tt> (compiled by nvcc).  If you work in your environment (not IST cluste)
+and <tt>spmv.nvcc</tt> (compiled by nvcc).  If you work in your environment (not IST cluster)
 and do not have nvcc (NVIDIA compiler), remove <tt>spmv.nvcc</tt> from the target so that
 it does not try to make spmv.nvcc. For that, open <tt>Makefile</tt> and commenting out the following
 line
@@ -337,7 +337,7 @@ repeat 5 times {
 <blockquote>
 flops = (4 * nnz + 3 * N) * repeat
 </blockquote>
-In thie example, it is
+In this example, it is
 <blockquote>
 flops = (4 * 2000000 + 3 * 10000) * 5 = 40150000
 </blockquote>
@@ -375,7 +375,7 @@ usage:
 options:
   --help             show this help
   --M N              set the number of rows to N [100000]
-  --N N              set the number of colums to N [0]
+  --N N              set the number of columns to N [0]
   -z,--nnz N         set the number of non-zero elements to N [0]
   -r,--repeat N      repeat N times [5]
   -f,--format F      set sparse matrix format to F (coo,coo_sorted,csr) [coo]
@@ -590,13 +590,13 @@ The distribution of non-zeros over rows looks like this.
     <li>Each of these functions, except for serial ones already provided in <tt>spmv.cc</tt>,
       is in a separate file in <tt><font color=blue>include</font></tt>
       directory, with the file name same with the function name.
-      For example, a parallel version for coo-formated matrices is
+      For example, a parallel version for coo-formatted matrices is
       named <tt><font color=blue>spmv_coo_parallel</font></tt>
       and it is in <tt><font color=blue>include/spmv_coo_parallel.cc</font></tt>
       <font color=red><i>Most of them are unimplemented yet and raise an error when called.</i></font>
       <i>The main job of your hands-on is to fill these functions with working implementations.</i>
     </li>
-    <li>Besids <tt><font color=blue>spmv</font></tt>,
+    <li>Besides <tt><font color=blue>spmv</font></tt>,
       there are two auxiliary functions called from <tt>repeat_spmv.</tt>
       <ul>
         <li><tt><font color=blue>scalar_vec</font>,</tt> which multiplies each element of a vector by a scalar</li>
@@ -616,7 +616,7 @@ The distribution of non-zeros over rows looks like this.
       it makes sense to have an identical implementation for 
       <tt><font color=blue>spmv_coo_cuda</font></tt> and
       <tt><font color=blue>spmv_coo_sorted_cuda</font></tt>.
-      It also makes sense to share the same implementaiton
+      It also makes sense to share the same implementation
       of <tt><font color=blue>scalar_vec</font></tt>
       and <tt><font color=blue>vec_norm2</font></tt> for many
       cases no matter which algorithm is used for spmv.
@@ -701,7 +701,7 @@ specify the executable file (e.g., <tt>./spmv.gcc</tt>) you want to trace.
   </ol>
 </div>
 
-<h2>Excercise 1</h2>
+<h2>Exercise 1</h2>
 <div>
   <blockquote>
     Parallelize
@@ -739,6 +739,12 @@ and implement <tt>spmv_coo_parallel</tt> function in it.
 There is another function you need to implement
 (<tt>include/vec_norm2_parallel.cc:vec_norm2_parallel</tt>)
 and you will similarly encounter an error if you don't.
+  </p>
+  <p>If you make it work for the coo format,
+    it will automatically work for coo_sorted format as well.
+    Unless you come up with an algorithm that takes advantage
+    of the fact that elements are sorted, you do not
+    have to write it separately.
   </p>
 </div>
 
@@ -814,7 +820,7 @@ if you are interested.
       or a number beyond which you don't observe any speedup.</li>
   </ol>
 
-  <p>Choose problem size parameters so that you have a resonable hope to 
+  <p>Choose problem size parameters so that you have a reasonable hope to 
     observe a good speedup (In reality, of course, the problem sizes
     are determined by the algorithm or the problem at hand.  The main purpose
     here is to discover anything you didn't get right
@@ -825,15 +831,25 @@ if you are interested.
         Since a single multiply + add is a very small piece of work,
         in order to have a hope to get a good speedup, 
         you need to make nnz sufficiently large.
-        Try to make a single spmv take a second (or more) on a single core.
+        Try to make a single spmv take 0.1 seconds on a single core.
       </li>
       <li>
         Try to make the matrix "sparse enough",
         to reduce the likelihood of conflicting accesses.
       </li>
+      <li>
+        See the difference between coo and coo_sorted.
+        The code is identically (coo_sorted version simply
+        calls coo version), yet you see a large
+        performance difference, both for serial and parallel.
+      </li>
+      <li>
+        coo_sorted takes a significant amount of time
+        to generate and transpose a matrix.  This is because
+        we need to sort all non-zeros in the dictionary order.
+      </li>
     </ul>
   </p>
-  
 </div>
 
 

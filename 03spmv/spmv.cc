@@ -227,7 +227,7 @@ static void usage(const char * prog) {
           "options:\n"
           "  --help             show this help\n"
           "  --M N              set the number of rows to N [%ld]\n"
-          "  --N N              set the number of colums to N [%ld]\n"
+          "  --N N              set the number of columns to N [%ld]\n"
           "  -z,--nnz N         set the number of non-zero elements to N [%ld]\n"
           "  -r,--repeat N      repeat N times [%ld]\n"
           "  -f,--format F      set sparse matrix format to F (%s) [%s]\n"
