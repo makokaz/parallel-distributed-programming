@@ -701,6 +701,7 @@ specify the executable file (e.g., <tt>./spmv.gcc</tt>) you want to trace.
   </ol>
 </div>
 
+<a name=ex1></a>
 <h2>Exercise 1</h2>
 <div>
   <blockquote>
@@ -711,6 +712,7 @@ specify the executable file (e.g., <tt>./spmv.gcc</tt>) you want to trace.
   </blockquote>
 </div>
 
+<a name=which_functions_1></a>
 <h3>Which functions/files to change</h3>
 <div>
   <p>
@@ -748,6 +750,7 @@ and you will similarly encounter an error if you don't.
   </p>
 </div>
 
+<a name=check_your_code_1></a>
 <h3>Check your code is correct</h3>
 <div>
   <p>
@@ -808,6 +811,7 @@ if you are interested.
   </p>
 </div>
 
+<a name=check_how_fast_1></a>
 <h3>Check how fast your code is</h3>
 <div>
   <p>Run the code at least with the following three settings.</p>
@@ -852,7 +856,7 @@ if you are interested.
   </p>
 </div>
 
-
+<a name=ex2> </a>
 <h2>Exercise 2</h2>
 <div>
   <blockquote>
@@ -863,6 +867,7 @@ if you are interested.
   </blockquote>
 </div>
 
+<a name=which_functions_2></a>
 <h3>Which functions/files to change</h3>
 <div>
   <p>
@@ -878,18 +883,18 @@ Similarly to Exercise 1,
 if you run the above command without any work, you will get
 the following error.
 <pre>      
-$ <u>OMP_NUM_THREADS=<i>n</i> ./spmv.gcc -f coo -a parallel</u>
+$ <u>srun -p p ./spmv.nvcc -f coo -a parallel</u>
    ...
 *************************************************************
-include/spmv_coo_parallel.cc:20:spmv_coo_parallel:
+include/spmv_coo_cuda.cc:35:spmv_coo_cuda:
 write a code that performs SPMV for COO format in parallel
-using parallel for + atomic directives
+using CUDA.
 *************************************************************
 </pre>
-Look into the file <tt>include/spmv_coo_parallel.cc</tt>
-and implement <tt>spmv_coo_parallel</tt> function in it.
+Look into the file <tt>include/spmv_coo_cuda.cc</tt>
+and implement <tt>spmv_coo_cuda</tt> function in it.
 There is another function you need to implement
-(<tt>include/vec_norm2_parallel.cc:vec_norm2_parallel</tt>)
+(<tt>include/vec_norm2_cuda.cc:vec_norm2_cuda</tt>)
 and you will similarly encounter an error if you don't.
   </p>
   <p>If you make it work for the coo format,
@@ -897,6 +902,36 @@ and you will similarly encounter an error if you don't.
     Unless you come up with an algorithm that takes advantage
     of the fact that elements are sorted, you do not
     have to write it separately.
+  </p>
+</div>
+
+<a name=check_your_code_2></a>
+<h3>Check your code is correct</h3>
+<div>
+  <p>
+    Follow <a href="#check_your_code_1">the same instruction with Exercise 1</a>.
+  </p>
+</div>
+
+<a name=check_how_fast_2></a>
+<h3>Check how fast your code is</h3>
+<div>
+  <p>
+    On GPUs, it is difficult to run the same code
+    with a specific number of "cores" (streaming multiprocessors),
+    as the hardware automatically dispatches
+    thread blocks to available streaming multiprocessors.
+    The only way to limit the number of
+    streaming multiprocessors used is to limit the number of
+    thread blocks created, but doing so would require you to
+    change the number of threads per block, which is
+    in some cases impossible, or change the work done by each thread,
+    which is tedious if a thread is originally written to work
+    on a single non-zero element.
+  </p>
+  <p>
+    It is thus not necessary to change the number of
+    processors for GPUs. 
   </p>
 </div>
 
