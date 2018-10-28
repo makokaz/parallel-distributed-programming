@@ -500,19 +500,220 @@ giving you an idea about the load balancing if you divide rows into cores.
 Both graphs are not surprising (and are somewhat boring) as their
 non-zero elements are uniformly distributed.  The non-zeros are evenly
 distributed over rows and over the 2D space.
+<br />
+More interesting is the distribution of non-zeros for rmat.
+If the sole purpose of running the program is to see the distribution
+of a matrix, it is wise to give <tt>-r 0</tt> so that SpMV is not repeated at all
+(warm up + error checks are still performed).
+
+<pre>
+$ ./spmv.gcc -r 0 -t rmat --dump a.gnuplot
+   ...
+spmv.cc:1810:dump_sparse_file: dumping to matrix 20000 x 10000 (2000000 nnz) -> a.gnuplot
+spmv.cc:1896:dump_sparse_file: done
+   ...
+</pre>
+<pre>
+$ gnuplot a.gnuplot
+</pre>
+will show you this.
+<br />
+<a href="img/nnz_mat_rmat.png"> <img width=300 src="img/nnz_mat_rmat.png" /></a>
+<br />
+The distribution of non-zeros over rows looks like this.
+<br />
+<a href="img/nnz_row_rmat.png"> <img width=300 src="img/nnz_row_rmat.png" /></a>
+<br />
   </li>
 </ul>
   </p>    
 </div>
 
-  
-
 <a name=structure> </a>
 <h2>How the code is structured</h2>
+<h3>Browsing the documentation</h3>
 <div>
   <p>
-
+    You can browse the <a href="doc/html/index.html" target="_blank">
+      documentation</a> of functions
+    and data structures generated from the comments in the source code.
+    Go to "Files" -&gt; "File List" to get the structure of the source.
+    Here are some summaries especially relevant for doing hands-on.
   </p>
+</div>
+
+<h3>A tour of the source code</h3>
+<div>
+  <ul>
+    <li><tt><font color=blue>main()</font></tt> function is in
+      <tt><font color=blue>spmv.cc</font></tt></li>
+    <li><tt><font color=blue>main</font></tt> function,
+      after processing command line arguments, calls
+      <tt><font color=blue>repeat_spmv()</font></tt>, which
+      does everything.</li>
+    <li><tt><font color=blue>repeat_spmv()</font></tt>
+      repeatedly calls <tt><font color=blue>spmv()</font></tt>.</li>
+    <li><tt><font color=blue>spmv()</font></tt> has a switch statement based on the matrix format.
+      Based on the matrix format, it calls into function
+      that implements spmv for a particular format
+      (<tt><font color=blue>spmv_coo(), spmv_coo_sorted()</font></tt> or
+      <tt><font color=blue>spmv_csr()</font></tt>)</li>
+    <li>Each of them is another function that, based on
+      the algorithm chosen, calls one of functions that implement
+      spmv for a particular combination of the matrix format and the algorithm.
+      All these functions follow the naming convention:
+      <font color=blue><tt>spmv_</tt><i>format</i><tt>_</tt><i>algorithm</i></font>.
+      For example, <tt><font color=blue>spmv_coo_serial</font></tt>
+      is the function that implements spmv
+      for coo format in serial.
+    </li>
+    <li>Formats currently recognized are
+      <ul>
+        <li><font color=blue>coo</font>,</li>
+        <li><font color=blue>coo_sorted</font> and</li>
+        <li><font color=blue>csr</font></li>
+      </ul>
+    </li>
+    <li>Algorithms currently recognized are
+      <ul>
+        <li><font color=blue>serial</font> (serial algorithm),</li>
+        <li><font color=blue>parallel</font> (parallel algorithm, probably with OpenMP parallel for
+          + atomic update as necessary),</li>
+        <li><font color=blue>cuda</font> (cuda),</li>
+        <li><font color=blue>task</font>
+          (parallel algorithm, probably with OpenMP tasks or Intel TBB) and</li>
+        <li><font color=blue>udr</font>
+          (parallel algorithm, probably with OpenMP parallel for + user-defined reductions
+          or Intel TBB parallel_reduce).</li>
+      </ul>
+    </li>
+    <li>Each of these functions, except for serial ones already provided in <tt>spmv.cc</tt>,
+      is in a separate file in <tt><font color=blue>include</font></tt>
+      directory, with the file name same with the function name.
+      For example, a parallel version for coo-formated matrices is
+      named <tt><font color=blue>spmv_coo_parallel</font></tt>
+      and it is in <tt><font color=blue>include/spmv_coo_parallel.cc</font></tt>
+      <font color=red><i>Most of them are unimplemented yet and raise an error when called.</i></font>
+      <i>The main job of your hands-on is to fill these functions with working implementations.</i>
+    </li>
+    <li>Besids <tt><font color=blue>spmv</font></tt>,
+      there are two auxiliary functions called from <tt>repeat_spmv.</tt>
+      <ul>
+        <li><tt><font color=blue>scalar_vec</font>,</tt> which multiplies each element of a vector by a scalar</li>
+        <li><tt><font color=blue>vec_norm2</font>,</tt>
+          which computes the square norm of a vector</li>
+      </ul>
+      They also dispatch to one of functions for various algorithms.  For example,
+      <tt><font color=blue>scalar_vec_parallel</font></tt>
+      and <tt><font color=blue>scalar_vec_cuda</font></tt> are functions
+      implementing scalar-vector multiply with parallel for and cuda
+      and are in <tt><font color=blue>include/scalar_vec_parallel.cc</font></tt> and
+      <tt><font color=blue>include/scalar_vec_cuda.cc</font></tt>, respectively.
+    </li>
+    <li>
+      In many cases, the same implementation can be shared
+      across multiple algorithms.  For example,
+      it makes sense to have an identical implementation for 
+      <tt><font color=blue>spmv_coo_cuda</font></tt> and
+      <tt><font color=blue>spmv_coo_sorted_cuda</font></tt>.
+      It also makes sense to share the same implementaiton
+      of <tt><font color=blue>scalar_vec</font></tt>
+      and <tt><font color=blue>vec_norm2</font></tt> for many
+      cases no matter which algorithm is used for spmv.
+      In these cases, the default source code simply calls into
+      another (e.g., <tt><font color=blue>spmv_coo_sorted_cuda</font></tt>
+      simply calls <tt><font color=blue>spmv_coo_cuda</font></tt>).  You do not have
+      to change these functions unless you like to.
+    </li>
+  </ul>
+</div>
+
+<h3>Use a debugger to dig into it</h3>
+<div>
+  <p>The source code is hopefully simple enough to get a good idea about it working
+    with the above explanation + browsing.  To get a fuller understanding and
+    to diagnose a problem after you modified it, however, 
+    it is a good idea to follow what's going on by running it within a debugger.
+    If you are not accustomed to do it, I recommend you to do the following
+    as a practice.
+  </p>
+  <ol>
+    <li>Compile the source with <tt>-O0 -g</tt> and without <tt>-O3</tt>.
+      For that, open <tt>Makefile</tt> and uncomment the line including
+      <tt>-O0 -g</tt> and comment out the line including <tt>-O3</tt>, like this.
+<pre>
+cxxflags += -O0 -g
+#cxxflags += -O3
+</pre>
+and run <tt>make</tt> command again.
+<pre>
+$ make
+g++ -o spmv.gcc spmv.cc  -Wall -Wextra -O0 -g -fopenmp  
+</pre>
+Be sure that <tt>-O0 -g</tt> are given to the command line.
+If the make command says
+<pre>
+$ make
+make: Nothing to be done for 'all'.
+</pre>
+do either of the following.
+  <ol>
+    <li>run <tt>make clean</tt> to remove the executable and run <tt>make</tt> again.
+<pre>
+$ <u>make clean</u>
+rm -f *.o  spmv.gcc
+$ <u>make</u>
+g++ -o spmv.gcc spmv.cc  -Wall -Wextra -O0 -g -fopenmp  
+</pre>
+    </li>
+    <li>run <tt>make -B</tt> instead of <tt>make.</tt>  <tt>-B</tt> option to <tt>make</tt>
+      instructs <tt>make</tt> to build everything anyways.
+<pre>      
+$ <u>make -B</u>
+g++ -o spmv.gcc spmv.cc  -Wall -Wextra -O0 -g -fopenmp  
+</pre>      
+    </li>
+  </ol>
+  <ul>
+    <li><tt>-O0</tt> instructs the compiler not to optimize it.</li>
+    Therefore it is important not to give <tt>-O3,</tt> which instructs the compiler to optimize it.
+    <li><tt>-g</tt> instructs the compiler to include debug symbols, so that
+      the debugger can trace it.</li>
+  </ul>
+    </li>
+    <li>Run <tt>gdb</tt> command in the terminal or from within an IDE that supports a debugger.
+      In the case of Emacs, from the buffer having <tt>spmv.cc</tt> do
+<pre>      
+M-x gud-gdb
+</pre>
+and when asked
+<pre>
+Run gud-gdb (like this): gdb --fullname ./spmv.gcc
+</pre>
+specify the executable file (e.g., <tt>./spmv.gcc</tt>) you want to trace.
+    </li>
+    <li>use <tt>n(ext)</tt> command and <tt>s(tep)</tt> command to execute
+      the program one line at a time.  I cannot write all the things
+      I want to tell you about the debugger.  There are plenty of sources
+      about it (google gdb, gdb intro, etc.).
+      Please get familiar with it in this opportunity if you are not.
+    </li>
+  </ol>
+</div>
+
+<h2>Excercise 1</h2>
+<div>
+  <blockquote>
+    Parallelize
+    spmv with OpenMP for loops and run it on multicore/many core CPUs.
+    Read and follow the details below.
+  </blockquote>
+</div>
+<h3>Details</h3>
+<div>
+  <ul>
+    <li></li>
+  </ul>
 </div>
 
 <a name=gitlab-ssh> </a>

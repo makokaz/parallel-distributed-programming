@@ -6,8 +6,8 @@ app := spmv
 cxxflags :=
 cxxflags += -Wall -Wextra
 ## use debug options or optimization
-#cxxflags += -O0 -g
-cxxflags += -O3
+cxxflags += -O0 -g
+#cxxflags += -O3
 ## use either -fopenmp or -Wno-unknown-pragmas to supress warnings around unknown omp pragmas
 cxxflags += -fopenmp
 #cxxflags += -Wno-unknown-pragmas
@@ -47,4 +47,4 @@ $(app).nvcc : %.nvcc : %.cc
 	$(NVCXX) -o $@ -x cu $< $(NVCXXFLAGS) $(NVLDFLAGS) $(NVLIBS)
 
 clean :
-	rm -f *.o
+	rm -f *.o $(exe)
