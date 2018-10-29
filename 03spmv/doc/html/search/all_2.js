@@ -15,7 +15,7 @@ var searchData=
   ['coo_5ft',['coo_t',['../structcoo__t.html',1,'']]],
   ['coo_5fto_5fdev',['coo_to_dev',['../coo__to__dev_8cc.html#ab0c33415be097ee3c3d142d348d656c3',1,'coo_to_dev.cc']]],
   ['coo_5fto_5fdev_2ecc',['coo_to_dev.cc',['../coo__to__dev_8cc.html',1,'']]],
-  ['coo_5ftranspose',['coo_transpose',['../spmv_8cc.html#a8795ef73f2ce870a5f4d22a3bbe3a4f1',1,'spmv.cc']]],
+  ['coo_5ftranspose',['coo_transpose',['../spmv_8cc.html#a8ef55e202b83e585e5680f3321518bd7',1,'spmv.cc']]],
   ['csr',['csr',['../structsparse__t.html#a68a71613181b0380d0d4d871236b2521',1,'sparse_t']]],
   ['csr_5fdestroy',['csr_destroy',['../spmv_8cc.html#a6431a82194d2f65cb5111edbd4b6a80e',1,'spmv.cc']]],
   ['csr_5felem_5ft',['csr_elem_t',['../structcsr__elem__t.html',1,'']]],

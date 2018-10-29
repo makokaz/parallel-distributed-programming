@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>spmv: /home/tau/public_html/lecture/parallel_distributed/2018/parallel-distributed-handson/03spmv/spmv.cc File Reference</title>
+<title>spmv: /home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel-distributed-handson/03spmv/spmv.cc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ $(function() {
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">/home/tau/public_html/lecture/parallel_distributed/2018/parallel-distributed-handson/03spmv/spmv.cc File Reference</div>  </div>
+<div class="title">/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel-distributed-handson/03spmv/spmv.cc File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -96,8 +96,8 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for spmv.cc:</div>
 <div class="dyncontent">
-<div class="center"><img src="spmv_8cc__incl.png" border="0" usemap="#_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc" alt=""/></div>
-<map name="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc" id="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2parallel-distributed-handson_203spmv_2spmv_8cc">
+<div class="center"><img src="spmv_8cc__incl.png" border="0" usemap="#_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2handson_2tau_2parallel-distributed-handson_203spmv_2spmv_8cc" alt=""/></div>
+<map name="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2handson_2tau_2parallel-distributed-handson_203spmv_2spmv_8cc" id="_2home_2tau_2public__html_2lecture_2parallel__distributed_22018_2handson_2tau_2parallel-distributed-handson_203spmv_2spmv_8cc">
 <area shape="rect" id="node9" href="spmv__coo__parallel_8cc.html" title="y = A * x for coo with parallel for " alt="" coords="627,131,821,158"/>
 <area shape="rect" id="node10" href="spmv__coo__task_8cc.html" title="y = A * x for coo with tasks " alt="" coords="845,131,1022,158"/>
 <area shape="rect" id="node11" href="spmv__coo__udr_8cc.html" title="y = A * x for coo with parallel for + user&#45;defined reductions " alt="" coords="1047,131,1217,158"/>
@@ -206,6 +206,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memItemLeft" align="right" valign="top">static long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae8a11dfbc1a073b8ea09b2b25484df8e">cur_time_ns</a> ()</td></tr>
+<tr class="memdesc:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">current time in nano second  <a href="#ae8a11dfbc1a073b8ea09b2b25484df8e">More...</a><br /></td></tr>
+<tr class="separator:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cab6fa93276c69712c867ea0c9480c9"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3cab6fa93276c69712c867ea0c9480c9">xalloc</a> (size_t sz)</td></tr>
 <tr class="memdesc:a3cab6fa93276c69712c867ea0c9480c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">malloc + check  <a href="#a3cab6fa93276c69712c867ea0c9480c9">More...</a><br /></td></tr>
 <tr class="separator:a3cab6fa93276c69712c867ea0c9480c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,6 +231,9 @@ static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#af6ccf5c32cd788e8a8f0a04b25996b32">spmv_algo_strs</a> ()</td></tr>
 <tr class="memdesc:af6ccf5c32cd788e8a8f0a04b25996b32"><td class="mdescLeft">&#160;</td><td class="mdescRight">print a comma-separated list of available algorithms to the standard error <br /></td></tr>
 <tr class="separator:af6ccf5c32cd788e8a8f0a04b25996b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#adf81d1a5d4b0a2db9fcf090141069e7c">cmdline_options_destroy</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt)</td></tr>
+<tr class="memdesc:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">release memory for cmdline_options  <a href="#adf81d1a5d4b0a2db9fcf090141069e7c">More...</a><br /></td></tr>
+<tr class="separator:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a848c0ca46d3e3ecc39d2fccc4d85fa12">usage</a> (const char *prog)</td></tr>
 <tr class="memdesc:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="mdescLeft">&#160;</td><td class="mdescRight">print usage  <a href="#a848c0ca46d3e3ecc39d2fccc4d85fa12">More...</a><br /></td></tr>
 <tr class="separator:a848c0ca46d3e3ecc39d2fccc4d85fa12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,30 +288,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a34835dc746f4196b1c9b0f0ab4be68dd">mk_coo_rmat</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, double p[2][2], unsigned short rg[3])</td></tr>
 <tr class="memdesc:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a random R-MAT (<a href="https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43">https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43</a>)  <a href="#a34835dc746f4196b1c9b0f0ab4be68dd">More...</a><br /></td></tr>
 <tr class="separator:a34835dc746f4196b1c9b0f0ab4be68dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a60b341089660b30457053be4eafc76"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a9a60b341089660b30457053be4eafc76">mk_coo_all_one</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz)</td></tr>
-<tr class="memdesc:a9a60b341089660b30457053be4eafc76"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a uniform random coo matrix  <a href="#a9a60b341089660b30457053be4eafc76">More...</a><br /></td></tr>
-<tr class="separator:a9a60b341089660b30457053be4eafc76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47eb7ed66be3bc240e816ba99c2e27d9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a47eb7ed66be3bc240e816ba99c2e27d9">mk_coo_one</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz)</td></tr>
+<tr class="memdesc:a47eb7ed66be3bc240e816ba99c2e27d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a sparse matrix whose elements are one on certain rows/columns and zero anywhere else  <a href="#a47eb7ed66be3bc240e816ba99c2e27d9">More...</a><br /></td></tr>
+<tr class="separator:a47eb7ed66be3bc240e816ba99c2e27d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbc6740cae208e212acc9b0d4079aa3d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#abbc6740cae208e212acc9b0d4079aa3d">coo_elem_cmp</a> (const void *a_, const void *b_)</td></tr>
 <tr class="memdesc:abbc6740cae208e212acc9b0d4079aa3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two coo elements  <a href="#abbc6740cae208e212acc9b0d4079aa3d">More...</a><br /></td></tr>
 <tr class="separator:abbc6740cae208e212acc9b0d4079aa3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23d10b280a1ae620210020791ed083b2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a23d10b280a1ae620210020791ed083b2">sparse_coo_to_coo_sorted</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
-<tr class="memdesc:a23d10b280a1ae620210020791ed083b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert coo matrix A to coo_sorted format. if in_place is true, update elements of A in place  <a href="#a23d10b280a1ae620210020791ed083b2">More...</a><br /></td></tr>
-<tr class="separator:a23d10b280a1ae620210020791ed083b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2379e3737fa6620dbfd47469ca0a607d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2379e3737fa6620dbfd47469ca0a607d">sparse_coo_to_csr</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int update_A)</td></tr>
-<tr class="memdesc:a2379e3737fa6620dbfd47469ca0a607d"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in coo format to csr format.  <a href="#a2379e3737fa6620dbfd47469ca0a607d">More...</a><br /></td></tr>
-<tr class="separator:a2379e3737fa6620dbfd47469ca0a607d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a917a91538ae84e031c8e06f47b5e6d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3a917a91538ae84e031c8e06f47b5e6d">sparse_coo_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format, int update_A)</td></tr>
-<tr class="memdesc:a3a917a91538ae84e031c8e06f47b5e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert sparse matrix in coo format to any specified format.  <a href="#a3a917a91538ae84e031c8e06f47b5e6d">More...</a><br /></td></tr>
-<tr class="separator:a3a917a91538ae84e031c8e06f47b5e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5775ee274ee21f69a5165960350c53ab"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a5775ee274ee21f69a5165960350c53ab">sparse_coo_to_coo</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format)</td></tr>
+<tr class="memdesc:a5775ee274ee21f69a5165960350c53ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert coo/coo_sorted matrix A to coo/coo_sorted format.  <a href="#a5775ee274ee21f69a5165960350c53ab">More...</a><br /></td></tr>
+<tr class="separator:a5775ee274ee21f69a5165960350c53ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87dcc54785756a1805e23d25d3b6022a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a87dcc54785756a1805e23d25d3b6022a">sparse_coo_sorted_to_csr</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a87dcc54785756a1805e23d25d3b6022a"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in coo format to csr format.  <a href="#a87dcc54785756a1805e23d25d3b6022a">More...</a><br /></td></tr>
+<tr class="separator:a87dcc54785756a1805e23d25d3b6022a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701914576bbcd3c9520fd42227481f0b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a701914576bbcd3c9520fd42227481f0b">sparse_coo_to_csr</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a701914576bbcd3c9520fd42227481f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in coo format to csr format.  <a href="#a701914576bbcd3c9520fd42227481f0b">More...</a><br /></td></tr>
+<tr class="separator:a701914576bbcd3c9520fd42227481f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b9867ec850b1a529ebc3d829d81bd2e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a3b9867ec850b1a529ebc3d829d81bd2e">sparse_coo_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format)</td></tr>
+<tr class="memdesc:a3b9867ec850b1a529ebc3d829d81bd2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert sparse matrix in coo format to any specified format.  <a href="#a3b9867ec850b1a529ebc3d829d81bd2e">More...</a><br /></td></tr>
+<tr class="separator:a3b9867ec850b1a529ebc3d829d81bd2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ac798b76107ea7ecf5b15736bfa0e79bb">sparse_csr_to_coo_sorted</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
 <tr class="memdesc:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix in csr format to coo sorted format.  <a href="#ac798b76107ea7ecf5b15736bfa0e79bb">More...</a><br /></td></tr>
 <tr class="separator:ac798b76107ea7ecf5b15736bfa0e79bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b6db8fe4111d00253055e79c76cbef2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a5b6db8fe4111d00253055e79c76cbef2">sparse_csr_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format)</td></tr>
 <tr class="memdesc:a5b6db8fe4111d00253055e79c76cbef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert sparse matrix in csr format to any specified format  <a href="#a5b6db8fe4111d00253055e79c76cbef2">More...</a><br /></td></tr>
 <tr class="separator:a5b6db8fe4111d00253055e79c76cbef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c3d741078626193f453756ae8d0313f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a1c3d741078626193f453756ae8d0313f">sparse_any_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format, int update_A)</td></tr>
-<tr class="memdesc:a1c3d741078626193f453756ae8d0313f"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix of any format to any specified format  <a href="#a1c3d741078626193f453756ae8d0313f">More...</a><br /></td></tr>
-<tr class="separator:a1c3d741078626193f453756ae8d0313f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6828f56a352d81ea9008a66ee2d28706"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a6828f56a352d81ea9008a66ee2d28706">sparse_any_to_any</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, <a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a> format)</td></tr>
+<tr class="memdesc:a6828f56a352d81ea9008a66ee2d28706"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a sparse matrix of any format to any specified format  <a href="#a6828f56a352d81ea9008a66ee2d28706">More...</a><br /></td></tr>
+<tr class="separator:a6828f56a352d81ea9008a66ee2d28706"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a699fcadba85b607a7d6f801ec01d1f21"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a699fcadba85b607a7d6f801ec01d1f21">read_coo_file</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, char *file)</td></tr>
 <tr class="memdesc:a699fcadba85b607a7d6f801ec01d1f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">read a matrix file and return a sparse matrix in coo formated  <a href="#a699fcadba85b607a7d6f801ec01d1f21">More...</a><br /></td></tr>
 <tr class="separator:a699fcadba85b607a7d6f801ec01d1f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -315,9 +324,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#aaaea896bc16745cbe40e0c8f7c8122b6">mk_sparse_matrix</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> M, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> N, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> nnz, unsigned short rg[3])</td></tr>
 <tr class="memdesc:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">make (read or generate) a sparse matrix with the specified matrix generation method  <a href="#aaaea896bc16745cbe40e0c8f7c8122b6">More...</a><br /></td></tr>
 <tr class="separator:aaaea896bc16745cbe40e0c8f7c8122b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8795ef73f2ce870a5f4d22a3bbe3a4f1">coo_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A, int in_place)</td></tr>
-<tr class="memdesc:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in coordinate list format  <a href="#a8795ef73f2ce870a5f4d22a3bbe3a4f1">More...</a><br /></td></tr>
-<tr class="separator:a8795ef73f2ce870a5f4d22a3bbe3a4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ef55e202b83e585e5680f3321518bd7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a8ef55e202b83e585e5680f3321518bd7">coo_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
+<tr class="memdesc:a8ef55e202b83e585e5680f3321518bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in coordinate list format  <a href="#a8ef55e202b83e585e5680f3321518bd7">More...</a><br /></td></tr>
+<tr class="separator:a8ef55e202b83e585e5680f3321518bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a2c4e3e9eaa31cfe79eae1706c4f17402">sparse_transpose</a> (<a class="el" href="structsparse__t.html">sparse_t</a> A)</td></tr>
 <tr class="memdesc:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="mdescLeft">&#160;</td><td class="mdescRight">transpose a matrix in any format  <a href="#a2c4e3e9eaa31cfe79eae1706c4f17402">More...</a><br /></td></tr>
 <tr class="separator:a2c4e3e9eaa31cfe79eae1706c4f17402"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -357,9 +366,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:a241e0fa53a3f51410d20d83e2a3029c0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a241e0fa53a3f51410d20d83e2a3029c0">vec_normalize</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structvec__t.html">vec_t</a> v)</td></tr>
 <tr class="memdesc:a241e0fa53a3f51410d20d83e2a3029c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">normalize a vector with the specified algortihm  <a href="#a241e0fa53a3f51410d20d83e2a3029c0">More...</a><br /></td></tr>
 <tr class="separator:a241e0fa53a3f51410d20d83e2a3029c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memItemLeft" align="right" valign="top">static long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae8a11dfbc1a073b8ea09b2b25484df8e">cur_time_ns</a> ()</td></tr>
-<tr class="memdesc:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">current time in nano second  <a href="#ae8a11dfbc1a073b8ea09b2b25484df8e">More...</a><br /></td></tr>
-<tr class="separator:ae8a11dfbc1a073b8ea09b2b25484df8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cd4c7a560d79a951f87fae71f800def"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="spmv_8cc.html#a11d147c64891830c9e79b3315b1b2e21">real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a4cd4c7a560d79a951f87fae71f800def">repeat_spmv</a> (<a class="el" href="spmv_8cc.html#ad2cf0493af54bf76c5be68b4634fcab7">spmv_algo_t</a> algo, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;A, <a class="el" href="structsparse__t.html">sparse_t</a> &amp;tA, <a class="el" href="structvec__t.html">vec_t</a> &amp;x, <a class="el" href="structvec__t.html">vec_t</a> &amp;y, <a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> repeat)</td></tr>
 <tr class="memdesc:a4cd4c7a560d79a951f87fae71f800def"><td class="mdescLeft">&#160;</td><td class="mdescRight">repeat y = A x; x = tA y; many times, with the specified algorithm  <a href="#a4cd4c7a560d79a951f87fae71f800def">More...</a><br /></td></tr>
 <tr class="separator:a4cd4c7a560d79a951f87fae71f800def"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -372,9 +378,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:ae5980ab044cde4d173d802a048724abe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec__t.html">vec_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#ae5980ab044cde4d173d802a048724abe">mk_vec_zero</a> (<a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> n)</td></tr>
 <tr class="memdesc:ae5980ab044cde4d173d802a048724abe"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a zero vector of n elements  <a href="#ae5980ab044cde4d173d802a048724abe">More...</a><br /></td></tr>
 <tr class="separator:ae5980ab044cde4d173d802a048724abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#adf81d1a5d4b0a2db9fcf090141069e7c">cmdline_options_destroy</a> (<a class="el" href="structcmdline__options__t.html">cmdline_options_t</a> opt)</td></tr>
-<tr class="memdesc:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">release memory for cmdline_options  <a href="#adf81d1a5d4b0a2db9fcf090141069e7c">More...</a><br /></td></tr>
-<tr class="separator:adf81d1a5d4b0a2db9fcf090141069e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99d82b31b353c22a745c729d4fdeb64b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spmv_8cc.html#a99d82b31b353c22a745c729d4fdeb64b">cmp_idx_fun</a> (const void *a_, const void *b_)</td></tr>
 <tr class="memdesc:a99d82b31b353c22a745c729d4fdeb64b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two elements in an array of idx_t  <a href="#a99d82b31b353c22a745c729d4fdeb64b">More...</a><br /></td></tr>
 <tr class="separator:a99d82b31b353c22a745c729d4fdeb64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -628,8 +631,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a8795ef73f2ce870a5f4d22a3bbe3a4f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8795ef73f2ce870a5f4d22a3bbe3a4f1">&#9670;&nbsp;</a></span>coo_transpose()</h2>
+<a id="a8ef55e202b83e585e5680f3321518bd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ef55e202b83e585e5680f3321518bd7">&#9670;&nbsp;</a></span>coo_transpose()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -641,18 +644,8 @@ Variables</h2></td></tr>
           <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> coo_transpose </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>A</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>in_place</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -666,7 +659,6 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">(A)</td><td>a sparse matrix in coo or coo_sorted format </td></tr>
-    <tr><td class="paramname">(in_place)</td><td>if true, A is sorted in place </td></tr>
   </table>
   </dd>
 </dl>
@@ -762,8 +754,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9a60b341089660b30457053be4eafc76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a60b341089660b30457053be4eafc76">&#9670;&nbsp;</a></span>mk_coo_all_one()</h2>
+<a id="a47eb7ed66be3bc240e816ba99c2e27d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47eb7ed66be3bc240e816ba99c2e27d9">&#9670;&nbsp;</a></span>mk_coo_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -772,7 +764,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_coo_all_one </td>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> mk_coo_one </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="spmv_8cc.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a>&#160;</td>
           <td class="paramname"><em>M</em>, </td>
@@ -802,7 +794,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>make a uniform random coo matrix </p>
+<p>make a sparse matrix whose elements are one on certain rows/columns and zero anywhere else </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">(M)</td><td>the number of rows </td></tr>
@@ -1737,8 +1729,8 @@ sparse_coo_to </dd></dl>
 
 </div>
 </div>
-<a id="a1c3d741078626193f453756ae8d0313f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c3d741078626193f453756ae8d0313f">&#9670;&nbsp;</a></span>sparse_any_to_any()</h2>
+<a id="a6828f56a352d81ea9008a66ee2d28706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6828f56a352d81ea9008a66ee2d28706">&#9670;&nbsp;</a></span>sparse_any_to_any()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1753,13 +1745,7 @@ sparse_coo_to </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>update_A</em>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1774,7 +1760,6 @@ sparse_coo_to </dd></dl>
   <table class="params">
     <tr><td class="paramname">(A)</td><td>a sparse matrix in csr format </td></tr>
     <tr><td class="paramname">(format)</td><td>the destination format </td></tr>
-    <tr><td class="paramname">(update_A)</td><td>if true, A's elements may be updated in place </td></tr>
   </table>
   </dd>
 </dl>
@@ -1782,8 +1767,43 @@ sparse_coo_to </dd></dl>
 
 </div>
 </div>
-<a id="a3a917a91538ae84e031c8e06f47b5e6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a917a91538ae84e031c8e06f47b5e6d">&#9670;&nbsp;</a></span>sparse_coo_to_any()</h2>
+<a id="a87dcc54785756a1805e23d25d3b6022a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87dcc54785756a1805e23d25d3b6022a">&#9670;&nbsp;</a></span>sparse_coo_sorted_to_csr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_sorted_to_csr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>convert a sparse matrix in coo format to csr format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a sparse matrix in the csr format </dd></dl>
+
+</div>
+</div>
+<a id="a3b9867ec850b1a529ebc3d829d81bd2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b9867ec850b1a529ebc3d829d81bd2e">&#9670;&nbsp;</a></span>sparse_coo_to_any()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1801,13 +1821,7 @@ sparse_coo_to </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
-          <td class="paramname"><em>format</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>update_A</em>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1827,7 +1841,6 @@ sparse_coo_to </dd></dl>
   <table class="params">
     <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
     <tr><td class="paramname">(format)</td><td>the destination format </td></tr>
-    <tr><td class="paramname">(update_A)</td><td>if update_A is true, the elements of A will be sorted as a side effect. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1835,8 +1848,8 @@ sparse_coo_to </dd></dl>
 
 </div>
 </div>
-<a id="a23d10b280a1ae620210020791ed083b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23d10b280a1ae620210020791ed083b2">&#9670;&nbsp;</a></span>sparse_coo_to_coo_sorted()</h2>
+<a id="a5775ee274ee21f69a5165960350c53ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5775ee274ee21f69a5165960350c53ab">&#9670;&nbsp;</a></span>sparse_coo_to_coo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1845,7 +1858,7 @@ sparse_coo_to </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_coo_sorted </td>
+          <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_coo </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
           <td class="paramname"><em>A</em>, </td>
@@ -1853,8 +1866,8 @@ sparse_coo_to </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>in_place</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="spmv_8cc.html#a8c0094893526c01b430903b2d9227256">sparse_format_t</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1869,11 +1882,11 @@ sparse_coo_to </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>convert coo matrix A to coo_sorted format. if in_place is true, update elements of A in place </p>
+<p>convert coo/coo_sorted matrix A to coo/coo_sorted format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
-    <tr><td class="paramname">(in_place)</td><td>if in_place is true, the elements of A will be sorted in place </td></tr>
+    <tr><td class="paramname">(format)</td><td>destination format (coo or coo_sorted) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1881,8 +1894,8 @@ sparse_coo_to </dd></dl>
 
 </div>
 </div>
-<a id="a2379e3737fa6620dbfd47469ca0a607d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2379e3737fa6620dbfd47469ca0a607d">&#9670;&nbsp;</a></span>sparse_coo_to_csr()</h2>
+<a id="a701914576bbcd3c9520fd42227481f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a701914576bbcd3c9520fd42227481f0b">&#9670;&nbsp;</a></span>sparse_coo_to_csr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1894,18 +1907,8 @@ sparse_coo_to </dd></dl>
           <td class="memname">static <a class="el" href="structsparse__t.html">sparse_t</a> sparse_coo_to_csr </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structsparse__t.html">sparse_t</a>&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>A</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>update_A</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1919,7 +1922,6 @@ sparse_coo_to </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">(A)</td><td>a sparse matrix in coo format </td></tr>
-    <tr><td class="paramname">(update_A)</td><td>if update_A is true, the elements of A will be sorted as a side effect. </td></tr>
   </table>
   </dd>
 </dl>
@@ -2040,7 +2042,7 @@ sparse_coo_to </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the transposed matrix in the same format with A </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a8795ef73f2ce870a5f4d22a3bbe3a4f1" title="transpose a matrix in coordinate list format ">coo_transpose</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="spmv_8cc.html#a8ef55e202b83e585e5680f3321518bd7" title="transpose a matrix in coordinate list format ">coo_transpose</a> </dd></dl>
 
 </div>
 </div>

@@ -954,6 +954,7 @@ static int coo_elem_cmp(const void * a_, const void * b_) {
 /** 
     @brief convert coo/coo_sorted matrix A to coo/coo_sorted format.
     @param (A) a sparse matrix in coo format
+    @param (format) destination format (coo or coo_sorted)
     @return a sparse matrix in the coo_sorted format
  */
 
@@ -1036,8 +1037,6 @@ static sparse_t sparse_coo_to_coo(sparse_t A, sparse_format_t format) {
 /**
    @brief convert a sparse matrix in coo format to csr format.
    @param (A) a sparse matrix in coo format
-   @param (update_A) if update_A is true, the elements of A will be
-   sorted as a side effect.
    @return a sparse matrix in the csr format
  */
 static sparse_t sparse_coo_sorted_to_csr(sparse_t A) {
@@ -1088,8 +1087,6 @@ static sparse_t sparse_coo_sorted_to_csr(sparse_t A) {
 /**
    @brief convert a sparse matrix in coo format to csr format.
    @param (A) a sparse matrix in coo format
-   @param (update_A) if update_A is true, the elements of A will be
-   sorted as a side effect.
    @return a sparse matrix in the csr format
  */
 static sparse_t sparse_coo_to_csr(sparse_t A) {
@@ -1114,8 +1111,6 @@ static sparse_t sparse_coo_to_csr(sparse_t A) {
    @brief convert sparse matrix in coo format to any specified format.
    @param (A) a sparse matrix in coo format
    @param (format) the destination format
-   @param (update_A) if update_A is true, the elements of A will be
-   sorted as a side effect.
    @return a sparse matrix in the specified format
  */
 static sparse_t sparse_coo_to_any(sparse_t A, sparse_format_t format) {
@@ -1215,7 +1210,6 @@ static sparse_t sparse_csr_to_any(sparse_t A, sparse_format_t format) {
    @brief convert a sparse matrix of any format to any specified format
    @param (A) a sparse matrix in csr format
    @param (format) the destination format
-   @param (update_A) if true, A's elements may be updated in place
    @return a sparse format in the specified format
  */
 sparse_t sparse_any_to_any(sparse_t A, sparse_format_t format) {
@@ -1320,7 +1314,6 @@ static sparse_t mk_sparse_matrix(cmdline_options_t opt,
 /** 
     @brief transpose a matrix in coordinate list format
     @param (A) a sparse matrix in coo or coo_sorted format
-    @param (in_place) if true, A is sorted in place
     @return the transposed sparse matrix in coo format
     @sa sparse_transpose
 */

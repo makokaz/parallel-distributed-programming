@@ -1,5 +1,5 @@
-\hypertarget{spmv_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.cc File Reference}
-\label{spmv_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/parallel-\/distributed-\/handson/03spmv/spmv.\+cc}}
+\hypertarget{spmv_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/03spmv/spmv.cc File Reference}
+\label{spmv_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/03spmv/spmv.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/03spmv/spmv.\+cc}}
 
 
 sparse matrix vector multiplication  
@@ -104,6 +104,8 @@ enum \hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+static long \hyperlink{spmv_8cc_ae8a11dfbc1a073b8ea09b2b25484df8e}{cur\+\_\+time\+\_\+ns} ()
+\begin{DoxyCompactList}\small\item\em current time in nano second \end{DoxyCompactList}\item 
 static void $\ast$ \hyperlink{spmv_8cc_a3cab6fa93276c69712c867ea0c9480c9}{xalloc} (size\+\_\+t sz)
 \begin{DoxyCompactList}\small\item\em malloc + check \end{DoxyCompactList}\item 
 static void \hyperlink{spmv_8cc_ab74147af88fbc62f9076539683737f69}{xfree} (void $\ast$a)
@@ -120,6 +122,8 @@ static char $\ast$ \hyperlink{spmv_8cc_a5aeee7bb92b870eab6ebc6a6ad55228e}{sparse
 \mbox{\Hypertarget{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}\label{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}} 
 static char $\ast$ \hyperlink{spmv_8cc_af6ccf5c32cd788e8a8f0a04b25996b32}{spmv\+\_\+algo\+\_\+strs} ()
 \begin{DoxyCompactList}\small\item\em print a comma-\/separated list of available algorithms to the standard error \end{DoxyCompactList}\item 
+static void \hyperlink{spmv_8cc_adf81d1a5d4b0a2db9fcf090141069e7c}{cmdline\+\_\+options\+\_\+destroy} (\hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} opt)
+\begin{DoxyCompactList}\small\item\em release memory for cmdline\+\_\+options \end{DoxyCompactList}\item 
 static void \hyperlink{spmv_8cc_a848c0ca46d3e3ecc39d2fccc4d85fa12}{usage} (const char $\ast$prog)
 \begin{DoxyCompactList}\small\item\em print usage \end{DoxyCompactList}\item 
 static \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} \hyperlink{spmv_8cc_a3363fba87122e57b925704a8394f405d}{parse\+\_\+sparse\+\_\+format} (char $\ast$s)
@@ -158,21 +162,23 @@ static \hyperlink{structidx__pair__t}{idx\+\_\+pair\+\_\+t} \hyperlink{spmv_8cc_
 \begin{DoxyCompactList}\small\item\em choose (i,j) 0 $<$= i $<$ M and 0 $<$= j $<$ N according to the probability p. \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a34835dc746f4196b1c9b0f0ab4be68dd}{mk\+\_\+coo\+\_\+rmat} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} nnz, double p\mbox{[}2\mbox{]}\mbox{[}2\mbox{]}, unsigned short rg\mbox{[}3\mbox{]})
 \begin{DoxyCompactList}\small\item\em make a random R-\/\+M\+AT (\href{https://epubs.siam.org/doi/abs/10.1137/1.9781611972740.43}{\tt https\+://epubs.\+siam.\+org/doi/abs/10.\+1137/1.\+9781611972740.\+43}) \end{DoxyCompactList}\item 
-static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a9a60b341089660b30457053be4eafc76}{mk\+\_\+coo\+\_\+all\+\_\+one} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} nnz)
-\begin{DoxyCompactList}\small\item\em make a uniform random coo matrix \end{DoxyCompactList}\item 
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a47eb7ed66be3bc240e816ba99c2e27d9}{mk\+\_\+coo\+\_\+one} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} nnz)
+\begin{DoxyCompactList}\small\item\em make a sparse matrix whose elements are one on certain rows/columns and zero anywhere else \end{DoxyCompactList}\item 
 static int \hyperlink{spmv_8cc_abbc6740cae208e212acc9b0d4079aa3d}{coo\+\_\+elem\+\_\+cmp} (const void $\ast$a\+\_\+, const void $\ast$b\+\_\+)
 \begin{DoxyCompactList}\small\item\em compare two coo elements \end{DoxyCompactList}\item 
-static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a23d10b280a1ae620210020791ed083b2}{sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, int in\+\_\+place)
-\begin{DoxyCompactList}\small\item\em convert coo matrix A to coo\+\_\+sorted format. if in\+\_\+place is true, update elements of A in place \end{DoxyCompactList}\item 
-static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a2379e3737fa6620dbfd47469ca0a607d}{sparse\+\_\+coo\+\_\+to\+\_\+csr} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, int update\+\_\+A)
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a5775ee274ee21f69a5165960350c53ab}{sparse\+\_\+coo\+\_\+to\+\_\+coo} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format)
+\begin{DoxyCompactList}\small\item\em convert coo/coo\+\_\+sorted matrix A to coo/coo\+\_\+sorted format. \end{DoxyCompactList}\item 
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a87dcc54785756a1805e23d25d3b6022a}{sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr} (\hyperlink{structsparse__t}{sparse\+\_\+t} A)
 \begin{DoxyCompactList}\small\item\em convert a sparse matrix in coo format to csr format. \end{DoxyCompactList}\item 
-static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a3a917a91538ae84e031c8e06f47b5e6d}{sparse\+\_\+coo\+\_\+to\+\_\+any} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format, int update\+\_\+A)
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a701914576bbcd3c9520fd42227481f0b}{sparse\+\_\+coo\+\_\+to\+\_\+csr} (\hyperlink{structsparse__t}{sparse\+\_\+t} A)
+\begin{DoxyCompactList}\small\item\em convert a sparse matrix in coo format to csr format. \end{DoxyCompactList}\item 
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a3b9867ec850b1a529ebc3d829d81bd2e}{sparse\+\_\+coo\+\_\+to\+\_\+any} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format)
 \begin{DoxyCompactList}\small\item\em convert sparse matrix in coo format to any specified format. \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_ac798b76107ea7ecf5b15736bfa0e79bb}{sparse\+\_\+csr\+\_\+to\+\_\+coo\+\_\+sorted} (\hyperlink{structsparse__t}{sparse\+\_\+t} A)
 \begin{DoxyCompactList}\small\item\em convert a sparse matrix in csr format to coo sorted format. \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a5b6db8fe4111d00253055e79c76cbef2}{sparse\+\_\+csr\+\_\+to\+\_\+any} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format)
 \begin{DoxyCompactList}\small\item\em convert sparse matrix in csr format to any specified format \end{DoxyCompactList}\item 
-\hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a1c3d741078626193f453756ae8d0313f}{sparse\+\_\+any\+\_\+to\+\_\+any} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format, int update\+\_\+A)
+\hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a6828f56a352d81ea9008a66ee2d28706}{sparse\+\_\+any\+\_\+to\+\_\+any} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, \hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t} format)
 \begin{DoxyCompactList}\small\item\em convert a sparse matrix of any format to any specified format \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a699fcadba85b607a7d6f801ec01d1f21}{read\+\_\+coo\+\_\+file} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} nnz, char $\ast$file)
 \begin{DoxyCompactList}\small\item\em read a matrix file and return a sparse matrix in coo formated \end{DoxyCompactList}\item 
@@ -180,7 +186,7 @@ static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_ac2f5814f1
 \begin{DoxyCompactList}\small\item\em make a sparse matrix in coo format by the desiginated generation method \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_aaaea896bc16745cbe40e0c8f7c8122b6}{mk\+\_\+sparse\+\_\+matrix} (\hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} opt, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} M, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} N, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} nnz, unsigned short rg\mbox{[}3\mbox{]})
 \begin{DoxyCompactList}\small\item\em make (read or generate) a sparse matrix with the specified matrix generation method \end{DoxyCompactList}\item 
-static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a8795ef73f2ce870a5f4d22a3bbe3a4f1}{coo\+\_\+transpose} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, int in\+\_\+place)
+static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a8ef55e202b83e585e5680f3321518bd7}{coo\+\_\+transpose} (\hyperlink{structsparse__t}{sparse\+\_\+t} A)
 \begin{DoxyCompactList}\small\item\em transpose a matrix in coordinate list format \end{DoxyCompactList}\item 
 static \hyperlink{structsparse__t}{sparse\+\_\+t} \hyperlink{spmv_8cc_a2c4e3e9eaa31cfe79eae1706c4f17402}{sparse\+\_\+transpose} (\hyperlink{structsparse__t}{sparse\+\_\+t} A)
 \begin{DoxyCompactList}\small\item\em transpose a matrix in any format \end{DoxyCompactList}\item 
@@ -208,8 +214,6 @@ static int \hyperlink{spmv_8cc_aacc75d6198977fcb25da335869bccb18}{scalar\+\_\+ve
 \begin{DoxyCompactList}\small\item\em k x v in parallel with the specified algorithm \end{DoxyCompactList}\item 
 static \hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a241e0fa53a3f51410d20d83e2a3029c0}{vec\+\_\+normalize} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structvec__t}{vec\+\_\+t} v)
 \begin{DoxyCompactList}\small\item\em normalize a vector with the specified algortihm \end{DoxyCompactList}\item 
-static long \hyperlink{spmv_8cc_ae8a11dfbc1a073b8ea09b2b25484df8e}{cur\+\_\+time\+\_\+ns} ()
-\begin{DoxyCompactList}\small\item\em current time in nano second \end{DoxyCompactList}\item 
 static \hyperlink{spmv_8cc_a11d147c64891830c9e79b3315b1b2e21}{real} \hyperlink{spmv_8cc_a4cd4c7a560d79a951f87fae71f800def}{repeat\+\_\+spmv} (\hyperlink{spmv_8cc_ad2cf0493af54bf76c5be68b4634fcab7}{spmv\+\_\+algo\+\_\+t} algo, \hyperlink{structsparse__t}{sparse\+\_\+t} \&A, \hyperlink{structsparse__t}{sparse\+\_\+t} \&tA, \hyperlink{structvec__t}{vec\+\_\+t} \&x, \hyperlink{structvec__t}{vec\+\_\+t} \&y, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} repeat)
 \begin{DoxyCompactList}\small\item\em repeat y = A x; x = tA y; many times, with the specified algorithm \end{DoxyCompactList}\item 
 static \hyperlink{structvec__t}{vec\+\_\+t} \hyperlink{spmv_8cc_a47c4281acee355d11976dcd1bdea57a5}{mk\+\_\+vec\+\_\+random} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} n, unsigned short rg\mbox{[}3\mbox{]})
@@ -218,8 +222,6 @@ static \hyperlink{structvec__t}{vec\+\_\+t} \hyperlink{spmv_8cc_a11f770f55b8dbdf
 \begin{DoxyCompactList}\small\item\em make a random unit-\/length vector of n elements \end{DoxyCompactList}\item 
 static \hyperlink{structvec__t}{vec\+\_\+t} \hyperlink{spmv_8cc_ae5980ab044cde4d173d802a048724abe}{mk\+\_\+vec\+\_\+zero} (\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} n)
 \begin{DoxyCompactList}\small\item\em make a zero vector of n elements \end{DoxyCompactList}\item 
-static void \hyperlink{spmv_8cc_adf81d1a5d4b0a2db9fcf090141069e7c}{cmdline\+\_\+options\+\_\+destroy} (\hyperlink{structcmdline__options__t}{cmdline\+\_\+options\+\_\+t} opt)
-\begin{DoxyCompactList}\small\item\em release memory for cmdline\+\_\+options \end{DoxyCompactList}\item 
 static int \hyperlink{spmv_8cc_a99d82b31b353c22a745c729d4fdeb64b}{cmp\+\_\+idx\+\_\+fun} (const void $\ast$a\+\_\+, const void $\ast$b\+\_\+)
 \begin{DoxyCompactList}\small\item\em compare two elements in an array of idx\+\_\+t \end{DoxyCompactList}\item 
 static int \hyperlink{spmv_8cc_a17faa502dfeb98749ed61e827cb83137}{dump\+\_\+sparse\+\_\+file} (\hyperlink{structsparse__t}{sparse\+\_\+t} A, char $\ast$file, \hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} max\+\_\+points, long seed)
@@ -409,11 +411,11 @@ compare two coo elements
 callback used to sort coo elements in the dictionary order \begin{DoxyReturn}{Returns}
 -\/1 if a\+\_\+ $<$ b, 1 if a\+\_\+ $>$ b and 0 if a\+\_\+ = b 
 \end{DoxyReturn}
-\mbox{\Hypertarget{spmv_8cc_a8795ef73f2ce870a5f4d22a3bbe3a4f1}\label{spmv_8cc_a8795ef73f2ce870a5f4d22a3bbe3a4f1}} 
+\mbox{\Hypertarget{spmv_8cc_a8ef55e202b83e585e5680f3321518bd7}\label{spmv_8cc_a8ef55e202b83e585e5680f3321518bd7}} 
 \index{spmv.\+cc@{spmv.\+cc}!coo\+\_\+transpose@{coo\+\_\+transpose}}
 \index{coo\+\_\+transpose@{coo\+\_\+transpose}!spmv.\+cc@{spmv.\+cc}}
 \subsubsection{\texorpdfstring{coo\+\_\+transpose()}{coo\_transpose()}}
-{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} coo\+\_\+transpose (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{int}]{in\+\_\+place }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} coo\+\_\+transpose (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -422,8 +424,6 @@ transpose a matrix in coordinate list format
 
 \begin{DoxyParams}{Parameters}
 {\em (\+A)} & a sparse matrix in coo or coo\+\_\+sorted format \\
-\hline
-{\em (in\+\_\+place)} & if true, A is sorted in place \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -466,15 +466,15 @@ dump a sparse matrix A into img\+\_\+width x img\+\_\+height bitmap (gnuplot fil
 {\em (seed)} & the random number seed to choose elements to dump \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{spmv_8cc_a9a60b341089660b30457053be4eafc76}\label{spmv_8cc_a9a60b341089660b30457053be4eafc76}} 
-\index{spmv.\+cc@{spmv.\+cc}!mk\+\_\+coo\+\_\+all\+\_\+one@{mk\+\_\+coo\+\_\+all\+\_\+one}}
-\index{mk\+\_\+coo\+\_\+all\+\_\+one@{mk\+\_\+coo\+\_\+all\+\_\+one}!spmv.\+cc@{spmv.\+cc}}
-\subsubsection{\texorpdfstring{mk\+\_\+coo\+\_\+all\+\_\+one()}{mk\_coo\_all\_one()}}
-{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} mk\+\_\+coo\+\_\+all\+\_\+one (\begin{DoxyParamCaption}\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{M,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{N,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{nnz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{spmv_8cc_a47eb7ed66be3bc240e816ba99c2e27d9}\label{spmv_8cc_a47eb7ed66be3bc240e816ba99c2e27d9}} 
+\index{spmv.\+cc@{spmv.\+cc}!mk\+\_\+coo\+\_\+one@{mk\+\_\+coo\+\_\+one}}
+\index{mk\+\_\+coo\+\_\+one@{mk\+\_\+coo\+\_\+one}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{mk\+\_\+coo\+\_\+one()}{mk\_coo\_one()}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} mk\+\_\+coo\+\_\+one (\begin{DoxyParamCaption}\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{M,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{N,  }\item[{\hyperlink{spmv_8cc_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{nnz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
-make a uniform random coo matrix 
+make a sparse matrix whose elements are one on certain rows/columns and zero anywhere else 
 
 
 \begin{DoxyParams}{Parameters}
@@ -862,11 +862,11 @@ k x v in serial
 \begin{DoxyReturn}{Returns}
 1 if succeed, 0 if failed
 \end{DoxyReturn}
-multiply each element of v by k \mbox{\Hypertarget{spmv_8cc_a1c3d741078626193f453756ae8d0313f}\label{spmv_8cc_a1c3d741078626193f453756ae8d0313f}} 
+multiply each element of v by k \mbox{\Hypertarget{spmv_8cc_a6828f56a352d81ea9008a66ee2d28706}\label{spmv_8cc_a6828f56a352d81ea9008a66ee2d28706}} 
 \index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+any\+\_\+to\+\_\+any@{sparse\+\_\+any\+\_\+to\+\_\+any}}
 \index{sparse\+\_\+any\+\_\+to\+\_\+any@{sparse\+\_\+any\+\_\+to\+\_\+any}!spmv.\+cc@{spmv.\+cc}}
 \subsubsection{\texorpdfstring{sparse\+\_\+any\+\_\+to\+\_\+any()}{sparse\_any\_to\_any()}}
-{\footnotesize\ttfamily \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+any\+\_\+to\+\_\+any (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t}}]{format,  }\item[{int}]{update\+\_\+A }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+any\+\_\+to\+\_\+any (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t}}]{format }\end{DoxyParamCaption})}
 
 
 
@@ -878,17 +878,33 @@ convert a sparse matrix of any format to any specified format
 \hline
 {\em (format)} & the destination format \\
 \hline
-{\em (update\+\_\+\+A)} & if true, A\textquotesingle{}s elements may be updated in place \\
-\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 a sparse format in the specified format 
 \end{DoxyReturn}
-\mbox{\Hypertarget{spmv_8cc_a3a917a91538ae84e031c8e06f47b5e6d}\label{spmv_8cc_a3a917a91538ae84e031c8e06f47b5e6d}} 
+\mbox{\Hypertarget{spmv_8cc_a87dcc54785756a1805e23d25d3b6022a}\label{spmv_8cc_a87dcc54785756a1805e23d25d3b6022a}} 
+\index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr@{sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr}}
+\index{sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr@{sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr()}{sparse\_coo\_sorted\_to\_csr()}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+sorted\+\_\+to\+\_\+csr (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+convert a sparse matrix in coo format to csr format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+A)} & a sparse matrix in coo format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a sparse matrix in the csr format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{spmv_8cc_a3b9867ec850b1a529ebc3d829d81bd2e}\label{spmv_8cc_a3b9867ec850b1a529ebc3d829d81bd2e}} 
 \index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+coo\+\_\+to\+\_\+any@{sparse\+\_\+coo\+\_\+to\+\_\+any}}
 \index{sparse\+\_\+coo\+\_\+to\+\_\+any@{sparse\+\_\+coo\+\_\+to\+\_\+any}!spmv.\+cc@{spmv.\+cc}}
 \subsubsection{\texorpdfstring{sparse\+\_\+coo\+\_\+to\+\_\+any()}{sparse\_coo\_to\_any()}}
-{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+any (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t}}]{format,  }\item[{int}]{update\+\_\+A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+any (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t}}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -900,37 +916,35 @@ convert sparse matrix in coo format to any specified format.
 \hline
 {\em (format)} & the destination format \\
 \hline
-{\em (update\+\_\+\+A)} & if update\+\_\+A is true, the elements of A will be sorted as a side effect. \\
-\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 a sparse matrix in the specified format 
 \end{DoxyReturn}
-\mbox{\Hypertarget{spmv_8cc_a23d10b280a1ae620210020791ed083b2}\label{spmv_8cc_a23d10b280a1ae620210020791ed083b2}} 
-\index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted@{sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted}}
-\index{sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted@{sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted}!spmv.\+cc@{spmv.\+cc}}
-\subsubsection{\texorpdfstring{sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted()}{sparse\_coo\_to\_coo\_sorted()}}
-{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+coo\+\_\+sorted (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{int}]{in\+\_\+place }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{spmv_8cc_a5775ee274ee21f69a5165960350c53ab}\label{spmv_8cc_a5775ee274ee21f69a5165960350c53ab}} 
+\index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+coo\+\_\+to\+\_\+coo@{sparse\+\_\+coo\+\_\+to\+\_\+coo}}
+\index{sparse\+\_\+coo\+\_\+to\+\_\+coo@{sparse\+\_\+coo\+\_\+to\+\_\+coo}!spmv.\+cc@{spmv.\+cc}}
+\subsubsection{\texorpdfstring{sparse\+\_\+coo\+\_\+to\+\_\+coo()}{sparse\_coo\_to\_coo()}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+coo (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{\hyperlink{spmv_8cc_a8c0094893526c01b430903b2d9227256}{sparse\+\_\+format\+\_\+t}}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
-convert coo matrix A to coo\+\_\+sorted format. if in\+\_\+place is true, update elements of A in place 
+convert coo/coo\+\_\+sorted matrix A to coo/coo\+\_\+sorted format. 
 
 
 \begin{DoxyParams}{Parameters}
 {\em (\+A)} & a sparse matrix in coo format \\
 \hline
-{\em (in\+\_\+place)} & if in\+\_\+place is true, the elements of A will be sorted in place \\
+{\em (format)} & destination format (coo or coo\+\_\+sorted) \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 a sparse matrix in the coo\+\_\+sorted format 
 \end{DoxyReturn}
-\mbox{\Hypertarget{spmv_8cc_a2379e3737fa6620dbfd47469ca0a607d}\label{spmv_8cc_a2379e3737fa6620dbfd47469ca0a607d}} 
+\mbox{\Hypertarget{spmv_8cc_a701914576bbcd3c9520fd42227481f0b}\label{spmv_8cc_a701914576bbcd3c9520fd42227481f0b}} 
 \index{spmv.\+cc@{spmv.\+cc}!sparse\+\_\+coo\+\_\+to\+\_\+csr@{sparse\+\_\+coo\+\_\+to\+\_\+csr}}
 \index{sparse\+\_\+coo\+\_\+to\+\_\+csr@{sparse\+\_\+coo\+\_\+to\+\_\+csr}!spmv.\+cc@{spmv.\+cc}}
 \subsubsection{\texorpdfstring{sparse\+\_\+coo\+\_\+to\+\_\+csr()}{sparse\_coo\_to\_csr()}}
-{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+csr (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A,  }\item[{int}]{update\+\_\+A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static \hyperlink{structsparse__t}{sparse\+\_\+t} sparse\+\_\+coo\+\_\+to\+\_\+csr (\begin{DoxyParamCaption}\item[{\hyperlink{structsparse__t}{sparse\+\_\+t}}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -939,8 +953,6 @@ convert a sparse matrix in coo format to csr format.
 
 \begin{DoxyParams}{Parameters}
 {\em (\+A)} & a sparse matrix in coo format \\
-\hline
-{\em (update\+\_\+\+A)} & if update\+\_\+A is true, the elements of A will be sorted as a side effect. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -1003,7 +1015,7 @@ transpose a matrix in any format
 the transposed matrix in the same format with A 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{spmv_8cc_a8795ef73f2ce870a5f4d22a3bbe3a4f1}{coo\+\_\+transpose} 
+\hyperlink{spmv_8cc_a8ef55e202b83e585e5680f3321518bd7}{coo\+\_\+transpose} 
 \end{DoxySeeAlso}
 \mbox{\Hypertarget{spmv_8cc_a0b17c7c1f5341c44b046f2f96173dbb3}\label{spmv_8cc_a0b17c7c1f5341c44b046f2f96173dbb3}} 
 \index{spmv.\+cc@{spmv.\+cc}!spmv@{spmv}}

@@ -1,4 +1,4 @@
-<map id="/home/tau/public_html/lecture/parallel_distributed/2018/parallel&#45;distributed&#45;handson/03spmv/spmv.cc" name="/home/tau/public_html/lecture/parallel_distributed/2018/parallel&#45;distributed&#45;handson/03spmv/spmv.cc">
+<map id="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/03spmv/spmv.cc" name="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/03spmv/spmv.cc">
 <area shape="rect" id="node9" href="$spmv__coo__parallel_8cc.html" title="y = A * x for coo with parallel for " alt="" coords="627,131,821,158"/>
 <area shape="rect" id="node10" href="$spmv__coo__task_8cc.html" title="y = A * x for coo with tasks " alt="" coords="845,131,1022,158"/>
 <area shape="rect" id="node11" href="$spmv__coo__udr_8cc.html" title="y = A * x for coo with parallel for + user&#45;defined reductions " alt="" coords="1047,131,1217,158"/>
