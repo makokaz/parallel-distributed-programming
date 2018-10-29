@@ -17,7 +17,7 @@
 /* cuda_util.h incudes various utilities to make CUDA 
    programming less error-prone. check it before you
    proceed with rewriting it for CUDA */
-#include "cuda_util.h"
+#include "include/cuda_util.h"
 #endif
 
 /** @brief type of matrix index (i,j,...)
