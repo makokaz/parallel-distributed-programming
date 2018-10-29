@@ -24,7 +24,6 @@ static int spmv_csr_cuda(sparse_t A, vec_t vx, vec_t vy) {
   
   /* this is a serial code for your reference */
   idx_t M = A.M;
-  idx_t nnz = A.nnz;
   idx_t * row_start = A.csr.row_start;
   csr_elem_t * elems = A.csr.elems;
   real * x = vx.elems;
