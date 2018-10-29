@@ -210,10 +210,10 @@ $ <u>make</u>
 g++ -o spmv.gcc spmv.cc  -Wall -Wextra -O3 -fopenmp  
 /usr/local/cuda/bin/nvcc -o spmv.nvcc -x cu spmv.cc  --gpu-code sm_60 --gpu-architecture compute_60 -O3 -Xptxas -O3,-v  
 </pre>
-If successful, you will get two executable <tt>spmv.gcc</tt> (compiled by g++)
+If successful, you will get two executables <tt>spmv.gcc</tt> (compiled by g++)
 and <tt>spmv.nvcc</tt> (compiled by nvcc).  If you work in your environment (not IST cluster)
 and do not have nvcc (NVIDIA compiler), remove <tt>spmv.nvcc</tt> from the target so that
-it does not try to make spmv.nvcc. For that, open <tt>Makefile</tt> and commenting out the following
+it does not try to make spmv.nvcc. For that, open <tt>Makefile</tt> and comment out the following
 line
 <pre>
  ... (in the Makefile) ...
