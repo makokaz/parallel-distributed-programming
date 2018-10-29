@@ -236,18 +236,22 @@ $ <u>srun -p PARTITION -t 0:01:00 ./spmv.gcc</u>
 A : 20000 x 10000, 2000000 requested non-zeros
 repeat : 5 times
 format : coo
-matrix : rmat
+matrix : random
 algo : serial
-spmv.cc:1927:main: generating matrix starts ... 
-spmv.cc:1930:main: generating matrix ends 20000 x 10000 with 2000000 non-zeros
-spmv.cc:1810:dump_sparse_file: dumping to matrix 20000 x 10000 (2000000 nnz) -> rmat.gnuplot
-spmv.cc:1896:dump_sparse_file: done
-spmv.cc:1701:repeat_spmv: warm up + error check starts
-spmv.cc:1712:repeat_spmv: warm up + error check ends
-spmv.cc:1715:repeat_spmv: starts
-spmv.cc:1728:repeat_spmv: ends
-40150000 flops in 4.971900600e-02 sec (8.075382682e-01 GFLOPS)
-lambda = 4.673961458e+06
+spmv.cc:751:mk_coo_random starts ...
+spmv.cc:767:mk_coo_random ends. took 0.096 sec
+spmv.cc:1003:sparse_coo_to_coo starts ...
+spmv.cc:1068:sparse_coo_to_coo ends. took 0.014 sec
+spmv.cc:1362:coo_transpose starts ...
+spmv.cc:1380:coo_transpose ends. took 0.018 sec
+spmv.cc:2082:main A is 20000 x 10000, has 2000000 non-zeros and takes 32000000 bytes
+spmv.cc:2085:main tA is 10000 x 20000, has 2000000 non-zeros and takes 32000000 bytes
+spmv.cc:1856:repeat_spmv: warm up + error check starts
+spmv.cc:1870:repeat_spmv: warm up + error check ends. took 0.014 sec
+spmv.cc:1873:repeat_spmv: main loop starts
+spmv.cc:1886:repeat_spmv: main loop ends
+40150000 flops in 0.054420 sec (0.737780 GFLOPS)
+lambda = 5.106883170e+03
 </pre>
 where PARTITION is any partition of the IST cluster (knm, big, p or v) but since
 this is not using GPU, I recommend big (Xeon multicore) or knm (Xeon Phi many core).
@@ -268,23 +272,29 @@ program takes a long time.
 <div>
   <p>
     Let's study the output a little bit.
+    (The output is subject to change. Don't worry
+    too much about the difference in format and so on).
 <pre>
 $ <u>srun -p PARTITION -t 0:01:00 ./spmv.gcc</u>
-A : <font color=blue>20000</font> x <font color=blue>10000</font>, <font color=blue>2000000</font> requested non-zeros       # (1)
-repeat : <font color=blue>5</font> times                                     # (2)
-format : <font color=blue>coo</font>                                         # (3)
-matrix : <font color=blue>rmat</font>                                        # (4)
-algo : <font color=blue>serial</font>                                        # (5)
-spmv.cc:1927:main: generating matrix starts ...      # (6)
-spmv.cc:1930:main: generating matrix ends 20000 x 10000 with 2000000 non-zeros # (7)
-spmv.cc:1810:dump_sparse_file: dumping to matrix 20000 x 10000 (2000000 nnz) -> rmat.gnuplot
-spmv.cc:1896:dump_sparse_file: done
-spmv.cc:1701:repeat_spmv: warm up + error check starts
-spmv.cc:1712:repeat_spmv: warm up + error check ends
-spmv.cc:1715:repeat_spmv: starts
-spmv.cc:1728:repeat_spmv: ends
-<font color=blue>40150000</font> flops in <font color=blue>4.971900600e-02</font> sec (<font color=blue>8.075382682e-01</font> GFLOPS)  # (8)
-lambda = <font color=blue>4.673961458e+06</font>                             # (9)
+A : <font color=blue>20000</font> x <font color=blue>10000</font>, <font color=blue>2000000</font> requested non-zeros         # (1)
+repeat : <font color=blue>5</font> times                                       # (2)
+format : <font color=blue>coo</font>                                           # (3)
+matrix : <font color=blue>random</font>                                        # (4)
+algo : <font color=blue>serial</font>                                          # (5)
+spmv.cc:751:mk_coo_random starts ...
+spmv.cc:767:mk_coo_random ends. took 0.096 sec
+spmv.cc:1003:sparse_coo_to_coo starts ...
+spmv.cc:1068:sparse_coo_to_coo ends. took 0.014 sec
+spmv.cc:1362:coo_transpose starts ...
+spmv.cc:1380:coo_transpose ends. took 0.018 sec
+spmv.cc:2082:main A is 20000 x 10000, has <font color=blue>2000000</font> non-zeros and takes 32000000 bytes  # (6)
+spmv.cc:2085:main tA is 10000 x 20000, has 2000000 non-zeros and takes 32000000 bytes
+spmv.cc:1856:repeat_spmv: warm up + error check starts
+spmv.cc:1870:repeat_spmv: warm up + error check ends. took 0.014 sec
+spmv.cc:1873:repeat_spmv: main loop starts
+spmv.cc:1886:repeat_spmv: main loop ends
+<font color=blue>40150000</font> flops in <font color=blue>0.054420</font> sec (<font color=blue>0.737780</font> GFLOPS)       # (7)
+lambda = <font color=blue>5.106883170e+03</font>                               # (8)
 </pre>
 <ul>
   <li> Line (1)
@@ -341,13 +351,13 @@ these functions is your main job of the hands-on.
   <li> 
 Starting from the next line, you see the matrix is generated.
   </li>
-  <li> Line (6-7)
+  <li> Line (6)
     You see the matrix is generated and it ends up with having
     2000000 non-zeros, just as requested.
   </li>
-  <li> Line (8)
+  <li> Line (7)
 <pre>
-<font color=blue>40150000</font> flops in <font color=blue>4.971900600e-02</font> sec (<font color=blue>8.075382682e-01</font> GFLOPS)
+<font color=blue>40150000</font> flops in <font color=blue>0.054420</font> sec (<font color=blue>0.737780</font> GFLOPS)
 </pre>
 reports how much work is done and how long it took, along with
 the performance in GFLOPS (10^9 floating point operations per second).
@@ -368,9 +378,9 @@ In this example, it is
 flops = (4 * 2000000 + 3 * 10000) * 5 = 40150000
 </blockquote>
   </li>
-  <li> Line (9)
+  <li> Line (8)
 <pre>
-lambda = <font color=blue>4.673961458e+06</font>
+lambda = <font color=blue>5.106883170e+03</font>
 </pre>
 shows the answer from the algorithm.
 It is the last |x| in the algorithm above, which
@@ -448,9 +458,9 @@ repeat : 5 times
 format : coo
 matrix : random
 algo : parallel
-spmv.cc:1968:main: generating matrix starts ... 
-spmv.cc:1971:main: generating matrix ends 100000 x 100000 with 100000000 non-zeros
-spmv.cc:1697:repeat_spmv: warm up + error check starts
+
+   ...
+
 *************************************************************
 work/spmv_coo_parallel.cc:20:spmv_coo_parallel:
 write a code that performs SPMV for COO format in parallel
