@@ -136,6 +136,16 @@ typedef struct {
   int help;                /**< set when -h / --help is given */
 } cmdline_options_t;
 
+/** 
+    @brief current time in nano second
+    @return the current time in nano second
+*/
+static long cur_time_ns() {
+  struct timespec ts[1];
+  clock_gettime(CLOCK_REALTIME, ts);
+  return ts->tv_sec * 1000000000L + ts->tv_nsec;
+}
+
 /**
    @brief malloc + check
    @param (sz) size to alloc in bytes
@@ -213,6 +223,24 @@ static struct option long_options[] = {
 static char * sparse_format_strs();
 static char * sparse_matrix_type_strs();
 static char * spmv_algo_strs();
+
+/** 
+    @brief release memory for cmdline_options
+    @param (opt) the command line option to release the memory of
+*/
+static void cmdline_options_destroy(cmdline_options_t opt) {
+  xfree(opt.format_str);
+  xfree(opt.matrix_type_str);
+  xfree(opt.algo_str);
+  if (opt.coo_file) {
+    xfree(opt.coo_file);
+  }
+  xfree(opt.rmat_str);
+  if (opt.dump) {
+    xfree(opt.dump);
+  }
+}
+
 /**
    @brief print usage
    @param (prog) name of the program
@@ -255,6 +283,7 @@ static void usage(const char * prog) {
           (long)o.dump_points,
           o.dump_seed
           );
+  cmdline_options_destroy(o);
 }
 
 /** 
@@ -637,6 +666,7 @@ static void coo_destroy(sparse_t A) {
     @brief destroy csr
 */
 static void csr_destroy(sparse_t A) {
+  xfree(A.csr.row_start);
   xfree(A.csr.elems);
 }
 
@@ -677,6 +707,8 @@ static void vec_destroy(vec_t x) {
 */
 static sparse_t mk_coo_random(idx_t M, idx_t N, idx_t nnz,
                               unsigned short rg[3]) {
+  printf("%s:%d:mk_coo_random starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
   coo_elem_t * elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
   for (idx_t k = 0; k < nnz; k++) {
     idx_t i = nrand48(rg) % M;
@@ -689,6 +721,9 @@ static sparse_t mk_coo_random(idx_t M, idx_t N, idx_t nnz,
   }
   coo_t coo = { elems };
   sparse_t A = { sparse_format_coo, M, N, nnz, { .coo = coo } };
+  long t1 = cur_time_ns();
+  printf("%s:%d:mk_coo_random ends. took %.3f sec\n",
+         __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
   return A;
 }
 
@@ -786,6 +821,8 @@ static idx_pair_t rmat_choose_pair(idx_t M, idx_t N, double p[2][2],
 static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
                             double p[2][2], 
                             unsigned short rg[3]) {
+  printf("%s:%d:mk_coo_rmat starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
   coo_elem_t * elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
   for (idx_t k = 0; k < nnz; k++) {
     idx_pair_t ij = rmat_choose_pair(M, N, p, rg);
@@ -796,6 +833,9 @@ static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
   }
   coo_t coo = { elems };
   sparse_t A = { sparse_format_coo, M, N, nnz, { .coo = coo } };
+  long t1 = cur_time_ns();
+  printf("%s:%d:mk_coo_rmat ends. took %.3f sec\n",
+         __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
   return A;
 }
 
@@ -831,6 +871,8 @@ static sparse_t mk_coo_rmat(idx_t M, idx_t N, idx_t nnz,
 
 */
 static sparse_t mk_coo_one(idx_t M, idx_t N, idx_t nnz) {
+  printf("%s:%d:mk_coo_one starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
   idx_t nnz_M = 0;
   idx_t nnz_N = 0;
   int cont = 1;
@@ -873,6 +915,9 @@ static sparse_t mk_coo_one(idx_t M, idx_t N, idx_t nnz) {
   assert(k == real_nnz);
   coo_t coo = { elems };
   sparse_t A = { sparse_format_coo_sorted, M, N, real_nnz, { .coo = coo } };
+  long t1 = cur_time_ns();
+  printf("%s:%d:mk_coo_one ends. took %.3f sec\n",
+         __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
   return A;
 }
 
@@ -885,9 +930,9 @@ static sparse_t mk_coo_one(idx_t M, idx_t N, idx_t nnz) {
  * coo ---> any (see above)
  * coo_sorted ---> any (coo_sorted ---> coo is no-op)
  * csr ---> any (csr -> coo_sorted)
-
  *
  *********************************************************/
+
 
 /** 
     @brief compare two coo elements 
@@ -901,35 +946,84 @@ static int coo_elem_cmp(const void * a_, const void * b_) {
   if (a->i > b->i) return 1;
   if (a->j < b->j) return -1;
   if (a->j > b->j) return 1;
+  if (a->a < b->a) return -1;
+  if (a->a > b->a) return -1;
   return 0;
 }
 
 /** 
-    @brief convert coo matrix A to coo_sorted format.
-    if in_place is true, update elements of A in place
+    @brief convert coo/coo_sorted matrix A to coo/coo_sorted format.
     @param (A) a sparse matrix in coo format
-    @param (in_place) if in_place is true, the elements of A will be
-    sorted in place
     @return a sparse matrix in the coo_sorted format
  */
-static sparse_t sparse_coo_to_coo_sorted(sparse_t A, int in_place) {
-  if (A.format == sparse_format_coo
-      || A.format == sparse_format_coo_sorted) {
+
+static sparse_t sparse_coo_to_coo(sparse_t A, sparse_format_t format) {
+  printf("%s:%d:sparse_coo_to_coo starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
+  if ((A.format == sparse_format_coo ||
+       A.format == sparse_format_coo_sorted) &&
+      (format == sparse_format_coo ||
+       format == sparse_format_coo_sorted)) {
+    int need_sort = (A.format == sparse_format_coo && format == sparse_format_coo_sorted);
+    sparse_format_t out_format = (A.format == sparse_format_coo ? format : sparse_format_coo_sorted);
     idx_t nnz = A.nnz;
-    coo_elem_t * B_elems = 0;
-    /* if asked not to update A in place, make a copy */
-    if (in_place) {
-      B_elems = A.coo.elems;
+    idx_t M = A.M;
+    coo_elem_t * A_elems = A.coo.elems;
+    coo_elem_t * B_elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
+    /* sort if src is coo and dest is coo_sorted. otherwise copy */
+    if (need_sort) {
+      idx_t * row_p     = (idx_t *)xalloc(sizeof(idx_t) * M);
+      idx_t * row_start = (idx_t *)xalloc(sizeof(idx_t) * M);
+      idx_t * row_end   = (idx_t *)xalloc(sizeof(idx_t) * M);
+      /* count the number of nnz in each row */
+#pragma omp parallel for 
+      for (idx_t i = 0; i < M; i++) {
+        row_p[i] = 0;
+      }
+#pragma omp parallel for 
+      for (idx_t k = 0; k < nnz; k++) {
+        idx_t i = A_elems[k].i;
+        __sync_fetch_and_add(&row_p[i], 1);
+      }
+      /* row_count[i] = the number of non-zeros in ith row.
+         now calculate where ith row should start. */
+      idx_t s = 0;
+      for (idx_t i = 0; i < M; i++) {
+        idx_t e = s + row_p[i];
+        row_start[i] = s;
+        row_end[i] = e;
+        row_p[i] = s;           /* set p to the start for the next scan */
+        s = e;
+      }
+      assert(s == nnz);
+#pragma omp parallel for 
+      for (idx_t k = 0; k < nnz; k++) {
+        idx_t i = A_elems[k].i;
+        idx_t p = __sync_fetch_and_add(&row_p[i], 1);
+        assert(p < row_end[i]);
+        B_elems[p] = A_elems[k];
+      }
+      for (idx_t i = 0; i < M; i++) {
+        assert(row_p[i] == row_end[i]);
+      }
+#pragma omp parallel for
+      for (idx_t i = 0; i < M; i++) {
+        idx_t s = row_start[i];
+        idx_t e = row_end[i];
+        qsort((void*)&B_elems[s], e - s, sizeof(coo_elem_t), coo_elem_cmp);
+      }
+      xfree(row_p);
+      xfree(row_start);
+      xfree(row_end);
     } else {
-      B_elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
-      memcpy(B_elems, A.coo.elems, sizeof(coo_elem_t) * nnz);
-    }
-    /* sort elements in the dictionary order */
-    if (A.format == sparse_format_coo) {
-      qsort((void*)B_elems, nnz, sizeof(coo_elem_t), coo_elem_cmp);
+      /* either already sorted or not asked to sort. just copy */
+      memcpy(B_elems, A_elems, sizeof(coo_elem_t) * nnz);
     }
     coo_t coo = { B_elems };
-    sparse_t B = { sparse_format_coo_sorted, A.M, A.N, A.nnz, { .coo = coo } };
+    sparse_t B = { out_format, A.M, A.N, A.nnz, { .coo = coo } };
+    long t1 = cur_time_ns();
+    printf("%s:%d:sparse_coo_to_coo ends. took %.3f sec\n",
+           __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
     return B;
   } else {
     fprintf(stderr,
@@ -946,27 +1040,26 @@ static sparse_t sparse_coo_to_coo_sorted(sparse_t A, int in_place) {
    sorted as a side effect.
    @return a sparse matrix in the csr format
  */
-static sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
-  if (A.format == sparse_format_coo ||
-      A.format == sparse_format_coo_sorted) {
-    /* first get coo_sorted format */
-    sparse_t B = sparse_coo_to_coo_sorted(A, update_A);
-    idx_t M = B.M;
-    idx_t N = B.N;
-    idx_t nnz = B.nnz;
+static sparse_t sparse_coo_sorted_to_csr(sparse_t A) {
+  printf("%s:%d:sparse_coo_sorted_to_csr starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
+  if (A.format == sparse_format_coo_sorted) {
+    idx_t M = A.M;
+    idx_t N = A.N;
+    idx_t nnz = A.nnz;
     idx_t * row_start = (idx_t *)xalloc(sizeof(idx_t) * (M + 1));
-    coo_elem_t * B_elems = B.coo.elems;
-    csr_elem_t * C_elems = (csr_elem_t *)xalloc(sizeof(csr_elem_t) * nnz);
+    coo_elem_t * A_elems = A.coo.elems;
+    csr_elem_t * B_elems = (csr_elem_t *)xalloc(sizeof(csr_elem_t) * nnz);
     for (idx_t i = 0; i < M + 1; i++) {
       row_start[i] = 0;
     }
     /* scan A's elements (in the dictionary order).
        count the number of non-zeros in each row along the way */
     for (idx_t k = 0; k < nnz; k++) {
-      coo_elem_t * e = B_elems + k;
+      coo_elem_t * e = A_elems + k;
       row_start[e->i]++;
-      C_elems[k].j = e->j;
-      C_elems[k].a = e->a;
+      B_elems[k].j = e->j;
+      B_elems[k].a = e->a;
     }
     /* row_start[i] = the number of non-zeros in ith row.
        now calculate where ith row starts. */
@@ -978,8 +1071,36 @@ static sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
     }
     row_start[M] = s;
     assert(s == nnz);
-    csr_t csr = { row_start, C_elems };
-    sparse_t C = { sparse_format_csr, M, N, nnz, { .csr = csr } };
+    csr_t csr = { row_start, B_elems };
+    sparse_t B = { sparse_format_csr, M, N, nnz, { .csr = csr } };
+    long t1 = cur_time_ns();
+    printf("%s:%d:sparse_coo_sorted_to_csr ends. took %.3f sec\n",
+           __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
+    return B;
+  } else {
+    fprintf(stderr,
+            "error:%s:%d: input matrix not in coo_sorted format %d\n",
+            __FILE__, __LINE__, A.format);
+    return mk_sparse_invalid();
+  }
+}
+
+/**
+   @brief convert a sparse matrix in coo format to csr format.
+   @param (A) a sparse matrix in coo format
+   @param (update_A) if update_A is true, the elements of A will be
+   sorted as a side effect.
+   @return a sparse matrix in the csr format
+ */
+static sparse_t sparse_coo_to_csr(sparse_t A) {
+  if (A.format == sparse_format_coo) {
+    /* first get coo_sorted format */
+    sparse_t B = sparse_coo_to_coo(A, sparse_format_coo_sorted);
+    sparse_t C = sparse_coo_sorted_to_csr(B);
+    sparse_destroy(B);
+    return C;
+  } else if (A.format == sparse_format_coo_sorted) {
+    sparse_t C = sparse_coo_sorted_to_csr(A);
     return C;
   } else {
     fprintf(stderr,
@@ -997,16 +1118,16 @@ static sparse_t sparse_coo_to_csr(sparse_t A, int update_A) {
    sorted as a side effect.
    @return a sparse matrix in the specified format
  */
-static sparse_t sparse_coo_to_any(sparse_t A, sparse_format_t format, int update_A) {
+static sparse_t sparse_coo_to_any(sparse_t A, sparse_format_t format) {
   if (A.format == sparse_format_coo
       || A.format == sparse_format_coo_sorted) {
     switch (format) {
     case sparse_format_coo:
-      return A;
+      return sparse_coo_to_coo(A, format);
     case sparse_format_coo_sorted:
-      return sparse_coo_to_coo_sorted(A, update_A);
+      return sparse_coo_to_coo(A, format);
     case sparse_format_csr:
-      return sparse_coo_to_csr(A, update_A);
+      return sparse_coo_to_csr(A);
     default:
       fprintf(stderr,
               "error:%s:%d: invalid output format %d\n",
@@ -1028,6 +1149,8 @@ static sparse_t sparse_coo_to_any(sparse_t A, sparse_format_t format, int update
    @return a sparse matrix in coo_sorted format
  */
 static sparse_t sparse_csr_to_coo_sorted(sparse_t A) {
+  printf("%s:%d:sparse_csr_to_coo_sorted starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
   if (A.format == sparse_format_csr) {
     idx_t M = A.M;
     idx_t N = A.N;
@@ -1047,6 +1170,9 @@ static sparse_t sparse_csr_to_coo_sorted(sparse_t A) {
     }
     coo_t coo = { B_elems };
     sparse_t B = { sparse_format_coo_sorted, M, N, nnz, { .coo = coo } };
+    long t1 = cur_time_ns();
+    printf("%s:%d:sparse_csr_to_coo_sorted ends. took %.3f sec\n",
+           __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
     return B;
   } else {
     fprintf(stderr,
@@ -1092,12 +1218,12 @@ static sparse_t sparse_csr_to_any(sparse_t A, sparse_format_t format) {
    @param (update_A) if true, A's elements may be updated in place
    @return a sparse format in the specified format
  */
-sparse_t sparse_any_to_any(sparse_t A, sparse_format_t format, int update_A) {
+sparse_t sparse_any_to_any(sparse_t A, sparse_format_t format) {
   switch (A.format) {
   case sparse_format_coo:
-    return sparse_coo_to_any(A, format, update_A);
+    return sparse_coo_to_any(A, format);
   case sparse_format_coo_sorted:
-    return sparse_coo_to_any(A, format, update_A);
+    return sparse_coo_to_any(A, format);
   case sparse_format_csr:
     return sparse_csr_to_any(A, format);
   default:
@@ -1126,7 +1252,7 @@ static sparse_t read_coo_file(idx_t M, idx_t N, idx_t nnz, char * file) {
   (void)N;
   (void)nnz;
   (void)file;
-  fprintf(stderr, "error:%s:%d: sorry, not implemented\n",
+  fprintf(stderr, ":%s:%d:read_coo_file: sorry, not implemented yet\n",
           __FILE__, __LINE__);
   return mk_sparse_invalid();
 }
@@ -1180,7 +1306,8 @@ static sparse_t mk_sparse_matrix(cmdline_options_t opt,
                                  idx_t M, idx_t N, idx_t nnz,
                                  unsigned short rg[3]) {
   sparse_t A = mk_sparse_matrix_coo(opt, M, N, nnz, rg);
-  sparse_t B = sparse_coo_to_any(A, opt.format, 1);
+  sparse_t B = sparse_coo_to_any(A, opt.format);
+  sparse_destroy(A);
   return B;
 }
 
@@ -1197,17 +1324,15 @@ static sparse_t mk_sparse_matrix(cmdline_options_t opt,
     @return the transposed sparse matrix in coo format
     @sa sparse_transpose
 */
-static sparse_t coo_transpose(sparse_t A, int in_place) {
+static sparse_t coo_transpose(sparse_t A) {
+  printf("%s:%d:coo_transpose starts ...\n", __FILE__, __LINE__);
+  long t0 = cur_time_ns();
   assert(A.format == sparse_format_coo
          || A.format == sparse_format_coo_sorted);
   idx_t nnz = A.nnz;
   coo_elem_t * B_elems = 0;
-  if (in_place) {
-    B_elems = A.coo.elems;
-  } else {
-    B_elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
-    memcpy(B_elems, A.coo.elems, sizeof(coo_elem_t) * nnz);
-  }
+  B_elems = (coo_elem_t *)xalloc(sizeof(coo_elem_t) * nnz);
+  memcpy(B_elems, A.coo.elems, sizeof(coo_elem_t) * nnz);
   for (idx_t k = 0; k < nnz; k++) {
     idx_t i = B_elems[k].i;
     idx_t j = B_elems[k].j;
@@ -1216,6 +1341,9 @@ static sparse_t coo_transpose(sparse_t A, int in_place) {
   }
   coo_t coo = { B_elems };
   sparse_t B = { sparse_format_coo, A.N, A.M, nnz, { .coo = coo } };
+  long t1 = cur_time_ns();
+  printf("%s:%d:coo_transpose ends. took %.3f sec\n",
+         __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
   return B;
 }
 
@@ -1228,17 +1356,20 @@ static sparse_t coo_transpose(sparse_t A, int in_place) {
 static sparse_t sparse_transpose(sparse_t A) {
   switch (A.format) {
   case sparse_format_coo: {
-    return coo_transpose(A, 0);
+    return coo_transpose(A);
   }
   case sparse_format_coo_sorted: {
-    sparse_t B = coo_transpose(A, 0);
-    return sparse_coo_to_coo_sorted(B, 1);
+    sparse_t B = coo_transpose(A);
+    sparse_t C = sparse_coo_to_coo(B, sparse_format_coo_sorted);
+    sparse_destroy(B);
+    return C;
   }
   case sparse_format_csr: {
     sparse_t B = sparse_csr_to_coo_sorted(A);
-    sparse_t C = coo_transpose(B, 1);
-    sparse_t D = sparse_coo_to_csr(C, 1);
-    sparse_destroy(B);          // and C
+    sparse_t C = coo_transpose(B);
+    sparse_t D = sparse_coo_to_csr(C);
+    sparse_destroy(B);
+    sparse_destroy(C);
     return D;
   }
   default: {
@@ -1462,7 +1593,7 @@ static int spmv_csr_serial(sparse_t A, vec_t vx, vec_t vy) {
       y[i] += a * x[j];
     }
   }
-  return 0;
+  return 1;
 }
 
 #include "include/spmv_csr_parallel.cc"
@@ -1653,16 +1784,6 @@ static real vec_normalize(spmv_algo_t algo, vec_t v) {
 }
 
 /** 
-    @brief current time in nano second
-    @return the current time in nano second
-*/
-static long cur_time_ns() {
-  struct timespec ts[1];
-  clock_gettime(CLOCK_REALTIME, ts);
-  return ts->tv_sec * 1000000000L + ts->tv_nsec;
-}
-
-/** 
     @brief repeat y = A x; x = tA y; many times, with the
     specified algorithm
     @param (algo)
@@ -1700,6 +1821,7 @@ static real repeat_spmv(spmv_algo_t algo,
   
   printf("%s:%d:repeat_spmv: warm up + error check starts\n", __FILE__, __LINE__);
   fflush(stdout);
+  long t0 = cur_time_ns();
   /* y = A x and check error */
   if (!spmv(algo, A, x, y))
     return -1.0;
@@ -1709,23 +1831,25 @@ static real repeat_spmv(spmv_algo_t algo,
   /* x = x/|x| and check error */
   if (vec_normalize(algo, x) < 0.0)
     return -1.0;
-  printf("%s:%d:repeat_spmv: warm up + error check ends\n", __FILE__, __LINE__);
+  long t1 = cur_time_ns();
+  printf("%s:%d:repeat_spmv: warm up + error check ends. took %.3f sec\n",
+         __FILE__, __LINE__, (t1 - t0) * 1.0e-9);
 
   /* the real iterations to measure */
-  printf("%s:%d:repeat_spmv: starts\n", __FILE__, __LINE__);
+  printf("%s:%d:repeat_spmv: main loop starts\n", __FILE__, __LINE__);
   fflush(stdout);
   long nnz = A.nnz;
   real lambda = 0.0;
   long flops = (4 * (long)nnz + 3 * (long)x.n) * (long)repeat;
-  long t0 = cur_time_ns();
+  long t2 = cur_time_ns();
   for (idx_t r = 0; r < repeat; r++) {
     spmv(algo,  A, x, y); /* y = A * x   (2 nnz flops) */
     spmv(algo, tA, y, x); /* x = tA * y  (2 nnz flops) */
     lambda = vec_normalize(algo, x); /* x = x/|x| (and lambda = |x|) */
   }
-  long t1 = cur_time_ns();
-  long dt = t1 - t0;
-  printf("%s:%d:repeat_spmv: ends\n", __FILE__, __LINE__);
+  long t3 = cur_time_ns();
+  long dt = t3 - t2;
+  printf("%s:%d:repeat_spmv: main loop ends\n", __FILE__, __LINE__);
   printf("%ld flops in %.6f sec (%.6f GFLOPS)\n",
          flops, dt*1.0e-9, flops/(double)dt);
   return lambda;
@@ -1773,23 +1897,6 @@ static vec_t mk_vec_zero(idx_t n) {
 }
 
 /** 
-    @brief release memory for cmdline_options
-    @param (opt) the command line option to release the memory of
-*/
-static void cmdline_options_destroy(cmdline_options_t opt) {
-  xfree(opt.format_str);
-  xfree(opt.matrix_type_str);
-  xfree(opt.algo_str);
-  if (opt.coo_file) {
-    xfree(opt.coo_file);
-  }
-  xfree(opt.rmat_str);
-  if (opt.dump) {
-    xfree(opt.dump);
-  }
-}
-
-/** 
     @brief compare two elements in an array of idx_t 
     @param (a_) the pointer to an element 1
     @param (b_) the pointer to an element 2
@@ -1815,7 +1922,7 @@ static int dump_sparse_file(sparse_t A, char * file, idx_t max_points, long seed
          __FILE__, __LINE__,
          (long)A.M, (long)A.N, (long)A.nnz, file);
   fflush(stdout);
-  sparse_t B = sparse_any_to_any(A, sparse_format_coo, 0);
+  sparse_t B = sparse_any_to_any(A, sparse_format_coo);
   idx_t M = B.M;
   idx_t N = B.N;
   idx_t nnz = B.nnz;
@@ -1929,17 +2036,11 @@ int main(int argc, char ** argv) {
   printf("algo : %s\n", opt.algo_str);
 
   //sparse_t A = mk_sparse_random(opt.format, M, N, nnz, rg);
-  printf("%s:%d:main: generate a matrix ... \n", __FILE__, __LINE__); fflush(stdout);
   sparse_t A = mk_sparse_matrix(opt, M, N, nnz, rg);
-  printf("%s:%d:main: generate a matrix ends %ld x %ld with %ld non-zeros\n",
-         __FILE__, __LINE__,
-         (long)A.M, (long)A.N, (long)A.nnz); fflush(stdout);
   if (opt.dump) {
     dump_sparse_file(A, opt.dump, opt.dump_points, opt.dump_seed);
   }
-  printf("%s:%d:main: transpose the matrix ... \n", __FILE__, __LINE__); fflush(stdout);
   sparse_t tA = sparse_transpose(A);
-  printf("%s:%d:main: transpose the matrix ends ... \n", __FILE__, __LINE__); fflush(stdout);
   vec_t x = mk_vec_unit_random(N, rg);
   vec_t y = mk_vec_zero(M);
   real lambda = repeat_spmv(opt.algo, A, tA, x, y, repeat);
