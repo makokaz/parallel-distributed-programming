@@ -17,7 +17,7 @@
 /* cuda_util.h incudes various utilities to make CUDA 
    programming less error-prone. check it before you
    proceed with rewriting it for CUDA */
-#include "cuda_util.h"
+#include "include/cuda_util.h"
 #endif
 
 /** @brief type of matrix index (i,j,...)
@@ -687,6 +687,47 @@ static void sparse_destroy(sparse_t A) {
             "error:%s:%d: sparse_destroy: invalid format %d\n",
             __FILE__, __LINE__, A.format);
     break;
+  }
+}
+
+/** 
+    @brief size (in bytes) of a sparse matrix in coo format
+    @param (A) a sparse matrix in coo format
+    @return size of the matrix in bytes
+*/
+static size_t sparse_coo_size(sparse_t A) {
+  size_t sz = sizeof(coo_elem_t) * A.nnz;
+  return sz;
+}
+
+/** 
+    @brief size (in bytes) of a sparse matrix in csr format
+    @param (A) a sparse matrix in csr format
+    @return size of the matrix in bytes
+*/
+static size_t sparse_csr_size(sparse_t A) {
+  size_t nnz_sz = sizeof(csr_elem_t) * A.nnz;
+  size_t row_start_sz = sizeof(idx_t) * (A.M + 1);
+  return nnz_sz + row_start_sz;
+}
+
+/** 
+    @brief size (in bytes) of a sparse matrix
+    @param (A) a sparse matrix
+    @return size of the matrix in bytes
+*/
+static size_t sparse_size(sparse_t A) {
+  switch (A.format) {
+  case sparse_format_coo:
+  case sparse_format_coo_sorted:
+    return sparse_coo_size(A);
+  case sparse_format_csr:
+    return sparse_csr_size(A);
+  default:
+    fprintf(stderr,
+            "error:%s:%d: sparse_size: invalid format %d\n",
+            __FILE__, __LINE__, A.format);
+    return 0;
   }
 }
 
@@ -2003,6 +2044,9 @@ static int dump_sparse_file(sparse_t A, char * file, idx_t max_points, long seed
   return 1;
 }
 
+
+
+
 /** 
     @brief the main function
 */
@@ -2034,6 +2078,12 @@ int main(int argc, char ** argv) {
     dump_sparse_file(A, opt.dump, opt.dump_points, opt.dump_seed);
   }
   sparse_t tA = sparse_transpose(A);
+  printf("%s:%d:main A is %ld x %ld, has %ld non-zeros and takes %ld bytes\n",
+         __FILE__, __LINE__,
+         (long)A.M, (long)A.N, (long)A.nnz, sparse_size(A));
+  printf("%s:%d:main tA is %ld x %ld, has %ld non-zeros and takes %ld bytes\n",
+         __FILE__, __LINE__,
+         (long)tA.M, (long)tA.N, (long)tA.nnz, sparse_size(A));
   vec_t x = mk_vec_unit_random(N, rg);
   vec_t y = mk_vec_zero(M);
   real lambda = repeat_spmv(opt.algo, A, tA, x, y, repeat);
