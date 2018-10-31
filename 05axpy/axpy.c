@@ -5,7 +5,7 @@
 #include "clock.h"
 
 /* GCC vector extension to define a vector of floats */
-typedef float floatv __attribute__((vector_size(32)));
+typedef float floatv __attribute__((vector_size(64)));
 /* vector size (SIMD lanes) */
 const int vs = sizeof(floatv) / sizeof(float);
 /* the number of vector variables to update concurrently
@@ -199,9 +199,9 @@ int main(int argc, char ** argv) {
 
   printf("algo = %ld\n", algo);
   long   mm = m < nv ? nv : m;
-  float a_[vs] __attribute__((aligned(32)));
-  float X_[mm * vs] __attribute__((aligned(32)));
-  float c_[vs] __attribute__((aligned(32)));
+  float a_[vs] __attribute__((aligned(64)));
+  float X_[mm * vs] __attribute__((aligned(64)));
+  float c_[vs] __attribute__((aligned(64)));
   unsigned short rg[3] = { seed >> 16, seed >> 8, seed };
   for (int i = 0; i < vs; i++) {
     a_[i] = erand48(rg);
