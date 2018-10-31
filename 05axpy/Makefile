@@ -1,6 +1,6 @@
-c_files := $(wildcard axpy.c)
-exes := $(patsubst %.c,%,$(c_files))
-asms := $(patsubst %.c,%.s,$(c_files))
+cc_files := $(wildcard axpy.cc)
+exes := $(patsubst %.cc,%,$(cc_files))
+asms := $(patsubst %.cc,%.s,$(cc_files))
 
 opts := 
 opts += -Wall
@@ -17,15 +17,15 @@ opts += -O3
 #opts += -funroll-loops
 #opts += --param max-unroll-times=2
 
-CC := gcc
+CC := g++
 CFLAGS := $(opts)
 all : $(exes) $(asms)
 
 asm : $(asms)
 
-$(exes) : % : %.c Makefile
+$(exes) : % : %.cc Makefile
 	$(CC) -o $@ $(CFLAGS) $<
-$(asms) : %.s : %.c Makefile
+$(asms) : %.s : %.cc Makefile
 	$(CC) -S $(CFLAGS) $<
 
 clean :
