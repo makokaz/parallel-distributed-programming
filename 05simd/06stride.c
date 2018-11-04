@@ -28,17 +28,19 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-__m512i ztoL() {
+intv ztoL() {
   int ztoL_[L];
   for (int i = 0; i < L; i++) ztoL_[i] = i;
-  return *((__m512i*)ztoL_);
+  return *((intv*)ztoL_);
 }
 
 void loop_stride_v(float a, floatv * x, float b, floatv * y, long n) {
-  __m512i iv = ztoL();
+  intv iv = ztoL();
+  intv Lv = (intv)_mm512_set1_epi32(L);
+  intv two = (intv)_mm512_set1_epi32(2);
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++, iv += L) {
-    floatv xi = _mm512_i32gather_ps(2 * iv, x, sizeof(float));
+  for (long i = 0; i < n / L; i++, iv += Lv) {
+    floatv xi = _mm512_i32gather_ps(two * iv, x, sizeof(float));
     y[i] = a * xi + b;
   }
   asm volatile("# vloop ends");

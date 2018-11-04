@@ -23,7 +23,7 @@ void loop_loop_c(float a, float * restrict x, float b, float * restrict y, long 
   asm volatile("# loop ends");
 }
 
-#if __AVX512__
+#if __AVX512F__
 typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
 #elif __AVX__
 typedef float floatv __attribute__((vector_size(32),aligned(sizeof(float))));

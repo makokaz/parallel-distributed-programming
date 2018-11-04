@@ -24,6 +24,8 @@ void loop_bb(float a, float * restrict x, float b, float * restrict y, long n) {
 typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
 #elif __AVX__
 typedef float floatv __attribute__((vector_size(32),aligned(sizeof(float))));
+#else
+#error "hoge"
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 

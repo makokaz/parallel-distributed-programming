@@ -30,7 +30,8 @@ icc_flags :=
 icc_flags += -qopenmp-simd
 icc_flags += -qopt-report=4
 icc_flags += -qopt-report-phase=vec
-icc_flags += -axMIC-AVX512
+#icc_flags += -axMIC-AVX512
+icc_flags += -xMIC-AVX512
 icc_flags += -std=gnu99
 
 CFLAGS := $(common_flags) $($(CC)_flags)

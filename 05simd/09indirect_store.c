@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <x86intrin.h>
 
 #include <assert.h>
@@ -36,7 +37,7 @@ void loop_indirect_store_v(float a, floatv * x, intv * idx, float b,
   assert(sizeof(float) == sizeof(int));
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++) {
-    __m512i iv = (__m512i)idx[i];
+    intv iv = idx[i];
     floatv yi = _mm512_i32gather_ps(iv, y, sizeof(float));
     _mm512_i32scatter_ps(y, iv, yi + a * x[i] + b, sizeof(float));
   }
@@ -44,7 +45,7 @@ void loop_indirect_store_v(float a, floatv * x, intv * idx, float b,
 }
 
 int main(int argc, char ** argv) {
-  long  n = (argc > 1 ? atol(argv[1]) : 1024);
+  long  n = (argc > 1 ? atol(argv[1]) : 32);
   float a = (argc > 2 ? atof(argv[2]) : 1.234);
   float b = (argc > 3 ? atof(argv[3]) : 4.567);
   long seed = (argc > 4 ? atol(argv[4]) : 8901234567);
@@ -60,7 +61,7 @@ int main(int argc, char ** argv) {
     idx[i] = i;
     x[i] = erand48(rg) - 0.5;
     y[i] = 1.0;
-    yv[i] = 2.0;
+    yv[i] = 1.0;
   }
   for (long i = 0; i < n; i++) {
     long j = nrand48(rg) % n;
@@ -71,7 +72,8 @@ int main(int argc, char ** argv) {
   loop_indirect_store(a, x, idx, b, y, n);
   loop_indirect_store_v(a, (floatv*)x, (intv*)idx, b, (floatv*)yv, n);
   for (long i = 0; i < n; i++) {
-    assert(y[i] == yv[i]);
+    //printf("y[%ld] = %.9f, yv[%ld] = %.9f\n", i, y[i], i, yv[i]);
+    assert(fabs(y[i] - yv[i]) < 1.0e-4);
   }
   printf("OK\n");
   return 0;

@@ -31,24 +31,25 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-__m512i ztoL() {
+intv ztoL() {
   int ztoL_[L];
   for (int i = 0; i < L; i++) ztoL_[i] = i;
-  return *((__m512i*)ztoL_);
+  return *((intv*)ztoL_);
 }
 
 void loop_loop_i_v(float a, floatv * x, float b,
                    floatv * y, long n) {
   floatv av = _mm512_set1_ps(a);
   floatv bv = _mm512_set1_ps(b);
-  __m512i iv = ztoL();
+  intv iv = ztoL();             /* {0,1,...,15} */
+  intv Lv = (intv)_mm512_set1_epi32(L);
   asm volatile("# vloop begins");
-  for (int i = 0; i < n / L; i++, iv += L) {
+  for (int i = 0; i < n / L; i++, iv += Lv) {
     y[i] = x[i];
-    for (long j = 0; j < i + L - 1; j++) {
-      __m512i jv = _mm512_set1_epi32(j);
+    for (long j = 0; j < L * i + L - 1; j++) {
+      intv jv = (intv)_mm512_set1_epi32(j);
       __mmask16 jlti = _mm512_cmp_epi32_mask(jv, iv, _CMP_LT_OS);
-      y[i] = _mm512_maskz_fmadd_ps(jlti, av, y[i], bv);
+      y[i] = _mm512_mask_fmadd_ps(y[i], jlti, av, bv);
     }
   }
   asm volatile("# vloop ends");
