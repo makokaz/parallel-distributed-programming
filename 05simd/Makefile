@@ -16,7 +16,7 @@ gcc_flags += -mavx512f
 gcc_flags += -mfma
 
 clang_flags :=
-clang_flags += -fopenmp-simd
+#clang_flags += -fopenmp-simd
 clang_flags += -fno-slp-vectorize 
 clang_flags += -Rpass=vectorize
 clang_flags += -Rpass-missed=vectorize
