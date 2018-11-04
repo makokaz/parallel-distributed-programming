@@ -1,6 +1,6 @@
 #CC := gcc
-#CC := clang
-CC := icc
+CC := clang
+#CC := icc
 
 common_flags := 
 common_flags += -Wall

@@ -1,6 +1,7 @@
 #include <assert.h>
 
-void loop_if(float a, float * restrict x, float b, float * restrict y, long n) {
+void loop_random(float a, float * restrict x, float b,
+                 float * restrict y, long n) {
   /* tell the compiler x and y are 64 bytes-aligned (a multiple of 64) */
   x = __builtin_assume_aligned(x, 64);
   y = __builtin_assume_aligned(y, 64);
@@ -9,10 +10,7 @@ void loop_if(float a, float * restrict x, float b, float * restrict y, long n) {
   asm volatile("# loop begins");
 #pragma omp simd
   for (long i = 0; i < n; i++) {
-    y[i] = x[i];
-    for (long j = 0; j < i; j++) {
-      y[i] = a * y[i] + b;
-    }
+    y[i] = a * x[i * i] + b;
   }
   asm volatile("# loop ends");
 }
