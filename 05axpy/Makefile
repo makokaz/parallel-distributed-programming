@@ -5,19 +5,26 @@ asms := $(patsubst %.cc,%.s,$(cc_files))
 opts := 
 opts += -Wall
 opts += -Wextra
-opts += -march=native 
-opts += -fopenmp
 opts += -O3
 #opts += -O0 -g
+
+# GCC
+opts += -fopenmp
+opts += -mavx512f
 #opts += -fopt-info-vec-optimized 
 #opts += -fopt-info-vec-missed
-#opts += -std=gnu99
-#opts += -fopenmp
 #opts += -fcilkplus
 #opts += -funroll-loops
 #opts += --param max-unroll-times=2
 
+# ICC
+#opts += -qopenmp
+#opts += -axMIC-AVX512
+#opts += -qopt-report=4
+#opts += -qopt-report-phase=vec
+
 CC := g++
+#CC := icpc
 CFLAGS := $(opts)
 all : $(exes) $(asms)
 

@@ -93,6 +93,23 @@ long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
   return 2 * nv * vs * n;
 }
 
+#if 0
+template<int nv>
+long axpy_simd_c(long _, long n, floatv a_, floatv* X_, floatv c_) {
+  (void)_;
+  float a = a_[0], c = c_[0];
+  float * X = (float *)X_;
+  asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "g"(nv));
+  for (long i = 0; i < n; i++) {
+    for (long j = 0; j < nv * vs; j++) {
+      X[j] = a * X[j] + c;
+    }
+  }
+  asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
+  return 2 * nv * vs * n;
+}
+#endif
+
 /** 
     @brief repeat x = a x + c for m (variable) vector type (floatv) variables
     @param (m) the number of variables updated
@@ -354,7 +371,7 @@ algo_t parse_algo(char * s) {
    @param (argv) command line args
   */
 int main(int argc, char ** argv) {
-  char * algo_str = (argc > 1 ? argv[1] : 0);
+  char * algo_str = (argc > 1 ? argv[1] : (char *)"scalar");
   algo_t     algo = (algo_str ? parse_algo(algo_str) : algo_scalar);
   if (algo == algo_invalid) return EXIT_FAILURE;
   long         nv = (argc > 2 ? atol(argv[2]) : 8);
