@@ -1,5 +1,6 @@
 #CC := gcc
-CC := clang
+#CC := clang
+CC := icc
 
 common_flags := 
 common_flags += -Wall
@@ -24,8 +25,11 @@ clang_flags += -mavx512f
 clang_flags += -mfma
 
 icc_flags :=
-icc_flags += -fopt-report-phase=vectorize
-icc_flags += -fopt-report-phase-missed=vectorize
+icc_flags += -qopenmp-simd
+icc_flags += -qopt-report=4
+icc_flags += -qopt-report-phase=vec
+icc_flags += -axMIC-AVX512
+icc_flags += -std=gnu99
 
 CFLAGS := $(common_flags) $($(CC)_flags)
 
