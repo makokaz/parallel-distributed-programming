@@ -1,4 +1,10 @@
+/**
+   @file 04loop_i.c
+ */
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <x86intrin.h>
 
 void loop_loop_i(float a, float * restrict x, float b, float * restrict y, long n) {
   /* tell the compiler x and y are 64 bytes-aligned (a multiple of 64) */
@@ -15,4 +21,61 @@ void loop_loop_i(float a, float * restrict x, float b, float * restrict y, long 
     }
   }
   asm volatile("# loop ends");
+}
+
+#if __AVX512F__
+typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
+typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
+#else
+#error "this code requires __AVX512F__"
+#endif
+const int L = sizeof(floatv) / sizeof(float);
+
+__m512i ztoL() {
+  int ztoL_[L];
+  for (int i = 0; i < L; i++) ztoL_[i] = i;
+  return *((__m512i*)ztoL_);
+}
+
+void loop_loop_i_v(float a, floatv * x, float b,
+                   floatv * y, long n) {
+  floatv av = _mm512_set1_ps(a);
+  floatv bv = _mm512_set1_ps(b);
+  __m512i iv = ztoL();
+  asm volatile("# vloop begins");
+  for (int i = 0; i < n / L; i++, iv += L) {
+    y[i] = x[i];
+    for (long j = 0; j < i + L - 1; j++) {
+      __m512i jv = _mm512_set1_epi32(j);
+      __mmask16 jlti = _mm512_cmp_epi32_mask(jv, iv, _CMP_LT_OS);
+      y[i] = _mm512_maskz_fmadd_ps(jlti, av, y[i], bv);
+    }
+  }
+  asm volatile("# vloop ends");
+}
+
+int main(int argc, char ** argv) {
+  long  n = (argc > 1 ? atol(argv[1]) : 1024);
+  float a = (argc > 2 ? atof(argv[2]) : 1.234);
+  float b = (argc > 3 ? atof(argv[3]) : 4.567);
+  long seed = (argc > 4 ? atol(argv[4]) : 8901234567);
+  n = (n / 16) * 16;
+  float *  x = _mm_malloc(n * sizeof(float), 64);
+  float *  y = _mm_malloc(n * sizeof(float), 64);
+  float * yv = _mm_malloc(n * sizeof(float), 64);
+  unsigned short rg[3] = { (seed >> 32) & 65535,
+                           (seed >> 16) & 65535,
+                           (seed >>  0) & 65535 };
+  for (long i = 0; i < n; i++) {
+    x[i] = erand48(rg) - 0.5;
+    y[i] = 1.0;
+    yv[i] = 2.0;
+  }
+  loop_loop_i(a, x, b, y, n);
+  loop_loop_i_v(a, (floatv*)x, b, (floatv*)yv, n);
+  for (long i = 0; i < n; i++) {
+    assert(y[i] == yv[i]);
+  }
+  printf("OK\n");
+  return 0;
 }

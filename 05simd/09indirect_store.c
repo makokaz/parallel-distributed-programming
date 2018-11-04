@@ -1,12 +1,15 @@
 /**
-   @file 01if.c
+   @file 09indirect_store.c
  */
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <x86intrin.h>
 
-void loop_if(float a, float * restrict x, float b, float * restrict y, long n) {
+#include <assert.h>
+
+void loop_indirect_store(float a, float * restrict x, int * idx, float b,
+                         float * restrict y, long n) {
   /* tell the compiler x and y are 64 bytes-aligned (a multiple of 64) */
   x = __builtin_assume_aligned(x, 64);
   y = __builtin_assume_aligned(y, 64);
@@ -15,30 +18,27 @@ void loop_if(float a, float * restrict x, float b, float * restrict y, long n) {
   asm volatile("# loop begins");
 #pragma omp simd
   for (long i = 0; i < n; i++) {
-    if (x[i] < 0.0) {
-      y[i] = a * x[i] + b;
-    } else {
-      y[i] = 0.0;
-    }
+    y[idx[i]] += a * x[i] + b;
   }
   asm volatile("# loop ends");
 }
 
 #if __AVX512F__
 typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
+typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #else
 #error "this code requires __AVX512F__"
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void loop_if_v(float a, floatv * x, float b, floatv * y, long n) {
-  floatv zv = _mm512_set1_ps(0.0);
-  floatv av = _mm512_set1_ps(a);
-  floatv bv = _mm512_set1_ps(b);
+void loop_indirect_store_v(float a, floatv * x, intv * idx, float b,
+                           floatv * y, long n) {
+  assert(sizeof(float) == sizeof(int));
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++) {
-    __mmask16 ltz = _mm512_cmp_ps_mask(x[i], zv, _CMP_LT_OS);
-    y[i] = _mm512_maskz_fmadd_ps(ltz, av, x[i], bv);
+    __m512i iv = (__m512i)idx[i];
+    floatv yi = _mm512_i32gather_ps(iv, y, sizeof(float));
+    _mm512_i32scatter_ps(y, iv, yi + a * x[i] + b, sizeof(float));
   }
   asm volatile("# vloop ends");
 }
@@ -52,16 +52,24 @@ int main(int argc, char ** argv) {
   float *  x = _mm_malloc(n * sizeof(float), 64);
   float *  y = _mm_malloc(n * sizeof(float), 64);
   float * yv = _mm_malloc(n * sizeof(float), 64);
+  int  * idx = _mm_malloc(n * sizeof(int), 64);
   unsigned short rg[3] = { (seed >> 32) & 65535,
                            (seed >> 16) & 65535,
                            (seed >>  0) & 65535 };
   for (long i = 0; i < n; i++) {
+    idx[i] = i;
     x[i] = erand48(rg) - 0.5;
     y[i] = 1.0;
     yv[i] = 2.0;
   }
-  loop_if(a, x, b, y, n);
-  loop_if_v(a, (floatv*)x, b, (floatv*)yv, n);
+  for (long i = 0; i < n; i++) {
+    long j = nrand48(rg) % n;
+    int t = idx[i];
+    idx[i] = idx[j];
+    idx[j] = t;
+  }
+  loop_indirect_store(a, x, idx, b, y, n);
+  loop_indirect_store_v(a, (floatv*)x, (intv*)idx, b, (floatv*)yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }
