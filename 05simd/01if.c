@@ -31,14 +31,16 @@ typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void loop_if_v(float a, floatv * x, float b, floatv * y, long n) {
+#define V(p) *((floatv*)&(p))
+
+void loop_if_v(float a, float * x, float b, float * y, long n) {
   floatv zv = _mm512_set1_ps(0.0);
   floatv av = _mm512_set1_ps(a);
   floatv bv = _mm512_set1_ps(b);
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++) {
-    __mmask16 ltz = _mm512_cmp_ps_mask(x[i], zv, _CMP_LT_OS);
-    y[i] = _mm512_maskz_fmadd_ps(ltz, av, x[i], bv);
+  for (long i = 0; i < n; i += L) {
+    __mmask16 ltz = _mm512_cmp_ps_mask(V(x[i]), zv, _CMP_LT_OS);
+    V(y[i]) = _mm512_maskz_fmadd_ps(ltz, av, V(x[i]), bv);
   }
   asm volatile("# vloop ends");
 }
@@ -61,7 +63,7 @@ int main(int argc, char ** argv) {
     yv[i] = 2.0;
   }
   loop_if(a, x, b, y, n);
-  loop_if_v(a, (floatv*)x, b, (floatv*)yv, n);
+  loop_if_v(a, x, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }

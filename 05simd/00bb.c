@@ -20,19 +20,21 @@ void loop_bb(float a, float * restrict x, float b, float * restrict y, long n) {
   asm volatile("# loop ends");
 }
 
-#if __AVX512__
+#if __AVX512F__
 typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
 #elif __AVX__
 typedef float floatv __attribute__((vector_size(32),aligned(sizeof(float))));
 #else
-#error "hoge"
+#error "this code requires __AVX512F__ or __AVX__"
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void loop_bb_v(float a, floatv * x, float b, floatv * y, long n) {
+#define V(p) *((floatv*)&(p))
+
+void loop_bb_v(float a, float * x, float b, float * y, long n) {
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++) {
-    y[i] = a * x[i] + b;
+  for (long i = 0; i < n; i += L) {
+    V(y[i]) = a * V(x[i]) + b;
   }
   asm volatile("# vloop ends");
 }
@@ -55,7 +57,7 @@ int main(int argc, char ** argv) {
     yv[i] = 2.0;
   }
   loop_bb(a, x, b, y, n);
-  loop_bb_v(a, (floatv*)x, b, (floatv*)yv, n);
+  loop_bb_v(a, x, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }

@@ -32,14 +32,16 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void loop_indirect_store_v(float a, floatv * x, intv * idx, float b,
-                           floatv * y, long n) {
-  assert(sizeof(float) == sizeof(int));
+#define V(p) *((floatv*)&(p))
+#define IV(p) *((intv*)&(p))
+
+void loop_indirect_store_v(float a, float * x, int * idx, float b,
+                           float * y, long n) {
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++) {
-    intv iv = idx[i];
-    floatv yi = _mm512_i32gather_ps((__m512i)iv, y, sizeof(float));
-    _mm512_i32scatter_ps(y, (__m512i)iv, yi + a * x[i] + b, sizeof(float));
+    intv iv = IV(idx[i]);
+    floatv yiv = _mm512_i32gather_ps((__m512i)iv, y, sizeof(float));
+    _mm512_i32scatter_ps(y, (__m512i)iv, yiv + a * V(x[i]) + b, sizeof(float));
   }
   asm volatile("# vloop ends");
 }
@@ -70,7 +72,7 @@ int main(int argc, char ** argv) {
     idx[j] = t;
   }
   loop_indirect_store(a, x, idx, b, y, n);
-  loop_indirect_store_v(a, (floatv*)x, (intv*)idx, b, (floatv*)yv, n);
+  loop_indirect_store_v(a, x, idx, b, yv, n);
   for (long i = 0; i < n; i++) {
     //printf("y[%ld] = %.9f, yv[%ld] = %.9f\n", i, y[i], i, yv[i]);
     assert(fabs(y[i] - yv[i]) < 1.0e-4);

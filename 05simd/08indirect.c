@@ -29,14 +29,16 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void loop_indirect_v(float a, floatv * x, intv * idx, float b,
-                     floatv * y, long n) {
-  assert(sizeof(float) == sizeof(int));
+#define V(p) *((floatv*)&(p))
+#define IV(p) *((intv*)&(p))
+
+void loop_indirect_v(float a, float * x, int * idx, float b,
+                     float * y, long n) {
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++) {
-    __m512i iv = (__m512i)idx[i];
-    floatv xi = _mm512_i32gather_ps(iv, x, sizeof(float));
-    y[i] = a * xi + b;
+  for (long i = 0; i < n; i += L) {
+    intv iv = IV(idx[i]);
+    floatv xiv = _mm512_i32gather_ps((__m512i)iv, x, sizeof(float));
+    V(y[i]) = a * xiv + b;
   }
   asm volatile("# vloop ends");
 }
@@ -68,7 +70,7 @@ int main(int argc, char ** argv) {
     idx[j] = t;
   }
   loop_indirect(a, x, idx, b, y, n);
-  loop_indirect_v(a, (floatv*)x, (intv*)idx, b, (floatv*)yv, n);
+  loop_indirect_v(a, x, idx, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }

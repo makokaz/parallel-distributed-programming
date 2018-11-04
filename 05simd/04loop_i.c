@@ -31,6 +31,8 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
+#define V(p) *((floatv*)&(p))
+
 intv ztoL() {
   int ztoL_[L];
   for (int i = 0; i < L; i++) ztoL_[i] = i;
@@ -44,12 +46,12 @@ void loop_loop_i_v(float a, floatv * x, float b,
   intv iv = ztoL();             /* {0,1,...,15} */
   intv Lv = (intv)_mm512_set1_epi32(L);
   asm volatile("# vloop begins");
-  for (int i = 0; i < n / L; i++, iv += Lv) {
-    y[i] = x[i];
+  for (int i = 0; i < n; i += L, iv += Lv) {
+    V(y[i]) = V(x[i]);
     for (long j = 0; j < L * i + L - 1; j++) {
       intv jv = (intv)_mm512_set1_epi32(j);
       __mmask16 jlti = _mm512_cmp_epi32_mask((__m512i)jv, (__m512i)iv, _CMP_LT_OS);
-      y[i] = _mm512_mask_fmadd_ps(y[i], jlti, av, bv);
+      V(y[i]) = _mm512_mask_fmadd_ps(V(y[i]), jlti, av, bv);
     }
   }
   asm volatile("# vloop ends");

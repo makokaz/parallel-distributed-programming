@@ -28,25 +28,29 @@ void f(float a, float * restrict x, float b, float * restrict y, long i) {
   y[i] = a * x[i] + b;
 }
 
-#if __AVX512__
+#if __AVX512F__
 typedef float floatv __attribute__((vector_size(64),aligned(sizeof(float))));
 #elif __AVX__
 typedef float floatv __attribute__((vector_size(32),aligned(sizeof(float))));
+#else
+#error "this code requires __AVX512F__ or __AVX__"
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
-void fv(float a, floatv * x, float b, floatv * y, long i);
+#define V(p) *((floatv*)&(p))
 
-void loop_fun_v(float a, floatv * x, float b, floatv * y, long n) {
+void fv(float a, float * x, float b, float * y, long i);
+
+void loop_fun_v(float a, float * x, float b, float * y, long n) {
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++) {
+  for (long i = 0; i < n; i += L) {
     fv(a, x, b, y, i);
   }
   asm volatile("# vloop ends");
 }
 
-void fv(float a, floatv * x, float b, floatv * y, long i) {
-  y[i] = a * x[i] + b;
+void fv(float a, float * x, float b, float * y, long i) {
+  V(y[i]) = a * V(x[i]) + b;
 }
 
 int main(int argc, char ** argv) {
@@ -67,7 +71,7 @@ int main(int argc, char ** argv) {
     yv[i] = 2.0;
   }
   loop_fun(a, x, b, y, n);
-  loop_fun_v(a, (floatv*)x, b, (floatv*)yv, n);
+  loop_fun_v(a, x, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }

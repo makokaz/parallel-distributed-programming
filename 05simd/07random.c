@@ -29,19 +29,21 @@ typedef int intv __attribute__((vector_size(64),aligned(sizeof(int))));
 #endif
 const int L = sizeof(floatv) / sizeof(float);
 
+#define V(p) *((floatv*)&(p))
+
 intv ztoL() {
   int ztoL_[L];
   for (int i = 0; i < L; i++) ztoL_[i] = i;
   return *((intv*)ztoL_);
 }
 
-void loop_random_v(float a, floatv * x, float b, floatv * y, long n) {
+void loop_random_v(float a, float * x, float b, float * y, long n) {
   intv iv = (intv)ztoL();
   intv Lv = (intv)_mm512_set1_epi32(L);
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++, iv += Lv) {
-    floatv xi = _mm512_i32gather_ps((__m512i)(iv * iv), x, sizeof(float));
-    y[i] = a * xi + b;
+  for (long i = 0; i < n; i += L, iv += Lv) {
+    floatv xiv = _mm512_i32gather_ps((__m512i)(iv * iv), x, sizeof(float));
+    V(y[i]) = a * xiv + b;
   }
   asm volatile("# vloop ends");
 }
@@ -66,7 +68,7 @@ int main(int argc, char ** argv) {
     yv[i] = 2.0;
   }
   loop_random(a, x, b, y, n);
-  loop_random_v(a, (floatv*)x, b, (floatv*)yv, n);
+  loop_random_v(a, x, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }
