@@ -1,5 +1,5 @@
-#CC := gcc
-CC := clang
+CC := gcc
+#CC := clang
 #CC := icc
 
 common_flags := 
