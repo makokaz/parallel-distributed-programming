@@ -48,7 +48,7 @@ void loop_loop_i_v(float a, floatv * x, float b,
     y[i] = x[i];
     for (long j = 0; j < L * i + L - 1; j++) {
       intv jv = (intv)_mm512_set1_epi32(j);
-      __mmask16 jlti = _mm512_cmp_epi32_mask(jv, iv, _CMP_LT_OS);
+      __mmask16 jlti = _mm512_cmp_epi32_mask((__m512i)jv, (__m512i)iv, _CMP_LT_OS);
       y[i] = _mm512_mask_fmadd_ps(y[i], jlti, av, bv);
     }
   }

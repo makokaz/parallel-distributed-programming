@@ -40,7 +40,7 @@ void loop_random_v(float a, floatv * x, float b, floatv * y, long n) {
   intv Lv = (intv)_mm512_set1_epi32(L);
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++, iv += Lv) {
-    floatv xi = _mm512_i32gather_ps(iv * iv, x, sizeof(float));
+    floatv xi = _mm512_i32gather_ps((__m512i)(iv * iv), x, sizeof(float));
     y[i] = a * xi + b;
   }
   asm volatile("# vloop ends");

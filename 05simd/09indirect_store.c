@@ -38,8 +38,8 @@ void loop_indirect_store_v(float a, floatv * x, intv * idx, float b,
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++) {
     intv iv = idx[i];
-    floatv yi = _mm512_i32gather_ps(iv, y, sizeof(float));
-    _mm512_i32scatter_ps(y, iv, yi + a * x[i] + b, sizeof(float));
+    floatv yi = _mm512_i32gather_ps((__m512i)iv, y, sizeof(float));
+    _mm512_i32scatter_ps(y, (__m512i)iv, yi + a * x[i] + b, sizeof(float));
   }
   asm volatile("# vloop ends");
 }

@@ -40,7 +40,7 @@ void loop_stride_v(float a, floatv * x, float b, floatv * y, long n) {
   intv two = (intv)_mm512_set1_epi32(2);
   asm volatile("# vloop begins");
   for (long i = 0; i < n / L; i++, iv += Lv) {
-    floatv xi = _mm512_i32gather_ps(two * iv, x, sizeof(float));
+    floatv xi = _mm512_i32gather_ps((__m512i)(two * iv), x, sizeof(float));
     y[i] = a * xi + b;
   }
   asm volatile("# vloop ends");
