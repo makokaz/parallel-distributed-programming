@@ -38,7 +38,7 @@ const int L = sizeof(floatv) / sizeof(float);
 void loop_indirect_store_v(float a, float * x, int * idx, float b,
                            float * y, long n) {
   asm volatile("# vloop begins");
-  for (long i = 0; i < n / L; i++) {
+  for (long i = 0; i < n; i += L) {
     intv iv = IV(idx[i]);
     floatv yiv = _mm512_i32gather_ps((__m512i)iv, y, sizeof(float));
     _mm512_i32scatter_ps(y, (__m512i)iv, yiv + a * V(x[i]) + b, sizeof(float));

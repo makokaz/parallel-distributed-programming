@@ -39,8 +39,8 @@ intv ztoL() {
   return *((intv*)ztoL_);
 }
 
-void loop_loop_i_v(float a, floatv * x, float b,
-                   floatv * y, long n) {
+void loop_loop_i_v(float a, float * x, float b,
+                   float * y, long n) {
   floatv av = _mm512_set1_ps(a);
   floatv bv = _mm512_set1_ps(b);
   intv iv = ztoL();             /* {0,1,...,15} */
@@ -75,7 +75,7 @@ int main(int argc, char ** argv) {
     yv[i] = 2.0;
   }
   loop_loop_i(a, x, b, y, n);
-  loop_loop_i_v(a, (floatv*)x, b, (floatv*)yv, n);
+  loop_loop_i_v(a, x, b, yv, n);
   for (long i = 0; i < n; i++) {
     assert(y[i] == yv[i]);
   }
