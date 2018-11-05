@@ -44,7 +44,7 @@ long make_padding(long n0, long m, long p) {
   return n;
 }
 
-float comp_ij(matrix& A, matrix& B, matrix& C, long i, long j, long times) {
+float comp_ij(matrix& A, matrix& B, long i, long j, long times) {
   float s = 0.0;
   long K = A.nC;
   for (long t = 0; t < times; t++) {
@@ -144,7 +144,7 @@ int main(int argc, char ** argv) {
   if (chk) {
     long i = nrand48(rg) % M;
     long j = nrand48(rg) % N;
-    float s = comp_ij(A, B, C, i, j, times);
+    float s = comp_ij(A, B, i, j, times);
     printf("C(%ld,%ld) = %f, ans = %f, |C(%ld,%ld) - s| = %f\n",
 	   i, j, C(i,j), s, i, j, fabs(C(i,j) - s));
   }
