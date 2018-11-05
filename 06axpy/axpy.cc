@@ -6,20 +6,24 @@
 
 /* GCC vector extension to define a vector of floats */
 #if __AVX512F__
-typedef float floatv __attribute__((vector_size(64)));
+const int vwidth = 64;
+#elif __AVX__
+const int vwidth = 32;
 #else
-typedef float floatv __attribute__((vector_size(32)));
+#error "you'd better have a better machine"
 #endif
 
-/* vector size (SIMD lanes) */
-const int vs = sizeof(floatv) / sizeof(float);
+const int valign = sizeof(float);
+typedef float floatv __attribute__((vector_size(vwidth),aligned(valign)));
+/* SIMD lanes */
+const int L = sizeof(floatv) / sizeof(float);
 
 /** 
     @brief repeat x = a x + c for a scalar type (float) variable x
     @param (m) size of X. ignored. it always updates a single scalar element
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details it should run at 4 clocks/iter (the latency of fma
@@ -42,12 +46,13 @@ long axpy_scalar(long n, floatv a, float* X, floatv c) {
     @param (m) size of X. ignored. it always updates an element
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details it should run at 4 clocks/iter (the latency of fma
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
+//#pragma GCC optimize("unroll-loops", 8)
 long axpy_simd(long n, floatv a, floatv* X, floatv c) {
   long i;
   floatv x = X[0];
@@ -57,7 +62,7 @@ long axpy_simd(long n, floatv a, floatv* X, floatv c) {
   }
   asm volatile ("# axpy_simd: ax+c loop end");
   X[0] = x;
-  return 2 * vs * n;
+  return 2 * L * n;
 }
 
 /** 
@@ -66,7 +71,7 @@ long axpy_simd(long n, floatv a, floatv* X, floatv c) {
     @param (m) size of X. ignored. it always updates nv (constant) elements
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details when you increase nv, it should remain running at 4 
@@ -90,7 +95,7 @@ long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
     }
   }
   asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
-  return 2 * nv * vs * n;
+  return 2 * nv * L * n;
 }
 
 #if 0
@@ -101,12 +106,12 @@ long axpy_simd_c(long _, long n, floatv a_, floatv* X_, floatv c_) {
   float * X = (float *)X_;
   asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "g"(nv));
   for (long i = 0; i < n; i++) {
-    for (long j = 0; j < nv * vs; j++) {
+    for (long j = 0; j < nv * L; j++) {
       X[j] = a * X[j] + c;
     }
   }
   asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
-  return 2 * nv * vs * n;
+  return 2 * nv * L * n;
 }
 #endif
 
@@ -115,7 +120,7 @@ long axpy_simd_c(long _, long n, floatv a_, floatv* X_, floatv c_) {
     @param (m) the number of variables updated
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details this is similar to axpy_simc_c, but works on a variable
@@ -143,7 +148,7 @@ long axpy_simd_m(long m, long n, floatv a, floatv* X, floatv c) {
     }
   }
   asm volatile ("# axpy_simd_m: ax+c loop end");
-  return 2 * m * vs * n;
+  return 2 * m * L * n;
 }
 
 /** 
@@ -152,7 +157,7 @@ long axpy_simd_m(long m, long n, floatv a, floatv* X, floatv c) {
     @param (m) the number of variables updated
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
  */
@@ -167,7 +172,7 @@ long axpy_simd_m_nmn(long m, long n, floatv a, floatv* X, floatv c) {
     }
   }
   asm volatile ("# axpy_simd_m_nmn: ax+c loop end");
-  return 2 * m * vs * (n - n % steps_inner);
+  return 2 * m * L * (n - n % steps_inner);
 }
 
 /** 
@@ -177,7 +182,7 @@ long axpy_simd_m_nmn(long m, long n, floatv a, floatv* X, floatv c) {
     @param (m) the number of variables updated
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details the innsermost two loops look similar to axpy_simd_c
@@ -194,7 +199,7 @@ long axpy_simd_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
     }
     asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop end" :: "g"(nv));
   }
-  return 2 * (m - m % nv) * vs * n;
+  return 2 * (m - m % nv) * L * n;
 }
 
 /** 
@@ -204,7 +209,7 @@ long axpy_simd_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
     @param (m) the number of variables updated
     @param (n) the number of times you do ax+c for each variable
     @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * vs floats)
+    @param (X) array of m floatv elements (i.e., m * L floats)
     @param (c) c of a x + c
 
     @details
@@ -233,7 +238,7 @@ long axpy_simd_parallel_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
       X[j+jj] = XX[jj];
     }
   }
-  return 2 * (m - m % nv) * vs * n;
+  return 2 * (m - m % nv) * L * n;
 }
 
 /**
@@ -303,7 +308,7 @@ axpy_funs_table_t axpy_funs_table = {
    @param (m) size of X. the actual number of elements used depends on algorithm
    @param (n) the number of times you do ax+c for each variable
    @param (a) a of a x + c
-   @param (X) array of m floatv elements (i.e., m * vs floats)
+   @param (X) array of m floatv elements (i.e., m * L floats)
    @param (c) c of a x + c
   */
 long axpy(algo_t algo, long nv, long m, long n, floatv a, floatv* X, floatv c) {
@@ -376,7 +381,7 @@ int main(int argc, char ** argv) {
   if (algo == algo_invalid) return EXIT_FAILURE;
   long         nv = (argc > 2 ? atol(argv[2]) : 8);
   long          m = (argc > 3 ? atol(argv[3]) : nv);
-  long          n = (argc > 4 ? atol(argv[4]) : 100000000);
+  long          n = (argc > 4 ? atol(argv[4]) : 1000000000);
   long       seed = (argc > 5 ? atol(argv[5]) : 76843802738543);
   long n_elements_to_show = (argc > 6 ? atol(argv[6]) : 1);
 
@@ -386,18 +391,18 @@ int main(int argc, char ** argv) {
   printf("    m = %ld\n", m);
   printf("    n = %ld\n", n);
   
-  float a_[vs]     __attribute__((aligned(64)));
-  float X_[m * vs] __attribute__((aligned(64)));
-  float c_[vs]     __attribute__((aligned(64)));
+  float a_[L]     __attribute__((aligned(64)));
+  float X_[m * L] __attribute__((aligned(64)));
+  float c_[L]     __attribute__((aligned(64)));
   unsigned short rg[3] = {
     (unsigned short)(seed >> 16),
     (unsigned short)(seed >> 8),
     (unsigned short)(seed) };
-  for (int i = 0; i < vs; i++) {
+  for (int i = 0; i < L; i++) {
     a_[i] = erand48(rg);
     c_[i] = erand48(rg);
   }
-  for (int i = 0; i < m * vs; i++) {
+  for (int i = 0; i < m * L; i++) {
     X_[i] = erand48(rg);
   }
   floatv a = *((floatv*)a_);
