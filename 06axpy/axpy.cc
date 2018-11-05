@@ -52,7 +52,7 @@ long axpy_scalar(long n, floatv a, float* X, floatv c) {
     @details it should run at 4 clocks/iter (the latency of fma
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
-//#pragma GCC optimize("unroll-loops", 8)
+#pragma GCC optimize("unroll-loops", 4)
 long axpy_simd(long n, floatv a, floatv* X, floatv c) {
   long i;
   floatv x = X[0];
