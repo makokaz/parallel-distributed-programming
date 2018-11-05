@@ -1,11 +1,12 @@
-#CC := gcc
-CC := clang
+CC := gcc
+#CC := clang
 #CC := icc
 
 common_flags := 
 common_flags += -Wall
 common_flags += -Wextra
 common_flags += -O3
+#common_flags += -O0 -g
 
 gcc_flags :=
 gcc_flags += -fopenmp-simd
@@ -14,6 +15,7 @@ gcc_flags += -fopt-info-vec-optimized
 gcc_flags += -fopt-info-vec-missed
 gcc_flags += -mavx512f
 gcc_flags += -mfma
+#gcc_flags += -march=native
 
 clang_flags :=
 #clang_flags += -fopenmp-simd
@@ -28,7 +30,8 @@ icc_flags :=
 icc_flags += -qopenmp-simd
 icc_flags += -qopt-report=4
 icc_flags += -qopt-report-phase=vec
-icc_flags += -axMIC-AVX512
+#icc_flags += -axMIC-AVX512
+icc_flags += -xMIC-AVX512
 icc_flags += -std=gnu99
 
 CFLAGS := $(common_flags) $($(CC)_flags)
@@ -37,7 +40,7 @@ c := $(wildcard *.c)
 exe := $(patsubst %.c,%,$(c))
 asm := $(patsubst %.c,%.s,$(c))
 
-all : $(asm)
+all : $(asm) $(exe)
 
 $(asm) : %.s : %.c
 	$(CC) $(CFLAGS) -S $<

@@ -10,7 +10,8 @@ opts += -O3
 
 # GCC
 opts += -fopenmp
-opts += -mavx512f
+#opts += -mavx512f
+opts += -march=native
 #opts += -fopt-info-vec-optimized 
 #opts += -fopt-info-vec-missed
 #opts += -fcilkplus
