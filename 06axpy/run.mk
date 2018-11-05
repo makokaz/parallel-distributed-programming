@@ -16,10 +16,15 @@ threads := 1
 #$(define_rules)
 
 # simd_c with many vars
-method := simd_c simd_m simd_m_mnm
-m := $(shell seq 1 20)
+method := simd_c simd_m_mnm
+m := $(shell seq 1 15)
 threads := 1
-
 $(define_rules)
+
+method := simd_m 
+m := $(shell seq 1 40)
+threads := 1
+$(define_rules)
+
 
 .DELETE_ON_ERROR:

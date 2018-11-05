@@ -52,7 +52,7 @@ long axpy_scalar(long n, floatv a, float* X, floatv c) {
     @details it should run at 4 clocks/iter (the latency of fma
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
-#pragma GCC optimize("unroll-loops", 4)
+//#pragma GCC optimize("unroll-loops", 4)
 long axpy_simd(long n, floatv a, floatv* X, floatv c) {
   long i;
   floatv x = X[0];
@@ -274,36 +274,23 @@ typedef struct {
 } axpy_funs_entry_t;
 
 typedef struct {
-  axpy_funs_entry_t t[25];
+  axpy_funs_entry_t t[50];
 } axpy_funs_table_t;
+
+#define mk_ent(n) { axpy_simd_c<n>, axpy_simd_m_mnm<n>,  axpy_simd_parallel_m_mnm<n>, }
 
 axpy_funs_table_t axpy_funs_table = {
   {
-    { 0, 0, 0, },
-    { axpy_simd_c<1>, axpy_simd_m_mnm<1>,  axpy_simd_parallel_m_mnm<1>, },
-    { axpy_simd_c<2>, axpy_simd_m_mnm<2>,  axpy_simd_parallel_m_mnm<2>, },
-    { axpy_simd_c<3>, axpy_simd_m_mnm<3>,  axpy_simd_parallel_m_mnm<3>, },
-    { axpy_simd_c<4>, axpy_simd_m_mnm<4>,  axpy_simd_parallel_m_mnm<4>, },
-    { axpy_simd_c<5>, axpy_simd_m_mnm<5>,  axpy_simd_parallel_m_mnm<5>, },
-    { axpy_simd_c<6>, axpy_simd_m_mnm<6>,  axpy_simd_parallel_m_mnm<6>, },
-    { axpy_simd_c<7>, axpy_simd_m_mnm<7>,  axpy_simd_parallel_m_mnm<7>, },
-    { axpy_simd_c<8>, axpy_simd_m_mnm<8>,  axpy_simd_parallel_m_mnm<8>, },
-    { axpy_simd_c<9>,  axpy_simd_m_mnm<9>,   axpy_simd_parallel_m_mnm<9>, },
-    { axpy_simd_c<10>, axpy_simd_m_mnm<10>,  axpy_simd_parallel_m_mnm<10>, },
-    { axpy_simd_c<11>, axpy_simd_m_mnm<11>,  axpy_simd_parallel_m_mnm<11>, },
-    { axpy_simd_c<12>, axpy_simd_m_mnm<12>,  axpy_simd_parallel_m_mnm<12>, },
-    { axpy_simd_c<13>, axpy_simd_m_mnm<13>,  axpy_simd_parallel_m_mnm<13>, },
-    { axpy_simd_c<14>, axpy_simd_m_mnm<14>,  axpy_simd_parallel_m_mnm<14>, },
-    { axpy_simd_c<15>, axpy_simd_m_mnm<15>,  axpy_simd_parallel_m_mnm<15>, },
-    { axpy_simd_c<16>, axpy_simd_m_mnm<16>,  axpy_simd_parallel_m_mnm<16>, },
-    { axpy_simd_c<17>, axpy_simd_m_mnm<17>,  axpy_simd_parallel_m_mnm<17>, },
-    { axpy_simd_c<18>, axpy_simd_m_mnm<18>,  axpy_simd_parallel_m_mnm<18>, },
-    { axpy_simd_c<19>, axpy_simd_m_mnm<19>,  axpy_simd_parallel_m_mnm<19>, },
-    { axpy_simd_c<20>, axpy_simd_m_mnm<20>,  axpy_simd_parallel_m_mnm<20>, },
-    { axpy_simd_c<21>, axpy_simd_m_mnm<21>,  axpy_simd_parallel_m_mnm<21>, },
-    { axpy_simd_c<22>, axpy_simd_m_mnm<22>,  axpy_simd_parallel_m_mnm<22>, },
-    { axpy_simd_c<23>, axpy_simd_m_mnm<23>,  axpy_simd_parallel_m_mnm<23>, },
-    { axpy_simd_c<24>, axpy_simd_m_mnm<24>,  axpy_simd_parallel_m_mnm<24>, },
+    { 0, 0, 0, }, mk_ent(1),  mk_ent(2),  mk_ent(3),  mk_ent(4),
+    mk_ent(5),    mk_ent(6),  mk_ent(7),  mk_ent(8),  mk_ent(9),
+    mk_ent(10),   mk_ent(11), mk_ent(12), mk_ent(13), mk_ent(14),
+    mk_ent(15),   mk_ent(16), mk_ent(17), mk_ent(18), mk_ent(19),
+    mk_ent(20),   mk_ent(21), mk_ent(22), mk_ent(23), mk_ent(24),
+    mk_ent(25),   mk_ent(26), mk_ent(27), mk_ent(28), mk_ent(29),
+    mk_ent(30),   mk_ent(31), mk_ent(32), mk_ent(33), mk_ent(34),
+    mk_ent(35),   mk_ent(36), mk_ent(37), mk_ent(38), mk_ent(39),
+    mk_ent(40),   mk_ent(41), mk_ent(42), mk_ent(43), mk_ent(44),
+    mk_ent(45),   mk_ent(46), mk_ent(47), mk_ent(48), mk_ent(49),
   }
 };
 
