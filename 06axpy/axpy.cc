@@ -274,7 +274,7 @@ typedef struct {
 } axpy_funs_entry_t;
 
 typedef struct {
-  axpy_funs_entry_t t[20];
+  axpy_funs_entry_t t[25];
 } axpy_funs_table_t;
 
 axpy_funs_table_t axpy_funs_table = {
@@ -299,6 +299,11 @@ axpy_funs_table_t axpy_funs_table = {
     { axpy_simd_c<17>, axpy_simd_m_mnm<17>,  axpy_simd_parallel_m_mnm<17>, },
     { axpy_simd_c<18>, axpy_simd_m_mnm<18>,  axpy_simd_parallel_m_mnm<18>, },
     { axpy_simd_c<19>, axpy_simd_m_mnm<19>,  axpy_simd_parallel_m_mnm<19>, },
+    { axpy_simd_c<20>, axpy_simd_m_mnm<20>,  axpy_simd_parallel_m_mnm<20>, },
+    { axpy_simd_c<21>, axpy_simd_m_mnm<21>,  axpy_simd_parallel_m_mnm<21>, },
+    { axpy_simd_c<22>, axpy_simd_m_mnm<22>,  axpy_simd_parallel_m_mnm<22>, },
+    { axpy_simd_c<23>, axpy_simd_m_mnm<23>,  axpy_simd_parallel_m_mnm<23>, },
+    { axpy_simd_c<24>, axpy_simd_m_mnm<24>,  axpy_simd_parallel_m_mnm<24>, },
   }
 };
 

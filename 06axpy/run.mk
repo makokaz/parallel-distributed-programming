@@ -17,8 +17,9 @@ threads := 1
 
 # simd_c with many vars
 method := simd_c simd_m simd_m_mnm
-m := $(shell seq 1 12)
+m := $(shell seq 1 20)
 threads := 1
 
 $(define_rules)
 
+.DELETE_ON_ERROR:
