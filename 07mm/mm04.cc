@@ -14,7 +14,7 @@
 
 #if __AVX512F__
 enum {
-  dM = 4,
+  dM = 6,
   dN = 2
 };
 #elif __AVX__

@@ -13,6 +13,7 @@ const int vwidth = 32;
 #error "you'd better have a better machine"
 #endif
 
+//const int valign = vwidth;
 const int valign = sizeof(float);
 typedef float floatv __attribute__((vector_size(vwidth),aligned(valign)));
 /* SIMD lanes */
