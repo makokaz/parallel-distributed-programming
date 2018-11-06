@@ -15,7 +15,6 @@ const int vwidth = 32;
 
 //const int valign = vwidth;
 const int valign = sizeof(float);
-//const int valign = vwidth;
 typedef float floatv __attribute__((vector_size(vwidth),aligned(valign)));
 /* SIMD lanes */
 const int L = sizeof(floatv) / sizeof(float);
@@ -99,23 +98,6 @@ long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
   asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
   return 2 * nv * L * n;
 }
-
-#if 0
-template<int nv>
-long axpy_simd_c(long _, long n, floatv a_, floatv* X_, floatv c_) {
-  (void)_;
-  float a = a_[0], c = c_[0];
-  float * X = (float *)X_;
-  asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "g"(nv));
-  for (long i = 0; i < n; i++) {
-    for (long j = 0; j < nv * L; j++) {
-      X[j] = a * X[j] + c;
-    }
-  }
-  asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
-  return 2 * nv * L * n;
-}
-#endif
 
 /** 
     @brief repeat x = a x + c for m (variable) vector type (floatv) variables
