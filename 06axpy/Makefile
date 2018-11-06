@@ -1,40 +1,41 @@
+CXX := g++
+#CXX := icpc
+#CXX := clang
+
 cc_files := $(wildcard axpy.cc)
 exes := $(patsubst %.cc,%,$(cc_files))
-asms := $(patsubst %.cc,%.s,$(cc_files))
+asms := $(patsubst %.cc,%.S,$(cc_files))
 
-opts := 
-opts += -Wall
-opts += -Wextra
-opts += -O3
-#opts += -O0 -g
+common_opts := 
+common_opts += -Wall
+common_opts += -Wextra
+common_opts += -O3
+#common_opts += -O0 -g
 
 # GCC
-opts += -fopenmp
-#opts += -mavx512f
-opts += -march=native
-#opts += -fopt-info-vec-optimized 
-#opts += -fopt-info-vec-missed
-#opts += -fcilkplus
-#opts += -funroll-loops
-#opts += --param max-unroll-times=2
+g++_opts :=
+g++_opts += -fopenmp
+g++_opts += -march=native
+#gcc_opts += -mavx512f
+
+clang_opts :=
+clang_opts += -fopenmp
+clang_opts += -march=native
+#clang_opts += -mavx512f
 
 # ICC
-#opts += -qopenmp
-#opts += -axMIC-AVX512
-#opts += -qopt-report=4
-#opts += -qopt-report-phase=vec
+icc_opts += -qopenmp
+icc_opts += -xMIC-AVX512
 
-CC := g++
-#CC := icpc
-CFLAGS := $(opts)
+CXXFLAGS := $(common_opts) $($(CXX)_opts)
 all : $(exes) $(asms)
 
 asm : $(asms)
 
 $(exes) : % : %.cc Makefile
-	$(CC) -o $@ $(CFLAGS) $<
-$(asms) : %.s : %.cc Makefile
-	$(CC) -S $(CFLAGS) $<
+	$(CXX) -o $@ $(CXXFLAGS) $<
+$(asms) : %.S : %.cc Makefile
+	$(CXX) -o $@ -S $(CXXFLAGS) $<
 
 clean :
 	rm -f $(asms) $(exes)
