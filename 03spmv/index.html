@@ -1132,6 +1132,107 @@ Implement functions you need to implement.
 <h2>Register your SSH key to the gitlab server</h2>
 <div>
   <p><font size=-1><a href="#toc">back to toc</a></font></p>
+
+  <p>When you clone your repository or add my repository
+    to retrieve the updates I made, there are two kinds of URLs
+    you can specify: SSH and HTTPS.  You already witnessed it
+    on the gitlab server.
+  </p>
+  <p>
+
+  </p>
+  <p>If you choose SSH, the URL looks like
+<pre>
+git@doss-gitlab.eidos.ic.i.u-tokyo.ac.jp:USER_NAME/parallel-distributed-handson.git
+</pre>
+and if you choose HTTPS, it looks like:
+<pre>
+https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/tau/parallel-distributed-handson.git
+</pre>
+
+In general, SSH is a preferred method because you don't have to type
+gitlab password every time you push your changes.  Here is how you set
+up it.
+<ul>
+  <li>go to the gitlab <a href="https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/">top page</a> and sign in </li>
+  <li>click the circle on the upper right corner of the page
+    to open the menu and choose "Settings" <br />
+    <a href="img/gitlab-top.png"><img src="img/gitlab-top.png" width=400/></a>
+  </li>
+  <li>in the "User Settings" pane that appears on the right
+    of the page, choose "SSH Keys" <br  />
+    <a href="img/gitlab-settings-pane.png">
+      <img src="img/gitlab-settings-pane.png" width=300/>
+    </a>
+  </li>
+  <li>open your SSH public key (most typically <tt>~/.ssh/id_rsa.pub</tt>
+    in Linux or MacOS) with the editor and copy-paste it into the text area
+    <br  />
+    <a href="img/gitlab-ssh-textarea.png">
+      <img src="img/gitlab-ssh-textarea.png" width=300/>
+    </a>
+  </li>
+</ul>
+  </p>
+</div>
+
+<h3>Do you have to create/register another key for IST server?</h3>
+<div>
+  <p>If you follow the above procedure on your laptop,
+    you are now able to clone and push to your repository via SSH URL
+    (git@doss-gitlab...) <font color=red><i>on your laptop.</i></font>
+    Obviously, you want to set things up so that you can
+    do it on the IST server.  There are two ways to do it.
+  </p>
+  <ul>
+    <li>generate a key pair on IST server.  login the IST server and do
+<pre>
+$ ssh-keygen
+</pre>
+You will be asked to enter a passphrase.  Enter one and register the generated
+public key (<tt>~/.ssh/id_rsa.pub</tt>) following the procedure above.
+    </li>
+    <li>alternatively, you can use the key in your laptop to successfully
+      authenticate yourself on the server.  The mechanism is called
+      <font color=blue><i>SSH agent forwarding</i></font>.
+      If you are using Linux of MacOS, chances are
+      it is already running. Just try this from your laptop.
+<pre>
+your_laptop$ <u>ssh -A 157.82.22.26</u>
+login000$ <u>git clone git@doss-gitlab....</u>
+</pre>
+If it succeeds, you are done.  
+When you do <tt>git clone git@doss-gitlab...</tt> the ssh-agent running
+on your computer is authenticating yourself on behalf of the IST cluster.
+If it fails, presumably ssh-agent is not running. 
+    </li>
+    <li>to check if an ssh-agent is running, just try
+<pre>
+your_laptop$ <u>ps auxww | grep ssh-agent</u>
+tau      12427  0.0  0.0  11304  1556 ?        S    11:19   0:00 <font color=blue>/usr/bin/ssh-agent</font> -D -a /run/user/1000/keyring/.ssh
+</pre>
+If it is not running, bring up one by
+<pre>
+your_laptop$ eval $(ssh-agent)
+your_laptop$ <u>ps auxww | grep ssh-agent</u>  # make sure it's running
+tau      12427  0.0  0.0  11304  1556 ?        S    11:19   0:00 <font color=blue>/usr/bin/ssh-agent</font> -D -a /run/user/1000/keyring/.ssh
+</pre>
+Then try <tt>ssh -A</tt> again.
+<pre>
+your_laptop$ <u>ssh -A 157.82.22.26</u>
+login000$ <u>git clone git@doss-gitlab....</u>
+</pre>
+    </li>
+    <li>If you are using putty on Windows, you can use
+      <tt>pagent.exe</tt>. download it 
+      <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">here</a> and click the program to get it running.
+      Find the pagent icon in the task tray and right click on it
+      and choose "Add Key" and add your private key (.ppk) file.
+      Then use putty to login to the server.
+      Make sure go to "SSH" -&gt; "Auth" and check "Allow Agent Forwarding".
+      See <a href="https://www.ssh.com/ssh/putty/putty-manuals/0.68/Chapter9.html">this page</a> for detailed instructions.
+    </li>
+  </ul>
 </div>
 
 <a name=fetch> </a>
@@ -1142,10 +1243,29 @@ Implement functions you need to implement.
     Do this once after you clone the repository
 <pre>
 $ <u>git remote add upstream git@doss-gitlab.eidos.ic.i.u-tokyo.ac.jp:tau/parallel-distributed-handson.git</u>
-</pre> 
+</pre>
+or, if you have not set up SSH key, 
+<pre>
+$ <u>git remote add upstream https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/tau/parallel-distributed-handson.git</u>
+</pre>
   </p>
 
-  <p>In order to reflect changes I made in the original repository,
+  <p><font color=red>If you have not setup SSH key but have already done
+<pre>
+$ <u>git remote add upstream git@doss-gitlab.eidos.ic.i.u-tokyo.ac.jp:tau/parallel-distributed-handson.git</u>
+</pre>
+the URL is written in <tt>parallel-distributed-handson/.git/config</tt>.
+Just open it and find a section like
+<pre>
+[remote "upstream"]
+	url = git@doss-gitlab.eidos.ic.i.u-tokyo.ac.jp:tau/parallel-distributed-handson.git
+	fetch = +refs/heads/*:refs/remotes/upstream/*
+</pre>
+    </font>
+Simply replace the url to the <tt>https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/tau/parallel-distributed-handson.git</tt>
+  </p>
+
+  <p>In order to reflect changes I made in my repository,
     do the following.
 <pre>
 $ <u>git fetch upstream</u>
