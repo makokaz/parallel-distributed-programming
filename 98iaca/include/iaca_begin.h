@@ -1,0 +1,4 @@
+      # BEGIN MARKER
+      .byte 0x0F, 0x0B
+      movl $111,%ebx
+      .byte 0x64, 0x67, 0x90
