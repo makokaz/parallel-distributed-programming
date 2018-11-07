@@ -17,7 +17,6 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <time.h>
-#include <asm/unistd.h>
 #include <pthread.h>
 
 /**
@@ -31,6 +30,7 @@ static inline long long rdtsc() {
 
 #if HAVE_PERF_EVENT
 #include <linux/perf_event.h>
+#include <asm/unistd.h>
 
 /**
    this is a wrapper to Linux system call perf_event_open
