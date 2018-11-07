@@ -5,10 +5,14 @@
 
 /* these two are Linux-specific.
    make them zero on other OSes */
+#if __linux__
 #define HAVE_PERF_EVENT 1
-// #define HAVE_PERF_EVENT 0
 #define HAVE_CLOCK_GETTIME 1
-// #define HAVE_CLOCK_GETTIME 0
+#else
+#define HAVE_PERF_EVENT 0
+#define HAVE_CLOCK_GETTIME 0
+#endif
+
 
 #include <assert.h>
 #include <stdlib.h>
@@ -116,7 +120,8 @@ static long long cpu_clock_counter_get(cpu_clock_counter_t cc) {
   if (tid != cc.tid) {
     fprintf(stderr,
             "%s:%d:cpu_clock_counter_get: the caller thread (%ld)"
-            " is invalid (!= %ld)\n", __FILE__, __LINE__, tid, cc.tid);
+            " is invalid (!= %ld)\n", 
+            __FILE__, __LINE__, (long)tid, (long)cc.tid);
     return -1;
   } else {
     long long c;
