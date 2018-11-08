@@ -45,8 +45,8 @@ int main(int argc, char ** argv) {
   const idx_t dM = 5;
   const idx_t dN = 2;
   const idx_t nV = dM * dN;
-  const idx_t M = nV * 1;
-  const idx_t N = 32;
+  const idx_t M = nV * 24;
+  const idx_t N = 16;
   const idx_t K = 192;
   const idx_t lda = K;
   const idx_t ldb = N;
