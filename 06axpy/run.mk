@@ -13,16 +13,16 @@ out/created :
 method := scalar simd simd_c simd_m simd_m_nmn simd_m_mnm simd_parallel_m_mnm
 m := 1
 threads := 1
-#$(define_rules)
+$(define_rules)
 
 # simd_c with many vars
 method := simd_c simd_m_mnm
-m := $(shell seq 1 15)
+m := $(shell seq 2 15)
 threads := 1
 $(define_rules)
 
 method := simd_m 
-m := $(shell seq 1 40)
+m := $(shell seq 2 40)
 threads := 1
 $(define_rules)
 
