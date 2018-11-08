@@ -42,11 +42,11 @@ int main(int argc, char ** argv) {
   long chk   = (argc > 2 ? atol(argv[2]) : 1);
   long seed  = (argc > 3 ? atol(argv[3]) : 76843802738543);
 
-  const idx_t dM = 5;
+  const idx_t dM = 6;
   const idx_t dN = 2;
-  const idx_t nV = dM * dN;
-  const idx_t M = nV * 24;
-  const idx_t N = 16;
+  const idx_t nV = dM * dN;     // 12
+  const idx_t M = nV;           // 12
+  const idx_t N = dN * L;       // 32 (AVX-512)
   const idx_t K = 192;
   const idx_t lda = K;
   const idx_t ldb = N;

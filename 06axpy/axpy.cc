@@ -89,7 +89,6 @@ long axpy_simd(long n, floatv a, floatv* X, floatv c) {
  */
 template<int nv>
 long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
-  (void)_;
   asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "g"(nv));
   for (long i = 0; i < n; i++) {
     for (long j = 0; j < nv; j++) {
@@ -97,6 +96,7 @@ long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
     }
   }
   asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
+  (void)_;
   return 2 * nv * L * n;
 }
 
