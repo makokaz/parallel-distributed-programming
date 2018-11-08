@@ -1,5 +1,5 @@
 /* 
- * mm.cc
+ * mmc.cc
  */
 
 #include <assert.h>
@@ -10,52 +10,26 @@
 #include <time.h>
 
 #include "clock.h"
-#include "mm.h"
+#include MMC_H
 
 #include <x86intrin.h>
 
-long make_multiple(long n, long m) {
-  n = n + m - 1;
-  return n - (n % m);
-}
-
-long gcd_rec(long a, long b) {
-  if (b == 0) return a;
-  else {
-    return gcd_rec(b, a % b);
-  }
-}
-
-long gcd(long a, long b) {
-  assert(b >= 0);
-  if (a >= b) {
-    return gcd_rec(a, b);
-  } else {
-    return gcd_rec(b, a);
-  }
-}
-
-long make_padding(long n0, long m, long p) {
-  long n = make_multiple(n0, m);
-  assert(p % m == 0);
-  while (gcd(n, p) != m) {
-    n += m;
-  }
-  return n;
-}
-
-float comp_ij(matrix& A, matrix& B, long i, long j, long times) {
+template<int M,int N,int K,int lda,int ldb>
+static float comp_ij(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B,
+                     long i, long j, long times) {
   float s = 0.0;
-  long K = A.nC;
+  //long K = A.nC;
   for (long t = 0; t < times; t++) {
+    asm volatile("# comp_ij K loop begins");
     for (long k = 0; k < K; k++) {
       s += A(i,k) * B(k,j);
     }
+    asm volatile("# comp_ij K loop ends");
   }
   return s;
 }
 
-char * wipe_cache(int x) {
+static char * wipe_cache(int x) {
   static char * a = 0;
   long n = 1000 * 1000 * 1000;
   if (!a) a = (char *)malloc(n);
@@ -63,40 +37,31 @@ char * wipe_cache(int x) {
   return a;
 }
 
-long align16(long x) {
-  return (x + 15) & ~15;
-}
-
 int main(int argc, char ** argv) {
-  long M    = (argc > 1 ? atol(argv[1]) : 8);
-  long N    = (argc > 2 ? atol(argv[2]) : 32);
-  long K    = (argc > 3 ? atol(argv[3]) : 192);
-  long lda_ = (argc > 4 ? atol(argv[4]) : 0);
-  long ldb_ = (argc > 5 ? atol(argv[5]) : 0);
-  long ldc_ = (argc > 6 ? atol(argv[6]) : 0);
-  long times = (argc > 7 ? atol(argv[7]) : 100000);
-  long chk  = (argc > 8 ? atol(argv[8]) : 1);
-  long seed = (argc > 9 ? atol(argv[9]) : 76843802738543);
-  long lda = (lda_ ? lda_ : K);
-  long ldb = (ldb_ ? ldb_ : N);
-  long ldc = (ldc_ ? ldc_ : N);
+  long times = (argc > 1 ? atol(argv[1]) : 100000);
+  long chk   = (argc > 2 ? atol(argv[2]) : 1);
+  long seed  = (argc > 3 ? atol(argv[3]) : 76843802738543);
 
-  long a_sz = align16(M * lda);
-  long b_sz = align16(K * ldb);
-  long c_sz = align16(M * ldc);
-#if 1
-  float * abc = (float *)alloc64(sizeof(float) * (a_sz + b_sz + c_sz));
-  float * a = abc;
-  float * b = &a[a_sz];
-  float * c = &b[b_sz];
-#else
-  float * a = (float *)alloc64(sizeof(float) * a_sz);
-  float * b = (float *)alloc64(sizeof(float) * b_sz);
-  float * c = (float *)alloc64(sizeof(float) * c_sz);
-#endif
-  matrix A(M, K, lda, a);
-  matrix B(K, N, ldb, b);
-  matrix C(M, N, ldc, c);
+  const long dM = 6;
+  const long dN = 2;
+  const long nV = dM * dN;
+  const long M = nV * 1;
+  const long N = 32;
+  const long K = 192;
+  const long lda = K;
+  const long ldb = N;
+  const long ldc = N;
+  
+  assert(K <= lda);
+  assert(N <= ldb);
+  assert(N <= ldc);
+  //assert(M % dM == 0);
+  //assert(N % (dN * L) == 0);
+
+  matrix_c<M,K,lda> A;
+  matrix_c<K,N,ldb> B;
+  matrix_c<M,N,ldc> C;
+
   unsigned short rg[3] = { (unsigned short)((seed >> 16) & 65535),
 			   (unsigned short)((seed >> 8)  & 65535),
 			   (unsigned short)((seed >> 0)  & 65535) };
@@ -107,11 +72,14 @@ int main(int argc, char ** argv) {
   B.rand_init(rg);
   C.zero();
   printf("M = %ld, N = %ld, K = %ld\n", M, N, K);
-  printf("A : %ld x %ld (ld=%ld) %ld bytes\n", A.nR, A.nC, A.ld, A.nR * A.nC * sizeof(float));
-  printf("B : %ld x %ld (ld=%ld) %ld bytes\n", B.nR, B.nC, B.ld, B.nR * B.nC * sizeof(float));
-  printf("C : %ld x %ld (ld=%ld) %ld bytes\n", C.nR, C.nC, C.ld, C.nR * C.nC * sizeof(float));
+  printf("A : %ld x %ld (ld=%ld) %ld bytes\n",
+         M, K, lda, M * K * sizeof(float));
+  printf("B : %ld x %ld (ld=%ld) %ld bytes\n",
+         K, N, ldb, K * N * sizeof(float));
+  printf("C : %ld x %ld (ld=%ld) %ld bytes\n",
+         M, N, ldc, M * N * sizeof(float));
   printf("total = %ld bytes\n",
-	 (A.nR * A.nC + B.nR * B.nC + C.nR * C.nC) * sizeof(float));
+	 (M * K + K * N + M * N) * sizeof(float));
   char * wipe = wipe_cache(0);
   printf("repeat : %ld times\n", times);
   printf("perform %ld flops ... ", flops_all); fflush(stdout);
@@ -122,7 +90,7 @@ int main(int argc, char ** argv) {
   long long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
   for (int i = 0; i < times; i++) {
-    n_iters += gemm(A, B, C);
+    n_iters += gemm<M,N,K,lda,ldb,ldc,nV,dN>(A, B, C);
   }
   long long r1 = rdtsc();
   long long c1 = cpu_clock_counter_get(cc);
@@ -145,7 +113,7 @@ int main(int argc, char ** argv) {
     long i = nrand48(rg) % M;
     long j = nrand48(rg) % N;
     float s = comp_ij(A, B, i, j, times);
-    printf("C(%ld,%ld) = %f, ans = %f, |C(%ld,%ld) - s| = %f\n",
+    printf("C(%ld,%ld) = %f, ans = %f, |C(%ld,%ld) - s| = %.9f\n",
 	   i, j, C(i,j), s, i, j, fabs(C(i,j) - s));
   }
   if (wipe) free(wipe);

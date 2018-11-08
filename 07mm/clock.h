@@ -3,6 +3,17 @@
    @brief a small procedure to get CPU/reference cycle
  */
 
+/* these two are Linux-specific.
+   make them zero on other OSes */
+#if __linux__
+#define HAVE_PERF_EVENT 1
+#define HAVE_CLOCK_GETTIME 1
+#else
+#define HAVE_PERF_EVENT 0
+#define HAVE_CLOCK_GETTIME 0
+#endif
+
+
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,9 +21,20 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <time.h>
+#include <pthread.h>
+
+/**
+   @brief read reference clock
+  */
+static inline long long rdtsc() {
+  long long u;
+  asm volatile ("rdtsc;shlq $32,%%rdx;orq %%rdx,%%rax":"=a"(u)::"%rdx");
+  return u;
+}
+
+#if HAVE_PERF_EVENT
 #include <linux/perf_event.h>
 #include <asm/unistd.h>
-#include <pthread.h>
 
 /**
    this is a wrapper to Linux system call perf_event_open
@@ -24,13 +46,16 @@ static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
                 group_fd, flags);
   return ret;
 }
+#endif
 
 /**
    @brief a structure encapsulating a performance counter
  */
 typedef struct {
   pthread_t tid;                /**< thread ID this is valid for */
+#if HAVE_PERF_EVENT
   int fd;                       /**< what perf_event_open returned  */
+#endif
 } cpu_clock_counter_t;
 
 /**
@@ -44,6 +69,7 @@ typedef struct {
   */
 static cpu_clock_counter_t mk_cpu_clock_counter() {
   pthread_t tid = pthread_self();
+#if HAVE_PERF_EVENT
   struct perf_event_attr pe;
   memset(&pe, 0, sizeof(struct perf_event_attr));
   pe.type = PERF_TYPE_HARDWARE;
@@ -68,6 +94,10 @@ static cpu_clock_counter_t mk_cpu_clock_counter() {
     exit(EXIT_FAILURE);
   }
   cpu_clock_counter_t cc = { tid, fd };
+#else
+  fprintf(stderr, "%s:%d:warning: OS does not support perf_event. CPU clock is replaced with REF clock\n", __FILE__, __LINE__);
+  cpu_clock_counter_t cc = { tid };
+#endif
   return cc;
 }
 
@@ -75,7 +105,11 @@ static cpu_clock_counter_t mk_cpu_clock_counter() {
    @brief destroy a cpu clock counter
   */
 static void cpu_clock_counter_destroy(cpu_clock_counter_t cc) {
+#if HAVE_PERF_EVENT
   close(cc.fd);
+#else
+  (void)cc;
+#endif
 }
 
 /**
@@ -86,38 +120,43 @@ static long long cpu_clock_counter_get(cpu_clock_counter_t cc) {
   if (tid != cc.tid) {
     fprintf(stderr,
             "%s:%d:cpu_clock_counter_get: the caller thread (%ld)"
-            " is invalid (!= %ld)\n", __FILE__, __LINE__, tid, cc.tid);
+            " is invalid (!= %ld)\n", 
+            __FILE__, __LINE__, (long)tid, (long)cc.tid);
     return -1;
   } else {
     long long c;
+#if HAVE_PERF_EVENT
     ssize_t rd = read(cc.fd, &c, sizeof(long long));
     if (rd == -1) {
       perror("read"); 
       exit(EXIT_FAILURE);
     }
     assert(rd == sizeof(long long));
+#else
+    c = rdtsc();
+#endif
     return c;
   }
-}
-
-/**
-   @brief read reference clock
-  */
-static inline long long rdtsc() {
-  long long u;
-  asm volatile ("rdtsc;shlq $32,%%rdx;orq %%rdx,%%rax":"=a"(u)::"%rdx");
-  return u;
 }
 
 /**
    @brief get ns
   */
 static inline long long cur_time_ns() {
+#if HAVE_CLOCK_GETTIME
   struct timespec ts[1];
   if (clock_gettime(CLOCK_REALTIME, ts) == -1) {
     perror("clock_gettime"); exit(1);
   }
   return ts->tv_sec * 1000000000L + ts->tv_nsec;
+#else
+  /* resort to us-level timer */
+  struct timeval tv[1];
+  if (gettimeofday(tv, 0) == -1) {
+    perror("gettimeofday"); exit(1);
+  }
+  return tv->tv_sec * 1000000000L + tv->tv_usec * 1000L;
+#endif
 }
 
 #if 0

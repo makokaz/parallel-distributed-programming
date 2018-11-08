@@ -1,8 +1,7 @@
-cc_srcs := $(wildcard *.cc)
-idx := $(patsubst mm%.cc,%,$(cc_srcs))
-exes := $(addprefix mm,$(idx))
-objs := $(addsuffix .o,$(exes)) mm.o
-asms := $(addsuffix .s,$(exes))
+mmc_srcs := $(wildcard mmc??.h)
+idx := $(patsubst mmc%.h,%,$(mmc_srcs))
+exes := $(addprefix mmc,$(idx))
+asms := $(addsuffix .S,$(exes))
 
 all :=
 all += $(exes)
@@ -29,16 +28,13 @@ CFLAGS := $(opts)
 
 all : $(all)
 
-$(exes) : mm% : mm.o mm%.o 
-	$(CXX) -o $@ $^
+$(exes) : mmc% : mmc.cc mmc%.h
+	$(CXX) -o $@ -DMMC_H=\"mmc$*.h\" $(CXXFLAGS) $<
 
-$(objs) : %.o : %.cc
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(asms) : mmc%.S : mmc.cc mmc%.h
+	$(CXX) -o $@ -DMMC_H=\"mmc$*.h\" $(CXXFLAGS) -S $<
 
-$(asms) : %.s : %.cc
-	$(CXX) $(CXXFLAGS) -o $@ -S $<
-
-$(objs) $(asms) : Makefile
+$(exes) $(asms) : Makefile mmc.h
 
 clean :
 	rm -f $(exes) $(objs) $(asms)
