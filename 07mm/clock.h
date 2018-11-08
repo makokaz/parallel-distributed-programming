@@ -158,27 +158,3 @@ static inline long long cur_time_ns() {
   return tv->tv_sec * 1000000000L + tv->tv_usec * 1000L;
 #endif
 }
-
-#if 0
-int main(int argc, char **argv) {
-  float a = (argc > 1 ? atof(argv[1]) : 0.9);
-  float b = (argc > 2 ? atof(argv[2]) : 1.0);
-  float n = (argc > 3 ? atol(argv[3]) : 1000000);
-  float x = 1.0;
-  cycle_timer_t tm = mk_cycle_timer_for_thread();
-  cycle_t t0 = cycle_timer_get(tm);
-  for (long i = 0; i < n; i++) {
-    x = a * x + b;
-  }
-  cycle_t t1 = cycle_timer_get(tm);
-  printf("%lld (%lld) CPU (REF) cyles %.4f (%.4f) CPU (REF) cycles/iter\n",
-         (t1.c - t0.c),
-         (t1.r - t0.r),
-         (t1.c - t0.c)/(double)n,
-         (t1.r - t0.r)/(double)n);
-  printf("x = %f\n", x);
-  
-  close(tm.fd);
-}
-
-#endif

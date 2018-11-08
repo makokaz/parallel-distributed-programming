@@ -8,16 +8,16 @@
  * concurrently update several rows of C
  */
 
-template<int M,int N,int K,int lda,int ldb,int ldc,int nV,int dN>
-long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
-  const int dM = nV;
+template<idx_t M,idx_t N,idx_t K,idx_t lda,idx_t ldb,idx_t ldc,idx_t nV,idx_t dN>
+idx_t gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
+  const idx_t dM = nV;
   assert(M % dM == 0);
   assert(N % L == 0);
-  for (long i = 0; i < M; i += dM) {
-    for (long j = 0; j < N; j += L) {
+  for (idx_t i = 0; i < M; i += dM) {
+    for (idx_t j = 0; j < N; j += L) {
       asm volatile("# loop begins");
-      for (long k = 0; k < K; k++) {
-	for (long ii = i; ii < i + dM; ii++) {
+      for (idx_t k = 0; k < K; k++) {
+	for (idx_t ii = i; ii < i + dM; ii++) {
 	  C.v(ii,j) += A(ii,k) * B.v(k,j);
 	}
       }

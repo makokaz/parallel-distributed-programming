@@ -14,14 +14,14 @@
 
 #include <x86intrin.h>
 
-template<int M,int N,int K,int lda,int ldb>
-static float comp_ij(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B,
-                     long i, long j, long times) {
-  float s = 0.0;
+template<idx_t M,idx_t N,idx_t K,idx_t lda,idx_t ldb>
+static real comp_ij(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B,
+                    idx_t i, idx_t j, long times) {
+  real s = 0.0;
   //long K = A.nC;
   for (long t = 0; t < times; t++) {
     asm volatile("# comp_ij K loop begins");
-    for (long k = 0; k < K; k++) {
+    for (idx_t k = 0; k < K; k++) {
       s += A(i,k) * B(k,j);
     }
     asm volatile("# comp_ij K loop ends");
@@ -42,15 +42,15 @@ int main(int argc, char ** argv) {
   long chk   = (argc > 2 ? atol(argv[2]) : 1);
   long seed  = (argc > 3 ? atol(argv[3]) : 76843802738543);
 
-  const long dM = 6;
-  const long dN = 2;
-  const long nV = dM * dN;
-  const long M = nV * 1;
-  const long N = 32;
-  const long K = 192;
-  const long lda = K;
-  const long ldb = N;
-  const long ldc = N;
+  const idx_t dM = 5;
+  const idx_t dN = 2;
+  const idx_t nV = dM * dN;
+  const idx_t M = nV * 1;
+  const idx_t N = 32;
+  const idx_t K = 192;
+  const idx_t lda = K;
+  const idx_t ldb = N;
+  const idx_t ldc = N;
   
   assert(K <= lda);
   assert(N <= ldb);
@@ -65,21 +65,21 @@ int main(int argc, char ** argv) {
   unsigned short rg[3] = { (unsigned short)((seed >> 16) & 65535),
 			   (unsigned short)((seed >> 8)  & 65535),
 			   (unsigned short)((seed >> 0)  & 65535) };
-  long fmas      = M * N * K;
+  long fmas      = (long)M * (long)N * (long)K;
   long flops     = 2 * fmas;
   long flops_all = flops * times;
   A.rand_init(rg);
   B.rand_init(rg);
   C.zero();
-  printf("M = %ld, N = %ld, K = %ld\n", M, N, K);
+  printf("M = %ld, N = %ld, K = %ld\n", (long)M, (long)N, (long)K);
   printf("A : %ld x %ld (ld=%ld) %ld bytes\n",
-         M, K, lda, M * K * sizeof(float));
+         (long)M, (long)K, (long)lda, (long)M * (long)K * sizeof(real));
   printf("B : %ld x %ld (ld=%ld) %ld bytes\n",
-         K, N, ldb, K * N * sizeof(float));
+         (long)K, (long)N, (long)ldb, (long)K * (long)N * sizeof(real));
   printf("C : %ld x %ld (ld=%ld) %ld bytes\n",
-         M, N, ldc, M * N * sizeof(float));
+         (long)M, (long)N, (long)ldc, (long)M * (long)N * sizeof(real));
   printf("total = %ld bytes\n",
-	 (M * K + K * N + M * N) * sizeof(float));
+	 ((long)M * (long)K + (long)K * (long)N + (long)M * (long)N) * sizeof(real));
   char * wipe = wipe_cache(0);
   printf("repeat : %ld times\n", times);
   printf("perform %ld flops ... ", flops_all); fflush(stdout);
@@ -89,7 +89,7 @@ int main(int argc, char ** argv) {
   long long t0 = cur_time_ns();
   long long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
-  for (int i = 0; i < times; i++) {
+  for (long i = 0; i < times; i++) {
     n_iters += gemm<M,N,K,lda,ldb,ldc,nV,dN>(A, B, C);
   }
   long long r1 = rdtsc();
@@ -110,11 +110,12 @@ int main(int argc, char ** argv) {
   printf("%.3f GFLOPS\n",          flops_all / (double)dt);
 
   if (chk) {
-    long i = nrand48(rg) % M;
-    long j = nrand48(rg) % N;
-    float s = comp_ij(A, B, i, j, times);
+    idx_t i = nrand48(rg) % M;
+    idx_t j = nrand48(rg) % N;
+    real s = comp_ij(A, B, i, j, times);
     printf("C(%ld,%ld) = %f, ans = %f, |C(%ld,%ld) - s| = %.9f\n",
-	   i, j, C(i,j), s, i, j, fabs(C(i,j) - s));
+	   (long)i, (long)j, C(i,j), s,
+           (long)i, (long)j, fabs(C(i,j) - s));
   }
   if (wipe) free(wipe);
   cpu_clock_counter_destroy(cc);
