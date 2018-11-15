@@ -13,19 +13,23 @@ p:=$(shell seq 8 1 23)
 #p:=$(shell seq 8 1 8)
 powers:=$(foreach i,$(p),$(shell echo $$((1 << $(i)))))
 #n:=$(foreach p,$(powers),$(foreach o,-2 0 2 4 6,$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
-n:=$(shell seq 1000 25 5000 | shuf)
+n:=$(shell seq 1000 50 5000)
 
-parameters:=try method n n_chains n_threads shuffle payload cpu_node mem_node prefetch
+parameters:=host try method n n_chains n_threads shuffle payload cpu_node mem_node prefetch
 
-cmd=OMP_NUM_THREADS=$(n_threads) EV=l2_lines_in.all numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 7 > $(output)
+# knm : r0404
+# skx : l2_lines_in.all
+
+cmd=OMP_NUM_THREADS=$(n_threads) EV=$(EV) numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 7 > $(output)
 input=$(out_dir)/created
-output=$(out_dir)/out_$(method)_$(n)_$(n_chains)_$(n_threads)_$(shuffle)_$(payload)_$(cpu_node)_$(mem_node)_$(prefetch)_$(try).txt
+output=$(out_dir)/out_$(host)_$(method)_$(n)_$(n_chains)_$(n_threads)_$(shuffle)_$(payload)_$(cpu_node)_$(mem_node)_$(prefetch)_$(try).txt
 
 ## common parameters ##
+host:=$(shell hostname | tr -d [0-9])
 cpu_node:=0
 payload:=0
 #payload:=1
-try:=0 1 2
+try:=0 1
 
 ## effect of number of chains ##
 method:=p
