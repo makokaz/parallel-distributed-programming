@@ -19,6 +19,7 @@ ${txt2sql} ${db} --table a \
     -e 'method: (?P<method>[^\s]+)' \
     -e 'metric:l2_lines_in\.all = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
     -e 'metric:r0404 = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
+    -e 'metric:r1ff1 = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
     -e '(?P<cpu_clocks>\d+) CPU clocks' \
     -e '(?P<ref_clocks>\d+) REF clocks' \
     -e '(?P<nano_sec>.*?) nano sec' \

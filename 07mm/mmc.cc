@@ -42,7 +42,7 @@ int main(int argc, char ** argv) {
   long chk   = (argc > 2 ? atol(argv[2]) : 1);
   long seed  = (argc > 3 ? atol(argv[3]) : 76843802738543);
 
-  const idx_t dM = 6;
+  const idx_t dM = 4;
   const idx_t dN = 2;
   const idx_t nV = dM * dN;     // 12
   const idx_t M = nV;           // 12
