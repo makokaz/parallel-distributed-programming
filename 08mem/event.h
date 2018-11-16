@@ -55,7 +55,7 @@ typedef struct {
 } perf_event_values_t;
 
 #if HAVE_PERF_EVENT
-struct perf_event_attr perf_event_encode(char * ev) {
+struct perf_event_attr perf_event_encode(const char * ev) {
   struct perf_event_attr attr;
   pfm_perf_encode_arg_t perf;
   char *fstr = NULL;
@@ -74,8 +74,8 @@ struct perf_event_attr perf_event_encode(char * ev) {
   }
   ret = pfm_get_os_event_encoding(ev, PFM_PLM3, PFM_OS_PERF_EVENT_EXT, &perf);
   if (ret != PFM_SUCCESS) {
-    fprintf(stderr, "%s:%d:perf_event_encode: pfm_get_os_event_encoding failed %s\n",
-            __FILE__, __LINE__, pfm_strerror(ret));
+    fprintf(stderr, "%s:%d:perf_event_encode: pfm_get_os_event_encoding(\"%s\") failed %s\n",
+            __FILE__, __LINE__, ev, pfm_strerror(ret));
     attr.size = 0;
     return attr;
   }
@@ -94,7 +94,7 @@ struct perf_event_attr perf_event_encode(char * ev) {
    long c1 = perf_event_counters_get(t);
    long dc = c1 - c0; <- the number of CPU clocks between c0 and c1
   */
-static int mk_perf_event_counter_1(char * ev) {
+static int mk_perf_event_counter_1(const char * ev) {
 #if HAVE_PERF_EVENT
   struct perf_event_attr attr = perf_event_encode(ev);
   if (attr.size == 0) {
@@ -132,7 +132,7 @@ static int mk_perf_event_counter_1(char * ev) {
    long c1 = perf_event_counters_get(t);
    long dc = c1 - c0; <- the number of CPU clocks between c0 and c1
   */
-static perf_event_counters_t mk_perf_event_counters(char * events) {
+static perf_event_counters_t mk_perf_event_counters(const char * events) {
 #if !HAVE_PERF_EVENT
   fprintf(stderr, "%s:%d:warning: OS does not support perf_event\n",
           __FILE__, __LINE__);

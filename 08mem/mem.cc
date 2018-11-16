@@ -516,12 +516,11 @@ timestamps_t get_all_stamps_after(perf_event_counters_t cc,
 void worker(int rank, int n_threads, record * H,
 	    long n, long n_scans, long repeat, int shuffle,
 	    const char * method, long nc, int access_payload,
-            long stride, long prefetch) {
-  char * ev = getenv("EV");
+            long stride, long prefetch, const char * events) {
   record * a[max_chains_per_thread];
   mk_arrays(n, nc, &H[n * nc * rank], a, shuffle, prefetch);
-  perf_event_counters_t cc = mk_perf_event_counters((char *)"cycles");
-  perf_event_counters_t mc = mk_perf_event_counters(ev);
+  perf_event_counters_t cc = mk_perf_event_counters("cycles");
+  perf_event_counters_t mc = mk_perf_event_counters(events);
   scan_record_t * scan_records
     = (scan_record_t *)calloc(repeat, sizeof(scan_record_t));
   for (long r = 0; r < repeat; r++) {
@@ -589,6 +588,7 @@ struct opts {
   int payload;
   long stride;
   long prefetch;
+  const char * events;
   opts() {
     method = "ptrchase";
     n_elements = 1 << 9;
@@ -599,6 +599,7 @@ struct opts {
     payload = 1;
     prefetch = 0;
     stride = 1;
+    events = 0;
   }
 };
 
@@ -616,6 +617,7 @@ void usage(char * prog) {
   fprintf(stderr, "  -l,--payload 0/1 (%d)\n", o.payload);
   fprintf(stderr, "  -s,--stride N (%ld)\n", o.stride);
   fprintf(stderr, "  -p,--prefetch 0/1 (%ld)\n", o.prefetch);
+  fprintf(stderr, "  -e,--events ev,ev,ev,.. (%s)\n", o.events);
 }
 
 opts * parse_cmdline(int argc, char * const * argv, opts * o) {
@@ -629,12 +631,13 @@ opts * parse_cmdline(int argc, char * const * argv, opts * o) {
     {"payload",    required_argument, 0, 'l' },
     {"stride",     required_argument, 0, 's' },
     {"prefetch",   required_argument, 0, 'p' },
+    {"events",     required_argument, 0, 'e' },
     {0,         0,                 0,  0 }
   };
 
   while (1) {
     int option_index = 0;
-    int c = getopt_long(argc, argv, "m:n:c:s:r:x:l:p:S:",
+    int c = getopt_long(argc, argv, "m:n:c:s:r:x:l:p:S:e:",
 			long_options, &option_index);
     if (c == -1) break;
 
@@ -666,6 +669,9 @@ opts * parse_cmdline(int argc, char * const * argv, opts * o) {
     case 's':
       o->stride = atol(optarg);
       break;
+    case 'e':
+      o->events = strdup(optarg);
+      break;
     default:
       usage(argv[0]);
       exit(1);
@@ -680,6 +686,7 @@ int main(int argc, char * const * argv) {
   int n_threads = get_n_threads();
 
   const char * method = o.method;
+  const char * events = o.events;
   /* nc : number of chains per thread */
   int nc        = o.n_chains;
   /* n : number of elements per chain */
@@ -718,6 +725,7 @@ int main(int argc, char * const * argv) {
   printf("stride: %ld\n", stride);
   printf("prefetch: %ld\n", prefetch);
   printf("method: %s\n", canonical_method_string(method));
+  printf("events: %s\n", events);
 
 #if _OPENMP
 #pragma omp parallel
@@ -726,7 +734,7 @@ int main(int argc, char * const * argv) {
     int rank = get_rank();
     worker(rank, n_threads, H,
 	   n, n_scans, repeat, shuffle, 
-	   method, nc, access_payload, stride, prefetch);
+	   method, nc, access_payload, stride, prefetch, events);
   }
   return 0;
 }

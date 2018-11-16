@@ -51,27 +51,28 @@ def graph_latency():
     # (2) compare local and remote
     for eqs,conf,label in [ ([ "=" ],      "local", "local"), 
                             ([ "=", "<>" ],"local_remote", "local and remote") ]:
-        output = "%s/latency_%s_%%(min_sz)s" % (out_dir, conf)
+        output = "%s/latency_%s_%%(host)s_%%(min_sz)s" % (out_dir, conf)
         g.graphs((db,
                   '''
 select sz,avg(cpu_clocks_per_rec) 
 from a 
-where method="ptrchase"
+where host="%(host)s"
+  and method="ptrchase"
   and nc=1
   and nthreads=1
   and sz>=%(min_sz)s
   and shuffle=1
   and prefetch=0
-  and payload=1
+  and payload=0
   and cpu_node %(eq)s mem_node
 group by sz 
 order by sz;
 ''',
                   "","",[]),
-                 #output=output,
+                 output=output,
                  #terminal="svg",
-                 graph_vars=[ "min_sz" ],
-                 graph_title=("latency per load in a list traversal (%s) [$\\\\geq$ %%(min_sz)s]" % label),
+                 graph_vars=[ "min_sz", "host" ],
+                 graph_title=("latency per load in a list traversal %%(host)s:%s [$\\\\geq$ %%(min_sz)s]" % label),
                  graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -85,6 +86,8 @@ set key left
                  plot_title=mk_plot_title,
                  eq=eqs,
                  min_sz=[ 0, 10 ** 8 ],
+                 # host=get_unique(g, db, "host"),
+                 host=[ "big" ],
                  verbose_sql=2,
                  save_gpl=0)
 
@@ -103,7 +106,8 @@ def graph_cache(event):
               cimin(%(event)s/(nloads+0.0),0.001),
               cimax(%(event)s/(nloads+0.0),0.001)
 from a 
-where method="ptrchase"
+where host="%(host)s"
+  and method="ptrchase"
   and nc=1
   and nthreads=1
   and sz>=%(min_sz)s
@@ -116,8 +120,8 @@ order by sz;
                   "","",[]),
              #output = "%s/cache_miss_%%(min_sz)s" % out_dir,
              #terminal="svg",
-             graph_vars=[ "min_sz" ],
-             graph_title="cache miss rate of a list traversal [$\\\\geq$ %(min_sz)s]",
+             graph_vars=[ "min_sz", "host" ],
+             graph_title="cache miss rate of a list traversal %(host)s [$\\\\geq$ %(min_sz)s]",
              graph_attr='''
 #set logscale x
 #set xtics rotate by -20
@@ -130,6 +134,8 @@ set key left
              plot_with="yerrorlines",
              plot_title="",
              min_sz=[ 0 ],
+             #host=get_unique(g, db, "host"),
+             host=[ "big" ],
              event=[event],
              verbose_sql=2,
              save_gpl=0)
