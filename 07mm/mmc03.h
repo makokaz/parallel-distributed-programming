@@ -8,26 +8,30 @@
  * concurrently update several (dM = nV/dN) rows and severl (dN) columns of C
  */
 
-template<idx_t M,idx_t N,idx_t K,idx_t lda,idx_t ldb,idx_t ldc,idx_t nV,idx_t dN>
-idx_t gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
-  assert(nV % dN == 0);
-  const idx_t dM = nV / dN;
-  assert(M % dM == 0);
-  assert(N % (dN * L) == 0);
-  for (idx_t i = 0; i < M; i += dM) {
-    for (idx_t j = 0; j < N; j += dN * L) {
-      asm volatile("# loop begins");
+template<idx_t M,idx_t N,idx_t K,
+  idx_t lda,idx_t ldb,idx_t ldc,
+  idx_t bM,idx_t bN>
+long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
+  assert(M % bM == 0);
+  assert(bN % L == 0);
+  assert(N % bN == 0);
+  /* (150,372)x(372,[896]) */
+  for (idx_t j = 0; j < N; j += bN) {
+    /* ([150],372)x(372,16) */
+    for (idx_t i = 0; i < M; i += bM) {
+      /* (6,372)x(372,16) */
+      asm volatile("# loop begins (%0,%1)x(%1,%2)" :: "g" (bM), "g" (K), "g" (bN));
       for (idx_t k = 0; k < K; k++) {
-	for (idx_t di = 0; di < dM; di++) {
-	  for (idx_t dj = 0; dj < dN * L; dj += L) {
-            C.v(i+di,j+dj) += A(i+di,k) * B.v(k,j+dj);
+	for (idx_t ii = i; ii < i + bM; ii++) {
+	  for (idx_t jj = j; jj < j + bN; jj += L) {
+            C.v(ii,jj) += A(ii,k) * B.v(k,jj);
           }
 	}
       }
       asm volatile("# loop ends");
     }
   }
-  return (M / dM) * (N / (dN * L)) * K;
+  return ((long)M / bM) * ((long)N / bN) * (long)K;
 }
 
 /* 

@@ -38,16 +38,33 @@ static char * wipe_cache(int x) {
 }
 
 int main(int argc, char ** argv) {
-  long times = (argc > 1 ? atol(argv[1]) : 100000);
+  long approx_fmas = (argc > 1 ? atol(argv[1]) : 10L * 1000L * 1000L * 1000L);
   long chk   = (argc > 2 ? atol(argv[2]) : 1);
   long seed  = (argc > 3 ? atol(argv[3]) : 76843802738543);
 
-  const idx_t dM = 6;
-  const idx_t dN = 2;
-  const idx_t nV = dM * dN;     // 12
-  const idx_t M = nV;           // 12
-  const idx_t N = dN * L;       // 32 (AVX-512)
-  const idx_t K = 192;
+  const idx_t L1_size =       30 * 1024 / sizeof(real);
+  const idx_t L2_size =      240 * 1024 / sizeof(real);
+  const idx_t L3_size = 2 * 1024 * 1024 / sizeof(real); // per thread (core)
+  /* A (bM x bK) + B (bK x bN) <= L1, C : register */
+  const idx_t bM = 6;           // 6
+  const idx_t bN = 2 * L;       // 32
+  const idx_t bK = L1_size / (bM + bN); // 215
+  /* A (bM2 x bK) + B (bK x bN) + C (bM2 x bN) <= L2 */
+  const idx_t bM2_ = (L2_size - bK * bN) / (bK + bN); // 236
+  const idx_t bM2 = bM2_ / bM * bM;
+  /* A (bM2 x bK) + B (bK x bN2) + C (bM2 x bN2) <= L3 */
+  const idx_t bN2_ = (L3_size - bM2 * bK) / (bK + bM2); // 1045
+  const idx_t bN2 = bN2_ / bN * bN;
+  (void)bN2;
+  // 236, 1045, 192
+
+  // (  6 x 208) x (208 x  32) = (  6 x  32) A+B+C <= L1
+  // (234 x 208) x (208 x  32) = (234 x  32) A+B+C <= L2, B <= L1
+  // (234 x 208) x (208 x 992) = (234 x 992) A+B+C <= L3, A <= L2
+  
+  const idx_t M = bM2;
+  const idx_t N = bN;
+  const idx_t K = bK;
   const idx_t lda = K;
   const idx_t ldb = N;
   const idx_t ldc = N;
@@ -55,8 +72,6 @@ int main(int argc, char ** argv) {
   assert(K <= lda);
   assert(N <= ldb);
   assert(N <= ldc);
-  //assert(M % dM == 0);
-  //assert(N % (dN * L) == 0);
 
   matrix_c<M,K,lda> A;
   matrix_c<K,N,ldb> B;
@@ -65,13 +80,16 @@ int main(int argc, char ** argv) {
   unsigned short rg[3] = { (unsigned short)((seed >> 16) & 65535),
 			   (unsigned short)((seed >> 8)  & 65535),
 			   (unsigned short)((seed >> 0)  & 65535) };
-  long fmas      = (long)M * (long)N * (long)K;
-  long flops     = 2 * fmas;
-  long flops_all = flops * times;
+  const long fmas  = (long)M * (long)N * (long)K;
+  const long flops = 2 * fmas;
+  const long times = (approx_fmas + fmas - 1) / fmas;
+  const long flops_all = flops * times;
   A.rand_init(rg);
   B.rand_init(rg);
   C.zero();
   printf("M = %ld, N = %ld, K = %ld\n", (long)M, (long)N, (long)K);
+  printf("bM = %ld, bN = %ld\n", (long)bM, (long)bN);
+  printf("bM2 = %ld, bN2 = %ld\n", (long)bM2, (long)bN2);
   printf("A : %ld x %ld (ld=%ld) %ld bytes\n",
          (long)M, (long)K, (long)lda, (long)M * (long)K * sizeof(real));
   printf("B : %ld x %ld (ld=%ld) %ld bytes\n",
@@ -90,7 +108,7 @@ int main(int argc, char ** argv) {
   long long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
   for (long i = 0; i < times; i++) {
-    n_iters += gemm<M,N,K,lda,ldb,ldc,nV,dN>(A, B, C);
+    n_iters += gemm<M,N,K,lda,ldb,ldc,bM,bN>(A, B, C);
   }
   long long r1 = rdtsc();
   long long c1 = cpu_clock_counter_get(cc);

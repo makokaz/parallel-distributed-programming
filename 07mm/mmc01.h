@@ -4,8 +4,10 @@
 #include "mmc.h"
 
 /* vectorize along j axis */
-template<idx_t M,idx_t N,idx_t K,idx_t lda,idx_t ldb,idx_t ldc,idx_t dM,idx_t dN>
-idx_t gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
+template<idx_t M,idx_t N,idx_t K,
+  idx_t lda,idx_t ldb,idx_t ldc,
+  idx_t bM,idx_t bN>
+long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
   assert(N % L == 0);
   for (idx_t i = 0; i < M; i++) {
     for (idx_t j = 0; j < N; j += L) {
@@ -16,6 +18,6 @@ idx_t gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
       asm volatile("# loop ends");
     }
   }
-  return M * (N / L) * K;
+  return (long)M * ((long)N / L) * (long)K;
 }
 

@@ -89,7 +89,7 @@ set key left
                  save_gpl=0)
 
 # -------------- l2 miss --------------
-def graph_cache():
+def graph_cache(event):
     # show latency of link list traversal
     # x : size of the data
     # y : latency per access
@@ -99,9 +99,9 @@ def graph_cache():
               '''
               select 
               sz,
-              avg(l2_lines_in/(nloads+0.0)),
-              cimin(l2_lines_in/(nloads+0.0),0.001),
-              cimax(l2_lines_in/(nloads+0.0),0.001)
+              avg(%(event)s/(nloads+0.0)),
+              cimin(%(event)s/(nloads+0.0),0.001),
+              cimax(%(event)s/(nloads+0.0),0.001)
 from a 
 where method="ptrchase"
   and nc=1
@@ -114,24 +114,25 @@ group by sz
 order by sz;
 ''',
                   "","",[]),
-                 output = "%s/cache_miss_%%(min_sz)s" % out_dir,
-                 #terminal="svg",
-                 graph_vars=[ "min_sz" ],
-                 graph_title="cache miss rate of a list traversal [$\\\\geq$ %(min_sz)s]",
-                 graph_attr='''
+             #output = "%s/cache_miss_%%(min_sz)s" % out_dir,
+             #terminal="svg",
+             graph_vars=[ "min_sz" ],
+             graph_title="cache miss rate of a list traversal [$\\\\geq$ %(min_sz)s]",
+             graph_attr='''
 #set logscale x
 #set xtics rotate by -20
 set key left
 #unset key
 ''',
-                 yrange="[0:]",
-                 ylabel="miss rate",
-                 xlabel="size of the region (bytes)",
-                 plot_with="yerrorlines",
-                 plot_title="",
-                 min_sz=[ 0 ],
-                 verbose_sql=2,
-                 save_gpl=0)
+             yrange="[0:]",
+             ylabel="miss rate",
+             xlabel="size of the region (bytes)",
+             plot_with="yerrorlines",
+             plot_title="",
+             min_sz=[ 0 ],
+             event=[event],
+             verbose_sql=2,
+             save_gpl=0)
 
 # -------------- bandwidth local vs remote --------------
 def graph_bw_ptrchase():
@@ -430,7 +431,7 @@ set key right
              save_gpl=0)
 
 if 1:
-    graph_cache()
+    graph_cache("l2_lines_in")
 if 0:
     graph_latency()
     graph_bw_ptrchase()
