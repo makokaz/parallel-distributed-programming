@@ -10,6 +10,7 @@ rm -f ${db}
 ${txt2sql} ${db} --table a \
     -f 'output/out_.*?_(?P<cpu_node>\d+)_(?P<mem_node>\d+).txt' \
     -e '--------- (?P<rep>\d+) ---------' \
+    -e 'host=(?P<host>.*)' \
     -e '(?P<n>\d+) elements x (?P<nc>\d+) chains x (?P<nscan>\d+) scans x (?P<nthreads>\d+) threads = (?P<nrecords>\d+) record accesses = (?P<nloads>\d+) loads' \
     -e 'data: (?P<sz>\d+) bytes' \
     -e 'shuffle: (?P<shuffle>.*)' \
