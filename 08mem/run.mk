@@ -16,7 +16,7 @@ out_dir:=output
 #n:=$(foreach p,$(powers),$(foreach o,$(shell seq -2 4),$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
 # from 2^8 to 2^16 elements, taking 6 points between 2^i and 2^(i+1)
 a:=7
-b:=21
+b:=24
 s:=8
 n:=$(shell python3 -c "for i in range($(a)*$(s),$(b)*$(s)): print(int(2.0**(i/$(s))))" | uniq)
 
