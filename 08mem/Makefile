@@ -9,17 +9,22 @@ opts += -march=native
 opts += -funroll-loops
 #opts += -fopenmp
 
+ld_opts :=
+ld_opts += -L/home/tau/libpfm-4.10.1/lib
+ld_opts += -Wl,-R/home/tau/libpfm-4.10.1/lib
+
 libs :=
 libs += -lpfm
 
 CXX := g++
 CXXFLAGS := $(opts)
+LDFLAGS := $(ld_opts)
 LIBS := $(libs)
 
 all : $(exe) $(asm)
 
 $(exe) : % : %.cc event.h
-	$(CXX) -o $@ $(CXXFLAGS) $< $(LIBS)
+	$(CXX) -o $@ $(CXXFLAGS) $< $(LDFLAGS) $(LIBS)
 
 $(asm) : %.s : %.cc event.h
 	$(CXX) -o $@ -S $(CXXFLAGS) $<

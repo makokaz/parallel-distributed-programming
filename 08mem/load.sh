@@ -8,9 +8,8 @@ db=a.sqlite
 rm -f ${db}
 
 ${txt2sql} ${db} --table a \
-    -f 'output/out_.*?_(?P<cpu_node>\d+)_(?P<mem_node>\d+)_(?P<try>\d+).txt' \
+    -f 'output/out_(?P<host>.*?)_.*?_(?P<cpu_node>\d+)_(?P<mem_node>\d+)_(?P<try>\d+).txt' \
     -e '--------- (?P<rep>\d+) ---------' \
-    -e 'host=(?P<host>.*)' \
     -e '(?P<n>\d+) elements x (?P<nc>\d+) chains x (?P<nscan>\d+) scans x (?P<nthreads>\d+) threads = (?P<nrecords>\d+) record accesses = (?P<nloads>\d+) loads' \
     -e 'data: (?P<sz>\d+) bytes' \
     -e 'shuffle: (?P<shuffle>.*)' \
@@ -18,6 +17,7 @@ ${txt2sql} ${db} --table a \
     -e 'stride: (?P<stride>.*)' \
     -e 'prefetch: (?P<prefetch>.*)' \
     -e 'method: (?P<method>[^\s]+)' \
+    -e 'metric:l1d.replacement = \d+ -> \d+ = (?P<l1d_replacement>\d+)' \
     -e 'metric:l2_lines_in\.all = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
     -e 'metric:r0404 = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
     -e 'metric:r1ff1 = \d+ -> \d+ = (?P<l2_lines_in>\d+)' \
