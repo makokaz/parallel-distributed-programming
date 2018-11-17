@@ -14,40 +14,29 @@ out_dir:=output
 #powers:=$(foreach i,$(p),$(shell echo $$((1 << $(i)))))
 # multiply each of 2^8 - 2^23 by 7/9 - 15/9
 #n:=$(foreach p,$(powers),$(foreach o,$(shell seq -2 4),$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
-# from 2^8 to 2^16 elements, taking 6 points between 2^i and 2^(i+1)
+# from 2^a to 2^b elements, taking s points between 2^i and 2^(i+1)
 a:=7
-b:=24
-s:=8
+b:=16
+s:=5
 n:=$(shell python3 -c "for i in range($(a)*$(s),$(b)*$(s)): print(int(2.0**(i/$(s))))" | uniq)
 
-parameters:=host try method n n_chains n_threads shuffle payload cpu_node mem_node prefetch
-
 host:=$(shell hostname | tr -d [0-9])
-ifeq ($(host),big)
 events := l1d.replacement,l2_lines_in.all,longest_lat_cache.miss
-endif
-ifeq ($(host),p)
-events := l1d.replacement,l2_lines_in.all,longest_lat_cache.miss
-endif
-ifeq ($(host),v)
-events := l1d.replacement,l2_lines_in.all,longest_lat_cache.miss
-endif
-ifeq ($(host),login)
-events := l1d.replacement,l2_lines_in.all,longest_lat_cache.miss
-endif
 
+parameters:=host try rec_sz method n n_chains n_threads shuffle payload cpu_node mem_node prefetch
 
 ### commands and outputs ###
-cmd=(OMP_NUM_THREADS=$(n_threads) numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 5 -e $(events)) > $(output)
+cmd=(OMP_NUM_THREADS=$(n_threads) numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -z $(rec_sz) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 5 -e $(events)) > $(output)
 input=$(out_dir)/created
-output=$(out_dir)/out_$(host)_$(method)_$(n)_$(n_chains)_$(n_threads)_$(shuffle)_$(payload)_$(cpu_node)_$(mem_node)_$(prefetch)_$(try).txt
+output=$(out_dir)/out_$(host)_$(method)_$(n)_$(rec_sz)_$(n_chains)_$(n_threads)_$(shuffle)_$(payload)_$(cpu_node)_$(mem_node)_$(prefetch)_$(try).txt
 
 ## common parameters ##
 #host:=$(shell hostname | tr -d [0-9])
 cpu_node:=0
 payload:=0
 #payload:=1
-try:=$(shell seq 1 5)
+try:=$(shell seq 1 3)
+rec_sz:=64 128
 
 ## effect of number of chains ##
 method:=p
@@ -65,7 +54,7 @@ n_chains:=1
 n_threads:=1
 shuffle:=1
 prefetch:=0
-mem_node:=0 1
+mem_node:=0
 $(define_rules)
 
 ## effect of access methods ##
