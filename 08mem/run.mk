@@ -16,7 +16,7 @@ out_dir:=output
 #n:=$(foreach p,$(powers),$(foreach o,$(shell seq -2 4),$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
 # from 2^8 to 2^16 elements, taking 6 points between 2^i and 2^(i+1)
 a:=7
-b:=14
+b:=17
 s:=8
 n:=$(shell python3 -c "for i in range($(a)*$(s),$(b)*$(s)): print(int(2.0**(i/$(s))))" | uniq)
 
@@ -47,7 +47,7 @@ output=$(out_dir)/out_$(host)_$(method)_$(n)_$(n_chains)_$(n_threads)_$(shuffle)
 cpu_node:=0
 payload:=0
 #payload:=1
-try:=$(shell seq 1 3)
+try:=$(shell seq 1 5)
 
 ## effect of number of chains ##
 method:=p
