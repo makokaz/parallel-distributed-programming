@@ -29,7 +29,7 @@ typedef struct record {
       struct record * volatile prefetch;
     };      
     volatile struct {
-      volatile long4 x[2];	/* 64 bytes */
+      volatile long4 x[4];	/* 64 bytes */
     };
   };
 } record;
@@ -710,7 +710,7 @@ int main(int argc, char * const * argv) {
     perror("mmap"); exit(1);
   }
   memset(H, 0, data_sz);
-  assert(sizeof(record) == 64);
+  assert(sizeof(record) == 128);
   printf("%ld elements"
 	 " x %d chains"
 	 " x %ld scans"
@@ -719,6 +719,7 @@ int main(int argc, char * const * argv) {
 	 " = %ld loads.\n", 
 	 n, nc, n_scans, n_threads, n_records,
 	 (access_payload ? access_sz / sizeof(long4) : n_records));
+  printf("record_size: %ld bytes\n", sizeof(record));
   printf("data: %ld bytes\n", data_sz);
   printf("shuffle: %ld\n", shuffle);
   printf("payload: %d\n", access_payload);
