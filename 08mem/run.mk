@@ -65,8 +65,7 @@ n_chains:=1
 n_threads:=1
 shuffle:=1
 prefetch:=0
-#mem_node:=0 1
-mem_node:=0
+mem_node:=0 1
 $(define_rules)
 
 ## effect of access methods ##
