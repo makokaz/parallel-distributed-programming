@@ -1,6 +1,7 @@
 CXX := g++
 #CXX := icpc
 #CXX := clang
+#CXX := nvcc
 
 cc_files := $(wildcard axpy.cc)
 exes := $(patsubst %.cc,%,$(cc_files))
@@ -24,8 +25,13 @@ clang_opts += -march=native
 #clang_opts += -mavx512f
 
 # ICC
+icc_opts :=
 icc_opts += -qopenmp
 icc_opts += -xMIC-AVX512
+
+# NVCC
+nvcc_opts :=
+nvcc_opts += -x cu
 
 CXXFLAGS := $(common_opts) $($(CXX)_opts)
 all : $(exes) $(asms)

@@ -14,6 +14,13 @@
 #include <omp.h>
 #endif
 
+#if __NVCC__
+/* cuda_util.h incudes various utilities to make CUDA 
+   programming less error-prone. check it before you
+   proceed with rewriting it for CUDA */
+#include "include/cuda_util.h"
+#endif
+
 /* GCC vector extension to define a vector of floats */
 #if __AVX512F__
 const int vwidth = 64;
@@ -205,14 +212,14 @@ long axpy_simd_m_mnm(long m, long n, float a, float * X_, float b) {
 }
 
 /** 
-    @brief repeat x = a x + c for m (variable) vector type (floatv) variables in parallel,
+    @brief repeat x = a x + b for m (variable) vector type (floatv) variables in parallel,
     nv variables at a time
 
     @param (m) the number of variables updated
-    @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
+    @param (n) the number of times you do ax+b for each variable
+    @param (a) a of a x + b
     @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @param (b) b of a x + b
 
     @details
     $ srun -p big -n 1 --exclusive bash -c "OMP_PROC_BIND=true OMP_NUM_THREADS=64 ./axpy simd_parallel_m_mnm 8 512 100000000"
@@ -246,6 +253,48 @@ long axpy_simd_parallel_m_mnm(long m, long n, float a, float * X__, float b) {
   return 2 * m * n;
 }
 
+/** 
+    @brief repeat x = a x + b for m (variable) vector type (floatv) variables in parallel,
+    nv variables at a time
+
+    @param (m) the number of variables updated
+    @param (n) the number of times you do ax+b for each variable
+    @param (a) a of a x + b
+    @param (X) array of m floatv elements (i.e., m * L floats)
+    @param (b) b of a x + b
+
+    @details
+    $ srun -p big -n 1 --exclusive bash -c "OMP_PROC_BIND=true OMP_NUM_THREADS=64 ./axpy simd_parallel_m_mnm 8 512 100000000"
+    should achieve something like this on the big partition
+    4.125885 CPU clocks/iter, 4.708529 REF clocks/iter, 2.247610 ns/iter
+    3971.026909 flops/CPU clock, 3479.643183 flops/REF clock, 7289.520058 GFLOPS
+
+ */
+
+#if __NVCC__
+__global__ void axpy_dev(long m, long n, float a, float * X, float b) {
+  int j = get_thread_id_x();
+  if (j < m) {
+    for (long i = 0; i < n; i++) {
+      X[j] = a * X[j] + b;
+    }
+  }
+}
+
+long axpy_cuda(long m, long n, float a, float * X, float b) {
+  assert(m % L == 0);
+  size_t sz = sizeof(float) * m;
+  float * X_dev = dev_malloc(sz);
+  to_dev(X_dev, X, sz);
+  int bs = 512;
+  int nb = (m + bs - 1) / bs;
+  axpy_dev<<<nb,bs>>>(m, n, a, X, b);
+  to_host(X_dev, X, sz);
+  dev_free(X_dev);
+  return 2 * m * n;
+}
+#endif
+
 /**
    @brief type of axpy functions
   */
@@ -258,6 +307,7 @@ typedef enum {
   algo_simd_m_nmn, 
   algo_simd_m_mnm, 
   algo_simd_parallel_m_mnm, 
+  algo_cuda,
   algo_invalid,
 } algo_t;
 
@@ -337,6 +387,9 @@ long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
     axpy_fun_t f = axpy_funs_table.t[idx].simd_parallel_m_mnm;
     return f(m, n, a, X, b);
   }
+  case algo_cuda: {
+    return axpy_cuda(m, n, a, X, b);
+  }
   default:
     fprintf(stderr, "invalid algorithm %d\n", algo);
     return -1;
@@ -352,6 +405,7 @@ static algo_table_t algo_table = {
     { algo_simd_m_nmn, "simd_m_nmn" },
     { algo_simd_m_mnm, "simd_m_mnm" },
     { algo_simd_parallel_m_mnm, "simd_parallel_m_mnm" },
+    { algo_cuda, "cuda" },
     { algo_invalid, 0 },
   }
 };
