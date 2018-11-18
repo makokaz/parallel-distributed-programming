@@ -19,26 +19,41 @@
 #define max_chains_per_thread 30
 #endif
 
+#if __AVX512F__
+enum { vwidth = 64 };
+#define mk_longv(c) { c, c, c, c, c, c, c, c }
+#elif __AVX__
+enum { vwidth = 32 };
+#define mk_longv(c) { c, c, c, c }
+#else
+#error "__AVX512F__ or __AVX__ must be defined"
+#endif
+enum {
+  //valign = sizeof(real),
+  valign = vwidth
+};
+typedef long longv __attribute__((vector_size(vwidth),aligned(valign)));
+
 /* record is the maximum-sized record that can be
    fetched with a single instruction */
-typedef long long4 __attribute__((vector_size(32)));
-typedef struct record {
+template<int rec_sz>
+struct record {
   union {
     struct {
-      struct record * volatile next;
-      struct record * volatile prefetch;
+      struct record<rec_sz> * volatile next;
+      struct record<rec_sz> * volatile prefetch;
     };      
-    volatile struct {
-      volatile long4 x[4];	/* 64 bytes */
-    };
+    char payloadc[rec_sz];
+    volatile longv payload[0];
   };
-} record;
+};
 
 /* check if links starting from a form a cycle
    of n distinct elements in a[0] ... a[n-1] */
-void check_links_cyclic(record * a, long n) {
+template<int rec_sz>
+void check_links_cyclic(record<rec_sz> * a, long n) {
   char * c = (char *)calloc(sizeof(char), n);
-  volatile record * p = a;
+  volatile record<rec_sz> * p = a;
   for (long i = 0; i < n; i++) {
     assert(p - a >= 0);
     assert(p - a < n);
@@ -102,7 +117,8 @@ inline long calc_stride_next(long idx, long stride, long n) {
 
 /* set next pointers, so that
    a[0] .. a[n-1] form a cycle */
-void randomize_next_pointers(record * a, long n) {
+template<int rec_sz>
+void randomize_next_pointers(record<rec_sz> * a, long n) {
   long idx = 0;
   assert(n % 4 == 3);
   assert(is_prime(n));
@@ -115,9 +131,10 @@ void randomize_next_pointers(record * a, long n) {
   }
 }
 
-void make_prefetch_pointers(record * h, long n, long d) {
-  record * p = h;
-  record * q = h;
+template<int rec_sz>
+void make_prefetch_pointers(record<rec_sz> * h, long n, long d) {
+  record<rec_sz> * p = h;
+  record<rec_sz> * q = h;
   /* q = d nodes ahead of p */
   for (long i = 0; i < d; i++) {
     q = q->next;
@@ -131,11 +148,13 @@ void make_prefetch_pointers(record * h, long n, long d) {
 
 /* make H[0] ... H[N * NC - 1] NC chains x N elements;
    if shuffle is 1, next pointers of each array are shuffled */
-void mk_arrays(long n, int nc, record * H, record * a[max_chains_per_thread],
+template<int rec_sz>
+void mk_arrays(long n, int nc, record<rec_sz> * H,
+               record<rec_sz> * a[max_chains_per_thread],
 	       int shuffle, long prefetch_dist) {
   /* make NC arrays */
   for (int c = 0; c < nc; c++) {
-    record * h = H + n * c;
+    record<rec_sz> * h = H + n * c;
     /* default: next points to the immediately
        following element in the array */
     for (long i = 0; i < n; i++) {
@@ -153,16 +172,17 @@ void mk_arrays(long n, int nc, record * H, record * a[max_chains_per_thread],
   }
 }
 
-template<int n_chains, int access_payload, int prefetch>
-record * scan_seq(record * a[n_chains], long n, long n_scans, long prefetch_dist) {
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   for (long s = 0; s < n_scans; s++) {
     asm volatile("# seq loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
 		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
     for (long t = 0, u = prefetch_dist; t < n; t++, u++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  a[c][t].x[0];
-	  a[c][t].x[1];
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            a[c][t].payload[i];
+          }
 	} else {
 	  a[c][t].next;
 	}
@@ -177,17 +197,18 @@ record * scan_seq(record * a[n_chains], long n, long n_scans, long prefetch_dist
   return &a[n_chains-1][n - 1];
 }
 
-template<int n_chains, int access_payload, int prefetch>
-record * scan_store_seq(record * a[n_chains], long n, long n_scans, long prefetch_dist) {
-  long4 Z = { 1, 2, 3, 4 };
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan_store_seq(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
+  longv Z = mk_longv(1);
   for (long s = 0; s < n_scans; s++) {
     asm volatile("# store seq loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
 		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
     for (long t = 0, u = prefetch_dist; t < n; t++, u++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  a[c][t].x[0] = Z;
-	  a[c][t].x[1] = Z;
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            a[c][t].payload[i] = Z;
+          }
 	} else {
 	  a[c][t].next;
 	}
@@ -202,8 +223,8 @@ record * scan_store_seq(record * a[n_chains], long n, long n_scans, long prefetc
   return &a[n_chains-1][n - 1];
 }
 
-template<int n_chains, int access_payload, int prefetch>
-record * scan_stride(record * a[n_chains], long n, long n_scans,
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan_stride(record<rec_sz> * a[n_chains], long n, long n_scans,
 		     long stride, long prefetch_dist) {
   long idx = 0;
   long p_idx = 0;
@@ -218,8 +239,9 @@ record * scan_stride(record * a[n_chains], long n, long n_scans,
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  a[c][idx].x[0];
-	  a[c][idx].x[1];
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            a[c][idx].payload[i];
+          }
 	} else {
 	  a[c][idx].next;
 	}
@@ -239,8 +261,8 @@ record * scan_stride(record * a[n_chains], long n, long n_scans,
 }
 
 /* access a[k,0..n] for each k with stride s, m times */
-template<int n_chains, int access_payload, int prefetch>
-record * scan_random(record * a[n_chains], long n, long n_scans, long prefetch_dist) {
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan_random(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   long idx = 0;
   long p_idx = 0;
   for (long t = 0; t < prefetch_dist; t++) {
@@ -252,8 +274,9 @@ record * scan_random(record * a[n_chains], long n, long n_scans, long prefetch_d
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  a[c][idx].x[0];
-	  a[c][idx].x[1];
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            a[c][idx].payload[i];
+          }
 	} else {
 	  a[c][idx].next;
 	}
@@ -273,22 +296,23 @@ record * scan_random(record * a[n_chains], long n, long n_scans, long prefetch_d
 }
 
 /* access a[k,0..n] for each k with stride s, m times */
-template<int n_chains, int access_payload, int prefetch>
-record * scan_store_random(record * a[n_chains], long n, long n_scans, long prefetch_dist) {
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan_store_random(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   long idx = 0;
   long p_idx = 0;
   for (long t = 0; t < prefetch_dist; t++) {
     p_idx = calc_random_next(t, p_idx, n);
   }
-  long4 Z = { 1, 2, 3, 4 };
+  longv Z = mk_longv(1);
   for (long s = 0; s < n_scans; s++) {
     asm volatile("# store random loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
 		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  a[c][idx].x[0] = Z;
-	  a[c][idx].x[1] = Z;
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            a[c][idx].payload[i] = Z;
+          }
 	} else {
 	  a[c][idx].next;
 	}
@@ -307,11 +331,11 @@ record * scan_store_random(record * a[n_chains], long n, long n_scans, long pref
   return &a[n_chains-1][idx];
 }
 
-template<int n_chains, int access_payload, int prefetch>
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
 /* traverse n_chains pointers in parallel */
-record * scan_ptr_chase(record * a[n_chains], long n, long n_scans) {
+record<rec_sz> * scan_ptr_chase(record<rec_sz> * a[n_chains], long n, long n_scans) {
   /* init pointers */
-  record * p[n_chains];
+  record<rec_sz> * p[n_chains];
   for (int c = 0; c < n_chains; c++) {
     p[c] = a[c];
   }
@@ -321,10 +345,11 @@ record * scan_ptr_chase(record * a[n_chains], long n, long n_scans) {
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
-	  p[c]->x[0];
-	  p[c]->x[1];
+          for (int i = 0; i < rec_sz / (int)sizeof(longv); i++) {
+            p[c]->payload[i];
+          }
 	}
-	record * next = p[c]->next;
+	record<rec_sz> * next = p[c]->next;
 	if (prefetch) {
 	  __builtin_prefetch(p[c]->prefetch);
 	}
@@ -340,49 +365,53 @@ record * scan_ptr_chase(record * a[n_chains], long n, long n_scans) {
   return p[0];
 }
 
-template<int n_chains, int access_payload, int prefetch>
-record * scan(record * a[n_chains], long n, long n_scans,
-	      const char * method, long stride, long prefetch_dist) {
+template<int rec_sz, int n_chains, int access_payload, int prefetch>
+record<rec_sz> * scan(record<rec_sz> * a[n_chains], long n, long n_scans,
+                      const char * method, long stride, long prefetch_dist) {
   switch (method[0]) {
   case 's' :
-    return scan_seq<n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
+    return scan_seq<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
   case 'S' :
-    return scan_store_seq<n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
+    return scan_store_seq<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
   case 't' :
-    return scan_stride<n_chains,access_payload,prefetch>(a, n, n_scans, stride, prefetch_dist);
+    return scan_stride<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans, stride, prefetch_dist);
   case 'r' :
-    return scan_random<n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
+    return scan_random<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
   case 'R' :
-    return scan_store_random<n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
+    return scan_store_random<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans, prefetch_dist);
   default : 
   case 'p': {
-    return scan_ptr_chase<n_chains,access_payload,prefetch>(a, n, n_scans);
+    return scan_ptr_chase<rec_sz,n_chains,access_payload,prefetch>(a, n, n_scans);
   }
   }
 }
 
-template<int n_chains, int access_payload>
-record * scan(record * a[n_chains], long n, long n_scans,
+template<int rec_sz, int n_chains, int access_payload>
+record<rec_sz> * scan(record<rec_sz> * a[n_chains], long n, long n_scans,
 	      const char * method, long stride, int prefetch) {
   if (prefetch) {
-    return scan<n_chains,access_payload,1>(a, n, n_scans, method, stride, prefetch);
+    return scan<rec_sz,n_chains,access_payload,1>(a, n, n_scans, method, stride, prefetch);
   } else {
-    return scan<n_chains,access_payload,0>(a, n, n_scans, method, stride, prefetch);
+    return scan<rec_sz,n_chains,access_payload,0>(a, n, n_scans, method, stride, prefetch);
   }
 }
 
-template<int n_chains>
-record * scan(record * a[n_chains], long n, long n_scans,
-	      const char * method, int access_payload, long stride, long prefetch) {
+template<int rec_sz, int n_chains>
+record<rec_sz> * scan(record<rec_sz> * a[n_chains], long n, long n_scans,
+                      const char * method, int access_payload, long stride,
+                      long prefetch) {
   if (access_payload) {
-    return scan<n_chains,1>(a, n, n_scans, method, stride, prefetch);
+    return scan<rec_sz,n_chains,1>(a, n, n_scans, method, stride, prefetch);
   } else {
-    return scan<n_chains,0>(a, n, n_scans, method, stride, prefetch);
+    return scan<rec_sz,n_chains,0>(a, n, n_scans, method, stride, prefetch);
   }
 }
 
-record * scan(record * a[max_chains_per_thread], long n, long n_scans,
-	      const char * method, int nc, int access_payload, long stride, long prefetch) {
+
+template<int rec_sz>
+record<rec_sz> * scan(record<rec_sz> * a[max_chains_per_thread], long n, long n_scans,
+                      const char * method, int nc, int access_payload,
+                      long stride, long prefetch) {
   if (nc >= max_chains_per_thread) {
     fprintf(stderr, "number of chains = %d >= %d\n", nc, max_chains_per_thread);
     fprintf(stderr, "either give a smaller nc or change max_chains in the source; abort\n");
@@ -391,45 +420,45 @@ record * scan(record * a[max_chains_per_thread], long n, long n_scans,
 
   switch (nc) {
   case 1:
-    return scan<1>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,1>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 2:
-    return scan<2>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,2>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 3:
-    return scan<3>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,3>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 4:
-    return scan<4>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,4>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 5:
-    return scan<5>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,5>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 6:
-    return scan<6>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,6>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 7:
-    return scan<7>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,7>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 8:
-    return scan<8>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,8>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 9:
-    return scan<9>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,9>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 10:
-    return scan<10>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,10>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 11:
-    return scan<11>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,11>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 12:
-    return scan<12>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,12>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 13:
-    return scan<13>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,13>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 14:
-    return scan<14>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,14>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 15:
-    return scan<15>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,15>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 16:
-    return scan<16>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,16>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 17:
-    return scan<17>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,17>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 18:
-    return scan<18>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,18>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 19:
-    return scan<19>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,19>(a, n, n_scans, method, access_payload, stride, prefetch);
   case 20:
-    return scan<20>(a, n, n_scans, method, access_payload, stride, prefetch);
+    return scan<rec_sz,20>(a, n, n_scans, method, access_payload, stride, prefetch);
   default:
     fprintf(stderr, "number of chains = %d, must be >= 0 and <= 20\n", nc);
     exit(1);
@@ -512,12 +541,12 @@ timestamps_t get_all_stamps_after(perf_event_counters_t cc,
   return ts;
 }
 
-
-void worker(int rank, int n_threads, record * H,
+template<int rec_sz>
+void worker(int rank, int n_threads, record<rec_sz> * H,
 	    long n, long n_scans, long repeat, int shuffle,
 	    const char * method, long nc, int access_payload,
             long stride, long prefetch, const char * events) {
-  record * a[max_chains_per_thread];
+  record<rec_sz> * a[max_chains_per_thread];
   mk_arrays(n, nc, &H[n * nc * rank], a, shuffle, prefetch);
   perf_event_counters_t cc = mk_perf_event_counters("cycles");
   perf_event_counters_t mc = mk_perf_event_counters(events);
@@ -540,7 +569,7 @@ void worker(int rank, int n_threads, record * H,
       long long dt = R->ts[1].t - R->ts[0].t;
       long n_elements = n * nc * n_threads;
       long n_records  = n_elements * n_scans;
-      long access_sz  = sizeof(record) * n_records;
+      long access_sz  = sizeof(record<rec_sz>) * n_records;
       for (int i = 0; i < mc.n; i++) {
         long long m0 = R->ts[0].v.values[i];
         long long m1 = R->ts[1].v.values[i];
@@ -589,6 +618,7 @@ struct opts {
   long stride;
   long prefetch;
   const char * events;
+  int rec_sz;
   opts() {
     method = "ptrchase";
     n_elements = 1 << 9;
@@ -600,6 +630,7 @@ struct opts {
     prefetch = 0;
     stride = 1;
     events = 0;
+    rec_sz = 128;
   }
 };
 
@@ -632,12 +663,13 @@ opts * parse_cmdline(int argc, char * const * argv, opts * o) {
     {"stride",     required_argument, 0, 's' },
     {"prefetch",   required_argument, 0, 'p' },
     {"events",     required_argument, 0, 'e' },
+    {"rec_sz",     required_argument, 0, 'z' },
     {0,         0,                 0,  0 }
   };
 
   while (1) {
     int option_index = 0;
-    int c = getopt_long(argc, argv, "m:n:c:s:r:x:l:p:S:e:",
+    int c = getopt_long(argc, argv, "m:n:c:s:r:x:l:p:S:e:z:",
 			long_options, &option_index);
     if (c == -1) break;
 
@@ -672,6 +704,9 @@ opts * parse_cmdline(int argc, char * const * argv, opts * o) {
     case 'e':
       o->events = strdup(optarg);
       break;
+    case 'z':
+      o->rec_sz = atoi(optarg);
+      break;
     default:
       usage(argv[0]);
       exit(1);
@@ -680,9 +715,8 @@ opts * parse_cmdline(int argc, char * const * argv, opts * o) {
   return o;
 }
 
-int main(int argc, char * const * argv) {
-  opts o;
-  parse_cmdline(argc, argv, &o);
+template<int rec_sz>
+int real_main(opts o) {
   int n_threads = get_n_threads();
 
   const char * method = o.method;
@@ -702,15 +736,15 @@ int main(int argc, char * const * argv) {
   long stride = o.stride % n;
   long n_elements = n * nc * n_threads;
   long n_records  = n_elements * n_scans;
-  long data_sz    = sizeof(record) * n_elements;
-  long access_sz  = sizeof(record) * n_records;
+  long data_sz    = sizeof(record<rec_sz>) * n_elements;
+  long access_sz  = sizeof(record<rec_sz>) * n_records;
 
-  record * H = (record *)mmap(0, data_sz, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+  record<rec_sz> * H = (record<rec_sz> *)mmap(0, data_sz, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
   if (H == MAP_FAILED) { 
     perror("mmap"); exit(1);
   }
   memset(H, 0, data_sz);
-  assert(sizeof(record) == 128);
+  assert(sizeof(record<rec_sz>) == rec_sz);
   printf("%ld elements"
 	 " x %d chains"
 	 " x %ld scans"
@@ -718,8 +752,8 @@ int main(int argc, char * const * argv) {
 	 " = %ld record accesses"
 	 " = %ld loads.\n", 
 	 n, nc, n_scans, n_threads, n_records,
-	 (access_payload ? access_sz / sizeof(long4) : n_records));
-  printf("record_size: %ld bytes\n", sizeof(record));
+	 (access_payload ? access_sz / sizeof(longv) : n_records));
+  printf("record_size: %ld bytes\n", sizeof(record<rec_sz>));
   printf("data: %ld bytes\n", data_sz);
   printf("shuffle: %ld\n", shuffle);
   printf("payload: %d\n", access_payload);
@@ -739,3 +773,18 @@ int main(int argc, char * const * argv) {
   }
   return 0;
 }
+
+int main(int argc, char * const * argv) {
+  opts o;
+  parse_cmdline(argc, argv, &o);
+  switch (o.rec_sz) {
+  case 64:
+    return real_main<64>(o);
+  case 128:
+    return real_main<128>(o);
+  default:
+    fprintf(stderr, "invalid record size %d\n", o.rec_sz);
+    return EXIT_FAILURE;
+  }
+}
+

@@ -37,10 +37,11 @@ db = g.open_sql(sqlite_file)
 
 def mk_plot_title(b):
     if b["eq"] == "=":
-        return "local"
+        x = "local"
     else:
-        return "remote"
-
+        x = "remote"
+    return "%s rec_sz=%s" % (x, b["rec_sz"])
+ 
 # -------------- latency with 1 chain --------------
 
 def graph_latency():
@@ -54,12 +55,17 @@ def graph_latency():
         output = "%s/latency_%s_%%(host)s_%%(min_sz)s" % (out_dir, conf)
         g.graphs((db,
                   '''
-select sz,avg(cpu_clocks_per_rec) 
+select sz,
+       avg(cpu_clocks_per_rec),
+       cimin(cpu_clocks_per_rec,0.05),
+       cimax(cpu_clocks_per_rec,0.05)
 from a 
 where host="%(host)s"
   and method="ptrchase"
   and nc=1
   and nthreads=1
+  and rep>=2
+  and rec_sz=%(rec_sz)s
   and sz>=%(min_sz)s
   and shuffle=1
   and prefetch=0
@@ -69,7 +75,7 @@ group by sz
 order by sz;
 ''',
                   "","",[]),
-                 output=output,
+                 #output=output,
                  #terminal="svg",
                  graph_vars=[ "min_sz", "host" ],
                  graph_title=("latency per load in a list traversal %%(host)s:%s [$\\\\geq$ %%(min_sz)s]" % label),
@@ -82,17 +88,19 @@ set key left
                  yrange="[0:]",
                  ylabel="latency/load",
                  xlabel="size of the region (bytes)",
-                 plot_with="linespoints",
+                 #plot_with="linespoints",
+                 plot_with="yerrorlines",
                  plot_title=mk_plot_title,
                  eq=eqs,
                  min_sz=[ 0, 10 ** 8 ],
-                 # host=get_unique(g, db, "host"),
-                 host=[ "big" ],
+                 rec_sz=get_unique(g, db, "rec_sz"),
+                 host=get_unique(g, db, "host"),
+                 # host=[ "big" ],
                  verbose_sql=2,
                  save_gpl=0)
 
 # -------------- l2 miss --------------
-def graph_cache(event):
+def graph_cache(events):
     # show latency of link list traversal
     # x : size of the data
     # y : latency per access
@@ -103,13 +111,14 @@ def graph_cache(event):
               select 
               sz,
               avg(%(event)s/(nloads+0.0)),
-              cimin(%(event)s/(nloads+0.0),0.001),
-              cimax(%(event)s/(nloads+0.0),0.001)
+              cimin(%(event)s/(nloads+0.0),0.05),
+              cimax(%(event)s/(nloads+0.0),0.05)
 from a 
 where host="%(host)s"
   and method="ptrchase"
   and nc=1
   and nthreads=1
+  and rec_sz=%(rec_sz)s
   and sz>=%(min_sz)s
   and shuffle=1
   and prefetch=0
@@ -123,7 +132,7 @@ order by sz;
              graph_vars=[ "min_sz", "host" ],
              graph_title="cache miss rate of a list traversal %(host)s [$\\\\geq$ %(min_sz)s]",
              graph_attr='''
-#set logscale x
+set logscale x
 #set xtics rotate by -20
 set key left
 #unset key
@@ -132,11 +141,12 @@ set key left
              ylabel="miss rate",
              xlabel="size of the region (bytes)",
              plot_with="yerrorlines",
-             plot_title="",
+             plot_title="%(event)s rec_sz=%(rec_sz)s",
              min_sz=[ 0 ],
-             #host=get_unique(g, db, "host"),
-             host=[ "big" ],
-             event=[event],
+             rec_sz=get_unique(g, db, "rec_sz"),
+             host=get_unique(g, db, "host"),
+             #host=[ "big" ],
+             event=events,
              verbose_sql=2,
              save_gpl=0)
 
@@ -437,9 +447,9 @@ set key right
              save_gpl=0)
 
 if 1:
-    graph_cache("l2_lines_in")
-if 0:
     graph_latency()
+    graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
+if 0:
     graph_bw_ptrchase()
     graph_bw_ptrchase_chains()
     graph_bw_prefetch()
