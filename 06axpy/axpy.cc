@@ -30,60 +30,59 @@ typedef float floatv __attribute__((vector_size(vwidth),aligned(valign)));
 const int L = sizeof(floatv) / sizeof(float);
 
 /** 
-    @brief repeat x = a x + c for a scalar type (float) variable x
-    @param (m) size of X. ignored. it always updates a single scalar element
-    @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @brief repeat x = a x + b for a scalar type (float) variable x
+    @param (n) the number of times you do ax+b for x
+    @param (a) a of a x + b
+    @param (X) array of float elements (only use X[0])
+    @param (b) b of a x + b
 
     @details it should run at 4 clocks/iter (the latency of fma
     instruction), or 0.5 flops/clock
  */
-long axpy_scalar(long n, floatv a, float* X, floatv c) {
+long axpy_scalar(long n, float a, float* X, float b) {
   long i;
-  float a0 = a[0], x0 = X[0], c0 = c[0];
-  asm volatile ("# axpy_scalar: ax+c loop begin");
+  float x = X[0];
+  asm volatile ("# axpy_scalar: ax+b loop begin");
   for (i = 0; i < n; i++) {
-    x0 = a0 * x0 + c0;
+    x = a * x + b;
   }
-  asm volatile ("# axpy_scalar: ax+c loop end");
-  X[0] = x0;
+  asm volatile ("# axpy_scalar: ax+b loop end");
+  X[0] = x;
   return 2 * n;
 }
 
 /** 
-    @brief repeat x = a x + c for a vector (SIMD) type (floatv) variable x
-    @param (m) size of X. ignored. it always updates an element
-    @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @brief repeat x = a x + b with SIMD instructions
+    @param (n) the number of times you do ax+b
+    @param (a) a of a x + b
+    @param (X) array of float elements (use only L elements)
+    @param (b) b of a x + b
 
     @details it should run at 4 clocks/iter (the latency of fma
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
 //#pragma GCC optimize("unroll-loops", 4)
-long axpy_simd(long n, floatv a, floatv* X, floatv c) {
+long axpy_simd(long n, float a, float* X_, float b) {
   long i;
+  floatv * X = (floatv*)X_;
   floatv x = X[0];
-  asm volatile ("# axpy_simd: ax+c loop begin");
+  asm volatile ("# axpy_simd: ax+b loop begin");
   for (i = 0; i < n; i++) {
-    x = a * x + c;
+    x = a * x + b;
   }
-  asm volatile ("# axpy_simd: ax+c loop end");
+  asm volatile ("# axpy_simd: ax+b loop end");
   X[0] = x;
   return 2 * L * n;
 }
 
 /** 
-    @brief repeat x = a x + c for a constant number of 
-    vector type (floatv) variables
-    @param (m) size of X. ignored. it always updates nv (constant) elements
-    @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @brief repeat x = a x + b for a constant number of 
+    vector variables
+    @param (m) size of X. ignored. it always updates c vector elements
+    @param (n) the number of times you do ax+b for each variable
+    @param (a) a of a x + b
+    @param (X) array of float elements (use only c * L elements)
+    @param (b) b of a x + b
 
     @details when you increase nv, it should remain running at 4 
     clocks/iter until it reaches the limit of 2 FMAs/cycle,
@@ -94,28 +93,30 @@ long axpy_simd(long n, floatv a, floatv* X, floatv c) {
 
     4.001386 CPU clocks/iter, 3.966710 REF clocks/iter, 1.893479 ns/iter
     63.977836 flops/CPU clock, 64.537118 flops/REF clock, 135.200880 GFLOPS
-
+    
  */
-template<int nv>
-long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
-  asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "g"(nv));
+template<int c>
+long axpy_simd_c(long m, long n, float a, float* X_, float b) {
+  assert(c <= m);
+  assert(c % L == 0);
+  floatv * X = (floatv*)X_;
+  asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "i"(c));
   for (long i = 0; i < n; i++) {
-    for (long j = 0; j < nv; j++) {
-      X[j] = a * X[j] + c;
+    for (long j = 0; j < c / L; j++) {
+      X[j] = a * X[j] + b;
     }
   }
-  asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "g"(nv));
-  (void)_;
-  return 2 * nv * L * n;
+  asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "i"(c));
+  return 2 * c * n;
 }
 
 /** 
-    @brief repeat x = a x + c for m (variable) vector type (floatv) variables
+    @brief repeat x = a x + b for m (variable) vector type (floatv) variables
     @param (m) the number of variables updated
-    @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
-    @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @param (n) the number of times you do ax+b for each variable
+    @param (a) a of a x + b
+    @param (X) array of m float elements
+    @param (b) b of a x + b
 
     @details this is similar to axpy_simc_c, but works on a variable
     number of vectors (m), which makes it impossible to completely
@@ -134,39 +135,43 @@ long axpy_simd_c(long _, long n, floatv a, floatv* X, floatv c) {
     14.204561 flops/CPU clock, 18.313685 flops/REF clock, 38.366397 GFLOPS
 
  */
-long axpy_simd_m(long m, long n, floatv a, floatv* X, floatv c) {
+long axpy_simd_m(long m, long n, float a, float * X_, float b) {
+  assert(m % L == 0);
+  floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_m: ax+c loop begin");
   for (long i = 0; i < n; i++) {
-    for (long j = 0; j < m; j++) {
-      X[j] = a * X[j] + c;
+    for (long j = 0; j < m / L; j++) {
+      X[j] = a * X[j] + b;
     }
   }
   asm volatile ("# axpy_simd_m: ax+c loop end");
-  return 2 * m * L * n;
+  return 2 * m * n;
 }
 
 /** 
-    @brief repeat x = a x + c for m (variable) vector type (floatv) variables
+    @brief repeat x = a x + b for m (variable) vector type (floatv) variables
     by updating a single variable a few times
     @param (m) the number of variables updated
     @param (n) the number of times you do ax+c for each variable
-    @param (a) a of a x + c
+    @param (a) a of a x + b
     @param (X) array of m floatv elements (i.e., m * L floats)
-    @param (c) c of a x + c
+    @param (b) b of a x + b
 
  */
-long axpy_simd_m_nmn(long m, long n, floatv a, floatv* X, floatv c) {
+long axpy_simd_m_nmn(long m, long n, float a, float* X_, float b) {
+  assert(m % L == 0);
+  floatv * X = (floatv*)X_;
   const int steps_inner = 4;
-  asm volatile ("# axpy_simd_m_nmn: ax+c loop begin");
+  asm volatile ("# axpy_simd_m_nmn: ax+b loop begin");
   for (long i = 0; i < n; i += steps_inner) {
-    for (long j = 0; j < m; j++) {
+    for (long j = 0; j < m / L; j++) {
       for (long ii = 0; ii < steps_inner; ii++) {
-        X[j] = a * X[j] + c;
+        X[j] = a * X[j] + b;
       }
     }
   }
-  asm volatile ("# axpy_simd_m_nmn: ax+c loop end");
-  return 2 * m * L * (n - n % steps_inner);
+  asm volatile ("# axpy_simd_m_nmn: ax+b loop end");
+  return 2 * m * (n - n % steps_inner);
 }
 
 /** 
@@ -182,18 +187,21 @@ long axpy_simd_m_nmn(long m, long n, floatv a, floatv* X, floatv c) {
     @details the innsermost two loops look similar to axpy_simd_c
 
  */
-template<int nv>
-long axpy_simd_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
-  for (long j = 0; j < m; j += nv) {
-    asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop begin" :: "g"(nv));
+template<int c>
+long axpy_simd_m_mnm(long m, long n, float a, float * X_, float b) {
+  assert(m % c == 0);
+  assert(c % L == 0);
+  floatv * X = (floatv*)X_;
+  for (long j = 0; j < m / L; j += c / L) {
+    asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop begin" :: "i"(c));
     for (long i = 0; i < n; i++) {
-      for (long jj = 0; jj < nv; jj++) {
-        X[j+jj] = a * X[j+jj] + c;
+      for (long jj = 0; jj < c / L; jj++) {
+        X[j+jj] = a * X[j+jj] + b;
       }
     }
-    asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop end" :: "g"(nv));
+    asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop end" :: "i"(c));
   }
-  return 2 * (m - m % nv) * L * n;
+  return 2 * m * n;
 }
 
 /** 
@@ -213,39 +221,34 @@ long axpy_simd_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
     3971.026909 flops/CPU clock, 3479.643183 flops/REF clock, 7289.520058 GFLOPS
 
  */
-template<int nv>
-long axpy_simd_parallel_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
-#pragma omp parallel
-  {
-    printf("thread %d of %d on %d\n",
-           omp_get_thread_num(), 
-           omp_get_num_threads(),
-           sched_getcpu());
-#pragma omp for schedule(static)
-    for (long j = 0; j < m; j += nv) {
-      floatv XX[nv];
-      for (long jj = 0; jj < nv; jj++) {
-        XX[jj] = X[j+jj];
-      }
-      asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop begin" :: "g"(nv));
-      for (long i = 0; i < n; i++) {
-        for (long jj = 0; jj < nv; jj++) {
-          XX[jj] = a * XX[jj] + c;
-        }
-      }
-      asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop end" :: "g"(nv));
-      for (long jj = 0; jj < nv; jj++) {
-        X[j+jj] = XX[jj];
+template<int c>
+long axpy_simd_parallel_m_mnm(long m, long n, float a, float * X__, float b) {
+  assert(c % L == 0);
+  assert(m % c == 0);
+  floatv * X_ = (floatv*)X__;
+#pragma omp parallel for schedule(static)
+  for (long j = 0; j < m / L; j += c / L) {
+    floatv X[c/L];
+    for (long jj = 0; jj < c / L; jj++) {
+      X[jj] = X_[j+jj];
+    }
+    asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop begin" :: "i"(c));
+    for (long i = 0; i < n; i++) {
+      for (long jj = 0; jj < c / L; jj++) {
+        X[jj] = a * X[jj] + b;
       }
     }
+    asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop end" :: "i"(c));
+    for (long jj = 0; jj < c / L; jj++) {
+      X_[j+jj] = X[jj];
+    }
   }
-  return 2 * (m - m % nv) * L * n;
+  return 2 * m * n;
 }
 
 /**
    @brief type of axpy functions
   */
-typedef long (*axpy_t)(long m, long n, floatv a, floatv* X, floatv c);
 
 typedef enum {
   algo_scalar, 
@@ -267,7 +270,7 @@ typedef struct {
   algo_table_entry_t t[algo_invalid + 1];
 } algo_table_t;
 
-typedef long (*axpy_fun_t)(long m, long n, floatv a, floatv* X, floatv c);
+typedef long (*axpy_fun_t)(long m, long n, float a, float* X, float c);
 typedef struct {
   axpy_fun_t simd_c;
   axpy_fun_t simd_m_mnm;
@@ -278,7 +281,7 @@ typedef struct {
   axpy_funs_entry_t t[50];
 } axpy_funs_table_t;
 
-#define mk_ent(n) { axpy_simd_c<n>, axpy_simd_m_mnm<n>,  axpy_simd_parallel_m_mnm<n>, }
+#define mk_ent(c) { axpy_simd_c<c*L>, axpy_simd_m_mnm<c*L>,  axpy_simd_parallel_m_mnm<c*L>, }
 
 axpy_funs_table_t axpy_funs_table = {
   {
@@ -304,33 +307,35 @@ axpy_funs_table_t axpy_funs_table = {
    @param (X) array of m floatv elements (i.e., m * L floats)
    @param (c) c of a x + c
   */
-long axpy(algo_t algo, long nv, long m, long n, floatv a, floatv* X, floatv c) {
+long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
   int n_funs = sizeof(axpy_funs_table.t) / sizeof(axpy_funs_table.t[0]);
-  if (nv < 1 || nv >= n_funs) {
-    fprintf(stderr, "%s:%d:axpy: nv = %ld must be 1 < x < %d\n",
-            __FILE__, __LINE__, nv, n_funs);
+  assert(c % L == 0);
+  long idx = c / L;
+  if (idx < 1 || idx >= n_funs) {
+    fprintf(stderr, "%s:%d:axpy: c = %ld must be %d < c < %d\n",
+            __FILE__, __LINE__, c, L, n_funs * L);
     return -1;
   }
   switch (algo) {
   case algo_scalar:
-    return axpy_scalar(n, a, (float *)X, c);
+    return axpy_scalar(n, a, X, b);
   case algo_simd:
-    return axpy_simd(n, a, X, c);
+    return axpy_simd(n, a, X, b);
   case algo_simd_c: {
-    axpy_t f = axpy_funs_table.t[nv].simd_c;
-    return f(0, n, a, X, c);
+    axpy_fun_t f = axpy_funs_table.t[idx].simd_c;
+    return f(m, n, a, X, b);
   }
   case algo_simd_m:
-    return axpy_simd_m(m, n, a, X, c);
+    return axpy_simd_m(m, n, a, X, b);
   case algo_simd_m_nmn:
-    return axpy_simd_m_nmn(m, n, a, X, c);
+    return axpy_simd_m_nmn(m, n, a, X, b);
   case algo_simd_m_mnm: {
-    axpy_t f = axpy_funs_table.t[nv].simd_m_mnm;
-    return f(m, n, a, X, c);
+    axpy_fun_t f = axpy_funs_table.t[idx].simd_m_mnm;
+    return f(m, n, a, X, b);
   }
   case algo_simd_parallel_m_mnm: {
-    axpy_t f = axpy_funs_table.t[nv].simd_parallel_m_mnm;
-    return f(m, n, a, X, c);
+    axpy_fun_t f = axpy_funs_table.t[idx].simd_parallel_m_mnm;
+    return f(m, n, a, X, b);
   }
   default:
     fprintf(stderr, "invalid algorithm %d\n", algo);
@@ -372,41 +377,35 @@ int main(int argc, char ** argv) {
   char * algo_str = (argc > 1 ? argv[1] : (char *)"scalar");
   algo_t     algo = (algo_str ? parse_algo(algo_str) : algo_scalar);
   if (algo == algo_invalid) return EXIT_FAILURE;
-  long         nv = (argc > 2 ? atol(argv[2]) : 8);
-  long          m = (argc > 3 ? atol(argv[3]) : nv);
+  long          c = (argc > 2 ? atol(argv[2]) : 8);
+  long          m = (argc > 3 ? atol(argv[3]) : c);
   long          n = (argc > 4 ? atol(argv[4]) : 1000000000);
   long       seed = (argc > 5 ? atol(argv[5]) : 76843802738543);
   long n_elements_to_show = (argc > 6 ? atol(argv[6]) : 1);
 
-  if (m < nv) m = nv;
+  if (m < c) m = c;
+  if (n_elements_to_show >= m) n_elements_to_show = m;
   
   printf(" algo = %s\n", algo_str);
-  printf("   nv = %ld (the number of variables to update in the inner loop)\n", nv);
+  printf("    c = %ld (the number of variables to update in the inner loop)\n", c);
   printf("    m = %ld (the total number of variables to update)\n", m);
   printf("    n = %ld (the number of times to update each variable)\n", n);
   
-  float a_[L]     __attribute__((aligned(64)));
-  float X_[m * L] __attribute__((aligned(64)));
-  float c_[L]     __attribute__((aligned(64)));
   unsigned short rg[3] = {
     (unsigned short)(seed >> 16),
     (unsigned short)(seed >> 8),
     (unsigned short)(seed) };
-  for (int i = 0; i < L; i++) {
-    a_[i] = erand48(rg);
-    c_[i] = erand48(rg);
+  float a = erand48(rg);
+  float b = erand48(rg);
+  float X[m] __attribute__((aligned(64)));
+  for (int i = 0; i < m; i++) {
+    X[i] = erand48(rg);
   }
-  for (int i = 0; i < m * L; i++) {
-    X_[i] = erand48(rg);
-  }
-  floatv a = *((floatv*)a_);
-  floatv * X = (floatv*)X_;
-  floatv c = *((floatv*)c_);
   cpu_clock_counter_t cc = mk_cpu_clock_counter();
   long t0 = cur_time_ns();
   long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
-  long flops = axpy(algo, nv, m, n, a, X, c);
+  long flops = axpy(algo, c, m, n, a, X, b);
   long long r1 = rdtsc();
   long long c1 = cpu_clock_counter_get(cc);
   long t1 = cur_time_ns();
@@ -424,7 +423,7 @@ int main(int argc, char ** argv) {
     printf("%f flops/CPU clock, %f flops/REF clock, %f GFLOPS\n",
            flops / (double)dc, flops / (double)dr, flops / (double)dt);
     for (int i = 0; i < n_elements_to_show; i++) {
-      printf("x[%d] = %f\n", i, X_[i]);
+      printf("x[%d] = %f\n", i, X[i]);
     }
     cpu_clock_counter_destroy(cc);
     return EXIT_SUCCESS;
