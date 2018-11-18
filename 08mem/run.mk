@@ -16,7 +16,7 @@ out_dir:=output
 #n:=$(foreach p,$(powers),$(foreach o,$(shell seq -2 4),$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
 # from 2^a to 2^b elements, taking s points between 2^i and 2^(i+1)
 a:=7
-b:=16
+b:=23
 s:=5
 n:=$(shell python3 -c "for i in range($(a)*$(s),$(b)*$(s)): print(int(2.0**(i/$(s))))" | uniq)
 
@@ -54,7 +54,7 @@ n_chains:=1
 n_threads:=1
 shuffle:=1
 prefetch:=0
-mem_node:=0
+mem_node:=0 1
 $(define_rules)
 
 ## effect of access methods ##
