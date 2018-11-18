@@ -16,8 +16,8 @@ out_dir:=output
 #n:=$(foreach p,$(powers),$(foreach o,$(shell seq -2 4),$(shell echo $$(($(p) * (9 + $(o)) / 9)))))
 # from 2^a to 2^b elements, taking s points between 2^i and 2^(i+1)
 a:=7
-b:=23
-s:=3
+b:=24
+s:=6
 n:=$(shell python3 -c "for i in range($(a)*$(s),$(b)*$(s)): print(int(2.0**(i/$(s))))" | uniq)
 
 host:=$(shell hostname | tr -d [0-9])
@@ -33,8 +33,8 @@ output=$(out_dir)/out_$(host)_$(method)_$(n)_$(rec_sz)_$(n_chains)_$(n_threads)_
 ## common parameters ##
 #host:=$(shell hostname | tr -d [0-9])
 cpu_node:=0
-payload:=0
-try:=$(shell seq 1 1)
+payload:=0 1
+try:=$(shell seq 1 3)
 rec_sz:=64
 
 ## effect of number of chains ##

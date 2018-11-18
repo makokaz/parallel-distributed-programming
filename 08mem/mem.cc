@@ -752,7 +752,7 @@ int real_main(opts o) {
   if (H == MAP_FAILED) { 
     perror("mmap"); exit(1);
   }
-  memset(H, 0, data_sz);
+  memset(H, -1, data_sz);
   assert(sizeof(record<rec_sz>) == rec_sz);
   printf("%ld elements"
 	 " x %d chains"
@@ -790,6 +790,10 @@ int main(int argc, char * const * argv) {
     return real_main<64>(o);
   case 128:
     return real_main<128>(o);
+  case 4096:
+    return real_main<4096>(o);
+  case 65536:
+    return real_main<65536>(o);
   default:
     fprintf(stderr, "invalid record size %d\n", o.rec_sz);
     return EXIT_FAILURE;
