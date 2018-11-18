@@ -23,7 +23,7 @@ ${txt2sql} ${db} --table a \
     -e 'metric:longest_lat_cache\.miss = \d+ -> \d+ = (?P<longest_lat_cache_miss>\d+)' \
     -e '(?P<cpu_clocks>\d+) CPU clocks' \
     -e '(?P<ref_clocks>\d+) REF clocks' \
-    -e '(?P<nano_sec>.*?) nano sec' \
+    -e '(?P<nano_sec>\d+?) nano sec' \
     -e 'throughput (?P<bytes_per_clock>.*?) bytes/clock' \
     -e 'throughput (?P<gb_per_sec>.*?) GiB/sec' \
     -e 'latency (?P<cpu_clocks_per_rec>.*?) CPU clocks' \
