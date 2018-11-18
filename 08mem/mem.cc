@@ -548,17 +548,24 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
             long stride, long prefetch, const char * events) {
   record<rec_sz> * a[max_chains_per_thread];
   mk_arrays(n, nc, &H[n * nc * rank], a, shuffle, prefetch);
-  perf_event_counters_t cc = mk_perf_event_counters("cycles");
-  perf_event_counters_t mc = mk_perf_event_counters(events);
-  scan_record_t * scan_records
-    = (scan_record_t *)calloc(repeat, sizeof(scan_record_t));
+  perf_event_counters_t cc, mc;
+  scan_record_t * scan_records = 0;
+  if (rank == 0) {
+    cc = mk_perf_event_counters("cycles");
+    mc = mk_perf_event_counters(events);
+    scan_records = (scan_record_t *)calloc(repeat, sizeof(scan_record_t));
+  }
   for (long r = 0; r < repeat; r++) {
     scan_record_t * R = &scan_records[r];
     barrier();
-    R->ts[0] = get_all_stamps_before(cc, mc);
+    if (rank == 0) {
+      R->ts[0] = get_all_stamps_before(cc, mc);
+    }
     scan(a, n, n_scans, method, nc, access_payload, stride, prefetch);
     barrier();
-    R->ts[1] = get_all_stamps_before(cc, mc);
+    if (rank == 0) {
+      R->ts[1] = get_all_stamps_after(cc, mc);
+    }
   }
   if (rank == 0) {
     for (long r = 0; r < repeat; r++) {
@@ -569,7 +576,8 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
       long long dt = R->ts[1].t - R->ts[0].t;
       long n_elements = n * nc * n_threads;
       long n_records  = n_elements * n_scans;
-      long access_sz  = sizeof(record<rec_sz>) * n_records;
+      long access_sz  = n_records * (access_payload ? sizeof(record<rec_sz>) : sizeof(record<rec_sz>*));
+      long n_iters_per_thread = n * n_scans;
       for (int i = 0; i < mc.n; i++) {
         long long m0 = R->ts[0].v.values[i];
         long long m1 = R->ts[1].v.values[i];
@@ -579,10 +587,11 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
       printf("%lld CPU clocks\n", dc);
       printf("%lld REF clocks\n", dr);
       printf("%lld nano sec\n", dt);
-      printf("%.3f bytes/clock\n", access_sz / (double)dc);
-      printf("%.3f GiB/sec\n", access_sz * pow(2.0, -30) * 1.0e9 / dt);
-      printf("%.3f CPU clocks per record\n", dc / (double)n_records);
-      printf("%.3f REF clocks per record\n", dr / (double)n_records);
+      printf("throughput %.3f bytes/clock\n", access_sz / (double)dc);
+      printf("throughput %.3f GiB/sec\n", access_sz * pow(2.0, -30) * 1.0e9 / dt);
+      printf("latency %.3f CPU clocks\n", dc / (double)n_iters_per_thread);
+      printf("latency %.3f REF clocks\n", dr / (double)n_iters_per_thread);
+      printf("latency %.3f nano sec\n", dt / (double)n_iters_per_thread);
     }
   }
   perf_event_counters_destroy(mc);
@@ -630,7 +639,7 @@ struct opts {
     prefetch = 0;
     stride = 1;
     events = 0;
-    rec_sz = 128;
+    rec_sz = 64;
   }
 };
 
@@ -737,7 +746,7 @@ int real_main(opts o) {
   long n_elements = n * nc * n_threads;
   long n_records  = n_elements * n_scans;
   long data_sz    = sizeof(record<rec_sz>) * n_elements;
-  long access_sz  = sizeof(record<rec_sz>) * n_records;
+  long n_loads = n_records * (access_payload ? (sizeof(record<rec_sz>) / sizeof(longv)) : 1);
 
   record<rec_sz> * H = (record<rec_sz> *)mmap(0, data_sz, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
   if (H == MAP_FAILED) { 
@@ -751,8 +760,7 @@ int real_main(opts o) {
 	 " x %d threads"
 	 " = %ld record accesses"
 	 " = %ld loads.\n", 
-	 n, nc, n_scans, n_threads, n_records,
-	 (access_payload ? access_sz / sizeof(longv) : n_records));
+	 n, nc, n_scans, n_threads, n_records, n_loads);
   printf("record_size: %ld bytes\n", sizeof(record<rec_sz>));
   printf("data: %ld bytes\n", data_sz);
   printf("shuffle: %ld\n", shuffle);

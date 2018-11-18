@@ -24,10 +24,11 @@ ${txt2sql} ${db} --table a \
     -e '(?P<cpu_clocks>\d+) CPU clocks' \
     -e '(?P<ref_clocks>\d+) REF clocks' \
     -e '(?P<nano_sec>.*?) nano sec' \
-    -e '(?P<bytes_per_clock>.*?) bytes/clock' \
-    -e '(?P<gb_per_sec>.*?) GiB/sec' \
-    -e '(?P<cpu_clocks_per_rec>.*?) CPU clocks per record' \
-    -r '(?P<ref_clocks_per_rec>.*?) REF clocks per record' \
+    -e 'throughput (?P<bytes_per_clock>.*?) bytes/clock' \
+    -e 'throughput (?P<gb_per_sec>.*?) GiB/sec' \
+    -e 'latency (?P<cpu_clocks_per_rec>.*?) CPU clocks' \
+    -e 'latency (?P<ref_clocks_per_rec>.*?) REF clocks' \
+    -r 'latency (?P<nano_sec_per_rec>.*?) nano sec' \
     output/out_*.txt
 
 
