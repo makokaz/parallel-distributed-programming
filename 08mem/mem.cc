@@ -175,8 +175,8 @@ void mk_arrays(long n, int nc, record<rec_sz> * H,
 template<int rec_sz, int n_chains, int access_payload, int prefetch>
 record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# seq loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# seq loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0, u = prefetch_dist; t < n; t++, u++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -191,8 +191,8 @@ record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, lo
 	}
       }
     }
-    asm volatile("# seq loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# seq loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   return &a[n_chains-1][n - 1];
 }
@@ -201,8 +201,8 @@ template<int rec_sz, int n_chains, int access_payload, int prefetch>
 record<rec_sz> * scan_store_seq(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   longv Z = mk_longv(1);
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# store seq loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# store seq loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0, u = prefetch_dist; t < n; t++, u++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -217,8 +217,8 @@ record<rec_sz> * scan_store_seq(record<rec_sz> * a[n_chains], long n, long n_sca
 	}
       }
     }
-    asm volatile("# store seq loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# store seq loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   return &a[n_chains-1][n - 1];
 }
@@ -234,8 +234,8 @@ record<rec_sz> * scan_stride(record<rec_sz> * a[n_chains], long n, long n_scans,
     }
   }
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# stride loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# stride loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -254,8 +254,8 @@ record<rec_sz> * scan_stride(record<rec_sz> * a[n_chains], long n, long n_scans,
 	p_idx = calc_stride_next(p_idx, stride, n);
       }
     }
-    asm volatile("# stride loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# stride loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   return &a[n_chains-1][idx];
 }
@@ -269,8 +269,8 @@ record<rec_sz> * scan_random(record<rec_sz> * a[n_chains], long n, long n_scans,
     p_idx = calc_random_next(t, p_idx, n);
   }
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# random loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# random loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -289,8 +289,8 @@ record<rec_sz> * scan_random(record<rec_sz> * a[n_chains], long n, long n_scans,
 	p_idx = calc_random_next(t, p_idx, n);
       }
     }
-    asm volatile("# random loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# random loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   return &a[n_chains-1][idx];
 }
@@ -305,8 +305,8 @@ record<rec_sz> * scan_store_random(record<rec_sz> * a[n_chains], long n, long n_
   }
   longv Z = mk_longv(1);
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# store random loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# store random loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -325,8 +325,8 @@ record<rec_sz> * scan_store_random(record<rec_sz> * a[n_chains], long n, long n_
 	p_idx = calc_random_next(t, p_idx, n);
       }
     }
-    asm volatile("# store random loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# store random loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   return &a[n_chains-1][idx];
 }
@@ -340,8 +340,8 @@ record<rec_sz> * scan_ptr_chase(record<rec_sz> * a[n_chains], long n, long n_sca
     p[c] = a[c];
   }
   for (long s = 0; s < n_scans; s++) {
-    asm volatile("# pointer chase loop begin (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# pointer chase loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0; t < n; t++) {
       for (int c = 0; c < n_chains; c++) {
 	if (access_payload) {
@@ -356,8 +356,8 @@ record<rec_sz> * scan_ptr_chase(record<rec_sz> * a[n_chains], long n, long n_sca
 	p[c] = next;
       }
     }
-    asm volatile("# pointer chase loop end (n_chains = %0, payload = %1, prefetch = %2)" 
-		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch));
+    asm volatile("# pointer chase loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
+		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
   }
   for (int c = 0; c < n_chains; c++) {
     asm volatile("" : : "q" (p[c]));
@@ -752,7 +752,7 @@ int real_main(opts o) {
   if (H == MAP_FAILED) { 
     perror("mmap"); exit(1);
   }
-  memset(H, -1, data_sz);
+  //memset(H, -1, data_sz);
   assert(sizeof(record<rec_sz>) == rec_sz);
   printf("%ld elements"
 	 " x %d chains"
@@ -790,6 +790,8 @@ int main(int argc, char * const * argv) {
     return real_main<64>(o);
   case 128:
     return real_main<128>(o);
+  case 256:
+    return real_main<256>(o);
   case 4096:
     return real_main<4096>(o);
   case 65536:
