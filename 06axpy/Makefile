@@ -15,8 +15,8 @@ common_opts += -O3
 # GCC
 g++_opts :=
 g++_opts += -fopenmp
-g++_opts += -march=native
-#gcc_opts += -mavx512f
+#g++_opts += -march=native
+g++_opts += -mavx512f
 
 clang_opts :=
 clang_opts += -fopenmp

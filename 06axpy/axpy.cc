@@ -1,9 +1,18 @@
+/**
+   @file axpy.cc
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
 
 #include "clock.h"
+
+#if _OPENMP
+#include <sched.h>
+#include <omp.h>
+#endif
 
 /* GCC vector extension to define a vector of floats */
 #if __AVX512F__
@@ -206,21 +215,28 @@ long axpy_simd_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
  */
 template<int nv>
 long axpy_simd_parallel_m_mnm(long m, long n, floatv a, floatv* X, floatv c) {
-#pragma omp parallel for schedule(static)
-  for (long j = 0; j < m; j += nv) {
-    floatv XX[nv];
-    for (long jj = 0; jj < nv; jj++) {
-      XX[jj] = X[j+jj];
-    }
-    asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop begin" :: "g"(nv));
-    for (long i = 0; i < n; i++) {
+#pragma omp parallel
+  {
+    printf("thread %d of %d on %d\n",
+           omp_get_thread_num(), 
+           omp_get_num_threads(),
+           sched_getcpu());
+#pragma omp for schedule(static)
+    for (long j = 0; j < m; j += nv) {
+      floatv XX[nv];
       for (long jj = 0; jj < nv; jj++) {
-        XX[jj] = a * XX[jj] + c;
+        XX[jj] = X[j+jj];
       }
-    }
-    asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop end" :: "g"(nv));
-    for (long jj = 0; jj < nv; jj++) {
-      X[j+jj] = XX[jj];
+      asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop begin" :: "g"(nv));
+      for (long i = 0; i < n; i++) {
+        for (long jj = 0; jj < nv; jj++) {
+          XX[jj] = a * XX[jj] + c;
+        }
+      }
+      asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop end" :: "g"(nv));
+      for (long jj = 0; jj < nv; jj++) {
+        X[j+jj] = XX[jj];
+      }
     }
   }
   return 2 * (m - m % nv) * L * n;
@@ -365,8 +381,9 @@ int main(int argc, char ** argv) {
   if (m < nv) m = nv;
   
   printf(" algo = %s\n", algo_str);
-  printf("    m = %ld\n", m);
-  printf("    n = %ld\n", n);
+  printf("   nv = %ld (the number of variables to update in the inner loop)\n", nv);
+  printf("    m = %ld (the total number of variables to update)\n", m);
+  printf("    n = %ld (the number of times to update each variable)\n", n);
   
   float a_[L]     __attribute__((aligned(64)));
   float X_[m * L] __attribute__((aligned(64)));

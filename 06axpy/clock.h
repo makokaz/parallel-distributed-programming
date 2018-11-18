@@ -80,7 +80,7 @@ static cpu_clock_counter_t mk_cpu_clock_counter() {
   pe.exclude_kernel = 1;
   pe.exclude_hv = 1;
   
-  int fd = perf_event_open(&pe, 0, -1, -1, 0);
+  int fd = perf_event_open(&pe, getpid(), -1, -1, 0);
   if (fd == -1) {
     perror("perf_event_open");
     exit(EXIT_FAILURE);
