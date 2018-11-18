@@ -53,7 +53,7 @@ n_threads:=1
 shuffle:=1
 prefetch:=0
 mem_node:=0
-$(define_rules)
+#$(define_rules)
 
 ## effect of prefetch ##
 method:=p
@@ -62,7 +62,7 @@ n_threads:=1
 shuffle:=1
 prefetch:=0 10
 mem_node:=0
-$(define_rules)
+#$(define_rules)
 
 ## effect of sorted addresses ##
 method:=p
@@ -71,7 +71,7 @@ n_threads:=1
 shuffle:=0
 prefetch:=0
 mem_node:=0
-$(define_rules)
+#$(define_rules)
 
 ## many threads with pointers ##
 method:=p
@@ -80,7 +80,7 @@ n_threads:=1 2 4 6 8 12 16
 shuffle:=1
 prefetch:=0
 mem_node:=0
-#$(define_rules)
+$(define_rules)
 
 ## many threads with indexes ##
 method:=s r
@@ -89,7 +89,7 @@ n_threads:=1 2 4 6 8 12 16
 shuffle:=1
 prefetch:=0
 mem_node:=0
-#$(define_rules)
+$(define_rules)
 
 $(out_dir)/created :
 	mkdir -p $@
