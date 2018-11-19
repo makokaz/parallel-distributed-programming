@@ -22,10 +22,7 @@ select max(%s) from a
 ''' % f)
 
 g = smart_gnuplotter.smart_gnuplotter()
-#g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
-#g.default_terminal = 'svg'
-#g.default_terminal = 'svg'
-#g.default_terminal = 'emf color solid font ",18"'
+g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
 
 sqlite_file = sys.argv[1] if len(sys.argv) > 1 else "a.sqlite"
 out_dir     = sys.argv[2] if len(sys.argv) > 2 else "graphs"
@@ -40,8 +37,15 @@ def mk_plot_title(b):
         x = "local"
     else:
         x = "remote"
-    return "%s rec_sz=%s" % (x, b["rec_sz"])
- 
+    rec_sz = b["rec_sz"]
+    return x
+
+ws_ranges = [ (0, 2 ** 30),     # all
+              #(2 ** 14, 2 ** 16), # around L1 cache
+              #(2 ** 18, 2 ** 21), # around L2 cache
+              #(2 ** 23, 2 ** 26), # around L3 cache
+              (2 ** 25, 2 ** 30) ] # main memory
+
 # -------------- latency with 1 chain --------------
 
 def graph_latency():
@@ -52,7 +56,6 @@ def graph_latency():
     # (2) compare local and remote
     for eqs,conf,label in [ ([ "=" ],      "local", "local"), 
                             ([ "=", "<>" ],"local_remote", "local and remote") ]:
-        output = "%s/latency_%s_%%(host)s_%%(min_sz)s" % (out_dir, conf)
         g.graphs((db,
                   '''
 select sz,
@@ -64,9 +67,10 @@ where host="%(host)s"
   and method="ptrchase"
   and nc=1
   and nthreads=1
-  and rep>=2
+  and rep>=1
   and rec_sz=%(rec_sz)s
-  and sz>=%(min_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
   and shuffle=1
   and prefetch=0
   and payload=0
@@ -75,10 +79,9 @@ group by sz
 order by sz;
 ''',
                   "","",[]),
-                 #output=output,
-                 #terminal="svg",
-                 graph_vars=[ "min_sz", "host" ],
-                 graph_title=("latency per load in a list traversal %%(host)s:%s [$\\\\geq$ %%(min_sz)s]" % label),
+                 output="%(out_dir)s/latency_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
+                 graph_title="latency per load in a random list traversal [%(min_sz)s,%(max_sz)s]",
                  graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -88,18 +91,361 @@ set key left
                  yrange="[0:]",
                  ylabel="latency/load",
                  xlabel="size of the region (bytes)",
-                 #plot_with="linespoints",
                  plot_with="yerrorlines",
                  plot_title=mk_plot_title,
-                 eq=eqs,
-                 min_sz=[ 0, 10 ** 8 ],
-                 rec_sz=get_unique(g, db, "rec_sz"),
+                 out_dir=[out_dir],
+                 conf=[conf],
                  host=get_unique(g, db, "host"),
-                 # host=[ "big" ],
+                 min_sz__max_sz=ws_ranges,
+                 eq=eqs,
+                 rec_sz=get_unique(g, db, "rec_sz"),
                  verbose_sql=2,
                  save_gpl=0)
 
-# -------------- l2 miss --------------
+# -------------- bandwidth local vs remote --------------
+
+def graph_bw_ptrchase():
+    for eqs,conf,label in [ ([ "=" ], "local", "local"), 
+                            ([ "=", "<>" ], "local_remote", "local and remote") ]:
+        g.graphs((db,
+                  '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=1
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and prefetch=0
+  and payload=1
+  and cpu_node %(eq)s mem_node
+group by sz 
+order by sz
+''',
+                  "","",[]),
+                 output="%(out_dir)s/bw_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
+                 graph_title="bandwidth of list traversal [%(min_sz)s,%(max_sz)s]",
+                 graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+                 yrange="[0:]",
+                 ylabel="bandwidth (GB/sec)",
+                 xlabel="size of the region (bytes)",
+                 plot_with="linespoints",
+                 plot_title=mk_plot_title,
+                 out_dir=[out_dir],
+                 conf=[conf],
+                 host=get_unique(g, db, "host"),
+                 min_sz__max_sz=ws_ranges,
+                 rec_sz=get_unique(g, db, "rec_sz"),
+                 eq=eqs,
+                 verbose_sql=2,
+                 save_gpl=0)
+
+# -------------- bandwidth with X chains --------------
+
+def graph_bw_ptrchase_chains():
+    for eqs,conf in [ ([ "="  ], "local"), 
+                      ([ "<>" ], "remote") ]:
+        g.graphs((db,
+                  '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=%(nc)s
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and prefetch=0
+  and payload=1
+  and cpu_node %(eq)s mem_node
+group by sz 
+order by sz
+''',
+                  "","",[]),
+                 output="%(out_dir)s/bw_chains_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
+                 graph_title="bandwidth with a number of chains [%(min_sz)s,%(max_sz)s]",
+                 graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+                 yrange="[0:]",
+                 ylabel="bandwidth (GB/sec)",
+                 xlabel="size of the region (bytes)",
+                 plot_with="linespoints",
+                 plot_title="%(nc)s chains",
+                 out_dir=[out_dir],
+                 conf=[conf],
+                 host=get_unique(g, db, "host"),
+                 min_sz__max_sz=ws_ranges,
+                 rec_sz=get_unique(g, db, "rec_sz"),
+                 nc=get_unique(g, db, "nc"),
+                 eq=eqs,
+                 verbose_sql=2,
+                 save_gpl=0)
+
+# -------------- bandwidth with prefetch --------------
+
+def graph_bw_prefetch():
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=1
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and prefetch=%(prefetch)s
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+              "","",[]),
+             output="%(out_dir)s/bw_prefetch_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth with a number of chains [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title="prefetch=%(prefetch)s",
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             prefetch=[0,10],
+             verbose_sql=2,
+             save_gpl=0)
+
+#
+# -------------- compare list, random index, serial --------------
+#
+
+def graph_methods():
+    # compare link list traversal vs. random index
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method = "%(method)s"
+  and nc=1
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and prefetch=0
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+              "","",[]),
+             output="%(out_dir)s/methods_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="list traversal vs random access vs sequential access [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title="%(method)s",
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             method=get_unique(g, db, "method"),
+             verbose_sql=2,
+             save_gpl=0)
+
+# -------------- bandwidth with X threads --------------
+
+def graph_bw_ptrchase_threads():
+    # show the effect of increasing number of threads with max chains
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=%(nc)s
+  and nthreads=%(nthreads)s
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+                  "","",[]),
+             output="%(out_dir)s/bw_threads_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth with a number of threads [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title="%(nc)s chains, %(nthreads)s threads",
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             nc=[1,10],
+             nthreads=[1,4,16],
+             verbose_sql=2,
+             save_gpl=0)
+
+# -------------- compare sorted vs unsorted --------------
+
+def mk_plot_title_prefetch(b):
+    if b["shuffle"] == 0:
+        return "address-sorted list"
+    else:
+        return "random list"
+
+def graph_sort_vs_unsorted():
+    # compare two link list traversals
+    # randomly ordered list vs address-sorted list
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=1
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=%(shuffle)s
+  and prefetch=0
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+              "","",[]),
+             output="%(out_dir)s/sorted_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth of random list traversal vs address-ordered list traversal [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title=mk_plot_title_prefetch,
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             shuffle=[ 0, 1 ],
+             verbose_sql=2,
+             save_gpl=0)
+
+
+# -------------- summary of various settings --------------
+
+def mk_plot_title_all_access(b):
+    method   = b["method"]
+    shuffle  = ("" if b["shuffle"]  else " (sorted)")
+    prefetch = (" (prefetch)" if b["prefetch"] else "")
+    nc       = ((" (x %d)" % b["nc"]) if b["nc"] > 1 else "")
+    if method == "ptrchase":
+        return "%s%s%s%s" % (method, shuffle, prefetch, nc)
+    else:
+        return "%s" % method
+
+def graph_summary():
+    # seq vs random vs ptrchase
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="%(method)s"
+  and nc=%(nc)s
+  and nthreads=1
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=%(shuffle)s
+  and prefetch=%(prefetch)s
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+              "","",[]),
+             output="%(out_dir)s/summary_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth of various access patterns [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title=mk_plot_title_all_access,
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             method=[ "ptrchase", "random", "sequential" ],
+             shuffle=[ 0, 1 ],
+             prefetch=[ 0, 10 ],
+             nc=[ 1, 10 ],
+             verbose_sql=2,
+             save_gpl=0)
+
+# -------------- cache miss --------------
+
 def graph_cache(events):
     # show latency of link list traversal
     # x : size of the data
@@ -118,8 +464,10 @@ where host="%(host)s"
   and method="ptrchase"
   and nc=1
   and nthreads=1
+  and rep>=1
   and rec_sz=%(rec_sz)s
-  and sz>=%(min_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
   and shuffle=1
   and prefetch=0
   and payload=0
@@ -127,10 +475,9 @@ group by sz
 order by sz;
 ''',
                   "","",[]),
-             #output = "%s/cache_miss_%%(min_sz)s" % out_dir,
-             #terminal="svg",
-             graph_vars=[ "min_sz", "host" ],
-             graph_title="cache miss rate of a list traversal %(host)s [$\\\\geq$ %(min_sz)s]",
+             output="%(out_dir)s/cache_miss_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
+             graph_title="cache miss rate of a random list traversal [%(min_sz)s,%(max_sz)s]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -142,319 +489,24 @@ set key left
              xlabel="size of the region (bytes)",
              plot_with="yerrorlines",
              plot_title="%(event)s rec_sz=%(rec_sz)s",
-             min_sz=[ 0 ],
-             rec_sz=get_unique(g, db, "rec_sz"),
+             out_dir=[out_dir],
              host=get_unique(g, db, "host"),
-             #host=[ "big" ],
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
              event=events,
-             verbose_sql=2,
-             save_gpl=0)
-
-# -------------- bandwidth local vs remote --------------
-def graph_bw_ptrchase():
-    for eqs,conf,label in [ ([ "=" ], "local", "local"), 
-                            ([ "=", "<>" ], "local_remote", "local and remote") ]:
-        output = "%s/bw_%s_%%(min_sz)s" % (out_dir, conf)
-        g.graphs((db,
-                  '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=1
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=1
-  and prefetch=0
-  and payload=1
-  and cpu_node %(eq)s mem_node
-group by sz 
-order by sz
-''',
-                  "","",[]),
-                 output=output,
-                 graph_vars=[ "min_sz" ],
-                 graph_title=("bandwidth (%s) [$\\\\geq$ %%(min_sz)s]" % label),
-                 graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-                 yrange="[0:]",
-                 ylabel="bandwidth (GB/sec)",
-                 xlabel="size of the region (bytes)",
-                 plot_with="linespoints",
-                 plot_title=mk_plot_title,
-                 eq=eqs,
-                 min_sz=[ 0, 10 ** 8 ],
-                 verbose_sql=2,
-                 save_gpl=0)
-
-# -------------- bandwidth with X chains --------------
-def graph_bw_ptrchase_chains():
-    for eqs,conf in [ ([ "="  ], "local"), 
-                      ([ "<>" ], "remote") ]:
-        output = "%s/bw_chains_%s_%%(min_sz)s" % (out_dir, conf)
-        g.graphs((db,
-                  '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=%(nc)s
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=1
-  and prefetch=0
-  and payload=1
-  and cpu_node %(eq)s mem_node
-group by sz 
-order by sz
-''',
-                  "","",[]),
-                 output=output,
-                 graph_vars=[ "min_sz" ],
-                 graph_title=("bandwidth with a number of chains [%s, $\\\\geq$ %%(min_sz)s]" % conf),
-                 graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-                 yrange="[0:]",
-                 ylabel="bandwidth (GB/sec)",
-                 xlabel="size of the region (bytes)",
-                 plot_with="linespoints",
-                 plot_title="%(nc)s chains",
-                 nc=get_unique(g, db, "nc"),
-                 eq=eqs,
-                 min_sz=[ 0, 10 ** 8 ],
-                 verbose_sql=2,
-                 save_gpl=0)
-
-# -------------- bandwidth with X chains --------------
-def graph_bw_prefetch():
-    output = "%s/bw_prefetch_%%(min_sz)s" % out_dir
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=1
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=1
-  and prefetch=%(prefetch)s
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-                  "","",[]),
-                 output=output,
-                 graph_vars=[ "min_sz" ],
-                 graph_title="bandwidth with a number of chains [$\\\\geq$ %(min_sz)s]",
-                 graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-                 yrange="[0:]",
-                 ylabel="bandwidth (GB/sec)",
-                 xlabel="size of the region (bytes)",
-                 plot_with="linespoints",
-                 plot_title="prefetch=%(prefetch)s",
-                 prefetch=[0,10],
-                 min_sz=[ 0, 10 ** 8 ],
-                 verbose_sql=2,
-                 save_gpl=0)
-    
-def graph_methods():
-    # compare link list traversal vs. random index
-    output = "%s/methods_%%(min_sz)s" % out_dir
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method = "%(method)s"
-  and nc=1
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=1
-  and prefetch=0
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-              "","",[]),
-             output=output,
-             graph_vars=[ "min_sz" ],
-             graph_title="bandwidth of random list traversal vs random array traversal [$\\\\geq$ %(min_sz)s]",
-             graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-             yrange="[0:]",
-             ylabel="bandwidth (GB/sec)",
-             xlabel="size of the region (bytes)",
-             plot_with="linespoints",
-             plot_title="%(method)s",
-             method=get_unique(g, db, "method"),
-             min_sz=[ 0, 10 ** 8 ],
-             verbose_sql=2,
-             save_gpl=0)
-
-# -------------- bandwidth with X threads --------------
-def graph_bw_ptrchase_threads():
-    # show the effect of increasing number of threads with max chains
-    output = "%s/bw_threads_%%(min_sz)s" % out_dir
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=%(nc)s
-  and nthreads=%(nthreads)s
-  and sz>=%(min_sz)s
-  and shuffle=1
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-                  "","",[]),
-             output=output,
-             graph_vars=[ "min_sz" ],
-             graph_title="bandwidth with a number of threads [$\\\\geq$ %(min_sz)s]",
-             graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-             yrange="[0:]",
-             ylabel="bandwidth (GB/sec)",
-             xlabel="size of the region (bytes)",
-             plot_with="linespoints",
-             plot_title="%(nc)s chains, %(nthreads)s threads",
-             #nc=get_unique(g, db, "nc"),
-             nc=[1,10],
-             #nthreads=get_unique(g, db, "nthreads"),
-             nthreads=[1,4,16],
-             min_sz=[ 0, 10 ** 8 ],
-             verbose_sql=2,
-             save_gpl=0)
-
-def mk_plot_title_prefetch(b):
-    if b["shuffle"] == 0:
-        return "address-sorted list"
-    else:
-        return "random list"
-
-def graph_sort_vs_unsorted():
-    # compare two link list traversals
-    # randomly ordered list vs address-sorted list
-    output = "%s/sorted_%%(min_sz)s" % out_dir
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=1
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=%(shuffle)s
-  and prefetch=0
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-              "","",[]),
-             output=output,
-             graph_vars=[ "min_sz" ],
-             graph_title="bandwidth of random list traversal vs address-ordered list traversal [$\\\\geq$ %(min_sz)s]",
-             graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-             yrange="[0:]",
-             ylabel="bandwidth (GB/sec)",
-             xlabel="size of the region (bytes)",
-             plot_with="linespoints",
-             plot_title=mk_plot_title_prefetch,
-             shuffle=[ 0, 1 ],
-             min_sz=[ 0, 10 ** 8 ],
-             verbose_sql=2,
-             save_gpl=0)
-
-
-def mk_plot_title_all_access(b):
-    method   = b["method"]
-    shuffle  = ("" if b["shuffle"]  else " (sorted list)")
-    prefetch = (" (prefetch)" if b["prefetch"] else "")
-    nc       = ((" (%d chains)" % b["nc"]) if b["nc"] > 1 else "")
-    if method == "ptrchase":
-        return "%s%s%s%s" % (method, shuffle, prefetch, nc)
-    else:
-        return "%s" % method
-
-def graph_summary():
-    # seq vs random vs ptrchase
-    output = "%s/summary_%%(min_sz)s" % out_dir
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="%(method)s"
-  and nc=%(nc)s
-  and nthreads=1
-  and sz>=%(min_sz)s
-  and shuffle=%(shuffle)s
-  and prefetch=%(prefetch)s
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-              "","",[]),
-             output=output,
-             # terminal = 'epslatex color size 12cm,6cm font "" 8',
-             graph_vars=[ "min_sz" ],
-             graph_title="bandwidth of various access patterns [$\\\\geq$ %(min_sz)s]",
-             graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-             yrange="[0:]",
-             ylabel="bandwidth (GB/sec)",
-             xlabel="size of the region (bytes)",
-             plot_with="linespoints",
-             plot_title=mk_plot_title_all_access,
-             method=[ "ptrchase", "random", "sequential" ],
-             shuffle=[ 0, 1 ],
-             prefetch=[ 0, 10 ],
-             nc=[ 1, 10 ],
-             min_sz=[ 0, 10 ** 8 ],
              verbose_sql=2,
              save_gpl=0)
 
 if 1:
     graph_latency()
-    graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
-if 0:
     graph_bw_ptrchase()
     graph_bw_ptrchase_chains()
-    graph_bw_prefetch()
-    graph_methods()
-    graph_bw_ptrchase_threads()
     graph_sort_vs_unsorted()
+    graph_methods()
+    graph_bw_prefetch()
     graph_summary()
+if 0:
+    graph_bw_ptrchase_threads()
+if 1:
+    graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
 
