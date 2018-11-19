@@ -22,7 +22,7 @@ select max(%s) from a
 ''' % f)
 
 g = smart_gnuplotter.smart_gnuplotter()
-g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
+# g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
 
 sqlite_file = sys.argv[1] if len(sys.argv) > 1 else "a.sqlite"
 out_dir     = sys.argv[2] if len(sys.argv) > 2 else "graphs"
@@ -89,7 +89,7 @@ set key left
 #unset key
 ''',
                  yrange="[0:]",
-                 ylabel="latency/load",
+                 ylabel="latency/load (CPU cycles)",
                  xlabel="size of the region (bytes)",
                  plot_with="yerrorlines",
                  plot_title=mk_plot_title,
@@ -221,7 +221,7 @@ order by sz
               "","",[]),
              output="%(out_dir)s/bw_prefetch_%(host)s_%(min_sz)s_%(max_sz)s",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth with a number of chains [%(min_sz)s,%(max_sz)s]",
+             graph_title="bandwidth w/ and w/o prefetch [%(min_sz)s,%(max_sz)s]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -285,51 +285,6 @@ set key right
              min_sz__max_sz=ws_ranges,
              rec_sz=get_unique(g, db, "rec_sz"),
              method=get_unique(g, db, "method"),
-             verbose_sql=2,
-             save_gpl=0)
-
-# -------------- bandwidth with X threads --------------
-
-def graph_bw_ptrchase_threads():
-    # show the effect of increasing number of threads with max chains
-    g.graphs((db,
-              '''
-select sz,avg(gb_per_sec) 
-from a 
-where method="ptrchase"
-  and nc=%(nc)s
-  and nthreads=%(nthreads)s
-  and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
-  and shuffle=1
-  and payload=1
-  and cpu_node=mem_node
-group by sz 
-order by sz
-''',
-                  "","",[]),
-             output="%(out_dir)s/bw_threads_%(host)s_%(min_sz)s_%(max_sz)s",
-             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth with a number of threads [%(min_sz)s,%(max_sz)s]",
-             graph_attr='''
-set logscale x
-#set xtics rotate by -20
-set key right
-#unset key
-''',
-             yrange="[0:]",
-             ylabel="bandwidth (GB/sec)",
-             xlabel="size of the region (bytes)",
-             plot_with="linespoints",
-             plot_title="%(nc)s chains, %(nthreads)s threads",
-             out_dir=[out_dir],
-             host=get_unique(g, db, "host"),
-             min_sz__max_sz=ws_ranges,
-             rec_sz=get_unique(g, db, "rec_sz"),
-             nc=[1,10],
-             nthreads=[1,4,16],
              verbose_sql=2,
              save_gpl=0)
 
@@ -421,7 +376,7 @@ order by sz
               "","",[]),
              output="%(out_dir)s/summary_%(host)s_%(min_sz)s_%(max_sz)s",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth of various access patterns [%(min_sz)s,%(max_sz)s]",
+             graph_title="summary of various access patterns [%(min_sz)s,%(max_sz)s]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -441,6 +396,101 @@ set key right
              shuffle=[ 0, 1 ],
              prefetch=[ 0, 10 ],
              nc=[ 1, 10 ],
+             verbose_sql=2,
+             save_gpl=0)
+
+# -------------- bandwidth with X threads --------------
+
+def graph_bw_ptrchase_threads():
+    # show the effect of increasing number of threads with max chains
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method="ptrchase"
+  and nc=%(nc)s
+  and nthreads=%(nthreads)s
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+                  "","",[]),
+             output="%(out_dir)s/bw_threads_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth with a number of threads [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title="%(nc)s chains, %(nthreads)s threads",
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             #nc=get_unique(g, db, "nc"),
+             nc=[1,5,10],
+             #nthreads=get_unique(g, db, "nthreads"),
+             nthreads=[1,4,8,16],
+             verbose_sql=2,
+             save_gpl=0)
+
+# -------------- bandwidth with X threads --------------
+
+def graph_bw_methods_threads():
+    # compare link list traversal vs. random index
+    g.graphs((db,
+              '''
+select sz,avg(gb_per_sec) 
+from a 
+where method = "%(method)s"
+  and nc=1
+  and nthreads=%(nthreads)s
+  and rep>=1
+  and rec_sz=%(rec_sz)s
+  and %(min_sz)s<=sz
+  and sz<=%(max_sz)s
+  and shuffle=1
+  and prefetch=0
+  and payload=1
+  and cpu_node=mem_node
+group by sz 
+order by sz
+''',
+              "","",[]),
+             output="%(out_dir)s/bw_methods_threads_%(host)s_%(min_sz)s_%(max_sz)s",
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
+             graph_title="bandwidth with various methods and number of threads [%(min_sz)s,%(max_sz)s]",
+             graph_attr='''
+set logscale x
+#set xtics rotate by -20
+set key right
+#unset key
+''',
+             yrange="[0:]",
+             ylabel="bandwidth (GB/sec)",
+             xlabel="size of the region (bytes)",
+             plot_with="linespoints",
+             plot_title="%(method)s %(nthreads)s threads",
+             out_dir=[out_dir],
+             host=get_unique(g, db, "host"),
+             min_sz__max_sz=ws_ranges,
+             rec_sz=get_unique(g, db, "rec_sz"),
+             #method=get_unique(g, db, "method"),
+             method=["random", "sequential"],
+             #nthreads=get_unique(g, db, "nthreads"),
+             nthreads=[1,8,12,16],
              verbose_sql=2,
              save_gpl=0)
 
@@ -497,6 +547,8 @@ set key left
              verbose_sql=2,
              save_gpl=0)
 
+g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
+
 if 1:
     graph_latency()
     graph_bw_ptrchase()
@@ -505,8 +557,7 @@ if 1:
     graph_methods()
     graph_bw_prefetch()
     graph_summary()
-if 0:
     graph_bw_ptrchase_threads()
-if 1:
+    graph_bw_methods_threads()
     graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
 
