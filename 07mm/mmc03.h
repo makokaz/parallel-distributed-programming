@@ -15,12 +15,9 @@ long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
   assert(M % bM == 0);
   assert(bN % L == 0);
   assert(N % bN == 0);
-  /* (150,372)x(372,[896]) */
-  for (idx_t j = 0; j < N; j += bN) {
-    /* ([150],372)x(372,16) */
-    for (idx_t i = 0; i < M; i += bM) {
-      /* (6,372)x(372,16) */
-      asm volatile("# loop begins (%0,%1)x(%1,%2)" :: "g" (bM), "g" (K), "g" (bN));
+  for (idx_t i = 0; i < M; i += bM) {
+    for (idx_t j = 0; j < N; j += bN) {
+      asm volatile("# loop begins (%0,%1)x(%1,%2)" :: "i" (bM), "i" (K), "i" (bN));
       for (idx_t k = 0; k < K; k++) {
 	for (idx_t ii = i; ii < i + bM; ii++) {
 	  for (idx_t jj = j; jj < j + bN; jj += L) {
