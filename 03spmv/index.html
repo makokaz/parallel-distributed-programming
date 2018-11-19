@@ -528,36 +528,61 @@ spmv.cc:1810:dump_sparse_file: dumping to matrix 20000 x 10000 (2000000 nnz) -> 
 spmv.cc:1896:dump_sparse_file: done
      ...
 </pre>
+<p>
 If you did this on IST cluster, you may want to bring it to your laptop (by scp command).
+</p>
 <pre>
 $ <u>gnuplot a.gnuplot</u>
 </pre>
+<p>
 If you run this on your laptop, a window will pop up and you will see something like this.
-<br />
+</p>
+<p>
 <a href="img/nnz_mat.png"> <img width=300 src="img/nnz_mat.png" /> </a>
-<br />
+</p>
+<p>
 This shows the distribution of non-zero elements over the matrix.
 Note that the horizontal axis is the rows and vertical axis the columns,
 not a usual way to display a matrix (please tell me if you know how to easily fix this).
 To avoid overwhelming gnuplot with too much data, up to 20000 elements
 are randomly sampled.  The number can be configured with <tt>--dump-points</tt>
 option.
-<br />
+</p>
+<p>
 Go back to your terminal and press Enter, which pops up the next graph.
-<br />
+</p>
+<p>
 <a href="img/nnz_row.png"> <img width=300 src="img/nnz_row.png" /></a>
-<br />
+</p>
+<p>
 This shows the distribution of non-zero elements over rows,
 giving you an idea about the load balancing if you divide rows into cores.
-<br />
+</p>
+<p>
 Both graphs are not surprising (and are somewhat boring) as their
 non-zero elements are uniformly distributed.  The non-zeros are evenly
 distributed over rows and over the 2D space.
-<br />
+</p>
+
+<p>
+<font color=red>New (Nov. 19)</font>
+If you do not have gnuplot on your laptop, you can use the same gnuplot file to generate the above two graphs to two separate image files.  Do the following on the IST cluster.
+</p>
+
+<pre>
+$ <u>gnuplot -e 'term="png"' -e 'nnz_mat="nnz.png"' -e 'nnz_row="row.png"' a.gnuplot</u>
+</pre>
+
+<p>
+Then you will get two files nnz.png and row.png, which you can bring to your laptop and then view by whichever image viewers you use.  You can change the file format by setting the righthand side of <tt>term=</tt> to anything gnuplot recognizes (e.g., svg).  Change filenames accordingly (e.g., nnz.svg and row.svg).
+</p>
+
+<p>
 More interesting is the distribution of non-zeros for rmat.
 If the sole purpose of running the program is to see the distribution
 of a matrix, it is wise to give <tt>-r 0</tt> so that SpMV is not repeated at all
 (warm up + error checks are still performed).
+</p>
 
 <pre>
 $ ./spmv.gcc -r 0 -t rmat --dump a.gnuplot
@@ -569,14 +594,18 @@ spmv.cc:1896:dump_sparse_file: done
 <pre>
 $ gnuplot a.gnuplot
 </pre>
+<p>
 will show you this.
-<br />
+</p>
+<p>
 <a href="img/nnz_mat_rmat.png"> <img width=300 src="img/nnz_mat_rmat.png" /></a>
-<br />
+</p>
+<p>
 The distribution of non-zeros over rows looks like this.
-<br />
+</p>
+<p>
 <a href="img/nnz_row_rmat.png"> <img width=300 src="img/nnz_row_rmat.png" /></a>
-<br />
+</p>
   </li>
 </ul>
   </p>    
