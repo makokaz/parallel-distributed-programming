@@ -95,17 +95,24 @@ pre {
 <a name=toc> </a>
 <h2>Table of Contents</h2>
 <div>
-  <ul><a href="#fork">Fork the code to get your own repository</a></ul>
-  <ul><a href="#clone">Clone your repository</a></ul>
-  <ul><a href="#roadmap">The roadmap</a></ul>
-  <ul><a href="#play-with-it">Play with it</a></ul>
-  <ul><a href="#structure">How the code is structured</a></ul>
-  <ul><a href="#ex1">Exercise 1</a></ul>
-  <ul><a href="#ex2">Exercise 2</a></ul>
-  <ul><a href="#ex3">Exercise 3</a></ul>
-  <ul><a href="#ex4">Exercise 4</a></ul>
-  <ul><a href="#ex5">Exercise 5</a></ul>
-  <ul><a href="#ex6">Exercise 6</a></ul>
+  <ul>
+    <li><a href="#fork">Fork the code to get your own repository</a></li>
+    <li><a href="#clone">Clone your repository</a></li>
+    <li><a href="#roadmap">The roadmap</a></li>
+    <li><a href="#play-with-it">Play with it</a></li>
+    <li><a href="#structure">How the code is structured</a></li>
+    <li><a href="#ex1">Exercise 1</a></li>
+    <li><a href="#ex2">Exercise 2</a></li>
+    <li><a href="#ex3">Exercise 3</a></li>
+    <li><a href="#ex4">Exercise 4</a></li>
+    <li><a href="#ex5">Optional Exercise 5</a></li>
+    <li><a href="#ex6">Optional Exercise 6</a></li>
+    <li><a href="#ex7">Optional Exercise 7 <font color=red>(new Nov. 19)</font></a></li>
+    <li><a href="#ex8">Challenging Optional Exercise 8 <font color=red>(new Nov. 19)</font></a></li>
+    <li><a href="#submit">Submit Your Work <font color=red>(new Nov. 19)</font></a></li>
+    <li><a href="#gitlab-ssh">Register your SSH key to the gitlab server</a></li>
+    <li><a href="#name=fetch">Getting updates on hands-on material</a></li>
+  </ul>
 </div>
 
 
@@ -918,24 +925,6 @@ if you are interested.
   </p>
 </div>
 
-<a name=submit_1></a>
-<h3>Submit your work</h3>
-<div>
-  <p>What needs to be exactly reported will come here.
-    Stay tuned.
-    For now,
-    <ul>
-      <li>follow the above instructions.</li>
-      <li>commit and push your code
-<pre>
-$ git commit "submit exercise 1" -a
-$ git push
-</pre>
-      </li>
-    </ul>  
-  </p>
-</div>
-
 <a name=ex2> </a>
 <h2>Exercise 2</h2>
 <div>
@@ -1126,6 +1115,95 @@ Implement functions you need to implement.
 </div>
 
   
+<a name=ex7></a>
+<h2>Optional Exercise 7 <font color=red>(new Nov. 19)</font></h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Based on what you learned (or will learn) about the memory bandwidth,
+    what is the maximum achievable FLOPS using
+    COO and CSR format, respectively, when matrix elements are
+    too large to fit any level of the cache (each element must be brought
+    from the main memory).  You can ignore accesses to x and y for the sake of
+    this analysis.  Answer for the following cases, for
+    our Skylake-X Gold 6130 (CPU in "big" partition) processor
+    and/or Knights Mill (CPU in "knm" partition) processor.
+    <ul>
+      <li>the achievable GFLOPS with a single core</li>
+      <li>the achievable GFLOPS with all cores in a single socket</li>
+      <li>the achievable GFLOPS with all cores of a single node</li>
+    </ul>
+    Compare these numbers with what you actually achieved in the experiments.
+  </blockquote>
+</div>
+
+
+<a name=ex8></a>
+<h2>Challenging Optional Exercise 8 <font color=red>(new Nov. 19)</font></h2>
+<div>
+  <p><font size=-1><a href="#toc">back to toc</a></font></p>
+  <blockquote>
+    Think how to approach the achievable GFLOPS
+    you calculated above (for large matrices that do not fit the cache).
+    Execute the idea if you have energy left.
+    You can invent
+    a new matrix format if you think it is useful and you don't
+    have to include the format conversion time in the measurement.
+    The only constraint is that the format can represent any matrix.
+    For performance measurement, you can choose parameters
+    that "fit" for the format (the format/algorithm do not have to be
+    fast for all cases), as long as these parameters are
+    "reasonable" in a common sense
+    (the matrix is much larger than any level of cache;
+    the matrix is reasonably sparse so that it is more efficient
+    than using the dense matrix format; etc.).
+    Try to get both
+    <ul>
+      <li> single core performance and </li> 
+      <li> multicore performance </li> 
+    </ul>
+    Just writing about your thought is OK.
+    Even better if you go ahead and implement it.
+  </blockquote>
+</div>
+
+<a name=submit></a>
+<h2>Submit your work <font color=red>(new Nov. 19)</font></h3>
+<div>
+  <p>
+    <ul>
+      <li>write your code and follow the above instructions.</li>
+      <li>write the text by modifying
+        the text file
+        <a href="https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/tau/parallel-distributed-handson/blob/master/reports/03spmv.md" target="_blank">
+          <tt>reports/03spmv.md</tt>
+        </a>
+        in your repository (you should find it IN YOUR forked repository,
+        by <a href="#fetch">updating it</a>).
+        what needs to be written is described
+        in that file. read it and follow the instructions.</li>
+      <li>after your code and the text are ready, commit and push them
+<pre>
+$ git commit "done spmv hands-on report" -a
+$ git push
+</pre>
+      </li>
+      <li>after you push them, check them in the
+        <a href="https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp" target="_blank">
+          gitlab server</a> and report it in
+        <a href="https://itc-lms.ecc.u-tokyo.ac.jp/" target="_blank">ITC-LMS.</a>
+        the report you send to ITC-LMS is purely for status-tracking purposes.
+        all the contents should be pushed in the gitlab repository.
+        you only report the gitlab URL to your work 
+        through ITC-LMS.
+        visit <a href="https://itc-lms.ecc.u-tokyo.ac.jp/" target="_blank">
+          ITC-LMS</a>,
+        find the lecture "parallel and distributed
+        programming" and report the URL, following the instruction there.
+      </li>
+    </ul>  
+  </p>
+</div>
 
 
 <a name=gitlab-ssh> </a>
@@ -1154,7 +1232,8 @@ In general, SSH is a preferred method because you don't have to type
 gitlab password every time you push your changes.  Here is how you set
 up it.
 <ul>
-  <li>go to the gitlab <a href="https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/">top page</a> and sign in </li>
+  <li>go to the gitlab <a href="https://doss-gitlab.eidos.ic.i.u-tokyo.ac.jp/"
+                           target="_blank">top page</a> and sign in </li>
   <li>click the circle on the upper right corner of the page
     to open the menu and choose "Settings" <br />
     <a href="img/gitlab-top.png"><img src="img/gitlab-top.png" width=400/></a>
@@ -1225,12 +1304,13 @@ login000$ <u>git clone git@doss-gitlab....</u>
     </li>
     <li>If you are using putty on Windows, you can use
       <tt>pagent.exe</tt>. download it 
-      <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">here</a> and click the program to get it running.
+      <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html"
+          target="_blank">here</a> and click the program to get it running.
       Find the pagent icon in the task tray and right click on it
       and choose "Add Key" and add your private key (.ppk) file.
       Then use putty to login to the server.
       Make sure go to "SSH" -&gt; "Auth" and check "Allow Agent Forwarding".
-      See <a href="https://www.ssh.com/ssh/putty/putty-manuals/0.68/Chapter9.html">this page</a> for detailed instructions.
+      See <a href="https://www.ssh.com/ssh/putty/putty-manuals/0.68/Chapter9.html"  target="_blank">this page</a> for detailed instructions.
     </li>
   </ul>
 </div>
