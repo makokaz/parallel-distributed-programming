@@ -19,6 +19,7 @@ opts += -march=native
 #opts += -axMIC-AVX512
 #opts += -mkl
 opts += -O3
+#opts += -O0 -g
 opts += -Wall -Wextra
 
 CXX := g++
