@@ -19,7 +19,7 @@ long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
     for (idx_t j = 0; j < N; j += L) {
       asm volatile("# loop begins (%0,%1)x(%1,%2)" :: "i" (bM), "i" (K), "i" (L));
       for (idx_t k = 0; k < K; k++) {
-	for (idx_t ii = i; ii < i + bM; ii++) {
+	for (idx_t ii = i; ii < i + b; ii++) {
 	  C.v(ii,j) += A(ii,k) * B.v(k,j);
 	}
       }
