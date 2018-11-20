@@ -14,6 +14,7 @@
 #endif
 
 #include "event.h"
+#include "get_pfn_info.h"
 
 #ifndef max_chains_per_thread
 #define max_chains_per_thread 30
@@ -568,6 +569,14 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
     }
   }
   if (rank == 0) {
+    long n_loads = n * nc * n_scans
+      * (access_payload ? (sizeof(record<rec_sz>) / sizeof(longv)) : 1);
+    
+    double ovf = show_cache_set_info(&H[n * nc * rank],
+                                     &H[n * nc * (rank + 1)]);
+    printf("overflow percentage : %f\n", ovf);
+    printf("n_loads : %ld\n", n_loads);
+    printf("expected misses : %f\n", ovf * n_loads);
     for (long r = 0; r < repeat; r++) {
       printf("--------- %ld ---------\n", r);
       scan_record_t * R = &scan_records[r];

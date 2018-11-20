@@ -44,7 +44,7 @@ ws_ranges = [ (0, 2 ** 30),     # all
               #(2 ** 14, 2 ** 16), # around L1 cache
               #(2 ** 18, 2 ** 21), # around L2 cache
               #(2 ** 23, 2 ** 26), # around L3 cache
-              (2 ** 25, 2 ** 30) ] # main memory
+              (2 ** 25, 2 ** 30) ][0:1] # main memory
 
 # -------------- latency with 1 chain --------------
 
@@ -83,7 +83,7 @@ order by sz;
                  graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
                  graph_title="latency per load in a random list traversal [%(min_sz)s,%(max_sz)s]",
                  graph_attr='''
-set logscale x
+set logscale x 2
 #set xtics rotate by -20
 set key left
 #unset key
@@ -547,10 +547,11 @@ set key left
              verbose_sql=2,
              save_gpl=0)
 
-g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
+#g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
 
 if 1:
     graph_latency()
+if 0:
     graph_bw_ptrchase()
     graph_bw_ptrchase_chains()
     graph_sort_vs_unsorted()
@@ -559,5 +560,6 @@ if 1:
     graph_summary()
     graph_bw_ptrchase_threads()
     graph_bw_methods_threads()
+if 1:
     graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
 
