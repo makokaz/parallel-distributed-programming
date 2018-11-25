@@ -2,6 +2,7 @@
    @file axpy.cc
  */
 
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,6 +37,39 @@ const int valign = vwidth;
 typedef float floatv __attribute__((vector_size(vwidth),aligned(valign)));
 /* SIMD lanes */
 const int L = sizeof(floatv) / sizeof(float);
+
+/**
+   @brief type of axpy functions
+  */
+
+typedef enum {
+  algo_scalar, 
+  algo_simd, 
+  algo_simd_c, 
+  algo_simd_m, 
+  algo_simd_m_nmn, 
+  algo_simd_m_mnm, 
+  algo_simd_parallel_m_mnm, 
+  algo_cuda,
+  algo_invalid,
+} algo_t;
+
+/**
+   @brief command line options
+ */
+
+typedef struct {
+  const char * algo_str;
+  algo_t algo;
+  long b;                       /**< cuda block size */
+  long c;                       /**< the number of floats concurrently updated */
+  long m;                       /**< the number of floats */
+  long n;                       /**< the number of times each variable is updated */
+  long seed;                    /**< random seed */
+  long n_elems_to_show;         /**< the number of variables to show results */
+  int help;
+  int error;
+} cmdline_options_t;
 
 /** 
     @brief repeat x = a x + b for a scalar type (float) variable x
@@ -295,22 +329,6 @@ long axpy_cuda(long m, long n, float a, float * X, float b) {
 }
 #endif
 
-/**
-   @brief type of axpy functions
-  */
-
-typedef enum {
-  algo_scalar, 
-  algo_simd, 
-  algo_simd_c, 
-  algo_simd_m, 
-  algo_simd_m_nmn, 
-  algo_simd_m_mnm, 
-  algo_simd_parallel_m_mnm, 
-  algo_cuda,
-  algo_invalid,
-} algo_t;
-
 typedef struct {
   algo_t a;
   const char * name;
@@ -357,16 +375,16 @@ axpy_funs_table_t axpy_funs_table = {
    @param (X) array of m floatv elements (i.e., m * L floats)
    @param (c) c of a x + c
   */
-long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
+long axpy(cmdline_options_t opt, float a, float* X, float b) {
   int n_funs = sizeof(axpy_funs_table.t) / sizeof(axpy_funs_table.t[0]);
-  long idx = c / L;
-  switch (algo) {
+  long idx = opt.c / L;
+  switch (opt.algo) {
   case algo_simd_c:
   case algo_simd_m_mnm:
   case algo_simd_parallel_m_mnm: {
     if (idx < 1 || idx >= n_funs) {
       fprintf(stderr, "%s:%d:axpy: c = %ld must be %d < c < %d\n",
-              __FILE__, __LINE__, c, L, n_funs * L);
+              __FILE__, __LINE__, opt.c, L, n_funs * L);
       return -1;
     }
     break;
@@ -374,34 +392,34 @@ long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
   default:
     break;
   }
-  switch (algo) {
+  switch (opt.algo) {
   case algo_scalar:
-    return axpy_scalar(n, a, X, b);
+    return axpy_scalar(opt.n, a, X, b);
   case algo_simd:
-    return axpy_simd(n, a, X, b);
+    return axpy_simd(opt.n, a, X, b);
   case algo_simd_c: {
     axpy_fun_t f = axpy_funs_table.t[idx].simd_c;
-    return f(m, n, a, X, b);
+    return f(opt.m, opt.n, a, X, b);
   }
   case algo_simd_m:
-    return axpy_simd_m(m, n, a, X, b);
+    return axpy_simd_m(opt.m, opt.n, a, X, b);
   case algo_simd_m_nmn:
-    return axpy_simd_m_nmn(m, n, a, X, b);
+    return axpy_simd_m_nmn(opt.m, opt.n, a, X, b);
   case algo_simd_m_mnm: {
     axpy_fun_t f = axpy_funs_table.t[idx].simd_m_mnm;
-    return f(m, n, a, X, b);
+    return f(opt.m, opt.n, a, X, b);
   }
   case algo_simd_parallel_m_mnm: {
     axpy_fun_t f = axpy_funs_table.t[idx].simd_parallel_m_mnm;
-    return f(m, n, a, X, b);
+    return f(opt.m, opt.n, a, X, b);
   }
 #if __NVCC__
   case algo_cuda: {
-    return axpy_cuda(m, n, a, X, b);
+    return axpy_cuda(opt.m, opt.n, a, X, b);
   }
 #endif
   default:
-    fprintf(stderr, "invalid algorithm %d\n", algo);
+    fprintf(stderr, "invalid algorithm %s\n", opt.algo_str);
     return -1;
   }
 }
@@ -420,7 +438,7 @@ static algo_table_t algo_table = {
   }
 };
 
-algo_t parse_algo(char * s) {
+algo_t parse_algo(const char * s) {
   for (int i = 0; i < (int)algo_invalid; i++) {
     algo_table_entry_t e = algo_table.t[i];
     if (strcmp(e.name, s) == 0) {
@@ -432,45 +450,155 @@ algo_t parse_algo(char * s) {
   return algo_invalid;
 }
 
+static cmdline_options_t default_opts() {
+  cmdline_options_t opt = {
+    .algo_str = "scalar",
+    .algo = algo_invalid,
+    .b = 512,
+    .c = L,
+    .m = -1,                     // = c
+    .n = 1000000000,
+    .seed = 76843802738543,
+    .n_elems_to_show = 1,
+    .help = 0,
+    .error = 0,
+  };
+  return opt;
+}
+
+static void usage(const char * prog) {
+  cmdline_options_t o = default_opts();
+  fprintf(stderr,
+          "usage:\n"
+          "\n"
+          "  %s [options ...]\n"
+          "\n"
+          "options:\n"
+          "  --help                  show this help\n"
+          "  -a,--algo A             use algorithm A (scalar,simd,simd_c,simd_m,simd_mnm,simd_nmn,simd_parallel_mnm,cuda) [%s]\n"
+          "  -b,--cuda-block-size N  set cuda block size to N [%ld]\n"
+          "  -c,--concurrent-vars N  concurrently update N floats [%ld]\n"
+          "  -m,--vars N             update N floats [%ld]\n"
+          "  -n,--n N                update each float variable N times [%ld]\n"
+          "  -s,--seed N             set random seed to N [%ld]\n"
+          ,
+          prog,
+          o.algo_str,
+          o.b, o.c, o.m, o.n, o.seed
+          );
+}
+
+/** 
+    @brief command line options
+*/
+static struct option long_options[] = {
+  {"algo",            required_argument, 0, 'a' },
+  {"cuda-block-size", required_argument, 0, 'b' },
+  {"concurrent-vars", required_argument, 0, 'c' },
+  {"vars",            required_argument, 0, 'm' },
+  {"n",               required_argument, 0, 'n' },
+  {"seed",            required_argument, 0, 's' },
+  {"help",            no_argument,       0, 'h'},
+  {0,                 0,                 0,  0 }
+};
+
+/**
+
+ */
+static cmdline_options_t parse_args(int argc, char ** argv) {
+  char * prog = argv[0];
+  cmdline_options_t opt = default_opts();
+  while (1) {
+    int option_index = 0;
+    int c = getopt_long(argc, argv, "a:b:c:m:n:s:h",
+                        long_options, &option_index);
+    if (c == -1) break;
+    switch (c) {
+    case 0:
+      {
+        const char * o = long_options[option_index].name;
+        fprintf(stderr,
+                "bug:%s:%d: should handle option %s\n",
+                __FILE__, __LINE__, o);
+        opt.error = 1;
+        return opt;
+      }
+      break;
+    case 'a':
+      opt.algo_str = strdup(optarg);
+      break;
+    case 'b':
+      opt.b = atol(optarg);
+      break;
+    case 'c':
+      opt.c = atol(optarg);
+      break;
+    case 'm':
+      opt.m = atol(optarg);
+      break;
+    case 'n':
+      opt.n = atol(optarg);
+      break;
+    case 's':
+      opt.seed = atol(optarg);
+      break;
+    case 'h':
+      opt.help = 1;
+      break;
+    default: /* '?' */
+      usage(prog);
+      opt.error = 1;
+      return opt;
+    }
+  }
+  opt.algo = parse_algo(opt.algo_str);
+  if (opt.algo == algo_invalid) {
+    opt.error = 1;
+    return opt;
+  }
+  if (opt.m < opt.c) {
+    opt.m = opt.c;
+  }
+  if (opt.n_elems_to_show >= opt.m) {
+    opt.n_elems_to_show = opt.m;
+  }
+  return opt;
+}
+
 /**
    @brief main function
    @param (argc) the number of command line args
    @param (argv) command line args
   */
 int main(int argc, char ** argv) {
-  char * algo_str = (argc > 1 ? argv[1] : (char *)"scalar");
-  algo_t     algo = (algo_str ? parse_algo(algo_str) : algo_scalar);
-  if (algo == algo_invalid) return EXIT_FAILURE;
-  long          c = (argc > 2 ? atol(argv[2]) : L);
-  long          m = (argc > 3 ? atol(argv[3]) : c);
-  long          n = (argc > 4 ? atol(argv[4]) : 1000000000);
-  long       seed = (argc > 5 ? atol(argv[5]) : 76843802738543);
-  long n_elements_to_show = (argc > 6 ? atol(argv[6]) : 1);
+  cmdline_options_t opt = parse_args(argc, argv);
+  if (opt.help || opt.error) {
+    usage(argv[0]);
+    exit(opt.error);
+  }
 
-  if (m < c) m = c;
-  if (n_elements_to_show >= m) n_elements_to_show = m;
-  
-  printf(" algo = %s\n", algo_str);
-  printf("    c = %ld (the number of variables to update in the inner loop)\n", c);
-  printf("    m = %ld (the total number of variables to update)\n", m);
-  printf("    n = %ld (the number of times to update each variable)\n", n);
+  printf(" algo = %s\n", opt.algo_str);
+  printf("    b = %ld (cuda block size)\n", opt.b);
+  printf("    c = %ld (the number of variables to update in the inner loop)\n", opt.c);
+  printf("    m = %ld (the total number of variables to update)\n", opt.m);
+  printf("    n = %ld (the number of times to update each variable)\n", opt.n);
   
   unsigned short rg[3] = {
-    (unsigned short)(seed >> 16),
-    (unsigned short)(seed >> 8),
-    (unsigned short)(seed) };
+    (unsigned short)(opt.seed >> 16),
+    (unsigned short)(opt.seed >> 8),
+    (unsigned short)(opt.seed) };
   float a = erand48(rg);
   float b = erand48(rg);
-  //float X[m] __attribute__((aligned(64)));
-  float * X = (float *)_mm_malloc(sizeof(float) * m, 64);
-  for (int i = 0; i < m; i++) {
+  //float X[opt.m] __attribute__((aligned(64)));
+  float * X = (float *)_mm_malloc(sizeof(float) * opt.m, 64);
+  for (int i = 0; i < opt.m; i++) {
     X[i] = erand48(rg);
   }
   cpu_clock_counter_t cc = mk_cpu_clock_counter();
   long t0 = cur_time_ns();
   long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
-  long flops = axpy(algo, c, m, n, a, X, b);
+  long flops = axpy(opt, a, X, b);
   long long r1 = rdtsc();
   long long c1 = cpu_clock_counter_get(cc);
   long t1 = cur_time_ns();
@@ -484,10 +612,10 @@ int main(int argc, char ** argv) {
     printf("flops = %ld\n", flops);
     printf("%lld CPU clocks, %lld REF clocks, %lld ns\n", dc, dr, dt);
     printf("%f CPU clocks/iter, %f REF clocks/iter, %f ns/iter\n",
-           dc / (double)n, dr / (double)n, dt / (double)n);
+           dc / (double)opt.n, dr / (double)opt.n, dt / (double)opt.n);
     printf("%f flops/CPU clock, %f flops/REF clock, %f GFLOPS\n",
            flops / (double)dc, flops / (double)dr, flops / (double)dt);
-    for (int i = 0; i < n_elements_to_show; i++) {
+    for (int i = 0; i < opt.n_elems_to_show; i++) {
       printf("x[%d] = %f\n", i, X[i]);
     }
     cpu_clock_counter_destroy(cc);
