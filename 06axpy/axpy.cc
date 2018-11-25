@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <x86intrin.h>
 
 #include "clock.h"
 
@@ -282,14 +283,13 @@ __global__ void axpy_dev(long m, long n, float a, float * X, float b) {
 }
 
 long axpy_cuda(long m, long n, float a, float * X, float b) {
-  assert(m % L == 0);
   size_t sz = sizeof(float) * m;
-  float * X_dev = dev_malloc(sz);
+  float * X_dev = (float *)dev_malloc(sz);
   to_dev(X_dev, X, sz);
   int bs = 512;
   int nb = (m + bs - 1) / bs;
-  axpy_dev<<<nb,bs>>>(m, n, a, X, b);
-  to_host(X_dev, X, sz);
+  check_launch_error((axpy_dev<<<nb,bs>>>(m, n, a, X_dev, b)));
+  to_host(X, X_dev, sz);
   dev_free(X_dev);
   return 2 * m * n;
 }
@@ -359,12 +359,20 @@ axpy_funs_table_t axpy_funs_table = {
   */
 long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
   int n_funs = sizeof(axpy_funs_table.t) / sizeof(axpy_funs_table.t[0]);
-  assert(c % L == 0);
   long idx = c / L;
-  if (idx < 1 || idx >= n_funs) {
-    fprintf(stderr, "%s:%d:axpy: c = %ld must be %d < c < %d\n",
-            __FILE__, __LINE__, c, L, n_funs * L);
-    return -1;
+  switch (algo) {
+  case algo_simd_c:
+  case algo_simd_m_mnm:
+  case algo_simd_parallel_m_mnm: {
+    if (idx < 1 || idx >= n_funs) {
+      fprintf(stderr, "%s:%d:axpy: c = %ld must be %d < c < %d\n",
+              __FILE__, __LINE__, c, L, n_funs * L);
+      return -1;
+    }
+    break;
+  }
+  default:
+    break;
   }
   switch (algo) {
   case algo_scalar:
@@ -387,9 +395,11 @@ long axpy(algo_t algo, long c, long m, long n, float a, float* X, float b) {
     axpy_fun_t f = axpy_funs_table.t[idx].simd_parallel_m_mnm;
     return f(m, n, a, X, b);
   }
+#if __NVCC__
   case algo_cuda: {
     return axpy_cuda(m, n, a, X, b);
   }
+#endif
   default:
     fprintf(stderr, "invalid algorithm %d\n", algo);
     return -1;
@@ -431,7 +441,7 @@ int main(int argc, char ** argv) {
   char * algo_str = (argc > 1 ? argv[1] : (char *)"scalar");
   algo_t     algo = (algo_str ? parse_algo(algo_str) : algo_scalar);
   if (algo == algo_invalid) return EXIT_FAILURE;
-  long          c = (argc > 2 ? atol(argv[2]) : 8);
+  long          c = (argc > 2 ? atol(argv[2]) : L);
   long          m = (argc > 3 ? atol(argv[3]) : c);
   long          n = (argc > 4 ? atol(argv[4]) : 1000000000);
   long       seed = (argc > 5 ? atol(argv[5]) : 76843802738543);
@@ -451,7 +461,8 @@ int main(int argc, char ** argv) {
     (unsigned short)(seed) };
   float a = erand48(rg);
   float b = erand48(rg);
-  float X[m] __attribute__((aligned(64)));
+  //float X[m] __attribute__((aligned(64)));
+  float * X = (float *)_mm_malloc(sizeof(float) * m, 64);
   for (int i = 0; i < m; i++) {
     X[i] = erand48(rg);
   }
