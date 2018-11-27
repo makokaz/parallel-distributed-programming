@@ -988,7 +988,7 @@ static int coo_elem_cmp(const void * a_, const void * b_) {
   if (a->j < b->j) return -1;
   if (a->j > b->j) return 1;
   if (a->a < b->a) return -1;
-  if (a->a > b->a) return -1;
+  if (a->a > b->a) return 1;
   return 0;
 }
 
