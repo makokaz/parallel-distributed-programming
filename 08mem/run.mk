@@ -26,7 +26,7 @@ events := l1d.replacement,l2_lines_in.all,longest_lat_cache.miss
 parameters:=host try rec_sz method n n_chains n_threads shuffle payload cpu_node mem_node prefetch
 
 ### commands and outputs ###
-cmd=(OMP_NUM_THREADS=$(n_threads) numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -z $(rec_sz) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 6 -e $(events)) > $(output)
+cmd=(OMP_NUM_THREADS=$(n_threads) OMP_PROC_BIND=true numactl -N $(cpu_node) -i $(mem_node) -- ./mem -m $(method) -n $(n) -z $(rec_sz) -c $(n_chains) -x $(shuffle) -l $(payload) -p $(prefetch) -r 6 -e $(events)) > $(output)
 input=$(out_dir)/created
 output=$(out_dir)/out_$(host)_$(method)_$(n)_$(rec_sz)_$(n_chains)_$(n_threads)_$(shuffle)_$(payload)_$(cpu_node)_$(mem_node)_$(prefetch)_$(try).txt
 

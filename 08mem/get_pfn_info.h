@@ -155,32 +155,36 @@ static int is_power_of_two(unsigned long x) {
 static double show_cache_set_info(void * a, void * b) {
   size_t line_size = 64;
   long page_size = 4096;
-  size_t cache_size = 256 * 1024;
+  size_t cache_size = 1024 * 1024;
   size_t associativity = 16;
   assert(cache_size % (associativity * line_size) == 0);
   size_t n_sets = cache_size / (associativity * line_size);
   assert(is_power_of_two(n_sets));
-  size_t * set_counts = (size_t *)calloc(sizeof(size_t), n_sets);
+  /* line_counts[i] = the number of lines mapped to set i */
+  size_t * line_counts = (size_t *)calloc(sizeof(size_t), n_sets);
   
   pfn_info_array_t pa = make_pfn_info_array(a, b);
   for (long i = 0; i < pa.n; i++) {
     pfn_info_t pi = pa.pfn[i];
     uint64_t paddr = (pi.p.present ? pi.p.pfn * page_size : 0);
-    uint64_t set = (paddr / cache_size) & (n_sets - 1);
+    uint64_t set = (paddr / line_size) & (n_sets - 1);
     assert(set < n_sets);
     for (unsigned int i = 0; i < page_size / line_size; i++) {
-      set_counts[(set + i) % n_sets]++;
+      line_counts[(set + i) % n_sets]++;
     }
   }
 
-  int overflow = 0;
+  int overflow_lines = 0;
+  int non_overflow_lines = 0;
   for (size_t i = 0; i < n_sets; i++) {
-    if (set_counts[i] > associativity) {
-      overflow++;
+    if (line_counts[i] > associativity) {
+      overflow_lines += line_counts[i];
+    } else {
+      non_overflow_lines += line_counts[i];
     }
   }
-  free(set_counts);
-  return overflow / (double)n_sets;
+  free(line_counts);
+  return overflow_lines / (double)(overflow_lines + non_overflow_lines);
 }
 
 #if 0

@@ -186,7 +186,7 @@ record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, lo
           }
 	} else {
 	  a[c][t].next;
-	}
+        }
 	if (prefetch) {
 	  __builtin_prefetch(&a[c][u]);
 	}
