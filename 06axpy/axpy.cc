@@ -51,6 +51,7 @@ typedef enum {
   algo_simd_m_mnm, 
   algo_simd_parallel_m_mnm, 
   algo_cuda,
+  algo_cuda_c,
   algo_invalid,
 } algo_t;
 
@@ -61,7 +62,7 @@ typedef enum {
 typedef struct {
   const char * algo_str;
   algo_t algo;
-  long b;                       /**< cuda block size */
+  long bs;                      /**< cuda block size */
   long c;                       /**< the number of floats concurrently updated */
   long m;                       /**< the number of floats */
   long n;                       /**< the number of times each variable is updated */
@@ -81,16 +82,17 @@ typedef struct {
     @details it should run at 4 clocks/iter (the latency of fma
     instruction), or 0.5 flops/clock
  */
-long axpy_scalar(long n, float a, float* X, float b) {
-  long i;
+long axpy_scalar(long m, long n, long bs, float a, float* X, float b) {
+  assert(m == 1);
+  assert(bs == 1);
   float x = X[0];
   asm volatile ("# axpy_scalar: ax+b loop begin");
-  for (i = 0; i < n; i++) {
+  for (long i = 0; i < n; i++) {
     x = a * x + b;
   }
   asm volatile ("# axpy_scalar: ax+b loop end");
   X[0] = x;
-  return 2 * n;
+  return 0;
 }
 
 /** 
@@ -104,17 +106,18 @@ long axpy_scalar(long n, float a, float* X, float b) {
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
 //#pragma GCC optimize("unroll-loops", 4)
-long axpy_simd(long n, float a, float* X_, float b) {
-  long i;
+long axpy_simd(long m, long n, long bs, float a, float* X_, float b) {
+  assert(m == L);
+  assert(bs == 1);
   floatv * X = (floatv*)X_;
   floatv x = X[0];
   asm volatile ("# axpy_simd: ax+b loop begin");
-  for (i = 0; i < n; i++) {
+  for (long i = 0; i < n; i++) {
     x = a * x + b;
   }
   asm volatile ("# axpy_simd: ax+b loop end");
   X[0] = x;
-  return 2 * L * n;
+  return 0;
 }
 
 /** 
@@ -138,18 +141,18 @@ long axpy_simd(long n, float a, float* X_, float b) {
     
  */
 template<int c>
-long axpy_simd_c(long m, long n, float a, float* X_, float b) {
-  assert(c <= m);
-  assert(c % L == 0);
+long axpy_simd_c(long m, long n, long bs, float a, float* X_, float b) {
+  assert(c * L == m);
+  assert(bs == 1);
   floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "i"(c));
   for (long i = 0; i < n; i++) {
-    for (long j = 0; j < c / L; j++) {
+    for (long j = 0; j < c; j++) {
       X[j] = a * X[j] + b;
     }
   }
   asm volatile ("# axpy_simd_c<%0>: ax+c loop end" :: "i"(c));
-  return 2 * c * n;
+  return 0;
 }
 
 /** 
@@ -177,8 +180,9 @@ long axpy_simd_c(long m, long n, float a, float* X_, float b) {
     14.204561 flops/CPU clock, 18.313685 flops/REF clock, 38.366397 GFLOPS
 
  */
-long axpy_simd_m(long m, long n, float a, float * X_, float b) {
+long axpy_simd_m(long m, long n, long bs, float a, float * X_, float b) {
   assert(m % L == 0);
+  assert(bs == 1);
   floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_m: ax+c loop begin");
   for (long i = 0; i < n; i++) {
@@ -200,10 +204,12 @@ long axpy_simd_m(long m, long n, float a, float * X_, float b) {
     @param (b) b of a x + b
 
  */
-long axpy_simd_m_nmn(long m, long n, float a, float* X_, float b) {
-  assert(m % L == 0);
-  floatv * X = (floatv*)X_;
+long axpy_simd_m_nmn(long m, long n, long bs, float a, float* X_, float b) {
   const int steps_inner = 4;
+  assert(m % L == 0);
+  assert(n % steps_inner == 0);
+  assert(bs == 1);
+  floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_m_nmn: ax+b loop begin");
   for (long i = 0; i < n; i += steps_inner) {
     for (long j = 0; j < m / L; j++) {
@@ -213,7 +219,7 @@ long axpy_simd_m_nmn(long m, long n, float a, float* X_, float b) {
     }
   }
   asm volatile ("# axpy_simd_m_nmn: ax+b loop end");
-  return 2 * m * (n - n % steps_inner);
+  return 0;
 }
 
 /** 
@@ -230,20 +236,20 @@ long axpy_simd_m_nmn(long m, long n, float a, float* X_, float b) {
 
  */
 template<int c>
-long axpy_simd_m_mnm(long m, long n, float a, float * X_, float b) {
-  assert(m % c == 0);
-  assert(c % L == 0);
+long axpy_simd_m_mnm(long m, long n, long bs, float a, float * X_, float b) {
+  assert(m % (c * L) == 0);
+  assert(bs == 1);
   floatv * X = (floatv*)X_;
-  for (long j = 0; j < m / L; j += c / L) {
+  for (long j = 0; j < m / L; j += c) {
     asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop begin" :: "i"(c));
     for (long i = 0; i < n; i++) {
-      for (long jj = 0; jj < c / L; jj++) {
+      for (long jj = 0; jj < c; jj++) {
         X[j+jj] = a * X[j+jj] + b;
       }
     }
     asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop end" :: "i"(c));
   }
-  return 2 * m * n;
+  return 0;
 }
 
 /** 
@@ -264,24 +270,25 @@ long axpy_simd_m_mnm(long m, long n, float a, float * X_, float b) {
 
  */
 template<int c>
-long axpy_simd_parallel_m_mnm(long m, long n, float a, float * X__, float b) {
+long axpy_simd_parallel_m_mnm(long m, long n, long bs, float a, float * X__, float b) {
   assert(c % L == 0);
   assert(m % c == 0);
+  assert(bs == 1);
   floatv * X_ = (floatv*)X__;
 #pragma omp parallel for schedule(static)
-  for (long j = 0; j < m / L; j += c / L) {
-    floatv X[c/L];
-    for (long jj = 0; jj < c / L; jj++) {
+  for (long j = 0; j < m / L; j += c) {
+    floatv X[c];
+    for (long jj = 0; jj < c; jj++) {
       X[jj] = X_[j+jj];
     }
     asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop begin" :: "i"(c));
     for (long i = 0; i < n; i++) {
-      for (long jj = 0; jj < c / L; jj++) {
+      for (long jj = 0; jj < c; jj++) {
         X[jj] = a * X[jj] + b;
       }
     }
     asm volatile ("# axpy_simd_parallel_m_mnm<%0>: ax+c inner loop end" :: "i"(c));
-    for (long jj = 0; jj < c / L; jj++) {
+    for (long jj = 0; jj < c; jj++) {
       X_[j+jj] = X[jj];
     }
   }
@@ -307,27 +314,158 @@ long axpy_simd_parallel_m_mnm(long m, long n, float a, float * X__, float b) {
  */
 
 #if __NVCC__
-__global__ void axpy_dev(long m, long n, float a, float * X, float b) {
+
+typedef struct {
+  long c0;
+  long c1;
+} thread_rec_t;
+
+long thread_rec_get_span(thread_rec_t * R, long nthreads) {
+  long min_c = -1;
+  long max_c = -1;
+  for (long i = 0; i < nthreads; i++) {
+    if (i == 0 || R[i].c0 < min_c) {
+      min_c = R[i].c0;
+    }
+    if (i == 0 || R[i].c1 > max_c) {
+      max_c = R[i].c1;
+    }
+  }
+  return max_c - min_c;
+}
+
+__global__ void axpy_dev(long m, long n, float a, float * X, float b,
+                         thread_rec_t * dR) {
   int j = get_thread_id_x();
   if (j < m) {
+    thread_rec_t dr;
+    dr.c0 = clock64();
+    asm("// axpy_dev loop begins");
     for (long i = 0; i < n; i++) {
       X[j] = a * X[j] + b;
     }
+    asm("// axpy_dev<%0> loop ends");
+    dr.c1 = clock64();
+    dR[j] = dr;
   }
 }
 
-long axpy_cuda(long m, long n, float a, float * X, float b) {
-  size_t sz = sizeof(float) * m;
+long axpy_cuda(long m, long n, long bs, float a, float * X, float b) {
+  size_t sz  = sizeof(float) * m;
+  size_t rsz = sizeof(thread_rec_t) * m;
   float * X_dev = (float *)dev_malloc(sz);
+  thread_rec_t * R     = (thread_rec_t *)malloc(rsz);
+  thread_rec_t * R_dev = (thread_rec_t *)dev_malloc(rsz);
   to_dev(X_dev, X, sz);
-  int bs = 512;
-  int nb = (m + bs - 1) / bs;
-  check_launch_error((axpy_dev<<<nb,bs>>>(m, n, a, X_dev, b)));
+  long nb = (m + bs - 1) / bs;
+  check_launch_error((axpy_dev<<<nb,bs>>>(m, n, a, X_dev, b, R_dev)));
   to_host(X, X_dev, sz);
+  to_host(R, R_dev, rsz);
   dev_free(X_dev);
-  return 2 * m * n;
+  dev_free(R_dev);
+  long clocks = thread_rec_get_span(R, m);
+  return clocks;
 }
+
+#define make_string(c) #c
+#define expand(c) make_string(c)
+
+template<int c>
+__global__ void axpy_c_dev(long m, long n, float a, float * X_, float b,
+                           thread_rec_t * dR) {
+  int tid = get_thread_id_x();
+  long j0 = c * tid;
+  if (j0 < m) {
+    thread_rec_t dr;
+    float X[c];
+    for (long j = 0; j < c; j++) {
+      X[j] = X_[j0 + j];
+    }
+    dr.c0 = clock64();
+    asm("// axpy_c_dev<%0> loop begins" :: "r"(c));
+    for (long i = 0; i < n; i++) {
+      for (long j = 0; j < c; j++) {
+        X[j] = a * X[j] + b;
+      }
+    }
+    asm("// axpy_c_dev<%0> loop ends" :: "r"(c));
+    dr.c1 = clock64();
+    for (long j = 0; j < c; j++) {
+      X_[j0 + j] = X[j];
+    }
+    dR[tid] = dr;
+  }
+}
+
+template<int c>
+long axpy_cuda_c(long m, long n, long bs, float a, float * X, float b) {
+  assert(m % c == 0);
+  long nthreads = m / c;
+  size_t sz  = sizeof(float) * nthreads;
+  size_t rsz = sizeof(thread_rec_t) * nthreads;
+  float * X_dev = (float *)dev_malloc(sz);
+  thread_rec_t * R     = (thread_rec_t *)malloc(rsz);
+  thread_rec_t * R_dev = (thread_rec_t *)dev_malloc(rsz);
+  to_dev(X_dev, X, sz);
+  long nb = (nthreads + bs - 1) / bs;
+  check_launch_error((axpy_c_dev<c><<<nb,bs>>>(m, n, a, X_dev, b, R_dev)));
+  to_host(X, X_dev, sz);
+  to_host(R, R_dev, rsz);
+  dev_free(X_dev);
+  dev_free(R_dev);
+  long clocks = thread_rec_get_span(R, nthreads);
+  return clocks;
+}
+
+#endif  /* __NVCC__ */
+
+typedef long (*axpy_fun_t)(long m, long n, long bs, float a, float* X, float b);
+
+typedef struct {
+  axpy_fun_t t[algo_invalid];
+} axpy_funs_t;
+
+template<int c>
+axpy_funs_t make_axpy_funs_c() {
+  axpy_funs_t funs;
+  funs.t[algo_scalar]     = axpy_scalar;
+  funs.t[algo_simd]       = axpy_simd;
+  funs.t[algo_simd_c]     = axpy_simd_c<c>;
+  funs.t[algo_simd_m]     = axpy_simd_m;
+  funs.t[algo_simd_m_nmn] = axpy_simd_m_nmn;
+  funs.t[algo_simd_m_mnm] = axpy_simd_m_mnm<c>;
+  funs.t[algo_simd_parallel_m_mnm] = axpy_simd_parallel_m_mnm<c>;
+#if __NVCC__
+  funs.t[algo_cuda]       = axpy_cuda;
+  funs.t[algo_cuda_c]     = axpy_cuda_c<c>;
 #endif
+  return funs;
+};
+
+#define aac(c) make_axpy_funs_c<c>()
+axpy_funs_t axpy_funs_table[] = {
+  // avoid aac(0) to avoid compiler warning
+  aac(1), aac(1), aac(2), aac(3), aac(4),
+  aac(5), aac(6), aac(7), aac(8), aac(9), 
+  aac(10), aac(11), aac(12), aac(13), aac(14),
+  aac(15), aac(16), aac(17), aac(18), aac(19), 
+  aac(20), aac(21), aac(22), aac(23), aac(24),
+  aac(25), aac(26), aac(27), aac(28), aac(29), 
+  aac(30), aac(31), aac(32), aac(33), aac(34),
+  aac(35), aac(36), aac(37), aac(38), aac(39), 
+  aac(40), aac(41), aac(42), aac(43), aac(44),
+  aac(45), aac(46), aac(47), aac(48), aac(49), 
+};
+
+long axpy(cmdline_options_t opt, float a, float* X, float b) {
+  long table_sz = sizeof(axpy_funs_table) / sizeof(axpy_funs_table[0]);
+  long c = opt.c;
+  assert(c > 0);
+  assert(c < table_sz);
+  axpy_fun_t f = axpy_funs_table[c].t[opt.algo];
+  long clocks = f(opt.m, opt.n, opt.bs, a, X, b);
+  return clocks;
+}
 
 typedef struct {
   algo_t a;
@@ -335,94 +473,8 @@ typedef struct {
 } algo_table_entry_t;
 
 typedef struct {
-  algo_table_entry_t t[algo_invalid + 1];
+  algo_table_entry_t t[algo_invalid];
 } algo_table_t;
-
-typedef long (*axpy_fun_t)(long m, long n, float a, float* X, float c);
-typedef struct {
-  axpy_fun_t simd_c;
-  axpy_fun_t simd_m_mnm;
-  axpy_fun_t simd_parallel_m_mnm;
-} axpy_funs_entry_t;
-
-typedef struct {
-  axpy_funs_entry_t t[50];
-} axpy_funs_table_t;
-
-#define mk_ent(c) { axpy_simd_c<c*L>, axpy_simd_m_mnm<c*L>,  axpy_simd_parallel_m_mnm<c*L>, }
-
-axpy_funs_table_t axpy_funs_table = {
-  {
-    { 0, 0, 0, }, mk_ent(1),  mk_ent(2),  mk_ent(3),  mk_ent(4),
-    mk_ent(5),    mk_ent(6),  mk_ent(7),  mk_ent(8),  mk_ent(9),
-    mk_ent(10),   mk_ent(11), mk_ent(12), mk_ent(13), mk_ent(14),
-    mk_ent(15),   mk_ent(16), mk_ent(17), mk_ent(18), mk_ent(19),
-    mk_ent(20),   mk_ent(21), mk_ent(22), mk_ent(23), mk_ent(24),
-    mk_ent(25),   mk_ent(26), mk_ent(27), mk_ent(28), mk_ent(29),
-    mk_ent(30),   mk_ent(31), mk_ent(32), mk_ent(33), mk_ent(34),
-    mk_ent(35),   mk_ent(36), mk_ent(37), mk_ent(38), mk_ent(39),
-    mk_ent(40),   mk_ent(41), mk_ent(42), mk_ent(43), mk_ent(44),
-    mk_ent(45),   mk_ent(46), mk_ent(47), mk_ent(48), mk_ent(49),
-  }
-};
-
-/**
-   @brief repeat a x + c by a specified algorithm
-   @param (algo) algorithm
-   @param (m) size of X. the actual number of elements used depends on algorithm
-   @param (n) the number of times you do ax+c for each variable
-   @param (a) a of a x + c
-   @param (X) array of m floatv elements (i.e., m * L floats)
-   @param (c) c of a x + c
-  */
-long axpy(cmdline_options_t opt, float a, float* X, float b) {
-  int n_funs = sizeof(axpy_funs_table.t) / sizeof(axpy_funs_table.t[0]);
-  long idx = opt.c / L;
-  switch (opt.algo) {
-  case algo_simd_c:
-  case algo_simd_m_mnm:
-  case algo_simd_parallel_m_mnm: {
-    if (idx < 1 || idx >= n_funs) {
-      fprintf(stderr, "%s:%d:axpy: c = %ld must be %d < c < %d\n",
-              __FILE__, __LINE__, opt.c, L, n_funs * L);
-      return -1;
-    }
-    break;
-  }
-  default:
-    break;
-  }
-  switch (opt.algo) {
-  case algo_scalar:
-    return axpy_scalar(opt.n, a, X, b);
-  case algo_simd:
-    return axpy_simd(opt.n, a, X, b);
-  case algo_simd_c: {
-    axpy_fun_t f = axpy_funs_table.t[idx].simd_c;
-    return f(opt.m, opt.n, a, X, b);
-  }
-  case algo_simd_m:
-    return axpy_simd_m(opt.m, opt.n, a, X, b);
-  case algo_simd_m_nmn:
-    return axpy_simd_m_nmn(opt.m, opt.n, a, X, b);
-  case algo_simd_m_mnm: {
-    axpy_fun_t f = axpy_funs_table.t[idx].simd_m_mnm;
-    return f(opt.m, opt.n, a, X, b);
-  }
-  case algo_simd_parallel_m_mnm: {
-    axpy_fun_t f = axpy_funs_table.t[idx].simd_parallel_m_mnm;
-    return f(opt.m, opt.n, a, X, b);
-  }
-#if __NVCC__
-  case algo_cuda: {
-    return axpy_cuda(opt.m, opt.n, a, X, b);
-  }
-#endif
-  default:
-    fprintf(stderr, "invalid algorithm %s\n", opt.algo_str);
-    return -1;
-  }
-}
 
 static algo_table_t algo_table = {
   {
@@ -434,7 +486,7 @@ static algo_table_t algo_table = {
     { algo_simd_m_mnm, "simd_m_mnm" },
     { algo_simd_parallel_m_mnm, "simd_parallel_m_mnm" },
     { algo_cuda, "cuda" },
-    { algo_invalid, 0 },
+    { algo_cuda_c, "cuda_c" },
   }
 };
 
@@ -454,9 +506,9 @@ static cmdline_options_t default_opts() {
   cmdline_options_t opt = {
     .algo_str = "scalar",
     .algo = algo_invalid,
-    .b = 512,
-    .c = L,
-    .m = -1,                     // = c
+    .bs = 1,
+    .c = 1,
+    .m = 1,
     .n = 1000000000,
     .seed = 76843802738543,
     .n_elems_to_show = 1,
@@ -484,7 +536,7 @@ static void usage(const char * prog) {
           ,
           prog,
           o.algo_str,
-          o.b, o.c, o.m, o.n, o.seed
+          o.bs, o.c, o.m, o.n, o.seed
           );
 }
 
@@ -523,12 +575,11 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
         opt.error = 1;
         return opt;
       }
-      break;
     case 'a':
       opt.algo_str = strdup(optarg);
       break;
     case 'b':
-      opt.b = atol(optarg);
+      opt.bs = atol(optarg);
       break;
     case 'c':
       opt.c = atol(optarg);
@@ -556,8 +607,31 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
     opt.error = 1;
     return opt;
   }
-  if (opt.m < opt.c) {
-    opt.m = opt.c;
+  switch (opt.algo) {
+  case algo_scalar:
+    opt.m = 1;
+    opt.c = 1;
+    opt.bs = 1;
+    break;
+  case algo_simd:
+    opt.m = L;
+    opt.c = 1;
+    opt.bs = 1;
+    break;
+  case algo_simd_c:
+    opt.m = opt.c * L;
+    opt.bs = 1;
+    break;
+  case algo_cuda:
+    opt.c = 1;
+    opt.m = opt.bs;
+    break;
+  case algo_cuda_c:
+    opt.m = opt.c * opt.bs;
+    break;
+  default:
+    // other algorithms can update the given number of parameters
+    break;
   }
   if (opt.n_elems_to_show >= opt.m) {
     opt.n_elems_to_show = opt.m;
@@ -578,9 +652,9 @@ int main(int argc, char ** argv) {
   }
 
   printf(" algo = %s\n", opt.algo_str);
-  printf("    b = %ld (cuda block size)\n", opt.b);
+  printf("    bs = %ld (cuda block size)\n", opt.bs);
   printf("    c = %ld (the number of variables to update in the inner loop)\n", opt.c);
-  printf("    m = %ld (the total number of variables to update)\n", opt.m);
+  printf("    m = %ld (the number of FP numbers to update)\n", opt.m);
   printf("    n = %ld (the number of times to update each variable)\n", opt.n);
   
   unsigned short rg[3] = {
@@ -589,32 +663,34 @@ int main(int argc, char ** argv) {
     (unsigned short)(opt.seed) };
   float a = erand48(rg);
   float b = erand48(rg);
-  //float X[opt.m] __attribute__((aligned(64)));
   float * X = (float *)_mm_malloc(sizeof(float) * opt.m, 64);
   for (int i = 0; i < opt.m; i++) {
     X[i] = erand48(rg);
   }
   cpu_clock_counter_t cc = mk_cpu_clock_counter();
-  long t0 = cur_time_ns();
-  long c0 = cpu_clock_counter_get(cc);
+  long long t0 = cur_time_ns();
+  long long c0 = cpu_clock_counter_get(cc);
   long long r0 = rdtsc();
-  long flops = axpy(opt, a, X, b);
+  long long dc = axpy(opt, a, X, b);
   long long r1 = rdtsc();
   long long c1 = cpu_clock_counter_get(cc);
-  long t1 = cur_time_ns();
-  long long dc = c1 - c0;
-  long long dr = r1 - r0;
-  long long dt = t1 - t0;
-  if (flops == -1) {
+  long long t1 = cur_time_ns();
+  if (dc == -1) {
     cpu_clock_counter_destroy(cc);
     return EXIT_FAILURE;
   } else {
-    printf("flops = %ld\n", flops);
-    printf("%lld CPU clocks, %lld REF clocks, %lld ns\n", dc, dr, dt);
-    printf("%f CPU clocks/iter, %f REF clocks/iter, %f ns/iter\n",
-           dc / (double)opt.n, dr / (double)opt.n, dt / (double)opt.n);
-    printf("%f flops/CPU clock, %f flops/REF clock, %f GFLOPS\n",
-           flops / (double)dc, flops / (double)dr, flops / (double)dt);
+    if (dc == 0) dc = c1 - c0;
+    long long dr = r1 - r0;
+    long long dt = t1 - t0;
+    long fmas = opt.m * opt.n;
+    printf("FMAs = %ld\n", fmas);
+    printf("%lld clocks, %lld REF clocks, %lld ns\n", dc, dr, dt);
+    printf("%f clocks/iter, %f REF clocks/iter, %f ns/iter\n",
+           dc / (double)opt.n,
+           dr / (double)opt.n,
+           dt / (double)opt.n);
+    printf("%f FMAs/clock, %f FMAs/REF clock, %f GFLOPS\n",
+           fmas / (double)dc, fmas / (double)dr, 2 * fmas / (double)dt);
     for (int i = 0; i < opt.n_elems_to_show; i++) {
       printf("x[%d] = %f\n", i, X[i]);
     }
