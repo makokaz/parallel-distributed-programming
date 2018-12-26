@@ -136,7 +136,7 @@ static cmdline_opt parse_args(int argc, char ** argv) {
       opt.verbose = atoi(optarg);
       break;
     case 'h':
-      opt.help = atoi(optarg);
+      opt.help = 1;
       break;
     default: /* '?' */
       usage(prog);

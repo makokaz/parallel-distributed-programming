@@ -32,7 +32,13 @@ struct cifar10_dataset {
   long get_n_data(const char * cifar_bin) {
     struct stat sb[1];
     if (lstat(cifar_bin, sb) == -1) {
-      perror("lstat"); exit(1);
+      perror("lstat");
+      fprintf(stderr,
+              "error: could not find the cifar data file %s. Specify a right file name with -d FILENAME or do this so that it can find the default file (cifar-10-batches-bin/data_batch_1.bin).\n"
+              "\n"
+              "$ ln -s /home/tau/cifar10/cifar-10-batches-bin\n",
+              cifar_bin);
+      exit(1);
     }
     long sz = sb->st_size;
     long sz1 = IC * H * W + 1;

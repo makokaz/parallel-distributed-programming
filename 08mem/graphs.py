@@ -22,7 +22,6 @@ select max(%s) from a
 ''' % f)
 
 g = smart_gnuplotter.smart_gnuplotter()
-# g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
 
 sqlite_file = sys.argv[1] if len(sys.argv) > 1 else "a.sqlite"
 out_dir     = sys.argv[2] if len(sys.argv) > 2 else "graphs"
@@ -44,7 +43,7 @@ ws_ranges = [ (0, 2 ** 30),     # all
               #(2 ** 14, 2 ** 16), # around L1 cache
               #(2 ** 18, 2 ** 21), # around L2 cache
               #(2 ** 23, 2 ** 26), # around L3 cache
-              (2 ** 25, 2 ** 30) ][0:1] # main memory
+              (2 ** 25, 2 ** 30) ] # main memory
 
 # -------------- latency with 1 chain --------------
 
@@ -84,7 +83,7 @@ order by sz;
                  graph_title="latency per load in a random list traversal [%(min_sz)s,%(max_sz)s]",
                  graph_attr='''
 set logscale x 2
-#set xtics rotate by -20
+set xtics rotate by -20
 set key left
 #unset key
 ''',
@@ -440,7 +439,7 @@ set key right
              min_sz__max_sz=ws_ranges,
              rec_sz=get_unique(g, db, "rec_sz"),
              #nc=get_unique(g, db, "nc"),
-             nc=[1,5,10],
+             nc=[1,10],
              #nthreads=get_unique(g, db, "nthreads"),
              nthreads=[1,4,8,16],
              verbose_sql=2,
@@ -526,7 +525,7 @@ order by sz;
 ''',
                   "","",[]),
              output="%(out_dir)s/cache_miss_%(host)s_%(min_sz)s_%(max_sz)s",
-             graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
+             graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
              graph_title="cache miss rate of a random list traversal [%(min_sz)s,%(max_sz)s]",
              graph_attr='''
 set logscale x
@@ -548,10 +547,10 @@ set key left
              save_gpl=0)
 
 #g.default_terminal = 'epslatex color size 9cm,6cm font "" 8'
+g.default_terminal = 'epslatex color size 9cm,5.5cm font "" 8'
 
 if 1:
     graph_latency()
-if 0:
     graph_bw_ptrchase()
     graph_bw_ptrchase_chains()
     graph_sort_vs_unsorted()
@@ -560,6 +559,5 @@ if 0:
     graph_summary()
     graph_bw_ptrchase_threads()
     graph_bw_methods_threads()
-if 1:
     graph_cache([ "l1d_replacement", "l2_lines_in", "longest_lat_cache_miss" ])
 
