@@ -1,5 +1,4 @@
 headers := $(wildcard include/*.h)
-unit_check_exes := $(patsubst include/%.h,include/%.chk,$(headers))
 
 CXX := g++
 NVCXX := /usr/local/bin/nvcc
@@ -20,7 +19,7 @@ targets :=
 targets += vgg.gcc
 #targets += vgg.nvcc
 
-all : $(targets)
+all : $(targets) $(unit_check_exes)
 
 vgg.gcc : vgg.cc $(headers) Makefile
 	$(CXX) $(CXXFLAGS) $(g++FLAGS) -o $@ vgg.cc
@@ -28,10 +27,5 @@ vgg.gcc : vgg.cc $(headers) Makefile
 vgg.nvcc : vgg.cc $(headers) Makefile
 	$(NVCXX) $(CXXFLAGS) $(nvcxxFLAGS) -o $@ vgg.cc
 
-unit_check : $(unit_check_exes)
-
-$(unit_check_exes) : include/%.chk : include/%.h
-	g++ $(CXXFLAGS) -o $@ include/unit_check.cc -DINC_H=\"$*.h\" -D$*_main=main
-
 clean :
-	rm -f vgg.gcc vgg.nvcc include/*.chk
+	rm -f vgg.gcc vgg.nvcc

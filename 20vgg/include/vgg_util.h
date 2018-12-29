@@ -92,7 +92,7 @@ static cmdline_opt parse_args(int argc, char ** argv) {
   while (1) {
     int option_index = 0;
     int c = getopt_long(argc, argv,
-                        "b:d:l:m:s:S:h", long_options, &option_index);
+                        "b:d:l:m:s:S:v:h", long_options, &option_index);
     if (c == -1) break;
     switch (c) {
     case 0:
