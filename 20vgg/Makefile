@@ -1,37 +1,69 @@
-headers := $(wildcard include/*.h)
-unit_check_exes := $(patsubst include/%.h,include/%.chk,$(headers))
+#
+# Makefile for VGG
+#
 
-CXX := g++
-NVCXX := /usr/local/bin/nvcc
+#
+# compilers to compile the code with
+# (comment out one if you are not interested in it)
+#
+cxxs :=
+cxxs += g++
+cxxs += nvcc
 
-CXXFLAGS :=
-#CXXFLAGS += -O0 -g
-CXXFLAGS += -O3
-CXXFLAGS += -Wall -Wextra
-CXXFLAGS += -Wno-strict-overflow
-CXXFLAGS += -DARRAY_INDEX_CHECK=0
-#CXXFLAGS += -DARRAY_INDEX_CHECK=1
-CXXFLAGS += -DMAX_BATCH_SIZE=64
+#
+# specify the full path to compilers if necessary
+#
+g++ := g++
+nvcc := nvcc
+#nvcc := /usr/local/bin/nvcc
 
-g++FLAGS := 
-nvccFLAGS := 
+#
+# flags common across both compilers (g++ and nvcc)
+#
+flags :=
+# ---- optimize or debug ---- 
+flags += -O3
+#flags += -O0 -g
+# ---- turn on/off array index checking ---- 
+flags += -DARRAY_INDEX_CHECK=0
+#flags += -DARRAY_INDEX_CHECK=1
+# ---- maximum batch size ---- 
+flags += -DMAX_BATCH_SIZE=64
+#flags += -DMAX_BATCH_SIZE=1
 
-targets := 
-targets += vgg.gcc
-#targets += vgg.nvcc
+#
+# flags applied only to g++
+#
+g++flags += -Wall -Wextra
+g++flags += -Wno-strict-overflow
+g++flags += -march=native
+
+#
+# flags applied only to nvcc
+#
+nvccflags :=
+nvccflags += --generate-code arch=compute_60,code=sm_60
+nvccflags += --generate-code arch=compute_70,code=sm_70
+nvccflags += --compiler-options=-mavx2
+#nvccflags += --maxrregcount 64
+nvccflags += -Xptxas -O3,-v
+#nvccflags += -Xptxas -O0,-v -G
+nvccflags += -x cu
+
+#
+# you probably do not need to change below
+#
+
+targets := $(addprefix vgg.,$(cxxs))
 
 all : $(targets)
 
-vgg.gcc : vgg.cc $(headers) Makefile
-	$(CXX) $(CXXFLAGS) $(g++FLAGS) -o $@ vgg.cc
+headers := $(wildcard include/*.h)
 
-vgg.nvcc : vgg.cc $(headers) Makefile
-	$(NVCXX) $(CXXFLAGS) $(nvcxxFLAGS) -o $@ vgg.cc
-
-unit_check : $(unit_check_exes)
-
-$(unit_check_exes) : include/%.chk : include/%.h
-	g++ $(CXXFLAGS) -o $@ include/unit_check.cc -DINC_H=\"$*.h\" -D$*_main=main
+$(targets) : vgg.% : vgg.cc $(headers) Makefile
+	$($*) $(flags) $($*flags) -o $@ $<
 
 clean :
-	rm -f vgg.gcc vgg.nvcc include/*.chk
+	rm -f $(targets)
+
+.DELETE_ON_ERROR :

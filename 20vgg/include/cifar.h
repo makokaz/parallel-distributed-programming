@@ -11,6 +11,7 @@
 
 template<idx_t IC,idx_t H,idx_t W>
 struct cifar10_data_item {
+  int index;
   real w[IC][H][W];
   char label;
   real& operator()(idx_t ic, idx_t i, idx_t j) {
@@ -23,13 +24,17 @@ struct cifar10_data_item {
 
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 struct cifar10_dataset {
-  cifar10_data_item<IC,H,W> * dataset;
   long n_data;
+  long n_validate;
+  long n_train;
+  cifar10_data_item<IC,H,W> * dataset; /**< whole dataset read (n_data items) */
+  cifar10_data_item<IC,H,W> * validate; /**< for validation (first n_validate items) */
+  cifar10_data_item<IC,H,W> * train;   /**< training part (remaining items) */
   rnd_gen_t rg;
   void set_seed(long sd) {
     rg.seed(sd);
   }
-  long get_n_data(const char * cifar_bin) {
+  long get_n_data_in_file(const char * cifar_bin) {
     struct stat sb[1];
     if (lstat(cifar_bin, sb) == -1) {
       perror("lstat");
@@ -45,15 +50,24 @@ struct cifar10_dataset {
     assert(sz % sz1 == 0);
     return sz / sz1;
   }
-  int load(const char * cifar_bin, long start, long end) {
-    long n_data_in_file = get_n_data(cifar_bin);
+  int load(const char * cifar_bin, long start, long end,
+           double validate_ratio, long validate_seed) {
+    long n_data_in_file = get_n_data_in_file(cifar_bin);
     if (end == 0) end = n_data_in_file;
     assert(start >= 0);
     assert(end <= n_data_in_file);
     assert(start < end);
 
     n_data = end - start;
+    n_train = max_i(1, n_data - n_data * validate_ratio);
+    n_validate = n_data - n_train;
+    if (n_validate == 0) {
+      printf("warning: no data left for validation (validation not performed)\n");
+    }
+    
     dataset = new cifar10_data_item<IC,H,W> [n_data];
+    validate = dataset;
+    train = dataset + n_validate;
     FILE * fp = fopen(cifar_bin, "rb");
     if (!fp) { perror("fopen"); exit(1); }
     if (fseek(fp, start * (1 + IC * H * W), SEEK_SET) == -1) {
@@ -76,6 +90,7 @@ struct cifar10_dataset {
         }
       }
       float l_max = 1.0 / (float)max_value;
+      dataset[k].index = start + k;
       dataset[k].label = label[0];
       for (idx_t c = 0; c < IC; c++) {
         for (idx_t i = 0; i < H; i++) {
@@ -86,13 +101,26 @@ struct cifar10_dataset {
       }
     }
     fclose(fp);
+    /* choose holdout data */
+    rnd_gen_t rgv;
+    rgv.seed(validate_seed);
+    for (int i = n_validate; i < n_data; i++) {
+      if (rgv.rand(0.0, 1.0) * (i + 1) <= n_validate) {
+        long v = rgv.randi(0, n_validate);
+        cifar10_data_item<IC,H,W> d = dataset[v];
+        dataset[v] = dataset[i];
+        dataset[i] = d;
+      }
+    }    
     return 1;
   }
   int get_data_train(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t B) {
     assert(B <= maxB);
+    x.set_n_rows(B);
+    t.set_n(B);
     for (long b = 0; b < B; b++) {
-      long idx = rg.randi01() % n_data;
-      cifar10_data_item<IC,H,W>& itm = dataset[idx];
+      long idx = rg.randi(0, n_train);
+      cifar10_data_item<IC,H,W>& itm = train[idx];
       t(b) = itm.label;
       for (idx_t ic = 0; ic < IC; ic++) {
         for (idx_t i = 0; i < H; i++) {
@@ -102,9 +130,28 @@ struct cifar10_dataset {
         }
       }
     }
+    x.to_dev();
+    t.to_dev();
     return 1;
   }
-  int get_data_validate(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t B) {
+  int get_data_validate(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t from, idx_t to) {
+    idx_t B = to - from;
+    assert(B <= maxB);
+    x.set_n_rows(B);
+    t.set_n(B);
+    for (long b = 0; b < B; b++) {
+      cifar10_data_item<IC,H,W>& itm = validate[from + b];
+      t(b) = itm.label;
+      for (idx_t ic = 0; ic < IC; ic++) {
+        for (idx_t i = 0; i < H; i++) {
+          for (idx_t j = 0; j < W; j++) {
+            x(b,ic,i,j) = itm(ic,i,j);
+          }
+        }
+      }
+    }
+    x.to_dev();
+    t.to_dev();
     return 1;
   }
 };
@@ -118,8 +165,8 @@ int cifar_main(int argc, char ** argv) {
   const idx_t W = 32;
   cifar10_dataset<maxB,C,H,W> ds;
   ds.set_seed(opt.sample_seed);
-  ds.get_n_data(opt.cifar_data);
-  ds.load(opt.cifar_data, 0, ds.get_n_data(opt.cifar_data));
+  ds.get_n_data_in_file(opt.cifar_data);
+  ds.load(opt.cifar_data, 0, 0, 0, opt.validate_seed);
   array4<maxB,C,H,W> x;
   ivec<maxB> t;
   x.init_const(B, 0);
