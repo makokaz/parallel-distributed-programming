@@ -1,3 +1,7 @@
+Overview
+=============
+
+This program trains VGG network with training data from a specified file.
 
 Code: VGG
 ==================
@@ -16,8 +20,9 @@ Compile:
 ==================
 
 ```
-$ make -B
-g++  -O0 -g -Wall -Wextra -Wno-strict-overflow -DARRAY_INDEX_CHECK=1 -DMAX_BATCH_SIZE=64  -o vgg.gcc vgg.cc
+$ make
+g++  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=64 -Wall -Wextra -Wno-strict-overflow -march=native -o vgg.g++ vgg.cc
+nvcc  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=64  --generate-code arch=compute_60,code=sm_60 --generate-code arch=compute_70,code=sm_70 --compiler-options=-mavx2 -Xptxas -O3,-v -x cu -o vgg.nvcc vgg.cc
 ```
 
 (make sure you have -O3 or -O0 -g in the command line, depending on whether you want to measure performance or debug)
@@ -30,7 +35,596 @@ Run:
 $ ln -s /home/tau/cifar10/cifar-10-batches-bin
 ```
 
- * and
+You may download the data from the original source if you like.
+
+CPU:
+------------------
+
 ```
-$ ./vgg.gcc
+$ ./vgg.g++ [options]  # on login node. do not run for a long time
+$ srun -p big -t 0:20:00 ./vgg.g++ [options]
 ```
+
+GPU:
+------------------
+
+```
+$ ./vgg.nvcc   # on login node. do not run for a long time
+$ srun -p p -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+$ srun -p v -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+```
+
+Options
+=============
+
+Verbosity (-v,--verbose)
+--------------------------
+
+Give -v 2 option and you will see the progress more frequently.  You can also know which functions are taking much time.
+
+Execution log (--log)
+--------------------------
+
+Detailed execution records are saved into a file (default: vgg.log).  You can specify the filename with --log option.  When you execute many instances concurrently, make sure you specify a unique log file to each process.
+
+Batch size (-b,--batch_sz)
+--------------------------
+
+For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label).  In each iteration, it takes a number of samples specified by --batch_sz (-b).  This number is called the mini-batch size.  The default is MAX_BATCH_SIZE specified by a compile-time option -DMAX_BATCH_SIZE=N.  For example, "g++ -DMAX_BATCH_SIZE=64 ... vgg.cc" sets the mini-batch size to 64.  A usual value is 64 but you may consider changing it for performance tuning.  Note that MAX_BATCH_SIZE affects the memory footprint.  An instance of VGG object holds all intermediate data within the instance and its size is roughly proportional to MAX_BATCH_SIZE.  Note that specifying a small batch size at runtime (via --batch_sz) does not change the size of an instance.
+
+The batch size significantly affects the time of a single iteration, especially in an unoptimized baseline code.  The baseline code will take a time proportional to the batch size for a single iteration.
+
+For a quick experiment, you will want to make it small (e.g., -b 1).
+
+For easier debugging, you may also want to consider compiling the program with -DMAX_BATCH_SIZE=1
+
+The number of iterations (-m,--iters)
+--------------------------
+
+-m option specifies the number of iterations.  Default 20.
+
+For a quick experiment, you will want to make both batch size and iterations small (e.g., -m 1 -b 1).
+
+Turn on/off dropout (--dropout 1/0)
+--------------------------
+
+There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  Dropout is generally believed to improve generalization.  You may turn off this feature during development, to make sure the network is exactly the same throughout iterations.
+
+You can turn off dropout by --droput 0 (default: 1)
+
+Fix a batch (--single_batch 1)
+--------------------------
+
+During development, you may want to repeat processing the same mini-batch again and again, to make sure that the network is at least adjusting to the particular mini-batch.  Combine this with --dropout 0 (and perhaps with a small batch size, like -b 16 or even -b 1).  In those cases the loss should steadily decrease over iterations.  If it does not happen, suspect your bug, particularly in your backward phase.
+
+Data file (-d, --start_data and --end_data)
+--------------------------
+
+It reads data from the file specified by --cifar_data (-d) option (default: cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
+
+If you want to use only a part of data, you can specify a range by --start_data and --end_data. e.g., --start_data 2000 --end_data 3000 uses only 1000 images, from the 2000th image to 2999th image.  
+
+Data for training and validation (--validate_ratio and --validate_interval)
+--------------------------
+
+A portion of data is reserved for validation and not used for training.  The ratio of validation data relative to the whole data set is specified by --validate_ratio option (default: 0.1).  Note that they are taken out from the data specified by --cifar_data, --start_data and --end_data.  For example, --start_data 2000 --end_data 3000 --validate_ratio 0.1 uses (3000 - 2000) * 0.1 = 100 images for validation and leaves 900 images for training.
+
+Fractions are rounded down.  If the number of validation data becomes zero as a result, the validation won't be performed at all.
+
+It occasionally evaluates the loss against the validation data.  The frequency can be adjusted by --validate_interval option, which specifies the relative number of samples to process for training and that for validation.  For example, if it is set to 5.0 and the number of data for validation is 100, it runs a validation for every 5.0 * 100 = 500 training samples processed.  In other words, --validate_interval x sets the time to run a validation below 1/(1+x) of the total processing time.
+
+Learning rate
+--------------------------
+
+In each iteration, the backward phase calculates the gradient of the averaged loss (the average taken over the mini-batch) with respect to all the weights of the network.  The update phase that follows then changes the weights to the opposite direction of the gradient.  Mathematically, we do
+
+    W = W - (η/B) ∂L/∂W
+
+where L is the summation of the loss function over the mini batch and B the batch size (hence 1/B ∂L/∂W represents the gradient of the average loss with respect to weights W).  We multiply it by a constant η, which is called a learning rate.
+
+The reason why the above update will decrease the loss is as follows.  In general, 
+
+    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+
+holds, where ・ represents the inner product (summation of all component-wise products).
+
+So if ΔW is taken as an opposite direction of ∂L/∂W (i.e., ΔW = -η∂L/∂W), then
+
+    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+               = L(W) + ∂L/∂W ・(-η∂L/∂W)
+               = L(W) -η ∂L/∂W・∂L/∂W
+               < L(W)
+
+The value of learning rate can be specified with --learnrate option.  Default: 1.0e-2
+
+The learning rate does not affect the time of each iteration, but may affect the time until convergence.
+
+Since the first-order approximation
+
+    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+
+holds only for small ΔW, picking a too large η may break the very basic property that an update will decrease the loss.  
+
+On the other hand, the larger the value of η, the "faster" weights move to the opposite direction of the gradient and the faster L(w) decreases.  You may be able to reach the same point with a fewer number of iterations.
+
+In summary, choosing the right value for η is important but not necessarily easy.
+
+Since our primary focus in the exercise is on optimizing each stage of computation, we are not concerned about the choice of η too much.  Specifically, our (primary) performance criteria will be the average time to process a single sample.
+
+Change seeds
+--------------------------
+
+There are a few places in which the program uses random numbers, namely,
+
+ * when it initializes weight parameters,
+ * when it divides the input data into validation and training,
+ * when it chooses training samples in each iteration and
+ * when it uses which cells to dropout in a dropout layer
+ 
+_ALL COMPONENTS BEHAVE DETERMINISTICALLY._  That is, if you repeat executions with the same configuration repeatedly, it starts from the same weight parameters, uses the same data for validation and training, picks up the same training data and drops out the same cells.
+
+Unless your algorithm behave undeterministically, the results should be always the same.  This should help you debug your code.
+
+You can change these things by giving different seeds for each of these random number generators.  Specifically,
+
+ * --weight_seeds changes initial weight parameters
+ * --validate_seed changes which data are used for validation 
+ * --sample_seed changes which data are picked for training
+ * --dropout_seed changes which cells are dropped out
+
+Simply give an arbitrary number to any of them to make sure your algorithm is not sensitive to any of them.
+
+A general remark: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, _ALWAYS_ give it a seed you chose and make it behave deterministically given the same seed.  This is a tremendous help for debugging.  After you have done initial debugging, you can test your algorithm across different sequences of numbers just by giving different seeds.  Note that virtually all pseudo random number generators are deterministic after a seed is given.  A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.g., the current time) and uses it as a seed.  Nothing else is different.  In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time).  Without giving a seed, your algorithm can NEVER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
+
+GPU execution (-a gpu_base)
+--------------------------
+
+The program compiled with nvcc, vgg.nvcc, supports GPU execution and this is the default behavior. vgg.nvcc also supports CPU execution with -a cpu_base option.
+
+```
+$ vgg.nvcc -a cpu_base  # (1) baseline code on CPU 
+$ vgg.nvcc -a gpu_base  # (2) baseline code on GPU 
+$ vgg.nvcc              # (3) same as (2)
+$ vgg.g++  -a cpu_base  # (4) baseline code on CPU 
+$ vgg.g++  -a gpu_base  # (5) error
+$ vgg.g++               # (6) same as (4)
+```
+
+Note that baseline code is neither vectorized nor parallelized.  In particular, it uses only a single CUDA thread on GPU (!)
+
+Algorithm choice (-a)
+--------------------------
+
+The -a option described above is an option that chooses an algorithm from available repertories.  In the given code, only baseline algorithms for GPU and CPU are implemented.  You probably want to make your implementation another available choice here.
+
+
+Controlled experiments
+--------------------------
+
+After you did a bit of work, you want to make sure you got it done right.  Especially, you may be afraid that you broke a function.  To make sure the network is still functioning, you might want to do a small and controlled experiment.
+
+You probably want to start with something like this.
+
+```
+$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
+```
+
+They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-batch size extremely small (1, in this particular case) to have a quick turn around time.
+
+Here is a sample output.  With the default value of learning rate (1.0e-2), the loss seems decreasing too quickly.
+
+```
+$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
+=== train 0 - 1 ===
+train loss = 2.064959049
+=== train 1 - 2 ===
+train loss = 0.002221737
+=== train 2 - 3 ===
+train loss = 0.002113967
+=== train 3 - 4 ===
+train loss = 0.002022009
+=== train 4 - 5 ===
+train loss = 0.001938014
+=== train 5 - 6 ===
+train loss = 0.001864006
+=== train 6 - 7 ===
+train loss = 0.001799989
+=== train 7 - 8 ===
+train loss = 0.001746916
+  ...
+```
+
+Remember that this will repeat processing only a single sample and the "train loss" refers to the loss against this particular sample.  If the loss does not decrease, you are very likely to have introduced a bug in your gradient calculation (backward) or somewhere else.
+
+You may play with small learning rates to see that it will keep decreasing for a larger number of iterations.
+
+```
+$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1 --learnrate 1.0e-3
+=== train 0 - 1 ===
+train loss = 2.064959049
+=== train 1 - 2 ===
+train loss = 0.937229633
+=== train 2 - 3 ===
+train loss = 0.503207982
+=== train 3 - 4 ===
+train loss = 0.290159106
+=== train 4 - 5 ===
+train loss = 0.209925532
+=== train 5 - 6 ===
+train loss = 0.163231462
+  ...
+```
+
+Guide for development
+==========================
+
+Source code structure
+--------------------------
+
+ * vgg.cc -- the main file
+ * include/
+  - vgg_util.h  -- trivial utilities
+  - cuda_util.h -- helpers for CUDA
+  - vgg_arrays.h -- vectors, matrix and multidimensional tensors
+  - cifar.h -- data loader
+    (primitive layers)
+  - convolution.h -- convolution
+  - batchnormalization.h -- batch normalization
+  - relu.h -- rectified linear activation
+  - dropout.h -- dropout
+  - linear.h -- linear (or fully connected) layer
+  - maxpooling.h -- max pooling
+  - softmaxcrossentropy.h -- softmax + cross entropy
+    (composite layers)
+  - block.h -- convolution; batch normalization; relu
+  - vgg.h -- the entire VGG
+
+The main function in vgg.cc instantiates a VGG network, which is defined in vgg.h.
+It repeats processing training data, occasionally processing validation data.
+
+Each layer defines a class whose name is similar to the file name.  e.g., convolution.h defines Convolution2D class.
+
+All classes for primitive and composite layers have two important functions, among others.
+ * forward -- take an input from the previous (downstream) layer and computes its output
+ * backward -- take a gradient of loss wrt the upstream layer and computes the gradient wrt its input and weights
+
+In addition, classes that have parameters (convolution, linear and batchnormalization) have another function.
+
+ * update -- take a learning rate parameter and update its weights, using the gradient computed in the backward phase.
+
+**********************************************************************************
+YOUR MAIN JOB WILL BE TO IMPLEMENT A HIGH PERFORMANCE VERSION OF THESE FUNCTIONS.
+**********************************************************************************
+
+You eventually want to work on all seven files (convolution.h, batchnormalization.h, relu.h, dropout.h, linear.h, maxpooling.h, softmaxcrossentropy.h) but you can work incrementally.  You can make one layer faster while leaving all others intact.  You can know which functions are taking much time by -v 2 option.
+
+Stepping through the code using gdb (or cuda-gdb)
+--------------------------
+
+When working on details, you want to step through the code using gdb (or cuda-gdb to step through GPU code).  They also help you get an idea about how things work.  For that, compile the code with -O0 -g.  Also add -Xptxas -O0 if you compile with nvcc.
+
+The structure of the baseline implementations (and switching between different algorithms)
+--------------------------
+
+As I mentioned above, functions you will primarily be working on are forward and backward functions on the seven classes and update functions for the three classes.  Each of them has a structure to switch between GPU code and CPU code (currently, a single execution can run either entirely on CPU or entirely on GPU; you cannot have some layers executed by CPU and others on GPU in the same execution).  Let's look at the forward function of Convolution class, for example.
+
+The member function named "forward" is the entry point of the forwarding phase.  It only executes a switch statement to decide which implementation to use (cpu or gpu in the baseline code).
+
+```
+  array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) {
+    if (opt.verbose>=2) { print_start(); }
+    tsc_t t0 = get_tsc();
+    switch (opt.algo) {
+      /* add case for your implementations here */
+    case algo_cpu_base:
+      forward_cpu(x); break;
+#if __NVCC__
+    case algo_gpu_base:
+      forward_gpu(x); break;
+#endif
+    default:
+      if (opt.gpu_algo) {
+#if __NVCC__
+        forward_gpu(x);
+#else
+        err_gpu_algo_no_gpu(opt.algo_s);
+#endif
+      } else {
+        forward_cpu(x);
+      }        
+    }
+    tsc_t t1 = get_tsc();
+    if (opt.verbose>=2) { print_end(t0, t1); }
+    return y;
+  }
+```
+
+Depending on the algorithm chosen at the command line (-a option), it calls either forward_cpu or forward_gpu.  The former simply calls another function, forward_base, which does the real job.
+
+```
+  void forward_cpu(array4<maxB,IC,H,W>& x) {
+    forward_base(x);
+  }
+```
+
+The latter calls into a GPU code.  Since nvcc does not allow a class member function to be a global function (a GPU function callable from a host), we need to define a global function outside the class (forward_global), which then calls back a member function (forward_dev).  This is the baseline implementation of forward_gpu.
+
+```
+  void forward_gpu(array4<maxB,IC,H,W>& x) {
+    launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
+  }
+```
+
+The global function, forward_global, is defined outside the class as follows.  Note that it launches only a single CUDA-thread, something you definitely want to do differently in your high performance version.
+
+```
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void forward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                               array4<maxB,IC,H,W>* x_dev) {
+  dev->forward_dev(*x_dev);
+}
+```
+
+The member function forward_dev actually calls the same forward_base function that does the real job.
+
+```
+  __device__ __host__ 
+  void forward_base(array4<maxB,IC,H,W>& x) {
+    ... do the real job ...
+  }
+```
+
+This same pattern appears for backward and update too.  In this way, the baseline code shares the same piece of code between CPU and GPU.  The trick makes sense only for the baseline code.  In your high performance implementations, you are probably going to have separate pieces of code for CPU and GPU anyways.
+
+How to add your implementation
+--------------------------
+
+Here is how you change the code when working on a new implementation.  As already mentioned, there are two implementations already in place, cpu_base and gpu_base.
+
+Before starting the real work, there are some work for preparation.
+
+ * Come up with a name of the new implementation.  Let's say it is cpu_ultra_fast (in reality, you want to have a name that better represents what it does, like cpu_simd).
+
+ * Add a new symbol to the enum algo_t defined in vgg_util.h
+``` 
+typedef enum {
+  algo_cpu_base,
+  algo_gpu_base,
+  /* add your new algorithm here (name it arbitrarily) */
+
+  algo_cpu_ultra_fast, <----  YOU ADD THIS
+
+  algo_invalid,
+} algo_t;
+```
+
+ * Change the parse_algo function right below it so that it recognizes the new name.  Obviously, the baseline code recognizes only "cpu_base" and "gpu_base".  You simply add an appropriate "else if" branch to handle your name.
+
+```
+algo_t parse_algo(const char * s) {
+  if (strcmp(s, "cpu_base") == 0) {
+    return algo_cpu_base;
+  } else if (strcmp(s, "gpu_base") == 0) {
+    return algo_gpu_base;
+  } else if (strcmp(s, "cpu_ultra_fast") == 0) {  <---- YOU ADD THIS
+    return algo_cpu_ultra_fast;                   <---- YOU ADD THIS
+  } else {
+    return algo_invalid;
+  }
+}
+```
+
+ * You might also need to change the function algo_is_gpu so that the program correctly recognizes whether it is a CPU algorithm or a GPU algorithm.  By default, it simply assumes all and only names starting with "gpu" are GPU algorithms.  You need to change this only when your algorithm name does not conform to this convention (e.g., a GPU algorithm named "v100_only").  It will be a good idea to stick to the convention rather than modifying this function.
+
+```
+int algo_is_gpu(const char * s, algo_t a) {
+  (void)a;
+  if (strncmp(s, "gpu", 3) == 0) {
+    return 1;
+  } else { 
+    return 0;
+  }
+}
+```
+
+At this point, the program at least recognizes your algorithm and calls GPU base code or CPU base code depending on your algorithm is a GPU algorithm or not (judged by algo_is_gpu function above).  Recall that the switch statement falls back to forward_gpu or forward_cpu when the switch statement does not have a specific case for your algorithm.
+
+Now you are ready to add a real implementation.  Thanks to the structure just mentioned, you can do so incrementally (you do not have to implement all functions to get your version used).  To start off, let's say you want to implement a forward function of Convolution2D class.  The first thing you need to do is to add an appropriate case in the switch statement.
+
+```
+  array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) {
+    if (opt.verbose>=2) { print_start(); }
+    tsc_t t0 = get_tsc();
+    switch (opt.algo) {
+      /* add case for your implementations here */
+    case algo_cpu_ultra_fast:
+      forward_cpu_ultra_fast(x); break;
+
+      ...
+    }
+    tsc_t t1 = get_tsc();
+    if (opt.verbose>=2) { print_end(t0, t1); }
+    return y;
+  }
+```
+
+Your real job is, of course, to implement forward_cpu_ultra_fast function.  Use SIMD, OpenMP or whatever is necessary to make it faster.  You probably start by copy-pasting the forward_base implementation.
+
+If you work on GPU implementation, you need to implement two functions.  Let's say your algorithm name is gpu_ultra_fast.  After adding another case in the switch statement like this
+
+```
+    case algo_gpu_ultra_fast:
+      forward_gpu_ultra_fast(x); break;
+```
+
+your forward_gpu_ultra_fast should launch a global function with a good thread block size.
+
+```
+  void forward_gpu_ultra_fast(array4<maxB,IC,H,W>& x) {
+    int block_sz = ...;
+    int num_blocks = ...;
+    launch_and_sync((forward_ultra_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+  }
+```
+
+Next you define forward_ultra_fast_global function outside the class, near the beginning of the file.  This will be a boilerplate code.
+
+```
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void forward_ultra_fast_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                                          array4<maxB,IC,H,W>* x_dev) {
+  dev->forward_ultra_fast_dev(*x_dev);
+}
+```
+
+Finally, you define forward_ultra_fast_dev member function, which does the real job.
+
+In forward_base function that is supposed to do a real job, you compute the output and put them in the 'y' variable, which is already defined for you as a member field.  This convention is used throughout the program.  All classes have a member field named 'y' to which you should put the results.  
+
+```
+  __device__ __host__ 
+  void forward_base(array4<maxB,IC,H,W>& x) {
+    idx_t B = x.B;
+    y.set_n_rows(B);
+    ...
+    for (idx_t b = 0; b < B; b++) {       // samples
+      ...
+         ...
+            y(b,oc,i,j) = s;
+         ...
+      ...
+    }
+  }
+```
+
+Similarly, a backward implementation is supposed to put the results into another member variable named 'gx' (∂L/∂x, gradients with respect to x) and 'gw' if the layer has weights.
+
+There is one thing to note here.  The input typically is an array (single- or multi-dimensional) whose primary (leftmost) index refers to a particular sample in a mini-batch.  In the above example, x is a four dimensional array and thus has a type array4<maxB,IC,H,W>&. maxB is a _compile time_ constant you specified by -DMAX_BATCH_SIZE=xxx.  _The actual number of samples in this array may be smaller and is passed via a field variable of the input._  You have to process only the actual number of samples passed in the array.
+
+In this example, x.B has the actual number of rows in the array.  Thus,
+ * the outermost loop iterates x.B number of times rather than maxB times.
+```
+    idx_t B = x.B;
+     ...
+    for (idx_t b = 0; b < B; b++) {       // samples
+```
+ * it also sets the actual number of rows in the output y, by doing
+```
+    idx_t B = x.B;
+    y.set_n_rows(B);
+```
+
+Debugging a layer
+--------------------------
+
+After you change implementation of a layer you will want to make sure you got it right.  It may not happen immediately, however.  Several mechanisms are in place to help you debug them efficiently.
+
+Catching basic coding errors
+--------------------------
+
+First, after you change an implementation of a layer, make sure you turn a compile-time option -DARRAY_INDEX_CHECK=1 on.  This will check array index every time you access an element of a vector, matrix or tensor.  It will catch obvious errors such as looping with wrong bounds or indexing arrays with wrong variables.
+
+```
+$ g++ ... -DARRAY_INDEX_CHECK=1 ... -o vgg.g++ vgg.cc
+```
+
+Catching logical (mathematics) errors
+--------------------------
+
+After you have a code that at least is not caught by array indexing errors, you now want to check if the code really does the job.  The first command line you want to test your code with is this.
+
+```
+$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1 -a name_of_your_algorithm
+```
+
+Like I introduced already, this processes only a single sample repeatedly, without any dropout that would introduce different behaviors between iterations.  The error thus should steadily decrease over iterations, in almost exactly the same pace with the baseline implementation.  Try different learning rate (--learnrate 1.0e-3, 1.0e-4, etc.) and confirm they behave very similarly for each one.
+
+Remember that both are doing exactly the same computation.  There is a randomness in how it chooses samples, but _it is deterministic_ as I already mentioned; the sample picked should be the same unless you change the seed of the random number generator (by --sample_seed).  Were there any difference between the two implementations, it should indicate that your algorithm outputs results different from the other implementation for the same input.  If the difference is slight, it may be indicating that the two has different rounding errors for computing mathematically equivalent expressions.  In particular, summing up many numbers in a different order affect rounding errors very much.  When you parallelize or vectorize your code, you almost certainly change the order in which numbers are accumulated.  Therefore, a slight difference in the loss may not be worth looking into.
+
+If you observe a significant change, you need to shoot down where you introduce a bug, for which you will want to debug a single layer at a time.
+
+Each layer is implemented in a single header file.
+
+ * batchnormalization.h
+ * convolution.h
+ * dropout.h
+ * linear.h
+ * maxpooling.h
+ * relu.h
+ * softmaxcrossentropy.h
+
+Each header file actually contains an entry point function so that it can compile and run alone.  For example, convolution.h has a function convolution_main that runs only a convolution.  Therefore, if you include this file from any C++ file and compile it with -Dconvolution_main=main, you get an executable that only runs that layer.
+
+Indeed,
+
+```
+$ cd include
+$ make
+```
+
+builds all such executables.  You will obtain batchnormalization.{float,double}.{g++,nvcc}, etc.
+
+The entry point function checks if the gradients obtained by forward/backward computation indeed approximate the change of the output value.  Specifically, let's say we have a layer implementing a function F(W, X).  We check if the following approximation holds.
+
+    F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) ≒ ∂F/∂W・ΔW + ∂F/∂X・ΔX
+
+(There are many layers that do not have weight parameters.  For such layers, we simply check if F(X + ΔX/2) - F(X - ΔX/2) ≒ ∂F/∂X・ΔX holds).
+
+In implementation terms, we
+
+ * generate inputs (X) and weights (W) randomly
+ * generate small changes to inputs (ΔX) and weights (ΔW) randomly
+ * perform forward and backward computation to obtain ∂F/∂W and ∂F/∂X and thus to obtain ∂F/∂W・ΔW + ∂F/∂X・ΔX
+ * apply changes to X and W to obtain X±ΔX and W±ΔW
+ * perform forward computation on both of them, to obtain F(W + ΔW/2, X + ΔX/2) and F(W - ΔW/2, X - ΔX/2)
+ * compare F(W + ΔW/2, X + ΔX/2) and F(W - ΔW/2, X - ΔX/2) and ∂F/∂W・ΔW + ∂F/∂X・ΔX and report their relative difference.  The relative difference between A and B is |A-B|/max(|A|,|B|)
+
+Here is an output of the linear layer.
+
+```
+$ ./linear.float.g++ -b 1
+==== 0 ====
+|∂L/∂x|   = 2.067968130
+|dx|      = 0.001285600
+∂L/∂x・dx = -0.000187458
+|∂L/∂w|   = 27.588932037
+|dw|      = 0.004125366
+∂L/∂w・dw = 0.000541298
+L- = -0.982513964
+L  = -0.982336760
+L+ = -0.982159197
+A = ∂L/∂x・dx + ∂L/∂w・dw = 0.000353840
+B = ΔL = 0.000354767
+relative error = |A-B|/max(|A|,|B|) = 0.002611878
+==== 1 ====
+|∂L/∂x|   = 2.037896156
+|dx|      = 0.001299710
+    ...
+
+
+max relative error = 0.009731923
+avg relative error = 0.001512904
+```
+
+In the end of the execution, it reports that the maximum and average relative errors are 0.009731923 and 0.001512904, respectively.
+
+Note that linear layer implements a linear function, for which an equation
+
+    F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) = ∂F/∂W・ΔW + ∂F/∂X・ΔX
+
+should strictly hold if all elementary computations are done without rounding errors.  Any error should be due to rounding errors, which should be small if you are not accumulating too many numbers of numbers of significantly different magnitudes.
+
+If the reported relative error is small enough, it means that moving the weights to the opposite direction of the computed gradient should decrease the loss function, which is the very purpose of the optimization process.  As long as this holds, you do not have be concerned too much about the difference to the baseline code, which has its own rounding errors.  
+
+How small is small enough?  It actually depends on layers and the type of floating point numbers.  Especially when using a single precision floating point numbers (executables *.float.*} do so), rounding errors easily become significant.  Average relative errors of 10% or even 30% do not necessarily indicate a bug.  Double precision numbers are much less prone to rounding errors.  For the purpose of checking if your code faithfully computes what it should compute, consider testing the double-precision version of it (*.double.*), which should report tiny relative errors.  Here are tables summarizing the maximum/average errors for a single sample.
+
+| layer             | max (SP)    | avg (SP)    | max (DP)    | max (DB)    |
+| ------------------|:-----------:|:-----------:|:-----------:|:-----------:|
+|batchnormalization | 0.321599394 | 0.047267061 | 0.000000012 | 0.000000001 |
+|convolution        | 0.005766520 | 0.001314429 | 0.000000000 | 0.000000000 |
+|dropout            | 0.927670479 | 0.083410397 | 0.000000003 | 0.000000000 |
+|linear             | 0.009731923 | 0.001512904 | 0.000000000 | 0.000000000 |
+|maxpooling         | 1.918741345 | 0.126148313 | 1.013361927 | 0.052107410 |
+|relu               | 0.170680821 | 0.019997066 | 0.136701009 | 0.014832921 |
+|softmaxcrossentropy| 0.034060795 | 0.007438810 | 0.000000000 | 0.000000000 |
+

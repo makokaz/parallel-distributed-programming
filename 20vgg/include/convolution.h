@@ -1,10 +1,55 @@
 /**
    @file convolution.h
+   @brief convolution layer
  */
 #pragma once
 
 #include "vgg_util.h"
 #include "vgg_arrays.h"
+
+#if __NVCC__
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+  struct Convolution2D;
+
+/**
+   @brief a global CUDA function that implements the baseline 
+   forward function for GPU
+   @param (dev) the address of the device shadow of the object
+   @param (x_dev) the address of the device shadow of the input matrix
+   @sa forward_dev, forward_gpu
+  */
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void forward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                               array4<maxB,IC,H,W>* x_dev) {
+  /* call the member function */
+  dev->forward_dev(*x_dev);
+}
+
+/**
+   @brief a global CUDA function that implements the baseline 
+   backward function for GPU
+   @param (dev) the address of the device shadow of the object
+   @param (x_dev) the address of the device shadow of the input matrix
+   @sa backward_dev
+  */
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void backward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                                array4<maxB,OC,H,W>* gy_dev) {
+  dev->backward_dev(*gy_dev);
+}
+
+/**
+   @brief a global CUDA function that implements the baseline 
+   update function for GPU
+   @param (dev) the address of the device shadow of the object
+   @param (x_dev) the address of the device shadow of the input matrix
+   @sa update_dev
+  */
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+  __global__ void update_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, real eta) {
+  dev->update_dev(eta);
+}
+#endif
 
 /**
    @brief convolution to images
@@ -26,32 +71,117 @@
  */
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
 struct Convolution2D {
+#if __NVCC__
+  Convolution2D<maxB,IC,H,W,K,OC> * dev;
+#endif
   cmdline_opt opt;
-  idx_t B;
-  array4<maxB,IC,H,W>* x_ptr;      /**< pointer to input */
-  warray4<OC,IC,K,K> w;            /**< weight of the filter */ 
-  array4<maxB,OC,H,W> y;           /**< output */
-  warray4<OC,IC,K,K> gw;           /**< gradient of loss wrt w */
-  array4<maxB,IC,H,W> gx;          /**< gradient of loss wrt x */
-  void init(cmdline_opt opt_, idx_t B_, rnd_gen_t& rg) {
-    opt = opt_;
-    B = B_;
-    assert(B <= maxB);
+  logger * lgr;
+  array4<maxB,IC,H,W>* x_ptr;      /**< pointer to the input to forward (x) */
+  warray4<OC,IC,K,K> w;            /**< y = w * x (convolution) */ 
+  array4<maxB,OC,H,W> y;           /**< y = forward(x) */
+  warray4<OC,IC,K,K> gw;           /**< ∂L/∂w */
+  array4<maxB,IC,H,W> gx;          /**< ∂L/∂x */
+  void init(cmdline_opt opt, logger * lgr, rnd_gen_t& rg) {
+    this->opt = opt;
+    this->lgr = lgr;
     w.init_normal(rg, 0.0, 1 / sqrt((2 * K + 1) * (2 * K + 1) * IC));
-    y.init(B);
-    gx.init(B);
   }
-  void update(real eta) {
+  Convolution2D<maxB,IC,H,W,K,OC>* copy() {
+    Convolution2D<maxB,IC,H,W,K,OC> * c = new Convolution2D<maxB,IC,H,W,K,OC>(*this);
+    c->make_dev();
+    return c;
+  }
+  void set_dev(Convolution2D<maxB,IC,H,W,K,OC>* dev) {
+#if __NVCC__
+    this->dev = dev;
+    w.set_dev(dev ? &dev->w : 0);
+    y.set_dev(dev ? &dev->y : 0);
+    gw.set_dev(dev ? &dev->gw : 0);
+    gx.set_dev(dev ? &dev->gx : 0);
+#endif
+  }
+  void make_dev() {
+#if __NVCC__
+    if (opt.gpu_algo) {
+      dev = (Convolution2D<maxB,IC,H,W,K,OC>*)dev_malloc(sizeof(*this));
+    } else {
+      dev = 0;
+    }
+    set_dev(dev);
+#endif
+  }
+  void del_dev() {
+#if __NVCC__
+    if (opt.gpu_algo) {
+      assert(dev);
+      dev_free(dev);
+      dev = 0;
+    }
+#endif
+  }
+  void to_dev() {
+#if __NVCC__
+    if (opt.gpu_algo) {
+      assert(dev);
+      ::to_dev(dev, this, sizeof(*this));
+    }
+#endif
+  }
+  void to_host() {
+#if __NVCC__
+    if (opt.gpu_algo) {
+      assert(dev);
+      Convolution2D<maxB,IC,H,W,K,OC>* dev_ = dev;
+      ::to_host(this, dev_, sizeof(*this));
+      assert(dev_ == dev);
+    }
+#endif
+  }
+  __device__ __host__
+  void update_base(real eta) {
     w.update(eta, gw);
   }
-  array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) {
-    if (opt.verbose>=2) {
-      printf("Convolution2D<maxB=%ld,IC=%ld,H=%ld,W=%ld,K=%ld,OC=%ld>.forward(B=%ld) starts\n",
-             (long)maxB, (long)IC, (long)H, (long)W, (long)K, (long)OC, (long)B);
+#if __NVCC__
+  __device__
+  void update_dev(real eta) {
+    update_base(eta);
+  }
+  void update_gpu(real eta) {
+    launch_and_sync((update_global<<<1,1>>>(dev, eta)));
+  }
+#endif
+  void update_cpu(real eta) {
+    update_base(eta);
+  }
+  void update(real eta) {
+    log_start_fun(lgr);
+    switch (opt.algo) {
+      /* add case for your implementations here */
+    case algo_cpu_base:
+      update_cpu(eta); break;
+#if __NVCC__
+    case algo_gpu_base:
+      update_gpu(eta); break;
+#endif
+    default:
+      if (opt.gpu_algo) {
+#if __NVCC__
+        update_gpu(eta);
+#else
+        err_gpu_algo_no_gpu(opt.algo_s);
+#endif
+      } else {
+        update_cpu(eta);
+      }        
     }
-    tsc_t t0 = get_tsc();
-    x_ptr = &x;
-    for (idx_t b = 0; b < B; b++) { // samples
+    log_end_fun(lgr);
+  }
+  __device__ __host__ 
+  void forward_base(array4<maxB,IC,H,W>& x) {
+    idx_t B = x.B;
+    y.set_n_rows(B);
+    x_ptr = &x;                 /* save pointer to input */
+    for (idx_t b = 0; b < B; b++) {       // samples
       for (idx_t oc = 0; oc < OC; oc++) { // output channels
         for (idx_t i = 0; i < H; i++) {   // width
           for (idx_t j = 0; j < W; j++) { // height
@@ -69,20 +199,47 @@ struct Convolution2D {
         }
       }
     }
-    tsc_t t1 = get_tsc();
-    if (opt.verbose>=2) {
-      printf("Convolution2D<maxB=%ld,IC=%ld,H=%ld,W=%ld,K=%ld,OC=%ld>.forward(B=%ld) ends in %ld ns\n",
-             (long)maxB, (long)IC, (long)H, (long)W, (long)K, (long)OC,
-             (long)B, t1.ns - t0.ns);
+  }
+#if __NVCC__
+  __device__
+  void forward_dev(array4<maxB,IC,H,W>& x) {
+    forward_base(x);
+  }
+  void forward_gpu(array4<maxB,IC,H,W>& x) {
+    launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
+  }
+#endif
+  void forward_cpu(array4<maxB,IC,H,W>& x) {
+    forward_base(x);
+  }
+  array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) {
+    log_start_fun(lgr);
+    switch (opt.algo) {
+      /* add case for your implementations here */
+    case algo_cpu_base:
+      forward_cpu(x); break;
+#if __NVCC__
+    case algo_gpu_base:
+      forward_gpu(x); break;
+#endif
+    default:
+      if (opt.gpu_algo) {
+#if __NVCC__
+        forward_gpu(x);
+#else
+        err_gpu_algo_no_gpu(opt.algo_s);
+#endif
+      } else {
+        forward_cpu(x);
+      }        
     }
+    log_end_fun(lgr);
     return y;
   }
-  array4<maxB,IC,H,W>& backward(array4<maxB,OC,H,W>& gy) {
-    if (opt.verbose>=2) {
-      printf("Convolution2D<maxB=%ld,IC=%ld,H=%ld,W=%ld,K=%ld,OC=%ld>.backward(B=%ld) starts\n",
-             (long)maxB, (long)IC, (long)H, (long)W, (long)K, (long)OC, (long)B);
-    }
-    tsc_t t0 = get_tsc();
+  __device__ __host__ 
+  void backward_base(array4<maxB,OC,H,W>& gy) {
+    idx_t B = gy.B;
+    gx.set_n_rows(B);
     array4<maxB,IC,H,W>& x = *x_ptr;
     for (idx_t oc = 0; oc < OC; oc++) { // output channel
       for (idx_t ic = 0; ic < IC; ic++) { // input channel
@@ -123,165 +280,176 @@ struct Convolution2D {
         }
       }
     }
-    tsc_t t1 = get_tsc();
-    if (opt.verbose>=2) {
-      printf("Convolution2D<maxB=%ld,IC=%ld,H=%ld,W=%ld,K=%ld,OC=%ld>.backward(B=%ld) ends in %ld ns\n",
-             (long)maxB, (long)IC, (long)H, (long)W, (long)K, (long)OC,
-             (long)B, t1.ns - t0.ns);
+  }
+#if __NVCC__
+  __device__
+  void backward_dev(array4<maxB,OC,H,W>& gy) {
+    backward_base(gy);
+  }
+  void backward_gpu(array4<maxB,OC,H,W>& gy) {
+    launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+#endif
+  void backward_cpu(array4<maxB,OC,H,W>& gy) {
+    backward_base(gy);
+  }
+  array4<maxB,IC,H,W>& backward(array4<maxB,OC,H,W>& gy) {
+    log_start_fun(lgr);
+    switch (opt.algo) {
+      /* add case for your implementations here */
+    case algo_cpu_base:
+      backward_cpu(gy); break;
+#if __NVCC__
+    case algo_gpu_base:
+      backward_gpu(gy); break;
+#endif
+    default:
+      if (opt.gpu_algo) {
+#if __NVCC__
+        backward_gpu(gy);
+#else
+        err_gpu_algo_no_gpu(opt.algo_s);
+#endif
+      } else {
+        backward_cpu(gy);
+      }        
     }
+    log_end_fun(lgr);
     return gx;
   }
-  void show_size() {
-    printf("  w  : %d x %d x %d x %d = %10ld bytes\n",
-           OC, IC, (2*K+1), (2*K+1), sizeof(w));
-    printf("  y  :                  %10ld bytes\n", sizeof(y));
-    printf("  gw :                  %10ld bytes\n", sizeof(gw));
-    printf("  gx :                  %10ld bytes\n", sizeof(gw));
+  real diff(Convolution2D<maxB,IC,H,W,K,OC>& b) {
+    return y.diff(b.y);
+  }
+  void rand_grad(rnd_gen_t& rg, real p, real q) {
+    gw.init_uniform(rg, p, q);
+  }
+  void set_grad(Convolution2D<maxB,IC,H,W,K,OC>& o) {
+    gw = o.gw;
+  }
+  real gw_dot_gw(Convolution2D<maxB,IC,H,W,K,OC>& o) {
+    return gw.dot(o.gw);
   }
 };
 
-idx_t make_between(idx_t a, idx_t b, idx_t x) {
-  return max_i(a, min_i(b - 1, x));
-}
-
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
-  real convolution_grad_check_gx_1(Convolution2D<maxB,IC,H,W,K,OC>& conv,
-                                   array4<maxB,IC,H,W> x,
-                                   idx_t B,
-                                   int iter, rnd_gen_t& rg) {
-  const idx_t b  = rg.randi(0, B);
-  const idx_t ic = rg.randi(0, IC);
-  const idx_t oc = rg.randi(0, OC);
-  const idx_t i  = rg.randi(0, H);
-  const idx_t j  = rg.randi(0, W);
-  const idx_t i_ = make_between(0, H, i + rg.randi(-K, K + 1));
-  const idx_t j_ = make_between(0, W, j + rg.randi(-K, K + 1));
-  const real e = 1.0e-3;
-  /* make x - e and x + e */
-  array4<maxB,IC,H,W> x_minus_e = x;
-  array4<maxB,IC,H,W> x_plus_e = x;
-  x_minus_e(b,ic,i,j) -= e;
-  x_plus_e(b,ic,i,j)  += e;
-  /* make y(x), y(x-e), y(x+e) */
-  array4<maxB,OC,H,W> y_minus_e = conv.forward(x_minus_e);
-  array4<maxB,OC,H,W> y_plus_e  = conv.forward(x_plus_e);
-  /* gradient of y(b,oc,i_,j_) and back propagate
-     -> dy(b,oc,i_,j_)/dx(*,*,*,*) */
-  array4<maxB,OC,H,W> y = conv.forward(x);
-  (void)y;
-  array4<maxB,OC,H,W> gy;
-  gy.init_const(B, 0.0);
-  gy(b,oc,i_,j_) = 1.0;
-  array4<maxB,IC,H,W> gx = conv.backward(gy);
-  /* compare (y(x+e)-y(x-e))/2e and computed gradient */
-  {
-    real A = (y_plus_e(b,ic,i_,j_) - y_minus_e(b,ic,i_,j_)) / (2 * e);
-    real B = gx(b,ic,i,j);
-    
-    real _A_ = fabs(A);
-    real _B_ = fabs(B);
-    real rel_e = (max_r(_A_, _B_) == 0 ? 0.0 : fabs(_A_ - _B_) / max_r(_A_, _B_));
-    
-    printf("%3d: A = (y(x+e)-y(x-e))/2e = %f\n", iter, A);
-    printf("%3d: B = dy(%d,%d,%d,%d)/dx(%d,%d,%d,%d) = %f\n",
-           iter, b,oc,i_,j_,b,ic,i,j,B);
-    printf("%3d: relative diff = |A - B|/max(|A|,|B|) = %f\n", iter, rel_e);
-    return rel_e;
-  }
-}
-
-/**
-   
-   @brief check ∂y(b,oc,i,j)/∂w(oc,ic,i_,j_)
-
-  */
-
-template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
-  real convolution_grad_check_gw_1(Convolution2D<maxB,IC,H,W,K,OC>& conv,
-                                   array4<maxB,IC,H,W> x,
-                                   idx_t B, int iter, rnd_gen_t& rg) {
-  const idx_t b  = rg.randi(0, B);
-  const idx_t ic = rg.randi(0, IC);
-  const idx_t oc = rg.randi(0, OC);
-  const idx_t i  = rg.randi(0, H);
-  const idx_t j  = rg.randi(0, W);
-  const idx_t i_ = rg.randi(-K, K + 1);
-  const idx_t j_ = rg.randi(-K, K + 1);
-  const real e = 1.0e-3;
-  /* make x - e and x + e */
-  Convolution2D<maxB,IC,H,W,K,OC> conv_minus_e = conv;
-  Convolution2D<maxB,IC,H,W,K,OC> conv_plus_e = conv;
-  conv_minus_e.w(oc,ic,i_,j_) -= e;
-  conv_plus_e.w(oc,ic,i_,j_) += e;
-  /* make y(x), y(x-e), y(x+e) */
-  array4<maxB,OC,H,W> y_minus_e = conv_minus_e.forward(x);
-  array4<maxB,OC,H,W> y_plus_e  = conv_plus_e.forward(x);
-  /* gradient of y(b,oc,i_,j_) and back propagate
-     -> dy(b,oc,i_,j_)/dx(*,*,*,*) */
-  array4<maxB,OC,H,W> y = conv.forward(x);
-  (void)y;
-  array4<maxB,OC,H,W> gy;
-  gy.init_const(B, 0.0);
-  gy(b,oc,i,j) = 1.0;
-  array4<maxB,IC,H,W> gx = conv.backward(gy);
-  (void)gx;
+  static real convolution_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t& rg, idx_t B) {
+  /* make weight and transfer to gpu if working on gpu */
+  Convolution2D<maxB,IC,H,W,K,OC> * conv = new Convolution2D<maxB,IC,H,W,K,OC>();
+  conv->init(opt, lgr, rg);
+  conv->make_dev();
+  conv->to_dev();
+  /* make w - dw/2 and w + dw/2 */
+  Convolution2D<maxB,IC,H,W,K,OC> * conv_minus = conv->copy();
+  Convolution2D<maxB,IC,H,W,K,OC> * conv_plus = conv->copy();
+  /* make coefficients to make the single loss value */
+  array4<maxB,OC,H,W> * alpha = new array4<maxB,OC,H,W>();
+  alpha->make_dev(opt.gpu_algo);
+  alpha->init_uniform(B, rg, 0.0, 1.0);
+  alpha->to_dev();
+  /* make input (x) */
+  array4<maxB,IC,H,W> * x = new array4<maxB,IC,H,W>();
+  x->make_dev(opt.gpu_algo);
+  x->init_uniform(B, rg, 0.0, 1.0);
+  x->to_dev();
+  /* forward and backward */
+  array4<maxB,OC,H,W>& y = conv->forward(*x);
+  array4<maxB,IC,H,W>& gx = conv->backward(*alpha);
+  /* ensure the gradient is back to host */
+  conv->to_host();
   
-  /* compare (y(x+e)-y(x-e))/2e and computed gradient */
-  {
-    real A = (y_plus_e(b,ic,i,j) - y_minus_e(b,ic,i,j)) / (2 * e);
-    real B = conv.gw(oc,ic,i_,j_);
-    real _A_ = fabs(A);
-    real _B_ = fabs(B);
-    real rel_e = (max_r(_A_, _B_) == 0 ? 0.0 : fabs(_A_ - _B_) / max_r(_A_, _B_));
-    
-    printf("%3d: A = (y(x+e)-y(x-e))/2e = %f\n", iter, A);
-    printf("%3d: B = dy(%d,%d,%d,%d)/dw(%d,%d,%d,%d) = %f\n",
-           iter, b,oc,i,j,oc,ic,i_,j_,B);
-    printf("%3d: relative diff = |A - B|/max(|A|,|B|) = %f\n", iter, rel_e);
-    return rel_e;
-  }
-}
+  /* make dx */
+  real e = 1.0e-4;
+  array4<maxB,IC,H,W> * dx = new array4<maxB,IC,H,W>();
+  dx->init_uniform(B, rg, -e, e);
+  /* make x - dx/2 and x + dx/2 */
+  array4<maxB,IC,H,W> * x_minus = new array4<maxB,IC,H,W>(*x);
+  x_minus->make_dev(opt.gpu_algo);
+  array4<maxB,IC,H,W> * x_plus  = new array4<maxB,IC,H,W>(*x);
+  x_plus->make_dev(opt.gpu_algo);
+  /* update on the host and send the to gpu */
+  x_minus->update(-0.5, *dx);
+  x_plus->update( 0.5, *dx);
+  x_minus->to_dev();
+  x_plus->to_dev();
+  
+  /* set gw to a random vector */
+  conv_minus->rand_grad(rg, -e, e);
+  conv_plus->set_grad(*conv_minus);
+  /* send them to gpu */
+  conv_minus->to_dev();
+  conv_plus->to_dev();
+  /* update weights using gw (update runs on gpu) */
+  conv_minus->update(-0.5);      /* w -= dw/2 */
+  conv_plus->update(0.5);        /* w += dw/2 */
+  /* make y(w-dw/2,x-dx/2), y(w+dw/2,x+dx/2) */
+  array4<maxB,OC,H,W>& y_minus = conv_minus->forward(*x_minus);
+  array4<maxB,OC,H,W>& y_plus  = conv_plus->forward(*x_plus);
+  /* get the result back to host */
+  y_minus.to_host();
+  y_plus.to_host();
 
+  /* get the single loss values */
+  real L_minus = alpha->dot(y_minus);
+  real L       = alpha->dot(y);
+  real L_plus  = alpha->dot(y_plus);
+  /* various inner products */
+  real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */
+  real dx_dx = dx->dot(*dx);                       /* ∂L/∂x・dx */
+  real gx_dx = gx.dot(*dx);                        /* dx・dx */
+  real gw_gw = conv->gw_dot_gw(*conv);             /* ∂L/∂w・∂L/∂w */
+  real dw_dw = conv_minus->gw_dot_gw(*conv_minus); /* ∂L/∂w・dw */
+  real gw_dw = conv->gw_dot_gw(*conv_minus);       /* dw・dw */
+  
+  real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);
+  /* clean up */
+  conv->del_dev();
+  conv_minus->del_dev();
+  conv_plus->del_dev();
+  alpha->del_dev();
+  x->del_dev();
+  dx->del_dev();
+  x_minus->del_dev();
+  x_plus->del_dev();
+  
+  delete conv;
+  delete conv_minus;
+  delete conv_plus;
+  delete alpha;
+  delete x;
+  delete dx;
+  delete x_minus;
+  delete x_plus;
+  return rel_e;
+}
 
 int convolution_main(int argc, char ** argv) {
   cmdline_opt opt = parse_args(argc, argv);
-  const idx_t maxB = 1;
+  if (opt.error || opt.help) usage(argv[0]);
+  const idx_t maxB = MAX_BATCH_SIZE;
   const idx_t B = min_i(maxB, opt.batch_sz);
-  const idx_t IC = 1;
-  const idx_t H = 3;
-  const idx_t W = 3;
+  const idx_t IC = 3;
+  const idx_t H = 32;
+  const idx_t W = 32;
   const idx_t K = 1;
-  const idx_t OC = 1;
-  const int n_checks_gx = 0;
-  const int n_checks_gw = 10;
-
+  const idx_t OC = 64;
+  const int n_checks = opt.iters;
+  /* logger */
+  logger lgr;
+  lgr.start_log(opt);
   /* initialize random number generator */
   rnd_gen_t rg;
   rg.seed(opt.weight_seed);
-  /* initialize convolution parameters */
-  Convolution2D<maxB,IC,H,W,K,OC> conv;
-  conv.init(opt, B, rg);
-  /* initialize input x  */
-  array4<maxB,IC,H,W> x;
-  x.init_uniform(B, rg, 0.0, 1.0);
-
-  if (n_checks_gx > 0) {
-    real max_rel_e_gx = 0.0;
-    for (int t = 0; t < n_checks_gx; t++) {
-      real rel_e = convolution_grad_check_gx_1(conv, x, B, t, rg);
-      max_rel_e_gx = max_r(max_rel_e_gx, rel_e);
-    }
-    printf("max relative error for gx = %f\n", max_rel_e_gx);
+  /* check errors */
+  real max_e = 0.0;
+  real sum_e = 0.0;
+  for (int iter = 0; iter < n_checks; iter++) {
+    printf("==== %d ====\n", iter);
+    real e = convolution_grad_check_rand<maxB,IC,H,W,K,OC>(opt, &lgr, rg, B);
+    max_e = max_r(max_e, e);
+    sum_e += e;
   }
-
-  if (n_checks_gw > 0) {
-    real max_rel_e_gw = 0.0;
-    for (int t = 0; t < n_checks_gw; t++) {
-      real rel_e = convolution_grad_check_gw_1(conv, x, B, t, rg);
-      max_rel_e_gw = max_r(max_rel_e_gw, rel_e);
-    }
-    printf("max relative error for gw = %f\n", max_rel_e_gw);
-  }
-  
+  printf("max relative error = %.9f\n", max_e);
+  printf("avg relative error = %.9f\n", sum_e / n_checks);
+  lgr.end_log();
   return 0;
 }

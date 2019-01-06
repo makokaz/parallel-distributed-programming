@@ -1,31 +1,69 @@
+#
+# Makefile for VGG
+#
+
+#
+# compilers to compile the code with
+# (comment out one if you are not interested in it)
+#
+cxxs :=
+cxxs += g++
+cxxs += nvcc
+
+#
+# specify the full path to compilers if necessary
+#
+g++ := g++
+nvcc := nvcc
+#nvcc := /usr/local/bin/nvcc
+
+#
+# flags common across both compilers (g++ and nvcc)
+#
+flags :=
+# ---- optimize or debug ---- 
+flags += -O3
+#flags += -O0 -g
+# ---- turn on/off array index checking ---- 
+flags += -DARRAY_INDEX_CHECK=0
+#flags += -DARRAY_INDEX_CHECK=1
+# ---- maximum batch size ---- 
+flags += -DMAX_BATCH_SIZE=64
+#flags += -DMAX_BATCH_SIZE=1
+
+#
+# flags applied only to g++
+#
+g++flags += -Wall -Wextra
+g++flags += -Wno-strict-overflow
+g++flags += -march=native
+
+#
+# flags applied only to nvcc
+#
+nvccflags :=
+nvccflags += --generate-code arch=compute_60,code=sm_60
+nvccflags += --generate-code arch=compute_70,code=sm_70
+nvccflags += --compiler-options=-mavx2
+#nvccflags += --maxrregcount 64
+nvccflags += -Xptxas -O3,-v
+#nvccflags += -Xptxas -O0,-v -G
+nvccflags += -x cu
+
+#
+# you probably do not need to change below
+#
+
+targets := $(addprefix vgg.,$(cxxs))
+
+all : $(targets)
+
 headers := $(wildcard include/*.h)
 
-CXX := g++
-NVCXX := /usr/local/bin/nvcc
-
-CXXFLAGS :=
-CXXFLAGS += -O0 -g
-#CXXFLAGS += -O3
-CXXFLAGS += -Wall -Wextra
-CXXFLAGS += -Wno-strict-overflow
-#CXXFLAGS += -DARRAY_INDEX_CHECK=0
-CXXFLAGS += -DARRAY_INDEX_CHECK=1
-CXXFLAGS += -DMAX_BATCH_SIZE=64
-
-g++FLAGS := 
-nvccFLAGS := 
-
-targets := 
-targets += vgg.gcc
-#targets += vgg.nvcc
-
-all : $(targets) $(unit_check_exes)
-
-vgg.gcc : vgg.cc $(headers) Makefile
-	$(CXX) $(CXXFLAGS) $(g++FLAGS) -o $@ vgg.cc
-
-vgg.nvcc : vgg.cc $(headers) Makefile
-	$(NVCXX) $(CXXFLAGS) $(nvcxxFLAGS) -o $@ vgg.cc
+$(targets) : vgg.% : vgg.cc $(headers) Makefile
+	$($*) $(flags) $($*flags) -o $@ $<
 
 clean :
-	rm -f vgg.gcc vgg.nvcc
+	rm -f $(targets)
+
+.DELETE_ON_ERROR :
