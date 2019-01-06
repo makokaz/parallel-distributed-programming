@@ -6,6 +6,7 @@ opts :=
 opts += -O3
 opts += -Wall -Wextra
 opts += -march=native
+#opts += -mavx2
 opts += -funroll-loops
 opts += -fopenmp
 opts += -I/home/tau/libpfm-4.10.1/include

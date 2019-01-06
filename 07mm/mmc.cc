@@ -50,7 +50,7 @@ int main(int argc, char ** argv) {
   
   const idx_t M = bM * (bN / L) * 1;
   const idx_t N = bN * 1;
-  const idx_t K = bK * 1;
+  const idx_t K = bK * 200;
   const idx_t lda = K;
   const idx_t ldb = N;
   const idx_t ldc = N;

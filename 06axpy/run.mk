@@ -13,14 +13,29 @@ out/created :
 host:=$(shell hostname | tr -d [0-9])
 n:=1000000
 
+ifeq ($(host),big)
+processor:=cpu
+endif
+ifeq ($(host),knm)
+processor:=cpu
+endif
+ifeq ($(host),p)
+processor:=gpu
+endif
+ifeq ($(host),v)
+processor:=gpu
+endif
+
 # single variable
+
+ifeq ($(processor),cpu)
 exe := axpy.g++
-algo := scalar simd simd_c simd_m simd_m_nmn simd_m_mnm simd_parallel_m_mnm
-m := 1
+algo := scalar simd simd_c
+m := 0
 c := 1
 bs := 1
 threads := 1
-#$(define_rules)
+$(define_rules)
 
 # simd_c with many vars
 exe := axpy.g++
@@ -29,7 +44,7 @@ m := 0
 c := $(shell seq 2 15)
 bs := 1
 threads := 1
-#$(define_rules)
+$(define_rules)
 
 # simd_m 
 exe := axpy.g++
@@ -38,7 +53,7 @@ m := $(shell seq 16 16 320)
 c := 1
 bs := 1
 threads := 1
-#$(define_rules)
+$(define_rules)
 
 # simd_m_mnm
 exe := axpy.g++
@@ -47,25 +62,39 @@ m := $(shell seq 16 16 512)
 c := $(shell seq 1 16)
 bs := 1
 threads := 1
-#$(define_rules)
+$(define_rules)
+
+endif
+
+ifeq ($(processor),gpu)
 
 # cuda cuda_c
 exe := axpy.nvcc
-algo := cuda cuda_c
+algo := cuda
 m := 1
-c := 1
+c := $(shell seq 1 1 8)
 bs := 1
 threads := 1
-$(define_rules)
+#$(define_rules)
 
 # cuda_c
 exe := axpy.nvcc
 algo := cuda_c
-m := 0
-c := $(shell seq 1 1 10)
-bs := $(shell seq 32 32 640)
+m := 1
+c := $(shell seq 1 1 8)
+bs := 1 $(shell seq 32 32 640)
 threads := 1
 #$(define_rules)
 
+# cuda_c
+exe := axpy.nvcc
+algo := cuda_c
+m := $(shell seq 1024 1024 163840)
+c := 4
+bs := 256
+threads := 1
+$(define_rules)
+
+endif
 
 .DELETE_ON_ERROR:

@@ -63,6 +63,7 @@ typedef struct {
   const char * algo_str;
   algo_t algo;
   long bs;                      /**< cuda block size */
+  long w;                       /**< active threads per warp */
   long c;                       /**< the number of floats concurrently updated */
   long m;                       /**< the number of floats */
   long n;                       /**< the number of times each variable is updated */
@@ -70,7 +71,7 @@ typedef struct {
   long n_elems_to_show;         /**< the number of variables to show results */
   int help;
   int error;
-} cmdline_options_t;
+} axpy_options_t;
 
 /** 
     @brief repeat x = a x + b for a scalar type (float) variable x
@@ -82,9 +83,10 @@ typedef struct {
     @details it should run at 4 clocks/iter (the latency of fma
     instruction), or 0.5 flops/clock
  */
-long axpy_scalar(long m, long n, long bs, float a, float* X, float b) {
-  assert(m == 1);
-  assert(bs == 1);
+long axpy_scalar(axpy_options_t opt, float a, float* X, float b) {
+  assert(opt.m == 1);
+  assert(opt.bs == 1);
+  long n = opt.n;
   float x = X[0];
   asm volatile ("# axpy_scalar: ax+b loop begin");
   for (long i = 0; i < n; i++) {
@@ -106,9 +108,10 @@ long axpy_scalar(long m, long n, long bs, float a, float* X, float b) {
     instruction) = 4 flops/clock with AVX and 8 flops/clock with AVX512F 
  */
 //#pragma GCC optimize("unroll-loops", 4)
-long axpy_simd(long m, long n, long bs, float a, float* X_, float b) {
-  assert(m == L);
-  assert(bs == 1);
+long axpy_simd(axpy_options_t opt, float a, float* X_, float b) {
+  assert(opt.m == L);
+  assert(opt.bs == 1);
+  long n = opt.n;
   floatv * X = (floatv*)X_;
   floatv x = X[0];
   asm volatile ("# axpy_simd: ax+b loop begin");
@@ -141,9 +144,10 @@ long axpy_simd(long m, long n, long bs, float a, float* X_, float b) {
     
  */
 template<int c>
-long axpy_simd_c(long m, long n, long bs, float a, float* X_, float b) {
-  assert(c * L == m);
-  assert(bs == 1);
+long axpy_simd_c(axpy_options_t opt, float a, float* X_, float b) {
+  assert(opt.m == c * L);
+  assert(opt.bs == 1);
+  long n = opt.n;
   floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_c<%0>: ax+c loop begin" :: "i"(c));
   for (long i = 0; i < n; i++) {
@@ -180,9 +184,11 @@ long axpy_simd_c(long m, long n, long bs, float a, float* X_, float b) {
     14.204561 flops/CPU clock, 18.313685 flops/REF clock, 38.366397 GFLOPS
 
  */
-long axpy_simd_m(long m, long n, long bs, float a, float * X_, float b) {
+long axpy_simd_m(axpy_options_t opt, float a, float * X_, float b) {
+  long m = opt.m;
   assert(m % L == 0);
-  assert(bs == 1);
+  assert(opt.bs == 1);
+  long n = opt.n;
   floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_m: ax+c loop begin");
   for (long i = 0; i < n; i++) {
@@ -191,7 +197,7 @@ long axpy_simd_m(long m, long n, long bs, float a, float * X_, float b) {
     }
   }
   asm volatile ("# axpy_simd_m: ax+c loop end");
-  return 2 * m * n;
+  return 0;
 }
 
 /** 
@@ -204,11 +210,13 @@ long axpy_simd_m(long m, long n, long bs, float a, float * X_, float b) {
     @param (b) b of a x + b
 
  */
-long axpy_simd_m_nmn(long m, long n, long bs, float a, float* X_, float b) {
+long axpy_simd_m_nmn(axpy_options_t opt, float a, float* X_, float b) {
   const int steps_inner = 4;
+  long m = opt.m;
+  long n = opt.n;
   assert(m % L == 0);
   assert(n % steps_inner == 0);
-  assert(bs == 1);
+  assert(opt.bs == 1);
   floatv * X = (floatv*)X_;
   asm volatile ("# axpy_simd_m_nmn: ax+b loop begin");
   for (long i = 0; i < n; i += steps_inner) {
@@ -236,9 +244,11 @@ long axpy_simd_m_nmn(long m, long n, long bs, float a, float* X_, float b) {
 
  */
 template<int c>
-long axpy_simd_m_mnm(long m, long n, long bs, float a, float * X_, float b) {
+long axpy_simd_m_mnm(axpy_options_t opt, float a, float * X_, float b) {
+  long m = opt.m;
+  long n = opt.n;
   assert(m % (c * L) == 0);
-  assert(bs == 1);
+  assert(opt.bs == 1);
   floatv * X = (floatv*)X_;
   for (long j = 0; j < m / L; j += c) {
     asm volatile ("# axpy_simd_m_mnm<%0>: ax+c inner loop begin" :: "i"(c));
@@ -270,10 +280,12 @@ long axpy_simd_m_mnm(long m, long n, long bs, float a, float * X_, float b) {
 
  */
 template<int c>
-long axpy_simd_parallel_m_mnm(long m, long n, long bs, float a, float * X__, float b) {
+long axpy_simd_parallel_m_mnm(axpy_options_t opt, float a, float * X__, float b) {
+  long m = opt.m;
+  long n = opt.n;
   assert(c % L == 0);
   assert(m % c == 0);
-  assert(bs == 1);
+  assert(opt.bs == 1);
   floatv * X_ = (floatv*)X__;
 #pragma omp parallel for schedule(static)
   for (long j = 0; j < m / L; j += c) {
@@ -292,7 +304,7 @@ long axpy_simd_parallel_m_mnm(long m, long n, long bs, float a, float * X__, flo
       X_[j+jj] = X[jj];
     }
   }
-  return 2 * m * n;
+  return 0;
 }
 
 /** 
@@ -334,23 +346,26 @@ long thread_rec_get_span(thread_rec_t * R, long nthreads) {
   return max_c - min_c;
 }
 
-__global__ void axpy_dev(long m, long n, float a, float * X, float b,
+__global__ void axpy_dev(axpy_options_t opt, float a, float * X, float b,
                          thread_rec_t * dR) {
   int j = get_thread_id_x();
-  if (j < m) {
+  if (j < opt.m) {
+    long n = opt.n;
     thread_rec_t dr;
     dr.c0 = clock64();
     asm("// axpy_dev loop begins");
     for (long i = 0; i < n; i++) {
       X[j] = a * X[j] + b;
     }
-    asm("// axpy_dev<%0> loop ends");
+    asm("// axpy_dev loop ends");
     dr.c1 = clock64();
     dR[j] = dr;
   }
 }
 
-long axpy_cuda(long m, long n, long bs, float a, float * X, float b) {
+long axpy_cuda(axpy_options_t opt, float a, float * X, float b) {
+  long m = opt.m;
+  long bs = opt.bs;
   size_t sz  = sizeof(float) * m;
   size_t rsz = sizeof(thread_rec_t) * m;
   float * X_dev = (float *)dev_malloc(sz);
@@ -358,7 +373,8 @@ long axpy_cuda(long m, long n, long bs, float a, float * X, float b) {
   thread_rec_t * R_dev = (thread_rec_t *)dev_malloc(rsz);
   to_dev(X_dev, X, sz);
   long nb = (m + bs - 1) / bs;
-  check_launch_error((axpy_dev<<<nb,bs>>>(m, n, a, X_dev, b, R_dev)));
+  check_launch_error((axpy_dev<<<nb,bs>>>(opt, a, X_dev, b, R_dev)));
+  check_api_error(cudaDeviceSynchronize());
   to_host(X, X_dev, sz);
   to_host(R, R_dev, rsz);
   dev_free(X_dev);
@@ -371,12 +387,16 @@ long axpy_cuda(long m, long n, long bs, float a, float * X, float b) {
 #define expand(c) make_string(c)
 
 template<int c>
-__global__ void axpy_c_dev(long m, long n, float a, float * X_, float b,
+__global__ void axpy_c_dev(axpy_options_t opt,
+                           long nthreads,
+                           float a, float * X_, float b,
                            thread_rec_t * dR) {
   int tid = get_thread_id_x();
-  long j0 = c * tid;
-  if (j0 < m) {
+  if (tid < nthreads) {
+    assert(c * (tid + 1) <= opt.m);
+    long j0 = c * tid;
     thread_rec_t dr;
+    long n = opt.n;
     float X[c];
     for (long j = 0; j < c; j++) {
       X[j] = X_[j0 + j];
@@ -398,7 +418,9 @@ __global__ void axpy_c_dev(long m, long n, float a, float * X_, float b,
 }
 
 template<int c>
-long axpy_cuda_c(long m, long n, long bs, float a, float * X, float b) {
+long axpy_cuda_c(axpy_options_t opt, float a, float * X, float b) {
+  long m = opt.m;
+  long bs = opt.bs;
   assert(m % c == 0);
   long nthreads = m / c;
   size_t sz  = sizeof(float) * nthreads;
@@ -408,7 +430,7 @@ long axpy_cuda_c(long m, long n, long bs, float a, float * X, float b) {
   thread_rec_t * R_dev = (thread_rec_t *)dev_malloc(rsz);
   to_dev(X_dev, X, sz);
   long nb = (nthreads + bs - 1) / bs;
-  check_launch_error((axpy_c_dev<c><<<nb,bs>>>(m, n, a, X_dev, b, R_dev)));
+  check_launch_error((axpy_c_dev<c><<<nb,bs>>>(opt, nthreads, a, X_dev, b, R_dev)));
   to_host(X, X_dev, sz);
   to_host(R, R_dev, rsz);
   dev_free(X_dev);
@@ -419,7 +441,7 @@ long axpy_cuda_c(long m, long n, long bs, float a, float * X, float b) {
 
 #endif  /* __NVCC__ */
 
-typedef long (*axpy_fun_t)(long m, long n, long bs, float a, float* X, float b);
+typedef long (*axpy_fun_t)(axpy_options_t, float a, float* X, float b);
 
 typedef struct {
   axpy_fun_t t[algo_invalid];
@@ -457,13 +479,13 @@ axpy_funs_t axpy_funs_table[] = {
   aac(45), aac(46), aac(47), aac(48), aac(49), 
 };
 
-long axpy(cmdline_options_t opt, float a, float* X, float b) {
+long axpy(axpy_options_t opt, float a, float* X, float b) {
   long table_sz = sizeof(axpy_funs_table) / sizeof(axpy_funs_table[0]);
   long c = opt.c;
   assert(c > 0);
   assert(c < table_sz);
   axpy_fun_t f = axpy_funs_table[c].t[opt.algo];
-  long clocks = f(opt.m, opt.n, opt.bs, a, X, b);
+  long clocks = f(opt, a, X, b);
   return clocks;
 }
 
@@ -502,14 +524,15 @@ algo_t parse_algo(const char * s) {
   return algo_invalid;
 }
 
-static cmdline_options_t default_opts() {
-  cmdline_options_t opt = {
+static axpy_options_t default_opts() {
+  axpy_options_t opt = {
     .algo_str = "scalar",
     .algo = algo_invalid,
     .bs = 1,
+    .w = 32,
     .c = 1,
     .m = 1,
-    .n = 1000000000,
+    .n = 1000000,
     .seed = 76843802738543,
     .n_elems_to_show = 1,
     .help = 0,
@@ -519,7 +542,7 @@ static cmdline_options_t default_opts() {
 }
 
 static void usage(const char * prog) {
-  cmdline_options_t o = default_opts();
+  axpy_options_t o = default_opts();
   fprintf(stderr,
           "usage:\n"
           "\n"
@@ -529,6 +552,7 @@ static void usage(const char * prog) {
           "  --help                  show this help\n"
           "  -a,--algo A             use algorithm A (scalar,simd,simd_c,simd_m,simd_mnm,simd_nmn,simd_parallel_mnm,cuda) [%s]\n"
           "  -b,--cuda-block-size N  set cuda block size to N [%ld]\n"
+          "  -w,--active-threader-per-warp N  set active threads per warp to N [%ld]\n"
           "  -c,--concurrent-vars N  concurrently update N floats [%ld]\n"
           "  -m,--vars N             update N floats [%ld]\n"
           "  -n,--n N                update each float variable N times [%ld]\n"
@@ -536,7 +560,7 @@ static void usage(const char * prog) {
           ,
           prog,
           o.algo_str,
-          o.bs, o.c, o.m, o.n, o.seed
+          o.bs, o.w, o.c, o.m, o.n, o.seed
           );
 }
 
@@ -546,6 +570,7 @@ static void usage(const char * prog) {
 static struct option long_options[] = {
   {"algo",            required_argument, 0, 'a' },
   {"cuda-block-size", required_argument, 0, 'b' },
+  {"active-threads-per-warp", required_argument, 0, 'w' },
   {"concurrent-vars", required_argument, 0, 'c' },
   {"vars",            required_argument, 0, 'm' },
   {"n",               required_argument, 0, 'n' },
@@ -554,15 +579,21 @@ static struct option long_options[] = {
   {0,                 0,                 0,  0 }
 };
 
+static long make_multiple(long a, long q) {
+  if (a == 0) a = 1;
+  long b = a + q - 1;
+  return b - b % q;
+}
+
 /**
 
  */
-static cmdline_options_t parse_args(int argc, char ** argv) {
+static axpy_options_t parse_args(int argc, char ** argv) {
   char * prog = argv[0];
-  cmdline_options_t opt = default_opts();
+  axpy_options_t opt = default_opts();
   while (1) {
     int option_index = 0;
-    int c = getopt_long(argc, argv, "a:b:c:m:n:s:h",
+    int c = getopt_long(argc, argv, "a:b:w:c:m:n:s:h",
                         long_options, &option_index);
     if (c == -1) break;
     switch (c) {
@@ -580,6 +611,9 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
       break;
     case 'b':
       opt.bs = atol(optarg);
+      break;
+    case 'w':
+      opt.w = atol(optarg);
       break;
     case 'c':
       opt.c = atol(optarg);
@@ -609,17 +643,27 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
   }
   switch (opt.algo) {
   case algo_scalar:
-    opt.m = 1;
     opt.c = 1;
+    opt.m = 1;
     opt.bs = 1;
     break;
   case algo_simd:
-    opt.m = L;
     opt.c = 1;
+    opt.m = L;
     opt.bs = 1;
     break;
   case algo_simd_c:
     opt.m = opt.c * L;
+    opt.bs = 1;
+    break;
+  case algo_simd_m:
+    opt.c = 1;
+    opt.m = make_multiple(opt.m, L);
+    opt.bs = 1;
+    break;
+  case algo_simd_m_mnm:
+  case algo_simd_m_nmn:
+    opt.m = make_multiple(opt.m, opt.c * L);
     opt.bs = 1;
     break;
   case algo_cuda:
@@ -627,7 +671,7 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
     opt.m = opt.bs;
     break;
   case algo_cuda_c:
-    opt.m = opt.c * opt.bs;
+    opt.m = make_multiple(opt.m, opt.c * opt.bs);
     break;
   default:
     // other algorithms can update the given number of parameters
@@ -645,7 +689,7 @@ static cmdline_options_t parse_args(int argc, char ** argv) {
    @param (argv) command line args
   */
 int main(int argc, char ** argv) {
-  cmdline_options_t opt = parse_args(argc, argv);
+  axpy_options_t opt = parse_args(argc, argv);
   if (opt.help || opt.error) {
     usage(argv[0]);
     exit(opt.error);
@@ -656,6 +700,7 @@ int main(int argc, char ** argv) {
   printf("    c = %ld (the number of variables to update in the inner loop)\n", opt.c);
   printf("    m = %ld (the number of FP numbers to update)\n", opt.m);
   printf("    n = %ld (the number of times to update each variable)\n", opt.n);
+  printf("    L = %d (SIMD lanes on the CPU)\n", L);
   
   unsigned short rg[3] = {
     (unsigned short)(opt.seed >> 16),

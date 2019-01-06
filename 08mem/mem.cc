@@ -81,26 +81,26 @@ int is_prime(long x) {
   return 1; 
 }
 
-inline long calc_random_next0(long t, long idx, long n) {
+static inline long calc_random_next0(long t, long idx, long n) {
   long next_idx = idx + 2 * t + 1;
   if (next_idx - n >= 0) next_idx = next_idx - n;
   if (next_idx - n >= 0) next_idx = next_idx - n;
   return next_idx;
 }
 
-inline long calc_random_next1(long t, long idx, long n) {
+static inline long calc_random_next1(long t, long idx, long n) {
   (void)t;
   return n - idx;
 }
 
-inline long calc_random_next2(long t, long idx, long n) {
+static inline long calc_random_next2(long t, long idx, long n) {
   long next_idx = idx - (2 * t + 1);
   if (next_idx < 0) next_idx = next_idx + n;
   if (next_idx < 0) next_idx = next_idx + n;
   return next_idx;
 }
 
-inline long calc_random_next(long t, long idx, long n) {
+static inline long calc_random_next(long t, long idx, long n) {
   if (t < (n - 1) / 2) {
     return calc_random_next0(t, idx, n);
   } else if (t == (n - 1) / 2) {
@@ -173,9 +173,14 @@ void mk_arrays(long n, int nc, record<rec_sz> * H,
   }
 }
 
+int get_rank();
+
 template<int rec_sz, int n_chains, int access_payload, int prefetch>
 record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, long prefetch_dist) {
   for (long s = 0; s < n_scans; s++) {
+#if 0
+    long t0 = rdtsc();
+#endif
     asm volatile("# seq loop begin (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
 		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
     for (long t = 0, u = prefetch_dist; t < n; t++, u++) {
@@ -194,6 +199,12 @@ record<rec_sz> * scan_seq(record<rec_sz> * a[n_chains], long n, long n_scans, lo
     }
     asm volatile("# seq loop end (n_chains = %0, payload = %1, prefetch = %2, rec_sz = %3)" 
 		 : : "i" (n_chains), "i" (access_payload), "i" (prefetch), "i" (rec_sz));
+#if 0
+    long t1 = rdtsc();
+    if (get_rank() == 0) {
+      printf("%ld : %ld\n", s, t1 - t0);
+    }
+#endif
   }
   return &a[n_chains-1][n - 1];
 }
@@ -569,14 +580,15 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
     }
   }
   if (rank == 0) {
+#if 0    
     long n_loads = n * nc * n_scans
       * (access_payload ? (sizeof(record<rec_sz>) / sizeof(longv)) : 1);
-    
     double ovf = show_cache_set_info(&H[n * nc * rank],
                                      &H[n * nc * (rank + 1)]);
     printf("overflow percentage : %f\n", ovf);
     printf("n_loads : %ld\n", n_loads);
     printf("expected misses : %f\n", ovf * n_loads);
+#endif
     for (long r = 0; r < repeat; r++) {
       printf("--------- %ld ---------\n", r);
       scan_record_t * R = &scan_records[r];
@@ -596,7 +608,7 @@ void worker(int rank, int n_threads, record<rec_sz> * H,
       printf("%lld CPU clocks\n", dc);
       printf("%lld REF clocks\n", dr);
       printf("%lld nano sec\n", dt);
-      printf("throughput %.3f bytes/clock\n", access_sz / (double)dc);
+      printf("throughput %.3f bytes/REF clock\n", access_sz / (double)dr);
       printf("throughput %.3f GiB/sec\n", access_sz * pow(2.0, -30) * 1.0e9 / dt);
       printf("latency %.3f CPU clocks\n", dc / (double)n_iters_per_thread);
       printf("latency %.3f REF clocks\n", dr / (double)n_iters_per_thread);
@@ -778,6 +790,7 @@ int real_main(opts o) {
   printf("prefetch: %ld\n", prefetch);
   printf("method: %s\n", canonical_method_string(method));
   printf("events: %s\n", events);
+  fflush(stdout);
 
 #if _OPENMP
 #pragma omp parallel

@@ -1,7 +1,7 @@
-CXX := g++
+#CXX := g++
 #CXX := icpc
 #CXX := clang
-#CXX:=nvcc
+CXX:=nvcc
 
 cc_files := $(wildcard axpy.cc)
 exes := $(patsubst %.cc,%.$(CXX),$(cc_files))
@@ -40,8 +40,9 @@ nvcc_opts += -x cu
 nvcc_opts += --generate-code arch=compute_60,code=sm_60
 nvcc_opts += --generate-code arch=compute_70,code=sm_70
 #nvcc_opts += --maxrregcount 64
-#nvcc_opts += -Xptxas -O0,-v -g -G
-nvcc_opts += -Xptxas -O3,-v
+#nvcc_opts += -Xptxas -O3,-v
+#nvcc_opts += -O0 -g -G -Xptxas -O0
+nvcc_opts += -Xptxas -O3
 nvcc_opts += --compiler-options=-mavx2
 
 CXXFLAGS := $(common_opts) $($(CXX)_opts)
