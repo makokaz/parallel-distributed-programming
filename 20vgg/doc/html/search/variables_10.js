@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['validate',['validate',['../structcifar10__dataset.html#a3264803c2eb493dabaedb7eca4d7725f',1,'cifar10_dataset']]],
-  ['validate_5finterval',['validate_interval',['../structcmdline__opt.html#a93fd0f470a52208842dd7257b83df50b',1,'cmdline_opt']]],
-  ['validate_5fratio',['validate_ratio',['../structcmdline__opt.html#a559a5437432ab522d6f2749876147029',1,'cmdline_opt']]],
-  ['validate_5fseed',['validate_seed',['../structcmdline__opt.html#aab2c1bdc4c5558d0cb084d9dd11f9cec',1,'cmdline_opt']]],
-  ['verbose',['verbose',['../structcmdline__opt.html#a2212d80547e3ae3504942006440f7285',1,'cmdline_opt']]]
+  ['t',['t',['../structVGG.html#a302cf15e5bd6f920d527334df6f3e2b2',1,'VGG']]],
+  ['t0',['t0',['../structlogger.html#a6336fd3fffff10df04811a819c1c5a70',1,'logger']]],
+  ['t_5fptr',['t_ptr',['../structSoftmaxCrossEntropy.html#a58fadb0af31e34384df054ab40b88201',1,'SoftmaxCrossEntropy']]],
+  ['train',['train',['../structcifar10__dataset.html#a0c64c36b940f91c63a9d5f89360f5335',1,'cifar10_dataset']]]
 ];

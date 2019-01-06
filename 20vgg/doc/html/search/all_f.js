@@ -14,7 +14,6 @@ var searchData=
   ['softmaxcrossentropy_2eh',['softmaxcrossentropy.h',['../softmaxcrossentropy_8h.html',1,'']]],
   ['softmaxcrossentropy_5fgrad_5fcheck_5frand',['softmaxcrossentropy_grad_check_rand',['../softmaxcrossentropy_8h.html#a650182ed5a860964171b71bf27aadb3f',1,'softmaxcrossentropy.h']]],
   ['softmaxcrossentropy_5fmain',['softmaxcrossentropy_main',['../softmaxcrossentropy_8h.html#ac16bb9a8e35d22b25f3e78e00b5d5231',1,'softmaxcrossentropy.h']]],
-  ['start_5fdata',['start_data',['../structcmdline__opt.html#adaf2f999b02427309fbdc1f95b614260',1,'cmdline_opt']]],
   ['start_5flog',['start_log',['../structlogger.html#a2d852f1f257849e0abed587814446908',1,'logger']]],
   ['state_5fforward',['state_forward',['../structDropout.html#ac409c1b3a996e35eb78964aa52c5a203',1,'Dropout']]],
   ['sum',['sum',['../structvec.html#a0d91cea4932972e60e8a4fe9ad6dc0a2',1,'vec']]]

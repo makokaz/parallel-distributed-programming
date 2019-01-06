@@ -28,9 +28,7 @@ const char $\ast$ \hyperlink{structcmdline__opt_aeaf0e85613dea855a29a691b5915e81
 \item 
 long \hyperlink{structcmdline__opt_a430664c4a225528c56f959765371755d}{iters}
 \item 
-long \hyperlink{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}{start\+\_\+data}
-\item 
-long \hyperlink{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}{end\+\_\+data}
+long \hyperlink{structcmdline__opt_a36b99fa5f7fa96a44170687afc327f07}{partial\+\_\+data}
 \item 
 int \hyperlink{structcmdline__opt_a2e2f53ec465901071633192bfdec032a}{single\+\_\+batch}
 \item 
@@ -46,7 +44,7 @@ long \hyperlink{structcmdline__opt_a70133aad1b243d44e1be18be81633939}{weight\+\_
 \item 
 long \hyperlink{structcmdline__opt_a8618cfd6b437743f58258b580d59b466}{dropout\+\_\+seed}
 \item 
-long \hyperlink{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}{validate\+\_\+seed}
+long \hyperlink{structcmdline__opt_a046deb2b2e8e313a27f753cf4aa9883c}{partial\+\_\+data\+\_\+seed}
 \item 
 int \hyperlink{structcmdline__opt_a5e70c87e86e82f9d42f6eb341f0902e3}{grad\+\_\+dbg}
 \item 
@@ -104,13 +102,7 @@ data file \mbox{\Hypertarget{structcmdline__opt_a0db00c69f0bfa206b17748c0b9ca1d0
 \subsubsection{\texorpdfstring{dropout\+\_\+seed}{dropout\_seed}}
 {\footnotesize\ttfamily long cmdline\+\_\+opt\+::dropout\+\_\+seed}
 
-random seed to determine dropout \mbox{\Hypertarget{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}\label{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}} 
-\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!end\+\_\+data@{end\+\_\+data}}
-\index{end\+\_\+data@{end\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
-\subsubsection{\texorpdfstring{end\+\_\+data}{end\_data}}
-{\footnotesize\ttfamily long cmdline\+\_\+opt\+::end\+\_\+data}
-
-read before this image \mbox{\Hypertarget{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}\label{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}} 
+random seed to determine dropout \mbox{\Hypertarget{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}\label{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}} 
 \index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!error@{error}}
 \index{error@{error}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
 \subsubsection{\texorpdfstring{error}{error}}
@@ -152,7 +144,19 @@ learning rate \mbox{\Hypertarget{structcmdline__opt_a0ecd10b9b45fb70719fb85fff85
 \subsubsection{\texorpdfstring{log}{log}}
 {\footnotesize\ttfamily const char$\ast$ cmdline\+\_\+opt\+::log}
 
-log file name \mbox{\Hypertarget{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}\label{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}} 
+log file name \mbox{\Hypertarget{structcmdline__opt_a36b99fa5f7fa96a44170687afc327f07}\label{structcmdline__opt_a36b99fa5f7fa96a44170687afc327f07}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!partial\+\_\+data@{partial\+\_\+data}}
+\index{partial\+\_\+data@{partial\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{partial\+\_\+data}{partial\_data}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::partial\+\_\+data}
+
+choose this number of data in the file (0 for all) \mbox{\Hypertarget{structcmdline__opt_a046deb2b2e8e313a27f753cf4aa9883c}\label{structcmdline__opt_a046deb2b2e8e313a27f753cf4aa9883c}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!partial\+\_\+data\+\_\+seed@{partial\+\_\+data\+\_\+seed}}
+\index{partial\+\_\+data\+\_\+seed@{partial\+\_\+data\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{partial\+\_\+data\+\_\+seed}{partial\_data\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::partial\+\_\+data\+\_\+seed}
+
+random seed to determine which data in the file are used for training/validation \mbox{\Hypertarget{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}\label{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}} 
 \index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!sample\+\_\+seed@{sample\+\_\+seed}}
 \index{sample\+\_\+seed@{sample\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
 \subsubsection{\texorpdfstring{sample\+\_\+seed}{sample\_seed}}
@@ -164,13 +168,7 @@ random seed to draw samples \mbox{\Hypertarget{structcmdline__opt_a2e2f53ec46590
 \subsubsection{\texorpdfstring{single\+\_\+batch}{single\_batch}}
 {\footnotesize\ttfamily int cmdline\+\_\+opt\+::single\+\_\+batch}
 
-1 if we choose the same samples every iteration \mbox{\Hypertarget{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}\label{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}} 
-\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!start\+\_\+data@{start\+\_\+data}}
-\index{start\+\_\+data@{start\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
-\subsubsection{\texorpdfstring{start\+\_\+data}{start\_data}}
-{\footnotesize\ttfamily long cmdline\+\_\+opt\+::start\+\_\+data}
-
-read from this image \mbox{\Hypertarget{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}\label{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}} 
+1 if we choose the same samples every iteration \mbox{\Hypertarget{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}\label{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}} 
 \index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!validate\+\_\+interval@{validate\+\_\+interval}}
 \index{validate\+\_\+interval@{validate\+\_\+interval}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
 \subsubsection{\texorpdfstring{validate\+\_\+interval}{validate\_interval}}
@@ -182,13 +180,7 @@ relative validation frequency \mbox{\Hypertarget{structcmdline__opt_a559a5437432
 \subsubsection{\texorpdfstring{validate\+\_\+ratio}{validate\_ratio}}
 {\footnotesize\ttfamily double cmdline\+\_\+opt\+::validate\+\_\+ratio}
 
-ratio of data held out for validation \mbox{\Hypertarget{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}\label{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}} 
-\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!validate\+\_\+seed@{validate\+\_\+seed}}
-\index{validate\+\_\+seed@{validate\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
-\subsubsection{\texorpdfstring{validate\+\_\+seed}{validate\_seed}}
-{\footnotesize\ttfamily long cmdline\+\_\+opt\+::validate\+\_\+seed}
-
-random seed to determine which data are held out for validation \mbox{\Hypertarget{structcmdline__opt_a2212d80547e3ae3504942006440f7285}\label{structcmdline__opt_a2212d80547e3ae3504942006440f7285}} 
+ratio of data held out for validation \mbox{\Hypertarget{structcmdline__opt_a2212d80547e3ae3504942006440f7285}\label{structcmdline__opt_a2212d80547e3ae3504942006440f7285}} 
 \index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!verbose@{verbose}}
 \index{verbose@{verbose}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
 \subsubsection{\texorpdfstring{verbose}{verbose}}

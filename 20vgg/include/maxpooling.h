@@ -1,5 +1,6 @@
 /**
    @file maxpooling.h
+   @brief max pooling layer
  */
 #pragma once
 
@@ -10,12 +11,28 @@
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   struct MaxPooling2D;
 
+/**
+   @brief a global CUDA function that implements the baseline 
+   forward function for GPU
+   @param (dev) the address of the device shadow of the object
+   @param (x_dev) the address of the device shadow of the input matrix
+   @sa forward_dev
+   @sa forward_gpu
+  */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   __global__ void forward_global(MaxPooling2D<maxB,C,H,W,S>* dev,
                                  array4<maxB,C,H,W>* x_dev) {
   dev->forward_dev(*x_dev);
 }
 
+/**
+   @brief a global CUDA function that implements the baseline 
+   backward function for GPU
+   @param (dev) the address of the device shadow of the object
+   @param (gy_dev) the address of the device shadow of the input matrix
+   @sa backward_dev
+   @sa backward_gpu
+  */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   __global__ void backward_global(MaxPooling2D<maxB,C,H,W,S>* dev,
                                   array4<maxB,C,H/S,W/S>* gy_dev) {
@@ -23,25 +40,63 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
 }
 #endif
 
+/**
+   @brief max pooling layer
+
+   @param (maxB) the maximum number of images (batch size)
+   @param (C) the number of channels per input image (the 
+               original input has typically three channels for RGB. 
+               in hidden layers, it starts from 64 and goes up 
+               to 512 in the last hidden layer)
+   @param (H) height of an image (32 for an input image, down to 1 in
+              the last hidden layer)
+   @param (W) width of an image (32 for an input image, down to 1 in
+              the last hidden layer)
+   @param (S) shrink factor of pooling layers (2)
+
+   @details this layer implements max pooling. it takes SxS patch of 
+   input images and take the maximum of it. given an HxW image,
+   output (H/S)x(W/S) image
+
+ */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
 struct MaxPooling2D {
 #if __NVCC__
-  MaxPooling2D<maxB,C,H,W,S>* dev;
+  MaxPooling2D<maxB,C,H,W,S>* dev; /**< device shadow  */
 #endif
-  logger * lgr;
-  cmdline_opt opt;
-  array4<maxB,C,H/S,W/S> y;
-  array4<maxB,C,H/S,W/S> max_idx;
-  array4<maxB,C,H,W> gx;
+  cmdline_opt opt;              /**< command line option */
+  logger * lgr;                 /**< logger  */
+  array4<maxB,C,H/S,W/S> y;     /**< output of the forward */
+  array4<maxB,C,H/S,W/S> max_idx; /**< the index that gave the maximum of each output pixel */
+  array4<maxB,C,H,W> gx;          /**< gradient of loss wrt to input x */
+  /**
+     @brief initialize 
+     @param (opt) command line options
+     @param (lgr) logger
+  */
   void init(cmdline_opt opt, logger * lgr) {
     this->opt = opt;
     this->lgr = lgr;
   }
+  /**
+     @brief make a copy of this 
+     @details if this object has a device pointer, the copy will have
+     a device pointer too, but its contents are NOT copied
+  */
   MaxPooling2D<maxB,C,H,W,S>* copy() {
     MaxPooling2D<maxB,C,H,W,S>* c = new MaxPooling2D<maxB,C,H,W,S>(*this);
     c->make_dev();
     return c;
   }
+  /**
+     @brief set the device pointer for this and all subobjects
+     @param (dev) a device memory or null
+     @sa make_dev
+     @sa del_dev
+     @details if dev is not null, dev fields of all subojects 
+     point to the corresponding subjects in the device memory.
+     if dev is not null, all dev fields become null.
+  */
   void set_dev(MaxPooling2D<maxB,C,H,W,S>* dev) {
 #if __NVCC__
     this->dev = dev;
@@ -50,6 +105,13 @@ struct MaxPooling2D {
     gx.set_dev(dev ? &dev->gx : 0);
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, allocate a device shadow 
+     of this object and set dev field of this and all subobjects. otherwise
+     it sets all dev fields to null.
+     @sa set_dev
+     @sa del_dev
+  */
   void make_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -60,6 +122,12 @@ struct MaxPooling2D {
     set_dev(dev);
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must not
+     be null and deallocate it.
+     @sa make_dev
+     @sa set_dev
+  */
   void del_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -69,6 +137,10 @@ struct MaxPooling2D {
     }
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must
+     not be null and send the host data to the device memory
+  */
   void to_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -77,6 +149,10 @@ struct MaxPooling2D {
     }
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must
+     not be null and send the device data to the host memory
+  */
   void to_host() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -87,6 +163,18 @@ struct MaxPooling2D {
     }
 #endif
   }
+  /**
+     @brief the baseline (serial) implementation of forward
+     called both by cpu implementation (forward_cpu) and 
+     gpu implementation (forward_dev). the call sequence
+     forward -> forward_cpu -> forward_base on cpu and
+     and is forward -> forward_gpu -> forward_global -> forward_dev -> forward_base
+     @param (x) input images
+     @sa forward
+     @sa forward_gpu
+     @sa forward_global
+     @sa forward_dev
+  */
   __device__ __host__
   void forward_base(array4<maxB,C,H,W>& x) {
     const idx_t B = x.B;
@@ -114,19 +202,51 @@ struct MaxPooling2D {
     }
   }
 #if __NVCC__
+  /**
+     @brief the device function of forward called from the 
+     global (non-member) function
+     @param (x) input images
+     @sa forward
+     @sa forward_gpu
+     @sa forward_global
+     @sa forward_base
+  */
   __device__
   void forward_dev(array4<maxB,C,H,W>& x) {
     forward_base(x);
   }
+  /**
+     @brief a gpu version of baseline code called from the 
+     entry function (forward)
+     @param (x) input images
+     @sa forward
+     @sa forward_global
+     @sa forward_dev
+     @sa forward_base
+  */
   void forward_gpu(array4<maxB,C,H,W>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
 #endif
+  /**
+     @brief a cpu version of baseline code called from the 
+     entry function (forward)
+     @param (x) input images
+     @sa forward
+     @sa forward_base
+  */
   void forward_cpu(array4<maxB,C,H,W>& x) {
     forward_base(x);
   }
+  /**
+     @brief calc the loss function of a mini-batch (x)
+     @param (x) input images
+     @sa backward
+     @sa update
+  */
   array4<maxB,C,H/S,W/S>& forward(array4<maxB,C,H,W>& x) {
     log_start_fun(lgr);
+    tsc_t t0 = get_tsc();
     switch (opt.algo) {
       /* add case for your implementations here */
     case algo_cpu_base:
@@ -146,9 +266,22 @@ struct MaxPooling2D {
         forward_cpu(x);
       }        
     }
-    log_end_fun(lgr);
+    tsc_t t1 = get_tsc();
+    log_end_fun(lgr, t0, t1);
     return y;
   }
+  /**
+     @brief the baseline (serial) implementation of backward
+     called both by cpu implementation (backward_cpu) and 
+     gpu implementation (backward_dev). the call sequence
+     backward -> backward_cpu -> backward_base on cpu and
+     and is backward -> backward_gpu -> backward_global -> backward_dev -> backward_base
+     @param (gy) gradient of loss with respect to the output
+     @sa backward
+     @sa backward_gpu
+     @sa backward_global
+     @sa backward_dev
+  */
   __device__ __host__
   void backward_base(array4<maxB,C,H/S,W/S>& gy) {
     const idx_t B = gy.B;
@@ -172,19 +305,56 @@ struct MaxPooling2D {
     }
   }
 #if __NVCC__
+  /**
+     @brief the device function of backward called from the 
+     global (non-member) function
+     @param (gy) gradient of loss with respect to the output
+     @sa backward
+     @sa backward_gpu
+     @sa backward_global
+     @sa backward_base
+  */
   __device__
   void backward_dev(array4<maxB,C,H/S,W/S>& gy) {
     backward_base(gy);
   }
+  /**
+     @brief a gpu version of baseline code called from the 
+     entry function (backward)
+     @param (gy) gradient of loss with respect to the output
+     @sa backward
+     @sa backward_global
+     @sa backward_dev
+     @sa backward_base
+  */
   void backward_gpu(array4<maxB,C,H/S,W/S>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
 #endif
+  /**
+     @brief a cpu version of baseline code called from the 
+     entry function (backward)
+     @param (gy) gradient of loss with respect to the output
+     @sa backward
+     @sa backward_base
+  */
   void backward_cpu(array4<maxB,C,H/S,W/S>& gy) {
     backward_base(gy);
   }
+  /**
+     @brief calc the gradient of loss wrt the input (x)
+     @param (gy) gradient of loss with respect to the output
+     @details calc the gradient of loss wrt the input. along the way,
+     it also calculates the gradient of loss wrt weights for
+     all sublayers that have weights. since this is the entire
+     network, gy is actually a vector whose components are all 1.
+     (loss = sum of losses of each data).
+     @sa forward
+     @sa update
+  */
   array4<maxB,C,H,W>& backward(array4<maxB,C,H/S,W/S>& gy) {
     log_start_fun(lgr);
+    tsc_t t0 = get_tsc();
     switch (opt.algo) {
       /* add case for your implementations here */
     case algo_cpu_base:
@@ -204,14 +374,31 @@ struct MaxPooling2D {
         backward_cpu(gy);
       }        
     }
-    log_end_fun(lgr);
+    tsc_t t1 = get_tsc();
+    log_end_fun(lgr, t0, t1);
     return gx;
-  }
-  real diff(MaxPooling2D<maxB,C,H,W,S>& b) {
-    return y.diff(b.y);
   }
 };
 
+/**
+   @brief check the gradient computation of a maxpooling layer
+   @param (opt) command line option
+   @param (lgr) logger 
+   @param (rg) random number generator
+   @param (B) the number of images
+   @sa maxpooling_main
+   @details it first makes a layer object with initial weights W 
+   and generates an input (x and t).
+   it then creates two layers whose weights are slightly different
+   from the original one by dw/2 (i.e., w-dw/2 and w+dw/2), as well as
+   two inputs slighly different from the original inputs by dx/2
+   (x-dx/2 and x+dx/2).  it then computes L(w,x), L(x-dw/2,x-dx/2) and
+   L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-L(x-dw/2,x-dx/2)
+   is close to ∂L/∂x dx + ∂L/∂w dw.  ∂L/∂x and ∂L/∂w are obtained
+   by backward computation. This is essentially checking if
+   the gradients obtained by backward computation correctly approximates
+   the diff of the output.
+*/
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   real maxpooling_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t& rg, idx_t B) {
   /* initialize maxpooling parameters */
@@ -296,6 +483,18 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   return rel_e;
 }
 
+/**
+   @brief entry point of this header file
+   @param (argc) the number of command line args
+   @param (argv) command line args
+   @sa maxpooling_grad_check_rand
+   @details if this header file is included from
+   a main C++ file and define maxpooling_main to be main
+   (e.g., with -Dmaxpooling_main=main), then this
+   function becomes th main function of the executable.
+   it calls maxpooling_grad_check_rand repeatedly to test
+   the implementation of VGG network.
+*/
 int maxpooling_main(int argc, char ** argv) {
   cmdline_opt opt = parse_args(argc, argv);
   const idx_t maxB = MAX_BATCH_SIZE;

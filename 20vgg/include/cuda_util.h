@@ -57,6 +57,13 @@ static void dev_sync() {
  */
 
 #define check_launch_error(exp) do { exp; check_launch_error_(#exp, __FILE__, __LINE__); } while (0)
+
+/**
+   @brief launch a kernel and wait for its completion
+   @details usage: launch_and_sync((kernel-launch-expression)). for example,
+   launch_and_sync((your_gpu_kernel<<<n_blocks,block_sz>>>(a,b,c))). 
+   note that you need to put parens around the expression.
+ */
 #define launch_and_sync(exp) do { exp; check_launch_error_(#exp, __FILE__, __LINE__); dev_sync(); } while (0)
 
 /**
@@ -109,12 +116,6 @@ void to_host(void * dst, void * src, size_t sz) {
  */
 static void to_dev(void * dst, void * src, size_t sz) {
   check_api_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
-}
-
-static void * make_dev(void * src, size_t sz) {
-  void * dst = dev_malloc(sz);
-  check_api_error(cudaMemcpy(dst, src, sz, cudaMemcpyHostToDevice));
-  return dst;
 }
 
 /**

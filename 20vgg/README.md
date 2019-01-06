@@ -85,29 +85,31 @@ The number of iterations (-m,--iters)
 
 For a quick experiment, you will want to make both batch size and iterations small (e.g., -m 1 -b 1).
 
-Turn on/off dropout (--dropout 1/0)
+dropout (--dropout 1)
 --------------------------
 
-There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  Dropout is generally believed to improve generalization.  You may turn off this feature during development, to make sure the network is exactly the same throughout iterations.
+There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  
 
-You can turn off dropout by --droput 0 (default: 1)
+Dropout is OFF by default.  You may turn it on by giving --dropout 1.
+
+Dropout is generally believed to improve generalization.  The reason that dropout is off by default is to make the network behavior more predictable/deterministic and to make the convergence for small training data faster.
 
 Fix a batch (--single_batch 1)
 --------------------------
 
 During development, you may want to repeat processing the same mini-batch again and again, to make sure that the network is at least adjusting to the particular mini-batch.  Combine this with --dropout 0 (and perhaps with a small batch size, like -b 16 or even -b 1).  In those cases the loss should steadily decrease over iterations.  If it does not happen, suspect your bug, particularly in your backward phase.
 
-Data file (-d, --start_data and --end_data)
+Data file (-d, --partial_data and --partial_data_seed)
 --------------------------
 
 It reads data from the file specified by --cifar_data (-d) option (default: cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
 
-If you want to use only a part of data, you can specify a range by --start_data and --end_data. e.g., --start_data 2000 --end_data 3000 uses only 1000 images, from the 2000th image to 2999th image.  
+If you want to use only a part of data, you can specify the number of data used by --partial_data option.  --partial_data N randomly chooses N images from the data file.  You can seed the random number generator to choose those images by --partial_data_seed X.  If N is zero, then the whole data set in the file are used.
 
 Data for training and validation (--validate_ratio and --validate_interval)
 --------------------------
 
-A portion of data is reserved for validation and not used for training.  The ratio of validation data relative to the whole data set is specified by --validate_ratio option (default: 0.1).  Note that they are taken out from the data specified by --cifar_data, --start_data and --end_data.  For example, --start_data 2000 --end_data 3000 --validate_ratio 0.1 uses (3000 - 2000) * 0.1 = 100 images for validation and leaves 900 images for training.
+A portion of data is reserved for validation and not used for training.  The ratio of validation data relative to the data set is specified by --validate_ratio option (default: 0.1).  Note that the number of data you specified with --partial_data N counts both training and validation data.  For example, --partial_data 1000 --validate_ratio 0.1 uses 1000 * 0.1 = 100 images for validation and leaves 900 images for training.
 
 Fractions are rounded down.  If the number of validation data becomes zero as a result, the validation won't be performed at all.
 
@@ -168,7 +170,7 @@ Unless your algorithm behave undeterministically, the results should be always t
 You can change these things by giving different seeds for each of these random number generators.  Specifically,
 
  * --weight_seeds changes initial weight parameters
- * --validate_seed changes which data are used for validation 
+ * --partial_data_seed changes which data in the file are used
  * --sample_seed changes which data are picked for training
  * --dropout_seed changes which cells are dropped out
 
@@ -208,6 +210,8 @@ You probably want to start with something like this.
 ```
 $ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
 ```
+
+(Note: --dropout 0 is the default, so you actually do not have to give it explicitly)
 
 They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-batch size extremely small (1, in this particular case) to have a quick turn around time.
 
@@ -254,6 +258,56 @@ train loss = 0.209925532
 train loss = 0.163231462
   ...
 ```
+
+How you interpret the loss?
+==========================
+
+If you are curious what the value of the loss actually mean, here it is.  In the final stage of the network, it ends up computing a vector of 10 (the number of classes) elements for an image, each component of which represents the probability that the image belongs to a particular class.  This 10 elements vector is then compared with the true label (class) for it.  If the true class of that image is c, then the loss for this particular image is 
+
+   -log(p[c])
+
+where p[c] is the probability that the model says the image belongs to the true class c.
+
+Therefore, if the network is a random guess that returns 1/10 for every class, the average loss for an image is
+
+   -log(1/10) = 2.3025850...
+
+which is just about what you observe in the first iteration.
+
+The loss becomes zero if the network says the probability is 1 for the correct class and 0 for all other classes.  But as far as classification performance  is concerned, the network outputs a correct class as long as the probability for the true class is larger than for any other class.  A sufficient condition for this is p[c] > 0.5, as it guarantees that p[c] is maximum among p[0], ..., p[9], whose sum is one.  When p[c] = 0.5, the loss would be 
+
+   -log(1/2) = 0.69314...
+
+Performance criteria and the regulation
+==========================
+
+The ultimate goal for training is to get a good classification performance (accuracy) as fast as possible.  So, ideally, our performance criteria should be the time until you meet a certain accuracy (or conversly, the achieved accuracy in a given amount of time).  It is a bit challenging to define a good regulation along this line, because meeting any meaningful accuracy would take a large amount of time (at least until you get a very high performance code) that makes your experiments very time consuming.  Accuracy also depends on many heuristics such as learning rate or how you update weights, which are orthogonal to the main objective of our study (making a given computation fast).  To simplify your goal and make the amount of time for experiments shorter, we set our performance criteria and the regulation as follows.
+
+ * The performance criteria is the number of trained samples per second.  For example, if you train the network with 256 images in 50 seconds, your score will be 256/50 = 5.12 samples/sec.  Your goal is simply to maximize this number.
+ * Relevant data for measuring performance are taken from lines reporting the progress of training in the execution log.
+ * For example, the following log
+```
+815859250: === train 0 - 64 ===    (the first line of this form)
+
+  ...
+
+1186702243923: === train 1216 - 1280 ===  (the last line of this form)
+
+  ...
+
+1245300919526: train loss = 2.518893003   (the last line of this form)
+```
+indicates the traing started at time 815859250 and ended at time 1245300919526 (times are shown in nano seconds) and it processed 1280 images.  The score is then 1280 / (1245.300919526 - 0.815859250) = 1.02853 images/sec.
+ * In order to get a good throughput with vectorization and/or parallelization, you almost certainly want to process many images at a time (a fairly large batch size).  Try to play with it.
+ * While the number of images per second is the goal, following constraints are imposed to preclude meaningless optimizations
+  - You can use only a subset of the dataset (otherwise the training may take too much time until you get a noticeabl improvement on the loss), but your data must have at least 64 images for training
+  - When you report the result, your network must achieve the average a loss <= 1.0 for at least the images used for training.  The easiest setting is to use only 64 images for training, like this.
+```
+./vgg.g++ --partial_data 64 --validate_ratio 0
+```
+  - The baseline code should achieve a training loss = 0.851912320 after 4 iterations (256 images have been processed) and took about 4 minutes on my laptop.  Your code should achieve a similar loss in a similar setting unless you somehow break it.  It should be much faster, of course.
+
+Remarks: The setting (of achieving loss = 0.85.. for the same 64 images used for training) is not very meaningful as a machine learning task.  First, it achieves good classification performance only for data used for training and not for validation data.  If you check the network against a validation data, the loss is still very large, so clearly the mission has not been accomplished.  Having a large gap between training data and validation data means the network may be over-fitting.  Second, the dataset is obviously too small to be meaningful.  We nevertheless allow such settings to make a single experiment finish quickly and make it still possible to observe that the loss is decreasing (so you got the job done correctly).  Having a more stringent condition, e.g., achieve a similar loss for validation data, would make the training time much longer.
 
 Guide for development
 ==========================

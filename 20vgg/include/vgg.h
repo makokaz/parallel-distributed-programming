@@ -1,5 +1,6 @@
 /**
    @file vgg.h
+   @brief VGG network
  */
 #pragma once
 
@@ -12,79 +13,93 @@
 #include "softmaxcrossentropy.h"
 
 /**
-   maxB : batch size (64)
-   C0 : number of channels in an input image (3)
-   hC : number of channels in the first hidden layer (64)
-        (those in the following layers are hC/2, hC/4, hC/8, ...)
-   K : convolution kernel size (3x3)
-   W : width of an input image (32)
-   H : height of an input image (32)
-   nC : number of classes (10)
+   @brief VGG network
+   @param (maxB) maximum batch size it can accommodate (64)
+   @param (C0) the number of channels in an input image (3)
+   @param (H) height of an input image (32)
+   @param (W) width of an input image (32)
+   @param (K) convolution kernel size (1). filter array has (2K+1)*(2K+1) elems)
+   @param (S) shrink factor of pooling layers (2)
+   @param (C1) number of channels in the first hidden layer (64). those in the following layers are C1/2, C2/4, C3/8, ..., 1
+   @param (nC) number of classes (10)
  */
 template<idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC>
 struct VGG {
 #if __NVCC__
-  VGG<maxB,C0,H,W,K,S,C1,nC>* dev;
+  VGG<maxB,C0,H,W,K,S,C1,nC>* dev; /**< device shadow */
 #endif
-  cmdline_opt opt;
-  logger * lgr;
-  /* input */
-  array4<maxB,C0,H,W> x;
-  ivec<maxB> t;
-  /* input to badkward (1,1,1,...) */
-  vec<maxB> gy;
+  cmdline_opt opt;              /**< command line option */
+  logger * lgr;                 /**< logger */
+  array4<maxB,C0,H,W> x;        /**< input images  */
+  ivec<maxB> t;                 /**< true labels of images */
+  vec<maxB> gy;                 /**< gradient of the loss wrt the output */
   
   /* group 1 : 64 channels x 32x32 */
-  static const idx_t H1 = H, W1 = W;
-  Block       <maxB,C0,H1,W1,K,C1> block1_1;
-  Dropout     <maxB,C1,H1,W1>      dropout1_1;
-  Block       <maxB,C1,H1,W1,K,C1> block1_2;
-  MaxPooling2D<maxB,C1,H1,W1,S>    max_pooling_2d1;
+  static const idx_t H1 = H,    /**< intermediate image size */
+    W1 = W;                     /**< intermediate image size */
+  Block       <maxB,C0,H1,W1,K,C1> block1_1;        /**< sublayer */
+  Dropout     <maxB,C1,H1,W1>      dropout1_1;      /**< sublayer */
+  Block       <maxB,C1,H1,W1,K,C1> block1_2;        /**< sublayer */
+  MaxPooling2D<maxB,C1,H1,W1,S>    max_pooling_2d1; /**< sublayer */
 
-  static const idx_t H2 = H/S, W2 = W/S, C2 = S*C1;
+  static const idx_t H2 = H/S,  /**< intermediate image size */
+    W2 = W/S,                   /**< intermediate image size */
+    C2 = S*C1;                  /**< intermediate channels */
   /* group 2 : 64 channels x 16x16 */
-  Block       <maxB,C1,H2,W2,K,C2> block2_1;
-  Dropout     <maxB,C2,H2,W2>      dropout2_1;
-  Block       <maxB,C2,H2,W2,K,C2> block2_2;
-  MaxPooling2D<maxB,C2,H2,W2,S>    max_pooling_2d2;
+  Block       <maxB,C1,H2,W2,K,C2> block2_1;        /**< sublayer */
+  Dropout     <maxB,C2,H2,W2>      dropout2_1;      /**< sublayer */
+  Block       <maxB,C2,H2,W2,K,C2> block2_2;        /**< sublayer */
+  MaxPooling2D<maxB,C2,H2,W2,S>    max_pooling_2d2; /**< sublayer */
 
-  static const idx_t H3 = H2/S, W3 = W2/S, C3 = S*C2;
+  static const idx_t H3 = H2/S, /**< intermediate image size */
+    W3 = W2/S,                  /**< intermediate image size */
+    C3 = S*C2;                  /**< intermediate channels */
   /* group 3 : 128 channels x 8x8 */
-  Block       <maxB,C2,H3,W3,K,C3> block3_1;
-  Dropout     <maxB,C3,H3,W3>      dropout3_1;
-  Block       <maxB,C3,H3,W3,K,C3> block3_2;
-  Dropout     <maxB,C3,H3,W3>      dropout3_2;
-  Block       <maxB,C3,H3,W3,K,C3> block3_3;
-  MaxPooling2D<maxB,C3,H3,W3,S>    max_pooling_2d3;
+  Block       <maxB,C2,H3,W3,K,C3> block3_1;        /**< sublayer */
+  Dropout     <maxB,C3,H3,W3>      dropout3_1;      /**< sublayer */
+  Block       <maxB,C3,H3,W3,K,C3> block3_2;        /**< sublayer */
+  Dropout     <maxB,C3,H3,W3>      dropout3_2;      /**< sublayer */
+  Block       <maxB,C3,H3,W3,K,C3> block3_3;        /**< sublayer */
+  MaxPooling2D<maxB,C3,H3,W3,S>    max_pooling_2d3; /**< sublayer */
   
-  static const idx_t H4 = H3/S, W4 = W3/S, C4 = S*C3;
+  static const idx_t H4 = H3/S, /**< intermediate image size */
+    W4 = W3/S,                  /**< intermediate image size */
+    C4 = S*C3;                  /**< intermediate channels */
   /* group 4 : 256 channels x 4x4 */
-  Block       <maxB,C3,H4,W4,K,C4> block4_1;
-  Dropout     <maxB,C4,H4,W4>      dropout4_1;
-  Block       <maxB,C4,H4,W4,K,C4> block4_2;
-  Dropout     <maxB,C4,H4,W4>      dropout4_2;
-  Block       <maxB,C4,H4,W4,K,C4> block4_3;
-  MaxPooling2D<maxB,C4,H4,W4,S>    max_pooling_2d4;
+  Block       <maxB,C3,H4,W4,K,C4> block4_1;        /**< sublayer */
+  Dropout     <maxB,C4,H4,W4>      dropout4_1;      /**< sublayer */
+  Block       <maxB,C4,H4,W4,K,C4> block4_2;        /**< sublayer */
+  Dropout     <maxB,C4,H4,W4>      dropout4_2;      /**< sublayer */
+  Block       <maxB,C4,H4,W4,K,C4> block4_3;        /**< sublayer */
+  MaxPooling2D<maxB,C4,H4,W4,S>    max_pooling_2d4; /**< sublayer */
   
-  static const idx_t H5 = H4/S, W5 = W4/S;
+  static const idx_t H5 = H4/S, /**< intermediate image size */
+    W5 = W4/S;                  /**< intermediate image size */
   /* group 5 : 512 channels x 2x2 */
-  Block       <maxB,C4,H5,W5,K,C4> block5_1;
-  Dropout     <maxB,C4,H5,W5>      dropout5_1;
-  Block       <maxB,C4,H5,W5,K,C4> block5_2;
-  Dropout     <maxB,C4,H5,W5>      dropout5_2;
-  Block       <maxB,C4,H5,W5,K,C4> block5_3;
-  MaxPooling2D<maxB,C4,H5,W5,S>    max_pooling_2d5;
+  Block       <maxB,C4,H5,W5,K,C4> block5_1;        /**< sublayer */
+  Dropout     <maxB,C4,H5,W5>      dropout5_1;      /**< sublayer */
+  Block       <maxB,C4,H5,W5,K,C4> block5_2;        /**< sublayer */
+  Dropout     <maxB,C4,H5,W5>      dropout5_2;      /**< sublayer */
+  Block       <maxB,C4,H5,W5,K,C4> block5_3;        /**< sublayer */
+  MaxPooling2D<maxB,C4,H5,W5,S>    max_pooling_2d5; /**< sublayer */
   
   /* group 6 : 512 channels x 1x1 */
-  static const idx_t H6 = H5/S, W6 = W5/S;
-  Dropout           <maxB,C4,H6,W6> dropout6_1;
-  Linear            <maxB,C4,C4>    fc1;
-  BatchNormalization<maxB,C4,H6,W6> bn_fc1;
-  Relu              <maxB,C4,H6,W6> relu;
-  Dropout           <maxB,C4,H6,W6> dropout6_2;
-  Linear            <maxB,C4,nC>    fc2;
-  SoftmaxCrossEntropy<maxB,nC>      softmax_cross_entropy;
+  static const idx_t H6 = H5/S, /**< intermediate image size */
+    W6 = W5/S;                  /**< intermediate image size */
+  Dropout           <maxB,C4,H6,W6> dropout6_1; /**< sublayer */
+  Linear            <maxB,C4,C4>    fc1;        /**< sublayer */
+  BatchNormalization<maxB,C4,H6,W6> bn_fc1;     /**< sublayer */
+  Relu              <maxB,C4,H6,W6> relu;       /**< sublayer */
+  Dropout           <maxB,C4,H6,W6> dropout6_2; /**< sublayer */
+  Linear            <maxB,C4,nC>    fc2;        /**< sublayer */
+  SoftmaxCrossEntropy<maxB,nC>      softmax_cross_entropy; /**< sublayer */
 
+  /**
+     @brief initialize 
+     @param (opt) command line options
+     @param (lgr) logger
+     @param (rg) random number generator for initializing weights
+  */
   void init(cmdline_opt opt, logger * lgr, rnd_gen_t& rg) {
     this->opt = opt;
     this->lgr = lgr;
@@ -136,11 +151,25 @@ struct VGG {
     
     softmax_cross_entropy.init(opt, lgr);
   }
+  /**
+     @brief make a copy of this 
+     @details if this object has a device pointer, the copy will have
+     a device pointer too, but its contents are NOT copied
+  */
   VGG<maxB,C0,H,W,K,S,C1,nC>* copy() {
     VGG<maxB,C0,H,W,K,S,C1,nC>* c = new VGG<maxB,C0,H,W,K,S,C1,nC>(*this);
     c->make_dev();
     return c;
   }
+  /**
+     @brief set the device pointer for this and all subobjects
+     @param (dev) a device memory or null
+     @sa make_dev
+     @sa del_dev
+     @details if dev is not null, dev fields of all subojects 
+     point to the corresponding subjects in the device memory.
+     if dev is not null, all dev fields become null.
+  */
   void set_dev(VGG<maxB,C0,H,W,K,S,C1,nC>* dev) {
 #if __NVCC__
     this->dev = dev;
@@ -189,6 +218,13 @@ struct VGG {
     softmax_cross_entropy.set_dev(dev ? &dev->softmax_cross_entropy : 0);
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, allocate a device shadow 
+     of this object and set dev field of this and all subobjects. otherwise
+     it sets all dev fields to null.
+     @sa set_dev
+     @sa del_dev
+  */
   void make_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -199,6 +235,12 @@ struct VGG {
     set_dev(dev);
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must not
+     be null and deallocate it.
+     @sa make_dev
+     @sa set_dev
+  */
   void del_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -208,6 +250,10 @@ struct VGG {
     }
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must
+     not be null and send the host data to the device memory
+  */
   void to_dev() {
 #if __NVCC__
     if (opt.gpu_algo) {
@@ -216,16 +262,28 @@ struct VGG {
     }
 #endif
   }
+  /**
+     @brief if the algorithm is a gpu algorithm, dev field must
+     not be null and send the device data to the host memory
+  */
   void to_host() {
 #if __NVCC__
     if (opt.gpu_algo) {
       assert(dev);
+      /* make sure dev field does not get broken */
       VGG<maxB,C0,H,W,K,S,C1,nC>* dev_ = dev;
       ::to_host(this, dev_, sizeof(*this));
       assert(dev_ == dev);
     }
 #endif
   }
+  /**
+     @brief update weights of all sublayers with gradients
+     that must have been computed
+     @param (eta) the learning rate
+     @sa forward
+     @sa backward
+  */
   void update(real eta) {
     block1_1.update(eta);
     block1_2.update(eta);
@@ -249,8 +307,12 @@ struct VGG {
     bn_fc1.update(eta);
     fc2.update(eta);
   }
-  /** 
-      @brief forward
+  /**
+     @brief calc the loss function of a mini-batch (x,t)
+     @param (x) input images
+     @param (t) true labels of images
+     @sa backward
+     @sa update
   */
   vec<maxB>& forward(array4<maxB,C0,H,W>& x, ivec<maxB>& t) {
     /* 64 channel blocks */
@@ -294,8 +356,16 @@ struct VGG {
     vec<maxB>& y = softmax_cross_entropy.forward(x32, t);
     return y;
   }
-  /** 
-      @brief backward
+  /**
+     @brief calc the gradient of loss wrt the input (x)
+     @param (gy) gradient of loss with respect to the output
+     @details calc the gradient of loss wrt the input. along the way,
+     it also calculates the gradient of loss wrt weights for
+     all sublayers that have weights. since this is the entire
+     network, gy is actually a vector whose components are all 1.
+     (loss = sum of losses of each data).
+     @sa forward
+     @sa update
   */
   array4<maxB,C0,H1,W1>& backward(vec<maxB>& gy) {
     array4<maxB,nC,H6,W6>& g32 = softmax_cross_entropy.backward(gy);
@@ -338,88 +408,44 @@ struct VGG {
     array4<maxB,C0,H1,W1>&  g0 = block1_1.backward(g1);
     return g0;
   }
-  
-  real diff(VGG<maxB,C0,H,W,K,S,C1,nC>& b) {
-    const int N = 33;
-    real s[N];
-    s[0] = block1_1.diff(b.block1_1);
-    printf("s%d = %.9f\n", 0, s[0]);
-    s[1] = dropout1_1.diff(b.dropout1_1);
-    printf("s%d = %.9f\n", 1, s[1]);
-    s[2] = block1_2.diff(b.block1_2);
-    printf("s%d = %.9f\n", 2, s[2]);
-    s[3] = max_pooling_2d1.diff(b.max_pooling_2d1);
-    printf("s%d = %.9f\n", 3, s[3]);
-    s[4] = block2_1.diff(b.block2_1);
-    printf("s%d = %.9f\n", 4, s[4]);
-    s[5] = dropout2_1.diff(b.dropout2_1);
-    printf("s%d = %.9f\n", 5, s[5]);
-    s[6] = block2_2.diff(b.block2_2);
-    printf("s%d = %.9f\n", 6, s[6]);
-    s[7] = max_pooling_2d2.diff(b.max_pooling_2d2);
-    printf("s%d = %.9f\n", 7, s[7]);
-    
-    s[8] = block3_1.diff(b.block3_1);
-    printf("s%d = %.9f\n", 8, s[8]);
-    s[9] = dropout3_1.diff(b.dropout3_1);
-    printf("s%d = %.9f\n", 9, s[9]);
-    s[10] = block3_2.diff(b.block3_2);
-    printf("s%d = %.9f\n", 10, s[10]);
-    s[11] = dropout3_2.diff(b.dropout3_2);
-    printf("s%d = %.9f\n", 11, s[11]);
-    s[12] = block3_3.diff(b.block3_3);
-    printf("s%d = %.9f\n", 12, s[12]);
-    s[13] = max_pooling_2d3.diff(b.max_pooling_2d3);
-    printf("s%d = %.9f\n", 13, s[13]);
-    
-    s[14] = block4_1.diff(b.block4_1);
-    printf("s%d = %.9f\n", 14, s[14]);
-    s[15] = dropout4_1.diff(b.dropout4_1);
-    printf("s%d = %.9f\n", 15, s[15]);
-    s[16] = block4_2.diff(b.block4_2);
-    printf("s%d = %.9f\n", 16, s[16]);
-    s[17] = dropout4_2.diff(b.dropout4_2);
-    printf("s%d = %.9f\n", 17, s[17]);
-    s[18] = block4_3.diff(b.block4_3);
-    printf("s%d = %.9f\n", 18, s[18]);
-    s[19] = max_pooling_2d4.diff(b.max_pooling_2d4);
-    printf("s%d = %.9f\n", 19, s[19]);
-    
-    s[20] = block5_1.diff(b.block5_1);
-    printf("s%d = %.9f\n", 20, s[20]);
-    s[21] = dropout5_1.diff(b.dropout5_1);
-    printf("s%d = %.9f\n", 21, s[21]);
-    s[22] = block5_2.diff(b.block5_2);
-    printf("s%d = %.9f\n", 22, s[22]);
-    s[23] = dropout5_2.diff(b.dropout5_2);
-    printf("s%d = %.9f\n", 23, s[23]);
-    s[24] = block5_3.diff(b.block5_3);
-    printf("s%d = %.9f\n", 24, s[24]);
-    s[25] = max_pooling_2d5.diff(b.max_pooling_2d5);
-    printf("s%d = %.9f\n", 25, s[25]);
-    
-    s[26] = dropout6_1.diff(b.dropout6_1);
-    printf("s%d = %.9f\n", 26, s[26]);
-    s[27] = fc1.diff(b.fc1);
-    printf("s%d = %.9f\n", 27, s[27]);
-    s[28] = bn_fc1.diff(b.bn_fc1);
-    printf("s%d = %.9f\n", 28, s[28]);
-    s[29] = relu.diff(b.relu);
-    printf("s%d = %.9f\n", 29, s[29]);
-    s[30] = dropout6_2.diff(b.dropout6_2);
-    printf("s%d = %.9f\n", 30, s[30]);
-    s[31] = fc2.diff(b.fc2);
-    printf("s%d = %.9f\n", 31, s[31]);
-    
-    s[32] = softmax_cross_entropy.diff(b.softmax_cross_entropy);
-    printf("s%d = %.9f\n", 32, s[32]);
-
-    real t = 0.0;
-    for (int i = 0; i < N; i++) {
-      t += s[i];
-    }
-    return t;
+  /**
+     @brief perform an entire iteration (= forward; backward; update)
+     @param (x) input images (a mini batch)
+     @param (t) true labels
+     @param (eta) learning rate
+     @sa forward
+     @sa backward
+     @sa update
+     @details do everything on a mini-batch. forward calculates the 
+     loss wrt x and t; backward calculates the gradient 
+     of loss wrt x and weights; update updates weights with the
+     gradients and the learning rate.
+  */
+  real forward_backward_update(array4<maxB,C0,H,W>& x, ivec<maxB>& t, real eta) {
+    const idx_t B = x.B;
+    /* forward */
+    vec<maxB>& y = forward(x, t);
+    /* a vector (1,1,1,...) to make the single loss value from loss of each sample */
+    gy.init_const(B, 1.0);
+    gy.to_dev();
+    /* backward (set weights of all sublayers) */
+    backward(gy);
+    /* update */
+    real e = eta / B;
+    update(-e);
+    /* get the loss of each sample back to host if we are working on GPU */
+    y.to_host();
+    real L = gy.dot(y);
+    return L;
   }
+  /* member functions below assume data are on the host.
+     they are only for checking (debugging) implementations */
+  /**
+     @brief randomly set all gradients to values between p and q
+     @param (rg) random number generator
+     @param (p) minimum value of a component
+     @param (q) maximum value of a component
+  */
   void rand_grad(rnd_gen_t& rg, real p, real q) {
     block1_1.rand_grad(rg, p, q);
     block1_2.rand_grad(rg, p, q);
@@ -443,6 +469,11 @@ struct VGG {
     bn_fc1.rand_grad(rg, p, q);
     fc2.rand_grad(rg, p, q);
   }
+  /**
+     @brief set all gradients to gradients of another object
+     @param (o) the object from which gradients get copied
+     @details transfer gradients of o to this object
+  */
   void set_grad(VGG<maxB,C0,H,W,K,S,C1,nC>& o) {
     block1_1.set_grad(o.block1_1);
     block1_2.set_grad(o.block1_2);
@@ -466,18 +497,12 @@ struct VGG {
     bn_fc1.set_grad(o.bn_fc1);
     fc2.set_grad(o.fc2);
   }
-  real forward_backward_update(array4<maxB,C0,H,W>& x, ivec<maxB>& t, real eta) {
-    const idx_t B = x.B;
-    vec<maxB>& y = forward(x, t);
-    gy.init_const(B, 1.0);
-    gy.to_dev();
-    backward(gy);
-    real e = eta / B;
-    update(-e);
-    y.to_host();
-    real L = gy.dot(y);
-    return L;
-  }
+  /**
+     @brief take the inner product of gradients
+     @param (b) the object to take the inner product with
+     @details take the inner product of this object's 
+     gradients and b's gradients
+  */
   real gw_dot_gw(VGG<maxB,C0,H,W,K,S,C1,nC>& b) {
     VGG<maxB,C0,H,W,K,S,C1,nC>& a = *this;
     real s = 0.0;
@@ -501,6 +526,25 @@ struct VGG {
   }
 };
 
+/**
+   @brief check the gradient computation of a VGG network
+   @param (opt) command line option
+   @param (lgr) logger 
+   @param (rg) random number generator
+   @param (B) the number of images
+   @sa vgg_main
+   @details it first makes a VGG network with initial weights W 
+   and generates an input (x and t).
+   it then creates two VGG networks whose weights are slightly different
+   from the original one by dw/2 (i.e., w-dw/2 and w+dw/2), as well as
+   two inputs slighly different from the original inputs by dx/2
+   (x-dx/2 and x+dx/2).  it then computes L(w,x), L(x-dw/2,x-dx/2) and
+   L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-L(x-dw/2,x-dx/2)
+   is close to ∂L/∂x dx + ∂L/∂w dw.  ∂L/∂x and ∂L/∂w are obtained
+   by backward computation. This is essentially checking if
+   the gradients obtained by backward computation correctly approximates
+   the diff of the output.
+*/
 template<idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC>
   static real vgg_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t& rg, idx_t B) {
   /* initialize vgg parameters */
@@ -597,6 +641,18 @@ template<idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC>
   return rel_e;
 }
 
+/**
+   @brief entry point of this header file
+   @param (argc) the number of command line args
+   @param (argv) command line args
+   @sa vgg_grad_check_rand
+   @details if this header file is included from
+   a main C++ file and define vgg_main to be main
+   (e.g., with -Dvgg_main=main), then this
+   function becomes th main function of the executable.
+   it calls vgg_grad_check_rand repeatedly to test
+   the implementation of VGG network.
+*/
 int vgg_main(int argc, char ** argv) {
   cmdline_opt opt = parse_args(argc, argv);
   const idx_t maxB = MAX_BATCH_SIZE;

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['relu',['relu',['../structBlock.html#a019bcbd200d92669079eaa3c0c00ddfc',1,'Block::relu()'],['../structVGG.html#acc01c963dd716345709ab91f5eb6e2e3',1,'VGG::relu()']]],
-  ['rg',['rg',['../structcifar10__dataset.html#a59998ba824d0a527fe0f6e7aad0693eb',1,'cifar10_dataset::rg()'],['../structDropout.html#a176eb537c9aef161087863244f1e637f',1,'Dropout::rg()']]]
+  ['partial_5fdata',['partial_data',['../structcmdline__opt.html#a36b99fa5f7fa96a44170687afc327f07',1,'cmdline_opt']]],
+  ['partial_5fdata_5fseed',['partial_data_seed',['../structcmdline__opt.html#a046deb2b2e8e313a27f753cf4aa9883c',1,'cmdline_opt']]]
 ];

@@ -8,7 +8,7 @@
 #
 cxxs :=
 cxxs += g++
-cxxs += nvcc
+#cxxs += nvcc
 
 #
 # specify the full path to compilers if necessary

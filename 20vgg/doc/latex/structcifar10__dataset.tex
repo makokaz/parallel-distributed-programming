@@ -11,8 +11,7 @@ an entire cifar10 data
 
 
 
-Collaboration diagram for cifar10\+\_\+dataset$<$ maxB, IC, H, W $>$\+:
-\nopagebreak
+Collaboration diagram for cifar10\+\_\+dataset$<$ maxB, IC, H, W $>$\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,8 +25,10 @@ void \hyperlink{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}{set\+\
 \begin{DoxyCompactList}\small\item\em set seed for random number generator \end{DoxyCompactList}\item 
 long \hyperlink{structcifar10__dataset_ad0025b0632ecfa9810d8a7c99d279f51}{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file} (const char $\ast$cifar\+\_\+bin)
 \begin{DoxyCompactList}\small\item\em count the number of images in a file (should be 10000) \end{DoxyCompactList}\item 
-int \hyperlink{structcifar10__dataset_a1da02b1a5b0f6a6dbc917253d7fc960b}{load} (\hyperlink{structlogger}{logger} \&lgr, const char $\ast$cifar\+\_\+bin, long start, long end, double validate\+\_\+ratio, long validate\+\_\+seed)
+int \hyperlink{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}{load} (\hyperlink{structlogger}{logger} \&lgr, const char $\ast$cifar\+\_\+bin, long n\+\_\+samples, long sample\+\_\+seed, double validate\+\_\+ratio)
 \begin{DoxyCompactList}\small\item\em load training/validation data from the file \end{DoxyCompactList}\item 
+void \hyperlink{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}{log\+\_\+dataset} (\hyperlink{structlogger}{logger} \&lgr)
+\begin{DoxyCompactList}\small\item\em log dataset \end{DoxyCompactList}\item 
 int \hyperlink{structcifar10__dataset_afafc5833390f1f3f9c2fefea15d643ca}{get\+\_\+data\+\_\+train} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B)
 \begin{DoxyCompactList}\small\item\em load x and t with the a mini batch of B images \end{DoxyCompactList}\item 
 int \hyperlink{structcifar10__dataset_a4176a67684d105dac1c95a1556761173}{get\+\_\+data\+\_\+validate} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} from, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} to)
@@ -116,12 +117,12 @@ count the number of images in a file (should be 10000)
 {\em (cifar\+\_\+bin)} & the name of the file to read data from \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{structcifar10__dataset_a1da02b1a5b0f6a6dbc917253d7fc960b}\label{structcifar10__dataset_a1da02b1a5b0f6a6dbc917253d7fc960b}} 
+\mbox{\Hypertarget{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}\label{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}} 
 \index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!load@{load}}
 \index{load@{load}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
 \subsubsection{\texorpdfstring{load()}{load()}}
 {\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
-int \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, IC, H, W $>$\+::load (\begin{DoxyParamCaption}\item[{\hyperlink{structlogger}{logger} \&}]{lgr,  }\item[{const char $\ast$}]{cifar\+\_\+bin,  }\item[{long}]{start,  }\item[{long}]{end,  }\item[{double}]{validate\+\_\+ratio,  }\item[{long}]{validate\+\_\+seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+int \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, IC, H, W $>$\+::load (\begin{DoxyParamCaption}\item[{\hyperlink{structlogger}{logger} \&}]{lgr,  }\item[{const char $\ast$}]{cifar\+\_\+bin,  }\item[{long}]{n\+\_\+samples,  }\item[{long}]{sample\+\_\+seed,  }\item[{double}]{validate\+\_\+ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -133,13 +134,27 @@ load training/validation data from the file
 \hline
 {\em (cifar\+\_\+bin)} & the name of the file to read data from \\
 \hline
-{\em (start)} & the first image to read \\
+{\em (n\+\_\+samples)} & the number of data used \\
 \hline
-{\em (end)} & the last image to read + 1 \\
+{\em (sample\+\_\+seed)} & seed of the random number generator to pick training and validation data \\
 \hline
 {\em (validate\+\_\+ratio)} & leave this much for validation ($<$1.\+0) \\
 \hline
-{\em (validate\+\_\+seed)} & seed of the random number generator to pick which images to be held out for validation \\
+\end{DoxyParams}
+\mbox{\Hypertarget{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}\label{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}} 
+\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!log\+\_\+dataset@{log\+\_\+dataset}}
+\index{log\+\_\+dataset@{log\+\_\+dataset}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+\subsubsection{\texorpdfstring{log\+\_\+dataset()}{log\_dataset()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, IC, H, W $>$\+::log\+\_\+dataset (\begin{DoxyParamCaption}\item[{\hyperlink{structlogger}{logger} \&}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+log dataset 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (lgr)} & logger \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}\label{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}} 

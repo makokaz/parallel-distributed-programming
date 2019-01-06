@@ -1,5 +1,6 @@
 /**
    @file cifar.h
+   @brief cifar dataset handling
  */
 #pragma once
 
@@ -9,11 +10,17 @@
 #include "vgg_util.h"
 #include "vgg_arrays.h"
 
+/**
+   @brief an input + true label
+ */
 template<idx_t IC,idx_t H,idx_t W>
 struct cifar10_data_item {
-  int index;
-  real w[IC][H][W];
-  char label;
+  int index;                    /**< index in the original file */
+  real w[IC][H][W];             /**< pixels of an image */
+  char label;                   /**< true label (0..9) */
+  /**
+     @brief get the (ic,i,j) pixel of the image
+   */
   real& operator()(idx_t ic, idx_t i, idx_t j) {
     range_chk(0, ic, IC);
     range_chk(0, i, H);
@@ -22,18 +29,29 @@ struct cifar10_data_item {
   }
 };
 
+/**
+   @brief an entire cifar10 data
+*/
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 struct cifar10_dataset {
-  long n_data;
-  long n_validate;
-  long n_train;
-  cifar10_data_item<IC,H,W> * dataset; /**< whole dataset read (n_data items) */
-  cifar10_data_item<IC,H,W> * validate; /**< for validation (first n_validate items) */
+  long n_data;                  /**< the total number of images  */
+  long n_validate;              /**< the number of validation images */
+  long n_train;                 /**< the number of traininig images  */
+  cifar10_data_item<IC,H,W> * dataset; /**< whole dataset (n_data items) */
+  cifar10_data_item<IC,H,W> * validate; /**< validation part (first n_validate items) */
   cifar10_data_item<IC,H,W> * train;   /**< training part (remaining items) */
-  rnd_gen_t rg;
+  rnd_gen_t rg;                        /**< random number generator to pick images for a mini batch  */
+  /**
+     @brief set seed for random number generator
+     @sa (sd) seed
+   */
   void set_seed(long sd) {
     rg.seed(sd);
   }
+  /**
+     @brief count the number of images in a file (should be 10000)
+     @param (cifar_bin) the name of the file to read data from
+   */
   long get_n_data_in_file(const char * cifar_bin) {
     struct stat sb[1];
     if (lstat(cifar_bin, sb) == -1) {
@@ -50,33 +68,41 @@ struct cifar10_dataset {
     assert(sz % sz1 == 0);
     return sz / sz1;
   }
+  /**
+     @brief load training/validation data from the file 
+     @param (lgr) logger
+     @param (cifar_bin) the name of the file to read data from
+     @param (n_samples) the number of data used 
+     @param (sample_seed) seed of the random number generator to
+     pick training and validation data
+     @param (validate_ratio) leave this much for validation (<1.0)
+   */
   int load(logger& lgr,
-           const char * cifar_bin, long start, long end,
-           double validate_ratio, long validate_seed) {
+           const char * cifar_bin, long n_samples,
+           long sample_seed, double validate_ratio) {
     long n_data_in_file = get_n_data_in_file(cifar_bin);
-    if (end == 0) end = n_data_in_file;
-    assert(start >= 0);
-    assert(end <= n_data_in_file);
-    assert(start < end);
-
-    n_data = end - start;
+    if (n_samples == 0) {
+      n_samples = n_data_in_file;
+    } else if (n_samples > n_data_in_file) {
+      lgr.log(1, "specified number of samples (%ld) exeeds data in file (%ld). truncated\n",
+              n_data, n_data_in_file);
+      n_samples = n_data_in_file;
+    }
+    n_data = n_samples;
     n_train = max_i(1, n_data - n_data * validate_ratio);
     n_validate = n_data - n_train;
-    lgr.log(1, "loading data from %s [%ld:%ld] (%ld/%ld train/validate) starts",
-            cifar_bin, start, end, n_train, n_validate);
+    lgr.log(1, "loading %ld/%ld training/validation data from %s starts",
+            n_train, n_validate, cifar_bin);
     if (n_validate == 0) {
-      printf("warning: no data left for validation (validation not performed)\n");
+      lgr.log(1, "warning: no data left for validation (validation not performed)");
     }
     
-    dataset = new cifar10_data_item<IC,H,W> [n_data];
-    validate = dataset;
-    train = dataset + n_validate;
+    dataset = new cifar10_data_item<IC,H,W> [n_data_in_file];
+    //validate = dataset;
+    //train = dataset + n_validate;
     FILE * fp = fopen(cifar_bin, "rb");
     if (!fp) { perror("fopen"); exit(1); }
-    if (fseek(fp, start * (1 + IC * H * W), SEEK_SET) == -1) {
-      perror("fseek"); exit(1);
-    }
-    for (int k = 0; k < n_data; k++) {
+    for (int k = 0; k < n_data_in_file; k++) {
       unsigned char label[1];
       unsigned char rgb[IC][H][W];
       size_t r = fread(label, sizeof(label), 1, fp);
@@ -93,7 +119,7 @@ struct cifar10_dataset {
         }
       }
       float l_max = 1.0 / (float)max_value;
-      dataset[k].index = start + k;
+      dataset[k].index = k;
       dataset[k].label = label[0];
       for (idx_t c = 0; c < IC; c++) {
         for (idx_t i = 0; i < H; i++) {
@@ -104,21 +130,70 @@ struct cifar10_dataset {
       }
     }
     fclose(fp);
-    /* choose holdout data */
+    /* shuffle data */
     rnd_gen_t rgv;
-    rgv.seed(validate_seed);
-    for (int i = n_validate; i < n_data; i++) {
-      if (rgv.rand(0.0, 1.0) * (i + 1) <= n_validate) {
-        long v = rgv.randi(0, n_validate);
-        cifar10_data_item<IC,H,W> d = dataset[v];
-        dataset[v] = dataset[i];
+    rgv.seed(sample_seed);
+    for (long t = 0; t < 15; t++) {
+      for (long i = 0; i < n_data_in_file; i++) {
+        long j = rgv.randi(i, n_data_in_file);
+        cifar10_data_item<IC,H,W> d = dataset[j];
+        dataset[j] = dataset[i];
         dataset[i] = d;
       }
-    }    
-    lgr.log(1, "loading data from %s [%d:%d] ends",
-            cifar_bin, start, end);
+    }
+    train = dataset;
+    validate = dataset + n_train;
+    log_dataset(lgr);
+    lgr.log(1, "loading data ends");
     return 1;
   }
+  /**
+     @brief log dataset
+     @param (lgr) logger
+   */
+  void log_dataset(logger& lgr) {
+    long l = 0;
+    char s[30];
+    l += strlen("train:");
+    for (long i = 0; i < n_train; i++) {
+      sprintf(s, " %d", train[i].index);
+      l += strlen(s);
+    }
+    l += strlen("\n");
+    l += strlen("validation:");
+    for (long i = 0; i < n_validate; i++) {
+      sprintf(s, " %d", validate[i].index);
+      l += strlen(s);
+    }
+
+    char * data_str = (char *)malloc(l + 1);
+    char * p = data_str;
+    p[0] = 0;
+    sprintf(p, "train:");
+    p += strlen(p);
+    for (long i = 0; i < n_train; i++) {
+      sprintf(p, " %d", train[i].index);
+      p += strlen(p);
+    }
+    sprintf(p, "\n");
+    p += strlen(p);
+    sprintf(p, "validation:");
+    p += strlen(p);
+    for (long i = 0; i < n_validate; i++) {
+      sprintf(p, " %d", validate[i].index);
+      p += strlen(p);
+    }
+    assert(p == data_str + l);
+    lgr.log(3, "%s", data_str);
+    free(data_str);
+  }
+  
+  /**
+     @brief load x and t with the a mini batch of B images
+     @param (x) array to load images into
+     @param (t) array to load true labels into
+     @param (B) the number of images to pick
+   */
   int get_data_train(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t B) {
     assert(B <= maxB);
     x.set_n_rows(B);
@@ -139,6 +214,13 @@ struct cifar10_dataset {
     t.to_dev();
     return 1;
   }
+  /**
+     @brief load x and t with a part of validation data (from:to)
+     @param (x) array to load images into
+     @param (t) array to load true labels into
+     @param (from) the first validation image to return
+     @param (to) the last validation image to load + 1
+   */
   int get_data_validate(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t from, idx_t to) {
     idx_t B = to - from;
     assert(B <= maxB);
@@ -161,6 +243,11 @@ struct cifar10_dataset {
   }
 };
 
+/**
+   @brief entry point of this header file
+   @param (argc) the number of command line args
+   @param (argv) command line args
+*/
 int cifar_main(int argc, char ** argv) {
   cmdline_opt opt = parse_args(argc, argv);
   const idx_t maxB = MAX_BATCH_SIZE;
@@ -173,7 +260,7 @@ int cifar_main(int argc, char ** argv) {
   cifar10_dataset<maxB,C,H,W> ds;
   ds.set_seed(opt.sample_seed);
   ds.get_n_data_in_file(opt.cifar_data);
-  ds.load(lgr, opt.cifar_data, 0, 0, 0, opt.validate_seed);
+  ds.load(lgr, opt.cifar_data, opt.partial_data, opt.partial_data_seed, opt.validate_ratio);
   array4<maxB,C,H,W> x;
   ivec<maxB> t;
   x.init_const(B, 0);

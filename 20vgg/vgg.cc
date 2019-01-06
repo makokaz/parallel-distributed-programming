@@ -60,8 +60,7 @@ static real validate(VGG<maxB,C0,H,W,K,S,C1,nC> * vgg,
    by --start_data and --end_data. e.g., --start
    Take a number of samples specified by --batch_sz/-d
    samples at a time for training.
-   occasionally (every 
-   hold out 
+   Occasionally evaluate the network with validation data.
    @return the average loss of the validation data
  */
 int main(int argc, char ** argv) {
@@ -90,18 +89,21 @@ int main(int argc, char ** argv) {
   vgg->make_dev();
   vgg->to_dev();
   lgr.log(1, "model building ends");
-  /* data */
+  /* load data */
   cifar10_dataset<maxB,C0,H,W> data;
-  data.load(lgr, opt.cifar_data, opt.start_data, opt.end_data,
-            opt.validate_ratio, opt.validate_seed);
+  data.load(lgr, opt.cifar_data, opt.partial_data,
+            opt.partial_data_seed, opt.validate_ratio);
   data.set_seed(opt.sample_seed);
+  /* training loop */
   long n_trained = 0;
   long n_validated = 0;
   lgr.log(1, "training starts");
   for (long i = 0; i < opt.iters; i++) {
+    /* train with a mini-batch */
     real train_loss = train(vgg, data, B, n_trained);
     (void)train_loss;
     n_trained += B;
+    /* evaluate with validation data */
     if (data.n_validate > 0 &&
         n_trained >= opt.validate_interval * (n_validated + data.n_validate)) {
       real validate_loss = validate(vgg, data, n_validated);

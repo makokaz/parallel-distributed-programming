@@ -147,9 +147,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a3729b3313855ba6b5af5e17b237c3558"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vgg__util_8h.html#a3729b3313855ba6b5af5e17b237c3558">log_start_fun</a>(lgr)&#160;&#160;&#160;lgr-&gt;log_start_fun_(__PRETTY_FUNCTION__)</td></tr>
 <tr class="memdesc:a3729b3313855ba6b5af5e17b237c3558"><td class="mdescLeft">&#160;</td><td class="mdescRight">log the start of the current function  <a href="#a3729b3313855ba6b5af5e17b237c3558">More...</a><br /></td></tr>
 <tr class="separator:a3729b3313855ba6b5af5e17b237c3558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35907e5a71f7c414a754a1fb0b9b8440"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vgg__util_8h.html#a35907e5a71f7c414a754a1fb0b9b8440">log_end_fun</a>(lgr)&#160;&#160;&#160;lgr-&gt;log_end_fun_(__PRETTY_FUNCTION__)</td></tr>
-<tr class="memdesc:a35907e5a71f7c414a754a1fb0b9b8440"><td class="mdescLeft">&#160;</td><td class="mdescRight">log the end of the current function  <a href="#a35907e5a71f7c414a754a1fb0b9b8440">More...</a><br /></td></tr>
-<tr class="separator:a35907e5a71f7c414a754a1fb0b9b8440"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac27fe6f3d72940b92349035afd50ec6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vgg__util_8h.html#ac27fe6f3d72940b92349035afd50ec6f">log_end_fun</a>(lgr,  t0,  t1)&#160;&#160;&#160;lgr-&gt;log_end_fun_(__PRETTY_FUNCTION__, t0, t1)</td></tr>
+<tr class="memdesc:ac27fe6f3d72940b92349035afd50ec6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">log the end of the current function  <a href="#ac27fe6f3d72940b92349035afd50ec6f">More...</a><br /></td></tr>
+<tr class="separator:ac27fe6f3d72940b92349035afd50ec6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -236,8 +236,8 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structVGG.html" title="VGG network. ">VGG</a> utility functions/classes. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a35907e5a71f7c414a754a1fb0b9b8440"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35907e5a71f7c414a754a1fb0b9b8440">&#9670;&nbsp;</a></span>log_end_fun</h2>
+<a id="ac27fe6f3d72940b92349035afd50ec6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac27fe6f3d72940b92349035afd50ec6f">&#9670;&nbsp;</a></span>log_end_fun</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -246,14 +246,30 @@ Variables</h2></td></tr>
           <td class="memname">#define log_end_fun</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">lgr</td><td>)</td>
-          <td>&#160;&#160;&#160;lgr-&gt;log_end_fun_(__PRETTY_FUNCTION__)</td>
+          <td class="paramname">lgr, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">t0, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">t1&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;lgr-&gt;log_end_fun_(__PRETTY_FUNCTION__, t0, t1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>log the end of the current function </p>
-<p>just <a class="el" href="vgg__util_8h.html#a35907e5a71f7c414a754a1fb0b9b8440" title="log the end of the current function ">log_end_fun(lgr)</a> and you get the caller's function name to the log </p>
+<p>just <a class="el" href="vgg__util_8h.html#ac27fe6f3d72940b92349035afd50ec6f" title="log the end of the current function ">log_end_fun(lgr, t0, t1)</a> and you get the caller's function name to the log along with its execution time </p>
 
 </div>
 </div>
@@ -471,7 +487,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {<span class="stringliteral">&quot;batch_sz&quot;</span>,          required_argument, 0, <span class="charliteral">&#39;b&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;iters&quot;</span>,             required_argument, 0, <span class="charliteral">&#39;m&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;verbose&quot;</span>,           required_argument, 0, <span class="charliteral">&#39;v&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;learnrate&quot;</span>,         required_argument, 0, <span class="charliteral">&#39;l&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;algo&quot;</span>,              required_argument, 0, <span class="charliteral">&#39;a&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;cifar_data&quot;</span>,        required_argument, 0, <span class="charliteral">&#39;d&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;start_data&quot;</span>,        required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;end_data&quot;</span>,          required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;single_batch&quot;</span>,      required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;dropout&quot;</span>,           required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;validate_ratio&quot;</span>,    required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;validate_interval&quot;</span>, required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;sample_seed&quot;</span>,       required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;weight_seed&quot;</span>,       required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;dropout_seed&quot;</span>,      required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;validate_seed&quot;</span>,     required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;grad_dbg&quot;</span>,          required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;log&quot;</span>,               required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;help&quot;</span>,              required_argument, 0, <span class="charliteral">&#39;h&#39;</span> },</div><div class="line">  {0,                   0,                 0,  0  }</div><div class="line">}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  {<span class="stringliteral">&quot;batch_sz&quot;</span>,          required_argument, 0, <span class="charliteral">&#39;b&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;iters&quot;</span>,             required_argument, 0, <span class="charliteral">&#39;m&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;verbose&quot;</span>,           required_argument, 0, <span class="charliteral">&#39;v&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;learnrate&quot;</span>,         required_argument, 0, <span class="charliteral">&#39;l&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;algo&quot;</span>,              required_argument, 0, <span class="charliteral">&#39;a&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;cifar_data&quot;</span>,        required_argument, 0, <span class="charliteral">&#39;d&#39;</span> },</div><div class="line">  {<span class="stringliteral">&quot;partial_data&quot;</span>,      required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;single_batch&quot;</span>,      required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;dropout&quot;</span>,           required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;validate_ratio&quot;</span>,    required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;validate_interval&quot;</span>, required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;sample_seed&quot;</span>,       required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;weight_seed&quot;</span>,       required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;dropout_seed&quot;</span>,      required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;partial_data_seed&quot;</span>, required_argument, 0,  0 },</div><div class="line">  {<span class="stringliteral">&quot;grad_dbg&quot;</span>,          required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;log&quot;</span>,               required_argument, 0,  0  },</div><div class="line">  {<span class="stringliteral">&quot;help&quot;</span>,              required_argument, 0, <span class="charliteral">&#39;h&#39;</span> },</div><div class="line">  {0,                   0,                 0,  0  }</div><div class="line">}</div></div><!-- fragment -->
 <p>command line options for getopt </p>
 
 </div>

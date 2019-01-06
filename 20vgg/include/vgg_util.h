@@ -1,5 +1,6 @@
 /**
    @file vgg_util.h
+   @brief VGG utility functions/classes
  */
 #pragma once
 #include <assert.h>
@@ -18,8 +19,17 @@
 #if __NVCC__
 #include "cuda_util.h"
 #else
+/** 
+    @brief for source compatibility with cuda, define __global__ as empty
+*/
 #define __global__ 
+/** 
+    @brief for source compatibility with cuda, define __device__ as empty
+*/
 #define __device__ 
+/** 
+    @brief for source compatibility with cuda, define __host__ as empty
+*/
 #define __host__ 
 #endif
 
@@ -27,19 +37,27 @@
    @brief type of array index (either int or long)
  */
 typedef int idx_t;
-/**
-   @brief type of array elements
- */
 #if !defined(real_type)
+/**
+   @brief real_type is float if not supplied
+ */
 #define real_type float
 #endif
+/**
+   @brief type of array elements (may be changed by -Dreal_type=...)
+ */
 typedef real_type real;
 
+/**
+   @brief exit(1) (just for setting breakpoints)
+ */
 static void bail() {
   exit(1);
 }
 
-
+/**
+   @brief signal a fatal error when a gpu algorithm gets called for cpu only compilation
+ */
 static void err_gpu_algo_no_gpu_(const char * file, int line, const char * algo_s) {
   fprintf(stderr,
           "error:%s:%d: a GPU algorithm (%s) specified for CPU-only compilation\n",
@@ -47,8 +65,15 @@ static void err_gpu_algo_no_gpu_(const char * file, int line, const char * algo_
   bail();
 }
 
-#define err_gpu_algo_no_gpu(s) err_gpu_algo_no_gpu_(__FILE__, __LINE__, s)
+/**
+   @brief signal a fatal error when a gpu algorithm gets called for cpu only compilation
+ */
+#define err_gpu_algo_no_gpu(algo_s) err_gpu_algo_no_gpu_(__FILE__, __LINE__, algo_s)
 
+/**
+   @brief an enumeration of implemented algorithms
+   @details add your algorithm in this enum
+ */
 typedef enum {
   algo_cpu_base,
   algo_gpu_base,
@@ -62,7 +87,12 @@ typedef enum {
   algo_invalid,
 } algo_t;
 
-algo_t parse_algo(const char * s) {
+/**
+   @brief convert a string to an algorithm enum 
+   @details when you add your algorithm, change this function 
+   so that it recognizes your algorithm
+ */
+static algo_t parse_algo(const char * s) {
   if (strcmp(s, "cpu_base") == 0) {
     return algo_cpu_base;
   } else if (strcmp(s, "gpu_base") == 0) {
@@ -77,9 +107,15 @@ algo_t parse_algo(const char * s) {
 }
 
 /**
-   return if the algorithm s (string) is a GPU algorithm.
-   for GPU algorithm, the program transfers initial weights
-   and training data to GPU.  Weights stay on GPU until
+   @brief return 1 if the algorithm name (s) or its
+   enum value (a) is a gpu algorithm 
+   @details when you add your algorithm, you may need to 
+   change this function so that it correctly recognizes 
+   whether it is a gpu algorithm or not
+   currently, it considers all and only strings starting 
+   with "gpu" to be a gpu algorithm.
+   for a gpu algorithm, the program transfers initial weights
+   and training data to gpu.  weights stay on GPU until
    the program finishes.  
   */
 int algo_is_gpu(const char * s, algo_t a) {
@@ -91,14 +127,16 @@ int algo_is_gpu(const char * s, algo_t a) {
   }
 }
 
+/**
+   @brief command line options
+*/
 struct cmdline_opt {
   int verbose;                  /**< verbosity */
   const char * cifar_data;      /**< data file */
   idx_t batch_sz;               /**< batch size */
   real learnrate;               /**< learning rate */
   long iters;                   /**< number of batches to process */
-  long start_data;              /**< read from this image */
-  long end_data;                /**< read before this image */
+  long partial_data;             /**< choose this number of data in the file (0 for all) */
   int single_batch;             /**< 1 if we choose the same samples every iteration */
   int dropout;                  /**< 1 if we use dropout */
   double validate_ratio;        /**< ratio of data held out for validation */
@@ -106,30 +144,32 @@ struct cmdline_opt {
   long sample_seed;             /**< random seed to draw samples */
   long weight_seed;             /**< random seed to initialize weights and dropout */
   long dropout_seed;            /**< random seed to determine dropout */
-  long validate_seed;           /**< random seed to determine which data are held out for validation */
+  long partial_data_seed;       /**< random seed to determine which data in the file are used for training/validation */
   int grad_dbg;                 /**< 1 if we debug gradient */
   const char * algo_s;          /**< string passed to --algo */
   algo_t algo;                  /**< parse_algo(algo_s)  */
   int gpu_algo;                 /**< 1 if this is a GPU algorithm  */
   const char * log;             /**< log file name */
-  int help;
-  int error;
+  int help;                     /**< 1 if -h,--help is given  */
+  int error;                    /**< set to one if any option is invalid */
+  /**
+     @brief initialize a command line object with default vaules
+   */
   cmdline_opt() {
     verbose = 1;
     cifar_data = "cifar-10-batches-bin/data_batch_1.bin";
     batch_sz = MAX_BATCH_SIZE;
     learnrate = 1.0e-2;
     iters = 20;
-    start_data = 0;
-    end_data = 0;
+    partial_data = 0;
     single_batch = 0;
-    dropout = 1;
+    dropout = 0;
     validate_ratio = 0.1;
     validate_interval = 5.0;
     sample_seed  = 34567890123452L;
     weight_seed  = 45678901234523L;
     dropout_seed = 56789012345234L;
-    validate_seed = 67890123452345L;
+    partial_data_seed = 67890123452345L;
     grad_dbg = 0;
 #if __NVCC__    
     algo_s = "gpu_base";
@@ -145,6 +185,9 @@ struct cmdline_opt {
   }
 };
 
+/**
+   @brief command line options for getopt
+*/
 static struct option long_options[] = {
   {"batch_sz",          required_argument, 0, 'b' },
   {"iters",             required_argument, 0, 'm' },
@@ -152,8 +195,7 @@ static struct option long_options[] = {
   {"learnrate",         required_argument, 0, 'l' },
   {"algo",              required_argument, 0, 'a' },
   {"cifar_data",        required_argument, 0, 'd' },
-  {"start_data",        required_argument, 0,  0  },
-  {"end_data",          required_argument, 0,  0  },
+  {"partial_data",      required_argument, 0,  0  },
   {"single_batch",      required_argument, 0,  0  },
   {"dropout",           required_argument, 0,  0  },
   {"validate_ratio",    required_argument, 0,  0  },
@@ -161,13 +203,16 @@ static struct option long_options[] = {
   {"sample_seed",       required_argument, 0,  0 },
   {"weight_seed",       required_argument, 0,  0 },
   {"dropout_seed",      required_argument, 0,  0 },
-  {"validate_seed",     required_argument, 0,  0 },
+  {"partial_data_seed", required_argument, 0,  0 },
   {"grad_dbg",          required_argument, 0,  0  },
   {"log",               required_argument, 0,  0  },
   {"help",              required_argument, 0, 'h' },
   {0,                   0,                 0,  0  }
 };
 
+/**
+   @brief show usage
+*/
 static void usage(const char * prog) {
   cmdline_opt o;
   fprintf(stderr,
@@ -181,8 +226,7 @@ static void usage(const char * prog) {
           " -v,--verbose L : set verbosity level to L [%d]\n"
           " -d,--cifar_data F : read data from F [%s]\n"
           " -l,--learnrate ETA : set learning rate to ETA [%f]\n"
-          " --start_data P : start reading from Pth image [%ld]\n"
-          " --end_data Q : stop reading before Qth image [%ld]\n"
+          " --partial_data N : use only random N images from the file (0 for all) [%ld]\n"
           " --single_batch 0/1 : use the same mini batch in every iteration for debugging [%d]\n"
           " --dropout 0/1 : dropout or not [%d]\n"
           " --validate_ratio R : hold out this ratio of data for validation [%f]\n"
@@ -190,7 +234,7 @@ static void usage(const char * prog) {
           " --sample_seed S : set seed for sampling to S [%ld]\n"
           " --dropout_seed S : set seed for dropout to S [%ld]\n"
           " --weight_seed S : set seed for initial weights to S [%ld]\n"
-          " --validate_seed S : set seed for determining hold out to S [%ld]\n"
+          " --partial_data_seed S : set seed for determining which data in the file are used for training/validation [%ld]\n"
           " --grad_dbg 0/1 : debug gradient computation [%d]\n"
           " --log FILE : write log to FILE [%s]\n"
           " -h,--help\n",
@@ -201,8 +245,7 @@ static void usage(const char * prog) {
           o.verbose,
           o.cifar_data,
           o.learnrate,
-          o.start_data,
-          o.end_data,
+          o.partial_data,
           o.single_batch,
           o.dropout,
           o.validate_ratio,
@@ -210,13 +253,16 @@ static void usage(const char * prog) {
           o.sample_seed,
           o.dropout_seed,
           o.weight_seed,
-          o.validate_seed,
+          o.partial_data_seed,
           o.grad_dbg,
           o.log
           );
   exit(1);
 }
 
+/**
+   @brief parse command line args and make a command line object
+*/
 static cmdline_opt parse_args(int argc, char ** argv) {
   char * prog = argv[0];
   cmdline_opt opt;
@@ -229,10 +275,8 @@ static cmdline_opt parse_args(int argc, char ** argv) {
     case 0:
       {
         const char * o = long_options[option_index].name;
-        if (strcmp(o, "start_data") == 0) {
-          opt.start_data = atol(optarg);
-        } else if (strcmp(o, "end_data") == 0) {
-          opt.end_data = atol(optarg);
+        if (strcmp(o, "partial_data") == 0) {
+          opt.partial_data = atol(optarg);
         } else if (strcmp(o, "single_batch") == 0) {
           opt.single_batch = atoi(optarg);
         } else if (strcmp(o, "dropout") == 0) {
@@ -247,8 +291,8 @@ static cmdline_opt parse_args(int argc, char ** argv) {
           opt.weight_seed = atol(optarg);
         } else if (strcmp(o, "dropout_seed") == 0) {
           opt.dropout_seed = atol(optarg);
-        } else if (strcmp(o, "validate_seed") == 0) {
-          opt.validate_seed = atol(optarg);
+        } else if (strcmp(o, "partial_data_seed") == 0) {
+          opt.partial_data_seed = atol(optarg);
         } else if (strcmp(o, "grad_dbg") == 0) {
           opt.grad_dbg = atoi(optarg);
         } else if (strcmp(o, "log") == 0) {
@@ -312,30 +356,48 @@ static cmdline_opt parse_args(int argc, char ** argv) {
   return opt;
 }
 
+/**
+   @brief maximum of two reals
+*/
 __device__ __host__
 static real max_r(real a, real b) {
   return (a < b ? b : a);
 }
 
+/**
+   @brief miniumum of two reals
+*/
 __device__ __host__
 static real min_r(real a, real b) {
   return (a < b ? a : b);
 }
 
+/**
+   @brief maximum of two ints
+*/
 __device__ __host__
 static idx_t max_i(idx_t a, idx_t b) {
   return (a < b ? b : a);
 }
 
+/**
+   @brief minimum of two ints
+*/
 __device__ __host__
 static idx_t min_i(idx_t a, idx_t b) {
   return (a < b ? a : b);
 }
 
+/**
+   @brief timestamp 
+*/
 struct tsc_t {
-  long ns;
+  long ns;                      /**< nano seconds  */
 };
 
+/**
+   @brief get timestamp (currently just wallclock time in nano seconds)
+*/
 static tsc_t get_tsc() {
   struct timespec ts[1];
   tsc_t t;
@@ -346,9 +408,15 @@ static tsc_t get_tsc() {
   return t;
 }
 
+/**
+   @brief pseudo random number generator
+   crafted from man erand48 + libc source
+*/
 struct rnd_gen_t {
-  /* crafted from man erand48 + libc source */
-  uint64_t x;
+  uint64_t x;                   /**< random number state */
+  /**
+     @brief set next state
+   */
   __device__ __host__
   void next() {
     const uint64_t __a = 0x5deece66dull;
@@ -356,6 +424,9 @@ struct rnd_gen_t {
     const uint64_t mask = (1UL << 48) - 1;
     x = (x * __a + __c) & mask;
   }
+  /**
+     @brief return a random number between 0 and 1
+   */
   __device__ __host__
   double rand01() {
     union ieee754_double temp;
@@ -370,6 +441,9 @@ struct rnd_gen_t {
     /* Please note the lower 4 bits of mantissa1 are always 0.  */
     return temp.d - 1.0;
   }
+  /**
+     @brief return a long between 0 to 2^31 - 1
+   */
   __device__ __host__
   long randi32() {
     /* Compute next state.  */
@@ -377,19 +451,27 @@ struct rnd_gen_t {
     /* Store the result.  */
     return (x >> 17) & ((1UL << 31) - 1);
   }
+  /**
+     @brief return a real between a and b
+   */
   __device__ __host__
   double rand(double a, double b) {
     return a + (b - a) * rand01();
   }
+  /**
+     @brief return a long between a and b
+   */
   __device__ __host__
   long randi(long a, long b) {
     return a + randi32() % (b - a);
   }
-  /* generate a random number from a normal distribution whose 
-     mean is mu and variance is sigma^2. used to initialize
-     the weight matrices. see
+  /**
+     @brief generate a random number from a normal distribution
+     of mean=mu and standard deviation=sigma.
+     @details see
      https://en.wikipedia.org/wiki/Normal_distribution
-     for how the following method works */
+     for how the following method works 
+  */
   __device__ __host__
   real rand_normal(real mu, real sigma) {
     real u = rand01();
@@ -397,16 +479,34 @@ struct rnd_gen_t {
     real x = sqrt(-2.0 * log(u)) * cos(2.0 * M_PI * v);
     return mu + x * sigma;
   }
+  /**
+     @brief return the current state of the generator
+  */
   __device__ __host__
   long get_state() {
     return x;
   }
+  /**
+     @brief set state of the generator
+  */
   __device__ __host__
   void seed(uint64_t y) {
     x = y;
   }
 };
 
+/**
+   @brief show various errors 
+   @param (gx_gx) ∂L/∂x・∂L/∂x
+   @param (dx_dx) dx・dx
+   @param (gx_dx) ∂L/∂x・dx
+   @param (gw_gw) ∂L/∂w・∂L/∂w
+   @param (dw_dw) dw・dw
+   @param (gw_dw) ∂L/∂w・dw
+   @param (L_minus) L(w-dw,x-dx)
+   @param (L) L(w,x)
+   @param (L_plus) L(w+dw,x+dx)
+ */
 static real show_error(real gx_gx, real dx_dx, real gx_dx,
                        real gw_gw, real dw_dw, real gw_dw,
                        real L_minus, real L, real L_plus) {
@@ -429,10 +529,16 @@ static real show_error(real gx_gx, real dx_dx, real gx_dx,
   return e;
 }
 
+/**
+   @brief logging object
+ */
 struct logger {
-  cmdline_opt opt;
-  FILE * log_fp;
-  tsc_t t0;
+  cmdline_opt opt;              /**< command line options */
+  FILE * log_fp;                /**< log file object */
+  tsc_t t0;                     /**< the start time stamp */
+  /**
+     @brief return the current time string like "Wed Jun 30 21:49:08 1993"
+   */
   char * cur_time_str() {
     time_t t = time(NULL);
     char * time_s = ctime(&t);
@@ -444,6 +550,12 @@ struct logger {
     time_s[len-1] = 0;
     return time_s;
   }
+  /**
+     @brief write a formatted string to the log and may be to standard out
+     @param (level) the level of this entry. if opt.verbose>=level, then 
+     the string will be output to the standard out (in addition to the log file)
+     @param (format) the printf-like format string
+   */
   int log(int level, const char * format, ...) {
     tsc_t t = get_tsc();
     long dt = t.ns - t0.ns;
@@ -466,6 +578,10 @@ struct logger {
     }
     return 1;
   }
+  /**
+     @brief open a log file and start logging
+     @param (opt) command line option
+   */
   int start_log(cmdline_opt opt) {
     this->opt = opt;
     log_fp = fopen(opt.log, "wb");
@@ -477,6 +593,9 @@ struct logger {
     log_envs();
     return 1;
   }
+  /**
+     @brief end logging and close the log file
+   */
   int end_log() {
     if (log_fp) {
       log(2, "close a log %s", cur_time_str());
@@ -485,14 +604,16 @@ struct logger {
     }
     return 1;
   }
+  /**
+     @brief log command line options to the log file for the record
+   */
   int log_opt() {
     log(3, "verbose=%d", opt.verbose);
     log(3, "cifar_data=%s", opt.cifar_data);
     log(3, "batch_sz=%d", opt.batch_sz);
     log(3, "learnrate=%f", opt.learnrate);
     log(3, "iters=%ld", opt.iters);
-    log(3, "start_data=%ld", opt.start_data);
-    log(3, "end_data=%ld", opt.end_data);
+    log(3, "partial_data=%ld", opt.partial_data);
     log(3, "single_batch=%d", opt.single_batch);
     log(3, "dropout=%d", opt.dropout);
     log(3, "validate_ratio=%f", opt.validate_ratio);
@@ -500,7 +621,7 @@ struct logger {
     log(3, "sample_seed=%ld", opt.sample_seed);
     log(3, "weight_seed=%ld", opt.weight_seed);
     log(3, "dropout_seed=%ld", opt.dropout_seed);
-    log(3, "validate_seed=%ld", opt.validate_seed);
+    log(3, "partial_data_seed=%ld", opt.partial_data_seed);
     log(3, "grad_dbg=%d", opt.grad_dbg);
     log(3, "algo_s=%s", opt.algo_s);
     log(3, "algo=%d", opt.algo);
@@ -508,6 +629,9 @@ struct logger {
     log(3, "log=%s", opt.log);
     return 1;
   }
+  /**
+     @brief log hostname for the record
+   */
   int log_host() {
     char name[HOST_NAME_MAX+1];
     name[0] = 0;
@@ -515,6 +639,9 @@ struct logger {
     log(3, "host=%s", name);
     return 1;
   }
+  /**
+     @brief log an environment var for the record
+   */
   int log_env(const char * var) {
     char * s = getenv(var);
     if (s) {
@@ -524,6 +651,9 @@ struct logger {
     }
     return 1;
   }
+  /**
+     @brief log some environment vars for the record
+   */
   int log_envs() {
     log_env("USER");
     log_env("PWD");
@@ -554,17 +684,36 @@ struct logger {
     log_env("SLURMD_NODENAME");
     return 1;                   /* OK */
   }
+  /**
+     @brief log the start of a function (f) 
+   */
   void log_start_fun_(const char * f) {
     log(2, "%s: starts", f);
   }
-  void log_end_fun_(const char * f) {
-    log(2, "%s: ends", f);
+  /**
+     @brief log the end of a function (f) 
+   */
+  void log_end_fun_(const char * f, tsc_t t0, tsc_t t1) {
+    log(2, "%s: ends. took %ld nsec", f, t1.ns - t0.ns);
   }
 };
 
+/**
+   @brief log the start of the current function
+   @details just log_start_fun(lgr) and you get the caller's function
+   name to the log
+  */
 #define log_start_fun(lgr) lgr->log_start_fun_(__PRETTY_FUNCTION__)
-#define log_end_fun(lgr)   lgr->log_end_fun_(__PRETTY_FUNCTION__)
+/**
+   @brief log the end of the current function
+   @details just log_end_fun(lgr, t0, t1) and you get the caller's function
+   name to the log along with its execution time
+  */
+#define log_end_fun(lgr, t0, t1)   lgr->log_end_fun_(__PRETTY_FUNCTION__, t0, t1)
 
+/**
+   @brief entry point
+ */
 int vgg_util_main(int argc, char ** argv) {
   cmdline_opt opt = parse_args(argc, argv);
   if (opt.error || opt.help) usage(argv[0]);
@@ -578,6 +727,9 @@ int vgg_util_main(int argc, char ** argv) {
   return 0;
 }
 
+/**
+   @brief suppress unused function warning
+ */
 void vgg_util_use_unused_functions() {
   (void)get_tsc;
   (void)show_error;

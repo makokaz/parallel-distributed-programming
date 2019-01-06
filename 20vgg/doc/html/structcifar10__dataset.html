@@ -88,9 +88,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0025b0632ecfa9810d8a7c99d279f51"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcifar10__dataset.html#ad0025b0632ecfa9810d8a7c99d279f51">get_n_data_in_file</a> (const char *cifar_bin)</td></tr>
 <tr class="memdesc:ad0025b0632ecfa9810d8a7c99d279f51"><td class="mdescLeft">&#160;</td><td class="mdescRight">count the number of images in a file (should be 10000)  <a href="#ad0025b0632ecfa9810d8a7c99d279f51">More...</a><br /></td></tr>
 <tr class="separator:ad0025b0632ecfa9810d8a7c99d279f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1da02b1a5b0f6a6dbc917253d7fc960b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcifar10__dataset.html#a1da02b1a5b0f6a6dbc917253d7fc960b">load</a> (<a class="el" href="structlogger.html">logger</a> &amp;lgr, const char *cifar_bin, long start, long end, double validate_ratio, long validate_seed)</td></tr>
-<tr class="memdesc:a1da02b1a5b0f6a6dbc917253d7fc960b"><td class="mdescLeft">&#160;</td><td class="mdescRight">load training/validation data from the file  <a href="#a1da02b1a5b0f6a6dbc917253d7fc960b">More...</a><br /></td></tr>
-<tr class="separator:a1da02b1a5b0f6a6dbc917253d7fc960b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4574eb110a71faac0e38445fd7be6fd2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcifar10__dataset.html#a4574eb110a71faac0e38445fd7be6fd2">load</a> (<a class="el" href="structlogger.html">logger</a> &amp;lgr, const char *cifar_bin, long n_samples, long sample_seed, double validate_ratio)</td></tr>
+<tr class="memdesc:a4574eb110a71faac0e38445fd7be6fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">load training/validation data from the file  <a href="#a4574eb110a71faac0e38445fd7be6fd2">More...</a><br /></td></tr>
+<tr class="separator:a4574eb110a71faac0e38445fd7be6fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaa1adc9988bbb59550f778b82026ff8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcifar10__dataset.html#acaa1adc9988bbb59550f778b82026ff8">log_dataset</a> (<a class="el" href="structlogger.html">logger</a> &amp;lgr)</td></tr>
+<tr class="memdesc:acaa1adc9988bbb59550f778b82026ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">log dataset  <a href="#acaa1adc9988bbb59550f778b82026ff8">More...</a><br /></td></tr>
+<tr class="separator:acaa1adc9988bbb59550f778b82026ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afafc5833390f1f3f9c2fefea15d643ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcifar10__dataset.html#afafc5833390f1f3f9c2fefea15d643ca">get_data_train</a> (<a class="el" href="structarray4.html">array4</a>&lt; maxB, IC, H, W &gt; &amp;x, <a class="el" href="structivec.html">ivec</a>&lt; maxB &gt; &amp;t, <a class="el" href="vgg__util_8h.html#a8e93478a00e685bea5e6a3f617bf03a3">idx_t</a> B)</td></tr>
 <tr class="memdesc:afafc5833390f1f3f9c2fefea15d643ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">load x and t with the a mini batch of B images  <a href="#afafc5833390f1f3f9c2fefea15d643ca">More...</a><br /></td></tr>
 <tr class="separator:afafc5833390f1f3f9c2fefea15d643ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -272,8 +275,8 @@ template&lt;idx_t maxB, idx_t IC, idx_t H, idx_t W&gt; </div>
 
 </div>
 </div>
-<a id="a1da02b1a5b0f6a6dbc917253d7fc960b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1da02b1a5b0f6a6dbc917253d7fc960b">&#9670;&nbsp;</a></span>load()</h2>
+<a id="a4574eb110a71faac0e38445fd7be6fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4574eb110a71faac0e38445fd7be6fd2">&#9670;&nbsp;</a></span>load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,25 +302,19 @@ template&lt;idx_t maxB, idx_t IC, idx_t H, idx_t W&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>start</em>, </td>
+          <td class="paramname"><em>n_samples</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
+          <td class="paramname"><em>sample_seed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>validate_ratio</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>validate_seed</em>&#160;</td>
+          <td class="paramname"><em>validate_ratio</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -337,10 +334,45 @@ template&lt;idx_t maxB, idx_t IC, idx_t H, idx_t W&gt; </div>
   <table class="params">
     <tr><td class="paramname">(lgr)</td><td>logger </td></tr>
     <tr><td class="paramname">(cifar_bin)</td><td>the name of the file to read data from </td></tr>
-    <tr><td class="paramname">(start)</td><td>the first image to read </td></tr>
-    <tr><td class="paramname">(end)</td><td>the last image to read + 1 </td></tr>
+    <tr><td class="paramname">(n_samples)</td><td>the number of data used </td></tr>
+    <tr><td class="paramname">(sample_seed)</td><td>seed of the random number generator to pick training and validation data </td></tr>
     <tr><td class="paramname">(validate_ratio)</td><td>leave this much for validation (&lt;1.0) </td></tr>
-    <tr><td class="paramname">(validate_seed)</td><td>seed of the random number generator to pick which images to be held out for validation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acaa1adc9988bbb59550f778b82026ff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaa1adc9988bbb59550f778b82026ff8">&#9670;&nbsp;</a></span>log_dataset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;idx_t maxB, idx_t IC, idx_t H, idx_t W&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structcifar10__dataset.html">cifar10_dataset</a>&lt; maxB, IC, H, W &gt;::log_dataset </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlogger.html">logger</a> &amp;&#160;</td>
+          <td class="paramname"><em>lgr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>log dataset </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">(lgr)</td><td>logger </td></tr>
   </table>
   </dd>
 </dl>

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['y',['y',['../structBatchNormalization.html#a1453d9955c9cb72c5316c98cb06d1867',1,'BatchNormalization::y()'],['../structConvolution2D.html#ae321933a802088a32112cdbd16b16c0f',1,'Convolution2D::y()'],['../structDropout.html#ad758df2bfbd791e6b25e29c8204e0df4',1,'Dropout::y()'],['../structLinear.html#a422f2130612692682fdd151b96899264',1,'Linear::y()'],['../structMaxPooling2D.html#a0ad5375e31a495c53600f3367da9fddc',1,'MaxPooling2D::y()'],['../structRelu.html#a30148be5eabe65c95a37c7cd0525c08a',1,'Relu::y()'],['../structSoftmaxCrossEntropy.html#a375b984851163f54de4196a385c6d8e6',1,'SoftmaxCrossEntropy::y()']]]
+  ['x',['x',['../structVGG.html#ab352e8c1793b749d92b85e75ca4f66e8',1,'VGG::x()'],['../structrnd__gen__t.html#a80b2d559c8a8046b6e979840ad3379be',1,'rnd_gen_t::x()']]],
+  ['x_5fhat',['x_hat',['../structBatchNormalization.html#ab0962f839e8eed605d7fb43fc2eb979d',1,'BatchNormalization']]],
+  ['x_5fptr',['x_ptr',['../structConvolution2D.html#a404b6e9b9a932e463f237d5bd35b2154',1,'Convolution2D::x_ptr()'],['../structLinear.html#a8a7c8ecf358de5e00589a722a0c4541c',1,'Linear::x_ptr()'],['../structRelu.html#a51ae894a609b5de1e41e8fd30ff5575c',1,'Relu::x_ptr()']]]
 ];

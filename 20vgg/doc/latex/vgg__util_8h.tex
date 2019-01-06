@@ -18,16 +18,14 @@
 {\ttfamily \#include $<$unistd.\+h$>$}\newline
 {\ttfamily \#include $<$ieee754.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}cuda\+\_\+util.\+h\char`\"{}}\newline
-Include dependency graph for vgg\+\_\+util.\+h\+:
-\nopagebreak
+Include dependency graph for vgg\+\_\+util.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{vgg__util_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -56,7 +54,7 @@ struct \hyperlink{structlogger}{logger}
 \begin{DoxyCompactList}\small\item\em signal a fatal error when a gpu algorithm gets called for cpu only compilation \end{DoxyCompactList}\item 
 \#define \hyperlink{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}{log\+\_\+start\+\_\+fun}(lgr)~lgr-\/$>$log\+\_\+start\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)
 \begin{DoxyCompactList}\small\item\em log the start of the current function \end{DoxyCompactList}\item 
-\#define \hyperlink{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}{log\+\_\+end\+\_\+fun}(lgr)~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)
+\#define \hyperlink{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}{log\+\_\+end\+\_\+fun}(lgr,  t0,  t1)~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+, t0, t1)
 \begin{DoxyCompactList}\small\item\em log the end of the current function \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -130,17 +128,17 @@ static struct option \hyperlink{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}{
 
 
 \subsection{Macro Definition Documentation}
-\mbox{\Hypertarget{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}\label{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}} 
+\mbox{\Hypertarget{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}\label{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}} 
 \index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}}
 \index{log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
 \subsubsection{\texorpdfstring{log\+\_\+end\+\_\+fun}{log\_end\_fun}}
-{\footnotesize\ttfamily \#define log\+\_\+end\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr }\end{DoxyParamCaption})~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)}
+{\footnotesize\ttfamily \#define log\+\_\+end\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr,  }\item[{}]{t0,  }\item[{}]{t1 }\end{DoxyParamCaption})~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+, t0, t1)}
 
 
 
 log the end of the current function 
 
-just \hyperlink{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}{log\+\_\+end\+\_\+fun(lgr)} and you get the caller\textquotesingle{}s function name to the log \mbox{\Hypertarget{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}\label{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}} 
+just \hyperlink{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}{log\+\_\+end\+\_\+fun(lgr, t0, t1)} and you get the caller\textquotesingle{}s function name to the log along with its execution time \mbox{\Hypertarget{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}\label{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}} 
 \index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}}
 \index{log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
 \subsubsection{\texorpdfstring{log\+\_\+start\+\_\+fun}{log\_start\_fun}}
@@ -235,8 +233,7 @@ show various errors
   \{\textcolor{stringliteral}{"learnrate"},         required\_argument, 0, \textcolor{charliteral}{'l'} \},
   \{\textcolor{stringliteral}{"algo"},              required\_argument, 0, \textcolor{charliteral}{'a'} \},
   \{\textcolor{stringliteral}{"cifar\_data"},        required\_argument, 0, \textcolor{charliteral}{'d'} \},
-  \{\textcolor{stringliteral}{"start\_data"},        required\_argument, 0,  0  \},
-  \{\textcolor{stringliteral}{"end\_data"},          required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"partial\_data"},      required\_argument, 0,  0  \},
   \{\textcolor{stringliteral}{"single\_batch"},      required\_argument, 0,  0  \},
   \{\textcolor{stringliteral}{"dropout"},           required\_argument, 0,  0  \},
   \{\textcolor{stringliteral}{"validate\_ratio"},    required\_argument, 0,  0  \},
@@ -244,7 +241,7 @@ show various errors
   \{\textcolor{stringliteral}{"sample\_seed"},       required\_argument, 0,  0 \},
   \{\textcolor{stringliteral}{"weight\_seed"},       required\_argument, 0,  0 \},
   \{\textcolor{stringliteral}{"dropout\_seed"},      required\_argument, 0,  0 \},
-  \{\textcolor{stringliteral}{"validate\_seed"},     required\_argument, 0,  0 \},
+  \{\textcolor{stringliteral}{"partial\_data\_seed"}, required\_argument, 0,  0 \},
   \{\textcolor{stringliteral}{"grad\_dbg"},          required\_argument, 0,  0  \},
   \{\textcolor{stringliteral}{"log"},               required\_argument, 0,  0  \},
   \{\textcolor{stringliteral}{"help"},              required\_argument, 0, \textcolor{charliteral}{'h'} \},
