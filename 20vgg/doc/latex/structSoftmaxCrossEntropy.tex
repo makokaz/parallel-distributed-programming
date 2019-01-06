@@ -1,0 +1,500 @@
+\hypertarget{structSoftmaxCrossEntropy}{}\section{Softmax\+Cross\+Entropy$<$ maxB, nC $>$ Struct Template Reference}
+\label{structSoftmaxCrossEntropy}\index{Softmax\+Cross\+Entropy$<$ max\+B, n\+C $>$@{Softmax\+Cross\+Entropy$<$ max\+B, n\+C $>$}}
+
+
+dropout layer  
+
+
+
+
+{\ttfamily \#include $<$softmaxcrossentropy.\+h$>$}
+
+
+
+Collaboration diagram for Softmax\+Cross\+Entropy$<$ maxB, nC $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structSoftmaxCrossEntropy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structSoftmaxCrossEntropy_ad531aa32fa665c1596f686eae4b8e008}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structSoftmaxCrossEntropy_a5b1fcafb5b11b7c6c09c228fb442a888}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structSoftmaxCrossEntropy_a10a76ce6a1cd3e1d1a57c0f2ba42f5a0}{lgr})
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$ $\ast$ \hyperlink{structSoftmaxCrossEntropy_aa152e1e400520acefcaa8bfa0999fce7}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_a2fd71f3001bb7a06f4f4c2902c43b657}{set\+\_\+dev} (\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$ $\ast$\hyperlink{structSoftmaxCrossEntropy_a5a1e252b71ec4a89577e908abe7e723e}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_ae02a6267c117629143f37216cad345a0}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_acbef8ab0f759568a85decdcfd4a5353c}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a86bfec6f584b9c489e5c51209f37666d}\label{structSoftmaxCrossEntropy_a86bfec6f584b9c489e5c51209f37666d}} 
+void \hyperlink{structSoftmaxCrossEntropy_a86bfec6f584b9c489e5c51209f37666d}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ab30b7d1d000db2d9d2bfad95d1dcb7a8}\label{structSoftmaxCrossEntropy_ab30b7d1d000db2d9d2bfad95d1dcb7a8}} 
+void \hyperlink{structSoftmaxCrossEntropy_ab30b7d1d000db2d9d2bfad95d1dcb7a8}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structarray2}{array2}$<$ maxB, nC $>$ \& \hyperlink{structSoftmaxCrossEntropy_a4f2a21b5bd9663d832b618f0b26a01df}{logsoftmax} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em compute log(softmax(x)) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy_ac64934c6de42a065529dceafa38c157a}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_a0e71f6ceb53d769e6b4d7a6d83034669}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_a3e4f2e0a025eaf98fa9f614dd355bdf7}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structvec}{vec}$<$ maxB $>$ \& \hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&x, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&t)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x,t) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}{backward\+\_\+base} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy_ad7560f49148405e09d5a9a0a6ee0ee92}{backward\+\_\+dev} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_a767b5a911be901ce811ffca5fb88af74}{backward\+\_\+gpu} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structSoftmaxCrossEntropy_ad486637359bf83f545a00b1e29584b35}{backward\+\_\+cpu} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \& \hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$ $\ast$ \hyperlink{structSoftmaxCrossEntropy_a5a1e252b71ec4a89577e908abe7e723e}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structSoftmaxCrossEntropy_a5b1fcafb5b11b7c6c09c228fb442a888}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structSoftmaxCrossEntropy_a10a76ce6a1cd3e1d1a57c0f2ba42f5a0}{lgr}
+\item 
+\hyperlink{structivec}{ivec}$<$ maxB $>$ $\ast$ \hyperlink{structSoftmaxCrossEntropy_a58fadb0af31e34384df054ab40b88201}{t\+\_\+ptr}
+\item 
+\hyperlink{structarray2}{array2}$<$ maxB, nC $>$ \hyperlink{structSoftmaxCrossEntropy_a52f15cc4720bbc8f7550577726492e99}{lsm}
+\item 
+\hyperlink{structvec}{vec}$<$ maxB $>$ \hyperlink{structSoftmaxCrossEntropy_a375b984851163f54de4196a385c6d8e6}{y}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \hyperlink{structSoftmaxCrossEntropy_abc18b5561486ac3855176b6a74e1726b}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$\newline
+struct Softmax\+Cross\+Entropy$<$ max\+B, n\+C $>$}
+
+dropout layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (n\+C)} & number of classes (10)\\
+\hline
+\end{DoxyParams}
+input is essentially a two dimensional vector describing the score for each image and each class. the score for image i and a class c is a likelihood that the image i belongs to the class c. based on this matrix, it first converts the vector for each image to the probability vector using the softmax function. it then compares the probability score with the true label and calculate the loss using the cross entropy function. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}\label{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!backward@{backward}}
+\index{backward@{backward}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,nC,1,1$>$\& \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}\label{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a767b5a911be901ce811ffca5fb88af74}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_ad7560f49148405e09d5a9a0a6ee0ee92}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ad486637359bf83f545a00b1e29584b35}\label{structSoftmaxCrossEntropy_ad486637359bf83f545a00b1e29584b35}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ad7560f49148405e09d5a9a0a6ee0ee92}\label{structSoftmaxCrossEntropy_ad7560f49148405e09d5a9a0a6ee0ee92}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a767b5a911be901ce811ffca5fb88af74}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a767b5a911be901ce811ffca5fb88af74}\label{structSoftmaxCrossEntropy_a767b5a911be901ce811ffca5fb88af74}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_ad7560f49148405e09d5a9a0a6ee0ee92}{backward\+\_\+dev} 
+
+\hyperlink{structSoftmaxCrossEntropy_a1cea37bcbeedb5749f56f740baa6ce92}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_aa152e1e400520acefcaa8bfa0999fce7}\label{structSoftmaxCrossEntropy_aa152e1e400520acefcaa8bfa0999fce7}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!copy@{copy}}
+\index{copy@{copy}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$maxB,nC$>$$\ast$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structSoftmaxCrossEntropy_acbef8ab0f759568a85decdcfd4a5353c}\label{structSoftmaxCrossEntropy_acbef8ab0f759568a85decdcfd4a5353c}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ae02a6267c117629143f37216cad345a0}{make\+\_\+dev} 
+
+\hyperlink{structSoftmaxCrossEntropy_a2fd71f3001bb7a06f4f4c2902c43b657}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}\label{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!forward@{forward}}
+\index{forward@{forward}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structvec}{vec}$<$maxB$>$\& \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x,t) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels of images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_afb506c6159bd6cd02a6c5e8426628fe0}{backward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}\label{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a0e71f6ceb53d769e6b4d7a6d83034669}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_ac64934c6de42a065529dceafa38c157a}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a3e4f2e0a025eaf98fa9f614dd355bdf7}\label{structSoftmaxCrossEntropy_a3e4f2e0a025eaf98fa9f614dd355bdf7}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ac64934c6de42a065529dceafa38c157a}\label{structSoftmaxCrossEntropy_ac64934c6de42a065529dceafa38c157a}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} 
+
+\hyperlink{structSoftmaxCrossEntropy_a0e71f6ceb53d769e6b4d7a6d83034669}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a0e71f6ceb53d769e6b4d7a6d83034669}\label{structSoftmaxCrossEntropy_a0e71f6ceb53d769e6b4d7a6d83034669}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ad9123a2a40bac45237466faf0cff3fbc}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structSoftmaxCrossEntropy_ac64934c6de42a065529dceafa38c157a}{forward\+\_\+dev} 
+
+\hyperlink{structSoftmaxCrossEntropy_a8a478a94bbd9fd17e08fe86cb758d90f}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_ad531aa32fa665c1596f686eae4b8e008}\label{structSoftmaxCrossEntropy_ad531aa32fa665c1596f686eae4b8e008}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!init@{init}}
+\index{init@{init}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a4f2a21b5bd9663d832b618f0b26a01df}\label{structSoftmaxCrossEntropy_a4f2a21b5bd9663d832b618f0b26a01df}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!logsoftmax@{logsoftmax}}
+\index{logsoftmax@{logsoftmax}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{logsoftmax()}{logsoftmax()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structarray2}{array2}$<$maxB,nC$>$\& \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::logsoftmax (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+compute log(softmax(x)) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & a matrix\\
+\hline
+\end{DoxyParams}
+for 1D vector x x = (x\+\_\+0, ..., x\+\_\+\{n-\/1\}), \begin{DoxyVerb}                  (exp(x_0)     / Σ_j exp(x_j))
+\end{DoxyVerb}
+ logsoftmax(x)\+\_\+i = log (exp(x\+\_\+1) / Σ\+\_\+j exp(x\+\_\+j)) ( ... / Σ\+\_\+j exp(x\+\_\+j)) (exp(x\+\_\+\{n-\/1\}) / Σ\+\_\+j exp(x\+\_\+j))
+
+the input to this function is essentially a two dimensional matrix (4D array whose last two axes have only one element), which is simply a set of vectors. \mbox{\Hypertarget{structSoftmaxCrossEntropy_ae02a6267c117629143f37216cad345a0}\label{structSoftmaxCrossEntropy_ae02a6267c117629143f37216cad345a0}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_a2fd71f3001bb7a06f4f4c2902c43b657}{set\+\_\+dev} 
+
+\hyperlink{structSoftmaxCrossEntropy_acbef8ab0f759568a85decdcfd4a5353c}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a2fd71f3001bb7a06f4f4c2902c43b657}\label{structSoftmaxCrossEntropy_a2fd71f3001bb7a06f4f4c2902c43b657}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+void \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structSoftmaxCrossEntropy_ae02a6267c117629143f37216cad345a0}{make\+\_\+dev} 
+
+\hyperlink{structSoftmaxCrossEntropy_acbef8ab0f759568a85decdcfd4a5353c}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structSoftmaxCrossEntropy_a5a1e252b71ec4a89577e908abe7e723e}\label{structSoftmaxCrossEntropy_a5a1e252b71ec4a89577e908abe7e723e}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!dev@{dev}}
+\index{dev@{dev}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$maxB,nC$>$$\ast$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structSoftmaxCrossEntropy_abc18b5561486ac3855176b6a74e1726b}\label{structSoftmaxCrossEntropy_abc18b5561486ac3855176b6a74e1726b}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!gx@{gx}}
+\index{gx@{gx}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,nC,1,1$>$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::gx}
+
+gradient of loss wrt to input x \mbox{\Hypertarget{structSoftmaxCrossEntropy_a10a76ce6a1cd3e1d1a57c0f2ba42f5a0}\label{structSoftmaxCrossEntropy_a10a76ce6a1cd3e1d1a57c0f2ba42f5a0}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!lgr@{lgr}}
+\index{lgr@{lgr}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structSoftmaxCrossEntropy_a52f15cc4720bbc8f7550577726492e99}\label{structSoftmaxCrossEntropy_a52f15cc4720bbc8f7550577726492e99}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!lsm@{lsm}}
+\index{lsm@{lsm}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{lsm}{lsm}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray2}{array2}$<$maxB,nC$>$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::lsm}
+
+record log(softmax) \mbox{\Hypertarget{structSoftmaxCrossEntropy_a5b1fcafb5b11b7c6c09c228fb442a888}\label{structSoftmaxCrossEntropy_a5b1fcafb5b11b7c6c09c228fb442a888}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!opt@{opt}}
+\index{opt@{opt}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structSoftmaxCrossEntropy_a58fadb0af31e34384df054ab40b88201}\label{structSoftmaxCrossEntropy_a58fadb0af31e34384df054ab40b88201}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!t\+\_\+ptr@{t\+\_\+ptr}}
+\index{t\+\_\+ptr@{t\+\_\+ptr}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{t\+\_\+ptr}{t\_ptr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structivec}{ivec}$<$maxB$>$$\ast$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::t\+\_\+ptr}
+
+pointer to the true labels passed to forward \mbox{\Hypertarget{structSoftmaxCrossEntropy_a375b984851163f54de4196a385c6d8e6}\label{structSoftmaxCrossEntropy_a375b984851163f54de4196a385c6d8e6}} 
+\index{Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}!y@{y}}
+\index{y@{y}!Softmax\+Cross\+Entropy@{Softmax\+Cross\+Entropy}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t nC$>$ \\
+\hyperlink{structvec}{vec}$<$maxB$>$ \hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h}\end{DoxyCompactItemize}

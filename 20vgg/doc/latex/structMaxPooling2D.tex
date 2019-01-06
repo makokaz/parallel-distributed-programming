@@ -1,0 +1,465 @@
+\hypertarget{structMaxPooling2D}{}\section{Max\+Pooling2D$<$ maxB, C, H, W, S $>$ Struct Template Reference}
+\label{structMaxPooling2D}\index{Max\+Pooling2\+D$<$ max\+B, C, H, W, S $>$@{Max\+Pooling2\+D$<$ max\+B, C, H, W, S $>$}}
+
+
+max pooling layer  
+
+
+
+
+{\ttfamily \#include $<$maxpooling.\+h$>$}
+
+
+
+Collaboration diagram for Max\+Pooling2D$<$ maxB, C, H, W, S $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{structMaxPooling2D__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}{lgr})
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$ $\ast$ \hyperlink{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} (\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$ $\ast$\hyperlink{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}\label{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}} 
+void \hyperlink{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}\label{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}} 
+void \hyperlink{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \& \hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \& \hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$ $\ast$ \hyperlink{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}{lgr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \hyperlink{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}{y}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \hyperlink{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}{max\+\_\+idx}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \hyperlink{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$\newline
+struct Max\+Pooling2\+D$<$ max\+B, C, H, W, S $>$}
+
+max pooling layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+S)} & shrink factor of pooling layers (2)\\
+\hline
+\end{DoxyParams}
+this layer implements max pooling. it takes SxS patch of input images and take the maximum of it. given an HxW image, output (H/S)x(W/S) image 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}\label{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!backward@{backward}}
+\index{backward@{backward}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$\& \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}\label{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+
+\hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}\label{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+
+\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}\label{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+
+\hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}\label{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H/S, W/S $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} 
+
+\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}\label{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!copy@{copy}}
+\index{copy@{copy}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,C,H,W,S$>$$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}\label{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} 
+
+\hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}\label{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!forward@{forward}}
+\index{forward@{forward}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H/S,W/S$>$\& \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}\label{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+
+\hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}\label{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+
+\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}\label{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+
+\hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}\label{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} 
+
+\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}\label{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!init@{init}}
+\index{init@{init}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}\label{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} 
+
+\hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}\label{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} 
+
+\hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}\label{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!dev@{dev}}
+\index{dev@{dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,C,H,W,S$>$$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}\label{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!gx@{gx}}
+\index{gx@{gx}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::gx}
+
+gradient of loss wrt to input x \mbox{\Hypertarget{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}\label{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!lgr@{lgr}}
+\index{lgr@{lgr}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}\label{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!max\+\_\+idx@{max\+\_\+idx}}
+\index{max\+\_\+idx@{max\+\_\+idx}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{max\+\_\+idx}{max\_idx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H/S,W/S$>$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::max\+\_\+idx}
+
+the index that gave the maximum of each output pixel \mbox{\Hypertarget{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}\label{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!opt@{opt}}
+\index{opt@{opt}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}\label{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}} 
+\index{Max\+Pooling2D@{Max\+Pooling2D}!y@{y}}
+\index{y@{y}!Max\+Pooling2D@{Max\+Pooling2D}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H/S,W/S$>$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C, H, W, S $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{maxpooling_8h}{maxpooling.\+h}\end{DoxyCompactItemize}

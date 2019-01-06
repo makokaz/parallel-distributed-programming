@@ -1,0 +1,168 @@
+\hypertarget{batchnormalization_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/batchnormalization.h File Reference}
+\label{batchnormalization_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/batchnormalization.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/batchnormalization.\+h}}
+
+
+batch normalization layer  
+
+
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}vgg\+\_\+util.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vgg\+\_\+arrays.\+h\char`\"{}}\newline
+Include dependency graph for batchnormalization.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{batchnormalization_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{batchnormalization_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structBatchNormalization}{Batch\+Normalization$<$ max\+B, I\+C, H, W $>$}
+\begin{DoxyCompactList}\small\item\em batch normalization \end{DoxyCompactList}\item 
+struct \hyperlink{structBatchNormalization}{Batch\+Normalization$<$ max\+B, I\+C, H, W $>$}
+\begin{DoxyCompactList}\small\item\em batch normalization \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{batchnormalization_8h_a41bba9077163e208b0b74c48bc543eb1}{forward\+\_\+global} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$dev, \hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ $\ast$x\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline forward function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{batchnormalization_8h_a1b41e67dca3ea4cfd2f2cc1f60d82ca8}{backward\+\_\+global} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$dev, \hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ $\ast$gy\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline backward function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{batchnormalization_8h_a50f5ba1511c0f5fdca71aeb753dc7820}{update\+\_\+global} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$dev, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline update function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{batchnormalization_8h_a06a5c008a0b14db30d206734b44d6f97}{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} opt, \hyperlink{structlogger}{logger} $\ast$lgr, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B)
+\begin{DoxyCompactList}\small\item\em check the gradient computation of a batch normalization layer \end{DoxyCompactList}\item 
+int \hyperlink{batchnormalization_8h_af72830784e9693ab42ee8938e518d797}{batchnormalization\+\_\+main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em entry point of this header file \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+batch normalization layer 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{batchnormalization_8h_a1b41e67dca3ea4cfd2f2cc1f60d82ca8}\label{batchnormalization_8h_a1b41e67dca3ea4cfd2f2cc1f60d82ca8}} 
+\index{batchnormalization.\+h@{batchnormalization.\+h}!backward\+\_\+global@{backward\+\_\+global}}
+\index{backward\+\_\+global@{backward\+\_\+global}!batchnormalization.\+h@{batchnormalization.\+h}}
+\subsubsection{\texorpdfstring{backward\+\_\+global()}{backward\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void backward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ $\ast$}]{gy\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline backward function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (gy\+\_\+dev)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+backward\+\_\+dev 
+
+backward\+\_\+gpu 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{batchnormalization_8h_a06a5c008a0b14db30d206734b44d6f97}\label{batchnormalization_8h_a06a5c008a0b14db30d206734b44d6f97}} 
+\index{batchnormalization.\+h@{batchnormalization.\+h}!batchnormalization\+\_\+grad\+\_\+check\+\_\+rand@{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand}}
+\index{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand@{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand}!batchnormalization.\+h@{batchnormalization.\+h}}
+\subsubsection{\texorpdfstring{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand()}{batchnormalization\_grad\_check\_rand()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} batchnormalization\+\_\+grad\+\_\+check\+\_\+rand (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+check the gradient computation of a batch normalization layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line option \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (\+B)} & the number of images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{batchnormalization_8h_af72830784e9693ab42ee8938e518d797}{batchnormalization\+\_\+main}
+\end{DoxySeeAlso}
+it first makes a layer object with initial weights W and generates an input (x and t). it then creates two layers whose weights are slightly different from the original one by dw/2 (i.\+e., w-\/dw/2 and w+dw/2), as well as two inputs slighly different from the original inputs by dx/2 (x-\/dx/2 and x+dx/2). it then computes L(w,x), L(x-\/dw/2,x-\/dx/2) and L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-\/L(x-\/dw/2,x-\/dx/2) is close to ∂\+L/∂x dx + ∂\+L/∂w dw. ∂\+L/∂x and ∂\+L/∂w are obtained by backward computation. This is essentially checking if the gradients obtained by backward computation correctly approximates the diff of the output. \mbox{\Hypertarget{batchnormalization_8h_af72830784e9693ab42ee8938e518d797}\label{batchnormalization_8h_af72830784e9693ab42ee8938e518d797}} 
+\index{batchnormalization.\+h@{batchnormalization.\+h}!batchnormalization\+\_\+main@{batchnormalization\+\_\+main}}
+\index{batchnormalization\+\_\+main@{batchnormalization\+\_\+main}!batchnormalization.\+h@{batchnormalization.\+h}}
+\subsubsection{\texorpdfstring{batchnormalization\+\_\+main()}{batchnormalization\_main()}}
+{\footnotesize\ttfamily int batchnormalization\+\_\+main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+entry point of this header file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (argc)} & the number of command line args \\
+\hline
+{\em (argv)} & command line args \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{batchnormalization_8h_a06a5c008a0b14db30d206734b44d6f97}{batchnormalization\+\_\+grad\+\_\+check\+\_\+rand}
+\end{DoxySeeAlso}
+if this header file is included from a main C++ file and define batchnormalization\+\_\+main to be main (e.\+g., with -\/\+Dbatchnormalization\+\_\+main=main), then this function becomes th main function of the executable. it calls batchnormalization\+\_\+grad\+\_\+check\+\_\+rand repeatedly to test the implementation of \hyperlink{structVGG}{V\+GG} network. \mbox{\Hypertarget{batchnormalization_8h_a41bba9077163e208b0b74c48bc543eb1}\label{batchnormalization_8h_a41bba9077163e208b0b74c48bc543eb1}} 
+\index{batchnormalization.\+h@{batchnormalization.\+h}!forward\+\_\+global@{forward\+\_\+global}}
+\index{forward\+\_\+global@{forward\+\_\+global}!batchnormalization.\+h@{batchnormalization.\+h}}
+\subsubsection{\texorpdfstring{forward\+\_\+global()}{forward\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void forward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ $\ast$}]{x\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline forward function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (x\+\_\+dev)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+forward\+\_\+dev 
+
+forward\+\_\+gpu 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{batchnormalization_8h_a50f5ba1511c0f5fdca71aeb753dc7820}\label{batchnormalization_8h_a50f5ba1511c0f5fdca71aeb753dc7820}} 
+\index{batchnormalization.\+h@{batchnormalization.\+h}!update\+\_\+global@{update\+\_\+global}}
+\index{update\+\_\+global@{update\+\_\+global}!batchnormalization.\+h@{batchnormalization.\+h}}
+\subsubsection{\texorpdfstring{update\+\_\+global()}{update\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void update\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$}]{dev,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline update function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (eta)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+update\+\_\+dev 
+
+update\+\_\+gpu 
+\end{DoxySeeAlso}

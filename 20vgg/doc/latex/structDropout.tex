@@ -1,0 +1,485 @@
+\hypertarget{structDropout}{}\section{Dropout$<$ maxB, C, H, W $>$ Struct Template Reference}
+\label{structDropout}\index{Dropout$<$ max\+B, C, H, W $>$@{Dropout$<$ max\+B, C, H, W $>$}}
+
+
+dropout layer  
+
+
+
+
+{\ttfamily \#include $<$dropout.\+h$>$}
+
+
+
+Collaboration diagram for Dropout$<$ maxB, C, H, W $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{structDropout__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structDropout_ab684bc3308abad8598f76bdaaa2598ee}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structDropout_a3d9589e177c7fd00af8d7e82db651e48}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structDropout_a55a275be949499a6f3f27fcb9989964e}{lgr}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structDropout_a4181a1bcb986c62b1c6a82a3c1e03d9f}{drop\+\_\+ratio}, long drop\+\_\+seed)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structDropout_a364b0df75c98d5b73fd11a77bf11bf89}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_aacd2c2da4fb3bd6718b2b43bc26538b9}{set\+\_\+dev} (\hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$ $\ast$\hyperlink{structDropout_a2ce2e6920dfb911f679af91ff9b6de55}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_ad1ea86b3d3240a95c9b8c52756ef23a9}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_a34adb045be5a2a9546ff99fec3ba1f30}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDropout_afbc57376fb281fd9ab79851c9a9af0fa}\label{structDropout_afbc57376fb281fd9ab79851c9a9af0fa}} 
+void \hyperlink{structDropout_afbc57376fb281fd9ab79851c9a9af0fa}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDropout_a69ab2243eeca5c39bf88540aed92fcdc}\label{structDropout_a69ab2243eeca5c39bf88540aed92fcdc}} 
+void \hyperlink{structDropout_a69ab2243eeca5c39bf88540aed92fcdc}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structDropout_a8d7db70a48a4c2e3887c931b099f1160}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structDropout_a81ee0268c4195380873af8ced5b1acc7}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_a3bb7569a99e88c36e508bee45f379fad}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_a2adc263cee9f2d84a8d0729ffaf924a6}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, W, H $>$ \& \hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structDropout_a5bbc54ad4125bf6768b5eeb17802a468}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_a138fbe07114851e478ac794629b6f44a}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structDropout_a6f78f35970607365a64e5f447bed4c04}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \& \hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structDropout_a2ce2e6920dfb911f679af91ff9b6de55}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structDropout_a3d9589e177c7fd00af8d7e82db651e48}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structDropout_a55a275be949499a6f3f27fcb9989964e}{lgr}
+\item 
+\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \hyperlink{structDropout_a176eb537c9aef161087863244f1e637f}{rg}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \hyperlink{structDropout_ad758df2bfbd791e6b25e29c8204e0df4}{y}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \hyperlink{structDropout_a1cf5aced88d251c6b49772ad318bbd27}{gx}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structDropout_a4181a1bcb986c62b1c6a82a3c1e03d9f}{drop\+\_\+ratio}
+\item 
+long \hyperlink{structDropout_ac409c1b3a996e35eb78964aa52c5a203}{state\+\_\+forward}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$\newline
+struct Dropout$<$ max\+B, C, H, W $>$}
+
+dropout layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer)\\
+\hline
+\end{DoxyParams}
+this layer normalizes a batch of images 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}\label{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}} 
+\index{Dropout@{Dropout}!backward@{backward}}
+\index{backward@{backward}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$\& \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}\label{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}} 
+\index{Dropout@{Dropout}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} 
+
+\hyperlink{structDropout_a138fbe07114851e478ac794629b6f44a}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structDropout_a5bbc54ad4125bf6768b5eeb17802a468}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a6f78f35970607365a64e5f447bed4c04}\label{structDropout_a6f78f35970607365a64e5f447bed4c04}} 
+\index{Dropout@{Dropout}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} 
+
+\hyperlink{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a5bbc54ad4125bf6768b5eeb17802a468}\label{structDropout_a5bbc54ad4125bf6768b5eeb17802a468}} 
+\index{Dropout@{Dropout}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} 
+
+\hyperlink{structDropout_a138fbe07114851e478ac794629b6f44a}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a138fbe07114851e478ac794629b6f44a}\label{structDropout_a138fbe07114851e478ac794629b6f44a}} 
+\index{Dropout@{Dropout}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structDropout_a5bbc54ad4125bf6768b5eeb17802a468}{backward\+\_\+dev} 
+
+\hyperlink{structDropout_a8ea26e89ddc6b5e4546f5a6ed019ad9a}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a364b0df75c98d5b73fd11a77bf11bf89}\label{structDropout_a364b0df75c98d5b73fd11a77bf11bf89}} 
+\index{Dropout@{Dropout}!copy@{copy}}
+\index{copy@{copy}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structDropout_a34adb045be5a2a9546ff99fec3ba1f30}\label{structDropout_a34adb045be5a2a9546ff99fec3ba1f30}} 
+\index{Dropout@{Dropout}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_ad1ea86b3d3240a95c9b8c52756ef23a9}{make\+\_\+dev} 
+
+\hyperlink{structDropout_aacd2c2da4fb3bd6718b2b43bc26538b9}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a155eb3ad77df591bdd95645fec1f2089}\label{structDropout_a155eb3ad77df591bdd95645fec1f2089}} 
+\index{Dropout@{Dropout}!forward@{forward}}
+\index{forward@{forward}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,W,H$>$\& \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_afe1afe7ce80e59d1b48c820a724aae1b}{backward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a8d7db70a48a4c2e3887c931b099f1160}\label{structDropout_a8d7db70a48a4c2e3887c931b099f1160}} 
+\index{Dropout@{Dropout}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} 
+
+\hyperlink{structDropout_a3bb7569a99e88c36e508bee45f379fad}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structDropout_a81ee0268c4195380873af8ced5b1acc7}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a2adc263cee9f2d84a8d0729ffaf924a6}\label{structDropout_a2adc263cee9f2d84a8d0729ffaf924a6}} 
+\index{Dropout@{Dropout}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} 
+
+\hyperlink{structDropout_a8d7db70a48a4c2e3887c931b099f1160}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a81ee0268c4195380873af8ced5b1acc7}\label{structDropout_a81ee0268c4195380873af8ced5b1acc7}} 
+\index{Dropout@{Dropout}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} 
+
+\hyperlink{structDropout_a3bb7569a99e88c36e508bee45f379fad}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structDropout_a8d7db70a48a4c2e3887c931b099f1160}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_a3bb7569a99e88c36e508bee45f379fad}\label{structDropout_a3bb7569a99e88c36e508bee45f379fad}} 
+\index{Dropout@{Dropout}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_a155eb3ad77df591bdd95645fec1f2089}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structDropout_a81ee0268c4195380873af8ced5b1acc7}{forward\+\_\+dev} 
+
+\hyperlink{structDropout_a8d7db70a48a4c2e3887c931b099f1160}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_ab684bc3308abad8598f76bdaaa2598ee}\label{structDropout_ab684bc3308abad8598f76bdaaa2598ee}} 
+\index{Dropout@{Dropout}!init@{init}}
+\index{init@{init}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{drop\+\_\+ratio,  }\item[{long}]{drop\+\_\+seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (drop\+\_\+ratio)} & the probability each cell is dropped out \\
+\hline
+{\em (drop\+\_\+seed)} & the seed of the random number generator used to determine dropout \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structDropout_ad1ea86b3d3240a95c9b8c52756ef23a9}\label{structDropout_ad1ea86b3d3240a95c9b8c52756ef23a9}} 
+\index{Dropout@{Dropout}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_aacd2c2da4fb3bd6718b2b43bc26538b9}{set\+\_\+dev} 
+
+\hyperlink{structDropout_a34adb045be5a2a9546ff99fec3ba1f30}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structDropout_aacd2c2da4fb3bd6718b2b43bc26538b9}\label{structDropout_aacd2c2da4fb3bd6718b2b43bc26538b9}} 
+\index{Dropout@{Dropout}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structDropout_ad1ea86b3d3240a95c9b8c52756ef23a9}{make\+\_\+dev} 
+
+\hyperlink{structDropout_a34adb045be5a2a9546ff99fec3ba1f30}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structDropout_a2ce2e6920dfb911f679af91ff9b6de55}\label{structDropout_a2ce2e6920dfb911f679af91ff9b6de55}} 
+\index{Dropout@{Dropout}!dev@{dev}}
+\index{dev@{dev}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structDropout_a4181a1bcb986c62b1c6a82a3c1e03d9f}\label{structDropout_a4181a1bcb986c62b1c6a82a3c1e03d9f}} 
+\index{Dropout@{Dropout}!drop\+\_\+ratio@{drop\+\_\+ratio}}
+\index{drop\+\_\+ratio@{drop\+\_\+ratio}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{drop\+\_\+ratio}{drop\_ratio}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::drop\+\_\+ratio}
+
+drop probability \mbox{\Hypertarget{structDropout_a1cf5aced88d251c6b49772ad318bbd27}\label{structDropout_a1cf5aced88d251c6b49772ad318bbd27}} 
+\index{Dropout@{Dropout}!gx@{gx}}
+\index{gx@{gx}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$ \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::gx}
+
+gradient of loss wrt to input x \mbox{\Hypertarget{structDropout_a55a275be949499a6f3f27fcb9989964e}\label{structDropout_a55a275be949499a6f3f27fcb9989964e}} 
+\index{Dropout@{Dropout}!lgr@{lgr}}
+\index{lgr@{lgr}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structDropout_a3d9589e177c7fd00af8d7e82db651e48}\label{structDropout_a3d9589e177c7fd00af8d7e82db651e48}} 
+\index{Dropout@{Dropout}!opt@{opt}}
+\index{opt@{opt}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structDropout_a176eb537c9aef161087863244f1e637f}\label{structDropout_a176eb537c9aef161087863244f1e637f}} 
+\index{Dropout@{Dropout}!rg@{rg}}
+\index{rg@{rg}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{rg}{rg}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::rg}
+
+random number generator to choose dropout \mbox{\Hypertarget{structDropout_ac409c1b3a996e35eb78964aa52c5a203}\label{structDropout_ac409c1b3a996e35eb78964aa52c5a203}} 
+\index{Dropout@{Dropout}!state\+\_\+forward@{state\+\_\+forward}}
+\index{state\+\_\+forward@{state\+\_\+forward}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{state\+\_\+forward}{state\_forward}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+long \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::state\+\_\+forward}
+
+random number state at the forward function \mbox{\Hypertarget{structDropout_ad758df2bfbd791e6b25e29c8204e0df4}\label{structDropout_ad758df2bfbd791e6b25e29c8204e0df4}} 
+\index{Dropout@{Dropout}!y@{y}}
+\index{y@{y}!Dropout@{Dropout}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$ \hyperlink{structDropout}{Dropout}$<$ maxB, C, H, W $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{dropout_8h}{dropout.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,282 @@
+\hypertarget{structvec}{}\section{vec$<$ N $>$ Struct Template Reference}
+\label{structvec}\index{vec$<$ N $>$@{vec$<$ N $>$}}
+
+
+vector  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+arrays.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \& \hyperlink{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}{operator()} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i)
+\begin{DoxyCompactList}\small\item\em access the i-\/th element \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_a90d5638b2de8e3a87d954130dc6d505e}{set\+\_\+n} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n})
+\begin{DoxyCompactList}\small\item\em set the number of elements \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_ac4159809d118cd6c25bae8e17b49360a}{init\+\_\+const} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} c)
+\begin{DoxyCompactList}\small\item\em initialize elements of the vector to a single constant value \end{DoxyCompactList}\item 
+void \hyperlink{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}{init\+\_\+uniform} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize elements of the vector uniformly between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structvec_ada7a8f64e872717520fc50c061bddb7a}{init\+\_\+single} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize a randomly chosen single element. other elements are set to zero. \end{DoxyCompactList}\item 
+void \hyperlink{structvec_a67699ea5f0b7b076b18e4dad7f62c650}{init\+\_\+normal} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+\begin{DoxyCompactList}\small\item\em initialize the vector with a normal distribution \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta, \hyperlink{structvec}{vec}$<$ N $>$ \&dx)
+\begin{DoxyCompactList}\small\item\em update the vector by eta and dx \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}\label{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}} 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}{sum} ()
+\begin{DoxyCompactList}\small\item\em sum of all values of the vector \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a025135937b054f373be71ef417f2bc89}{dot} (\hyperlink{structvec}{vec}$<$ N $>$ \&y)
+\begin{DoxyCompactList}\small\item\em dot product with another vector \end{DoxyCompactList}\item 
+void \hyperlink{structvec_a7f8e5821a38f3ef76ed82a165e142774}{set\+\_\+dev} (\hyperlink{structvec}{vec}$<$ N $>$ $\ast$\hyperlink{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}{dev})
+\begin{DoxyCompactList}\small\item\em set the device shadow of this vector \end{DoxyCompactList}\item 
+void \hyperlink{structvec_aa76a528a4e148d4d68e8a801c80c66e8}{make\+\_\+dev} (int gpu)
+\begin{DoxyCompactList}\small\item\em allocate and set the device shadow of this vector if requested by the parameter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}\label{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}} 
+void \hyperlink{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em deallocate the device shadow of this vector \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structvec_a44523c6b6412b8a23a9c5738168d76f3}\label{structvec_a44523c6b6412b8a23a9c5738168d76f3}} 
+void \hyperlink{structvec_a44523c6b6412b8a23a9c5738168d76f3}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em send the data to its gpu shadow \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structvec_aadf14a73591b19988968c6f9bf6c88bb}\label{structvec_aadf14a73591b19988968c6f9bf6c88bb}} 
+void \hyperlink{structvec_aadf14a73591b19988968c6f9bf6c88bb}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em get the data back from gpu shadow to host \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structvec}{vec}$<$ N $>$ $\ast$ \hyperlink{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}{dev}
+\item 
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}{w} \mbox{[}N\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t N$>$\newline
+struct vec$<$ N $>$}
+
+vector 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+N)} & the maximun number of elements it can hold \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structvec_a025135937b054f373be71ef417f2bc89}\label{structvec_a025135937b054f373be71ef417f2bc89}} 
+\index{vec@{vec}!dot@{dot}}
+\index{dot@{dot}!vec@{vec}}
+\subsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec}{vec}$<$ N $>$\+::dot (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ N $>$ \&}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+dot product with another vector 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (y)} & the vector to take a dot product with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_ac4159809d118cd6c25bae8e17b49360a}\label{structvec_ac4159809d118cd6c25bae8e17b49360a}} 
+\index{vec@{vec}!init\+\_\+const@{init\+\_\+const}}
+\index{init\+\_\+const@{init\+\_\+const}!vec@{vec}}
+\subsubsection{\texorpdfstring{init\+\_\+const()}{init\_const()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$<$ N $>$\+::init\+\_\+const (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize elements of the vector to a single constant value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (n)} & the number of elements to initialize \\
+\hline
+{\em (c)} & the value of each element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_a67699ea5f0b7b076b18e4dad7f62c650}\label{structvec_a67699ea5f0b7b076b18e4dad7f62c650}} 
+\index{vec@{vec}!init\+\_\+normal@{init\+\_\+normal}}
+\index{init\+\_\+normal@{init\+\_\+normal}!vec@{vec}}
+\subsubsection{\texorpdfstring{init\+\_\+normal()}{init\_normal()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+void \hyperlink{structvec}{vec}$<$ N $>$\+::init\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize the vector with a normal distribution 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (n)} & the number of elements to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (mu)} & mean of the normal distribution \\
+\hline
+{\em (sigma)} & sigma (standard deviation) of the normal distribution \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_ada7a8f64e872717520fc50c061bddb7a}\label{structvec_ada7a8f64e872717520fc50c061bddb7a}} 
+\index{vec@{vec}!init\+\_\+single@{init\+\_\+single}}
+\index{init\+\_\+single@{init\+\_\+single}!vec@{vec}}
+\subsubsection{\texorpdfstring{init\+\_\+single()}{init\_single()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+void \hyperlink{structvec}{vec}$<$ N $>$\+::init\+\_\+single (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize a randomly chosen single element. other elements are set to zero. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (n)} & the number of elements to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}\label{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}} 
+\index{vec@{vec}!init\+\_\+uniform@{init\+\_\+uniform}}
+\index{init\+\_\+uniform@{init\+\_\+uniform}!vec@{vec}}
+\subsubsection{\texorpdfstring{init\+\_\+uniform()}{init\_uniform()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+void \hyperlink{structvec}{vec}$<$ N $>$\+::init\+\_\+uniform (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize elements of the vector uniformly between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (n)} & the number of elements to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_aa76a528a4e148d4d68e8a801c80c66e8}\label{structvec_aa76a528a4e148d4d68e8a801c80c66e8}} 
+\index{vec@{vec}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!vec@{vec}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+void \hyperlink{structvec}{vec}$<$ N $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}\item[{int}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+allocate and set the device shadow of this vector if requested by the parameter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gpu)} & 1 to allocate the device shadow \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}\label{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}} 
+\index{vec@{vec}!operator()@{operator()}}
+\index{operator()@{operator()}!vec@{vec}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}\& \hyperlink{structvec}{vec}$<$ N $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access the i-\/th element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (i)} & the index of the element to access \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_a7f8e5821a38f3ef76ed82a165e142774}\label{structvec_a7f8e5821a38f3ef76ed82a165e142774}} 
+\index{vec@{vec}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!vec@{vec}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+void \hyperlink{structvec}{vec}$<$ N $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ N $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device shadow of this vector 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & device address (may be null) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_a90d5638b2de8e3a87d954130dc6d505e}\label{structvec_a90d5638b2de8e3a87d954130dc6d505e}} 
+\index{vec@{vec}!set\+\_\+n@{set\+\_\+n}}
+\index{set\+\_\+n@{set\+\_\+n}!vec@{vec}}
+\subsubsection{\texorpdfstring{set\+\_\+n()}{set\_n()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$<$ N $>$\+::set\+\_\+n (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the number of elements 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (n)} & the number of elements specified \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}\label{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}} 
+\index{vec@{vec}!update@{update}}
+\index{update@{update}!vec@{vec}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$<$ N $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta,  }\item[{\hyperlink{structvec}{vec}$<$ N $>$ \&}]{dx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update the vector by eta and dx 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & a constant to scale dx \\
+\hline
+{\em (dx)} & the increment vector\\
+\hline
+\end{DoxyParams}
+it performx x += eta $\ast$ dx 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}\label{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}} 
+\index{vec@{vec}!dev@{dev}}
+\index{dev@{dev}!vec@{vec}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\hyperlink{structvec}{vec}$<$N$>$$\ast$ \hyperlink{structvec}{vec}$<$ N $>$\+::dev}
+
+pointer to the device shadow \mbox{\Hypertarget{structvec_a8e2947aa75530f74cac781347dd97e98}\label{structvec_a8e2947aa75530f74cac781347dd97e98}} 
+\index{vec@{vec}!n@{n}}
+\index{n@{n}!vec@{vec}}
+\subsubsection{\texorpdfstring{n}{n}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec}{vec}$<$ N $>$\+::n}
+
+actual number of clements ($<$= N) \mbox{\Hypertarget{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}\label{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}} 
+\index{vec@{vec}!w@{w}}
+\index{w@{w}!vec@{vec}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec}{vec}$<$ N $>$\+::w\mbox{[}N\mbox{]}}
+
+elements 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,9 @@
+<map id="SoftmaxCrossEntropy&lt; maxB, nC &gt;" name="SoftmaxCrossEntropy&lt; maxB, nC &gt;">
+<area shape="rect" id="node2" href="$structarray4.html" title="array4\&lt; maxB, nC, 1, 1 \&gt;" alt="" coords="168,5,339,32"/>
+<area shape="rect" id="node3" href="$structvec.html" title="vec\&lt; maxB \&gt;" alt="" coords="203,56,304,83"/>
+<area shape="rect" id="node4" href="$structcmdline__opt.html" title="command line options " alt="" coords="5,123,97,149"/>
+<area shape="rect" id="node7" href="$structlogger.html" title="logging object " alt="" coords="225,169,282,196"/>
+<area shape="rect" id="node5" href="$structarray2.html" title="array2\&lt; maxB, nC \&gt;" alt="" coords="183,220,324,247"/>
+<area shape="rect" id="node6" href="$structivec.html" title="ivec\&lt; maxB \&gt;" alt="" coords="201,271,305,297"/>
+<area shape="rect" id="node8" href="$structtsc__t.html" title="timestamp " alt="" coords="26,188,77,215"/>
+</map>

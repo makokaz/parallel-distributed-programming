@@ -1,0 +1,125 @@
+\hypertarget{structlogger}{}\section{logger Struct Reference}
+\label{structlogger}\index{logger@{logger}}
+
+
+logging object  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+util.\+h$>$}
+
+
+
+Collaboration diagram for logger\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{structlogger__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structlogger_afa0e701e9585188b9efa9b547f1120a4}\label{structlogger_afa0e701e9585188b9efa9b547f1120a4}} 
+char $\ast$ \hyperlink{structlogger_afa0e701e9585188b9efa9b547f1120a4}{cur\+\_\+time\+\_\+str} ()
+\begin{DoxyCompactList}\small\item\em return the current time string like \char`\"{}\+Wed Jun 30 21\+:49\+:08 1993\char`\"{} \end{DoxyCompactList}\item 
+int \hyperlink{structlogger_aa079e325d6f0279f803843acc2a8c6f5}{log} (int level, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em write a formatted string to the log and may be to standard out \end{DoxyCompactList}\item 
+int \hyperlink{structlogger_a2d852f1f257849e0abed587814446908}{start\+\_\+log} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structlogger_a0e07e1e52c554084e6c3c06476024b9a}{opt})
+\begin{DoxyCompactList}\small\item\em open a log file and start logging \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_ae79e87e0de219c9e001417f5b220c325}\label{structlogger_ae79e87e0de219c9e001417f5b220c325}} 
+int \hyperlink{structlogger_ae79e87e0de219c9e001417f5b220c325}{end\+\_\+log} ()
+\begin{DoxyCompactList}\small\item\em end logging and close the log file \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_ac47293937a4c2f844bddf3cc781fab1e}\label{structlogger_ac47293937a4c2f844bddf3cc781fab1e}} 
+int \hyperlink{structlogger_ac47293937a4c2f844bddf3cc781fab1e}{log\+\_\+opt} ()
+\begin{DoxyCompactList}\small\item\em log command line options to the log file for the record \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_adbbd2917da3496e2e6e04cf17e115133}\label{structlogger_adbbd2917da3496e2e6e04cf17e115133}} 
+int \hyperlink{structlogger_adbbd2917da3496e2e6e04cf17e115133}{log\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em log hostname for the record \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_a834bbdabbff2c05c342bf3641d6c3966}\label{structlogger_a834bbdabbff2c05c342bf3641d6c3966}} 
+int \hyperlink{structlogger_a834bbdabbff2c05c342bf3641d6c3966}{log\+\_\+env} (const char $\ast$var)
+\begin{DoxyCompactList}\small\item\em log an environment var for the record \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_a4de3a6b8949b4155ca57386fd83e1692}\label{structlogger_a4de3a6b8949b4155ca57386fd83e1692}} 
+int \hyperlink{structlogger_a4de3a6b8949b4155ca57386fd83e1692}{log\+\_\+envs} ()
+\begin{DoxyCompactList}\small\item\em log some environment vars for the record \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_a88e0dc6e649e35549010eaad9ee713b4}\label{structlogger_a88e0dc6e649e35549010eaad9ee713b4}} 
+void \hyperlink{structlogger_a88e0dc6e649e35549010eaad9ee713b4}{log\+\_\+start\+\_\+fun\+\_\+} (const char $\ast$f)
+\begin{DoxyCompactList}\small\item\em log the start of a function (f) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structlogger_a36e263cc78edf7cfc6c2dc172de4ced3}\label{structlogger_a36e263cc78edf7cfc6c2dc172de4ced3}} 
+void \hyperlink{structlogger_a36e263cc78edf7cfc6c2dc172de4ced3}{log\+\_\+end\+\_\+fun\+\_\+} (const char $\ast$f)
+\begin{DoxyCompactList}\small\item\em log the end of a function (f) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structlogger_a0e07e1e52c554084e6c3c06476024b9a}{opt}
+\item 
+F\+I\+LE $\ast$ \hyperlink{structlogger_ab891d941fb5846a3f8678f1db11c0da9}{log\+\_\+fp}
+\item 
+\hyperlink{structtsc__t}{tsc\+\_\+t} \hyperlink{structlogger_a6336fd3fffff10df04811a819c1c5a70}{t0}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+logging object 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structlogger_aa079e325d6f0279f803843acc2a8c6f5}\label{structlogger_aa079e325d6f0279f803843acc2a8c6f5}} 
+\index{logger@{logger}!log@{log}}
+\index{log@{log}!logger@{logger}}
+\subsubsection{\texorpdfstring{log()}{log()}}
+{\footnotesize\ttfamily int logger\+::log (\begin{DoxyParamCaption}\item[{int}]{level,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+write a formatted string to the log and may be to standard out 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (level)} & the level of this entry. if opt.\+verbose$>$=level, then the string will be output to the standard out (in addition to the log file) \\
+\hline
+{\em (format)} & the printf-\/like format string \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structlogger_a2d852f1f257849e0abed587814446908}\label{structlogger_a2d852f1f257849e0abed587814446908}} 
+\index{logger@{logger}!start\+\_\+log@{start\+\_\+log}}
+\index{start\+\_\+log@{start\+\_\+log}!logger@{logger}}
+\subsubsection{\texorpdfstring{start\+\_\+log()}{start\_log()}}
+{\footnotesize\ttfamily int logger\+::start\+\_\+log (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+open a log file and start logging 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line option \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structlogger_ab891d941fb5846a3f8678f1db11c0da9}\label{structlogger_ab891d941fb5846a3f8678f1db11c0da9}} 
+\index{logger@{logger}!log\+\_\+fp@{log\+\_\+fp}}
+\index{log\+\_\+fp@{log\+\_\+fp}!logger@{logger}}
+\subsubsection{\texorpdfstring{log\+\_\+fp}{log\_fp}}
+{\footnotesize\ttfamily F\+I\+LE$\ast$ logger\+::log\+\_\+fp}
+
+log file object \mbox{\Hypertarget{structlogger_a0e07e1e52c554084e6c3c06476024b9a}\label{structlogger_a0e07e1e52c554084e6c3c06476024b9a}} 
+\index{logger@{logger}!opt@{opt}}
+\index{opt@{opt}!logger@{logger}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily \hyperlink{structcmdline__opt}{cmdline\+\_\+opt} logger\+::opt}
+
+command line options \mbox{\Hypertarget{structlogger_a6336fd3fffff10df04811a819c1c5a70}\label{structlogger_a6336fd3fffff10df04811a819c1c5a70}} 
+\index{logger@{logger}!t0@{t0}}
+\index{t0@{t0}!logger@{logger}}
+\subsubsection{\texorpdfstring{t0}{t0}}
+{\footnotesize\ttfamily \hyperlink{structtsc__t}{tsc\+\_\+t} logger\+::t0}
+
+the start time stamp 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h}\end{DoxyCompactItemize}

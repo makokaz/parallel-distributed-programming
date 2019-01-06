@@ -1,0 +1,660 @@
+This program trains \hyperlink{structVGG}{V\+GG} network with training data from a specified file.
+
+\section*{Compilation }
+
+
+\begin{DoxyCode}
+$ make
+\end{DoxyCode}
+
+
+will compile the program both with g++ and nvcc. They are respectively named vgg.\+g++ and vgg.\+nvcc.
+
+To change the compilation option, open Makefile and edit it.
+
+\section*{Run }
+
+C\+PU \+:
+
+
+\begin{DoxyCode}
+$ ./vgg.g++ [options]  # on login node. do not run for a long time
+$ srun -p big -t 0:20:00 ./vgg.g++ [options]
+\end{DoxyCode}
+
+
+G\+PU \+:
+
+
+\begin{DoxyCode}
+$ ./vgg.nvcc   # on login node. do not run for a long time
+$ srun -p p -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+$ srun -p v -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+\end{DoxyCode}
+
+
+\section*{Description }
+
+\subsection*{Verbosity (-\/v,--verbose) }
+
+Give -\/v 2 option and you will see the progress more frequently. You can also know which functions are taking much time.
+
+\subsection*{Batch size (-\/b,--batch\+\_\+sz) }
+
+For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label). In each iteration, it takes a number of samples specified by --batch\+\_\+sz (-\/b). This number is called the mini-\/batch size. The default is M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE specified by a compile-\/time option -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=N. For example, \char`\"{}g++ -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+Z\+E=64 ... vgg.\+cc\char`\"{} sets the mini-\/batch size to 64. A usual value is 64 but you may consider changing it for performance tuning. Note that M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE affects the memory footprint. An instance of \hyperlink{structVGG}{V\+GG} object holds all intermediate data within the instance and its size is roughly proportional to M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE. Note that specifying a small batch size at runtime (via --batch\+\_\+sz) does not change the size of an instance.
+
+The batch size signficantly affects the time of a single iteration, especially in an unoptimized baseline code. The baseline code will take a time proportional to the batch size for a single iteration.
+
+For a quick experiment, you will want to make it small (e.\+g., -\/b 1).
+
+For easier debugging, you may also want to consider compiling the program with -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=1
+
+\subsection*{The number of iterations (-\/m,--iters) }
+
+-\/m option specifies the number of iterations. Default 20.
+
+For a quick experiment, you will want to make both batch size and iterations small (e.\+g., -\/m 1 -\/b 1).
+
+\subsection*{Turn on/off dropout (--dropout 1/0) }
+
+There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.\+e., output\+\_\+i = 0 if some probabily and input\+\_\+i otherwise). \hyperlink{structDropout}{Dropout} is generally believed to improve generalization. You may turn off this feature during development, to make sure the network is exactly the same throughout iterations.
+
+You can turn off dropout by --droput 0 (default\+: 1)
+
+\subsection*{Fix a batch (--single\+\_\+batch 1) }
+
+During development, you may want to repeat processing the same mini-\/batch again and again, to make sure that the network is at least adjusting to the particular mini-\/batch. Combine this with --dropout 0 (and perhaps with a small batch size, like -\/b 16 or even -\/b 1). In those cases the loss should steadily decrease over iterations. If it does not happen, suspect your bug, particularly in your backward phase.
+
+\subsection*{Data file (-\/d, --start\+\_\+data and --end\+\_\+data) }
+
+It reads data from the file specified by --cifar\+\_\+data (-\/d) option (default\+: cifar-\/10-\/batches-\/bin/data\+\_\+batch\+\_\+1.\+bin). The original data can be obtained from \href{https://www.cs.toronto.edu/~kriz/cifar.html}{\tt https\+://www.\+cs.\+toronto.\+edu/$\sim$kriz/cifar.\+html} (get \char`\"{}\+C\+I\+F\+A\+R-\/10 binary version (suitable for C programs)\char`\"{} or \href{https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz}{\tt https\+://www.\+cs.\+toronto.\+edu/$\sim$kriz/cifar-\/10-\/binary.\+tar.\+gz}). It contains 5 datasets and each one has 10000 images.
+
+If you want to use only a part of data, you can specify a range by --start\+\_\+data and --end\+\_\+data. e.\+g., --start\+\_\+data 2000 --end\+\_\+data 3000 uses only 1000 images, from the 2000th image to 2999th image.
+
+\subsection*{Data for training and validation (--validate\+\_\+ratio and --validate\+\_\+interval) }
+
+A portion of data is reserved for validation and not used for training. The ratio of validation data relative to the whole data set is specified by --validate\+\_\+ratio option (default\+: 0.\+1). Note that they are taken out from the data specified by --cifar\+\_\+data, --start\+\_\+data and --end\+\_\+data. For example, --start\+\_\+data 2000 --end\+\_\+data 3000 --validate\+\_\+ratio 0.\+1 uses (3000 -\/ 2000) $\ast$ 0.\+1 = 100 images for validation and leaves 900 images for training.
+
+Fractions are rounded down. If the number of validation data becomes zero as a result, the validation won\textquotesingle{}t be performed at all.
+
+It occasionally evaluates the loss against the validation data. The frequency can be adjusted by --validate\+\_\+interval option, which specifies the relative number of samples to process for training and that for validation. For example, if it is set to 5.\+0 and the number of data for validation is 100, it runs a validation for every 5.\+0 $\ast$ 100 = 500 training samples processed. In other words, --validate\+\_\+interval x sets the time to run a validation below 1/(1+x) of the total processing time.
+
+\subsection*{Learning rate }
+
+In each iteration, the backward phase calculates the gradient of the averaged loss (the average taken over the mini-\/batch) with respect to all the weights of the network. The update phase that follows then changes the weights to the opposite direction of the gradient. Mathematically, we do \begin{DoxyVerb}W = W - (η/B) ∂L/∂W
+\end{DoxyVerb}
+
+
+where L is the summation of the loss function over the mini batch and B the batch size (hence 1/B ∂\+L/∂W represents the gradient of the average loss with respect to weights W). We multiply it by a constant η, which is called a learning rate.
+
+The reason why the above update will decrease the loss is as follows. In general, \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+\end{DoxyVerb}
+
+
+holds, where ・ represents the inner product (summation all componentwise products).
+
+So if ΔW is taken as an opposite direction of ∂\+L/∂W (i.\+e., ΔW = -\/η∂\+L/∂W), then \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+           = L(W) + ∂L/∂W ・(-η∂L/∂W)
+           = L(W) -η ∂L/∂W・∂L/∂W
+           < L(W)
+\end{DoxyVerb}
+
+
+The value of learning rate can be specified with --learnrate option. Default\+: 1.\+0e-\/2
+
+The learning rate does not affect the time of each iteration, but may affect the time until convergence.
+
+Since the first-\/order approximation \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+\end{DoxyVerb}
+
+
+holds only for small ΔW, picking a too large η may break the very basic property that an update will decrease the loss.
+
+On ther other hand, the larger the value of η, the \char`\"{}faster\char`\"{} weights move to the opposite direction of the gradient and the faster L(w) decreases. You may be able to reach the same point with a fewer numbrer of iterations.
+
+In summary, choosing the right value for η is important but not necessarily easy.
+
+Since our primary focus in the exercise is on optimizing each stage of computation, we are not concerned about the choice of η too much. Specifically, our (primary) performance criteria will be the average time to process a single sample.
+
+\subsection*{Change seeds }
+
+There are a few places in which the program uses random numbers, namely,
+
+
+\begin{DoxyItemize}
+\item when it initializes weight parameters,
+\item when it divides the input data into validation and training,
+\item when it chooses training samples in each iteration and
+\item when it uses which cells to dropout in a dropout layer
+\end{DoxyItemize}
+
+{\itshape A\+LL C\+O\+M\+P\+O\+N\+E\+N\+TS B\+E\+H\+A\+VE D\+E\+T\+E\+R\+M\+I\+N\+I\+S\+T\+I\+C\+A\+L\+LY.} That is, if you repeat executions with the same configuration repeatedly, it starts from the same weight parameters, uses the same data for validation and training, picks up the same training data and drops out the same cells.
+
+Unless your algorithm behave undeterministically, the results should be always the same. This should help you debug your code.
+
+You can change these things by giving different seeds for each of these random number generators. Specifically,
+
+
+\begin{DoxyItemize}
+\item --weight\+\_\+seeds changes initial weight parameters
+\item --validate\+\_\+seed changes which data are used for validation
+\item --sample\+\_\+seed changes which data are picked for training
+\item --dropout\+\_\+seed changes which cells are dropped out
+\end{DoxyItemize}
+
+Simply give an arbitrary number to any of them to make sure your algorithm is not sensitive to any of them.
+
+A general remark\+: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, {\itshape A\+L\+W\+A\+YS} give it a seed you chose and make it behave deterministically given the same seed. This is a tremendous help for debugging. After you have done initial debugging, you can test your algorithm across different sequences of numbers just by giving different seeds. Note that virtually all pseudo random number generators are deterministic after a seed is given. A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.\+g., the current time) and uses it as a seed. Nothing else is different. In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time). Without giving a seed, your algorithm can N\+E\+V\+ER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
+
+\subsection*{G\+PU execution (-\/a gpu\+\_\+base) }
+
+The program compiled with nvcc, vgg.\+nvcc, supports G\+PU execution and this is the default behavior. vgg.\+nvcc also supports C\+PU execution with -\/a cpu\+\_\+base option.
+
+
+\begin{DoxyCode}
+$ vgg.nvcc -a cpu\_base  # (1) baseline code on CPU 
+$ vgg.nvcc -a gpu\_base  # (2) baseline code on GPU 
+$ vgg.nvcc              # (3) same as (2)
+$ vgg.g++  -a cpu\_base  # (4) baseline code on CPU 
+$ vgg.g++  -a gpu\_base  # (5) error
+$ vgg.g++               # (6) same as (4)
+\end{DoxyCode}
+
+
+Note that baseline code is neither vectorized nor parallelized. In particular, it uses only a single C\+U\+DA thread on G\+PU (!)
+
+\subsection*{Algorithm choice (-\/a) }
+
+The -\/a option described above is an option that chooses an algorithm from available repertories. In the given code, only baseline algorithms for G\+PU and C\+PU are implemented. You prbably want to make your implementation another available choice here.
+
+\subsection*{Controlled experiemnts }
+
+After you did a bit of work, you want to make sure you got it done right. Especially, you may be afraid that you broke a function. To make sure the network is still functioning, you might want to do a small and controlled experiment.
+
+You probably want to start with something like this.
+
+
+\begin{DoxyCode}
+$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1
+\end{DoxyCode}
+
+
+They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-\/batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-\/batch size extremely small (1, in this particular case) to have a quick turn around time.
+
+Here is a sample output. With the default value of learning rate (1.\+0e-\/2), the loss seems decreasing too quickly.
+
+
+\begin{DoxyCode}
+$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1
+=== train 0 - 1 ===
+train loss = 2.064959049
+=== train 1 - 2 ===
+train loss = 0.002221737
+=== train 2 - 3 ===
+train loss = 0.002113967
+=== train 3 - 4 ===
+train loss = 0.002022009
+=== train 4 - 5 ===
+train loss = 0.001938014
+=== train 5 - 6 ===
+train loss = 0.001864006
+=== train 6 - 7 ===
+train loss = 0.001799989
+=== train 7 - 8 ===
+train loss = 0.001746916
+  ...
+\end{DoxyCode}
+
+
+Remember that this will repeat processing only a single sample and the \char`\"{}train loss\char`\"{} refers to the loss against this particular sample. If the loss does not decrease, you are very likely to have introduced a bug in your gradient calculation (backward) or somewhere else.
+
+You may play with small learning rates to see that it will keep decreasing for a larger number of iterations.
+
+
+\begin{DoxyCode}
+$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1 --learnrate 1.0e-3
+=== train 0 - 1 ===
+train loss = 2.064959049
+=== train 1 - 2 ===
+train loss = 0.937229633
+=== train 2 - 3 ===
+train loss = 0.503207982
+=== train 3 - 4 ===
+train loss = 0.290159106
+=== train 4 - 5 ===
+train loss = 0.209925532
+=== train 5 - 6 ===
+train loss = 0.163231462
+  ...
+\end{DoxyCode}
+
+
+\section*{Guide for development }
+
+\subsection*{Source code structure }
+
+
+\begin{DoxyItemize}
+\item \hyperlink{vgg_8cc}{vgg.\+cc} -- the main file
+\item include/
+\begin{DoxyItemize}
+\item \hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h} -- trivial utilities
+\item \hyperlink{cuda__util_8h}{cuda\+\_\+util.\+h} -- helpers for C\+U\+DA
+\item \hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h} -- vectors, matrix and multidimensional tensors
+\item \hyperlink{cifar_8h}{cifar.\+h} -- data loader (primitive layers)
+\item \hyperlink{convolution_8h}{convolution.\+h} -- convolution
+\item \hyperlink{batchnormalization_8h}{batchnormalization.\+h} -- batch normalization
+\item \hyperlink{relu_8h}{relu.\+h} -- rectified linear activation
+\item \hyperlink{dropout_8h}{dropout.\+h} -- dropout
+\item \hyperlink{linear_8h}{linear.\+h} -- linear (or fully connected) layer
+\item \hyperlink{maxpooling_8h}{maxpooling.\+h} -- max pooling
+\item \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h} -- softmax + cross entropy (composite layers)
+\item \hyperlink{block_8h}{block.\+h} -- convolution; batch normalization; relu
+\item \hyperlink{vgg_8h}{vgg.\+h} -- the entire \hyperlink{structVGG}{V\+GG}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+The main function in \hyperlink{vgg_8cc}{vgg.\+cc} instantiates a \hyperlink{structVGG}{V\+GG} network, which is defined in \hyperlink{vgg_8h}{vgg.\+h}. It repeats processing training data, occassionally processing validation data.
+
+Each layer defines a class whose name is similar to the file name. e.\+g., \hyperlink{convolution_8h}{convolution.\+h} defines \hyperlink{structConvolution2D}{Convolution2D} class.
+
+All classes for primitive and compite layers have two important functions, among others.
+\begin{DoxyItemize}
+\item forward -- take an input from the previous (downstream) layer and computes its output
+\item backward -- take a gradient of loss wrt the upstream layer and computes the gradient wrt its input and weights
+\end{DoxyItemize}
+
+In addition, classes that have parameters (convolution, linear and batchnormalization) have another function.
+
+
+\begin{DoxyItemize}
+\item update -- take a learning rate parameter and update its weights, using the gradient computed in the backward phase.
+\end{DoxyItemize}
+
+
+
+ Y\+O\+UR M\+A\+IN J\+OB W\+I\+LL BE TO I\+M\+P\+L\+E\+M\+E\+NT A H\+I\+GH P\+E\+R\+F\+O\+R\+M\+A\+N\+CE V\+E\+R\+S\+I\+ON OF T\+H\+E\+SE F\+U\+N\+C\+T\+I\+O\+NS. 
+
+
+
+You eventually want to work on all seven files (\hyperlink{convolution_8h}{convolution.\+h}, \hyperlink{batchnormalization_8h}{batchnormalization.\+h}, \hyperlink{relu_8h}{relu.\+h}, \hyperlink{dropout_8h}{dropout.\+h}, \hyperlink{linear_8h}{linear.\+h}, \hyperlink{maxpooling_8h}{maxpooling.\+h}, \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h}) but you can work incrementally. You can make one layer faster while leaving all others intact. You can know which functions are taking much time by -\/v 2 option.
+
+\subsection*{Stepping through the code using gdb (or cuda-\/gdb) }
+
+When working on details, you want to step through the code using gdb (or cuda-\/gdb to step through G\+PU code). They also help you get an idea about how things work. For that, compile the code with -\/\+O0 -\/g. Also add -\/\+Xptxas -\/\+O0 if you compile with nvcc.
+
+\subsection*{The structure of the baseline implementations (and switching between different algorithms) }
+
+As I mentioned above, functions you will primarily be working on are forward and backward functions on the seven classes and update functions for the three classes. Each of them has a structure to switch between G\+PU code and C\+PU code (currently, a single execution can run either entirely on C\+PU or entirely on G\+PU; you cannot have some layers executed by C\+PU and others on G\+PU in the same execution). Let\textquotesingle{}s look at the forward function of Convolution class, for example.
+
+The member function named \char`\"{}forward\char`\"{} is the entry point of the forwarding phase. It only executes a switch statement to decide which implementation to use (cpu or gpu in the baseline code).
+
+
+\begin{DoxyCode}
+  array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) \{
+    if (opt.verbose>=2) \{ print\_start(); \}
+    tsc\_t t0 = get\_tsc();
+    switch (opt.algo) \{
+      /* add case for your implementations here */
+    case algo\_cpu\_base:
+      forward\_cpu(x); break;
+#if \_\_NVCC\_\_
+    case algo\_gpu\_base:
+      forward\_gpu(x); break;
+#endif
+    default:
+      if (opt.gpu\_algo) \{
+#if \_\_NVCC\_\_
+        forward\_gpu(x);
+#else
+        err\_gpu\_algo\_no\_gpu(opt.algo\_s);
+#endif
+      \} else \{
+        forward\_cpu(x);
+      \}        
+    \}
+    tsc\_t t1 = get\_tsc();
+    if (opt.verbose>=2) \{ print\_end(t0, t1); \}
+    return y;
+  \}
+\end{DoxyCode}
+
+
+Depending on the algorithm chosen at the command line (-\/a option), it calls either forward\+\_\+cpu or forward\+\_\+gpu. The former simply calls another function, forward\+\_\+base, which does the real job.
+
+
+\begin{DoxyCode}
+void forward\_cpu(array4<maxB,IC,H,W>& x) \{
+  forward\_base(x);
+\}
+\end{DoxyCode}
+
+
+The latter calls into a G\+PU code. Since nvcc does not allow a class member function to be a global function (a G\+PU function callable from a host), we need to define a global function outside the class (forawrd\+\_\+global), which then calls back a member function (forward\+\_\+dev). This is the baseline implementation of forward\+\_\+gpu.
+
+
+\begin{DoxyCode}
+void forward\_gpu(array4<maxB,IC,H,W>& x) \{
+  launch\_and\_sync((forward\_global<<<1,1>>>(dev, x.dev)));
+\}
+\end{DoxyCode}
+
+
+The global function, forward\+\_\+global, is defined outside the class as follows. Note that it launches only a single C\+U\+D\+A-\/thread, something you definitely want to do differently in your high performance version.
+
+
+\begin{DoxyCode}
+template<idx\_t maxB,idx\_t IC,idx\_t H,idx\_t W,idx\_t K,idx\_t OC>
+\_\_global\_\_ void forward\_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                               array4<maxB,IC,H,W>* x\_dev) \{
+  dev->forward\_dev(*x\_dev);
+\}
+\end{DoxyCode}
+
+
+The member function forward\+\_\+dev actually calls the same forward\+\_\+base function that does the real job.
+
+
+\begin{DoxyCode}
+\_\_device\_\_ \_\_host\_\_ 
+void forward\_base(array4<maxB,IC,H,W>& x) \{
+  ... do the real job ...
+\}
+\end{DoxyCode}
+
+
+This same pattern appears for backward and update too. In this way, the baseline code shares the same piece of code between C\+PU and G\+PU. The trick makes sense only for the baseline code. In your high performance implementations, you are probably going to have separate pieces of code for C\+PU and G\+PU anyways.
+
+\subsection*{How to add your implementation }
+
+Here is how you change the code when working on a new implementation. As already mentioned, there are two implementatoins already in place, cpu\+\_\+base and gpu\+\_\+base.
+
+Before starting the real work, there are some work for preparation.
+
+
+\begin{DoxyItemize}
+\item Come up with a name of the new implementation. Let\textquotesingle{}s say it is cpu\+\_\+ultra\+\_\+fast (in reality, you want to have a name that better represents what it does, like cpu\+\_\+simd).
+\item Add a new symbol to the enum algo\+\_\+t defined in \hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h} 
+\begin{DoxyCode}
+typedef enum \{
+  algo\_cpu\_base,
+  algo\_gpu\_base,
+  /* add your new algorithm here (name it arbitrarily) */
+
+  algo\_cpu\_ultra\_fast, <----  YOU ADD THIS
+
+  algo\_invalid,
+\} algo\_t;
+\end{DoxyCode}
+
+\item Change the parse\+\_\+algo function right below it so that it recognizes the new name. Obviously, the baseline code recognizes only \char`\"{}cpu\+\_\+base\char`\"{} and \char`\"{}gpu\+\_\+base\char`\"{}. You simply add an appropriate \char`\"{}else if\char`\"{} branch to handle your name.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}
+algo\_t parse\_algo(const char * s) \{
+  if (strcmp(s, "cpu\_base") == 0) \{
+    return algo\_cpu\_base;
+  \} else if (strcmp(s, "gpu\_base") == 0) \{
+    return algo\_gpu\_base;
+  \} else if (strcmp(s, "cpu\_ultra\_fast") == 0) \{  <---- YOU ADD THIS
+    return algo\_cpu\_ultra\_fast;                   <---- YOU ADD THIS
+  \} else \{
+    return algo\_invalid;
+  \}
+\}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item You might also need to change the function algo\+\_\+is\+\_\+gpu so that the program correctly recognizes whether it is a C\+PU algorithm or a G\+PU algorithm. By default, it simply assumes all and only names starting with \char`\"{}gpu\char`\"{} are G\+PU algorithms. You need to change this only when your algorithm name does not conform to this convention (e.\+g., a G\+PU algorithm named \char`\"{}v100\+\_\+only\char`\"{}). It will be a good idea to stick to the convention rather than modifying this function.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}
+int algo\_is\_gpu(const char * s, algo\_t a) \{
+  (void)a;
+  if (strncmp(s, "gpu", 3) == 0) \{
+    return 1;
+  \} else \{ 
+    return 0;
+  \}
+\}
+\end{DoxyCode}
+
+
+At this point, the program at least recognizes your algorithm and calls G\+PU base code or C\+PU base code depending on your algorithm is a G\+PU algorithm or not (judged by algo\+\_\+is\+\_\+gpu function above). Recall that the switch statement falls back to forward\+\_\+gpu or forward\+\_\+cpu when the switch statement does not have a specific case for your algorithm.
+
+Now you are ready to add a real implementation. Thanks to the structure just mentioend, you can do so incrementally (you do not have to implement all functions to get your version used). To start off, let\textquotesingle{}s say you want to implement a forward function of \hyperlink{structConvolution2D}{Convolution2D} class. The first thing you need to do is to add an appropriate case in the switch statement.
+
+
+\begin{DoxyCode}
+array4<maxB,OC,H,W>& forward(array4<maxB,IC,H,W>& x) \{
+  if (opt.verbose>=2) \{ print\_start(); \}
+  tsc\_t t0 = get\_tsc();
+  switch (opt.algo) \{
+    /* add case for your implementations here */
+  case algo\_cpu\_ultra\_fast:
+    forward\_cpu\_ultra\_fast(x); break;
+
+    ...
+  \}
+  tsc\_t t1 = get\_tsc();
+  if (opt.verbose>=2) \{ print\_end(t0, t1); \}
+  return y;
+\}
+\end{DoxyCode}
+
+
+Your real job is, of course, to implement forward\+\_\+cpu\+\_\+ultra\+\_\+fast function. Use S\+I\+MD, Open\+MP or whatever is necessary to make it faster. You probably start by copy-\/pasting the forward\+\_\+base implementation.
+
+If you work on G\+PU implementation, you need to implement two functions. Let\textquotesingle{}s say your algorithm name is gpu\+\_\+ultra\+\_\+fast. After adding another case in the switch statement like this
+
+
+\begin{DoxyCode}
+case algo\_gpu\_ultra\_fast:
+  forward\_gpu\_ultra\_fast(x); break;
+\end{DoxyCode}
+
+
+your forward\+\_\+gpu\+\_\+ultra\+\_\+fast should launch a global function with a good thread block size.
+
+
+\begin{DoxyCode}
+void forward\_gpu\_ultra\_fast(array4<maxB,IC,H,W>& x) \{
+  int block\_sz = ...;
+  int num\_blocks = ...;
+  launch\_and\_sync((forward\_ultra\_fast\_global<<<num\_blocks,block\_sz>>>(dev, x.dev)));
+\}
+\end{DoxyCode}
+
+
+Next you define forward\+\_\+ultra\+\_\+fast\+\_\+global function outside the class, near the beginning of the file. This will be a boilerplate code.
+
+
+\begin{DoxyCode}
+template<idx\_t maxB,idx\_t IC,idx\_t H,idx\_t W,idx\_t K,idx\_t OC>
+\_\_global\_\_ void forward\_ultra\_fast\_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
+                                          array4<maxB,IC,H,W>* x\_dev) \{
+  dev->forward\_ultra\_fast\_dev(*x\_dev);
+\}
+\end{DoxyCode}
+
+
+Finally, you define forward\+\_\+ultra\+\_\+fast\+\_\+dev member function, which does the real job.
+
+In forward\+\_\+base function that is supposed to do a real job, you compute the output and put them in the \textquotesingle{}y\textquotesingle{} variable, which is already defiened for you as a member field. This convention is used throughout the program. All classes have a member field named \textquotesingle{}y\textquotesingle{} to which you should put the results.
+
+
+\begin{DoxyCode}
+\_\_device\_\_ \_\_host\_\_ 
+void forward\_base(array4<maxB,IC,H,W>& x) \{
+  idx\_t B = x.B;
+  y.set\_n\_rows(B);
+  ...
+  for (idx\_t b = 0; b < B; b++) \{       // samples
+    ...
+       ...
+          y(b,oc,i,j) = s;
+       ...
+    ...
+  \}
+\}
+\end{DoxyCode}
+
+
+Similarly, a backward implementation is supposed to put the results into another member variable named \textquotesingle{}gx\textquotesingle{} (∂\+L/∂x, gradients with respect to x) and \textquotesingle{}gw\textquotesingle{} if the layer has weights.
+
+There is one thing to note here. The input typically is an array (single-\/ or multi-\/dimensional) whose primary (leftmost) index refers to a particular sample in a mini-\/batch. In the above example, x is a four dimensional array and thus has a type \hyperlink{structarray4}{array4$<$max\+B,\+I\+C,\+H,\+W$>$}\&. maxB is a {\itshape compile time} constant you specified by -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=xxx. {\itshape The actual number of samples in this array may be smaller and is passed via a field variable of the input.} You have to process only the actual number of samples passed in the array.
+
+In this example, x.\+B has the actual number of rows in the array. Thus,
+\begin{DoxyItemize}
+\item the outermost loop iterates x.\+B number of times rather than maxB times. 
+\begin{DoxyCode}
+idx\_t B = x.B;
+ ...
+for (idx\_t b = 0; b < B; b++) \{       // samples
+\end{DoxyCode}
+
+\item it also sets the actual number of rows in the output y, by doing 
+\begin{DoxyCode}
+idx\_t B = x.B;
+y.set\_n\_rows(B);
+\end{DoxyCode}
+
+\end{DoxyItemize}
+
+\subsection*{Debugging a layer }
+
+After you change implementation of a layer you will want to make sure you got it right. It may not happen immediately, however. Several mechanisms are in place to help you debug them efficiently.
+
+\subsection*{Catching basic coding errors }
+
+First, after you change an implementation of a layer, make sure you turn a compile-\/time option -\/\+D\+A\+R\+R\+A\+Y\+\_\+\+I\+N\+D\+E\+X\+\_\+\+C\+H\+E\+CK=1 on. This will check array index every time you access an element of a vector, matrix or tensor. It will catch obvious errors such as looping with wrong bounds or indexing arrays with wrong variables.
+
+
+\begin{DoxyCode}
+$ g++ ... -DARRAY\_INDEX\_CHECK=1 ... -o vgg.g++ vgg.cc
+\end{DoxyCode}
+
+
+\subsection*{Catching logical (mathematics) errors }
+
+After you have a code that at least is not caught by array indexing errors, you now want to check if the code really does the job. The first command line you want to test your code with is this.
+
+
+\begin{DoxyCode}
+$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1 -a name\_of\_your\_algorithm
+\end{DoxyCode}
+
+
+Like I introduced already, this processes only a single sample repeatedly, without any dropout that would introduce different behaviors between iterations. The error thus should steadily decrease over iterations, in almost exactly the same pace with the baseline implementation. Try different learning rate (--learnrate 1.\+0e-\/3, 1.\+0e-\/4, etc.) and confirm they behave very similarly for each one.
+
+Remember that both are doing exactly the same computation. There is a randomness in how it chooses samples, but {\itshape it is deterministic} as I already mentioned; the sample picked should be the same unless you change the seed of the random number generator (by --sample\+\_\+seed). Were there any difference between the two implementations, it should indicate that your algorithm outputs results different from the other implementation for the same input. If the difference is slight, it may be indicating that the two has different rounding errors for computing mathematically equivalent expressions. In particular, summing up many numbers in a different order affect rounding errors very much. When you parallelize or vectorize yoru code, you almost certainly change the order in which numbers are accumulated. Therefore, a slight difference in the loss may not be worth looking into.
+
+If you observe a significant change, you need to shootdown where you introduce a bug, for which you will want to debug a single layer at a time.
+
+Each layer is implemented in a single header file.
+
+
+\begin{DoxyItemize}
+\item \hyperlink{batchnormalization_8h}{batchnormalization.\+h}
+\item \hyperlink{convolution_8h}{convolution.\+h}
+\item \hyperlink{dropout_8h}{dropout.\+h}
+\item \hyperlink{linear_8h}{linear.\+h}
+\item \hyperlink{maxpooling_8h}{maxpooling.\+h}
+\item \hyperlink{relu_8h}{relu.\+h}
+\item \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h}
+\end{DoxyItemize}
+
+Each header file actually contains an entry point function so that it can compile and run alone. For example, \hyperlink{convolution_8h}{convolution.\+h} has a function convolution\+\_\+main that runs only a convolution. Therefore, if you include this file from any C++ file and compile it with -\/\+Dconvolution\+\_\+main=main, you get an executable that only runs that layer.
+
+Indeed,
+
+
+\begin{DoxyCode}
+$ cd include
+$ make
+\end{DoxyCode}
+
+
+builds all such executables. You will obtain batchnormalization.\{float,double\}.\{g++,nvcc\}, etc.
+
+The entry point function checks if the gradients obtained by forward/backward computation indeed approximate the change of the output value. Specifically, let\textquotesingle{}s say we have a layer implementing a function F(\+W, X). We check if the following approximation holds. \begin{DoxyVerb}F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) ≒ ∂F/∂W・ΔW + ∂F/∂X・ΔX
+\end{DoxyVerb}
+
+
+(There are many layers that do not have weight parameters. For such layers, we simply check if F(X + Δ\+X/2) -\/ F(X -\/ Δ\+X/2) ≒ ∂\+F/∂\+X・ΔX holds).
+
+In implementation terms, we
+
+
+\begin{DoxyItemize}
+\item generate inputs (X) and weights (W) randomly
+\item generate small changes to inputs (ΔX) and weights (ΔW) randomly
+\item perform forward and backward computation to obtain ∂\+F/∂W and ∂\+F/∂X and thus to obtain ∂\+F/∂\+W・ΔW + ∂\+F/∂\+X・ΔX
+\item apply changes to X and W to obtain X±ΔX and W±ΔW
+\item perform forward computation on both of them, to obtain F(W + Δ\+W/2, X + Δ\+X/2) and F(W -\/ Δ\+W/2, X -\/ Δ\+X/2)
+\item compare F(W + Δ\+W/2, X + Δ\+X/2) and F(W -\/ Δ\+W/2, X -\/ Δ\+X/2) and ∂\+F/∂\+W・ΔW + ∂\+F/∂\+X・ΔX and report their relative difference. The relative difference between A and B is $\vert$\+A-\/\+B$\vert$/max($\vert$\+A$\vert$,$\vert$\+B$\vert$)
+\end{DoxyItemize}
+
+Here is an output of the linear layer.
+
+
+\begin{DoxyCode}
+$ ./linear.float.g++ -b 1
+==== 0 ====
+|∂L/∂x|   = 2.067968130
+|dx|      = 0.001285600
+∂L/∂x・dx = -0.000187458
+|∂L/∂w|   = 27.588932037
+|dw|      = 0.004125366
+∂L/∂w・dw = 0.000541298
+L- = -0.982513964
+L  = -0.982336760
+L+ = -0.982159197
+A = ∂L/∂x・dx + ∂L/∂w・dw = 0.000353840
+B = ΔL = 0.000354767
+relative error = |A-B|/max(|A|,|B|) = 0.002611878
+==== 1 ====
+|∂L/∂x|   = 2.037896156
+|dx|      = 0.001299710
+    ...
+
+
+max relative error = 0.009731923
+avg relative error = 0.001512904
+\end{DoxyCode}
+
+
+In the end of the execution, it reports that the maximum and average relative errors are 0.\+009731923 and 0.\+001512904, respectively.
+
+Note that linear layer implements a linear function, for which an equation \begin{DoxyVerb}F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) = ∂F/∂W・ΔW + ∂F/∂X・ΔX
+\end{DoxyVerb}
+
+
+should strictly hold if all elementary computations are done without rounding errors. Any error should be due to rounding errors, which should be small if you are not accumulating too many numbers of numbers of significantly different magnitutes.
+
+If the reported relative error is small enough, it means that moving the weights to the opposite direction of the computed gradient should decrease the loss function, which is the very purpose of the optimization process. As long as this holds, you do not have be concered too much about the difference to the baseline code, which has its own rounding errors.
+
+How small is small enough? It actually depends on layers and the type of floating point numbers. Especially when using a single precision floating point numbers (executables $\ast$.float.$\ast$\} do so), rounding errors easily become significant. Average relative errors of 10\% or even 30\% do not necessarily indicate a bug. Double precision numbers are much less prone to rounding errors. For the purpose of checking if your code faithfully computes what it should compute, consider tesing the double-\/precision version of it ($\ast$.double.$\ast$), which should report tiny relative errors. Here are tables summarizing the maximum/average errors for a single sample.
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ layer }&\PBS\centering \textbf{ max (SP) }&\PBS\centering \textbf{ avg (SP) }&\PBS\centering \textbf{ max (DP) }&\PBS\centering \textbf{ max (DB)  }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ layer }&\PBS\centering \textbf{ max (SP) }&\PBS\centering \textbf{ avg (SP) }&\PBS\centering \textbf{ max (DP) }&\PBS\centering \textbf{ max (DB)  }\\\cline{1-5}
+\endhead
+batchnormalization &\PBS\centering 0.\+321599394 &\PBS\centering 0.\+047267061 &\PBS\centering 0.\+000000012 &\PBS\centering 0.\+000000001 \\\cline{1-5}
+convolution &\PBS\centering 0.\+005766520 &\PBS\centering 0.\+001314429 &\PBS\centering 0.\+000000000 &\PBS\centering 0.\+000000000 \\\cline{1-5}
+dropout &\PBS\centering 0.\+927670479 &\PBS\centering 0.\+083410397 &\PBS\centering 0.\+000000003 &\PBS\centering 0.\+000000000 \\\cline{1-5}
+linear &\PBS\centering 0.\+009731923 &\PBS\centering 0.\+001512904 &\PBS\centering 0.\+000000000 &\PBS\centering 0.\+000000000 \\\cline{1-5}
+maxpooling &\PBS\centering 1.\+918741345 &\PBS\centering 0.\+126148313 &\PBS\centering 1.\+013361927 &\PBS\centering 0.\+052107410 \\\cline{1-5}
+relu &\PBS\centering 0.\+170680821 &\PBS\centering 0.\+019997066 &\PBS\centering 0.\+136701009 &\PBS\centering 0.\+014832921 \\\cline{1-5}
+softmaxcrossentropy&\PBS\centering 0.\+034060795 &\PBS\centering 0.\+007438810 &\PBS\centering 0.\+000000000 &\PBS\centering 0.\+000000000 \\\cline{1-5}
+\end{longtabu}

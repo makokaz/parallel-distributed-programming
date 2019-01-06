@@ -1,0 +1,9 @@
+<map id="Block&lt; maxB, IC, H, W, K, OC &gt;" name="Block&lt; maxB, IC, H, W, K, OC &gt;">
+<area shape="rect" id="node2" href="$structRelu.html" title="Relu\&lt; maxB, OC, H, W \&gt;" alt="" coords="34,250,209,277"/>
+<area shape="rect" id="node3" href="$structcmdline__opt.html" title="command line options " alt="" coords="121,5,213,32"/>
+<area shape="rect" id="node4" href="$structlogger.html" title="logging object " alt="" coords="229,95,286,121"/>
+<area shape="rect" id="node6" href="$structBatchNormalization.html" title="BatchNormalization\l\&lt; maxB, OC, H, W \&gt;" alt="" coords="300,243,447,284"/>
+<area shape="rect" id="node5" href="$structtsc__t.html" title="timestamp " alt="" coords="356,5,407,32"/>
+<area shape="rect" id="node7" href="$structarray4.html" title="array4\&lt; maxB, IC, H, W \&gt;" alt="" coords="385,95,562,121"/>
+<area shape="rect" id="node8" href="$structvec.html" title="vec\&lt; IC \&gt;" alt="" coords="586,95,667,121"/>
+</map>

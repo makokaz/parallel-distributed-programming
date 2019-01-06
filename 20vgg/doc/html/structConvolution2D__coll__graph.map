@@ -1,0 +1,8 @@
+<map id="Convolution2D&lt; maxB, IC, H, W, K, OC &gt;" name="Convolution2D&lt; maxB, IC, H, W, K, OC &gt;">
+<area shape="rect" id="node2" href="$structwarray4.html" title="warray4\&lt; OC, IC, K, K \&gt;" alt="" coords="175,5,343,32"/>
+<area shape="rect" id="node3" href="$structarray4.html" title="array4\&lt; maxB, IC, H, W \&gt;" alt="" coords="171,61,348,88"/>
+<area shape="rect" id="node4" href="$structcmdline__opt.html" title="command line options " alt="" coords="5,128,97,155"/>
+<area shape="rect" id="node6" href="$structlogger.html" title="logging object " alt="" coords="231,175,288,201"/>
+<area shape="rect" id="node5" href="$structarray4.html" title="array4\&lt; maxB, OC, H, W \&gt;" alt="" coords="168,225,351,252"/>
+<area shape="rect" id="node7" href="$structtsc__t.html" title="timestamp " alt="" coords="26,193,77,220"/>
+</map>

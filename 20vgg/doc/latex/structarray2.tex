@@ -1,0 +1,259 @@
+\hypertarget{structarray2}{}\section{array2$<$ M, N $>$ Struct Template Reference}
+\label{structarray2}\index{array2$<$ M, N $>$@{array2$<$ M, N $>$}}
+
+
+matrix (2D array)  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+arrays.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \& \hyperlink{structarray2_a9761bc289064a82cf623fe12e37e2d90}{operator()} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} j)
+\begin{DoxyCompactList}\small\item\em access the (i,j) element \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray2_aec446c19505f98e9e59907c5ecf726a1}{set\+\_\+n\+\_\+rows} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2_ae14313ec7a12d47e3654d69ca47391bd}{m})
+\begin{DoxyCompactList}\small\item\em set the number of rows \end{DoxyCompactList}\item 
+void \hyperlink{structarray2_a4a4af5c54d1e18ef867abe8a9e6b8226}{init\+\_\+const} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2_ae14313ec7a12d47e3654d69ca47391bd}{m}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} x)
+\begin{DoxyCompactList}\small\item\em initialize elements of the matrix to a single constant value \end{DoxyCompactList}\item 
+void \hyperlink{structarray2_a7c5bbd2c546339982291f51bb727943b}{init\+\_\+uniform} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2_ae14313ec7a12d47e3654d69ca47391bd}{m}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize elements of the matrix uniformly between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structarray2_af1a26fbee188b317236f8560318a59ce}{init\+\_\+normal} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2_ae14313ec7a12d47e3654d69ca47391bd}{m}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+\begin{DoxyCompactList}\small\item\em initialize the matrix with a normal distribution \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray2_aa7c888396fa40d51470edc745657326a}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta, \hyperlink{structarray2}{array2}$<$ M, N $>$ \&da)
+\begin{DoxyCompactList}\small\item\em update the matrix by eta and dx \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray2_a7cef3c020d1441b8665e20e048d14c13}{dot} (\hyperlink{structarray2}{array2}$<$ M, N $>$ \&b)
+\begin{DoxyCompactList}\small\item\em dot product with another matrix \end{DoxyCompactList}\item 
+void \hyperlink{structarray2_a8f0b78337c66dbcc6252d19b756006ea}{set\+\_\+dev} (\hyperlink{structarray2}{array2}$<$ M, N $>$ $\ast$\hyperlink{structarray2_aedc7a89092267367178f4fcd4c9c3ead}{dev})
+\begin{DoxyCompactList}\small\item\em set the device shadow of this matrix \end{DoxyCompactList}\item 
+void \hyperlink{structarray2_aec8dc1cf7b2d42fca18c187ab1333033}{make\+\_\+dev} (int gpu)
+\begin{DoxyCompactList}\small\item\em allocate and set the device shadow of this matrix if requested by the parameter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray2_a4d3d02fcf4c468a9ca02c14583306bf3}\label{structarray2_a4d3d02fcf4c468a9ca02c14583306bf3}} 
+void \hyperlink{structarray2_a4d3d02fcf4c468a9ca02c14583306bf3}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em deallocate the device shadow of this matrix \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray2_af77dfd8d4a5bb6b6844ec3600e01132e}\label{structarray2_af77dfd8d4a5bb6b6844ec3600e01132e}} 
+void \hyperlink{structarray2_af77dfd8d4a5bb6b6844ec3600e01132e}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em send the data to its gpu shadow \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray2_af6ca27b12d44244e66addedeab5d6629}\label{structarray2_af6ca27b12d44244e66addedeab5d6629}} 
+void \hyperlink{structarray2_af6ca27b12d44244e66addedeab5d6629}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em get the data back from gpu shadow to host \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structarray2}{array2}$<$ M, N $>$ $\ast$ \hyperlink{structarray2_aedc7a89092267367178f4fcd4c9c3ead}{dev}
+\item 
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2_ae14313ec7a12d47e3654d69ca47391bd}{m}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray2_aa68d1856f9eae6f8bd946367452501a6}{w} \mbox{[}M\mbox{]}\mbox{[}N\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t M, idx\+\_\+t N$>$\newline
+struct array2$<$ M, N $>$}
+
+matrix (2D array) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+M)} & the maximun number of rows it can hold \\
+\hline
+{\em (\+N)} & the number of elements in each row \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structarray2_a7cef3c020d1441b8665e20e048d14c13}\label{structarray2_a7cef3c020d1441b8665e20e048d14c13}} 
+\index{array2@{array2}!dot@{dot}}
+\index{dot@{dot}!array2@{array2}}
+\subsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray2}{array2}$<$ M, N $>$\+::dot (\begin{DoxyParamCaption}\item[{\hyperlink{structarray2}{array2}$<$ M, N $>$ \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+dot product with another matrix 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (b)} & the matrix to take a dot product with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_a4a4af5c54d1e18ef867abe8a9e6b8226}\label{structarray2_a4a4af5c54d1e18ef867abe8a9e6b8226}} 
+\index{array2@{array2}!init\+\_\+const@{init\+\_\+const}}
+\index{init\+\_\+const@{init\+\_\+const}!array2@{array2}}
+\subsubsection{\texorpdfstring{init\+\_\+const()}{init\_const()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::init\+\_\+const (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{m,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize elements of the matrix to a single constant value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (m)} & the number of rows to initialize \\
+\hline
+{\em (x)} & the value of each element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_af1a26fbee188b317236f8560318a59ce}\label{structarray2_af1a26fbee188b317236f8560318a59ce}} 
+\index{array2@{array2}!init\+\_\+normal@{init\+\_\+normal}}
+\index{init\+\_\+normal@{init\+\_\+normal}!array2@{array2}}
+\subsubsection{\texorpdfstring{init\+\_\+normal()}{init\_normal()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::init\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{m,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize the matrix with a normal distribution 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (m)} & the number of rows to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (mu)} & mean of the normal distribution \\
+\hline
+{\em (sigma)} & sigma (standard deviation) of the normal distribution \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_a7c5bbd2c546339982291f51bb727943b}\label{structarray2_a7c5bbd2c546339982291f51bb727943b}} 
+\index{array2@{array2}!init\+\_\+uniform@{init\+\_\+uniform}}
+\index{init\+\_\+uniform@{init\+\_\+uniform}!array2@{array2}}
+\subsubsection{\texorpdfstring{init\+\_\+uniform()}{init\_uniform()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::init\+\_\+uniform (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{m,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize elements of the matrix uniformly between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (m)} & the number of rows to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_aec8dc1cf7b2d42fca18c187ab1333033}\label{structarray2_aec8dc1cf7b2d42fca18c187ab1333033}} 
+\index{array2@{array2}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!array2@{array2}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}\item[{int}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+allocate and set the device shadow of this matrix if requested by the parameter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gpu)} & 1 to allocate the device shadow \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_a9761bc289064a82cf623fe12e37e2d90}\label{structarray2_a9761bc289064a82cf623fe12e37e2d90}} 
+\index{array2@{array2}!operator()@{operator()}}
+\index{operator()@{operator()}!array2@{array2}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}\& \hyperlink{structarray2}{array2}$<$ M, N $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{j }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access the (i,j) element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (i)} & the first index \\
+\hline
+{\em (j)} & the second index \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_a8f0b78337c66dbcc6252d19b756006ea}\label{structarray2_a8f0b78337c66dbcc6252d19b756006ea}} 
+\index{array2@{array2}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!array2@{array2}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray2}{array2}$<$ M, N $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device shadow of this matrix 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & device address (may be null) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_aec446c19505f98e9e59907c5ecf726a1}\label{structarray2_aec446c19505f98e9e59907c5ecf726a1}} 
+\index{array2@{array2}!set\+\_\+n\+\_\+rows@{set\+\_\+n\+\_\+rows}}
+\index{set\+\_\+n\+\_\+rows@{set\+\_\+n\+\_\+rows}!array2@{array2}}
+\subsubsection{\texorpdfstring{set\+\_\+n\+\_\+rows()}{set\_n\_rows()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::set\+\_\+n\+\_\+rows (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the number of rows 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (m)} & the number of rows specified \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray2_aa7c888396fa40d51470edc745657326a}\label{structarray2_aa7c888396fa40d51470edc745657326a}} 
+\index{array2@{array2}!update@{update}}
+\index{update@{update}!array2@{array2}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray2}{array2}$<$ M, N $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta,  }\item[{\hyperlink{structarray2}{array2}$<$ M, N $>$ \&}]{da }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update the matrix by eta and dx 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & a constant to scale dx \\
+\hline
+{\em (da)} & the increment matrix\\
+\hline
+\end{DoxyParams}
+it performx a += eta $\ast$ da 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structarray2_aedc7a89092267367178f4fcd4c9c3ead}\label{structarray2_aedc7a89092267367178f4fcd4c9c3ead}} 
+\index{array2@{array2}!dev@{dev}}
+\index{dev@{dev}!array2@{array2}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\hyperlink{structarray2}{array2}$<$M,N$>$$\ast$ \hyperlink{structarray2}{array2}$<$ M, N $>$\+::dev}
+
+pointer to the device shadow \mbox{\Hypertarget{structarray2_ae14313ec7a12d47e3654d69ca47391bd}\label{structarray2_ae14313ec7a12d47e3654d69ca47391bd}} 
+\index{array2@{array2}!m@{m}}
+\index{m@{m}!array2@{array2}}
+\subsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray2}{array2}$<$ M, N $>$\+::m}
+
+actual number of clements ($<$= M) \mbox{\Hypertarget{structarray2_aa68d1856f9eae6f8bd946367452501a6}\label{structarray2_aa68d1856f9eae6f8bd946367452501a6}} 
+\index{array2@{array2}!w@{w}}
+\index{w@{w}!array2@{array2}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t M, idx\+\_\+t N$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray2}{array2}$<$ M, N $>$\+::w\mbox{[}M\mbox{]}\mbox{[}N\mbox{]}}
+
+elements 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h}\end{DoxyCompactItemize}

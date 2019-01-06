@@ -1,0 +1,463 @@
+\hypertarget{structRelu}{}\section{Relu$<$ maxB, C, H, W $>$ Struct Template Reference}
+\label{structRelu}\index{Relu$<$ max\+B, C, H, W $>$@{Relu$<$ max\+B, C, H, W $>$}}
+
+
+dropout layer  
+
+
+
+
+{\ttfamily \#include $<$relu.\+h$>$}
+
+
+
+Collaboration diagram for Relu$<$ maxB, C, H, W $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{structRelu__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structRelu_af79e0373854c503faeda1928c0950b9b}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structRelu_a63f877be5c3cf3b8c89b57dbf2da0e68}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structRelu_af0064c033b32a241427e76c25b2eee41}{lgr})
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structRelu_ac5d197a3266cc0d939bc0d54ab23df9f}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a4e32ca92b471641ee2d5c1a252bab167}{set\+\_\+dev} (\hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$ $\ast$\hyperlink{structRelu_a1e1271caca013c95ece064b47196d100}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a0109665896b86defceb3b7b5f4869075}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a449f220c5cd23217aa463f68a8a4933a}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structRelu_aa039e9ae5722c8930b80fa9e44bf1b9d}\label{structRelu_aa039e9ae5722c8930b80fa9e44bf1b9d}} 
+void \hyperlink{structRelu_aa039e9ae5722c8930b80fa9e44bf1b9d}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structRelu_a6c751671bf87512e622d6d42301b2663}\label{structRelu_a6c751671bf87512e622d6d42301b2663}} 
+void \hyperlink{structRelu_a6c751671bf87512e622d6d42301b2663}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structRelu_a41981da3c54691ae68933d5802a6518b}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structRelu_aba6323a49a9e24b29bbb18b27707bae8}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a555ae5bc02822f294cac68cf3fe94e84}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a767ca23ba58264771274f2e5e51ae4ce}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \& \hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structRelu_ad2da72c21984db8c9cec57c6d60bf741}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structRelu_a0b13992d8093aa08ed9036cac3a5437b}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_a15ee109a34e8ad3c94c0b42c05647342}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structRelu_aa2112a7ad1cb1faea9babc90835a84c5}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \& \hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structRelu_a1e1271caca013c95ece064b47196d100}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structRelu_a63f877be5c3cf3b8c89b57dbf2da0e68}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structRelu_af0064c033b32a241427e76c25b2eee41}{lgr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structRelu_a51ae894a609b5de1e41e8fd30ff5575c}{x\+\_\+ptr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \hyperlink{structRelu_a30148be5eabe65c95a37c7cd0525c08a}{y}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \hyperlink{structRelu_a0e864208d70a5d7976a71c87a54c7edf}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$\newline
+struct Relu$<$ max\+B, C, H, W $>$}
+
+dropout layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer)\\
+\hline
+\end{DoxyParams}
+this layer normalizes a batch of images 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structRelu_af9d3182c5103542c1c9796edc449847c}\label{structRelu_af9d3182c5103542c1c9796edc449847c}} 
+\index{Relu@{Relu}!backward@{backward}}
+\index{backward@{backward}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$\& \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_ad2da72c21984db8c9cec57c6d60bf741}\label{structRelu_ad2da72c21984db8c9cec57c6d60bf741}} 
+\index{Relu@{Relu}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} 
+
+\hyperlink{structRelu_a15ee109a34e8ad3c94c0b42c05647342}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structRelu_a0b13992d8093aa08ed9036cac3a5437b}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_aa2112a7ad1cb1faea9babc90835a84c5}\label{structRelu_aa2112a7ad1cb1faea9babc90835a84c5}} 
+\index{Relu@{Relu}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} 
+
+\hyperlink{structRelu_ad2da72c21984db8c9cec57c6d60bf741}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a0b13992d8093aa08ed9036cac3a5437b}\label{structRelu_a0b13992d8093aa08ed9036cac3a5437b}} 
+\index{Relu@{Relu}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} 
+
+\hyperlink{structRelu_a15ee109a34e8ad3c94c0b42c05647342}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structRelu_ad2da72c21984db8c9cec57c6d60bf741}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a15ee109a34e8ad3c94c0b42c05647342}\label{structRelu_a15ee109a34e8ad3c94c0b42c05647342}} 
+\index{Relu@{Relu}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structRelu_a0b13992d8093aa08ed9036cac3a5437b}{backward\+\_\+dev} 
+
+\hyperlink{structRelu_ad2da72c21984db8c9cec57c6d60bf741}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_ac5d197a3266cc0d939bc0d54ab23df9f}\label{structRelu_ac5d197a3266cc0d939bc0d54ab23df9f}} 
+\index{Relu@{Relu}!copy@{copy}}
+\index{copy@{copy}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structRelu}{Relu}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structRelu_a449f220c5cd23217aa463f68a8a4933a}\label{structRelu_a449f220c5cd23217aa463f68a8a4933a}} 
+\index{Relu@{Relu}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a0109665896b86defceb3b7b5f4869075}{make\+\_\+dev} 
+
+\hyperlink{structRelu_a4e32ca92b471641ee2d5c1a252bab167}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a71f8322b10508a210025151ad788226f}\label{structRelu_a71f8322b10508a210025151ad788226f}} 
+\index{Relu@{Relu}!forward@{forward}}
+\index{forward@{forward}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$\& \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_af9d3182c5103542c1c9796edc449847c}{backward} 
+
+update 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a41981da3c54691ae68933d5802a6518b}\label{structRelu_a41981da3c54691ae68933d5802a6518b}} 
+\index{Relu@{Relu}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} 
+
+\hyperlink{structRelu_a555ae5bc02822f294cac68cf3fe94e84}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structRelu_aba6323a49a9e24b29bbb18b27707bae8}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a767ca23ba58264771274f2e5e51ae4ce}\label{structRelu_a767ca23ba58264771274f2e5e51ae4ce}} 
+\index{Relu@{Relu}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} 
+
+\hyperlink{structRelu_a41981da3c54691ae68933d5802a6518b}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_aba6323a49a9e24b29bbb18b27707bae8}\label{structRelu_aba6323a49a9e24b29bbb18b27707bae8}} 
+\index{Relu@{Relu}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} 
+
+\hyperlink{structRelu_a555ae5bc02822f294cac68cf3fe94e84}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structRelu_a41981da3c54691ae68933d5802a6518b}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a555ae5bc02822f294cac68cf3fe94e84}\label{structRelu_a555ae5bc02822f294cac68cf3fe94e84}} 
+\index{Relu@{Relu}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a71f8322b10508a210025151ad788226f}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structRelu_aba6323a49a9e24b29bbb18b27707bae8}{forward\+\_\+dev} 
+
+\hyperlink{structRelu_a41981da3c54691ae68933d5802a6518b}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_af79e0373854c503faeda1928c0950b9b}\label{structRelu_af79e0373854c503faeda1928c0950b9b}} 
+\index{Relu@{Relu}!init@{init}}
+\index{init@{init}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structRelu_a0109665896b86defceb3b7b5f4869075}\label{structRelu_a0109665896b86defceb3b7b5f4869075}} 
+\index{Relu@{Relu}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a4e32ca92b471641ee2d5c1a252bab167}{set\+\_\+dev} 
+
+\hyperlink{structRelu_a449f220c5cd23217aa463f68a8a4933a}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structRelu_a4e32ca92b471641ee2d5c1a252bab167}\label{structRelu_a4e32ca92b471641ee2d5c1a252bab167}} 
+\index{Relu@{Relu}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structRelu_a0109665896b86defceb3b7b5f4869075}{make\+\_\+dev} 
+
+\hyperlink{structRelu_a449f220c5cd23217aa463f68a8a4933a}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structRelu_a1e1271caca013c95ece064b47196d100}\label{structRelu_a1e1271caca013c95ece064b47196d100}} 
+\index{Relu@{Relu}!dev@{dev}}
+\index{dev@{dev}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structRelu}{Relu}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structRelu_a0e864208d70a5d7976a71c87a54c7edf}\label{structRelu_a0e864208d70a5d7976a71c87a54c7edf}} 
+\index{Relu@{Relu}!gx@{gx}}
+\index{gx@{gx}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::gx}
+
+gradient of loss wrt input x \mbox{\Hypertarget{structRelu_af0064c033b32a241427e76c25b2eee41}\label{structRelu_af0064c033b32a241427e76c25b2eee41}} 
+\index{Relu@{Relu}!lgr@{lgr}}
+\index{lgr@{lgr}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structRelu_a63f877be5c3cf3b8c89b57dbf2da0e68}\label{structRelu_a63f877be5c3cf3b8c89b57dbf2da0e68}} 
+\index{Relu@{Relu}!opt@{opt}}
+\index{opt@{opt}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structRelu_a51ae894a609b5de1e41e8fd30ff5575c}\label{structRelu_a51ae894a609b5de1e41e8fd30ff5575c}} 
+\index{Relu@{Relu}!x\+\_\+ptr@{x\+\_\+ptr}}
+\index{x\+\_\+ptr@{x\+\_\+ptr}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{x\+\_\+ptr}{x\_ptr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::x\+\_\+ptr}
+
+pointer to input passed to forward \mbox{\Hypertarget{structRelu_a30148be5eabe65c95a37c7cd0525c08a}\label{structRelu_a30148be5eabe65c95a37c7cd0525c08a}} 
+\index{Relu@{Relu}!y@{y}}
+\index{y@{y}!Relu@{Relu}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$ \hyperlink{structRelu}{Relu}$<$ maxB, C, H, W $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{relu_8h}{relu.\+h}\end{DoxyCompactItemize}

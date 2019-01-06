@@ -1,0 +1,15 @@
+<map id="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/cuda_util.h" name="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/cuda_util.h">
+<area shape="rect" id="node2" href="$vgg__util_8h.html" title="VGG utility functions/classes. " alt="" coords="676,139,855,224"/>
+<area shape="rect" id="node3" href="$vgg_8cc.html" title="/home/tau/public_html\l/lecture/parallel_distributed\l/2018/handson/tau/parallel\l&#45;distributed&#45;handson/20vgg/vgg.cc" alt="" coords="845,805,1067,876"/>
+<area shape="rect" id="node4" href="$vgg_8h.html" title="VGG network. " alt="" coords="867,672,1045,757"/>
+<area shape="rect" id="node5" href="$vgg__arrays_8h.html" title="vectors, matrices, and multi&#45;dimensional arrays " alt="" coords="740,272,919,357"/>
+<area shape="rect" id="node6" href="$block_8h.html" title="a block of three layers (convolution; batch normalization; relu) " alt="" coords="457,539,636,624"/>
+<area shape="rect" id="node7" href="$convolution_8h.html" title="convolution layer " alt="" coords="144,405,323,491"/>
+<area shape="rect" id="node8" href="$batchnormalization_8h.html" title="batch normalization layer " alt="" coords="347,405,538,491"/>
+<area shape="rect" id="node9" href="$relu_8h.html" title="rectified linear activation layer (relu(x) = max(0,x)) " alt="" coords="563,405,741,491"/>
+<area shape="rect" id="node10" href="$linear_8h.html" title="linear (fully connected) layer " alt="" coords="867,405,1045,491"/>
+<area shape="rect" id="node11" href="$dropout_8h.html" title="dropout layer " alt="" coords="1069,405,1248,491"/>
+<area shape="rect" id="node12" href="$maxpooling_8h.html" title="max pooling layer " alt="" coords="1272,405,1451,491"/>
+<area shape="rect" id="node13" href="$softmaxcrossentropy_8h.html" title="softmax + cross entropy layer " alt="" coords="1475,405,1679,491"/>
+<area shape="rect" id="node14" href="$cifar_8h.html" title="cifar dataset handling " alt="" coords="1704,405,1883,491"/>
+</map>

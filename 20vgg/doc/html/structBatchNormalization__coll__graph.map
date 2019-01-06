@@ -1,0 +1,7 @@
+<map id="BatchNormalization&lt; maxB, IC, H, W &gt;" name="BatchNormalization&lt; maxB, IC, H, W &gt;">
+<area shape="rect" id="node2" href="$structarray4.html" title="array4\&lt; maxB, IC, H, W \&gt;" alt="" coords="5,95,183,121"/>
+<area shape="rect" id="node3" href="$structvec.html" title="vec\&lt; IC \&gt;" alt="" coords="207,95,288,121"/>
+<area shape="rect" id="node4" href="$structcmdline__opt.html" title="command line options " alt="" coords="292,5,384,32"/>
+<area shape="rect" id="node5" href="$structlogger.html" title="logging object " alt="" coords="384,95,441,121"/>
+<area shape="rect" id="node6" href="$structtsc__t.html" title="timestamp " alt="" coords="409,5,459,32"/>
+</map>

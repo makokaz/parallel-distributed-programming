@@ -1,0 +1,342 @@
+\hypertarget{structBlock}{}\section{Block$<$ maxB, IC, H, W, K, OC $>$ Struct Template Reference}
+\label{structBlock}\index{Block$<$ max\+B, I\+C, H, W, K, O\+C $>$@{Block$<$ max\+B, I\+C, H, W, K, O\+C $>$}}
+
+
+a block of three layers (convolution; batch normalization; relu)  
+
+
+
+
+{\ttfamily \#include $<$block.\+h$>$}
+
+
+
+Collaboration diagram for Block$<$ maxB, IC, H, W, K, OC $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structBlock__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structBlock_a53eb5f86be4540cf491024b2b2783b42}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock_ad91e112b767ccd7035a37873cbc121a9}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ $\ast$ \hyperlink{structBlock_a10734345f8456513bbd7c792b51656af}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} (\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ $\ast$\hyperlink{structBlock_a66767aae2045de05ce1dc09a92d164c4}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}\label{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}} 
+void \hyperlink{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structBlock_aa0485907d27a19d4374e3ad09c5b9012}\label{structBlock_aa0485907d27a19d4374e3ad09c5b9012}} 
+void \hyperlink{structBlock_aa0485907d27a19d4374e3ad09c5b9012}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \& \hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \& \hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_a3752b971026c8a6506b34aef3c7e780b}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}{set\+\_\+grad} (\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBlock_a69a63d3357f60c7b097e97169b175445}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ \&b)
+\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ $\ast$ \hyperlink{structBlock_a66767aae2045de05ce1dc09a92d164c4}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock_ad91e112b767ccd7035a37873cbc121a9}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}{lgr}
+\item 
+\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ \hyperlink{structBlock_aac195c086bc1302e8324aa1d89067668}{conv}
+\item 
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, OC, H, W $>$ \hyperlink{structBlock_afedad10fac693a934c1d72e24d478b6b}{bn}
+\item 
+\hyperlink{structRelu}{Relu}$<$ maxB, OC, H, W $>$ \hyperlink{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}{relu}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$\newline
+struct Block$<$ max\+B, I\+C, H, W, K, O\+C $>$}
+
+a block of three layers (convolution; batch normalization; relu) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+I\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+K)} & convolution kernel size (1). filter array has (2\+K+1)$\ast$(2\+K+1) elems) \\
+\hline
+{\em (\+O\+C)} & the number of channels per an output image\\
+\hline
+\end{DoxyParams}
+this layer applies convolution, batch normalization and relu in this order. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}\label{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}} 
+\index{Block@{Block}!backward@{backward}}
+\index{backward@{backward}!Block@{Block}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$\& \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} 
+
+\hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBlock_a10734345f8456513bbd7c792b51656af}\label{structBlock_a10734345f8456513bbd7c792b51656af}} 
+\index{Block@{Block}!copy@{copy}}
+\index{copy@{copy}!Block@{Block}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,IC,H,W,K,OC$>$$\ast$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}\label{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}} 
+\index{Block@{Block}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Block@{Block}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} 
+
+\hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}\label{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}} 
+\index{Block@{Block}!forward@{forward}}
+\index{forward@{forward}!Block@{Block}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,OC,H,W$>$\& \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} 
+
+\hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBlock_a69a63d3357f60c7b097e97169b175445}\label{structBlock_a69a63d3357f60c7b097e97169b175445}} 
+\index{Block@{Block}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Block@{Block}}
+\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+take the inner product of gradients 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (b)} & the object to take the inner product with\\
+\hline
+\end{DoxyParams}
+take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structBlock_a53eb5f86be4540cf491024b2b2783b42}\label{structBlock_a53eb5f86be4540cf491024b2b2783b42}} 
+\index{Block@{Block}!init@{init}}
+\index{init@{init}!Block@{Block}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator for initializing weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structBlock_a971798b11f5cdc883880c0be2f143908}\label{structBlock_a971798b11f5cdc883880c0be2f143908}} 
+\index{Block@{Block}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Block@{Block}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} 
+
+\hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBlock_a3752b971026c8a6506b34aef3c7e780b}\label{structBlock_a3752b971026c8a6506b34aef3c7e780b}} 
+\index{Block@{Block}!rand\+\_\+grad@{rand\+\_\+grad}}
+\index{rand\+\_\+grad@{rand\+\_\+grad}!Block@{Block}}
+\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly set all gradients to values between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & minimum value of a component \\
+\hline
+{\em (q)} & maximum value of a component \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structBlock_a11093fd68976a6a40155cfb42397653c}\label{structBlock_a11093fd68976a6a40155cfb42397653c}} 
+\index{Block@{Block}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Block@{Block}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} 
+
+\hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}\label{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}} 
+\index{Block@{Block}!set\+\_\+grad@{set\+\_\+grad}}
+\index{set\+\_\+grad@{set\+\_\+grad}!Block@{Block}}
+\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all gradients to gradients of another object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object from which gradients get copied\\
+\hline
+\end{DoxyParams}
+transfer gradients of o to this object \mbox{\Hypertarget{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}\label{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}} 
+\index{Block@{Block}!update@{update}}
+\index{update@{update}!Block@{Block}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update weights of all sublayers with gradients that must have been computed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} 
+
+\hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structBlock_afedad10fac693a934c1d72e24d478b6b}\label{structBlock_afedad10fac693a934c1d72e24d478b6b}} 
+\index{Block@{Block}!bn@{bn}}
+\index{bn@{bn}!Block@{Block}}
+\subsubsection{\texorpdfstring{bn}{bn}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$maxB,OC,H,W$>$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::bn}
+
+batch normalization layer \mbox{\Hypertarget{structBlock_aac195c086bc1302e8324aa1d89067668}\label{structBlock_aac195c086bc1302e8324aa1d89067668}} 
+\index{Block@{Block}!conv@{conv}}
+\index{conv@{conv}!Block@{Block}}
+\subsubsection{\texorpdfstring{conv}{conv}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structConvolution2D}{Convolution2D}$<$maxB,IC,H,W,K,OC$>$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::conv}
+
+convolution layer \mbox{\Hypertarget{structBlock_a66767aae2045de05ce1dc09a92d164c4}\label{structBlock_a66767aae2045de05ce1dc09a92d164c4}} 
+\index{Block@{Block}!dev@{dev}}
+\index{dev@{dev}!Block@{Block}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,IC,H,W,K,OC$>$$\ast$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}\label{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}} 
+\index{Block@{Block}!lgr@{lgr}}
+\index{lgr@{lgr}!Block@{Block}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structBlock_ad91e112b767ccd7035a37873cbc121a9}\label{structBlock_ad91e112b767ccd7035a37873cbc121a9}} 
+\index{Block@{Block}!opt@{opt}}
+\index{opt@{opt}!Block@{Block}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}\label{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}} 
+\index{Block@{Block}!relu@{relu}}
+\index{relu@{relu}!Block@{Block}}
+\subsubsection{\texorpdfstring{relu}{relu}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structRelu}{Relu}$<$maxB,OC,H,W$>$ \hyperlink{structBlock}{Block}$<$ maxB, IC, H, W, K, OC $>$\+::relu}
+
+rectified linear layer 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{block_8h}{block.\+h}\end{DoxyCompactItemize}

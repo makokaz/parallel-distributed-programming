@@ -1,0 +1,743 @@
+\hypertarget{structBatchNormalization}{}\section{Batch\+Normalization$<$ maxB, IC, H, W $>$ Struct Template Reference}
+\label{structBatchNormalization}\index{Batch\+Normalization$<$ max\+B, I\+C, H, W $>$@{Batch\+Normalization$<$ max\+B, I\+C, H, W $>$}}
+
+
+batch normalization  
+
+
+
+
+{\ttfamily \#include $<$batchnormalization.\+h$>$}
+
+
+
+Collaboration diagram for Batch\+Normalization$<$ maxB, IC, H, W $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structBatchNormalization__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structBatchNormalization_aaf4e7179ded1be5c9284b9464cdde805}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBatchNormalization_a9fb30ad9f94c91d4a4d4ab9d3801cba4}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structBatchNormalization_a160b18a54054d8afa967acc842dd9cf3}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$ \hyperlink{structBatchNormalization_a328b3e1347324b4fec03662240f39aa5}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a05caf41d5a21914b07652d356fde7387}{set\+\_\+dev} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$\hyperlink{structBatchNormalization_a86d66680b05689ca3df6297e3fd6598e}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a0d925e23b6e4d49e64319dd02d93b480}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a3698340b540985a0cb1d5d2711fc8334}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structBatchNormalization_a42df88ade175bae177a59b347dc52884}\label{structBatchNormalization_a42df88ade175bae177a59b347dc52884}} 
+void \hyperlink{structBatchNormalization_a42df88ade175bae177a59b347dc52884}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structBatchNormalization_a4e7f098947f8d4896b1fe39e67263713}\label{structBatchNormalization_a4e7f098947f8d4896b1fe39e67263713}} 
+void \hyperlink{structBatchNormalization_a4e7f098947f8d4896b1fe39e67263713}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}{update\+\_\+base} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a463e10e6b59905d8c1e9bcac3a17a126}{update\+\_\+dev} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the device function of update called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a1e65c4b6e011da3e8176e56ccb83e453}{update\+\_\+gpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a223b6369246bad1525c2284a0285c581}{update\+\_\+cpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a0d4c799cedf33dae08d3b46f417c1ecf}{mean\+\_\+bij} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc a mean of each input channel \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structvec}{vec}$<$ IC $>$ \& \hyperlink{structBatchNormalization_a631234804d2a88d43655ab06ea4d5bfc}{inv\+\_\+std\+\_\+bij} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x, \hyperlink{structvec}{vec}$<$ IC $>$ \&mu)
+\begin{DoxyCompactList}\small\item\em calc a standard deviation of each input channel \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a5c35968b76ca1a166fe93aede17b53e8}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a66c02d8d49ae80a8edd186024c04d42a}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a9490250c2e3469b619e76e5c913aa830}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \& \hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x,t) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization_a3c96c56393798abdb00647aae73b197a}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_a2a80a633ecc4a5ed378dd0ff70d275e1}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_af60d17f3a0af3a4fd8556a93eddcf7c9}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \& \hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_acf65ad8948335d6a4ebff9ba2a0ab906}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structBatchNormalization_aeadf5127ff94fb3e53c30272e7346f0d}{set\+\_\+grad} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ \&o)
+\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBatchNormalization_a377e27f39a4f1e26c952fcf12b362cb3}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ \&b)
+\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$ \hyperlink{structBatchNormalization_a86d66680b05689ca3df6297e3fd6598e}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBatchNormalization_a9fb30ad9f94c91d4a4d4ab9d3801cba4}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structBatchNormalization_a160b18a54054d8afa967acc842dd9cf3}{lgr}
+\item 
+\hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a19341c5df4950a9df17dc3ca2f2b9ecf}{gamma}
+\item 
+\hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a751b4044335ece13ce09f962168e8f1e}{beta}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \hyperlink{structBatchNormalization_ab0962f839e8eed605d7fb43fc2eb979d}{x\+\_\+hat}
+\item 
+\hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a32b254c9c4ceb4dc1c952d93851d120f}{inv\+\_\+std}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \hyperlink{structBatchNormalization_a1453d9955c9cb72c5316c98cb06d1867}{y}
+\item 
+\hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a050a1a786d6b10b0c0359214cfdb4fef}{ggamma}
+\item 
+\hyperlink{structvec}{vec}$<$ IC $>$ \hyperlink{structBatchNormalization_a881e8679992c8e0fb22c2e208e55e93d}{gbeta}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \hyperlink{structBatchNormalization_a916260aac816d659d876988c94666791}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$\newline
+struct Batch\+Normalization$<$ max\+B, I\+C, H, W $>$}
+
+batch normalization 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+I\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer)\\
+\hline
+\end{DoxyParams}
+this layer normalizes a batch of images 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}\label{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!backward@{backward}}
+\index{backward@{backward}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$\& \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}\label{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & the gradient of loss wrt y \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+
+\hyperlink{structBatchNormalization_a2a80a633ecc4a5ed378dd0ff70d275e1}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a3c96c56393798abdb00647aae73b197a}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_af60d17f3a0af3a4fd8556a93eddcf7c9}\label{structBatchNormalization_af60d17f3a0af3a4fd8556a93eddcf7c9}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & the gradient of loss wrt y \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+
+\hyperlink{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a3c96c56393798abdb00647aae73b197a}\label{structBatchNormalization_a3c96c56393798abdb00647aae73b197a}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & the gradient of loss wrt y \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+
+\hyperlink{structBatchNormalization_a2a80a633ecc4a5ed378dd0ff70d275e1}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a2a80a633ecc4a5ed378dd0ff70d275e1}\label{structBatchNormalization_a2a80a633ecc4a5ed378dd0ff70d275e1}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a3c96c56393798abdb00647aae73b197a}{backward\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a0ef45335c50151f68de03d33b1d226ca}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a328b3e1347324b4fec03662240f39aa5}\label{structBatchNormalization_a328b3e1347324b4fec03662240f39aa5}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!copy@{copy}}
+\index{copy@{copy}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$maxB,IC,H,W$>$$\ast$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structBatchNormalization_a3698340b540985a0cb1d5d2711fc8334}\label{structBatchNormalization_a3698340b540985a0cb1d5d2711fc8334}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a0d925e23b6e4d49e64319dd02d93b480}{make\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a05caf41d5a21914b07652d356fde7387}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}\label{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!forward@{forward}}
+\index{forward@{forward}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$\& \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x,t) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}\label{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a66c02d8d49ae80a8edd186024c04d42a}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a5c35968b76ca1a166fe93aede17b53e8}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a9490250c2e3469b619e76e5c913aa830}\label{structBatchNormalization_a9490250c2e3469b619e76e5c913aa830}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a5c35968b76ca1a166fe93aede17b53e8}\label{structBatchNormalization_a5c35968b76ca1a166fe93aede17b53e8}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a66c02d8d49ae80a8edd186024c04d42a}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a66c02d8d49ae80a8edd186024c04d42a}\label{structBatchNormalization_a66c02d8d49ae80a8edd186024c04d42a}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a5c35968b76ca1a166fe93aede17b53e8}{forward\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a95b82689b898e3e9940a98a0145eb6ca}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a377e27f39a4f1e26c952fcf12b362cb3}\label{structBatchNormalization_a377e27f39a4f1e26c952fcf12b362cb3}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+take the inner product of gradients 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (b)} & the object to take the inner product with\\
+\hline
+\end{DoxyParams}
+take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structBatchNormalization_aaf4e7179ded1be5c9284b9464cdde805}\label{structBatchNormalization_aaf4e7179ded1be5c9284b9464cdde805}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!init@{init}}
+\index{init@{init}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator for initializing weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structBatchNormalization_a631234804d2a88d43655ab06ea4d5bfc}\label{structBatchNormalization_a631234804d2a88d43655ab06ea4d5bfc}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!inv\+\_\+std\+\_\+bij@{inv\+\_\+std\+\_\+bij}}
+\index{inv\+\_\+std\+\_\+bij@{inv\+\_\+std\+\_\+bij}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{inv\+\_\+std\+\_\+bij()}{inv\_std\_bij()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structvec}{vec}$<$IC$>$\& \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::inv\+\_\+std\+\_\+bij (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x,  }\item[{\hyperlink{structvec}{vec}$<$ IC $>$ \&}]{mu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc a standard deviation of each input channel 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (mu)} & mean \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward}
+\end{DoxySeeAlso}
+this is an auxiliary function called from forward. inv\+\_\+std(i) = 1 / sqrt(standard deviation of pixel values over all pixels of all images in layer i) \mbox{\Hypertarget{structBatchNormalization_a0d925e23b6e4d49e64319dd02d93b480}\label{structBatchNormalization_a0d925e23b6e4d49e64319dd02d93b480}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a05caf41d5a21914b07652d356fde7387}{set\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a3698340b540985a0cb1d5d2711fc8334}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a0d4c799cedf33dae08d3b46f417c1ecf}\label{structBatchNormalization_a0d4c799cedf33dae08d3b46f417c1ecf}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!mean\+\_\+bij@{mean\+\_\+bij}}
+\index{mean\+\_\+bij@{mean\+\_\+bij}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{mean\+\_\+bij()}{mean\_bij()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::mean\+\_\+bij (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc a mean of each input channel 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward}
+\end{DoxySeeAlso}
+this is an auxiliary function called from forward. mean(i) = average of pixel values over all pixels of all images in layer i \mbox{\Hypertarget{structBatchNormalization_acf65ad8948335d6a4ebff9ba2a0ab906}\label{structBatchNormalization_acf65ad8948335d6a4ebff9ba2a0ab906}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!rand\+\_\+grad@{rand\+\_\+grad}}
+\index{rand\+\_\+grad@{rand\+\_\+grad}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly set all gradients to values between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & minimum value of a component \\
+\hline
+{\em (q)} & maximum value of a component \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structBatchNormalization_a05caf41d5a21914b07652d356fde7387}\label{structBatchNormalization_a05caf41d5a21914b07652d356fde7387}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a0d925e23b6e4d49e64319dd02d93b480}{make\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a3698340b540985a0cb1d5d2711fc8334}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structBatchNormalization_aeadf5127ff94fb3e53c30272e7346f0d}\label{structBatchNormalization_aeadf5127ff94fb3e53c30272e7346f0d}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!set\+\_\+grad@{set\+\_\+grad}}
+\index{set\+\_\+grad@{set\+\_\+grad}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all gradients to gradients of another object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object from which gradients get copied\\
+\hline
+\end{DoxyParams}
+transfer gradients of o to this object \mbox{\Hypertarget{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}\label{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!update@{update}}
+\index{update@{update}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update weights of all sublayers with gradients that must have been computed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a315cda9d48dfa18a2f4f65ac7bb3b891}{forward} 
+
+\hyperlink{structBatchNormalization_a3b6d987026effdc6c3a2c99e54ae58f9}{backward} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}\label{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!update\+\_\+base@{update\+\_\+base}}
+\index{update\+\_\+base@{update\+\_\+base}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{update\+\_\+base()}{update\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::update\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+
+\hyperlink{structBatchNormalization_a1e65c4b6e011da3e8176e56ccb83e453}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a463e10e6b59905d8c1e9bcac3a17a126}{update\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a223b6369246bad1525c2284a0285c581}\label{structBatchNormalization_a223b6369246bad1525c2284a0285c581}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!update\+\_\+cpu@{update\+\_\+cpu}}
+\index{update\+\_\+cpu@{update\+\_\+cpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{update\+\_\+cpu()}{update\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::update\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+
+\hyperlink{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a463e10e6b59905d8c1e9bcac3a17a126}\label{structBatchNormalization_a463e10e6b59905d8c1e9bcac3a17a126}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!update\+\_\+dev@{update\+\_\+dev}}
+\index{update\+\_\+dev@{update\+\_\+dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{update\+\_\+dev()}{update\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::update\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of update called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+
+\hyperlink{structBatchNormalization_a1e65c4b6e011da3e8176e56ccb83e453}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structBatchNormalization_a1e65c4b6e011da3e8176e56ccb83e453}\label{structBatchNormalization_a1e65c4b6e011da3e8176e56ccb83e453}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!update\+\_\+gpu@{update\+\_\+gpu}}
+\index{update\+\_\+gpu@{update\+\_\+gpu}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{update\+\_\+gpu()}{update\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::update\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structBatchNormalization_a71b4c3d0b5002d84ba2d74f47f7ab8d2}{update} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structBatchNormalization_a463e10e6b59905d8c1e9bcac3a17a126}{update\+\_\+dev} 
+
+\hyperlink{structBatchNormalization_a757cb54212040fca8bc2465bbac26636}{update\+\_\+base} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structBatchNormalization_a751b4044335ece13ce09f962168e8f1e}\label{structBatchNormalization_a751b4044335ece13ce09f962168e8f1e}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!beta@{beta}}
+\index{beta@{beta}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{beta}{beta}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::beta}
+
+beta parameter \mbox{\Hypertarget{structBatchNormalization_a86d66680b05689ca3df6297e3fd6598e}\label{structBatchNormalization_a86d66680b05689ca3df6297e3fd6598e}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!dev@{dev}}
+\index{dev@{dev}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$maxB,IC,H,W$>$$\ast$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structBatchNormalization_a19341c5df4950a9df17dc3ca2f2b9ecf}\label{structBatchNormalization_a19341c5df4950a9df17dc3ca2f2b9ecf}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!gamma@{gamma}}
+\index{gamma@{gamma}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{gamma}{gamma}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::gamma}
+
+gamma parameter \mbox{\Hypertarget{structBatchNormalization_a881e8679992c8e0fb22c2e208e55e93d}\label{structBatchNormalization_a881e8679992c8e0fb22c2e208e55e93d}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!gbeta@{gbeta}}
+\index{gbeta@{gbeta}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{gbeta}{gbeta}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::gbeta}
+
+gradient of loss wrt beta \mbox{\Hypertarget{structBatchNormalization_a050a1a786d6b10b0c0359214cfdb4fef}\label{structBatchNormalization_a050a1a786d6b10b0c0359214cfdb4fef}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!ggamma@{ggamma}}
+\index{ggamma@{ggamma}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{ggamma}{ggamma}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::ggamma}
+
+gradient of loss wrt gamma \mbox{\Hypertarget{structBatchNormalization_a916260aac816d659d876988c94666791}\label{structBatchNormalization_a916260aac816d659d876988c94666791}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!gx@{gx}}
+\index{gx@{gx}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::gx}
+
+gradient of loss wrt x \mbox{\Hypertarget{structBatchNormalization_a32b254c9c4ceb4dc1c952d93851d120f}\label{structBatchNormalization_a32b254c9c4ceb4dc1c952d93851d120f}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!inv\+\_\+std@{inv\+\_\+std}}
+\index{inv\+\_\+std@{inv\+\_\+std}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{inv\+\_\+std}{inv\_std}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structvec}{vec}$<$IC$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::inv\+\_\+std}
+
+inverse of standard deviation \mbox{\Hypertarget{structBatchNormalization_a160b18a54054d8afa967acc842dd9cf3}\label{structBatchNormalization_a160b18a54054d8afa967acc842dd9cf3}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!lgr@{lgr}}
+\index{lgr@{lgr}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structBatchNormalization_a9fb30ad9f94c91d4a4d4ab9d3801cba4}\label{structBatchNormalization_a9fb30ad9f94c91d4a4d4ab9d3801cba4}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!opt@{opt}}
+\index{opt@{opt}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::opt}
+
+command line options \mbox{\Hypertarget{structBatchNormalization_ab0962f839e8eed605d7fb43fc2eb979d}\label{structBatchNormalization_ab0962f839e8eed605d7fb43fc2eb979d}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!x\+\_\+hat@{x\+\_\+hat}}
+\index{x\+\_\+hat@{x\+\_\+hat}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{x\+\_\+hat}{x\_hat}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::x\+\_\+hat}
+
+normalized x \mbox{\Hypertarget{structBatchNormalization_a1453d9955c9cb72c5316c98cb06d1867}\label{structBatchNormalization_a1453d9955c9cb72c5316c98cb06d1867}} 
+\index{Batch\+Normalization@{Batch\+Normalization}!y@{y}}
+\index{y@{y}!Batch\+Normalization@{Batch\+Normalization}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$ \hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, IC, H, W $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{batchnormalization_8h}{batchnormalization.\+h}\end{DoxyCompactItemize}

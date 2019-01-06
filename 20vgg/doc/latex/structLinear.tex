@@ -1,0 +1,666 @@
+\hypertarget{structLinear}{}\section{Linear$<$ maxB, IC, nC $>$ Struct Template Reference}
+\label{structLinear}\index{Linear$<$ max\+B, I\+C, n\+C $>$@{Linear$<$ max\+B, I\+C, n\+C $>$}}
+
+
+linear (fully connected) layer  
+
+
+
+
+{\ttfamily \#include $<$linear.\+h$>$}
+
+
+
+Collaboration diagram for Linear$<$ maxB, IC, nC $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structLinear__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structLinear_a45f2c4c010a2451d39e0a7e736fd4a58}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structLinear_ad6b0173f0baf5ce07b3cd7340d4ed0d4}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structLinear_acde13832b627b3c1113283e22bac77a7}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$ \hyperlink{structLinear_a0c7811cf3a3731974b668f7e973a79f4}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a0c6dcb67669d4984b6b9a676d4f14177}{set\+\_\+dev} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$\hyperlink{structLinear_a84bf1832fbbaccc87ca3e13b45f5acb4}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_aecf7edf669cf1182b49b604a2c9b3212}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_ad691fa515105ec71c69eed5f0ae03af6}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structLinear_a36c57d7c3b7e25ae73f8bc3b5bb49992}\label{structLinear_a36c57d7c3b7e25ae73f8bc3b5bb49992}} 
+void \hyperlink{structLinear_a36c57d7c3b7e25ae73f8bc3b5bb49992}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structLinear_a2cf0ae6b25a12dbe31194a283e075feb}\label{structLinear_a2cf0ae6b25a12dbe31194a283e075feb}} 
+void \hyperlink{structLinear_a2cf0ae6b25a12dbe31194a283e075feb}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear_aa59e1addd962ac7a70993229534ab899}{update\+\_\+base} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear_ad45413b0c13ca0ca89db6a3217a8b00b}{update\+\_\+dev} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the device function of update called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a8ca71565731b9d8c3ba552578c61753a}{update\+\_\+gpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_afabe5b3388c37c5b02e9f7ca7f0cd686}{update\+\_\+cpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear_a2b86dba92137500810cbf3ed95ee1fcb}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a1d794073640bad48f9722f5d40b98902}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a02f18ced52dc4bd6aa0ea45119c6a7e0}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \& \hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear_adcabfb5486aad2c05dd94bae98acf168}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear_a865f8dedc402675cd5cf240fcfbcd258}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_acc4936542d24da1357c1c7fb7f95d6ea}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_acd4bd03ccec0da8849c2536d32770a61}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \& \hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_aab38b786325b4701080a89d5dab96f23}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structLinear_a4faa818e70d779b80663b361a1e7ef75}{set\+\_\+grad} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structLinear_af920adb0c630cddb4f8012984784807c}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$ \hyperlink{structLinear_a84bf1832fbbaccc87ca3e13b45f5acb4}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structLinear_ad6b0173f0baf5ce07b3cd7340d4ed0d4}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structLinear_acde13832b627b3c1113283e22bac77a7}{lgr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ $\ast$ \hyperlink{structLinear_a8a7c8ecf358de5e00589a722a0c4541c}{x\+\_\+ptr}
+\item 
+\hyperlink{structarray2}{array2}$<$ IC, nC $>$ \hyperlink{structLinear_a5abe6ceff587b423273808d94b392ee8}{w}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \hyperlink{structLinear_a422f2130612692682fdd151b96899264}{y}
+\item 
+\hyperlink{structarray2}{array2}$<$ IC, nC $>$ \hyperlink{structLinear_a62267914d63b5f94379e4f9caf6b317c}{gw}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \hyperlink{structLinear_abcdbaef350ab7abbcb459cfa87961bba}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$\newline
+struct Linear$<$ max\+B, I\+C, n\+C $>$}
+
+linear (fully connected) layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+I\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (n\+C)} & number of classes (10) \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structLinear_aeaa39d38b876fbd70794621955193fd3}\label{structLinear_aeaa39d38b876fbd70794621955193fd3}} 
+\index{Linear@{Linear}!backward@{backward}}
+\index{backward@{backward}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,1,1$>$\& \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_adcabfb5486aad2c05dd94bae98acf168}\label{structLinear_adcabfb5486aad2c05dd94bae98acf168}} 
+\index{Linear@{Linear}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+
+\hyperlink{structLinear_acc4936542d24da1357c1c7fb7f95d6ea}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structLinear_a865f8dedc402675cd5cf240fcfbcd258}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_acd4bd03ccec0da8849c2536d32770a61}\label{structLinear_acd4bd03ccec0da8849c2536d32770a61}} 
+\index{Linear@{Linear}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+
+\hyperlink{structLinear_adcabfb5486aad2c05dd94bae98acf168}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a865f8dedc402675cd5cf240fcfbcd258}\label{structLinear_a865f8dedc402675cd5cf240fcfbcd258}} 
+\index{Linear@{Linear}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+
+\hyperlink{structLinear_acc4936542d24da1357c1c7fb7f95d6ea}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structLinear_adcabfb5486aad2c05dd94bae98acf168}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_acc4936542d24da1357c1c7fb7f95d6ea}\label{structLinear_acc4936542d24da1357c1c7fb7f95d6ea}} 
+\index{Linear@{Linear}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structLinear_a865f8dedc402675cd5cf240fcfbcd258}{backward\+\_\+dev} 
+
+\hyperlink{structLinear_adcabfb5486aad2c05dd94bae98acf168}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a0c7811cf3a3731974b668f7e973a79f4}\label{structLinear_a0c7811cf3a3731974b668f7e973a79f4}} 
+\index{Linear@{Linear}!copy@{copy}}
+\index{copy@{copy}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structLinear}{Linear}$<$maxB,IC,nC$>$$\ast$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structLinear_ad691fa515105ec71c69eed5f0ae03af6}\label{structLinear_ad691fa515105ec71c69eed5f0ae03af6}} 
+\index{Linear@{Linear}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aecf7edf669cf1182b49b604a2c9b3212}{make\+\_\+dev} 
+
+\hyperlink{structLinear_a0c6dcb67669d4984b6b9a676d4f14177}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_aed0294f2d1c2013f66d89a52474352e5}\label{structLinear_aed0294f2d1c2013f66d89a52474352e5}} 
+\index{Linear@{Linear}!forward@{forward}}
+\index{forward@{forward}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,nC,1,1$>$\& \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}\label{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}} 
+\index{Linear@{Linear}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{structLinear_a1d794073640bad48f9722f5d40b98902}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structLinear_a2b86dba92137500810cbf3ed95ee1fcb}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a02f18ced52dc4bd6aa0ea45119c6a7e0}\label{structLinear_a02f18ced52dc4bd6aa0ea45119c6a7e0}} 
+\index{Linear@{Linear}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a2b86dba92137500810cbf3ed95ee1fcb}\label{structLinear_a2b86dba92137500810cbf3ed95ee1fcb}} 
+\index{Linear@{Linear}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{structLinear_a1d794073640bad48f9722f5d40b98902}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a1d794073640bad48f9722f5d40b98902}\label{structLinear_a1d794073640bad48f9722f5d40b98902}} 
+\index{Linear@{Linear}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structLinear_a2b86dba92137500810cbf3ed95ee1fcb}{forward\+\_\+dev} 
+
+\hyperlink{structLinear_adb02d44e0558e4e26b9a550945cd3b7e}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_af920adb0c630cddb4f8012984784807c}\label{structLinear_af920adb0c630cddb4f8012984784807c}} 
+\index{Linear@{Linear}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+take the inner product of gradients 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object to take the inner product with\\
+\hline
+\end{DoxyParams}
+take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structLinear_a45f2c4c010a2451d39e0a7e736fd4a58}\label{structLinear_a45f2c4c010a2451d39e0a7e736fd4a58}} 
+\index{Linear@{Linear}!init@{init}}
+\index{init@{init}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator for initializing weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structLinear_aecf7edf669cf1182b49b604a2c9b3212}\label{structLinear_aecf7edf669cf1182b49b604a2c9b3212}} 
+\index{Linear@{Linear}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_a0c6dcb67669d4984b6b9a676d4f14177}{set\+\_\+dev} 
+
+\hyperlink{structLinear_ad691fa515105ec71c69eed5f0ae03af6}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_aab38b786325b4701080a89d5dab96f23}\label{structLinear_aab38b786325b4701080a89d5dab96f23}} 
+\index{Linear@{Linear}!rand\+\_\+grad@{rand\+\_\+grad}}
+\index{rand\+\_\+grad@{rand\+\_\+grad}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly set all gradients to values between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & minimum value of a component \\
+\hline
+{\em (q)} & maximum value of a component \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structLinear_a0c6dcb67669d4984b6b9a676d4f14177}\label{structLinear_a0c6dcb67669d4984b6b9a676d4f14177}} 
+\index{Linear@{Linear}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aecf7edf669cf1182b49b604a2c9b3212}{make\+\_\+dev} 
+
+\hyperlink{structLinear_ad691fa515105ec71c69eed5f0ae03af6}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structLinear_a4faa818e70d779b80663b361a1e7ef75}\label{structLinear_a4faa818e70d779b80663b361a1e7ef75}} 
+\index{Linear@{Linear}!set\+\_\+grad@{set\+\_\+grad}}
+\index{set\+\_\+grad@{set\+\_\+grad}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all gradients to gradients of another object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object from which gradients get copied\\
+\hline
+\end{DoxyParams}
+transfer gradients of o to this object \mbox{\Hypertarget{structLinear_a828a72af0a1ccac904325ee280dbefa4}\label{structLinear_a828a72af0a1ccac904325ee280dbefa4}} 
+\index{Linear@{Linear}!update@{update}}
+\index{update@{update}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update weights of all sublayers with gradients that must have been computed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_aed0294f2d1c2013f66d89a52474352e5}{forward} 
+
+\hyperlink{structLinear_aeaa39d38b876fbd70794621955193fd3}{backward} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_aa59e1addd962ac7a70993229534ab899}\label{structLinear_aa59e1addd962ac7a70993229534ab899}} 
+\index{Linear@{Linear}!update\+\_\+base@{update\+\_\+base}}
+\index{update\+\_\+base@{update\+\_\+base}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{update\+\_\+base()}{update\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::update\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+
+\hyperlink{structLinear_a8ca71565731b9d8c3ba552578c61753a}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structLinear_ad45413b0c13ca0ca89db6a3217a8b00b}{update\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_afabe5b3388c37c5b02e9f7ca7f0cd686}\label{structLinear_afabe5b3388c37c5b02e9f7ca7f0cd686}} 
+\index{Linear@{Linear}!update\+\_\+cpu@{update\+\_\+cpu}}
+\index{update\+\_\+cpu@{update\+\_\+cpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{update\+\_\+cpu()}{update\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::update\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+
+\hyperlink{structLinear_aa59e1addd962ac7a70993229534ab899}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_ad45413b0c13ca0ca89db6a3217a8b00b}\label{structLinear_ad45413b0c13ca0ca89db6a3217a8b00b}} 
+\index{Linear@{Linear}!update\+\_\+dev@{update\+\_\+dev}}
+\index{update\+\_\+dev@{update\+\_\+dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{update\+\_\+dev()}{update\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::update\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of update called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+
+\hyperlink{structLinear_a8ca71565731b9d8c3ba552578c61753a}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structLinear_aa59e1addd962ac7a70993229534ab899}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structLinear_a8ca71565731b9d8c3ba552578c61753a}\label{structLinear_a8ca71565731b9d8c3ba552578c61753a}} 
+\index{Linear@{Linear}!update\+\_\+gpu@{update\+\_\+gpu}}
+\index{update\+\_\+gpu@{update\+\_\+gpu}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{update\+\_\+gpu()}{update\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+void \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::update\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structLinear_a828a72af0a1ccac904325ee280dbefa4}{update} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structLinear_ad45413b0c13ca0ca89db6a3217a8b00b}{update\+\_\+dev} 
+
+\hyperlink{structLinear_aa59e1addd962ac7a70993229534ab899}{update\+\_\+base} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structLinear_a84bf1832fbbaccc87ca3e13b45f5acb4}\label{structLinear_a84bf1832fbbaccc87ca3e13b45f5acb4}} 
+\index{Linear@{Linear}!dev@{dev}}
+\index{dev@{dev}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structLinear}{Linear}$<$maxB,IC,nC$>$$\ast$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structLinear_a62267914d63b5f94379e4f9caf6b317c}\label{structLinear_a62267914d63b5f94379e4f9caf6b317c}} 
+\index{Linear@{Linear}!gw@{gw}}
+\index{gw@{gw}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{gw}{gw}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray2}{array2}$<$IC,nC$>$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::gw}
+
+gradient of loss wrt to w \mbox{\Hypertarget{structLinear_abcdbaef350ab7abbcb459cfa87961bba}\label{structLinear_abcdbaef350ab7abbcb459cfa87961bba}} 
+\index{Linear@{Linear}!gx@{gx}}
+\index{gx@{gx}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,1,1$>$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::gx}
+
+gradient of loss wrt to input x \mbox{\Hypertarget{structLinear_acde13832b627b3c1113283e22bac77a7}\label{structLinear_acde13832b627b3c1113283e22bac77a7}} 
+\index{Linear@{Linear}!lgr@{lgr}}
+\index{lgr@{lgr}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structLinear_ad6b0173f0baf5ce07b3cd7340d4ed0d4}\label{structLinear_ad6b0173f0baf5ce07b3cd7340d4ed0d4}} 
+\index{Linear@{Linear}!opt@{opt}}
+\index{opt@{opt}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structLinear_a5abe6ceff587b423273808d94b392ee8}\label{structLinear_a5abe6ceff587b423273808d94b392ee8}} 
+\index{Linear@{Linear}!w@{w}}
+\index{w@{w}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray2}{array2}$<$IC,nC$>$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::w}
+
+weight of the matrix \mbox{\Hypertarget{structLinear_a8a7c8ecf358de5e00589a722a0c4541c}\label{structLinear_a8a7c8ecf358de5e00589a722a0c4541c}} 
+\index{Linear@{Linear}!x\+\_\+ptr@{x\+\_\+ptr}}
+\index{x\+\_\+ptr@{x\+\_\+ptr}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{x\+\_\+ptr}{x\_ptr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,1,1$>$$\ast$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::x\+\_\+ptr}
+
+address of input passed to forward \mbox{\Hypertarget{structLinear_a422f2130612692682fdd151b96899264}\label{structLinear_a422f2130612692682fdd151b96899264}} 
+\index{Linear@{Linear}!y@{y}}
+\index{y@{y}!Linear@{Linear}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,nC,1,1$>$ \hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$\+::y}
+
+output of the forward 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{linear_8h}{linear.\+h}\end{DoxyCompactItemize}

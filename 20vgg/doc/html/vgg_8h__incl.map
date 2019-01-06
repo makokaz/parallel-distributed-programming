@@ -1,0 +1,13 @@
+<map id="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/vgg.h" name="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/vgg.h">
+<area shape="rect" id="node2" href="$vgg__util_8h.html" title="VGG utility functions/classes. " alt="" coords="557,363,635,389"/>
+<area shape="rect" id="node16" href="$vgg__arrays_8h.html" title="vectors, matrices, and multi&#45;dimensional arrays " alt="" coords="398,288,495,315"/>
+<area shape="rect" id="node17" href="$block_8h.html" title="a block of three layers (convolution; batch normalization; relu) " alt="" coords="516,139,580,165"/>
+<area shape="rect" id="node21" href="$linear_8h.html" title="linear (fully connected) layer " alt="" coords="817,213,881,240"/>
+<area shape="rect" id="node22" href="$dropout_8h.html" title="dropout layer " alt="" coords="73,213,149,240"/>
+<area shape="rect" id="node23" href="$maxpooling_8h.html" title="max pooling layer " alt="" coords="173,213,272,240"/>
+<area shape="rect" id="node24" href="$softmaxcrossentropy_8h.html" title="softmax + cross entropy layer " alt="" coords="905,213,1060,240"/>
+<area shape="rect" id="node15" href="$cuda__util_8h.html" title="small utility functions for cuda " alt="" coords="91,437,176,464"/>
+<area shape="rect" id="node18" href="$convolution_8h.html" title="convolution layer " alt="" coords="397,213,496,240"/>
+<area shape="rect" id="node19" href="$batchnormalization_8h.html" title="batch normalization layer " alt="" coords="599,213,742,240"/>
+<area shape="rect" id="node20" href="$relu_8h.html" title="rectified linear activation layer (relu(x) = max(0,x)) " alt="" coords="521,213,575,240"/>
+</map>

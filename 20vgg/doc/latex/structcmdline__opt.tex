@@ -1,0 +1,207 @@
+\hypertarget{structcmdline__opt}{}\section{cmdline\+\_\+opt Struct Reference}
+\label{structcmdline__opt}\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+
+
+command line options  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+util.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structcmdline__opt_a389b760269a58bc462e8b429e4ef914e}\label{structcmdline__opt_a389b760269a58bc462e8b429e4ef914e}} 
+\hyperlink{structcmdline__opt_a389b760269a58bc462e8b429e4ef914e}{cmdline\+\_\+opt} ()
+\begin{DoxyCompactList}\small\item\em initialize a command line object with default vaules \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{structcmdline__opt_a2212d80547e3ae3504942006440f7285}{verbose}
+\item 
+const char $\ast$ \hyperlink{structcmdline__opt_aeaf0e85613dea855a29a691b5915e81a}{cifar\+\_\+data}
+\item 
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structcmdline__opt_a417b11f5b6a5213e293ce930a471a786}{batch\+\_\+sz}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structcmdline__opt_a69793f204ee2703085e3153062f0a3fd}{learnrate}
+\item 
+long \hyperlink{structcmdline__opt_a430664c4a225528c56f959765371755d}{iters}
+\item 
+long \hyperlink{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}{start\+\_\+data}
+\item 
+long \hyperlink{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}{end\+\_\+data}
+\item 
+int \hyperlink{structcmdline__opt_a2e2f53ec465901071633192bfdec032a}{single\+\_\+batch}
+\item 
+int \hyperlink{structcmdline__opt_a0db00c69f0bfa206b17748c0b9ca1d0b}{dropout}
+\item 
+double \hyperlink{structcmdline__opt_a559a5437432ab522d6f2749876147029}{validate\+\_\+ratio}
+\item 
+double \hyperlink{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}{validate\+\_\+interval}
+\item 
+long \hyperlink{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}{sample\+\_\+seed}
+\item 
+long \hyperlink{structcmdline__opt_a70133aad1b243d44e1be18be81633939}{weight\+\_\+seed}
+\item 
+long \hyperlink{structcmdline__opt_a8618cfd6b437743f58258b580d59b466}{dropout\+\_\+seed}
+\item 
+long \hyperlink{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}{validate\+\_\+seed}
+\item 
+int \hyperlink{structcmdline__opt_a5e70c87e86e82f9d42f6eb341f0902e3}{grad\+\_\+dbg}
+\item 
+const char $\ast$ \hyperlink{structcmdline__opt_aa5b05fde2a12fcab6f9ce0baf3e29d29}{algo\+\_\+s}
+\item 
+\hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} \hyperlink{structcmdline__opt_a4506cc13417cfb1379411fb497ae3c39}{algo}
+\item 
+int \hyperlink{structcmdline__opt_acb8b225214983d009415a26f2e45eb65}{gpu\+\_\+algo}
+\item 
+const char $\ast$ \hyperlink{structcmdline__opt_a0ecd10b9b45fb70719fb85fff85469ad}{log}
+\item 
+int \hyperlink{structcmdline__opt_afcc6982691bd1f6dfac42dbf423f9ead}{help}
+\item 
+int \hyperlink{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}{error}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+command line options 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structcmdline__opt_a4506cc13417cfb1379411fb497ae3c39}\label{structcmdline__opt_a4506cc13417cfb1379411fb497ae3c39}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!algo@{algo}}
+\index{algo@{algo}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{algo}{algo}}
+{\footnotesize\ttfamily \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} cmdline\+\_\+opt\+::algo}
+
+parse\+\_\+algo(algo\+\_\+s) \mbox{\Hypertarget{structcmdline__opt_aa5b05fde2a12fcab6f9ce0baf3e29d29}\label{structcmdline__opt_aa5b05fde2a12fcab6f9ce0baf3e29d29}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!algo\+\_\+s@{algo\+\_\+s}}
+\index{algo\+\_\+s@{algo\+\_\+s}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{algo\+\_\+s}{algo\_s}}
+{\footnotesize\ttfamily const char$\ast$ cmdline\+\_\+opt\+::algo\+\_\+s}
+
+string passed to --algo \mbox{\Hypertarget{structcmdline__opt_a417b11f5b6a5213e293ce930a471a786}\label{structcmdline__opt_a417b11f5b6a5213e293ce930a471a786}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!batch\+\_\+sz@{batch\+\_\+sz}}
+\index{batch\+\_\+sz@{batch\+\_\+sz}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{batch\+\_\+sz}{batch\_sz}}
+{\footnotesize\ttfamily \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} cmdline\+\_\+opt\+::batch\+\_\+sz}
+
+batch size \mbox{\Hypertarget{structcmdline__opt_aeaf0e85613dea855a29a691b5915e81a}\label{structcmdline__opt_aeaf0e85613dea855a29a691b5915e81a}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!cifar\+\_\+data@{cifar\+\_\+data}}
+\index{cifar\+\_\+data@{cifar\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{cifar\+\_\+data}{cifar\_data}}
+{\footnotesize\ttfamily const char$\ast$ cmdline\+\_\+opt\+::cifar\+\_\+data}
+
+data file \mbox{\Hypertarget{structcmdline__opt_a0db00c69f0bfa206b17748c0b9ca1d0b}\label{structcmdline__opt_a0db00c69f0bfa206b17748c0b9ca1d0b}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!dropout@{dropout}}
+\index{dropout@{dropout}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{dropout}{dropout}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::dropout}
+
+1 if we use dropout \mbox{\Hypertarget{structcmdline__opt_a8618cfd6b437743f58258b580d59b466}\label{structcmdline__opt_a8618cfd6b437743f58258b580d59b466}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!dropout\+\_\+seed@{dropout\+\_\+seed}}
+\index{dropout\+\_\+seed@{dropout\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{dropout\+\_\+seed}{dropout\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::dropout\+\_\+seed}
+
+random seed to determine dropout \mbox{\Hypertarget{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}\label{structcmdline__opt_a7df98cb768e9ee4bb0db68c28b0e8a21}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!end\+\_\+data@{end\+\_\+data}}
+\index{end\+\_\+data@{end\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{end\+\_\+data}{end\_data}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::end\+\_\+data}
+
+read before this image \mbox{\Hypertarget{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}\label{structcmdline__opt_a500dde11d2a0ee2e4dff8e4144083556}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!error@{error}}
+\index{error@{error}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{error}{error}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::error}
+
+set to one if any option is invalid \mbox{\Hypertarget{structcmdline__opt_acb8b225214983d009415a26f2e45eb65}\label{structcmdline__opt_acb8b225214983d009415a26f2e45eb65}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!gpu\+\_\+algo@{gpu\+\_\+algo}}
+\index{gpu\+\_\+algo@{gpu\+\_\+algo}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{gpu\+\_\+algo}{gpu\_algo}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::gpu\+\_\+algo}
+
+1 if this is a G\+PU algorithm \mbox{\Hypertarget{structcmdline__opt_a5e70c87e86e82f9d42f6eb341f0902e3}\label{structcmdline__opt_a5e70c87e86e82f9d42f6eb341f0902e3}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!grad\+\_\+dbg@{grad\+\_\+dbg}}
+\index{grad\+\_\+dbg@{grad\+\_\+dbg}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{grad\+\_\+dbg}{grad\_dbg}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::grad\+\_\+dbg}
+
+1 if we debug gradient \mbox{\Hypertarget{structcmdline__opt_afcc6982691bd1f6dfac42dbf423f9ead}\label{structcmdline__opt_afcc6982691bd1f6dfac42dbf423f9ead}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!help@{help}}
+\index{help@{help}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{help}{help}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::help}
+
+1 if -\/h,--help is given \mbox{\Hypertarget{structcmdline__opt_a430664c4a225528c56f959765371755d}\label{structcmdline__opt_a430664c4a225528c56f959765371755d}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!iters@{iters}}
+\index{iters@{iters}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{iters}{iters}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::iters}
+
+number of batches to process \mbox{\Hypertarget{structcmdline__opt_a69793f204ee2703085e3153062f0a3fd}\label{structcmdline__opt_a69793f204ee2703085e3153062f0a3fd}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!learnrate@{learnrate}}
+\index{learnrate@{learnrate}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{learnrate}{learnrate}}
+{\footnotesize\ttfamily \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} cmdline\+\_\+opt\+::learnrate}
+
+learning rate \mbox{\Hypertarget{structcmdline__opt_a0ecd10b9b45fb70719fb85fff85469ad}\label{structcmdline__opt_a0ecd10b9b45fb70719fb85fff85469ad}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!log@{log}}
+\index{log@{log}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{log}{log}}
+{\footnotesize\ttfamily const char$\ast$ cmdline\+\_\+opt\+::log}
+
+log file name \mbox{\Hypertarget{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}\label{structcmdline__opt_aa92b1cc0e53246cc03bbab7fbc84b5ae}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!sample\+\_\+seed@{sample\+\_\+seed}}
+\index{sample\+\_\+seed@{sample\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{sample\+\_\+seed}{sample\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::sample\+\_\+seed}
+
+random seed to draw samples \mbox{\Hypertarget{structcmdline__opt_a2e2f53ec465901071633192bfdec032a}\label{structcmdline__opt_a2e2f53ec465901071633192bfdec032a}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!single\+\_\+batch@{single\+\_\+batch}}
+\index{single\+\_\+batch@{single\+\_\+batch}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{single\+\_\+batch}{single\_batch}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::single\+\_\+batch}
+
+1 if we choose the same samples every iteration \mbox{\Hypertarget{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}\label{structcmdline__opt_adaf2f999b02427309fbdc1f95b614260}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!start\+\_\+data@{start\+\_\+data}}
+\index{start\+\_\+data@{start\+\_\+data}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{start\+\_\+data}{start\_data}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::start\+\_\+data}
+
+read from this image \mbox{\Hypertarget{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}\label{structcmdline__opt_a93fd0f470a52208842dd7257b83df50b}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!validate\+\_\+interval@{validate\+\_\+interval}}
+\index{validate\+\_\+interval@{validate\+\_\+interval}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{validate\+\_\+interval}{validate\_interval}}
+{\footnotesize\ttfamily double cmdline\+\_\+opt\+::validate\+\_\+interval}
+
+relative validation frequency \mbox{\Hypertarget{structcmdline__opt_a559a5437432ab522d6f2749876147029}\label{structcmdline__opt_a559a5437432ab522d6f2749876147029}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!validate\+\_\+ratio@{validate\+\_\+ratio}}
+\index{validate\+\_\+ratio@{validate\+\_\+ratio}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{validate\+\_\+ratio}{validate\_ratio}}
+{\footnotesize\ttfamily double cmdline\+\_\+opt\+::validate\+\_\+ratio}
+
+ratio of data held out for validation \mbox{\Hypertarget{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}\label{structcmdline__opt_aab2c1bdc4c5558d0cb084d9dd11f9cec}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!validate\+\_\+seed@{validate\+\_\+seed}}
+\index{validate\+\_\+seed@{validate\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{validate\+\_\+seed}{validate\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::validate\+\_\+seed}
+
+random seed to determine which data are held out for validation \mbox{\Hypertarget{structcmdline__opt_a2212d80547e3ae3504942006440f7285}\label{structcmdline__opt_a2212d80547e3ae3504942006440f7285}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!verbose@{verbose}}
+\index{verbose@{verbose}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{verbose}{verbose}}
+{\footnotesize\ttfamily int cmdline\+\_\+opt\+::verbose}
+
+verbosity \mbox{\Hypertarget{structcmdline__opt_a70133aad1b243d44e1be18be81633939}\label{structcmdline__opt_a70133aad1b243d44e1be18be81633939}} 
+\index{cmdline\+\_\+opt@{cmdline\+\_\+opt}!weight\+\_\+seed@{weight\+\_\+seed}}
+\index{weight\+\_\+seed@{weight\+\_\+seed}!cmdline\+\_\+opt@{cmdline\+\_\+opt}}
+\subsubsection{\texorpdfstring{weight\+\_\+seed}{weight\_seed}}
+{\footnotesize\ttfamily long cmdline\+\_\+opt\+::weight\+\_\+seed}
+
+random seed to initialize weights and dropout 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h}\end{DoxyCompactItemize}

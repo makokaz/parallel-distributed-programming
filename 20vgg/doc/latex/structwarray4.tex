@@ -1,0 +1,234 @@
+\hypertarget{structwarray4}{}\section{warray4$<$ OC, IC, H, W $>$ Struct Template Reference}
+\label{structwarray4}\index{warray4$<$ O\+C, I\+C, H, W $>$@{warray4$<$ O\+C, I\+C, H, W $>$}}
+
+
+4D array for convolution  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+arrays.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \& \hyperlink{structwarray4_adc345b7b43d7d6ddf69a874e0fe4dc79}{operator()} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} oc, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} ic, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} j)
+\begin{DoxyCompactList}\small\item\em access the (oc,ic,i,j) element \end{DoxyCompactList}\item 
+void \hyperlink{structwarray4_a3c04b39cc0eb077af47b1b7fcfb211fa}{init\+\_\+const} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} x)
+\begin{DoxyCompactList}\small\item\em initialize elements of the array to a single constant value \end{DoxyCompactList}\item 
+void \hyperlink{structwarray4_a788f2a7e91cdaab1c7364a6fa5262b82}{init\+\_\+uniform} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize elements of the array uniformly between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structwarray4_a3a28ff48eb37b1df6f4268875fc3345f}{init\+\_\+normal} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+\begin{DoxyCompactList}\small\item\em initialize the array with a normal distribution \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structwarray4_a6885db5ce025b11a44bdbe62c78166b2}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta, \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ \&da)
+\begin{DoxyCompactList}\small\item\em update the array by eta and da \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structwarray4_a2057ce210b8e265ada1792dbf15add0c}{dot} (\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ \&a\+\_\+)
+\begin{DoxyCompactList}\small\item\em dot product with another array \end{DoxyCompactList}\item 
+void \hyperlink{structwarray4_acc75e3d87fe7b245613c90fb433c0250}{set\+\_\+dev} (\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ $\ast$\hyperlink{structwarray4_a6ee2499ec6fa4a631652d4752905a648}{dev})
+\begin{DoxyCompactList}\small\item\em set the device shadow of this array \end{DoxyCompactList}\item 
+void \hyperlink{structwarray4_a568077c1b131455720d556b80700ac49}{make\+\_\+dev} (int gpu)
+\begin{DoxyCompactList}\small\item\em allocate and set the device shadow of this array if requested by the parameter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structwarray4_a91b452e66014159e3670760ce57a3102}\label{structwarray4_a91b452e66014159e3670760ce57a3102}} 
+void \hyperlink{structwarray4_a91b452e66014159e3670760ce57a3102}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em deallocate the device shadow of this array \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structwarray4_a091ba698395716da350bcd0ae3251d22}\label{structwarray4_a091ba698395716da350bcd0ae3251d22}} 
+void \hyperlink{structwarray4_a091ba698395716da350bcd0ae3251d22}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em send the data to its gpu shadow \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structwarray4_abd26016c5d142fc5bf8e1b4f2194a728}\label{structwarray4_abd26016c5d142fc5bf8e1b4f2194a728}} 
+void \hyperlink{structwarray4_abd26016c5d142fc5bf8e1b4f2194a728}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em get the data back from gpu shadow to host \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ $\ast$ \hyperlink{structwarray4_a6ee2499ec6fa4a631652d4752905a648}{dev}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structwarray4_a00b05df2c80beb4b1ab96c3b0fbc4550}{w} \mbox{[}OC\mbox{]}\mbox{[}IC\mbox{]}\mbox{[}2 $\ast$H+1\mbox{]}\mbox{[}2 $\ast$W+1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$\newline
+struct warray4$<$ O\+C, I\+C, H, W $>$}
+
+4D array for convolution 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+O\+C)} & the number of rows (elements along the first dimension) \\
+\hline
+{\em (\+I\+C)} & the number of elements along the second dimension) \\
+\hline
+{\em (\+H)} & 2\+H+1 is the number of elements along the third dimension \\
+\hline
+{\em (\+W)} & 2\+W+1 is the number of elements along the third dimension \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structwarray4_a2057ce210b8e265ada1792dbf15add0c}\label{structwarray4_a2057ce210b8e265ada1792dbf15add0c}} 
+\index{warray4@{warray4}!dot@{dot}}
+\index{dot@{dot}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::dot (\begin{DoxyParamCaption}\item[{\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ \&}]{a\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+dot product with another array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (a\+\_\+)} & the array to take a dot product with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_a3c04b39cc0eb077af47b1b7fcfb211fa}\label{structwarray4_a3c04b39cc0eb077af47b1b7fcfb211fa}} 
+\index{warray4@{warray4}!init\+\_\+const@{init\+\_\+const}}
+\index{init\+\_\+const@{init\+\_\+const}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{init\+\_\+const()}{init\_const()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::init\+\_\+const (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize elements of the array to a single constant value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & the value of each element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_a3a28ff48eb37b1df6f4268875fc3345f}\label{structwarray4_a3a28ff48eb37b1df6f4268875fc3345f}} 
+\index{warray4@{warray4}!init\+\_\+normal@{init\+\_\+normal}}
+\index{init\+\_\+normal@{init\+\_\+normal}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{init\+\_\+normal()}{init\_normal()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::init\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize the array with a normal distribution 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (mu)} & mean of the normal distribution \\
+\hline
+{\em (sigma)} & sigma (standard deviation) of the normal distribution \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_a788f2a7e91cdaab1c7364a6fa5262b82}\label{structwarray4_a788f2a7e91cdaab1c7364a6fa5262b82}} 
+\index{warray4@{warray4}!init\+\_\+uniform@{init\+\_\+uniform}}
+\index{init\+\_\+uniform@{init\+\_\+uniform}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{init\+\_\+uniform()}{init\_uniform()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::init\+\_\+uniform (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize elements of the array uniformly between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_a568077c1b131455720d556b80700ac49}\label{structwarray4_a568077c1b131455720d556b80700ac49}} 
+\index{warray4@{warray4}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}\item[{int}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+allocate and set the device shadow of this array if requested by the parameter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gpu)} & 1 to allocate the device shadow \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_adc345b7b43d7d6ddf69a874e0fe4dc79}\label{structwarray4_adc345b7b43d7d6ddf69a874e0fe4dc79}} 
+\index{warray4@{warray4}!operator()@{operator()}}
+\index{operator()@{operator()}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}\& \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{oc,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{ic,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{j }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access the (oc,ic,i,j) element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (oc)} & the first index \\
+\hline
+{\em (ic)} & the second index \\
+\hline
+{\em (i)} & the third index \\
+\hline
+{\em (j)} & the fourth index \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_acc75e3d87fe7b245613c90fb433c0250}\label{structwarray4_acc75e3d87fe7b245613c90fb433c0250}} 
+\index{warray4@{warray4}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device shadow of this array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & device address (may be null) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structwarray4_a6885db5ce025b11a44bdbe62c78166b2}\label{structwarray4_a6885db5ce025b11a44bdbe62c78166b2}} 
+\index{warray4@{warray4}!update@{update}}
+\index{update@{update}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta,  }\item[{\hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$ \&}]{da }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update the array by eta and da 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & a constant to scale da \\
+\hline
+{\em (da)} & the increment array\\
+\hline
+\end{DoxyParams}
+it performx a += eta $\ast$ da 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structwarray4_a6ee2499ec6fa4a631652d4752905a648}\label{structwarray4_a6ee2499ec6fa4a631652d4752905a648}} 
+\index{warray4@{warray4}!dev@{dev}}
+\index{dev@{dev}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structwarray4}{warray4}$<$OC,IC,H,W$>$$\ast$ \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::dev}
+
+pointer to the device shadow \mbox{\Hypertarget{structwarray4_a00b05df2c80beb4b1ab96c3b0fbc4550}\label{structwarray4_a00b05df2c80beb4b1ab96c3b0fbc4550}} 
+\index{warray4@{warray4}!w@{w}}
+\index{w@{w}!warray4@{warray4}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t OC, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structwarray4}{warray4}$<$ OC, IC, H, W $>$\+::w\mbox{[}OC\mbox{]}\mbox{[}IC\mbox{]}\mbox{[}2 $\ast$H+1\mbox{]}\mbox{[}2 $\ast$W+1\mbox{]}}
+
+elements 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h}\end{DoxyCompactItemize}

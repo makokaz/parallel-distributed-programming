@@ -1,0 +1,85 @@
+\hypertarget{vgg_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.cc File Reference}
+\label{vgg_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.\+cc}}
+{\ttfamily \#include \char`\"{}include/vgg\+\_\+util.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/vgg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}include/cifar.\+h\char`\"{}}\newline
+Include dependency graph for vgg.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vgg_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg_8cc_a4b438057b926d7708dec390aa2948569}{train} (\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$vgg, \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, C0, H, W $>$ \&data, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B, long count)
+\begin{DoxyCompactList}\small\item\em grab a mini batch (B training samples), forward, backward and update. \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}{validate} (\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$vgg, \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, C0, H, W $>$ \&data, long count)
+\begin{DoxyCompactList}\small\item\em forward compute B\+\_\+validate validation samples (taking several mini batches if necessary) \end{DoxyCompactList}\item 
+int \hyperlink{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em main function of \hyperlink{structVGG}{V\+GG} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+--- a C++ implemention of \hyperlink{structVGG}{V\+GG} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}\label{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{vgg.\+cc@{vgg.\+cc}!main@{main}}
+\index{main@{main}!vgg.\+cc@{vgg.\+cc}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+main function of \hyperlink{structVGG}{V\+GG} 
+
+Train \hyperlink{structVGG}{V\+GG} network with data from the file specified by --cifar\+\_\+data/-\/d (default\+: cifar-\/10-\/batches-\/bin/data\+\_\+batch\+\_\+1.\+bin). If you want to use only a part of data, you can specify a range by --start\+\_\+data and --end\+\_\+data. e.\+g., --start Take a number of samples specified by --batch\+\_\+sz/-\/d samples at a time for training. Occasionally evaluate the network with validation data. \begin{DoxyReturn}{Returns}
+the average loss of the validation data 
+\end{DoxyReturn}
+$<$ max batch size (constant)
+
+$<$ true batch size ($<$= maxB)
+
+$<$ input channels (R\+GB)
+
+$<$ height of an image
+
+$<$ width of an image
+
+$<$ kernel size (K=1 -\/$>$ 3x3)
+
+$<$ max pooling stride HxW -\/$>$ H/\+Sx\+W/S
+
+$<$ channels of the last stage
+
+$<$ number of classes \mbox{\Hypertarget{vgg_8cc_a4b438057b926d7708dec390aa2948569}\label{vgg_8cc_a4b438057b926d7708dec390aa2948569}} 
+\index{vgg.\+cc@{vgg.\+cc}!train@{train}}
+\index{train@{train}!vgg.\+cc@{vgg.\+cc}}
+\subsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} train (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$}]{vgg,  }\item[{\hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, C0, H, W $>$ \&}]{data,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{long}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+grab a mini batch (B training samples), forward, backward and update. 
+
+\begin{DoxyReturn}{Returns}
+the average loss of the mini batch. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}\label{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}} 
+\index{vgg.\+cc@{vgg.\+cc}!validate@{validate}}
+\index{validate@{validate}!vgg.\+cc@{vgg.\+cc}}
+\subsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} validate (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$}]{vgg,  }\item[{\hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$<$ maxB, C0, H, W $>$ \&}]{data,  }\item[{long}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+forward compute B\+\_\+validate validation samples (taking several mini batches if necessary) 
+
+\begin{DoxyReturn}{Returns}
+the average loss of the validation data 
+\end{DoxyReturn}

@@ -1,0 +1,257 @@
+\hypertarget{vgg__util_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.h File Reference}
+\label{vgg__util_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.\+h}}
+
+
+\hyperlink{structVGG}{V\+GG} utility functions/classes.  
+
+
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$getopt.\+h$>$}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$ieee754.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cuda\+\_\+util.\+h\char`\"{}}\newline
+Include dependency graph for vgg\+\_\+util.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vgg__util_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vgg__util_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcmdline__opt}{cmdline\+\_\+opt}
+\begin{DoxyCompactList}\small\item\em command line options \end{DoxyCompactList}\item 
+struct \hyperlink{structtsc__t}{tsc\+\_\+t}
+\begin{DoxyCompactList}\small\item\em timestamp \end{DoxyCompactList}\item 
+struct \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t}
+\begin{DoxyCompactList}\small\item\em pseudo random number generator crafted from man erand48 + libc source \end{DoxyCompactList}\item 
+struct \hyperlink{structlogger}{logger}
+\begin{DoxyCompactList}\small\item\em logging object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}\label{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}} 
+\#define \hyperlink{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}{real\+\_\+type}~float
+\begin{DoxyCompactList}\small\item\em real\+\_\+type is float if not supplied \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}\label{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}} 
+\#define \hyperlink{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu}(algo\+\_\+s)~\hyperlink{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu\+\_\+}(\+\_\+\+\_\+\+F\+I\+L\+E\+\_\+\+\_\+, \+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+, algo\+\_\+s)
+\begin{DoxyCompactList}\small\item\em signal a fatal error when a gpu algorithm gets called for cpu only compilation \end{DoxyCompactList}\item 
+\#define \hyperlink{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}{log\+\_\+start\+\_\+fun}(lgr)~lgr-\/$>$log\+\_\+start\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)
+\begin{DoxyCompactList}\small\item\em log the start of the current function \end{DoxyCompactList}\item 
+\#define \hyperlink{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}{log\+\_\+end\+\_\+fun}(lgr)~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)
+\begin{DoxyCompactList}\small\item\em log the end of the current function \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}\label{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}} 
+typedef int \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}
+\begin{DoxyCompactList}\small\item\em type of array index (either int or long) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}\label{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}} 
+typedef \hyperlink{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}{real\+\_\+type} \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}
+\begin{DoxyCompactList}\small\item\em type of array elements (may be changed by -\/\+Dreal\+\_\+type=...) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} \{ {\bfseries algo\+\_\+cpu\+\_\+base}, 
+{\bfseries algo\+\_\+gpu\+\_\+base}, 
+{\bfseries algo\+\_\+invalid}
+ \}\begin{DoxyCompactList}\small\item\em an enumeration of implemented algorithms \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}\label{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}} 
+static void \hyperlink{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}{bail} ()
+\begin{DoxyCompactList}\small\item\em exit(1) (just for setting breakpoints) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}\label{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}} 
+static void \hyperlink{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu\+\_\+} (const char $\ast$file, int line, const char $\ast$algo\+\_\+s)
+\begin{DoxyCompactList}\small\item\em signal a fatal error when a gpu algorithm gets called for cpu only compilation \end{DoxyCompactList}\item 
+static \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} \hyperlink{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}{parse\+\_\+algo} (const char $\ast$s)
+\begin{DoxyCompactList}\small\item\em convert a string to an algorithm enum \end{DoxyCompactList}\item 
+int \hyperlink{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}{algo\+\_\+is\+\_\+gpu} (const char $\ast$s, \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} a)
+\begin{DoxyCompactList}\small\item\em return 1 if the algorithm name (s) or its enum value (a) is a gpu algorithm \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}\label{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}} 
+static void \hyperlink{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}{usage} (const char $\ast$prog)
+\begin{DoxyCompactList}\small\item\em show usage \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}\label{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}} 
+static \hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}{parse\+\_\+args} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em parse command line args and make a command line object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}\label{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}{max\+\_\+r} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} a, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} b)
+\begin{DoxyCompactList}\small\item\em maximum of two reals \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_ad42447063d6f35ca417f60454557213e}\label{vgg__util_8h_ad42447063d6f35ca417f60454557213e}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_ad42447063d6f35ca417f60454557213e}{min\+\_\+r} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} a, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} b)
+\begin{DoxyCompactList}\small\item\em miniumum of two reals \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}\label{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}{max\+\_\+i} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} a, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b)
+\begin{DoxyCompactList}\small\item\em maximum of two ints \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}\label{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}{min\+\_\+i} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} a, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b)
+\begin{DoxyCompactList}\small\item\em minimum of two ints \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}\label{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}} 
+static \hyperlink{structtsc__t}{tsc\+\_\+t} \hyperlink{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}{get\+\_\+tsc} ()
+\begin{DoxyCompactList}\small\item\em get timestamp (currently just wallclock time in nano seconds) \end{DoxyCompactList}\item 
+static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}{show\+\_\+error} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gx\+\_\+gx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} dx\+\_\+dx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gx\+\_\+dx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gw\+\_\+gw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} dw\+\_\+dw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gw\+\_\+dw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L\+\_\+minus, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L\+\_\+plus)
+\begin{DoxyCompactList}\small\item\em show various errors \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}\label{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}} 
+int \hyperlink{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}{vgg\+\_\+util\+\_\+main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em entry point \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}\label{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}} 
+void \hyperlink{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}{vgg\+\_\+util\+\_\+use\+\_\+unused\+\_\+functions} ()
+\begin{DoxyCompactList}\small\item\em suppress unused function warning \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static struct option \hyperlink{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}{long\+\_\+options} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em command line options for getopt \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{structVGG}{V\+GG} utility functions/classes. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}\label{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}}
+\index{log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{log\+\_\+end\+\_\+fun}{log\_end\_fun}}
+{\footnotesize\ttfamily \#define log\+\_\+end\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr }\end{DoxyParamCaption})~lgr-\/$>$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)}
+
+
+
+log the end of the current function 
+
+just \hyperlink{vgg__util_8h_a35907e5a71f7c414a754a1fb0b9b8440}{log\+\_\+end\+\_\+fun(lgr)} and you get the caller\textquotesingle{}s function name to the log \mbox{\Hypertarget{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}\label{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}}
+\index{log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{log\+\_\+start\+\_\+fun}{log\_start\_fun}}
+{\footnotesize\ttfamily \#define log\+\_\+start\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr }\end{DoxyParamCaption})~lgr-\/$>$log\+\_\+start\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)}
+
+
+
+log the start of the current function 
+
+just \hyperlink{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}{log\+\_\+start\+\_\+fun(lgr)} and you get the caller\textquotesingle{}s function name to the log 
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}\label{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!algo\+\_\+t@{algo\+\_\+t}}
+\index{algo\+\_\+t@{algo\+\_\+t}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{algo\+\_\+t}{algo\_t}}
+{\footnotesize\ttfamily enum \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t}}
+
+
+
+an enumeration of implemented algorithms 
+
+add your algorithm in this enum 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}\label{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!algo\+\_\+is\+\_\+gpu@{algo\+\_\+is\+\_\+gpu}}
+\index{algo\+\_\+is\+\_\+gpu@{algo\+\_\+is\+\_\+gpu}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{algo\+\_\+is\+\_\+gpu()}{algo\_is\_gpu()}}
+{\footnotesize\ttfamily int algo\+\_\+is\+\_\+gpu (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{\hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t}}]{a }\end{DoxyParamCaption})}
+
+
+
+return 1 if the algorithm name (s) or its enum value (a) is a gpu algorithm 
+
+when you add your algorithm, you may need to change this function so that it correctly recognizes whether it is a gpu algorithm or not currently, it considers all and only strings starting with \char`\"{}gpu\char`\"{} to be a gpu algorithm. for a gpu algorithm, the program transfers initial weights and training data to gpu. weights stay on G\+PU until the program finishes. \mbox{\Hypertarget{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}\label{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!parse\+\_\+algo@{parse\+\_\+algo}}
+\index{parse\+\_\+algo@{parse\+\_\+algo}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{parse\+\_\+algo()}{parse\_algo()}}
+{\footnotesize\ttfamily static \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} parse\+\_\+algo (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+convert a string to an algorithm enum 
+
+when you add your algorithm, change this function so that it recognizes your algorithm \mbox{\Hypertarget{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}\label{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!show\+\_\+error@{show\+\_\+error}}
+\index{show\+\_\+error@{show\+\_\+error}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{show\+\_\+error()}{show\_error()}}
+{\footnotesize\ttfamily static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} show\+\_\+error (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gx\+\_\+gx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{dx\+\_\+dx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gx\+\_\+dx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gw\+\_\+gw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{dw\+\_\+dw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gw\+\_\+dw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L\+\_\+minus,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L\+\_\+plus }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+show various errors 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gx\+\_\+gx)} & ∂\+L/∂x・∂\+L/∂x \\
+\hline
+{\em (dx\+\_\+dx)} & dx・dx \\
+\hline
+{\em (gx\+\_\+dx)} & ∂\+L/∂x・dx \\
+\hline
+{\em (gw\+\_\+gw)} & ∂\+L/∂w・∂\+L/∂w \\
+\hline
+{\em (dw\+\_\+dw)} & dw・dw \\
+\hline
+{\em (gw\+\_\+dw)} & ∂\+L/∂w・dw \\
+\hline
+{\em (\+L\+\_\+minus)} & L(w-\/dw,x-\/dx) \\
+\hline
+{\em (\+L)} & L(w,x) \\
+\hline
+{\em (\+L\+\_\+plus)} & L(w+dw,x+dx) \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}\label{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}} 
+\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!long\+\_\+options@{long\+\_\+options}}
+\index{long\+\_\+options@{long\+\_\+options}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+\subsubsection{\texorpdfstring{long\+\_\+options}{long\_options}}
+{\footnotesize\ttfamily struct option long\+\_\+options\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+  \{\textcolor{stringliteral}{"batch\_sz"},          required\_argument, 0, \textcolor{charliteral}{'b'} \},
+  \{\textcolor{stringliteral}{"iters"},             required\_argument, 0, \textcolor{charliteral}{'m'} \},
+  \{\textcolor{stringliteral}{"verbose"},           required\_argument, 0, \textcolor{charliteral}{'v'} \},
+  \{\textcolor{stringliteral}{"learnrate"},         required\_argument, 0, \textcolor{charliteral}{'l'} \},
+  \{\textcolor{stringliteral}{"algo"},              required\_argument, 0, \textcolor{charliteral}{'a'} \},
+  \{\textcolor{stringliteral}{"cifar\_data"},        required\_argument, 0, \textcolor{charliteral}{'d'} \},
+  \{\textcolor{stringliteral}{"start\_data"},        required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"end\_data"},          required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"single\_batch"},      required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"dropout"},           required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"validate\_ratio"},    required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"validate\_interval"}, required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"sample\_seed"},       required\_argument, 0,  0 \},
+  \{\textcolor{stringliteral}{"weight\_seed"},       required\_argument, 0,  0 \},
+  \{\textcolor{stringliteral}{"dropout\_seed"},      required\_argument, 0,  0 \},
+  \{\textcolor{stringliteral}{"validate\_seed"},     required\_argument, 0,  0 \},
+  \{\textcolor{stringliteral}{"grad\_dbg"},          required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"log"},               required\_argument, 0,  0  \},
+  \{\textcolor{stringliteral}{"help"},              required\_argument, 0, \textcolor{charliteral}{'h'} \},
+  \{0,                   0,                 0,  0  \}
+\}
+\end{DoxyCode}
+
+
+command line options for getopt 
+

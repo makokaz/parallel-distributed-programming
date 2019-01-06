@@ -1,0 +1,291 @@
+\hypertarget{structarray4}{}\section{array4$<$ maxB, C, H, W $>$ Struct Template Reference}
+\label{structarray4}\index{array4$<$ max\+B, C, H, W $>$@{array4$<$ max\+B, C, H, W $>$}}
+
+
+4D array  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+arrays.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \& \hyperlink{structarray4_aeaa87655f2ae1ce11e5522db4b28671d}{operator()} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} c, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} j)
+\begin{DoxyCompactList}\small\item\em access the (b,c,i,j) element \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray4_a202d1a80c9bb76b2fb34e1c2e3146127}{set\+\_\+n\+\_\+rows} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B})
+\begin{DoxyCompactList}\small\item\em set the number of rows (images) \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_a517a9404ca45ae3a0682f9b6a33300a8}{init\+\_\+const} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} x)
+\begin{DoxyCompactList}\small\item\em initialize elements of the array to a single constant value \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_ab4374d21733665dbda4acaf2aeccb1df}{init\+\_\+uniform} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize elements of the array uniformly between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_ac514884f2f5012d0ab244fc57215df4c}{init\+\_\+single} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly initialize a randomly chosen single element. other elements are set to zero. \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_a6bc347ffd284538e10e8d06a328cf6c4}{init\+\_\+normal} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+\begin{DoxyCompactList}\small\item\em initialize the array with a normal distribution \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray4_aec956ca804fd9176479805bd753b4b1a}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta, \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&da)
+\begin{DoxyCompactList}\small\item\em update the array by eta and da \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray4_a3827cfcadd9a47c0f199ababeed1565c}{dot} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&a\+\_\+)
+\begin{DoxyCompactList}\small\item\em dot product with another array \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_acd8ae42dbddd396fb1a88debdd1bf8e7}{set\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ $\ast$\hyperlink{structarray4_a19e463f2ae72c48b92ac558f06366a17}{dev})
+\begin{DoxyCompactList}\small\item\em set the device shadow of this array \end{DoxyCompactList}\item 
+void \hyperlink{structarray4_a05126cf0d9fec621264e095d587864da}{make\+\_\+dev} (int gpu)
+\begin{DoxyCompactList}\small\item\em allocate and set the device shadow of this array if requested by the parameter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray4_a53b8b089c3186e3bd2dc51f8a6c1533d}\label{structarray4_a53b8b089c3186e3bd2dc51f8a6c1533d}} 
+void \hyperlink{structarray4_a53b8b089c3186e3bd2dc51f8a6c1533d}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em deallocate the device shadow of this array \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray4_a98fbca33be98702d92368dba1386a879}\label{structarray4_a98fbca33be98702d92368dba1386a879}} 
+void \hyperlink{structarray4_a98fbca33be98702d92368dba1386a879}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em send the data to its gpu shadow \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structarray4_a4d32a5c08163fc8ad6fcc6c4ffb1cfe4}\label{structarray4_a4d32a5c08163fc8ad6fcc6c4ffb1cfe4}} 
+void \hyperlink{structarray4_a4d32a5c08163fc8ad6fcc6c4ffb1cfe4}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em get the data back from gpu shadow to host \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ $\ast$ \hyperlink{structarray4_a19e463f2ae72c48b92ac558f06366a17}{dev}
+\item 
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4_a68aee457ea4034e17475b6ec5c497c12}{B}
+\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray4_a08aad388f32b0c3ce10ab93c654c1317}{w} \mbox{[}maxB\mbox{]}\mbox{[}C\mbox{]}\mbox{[}H\mbox{]}\mbox{[}W\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$\newline
+struct array4$<$ max\+B, C, H, W $>$}
+
+4D array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of rows (elements along the first dimension) \\
+\hline
+{\em (\+C)} & the number of elements along the second dimension \\
+\hline
+{\em (\+H)} & the number of elements along the third dimension \\
+\hline
+{\em (\+W)} & the number of elements along the fourth dimension\\
+\hline
+\end{DoxyParams}
+this is essentially Bx\+Cx\+HxW array of reals where B can be a runtime parameter $<$= maxB. throughout the \hyperlink{structVGG}{V\+GG} network, is is used to represent a mini-\/batch of images (B images, each image of which has C channels, each channel of which has HxW pixels. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structarray4_a3827cfcadd9a47c0f199ababeed1565c}\label{structarray4_a3827cfcadd9a47c0f199ababeed1565c}} 
+\index{array4@{array4}!dot@{dot}}
+\index{dot@{dot}!array4@{array4}}
+\subsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::dot (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{a\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+dot product with another array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (a\+\_\+)} & the array to take a dot product with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_a517a9404ca45ae3a0682f9b6a33300a8}\label{structarray4_a517a9404ca45ae3a0682f9b6a33300a8}} 
+\index{array4@{array4}!init\+\_\+const@{init\+\_\+const}}
+\index{init\+\_\+const@{init\+\_\+const}!array4@{array4}}
+\subsubsection{\texorpdfstring{init\+\_\+const()}{init\_const()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::init\+\_\+const (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize elements of the array to a single constant value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+B)} & the number of rows to initialize \\
+\hline
+{\em (x)} & the value of each element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_a6bc347ffd284538e10e8d06a328cf6c4}\label{structarray4_a6bc347ffd284538e10e8d06a328cf6c4}} 
+\index{array4@{array4}!init\+\_\+normal@{init\+\_\+normal}}
+\index{init\+\_\+normal@{init\+\_\+normal}!array4@{array4}}
+\subsubsection{\texorpdfstring{init\+\_\+normal()}{init\_normal()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::init\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize the array with a normal distribution 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+B)} & the number of rows to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (mu)} & mean of the normal distribution \\
+\hline
+{\em (sigma)} & sigma (standard deviation) of the normal distribution \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_ac514884f2f5012d0ab244fc57215df4c}\label{structarray4_ac514884f2f5012d0ab244fc57215df4c}} 
+\index{array4@{array4}!init\+\_\+single@{init\+\_\+single}}
+\index{init\+\_\+single@{init\+\_\+single}!array4@{array4}}
+\subsubsection{\texorpdfstring{init\+\_\+single()}{init\_single()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::init\+\_\+single (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize a randomly chosen single element. other elements are set to zero. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+B)} & the number of rows to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_ab4374d21733665dbda4acaf2aeccb1df}\label{structarray4_ab4374d21733665dbda4acaf2aeccb1df}} 
+\index{array4@{array4}!init\+\_\+uniform@{init\+\_\+uniform}}
+\index{init\+\_\+uniform@{init\+\_\+uniform}!array4@{array4}}
+\subsubsection{\texorpdfstring{init\+\_\+uniform()}{init\_uniform()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::init\+\_\+uniform (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly initialize elements of the array uniformly between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+B)} & the number of rows to initialize \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & the minimum value \\
+\hline
+{\em (q)} & the maximum value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_a05126cf0d9fec621264e095d587864da}\label{structarray4_a05126cf0d9fec621264e095d587864da}} 
+\index{array4@{array4}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!array4@{array4}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}\item[{int}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+allocate and set the device shadow of this array if requested by the parameter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gpu)} & 1 to allocate the device shadow \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_aeaa87655f2ae1ce11e5522db4b28671d}\label{structarray4_aeaa87655f2ae1ce11e5522db4b28671d}} 
+\index{array4@{array4}!operator()@{operator()}}
+\index{operator()@{operator()}!array4@{array4}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}\& \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{b,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{c,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{j }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access the (b,c,i,j) element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (b)} & the first index (image index in a mini batch) \\
+\hline
+{\em (c)} & the second index (channe index in an image) \\
+\hline
+{\em (i)} & the third index (row index in a channel) \\
+\hline
+{\em (j)} & the fourth index (column index in a row) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_acd8ae42dbddd396fb1a88debdd1bf8e7}\label{structarray4_acd8ae42dbddd396fb1a88debdd1bf8e7}} 
+\index{array4@{array4}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!array4@{array4}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device shadow of this array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & device address (may be null) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_a202d1a80c9bb76b2fb34e1c2e3146127}\label{structarray4_a202d1a80c9bb76b2fb34e1c2e3146127}} 
+\index{array4@{array4}!set\+\_\+n\+\_\+rows@{set\+\_\+n\+\_\+rows}}
+\index{set\+\_\+n\+\_\+rows@{set\+\_\+n\+\_\+rows}!array4@{array4}}
+\subsubsection{\texorpdfstring{set\+\_\+n\+\_\+rows()}{set\_n\_rows()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::set\+\_\+n\+\_\+rows (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the number of rows (images) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+B)} & the number of rows specified \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structarray4_aec956ca804fd9176479805bd753b4b1a}\label{structarray4_aec956ca804fd9176479805bd753b4b1a}} 
+\index{array4@{array4}!update@{update}}
+\index{update@{update}!array4@{array4}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta,  }\item[{\hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$ \&}]{da }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update the array by eta and da 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & a constant to scale da \\
+\hline
+{\em (da)} & the increment array\\
+\hline
+\end{DoxyParams}
+it performx a += eta $\ast$ da 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structarray4_a68aee457ea4034e17475b6ec5c497c12}\label{structarray4_a68aee457ea4034e17475b6ec5c497c12}} 
+\index{array4@{array4}!B@{B}}
+\index{B@{B}!array4@{array4}}
+\subsubsection{\texorpdfstring{B}{B}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::B}
+
+actual number of clements ($<$= B) \mbox{\Hypertarget{structarray4_a19e463f2ae72c48b92ac558f06366a17}\label{structarray4_a19e463f2ae72c48b92ac558f06366a17}} 
+\index{array4@{array4}!dev@{dev}}
+\index{dev@{dev}!array4@{array4}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C,H,W$>$$\ast$ \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::dev}
+
+pointer to the device shadow \mbox{\Hypertarget{structarray4_a08aad388f32b0c3ce10ab93c654c1317}\label{structarray4_a08aad388f32b0c3ce10ab93c654c1317}} 
+\index{array4@{array4}!w@{w}}
+\index{w@{w}!array4@{array4}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structarray4}{array4}$<$ maxB, C, H, W $>$\+::w\mbox{[}maxB\mbox{]}\mbox{[}C\mbox{]}\mbox{[}H\mbox{]}\mbox{[}W\mbox{]}}
+
+elements 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h}\end{DoxyCompactItemize}

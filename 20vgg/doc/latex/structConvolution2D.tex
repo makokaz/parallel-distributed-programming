@@ -1,0 +1,672 @@
+\hypertarget{structConvolution2D}{}\section{Convolution2D$<$ maxB, IC, H, W, K, OC $>$ Struct Template Reference}
+\label{structConvolution2D}\index{Convolution2\+D$<$ max\+B, I\+C, H, W, K, O\+C $>$@{Convolution2\+D$<$ max\+B, I\+C, H, W, K, O\+C $>$}}
+
+
+convolution of images  
+
+
+
+
+{\ttfamily \#include $<$convolution.\+h$>$}
+
+
+
+Collaboration diagram for Convolution2D$<$ maxB, IC, H, W, K, OC $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structConvolution2D__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ $\ast$ \hyperlink{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} (\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ $\ast$\hyperlink{structConvolution2D_a3b9891c27e266092619413a16518a9e9}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structConvolution2D_a325b68731e0c4f171785238ad406b549}\label{structConvolution2D_a325b68731e0c4f171785238ad406b549}} 
+void \hyperlink{structConvolution2D_a325b68731e0c4f171785238ad406b549}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}\label{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}} 
+void \hyperlink{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em the device function of update called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}{update\+\_\+cpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \& \hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&x)
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a8b9838267f044544073f95a278304f06}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \& \hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} (\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&gy)
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}{set\+\_\+grad} (\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ $\ast$ \hyperlink{structConvolution2D_a3b9891c27e266092619413a16518a9e9}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}{lgr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ $\ast$ \hyperlink{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}{x\+\_\+ptr}
+\item 
+\hyperlink{structwarray4}{warray4}$<$ OC, IC, K, K $>$ \hyperlink{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}{w}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \hyperlink{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}{y}
+\item 
+\hyperlink{structwarray4}{warray4}$<$ OC, IC, K, K $>$ \hyperlink{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}{gw}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \hyperlink{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}{gx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$\newline
+struct Convolution2\+D$<$ max\+B, I\+C, H, W, K, O\+C $>$}
+
+convolution of images 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & the maximum number of images (batch size) \\
+\hline
+{\em (\+I\+C)} & the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+\hline
+{\em (\+H)} & height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+W)} & width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+\hline
+{\em (\+K)} & convolution kernel size (1). filter array has (2\+K+1)$\ast$(2\+K+1) elems) \\
+\hline
+{\em (\+O\+C)} & the number of channels per an output image\\
+\hline
+\end{DoxyParams}
+this layer converts each I\+Cx\+WxH image to O\+Cx\+WxH image, applying I\+Cx(2\+K+1)x(2\+K+1) stencil to each pixel 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}\label{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}} 
+\index{Convolution2D@{Convolution2D}!backward@{backward}}
+\index{backward@{backward}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$\& \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}\label{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}} 
+\index{Convolution2D@{Convolution2D}!backward\+\_\+base@{backward\+\_\+base}}
+\index{backward\+\_\+base@{backward\+\_\+base}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$>$ backward\+\_\+cpu -\/$>$ backward\+\_\+base on cpu and and is backward -\/$>$ backward\+\_\+gpu -\/$>$ backward\+\_\+global -\/$>$ backward\+\_\+dev -\/$>$ backward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+
+\hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a8b9838267f044544073f95a278304f06}\label{structConvolution2D_a8b9838267f044544073f95a278304f06}} 
+\index{Convolution2D@{Convolution2D}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+
+\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}\label{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}} 
+\index{Convolution2D@{Convolution2D}!backward\+\_\+dev@{backward\+\_\+dev}}
+\index{backward\+\_\+dev@{backward\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of backward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+
+\hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}\label{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}} 
+\index{Convolution2D@{Convolution2D}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, OC, H, W $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (backward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+
+\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+
+\hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} 
+
+\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}\label{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}} 
+\index{Convolution2D@{Convolution2D}!copy@{copy}}
+\index{copy@{copy}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structConvolution2D}{Convolution2D}$<$maxB,IC,H,W,K,OC$>$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}\label{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}} 
+\index{Convolution2D@{Convolution2D}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} 
+
+\hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}\label{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}} 
+\index{Convolution2D@{Convolution2D}!forward@{forward}}
+\index{forward@{forward}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,OC,H,W$>$\& \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}\label{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}} 
+\index{Convolution2D@{Convolution2D}!forward\+\_\+base@{forward\+\_\+base}}
+\index{forward\+\_\+base@{forward\+\_\+base}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$>$ forward\+\_\+cpu -\/$>$ forward\+\_\+base on cpu and and is forward -\/$>$ forward\+\_\+gpu -\/$>$ forward\+\_\+global -\/$>$ forward\+\_\+dev -\/$>$ forward\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}\label{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}} 
+\index{Convolution2D@{Convolution2D}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}\label{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}} 
+\index{Convolution2D@{Convolution2D}!forward\+\_\+dev@{forward\+\_\+dev}}
+\index{forward\+\_\+dev@{forward\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of forward called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}\label{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}} 
+\index{Convolution2D@{Convolution2D}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, H, W $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (forward) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+
+\hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} 
+
+\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}\label{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}} 
+\index{Convolution2D@{Convolution2D}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+take the inner product of gradients 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object to take the inner product with\\
+\hline
+\end{DoxyParams}
+take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}\label{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}} 
+\index{Convolution2D@{Convolution2D}!init@{init}}
+\index{init@{init}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator for initializing weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}\label{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}} 
+\index{Convolution2D@{Convolution2D}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} 
+
+\hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}\label{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}} 
+\index{Convolution2D@{Convolution2D}!rand\+\_\+grad@{rand\+\_\+grad}}
+\index{rand\+\_\+grad@{rand\+\_\+grad}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly set all gradients to values between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & minimum value of a component \\
+\hline
+{\em (q)} & maximum value of a component \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}\label{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}} 
+\index{Convolution2D@{Convolution2D}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} 
+
+\hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}\label{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}} 
+\index{Convolution2D@{Convolution2D}!set\+\_\+grad@{set\+\_\+grad}}
+\index{set\+\_\+grad@{set\+\_\+grad}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all gradients to gradients of another object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object from which gradients get copied\\
+\hline
+\end{DoxyParams}
+transfer gradients of o to this object \mbox{\Hypertarget{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}\label{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}} 
+\index{Convolution2D@{Convolution2D}!update@{update}}
+\index{update@{update}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update weights of all sublayers with gradients that must have been computed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+
+\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}\label{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}} 
+\index{Convolution2D@{Convolution2D}!update\+\_\+base@{update\+\_\+base}}
+\index{update\+\_\+base@{update\+\_\+base}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{update\+\_\+base()}{update\_base()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::update\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$>$ update\+\_\+cpu -\/$>$ update\+\_\+base on cpu and and is update -\/$>$ update\+\_\+gpu -\/$>$ update\+\_\+global -\/$>$ update\+\_\+dev -\/$>$ update\+\_\+base 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+
+\hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}\label{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}} 
+\index{Convolution2D@{Convolution2D}!update\+\_\+cpu@{update\+\_\+cpu}}
+\index{update\+\_\+cpu@{update\+\_\+cpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{update\+\_\+cpu()}{update\_cpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::update\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a cpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+
+\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}\label{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}} 
+\index{Convolution2D@{Convolution2D}!update\+\_\+dev@{update\+\_\+dev}}
+\index{update\+\_\+dev@{update\+\_\+dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{update\+\_\+dev()}{update\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::update\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+the device function of update called from the global (non-\/member) function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+
+\hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}\label{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}} 
+\index{Convolution2D@{Convolution2D}!update\+\_\+gpu@{update\+\_\+gpu}}
+\index{update\+\_\+gpu@{update\+\_\+gpu}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{update\+\_\+gpu()}{update\_gpu()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+void \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::update\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+a gpu version of baseline code called from the entry function (update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+
+\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+
+\hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} 
+
+\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structConvolution2D_a3b9891c27e266092619413a16518a9e9}\label{structConvolution2D_a3b9891c27e266092619413a16518a9e9}} 
+\index{Convolution2D@{Convolution2D}!dev@{dev}}
+\index{dev@{dev}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structConvolution2D}{Convolution2D}$<$maxB,IC,H,W,K,OC$>$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}\label{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}} 
+\index{Convolution2D@{Convolution2D}!gw@{gw}}
+\index{gw@{gw}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{gw}{gw}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structwarray4}{warray4}$<$OC,IC,K,K$>$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::gw}
+
+∂\+L/∂w \mbox{\Hypertarget{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}\label{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}} 
+\index{Convolution2D@{Convolution2D}!gx@{gx}}
+\index{gx@{gx}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{gx}{gx}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::gx}
+
+∂\+L/∂x \mbox{\Hypertarget{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}\label{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}} 
+\index{Convolution2D@{Convolution2D}!lgr@{lgr}}
+\index{lgr@{lgr}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}\label{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}} 
+\index{Convolution2D@{Convolution2D}!opt@{opt}}
+\index{opt@{opt}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}\label{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}} 
+\index{Convolution2D@{Convolution2D}!w@{w}}
+\index{w@{w}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structwarray4}{warray4}$<$OC,IC,K,K$>$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::w}
+
+y = w $\ast$ x (convolution) \mbox{\Hypertarget{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}\label{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}} 
+\index{Convolution2D@{Convolution2D}!x\+\_\+ptr@{x\+\_\+ptr}}
+\index{x\+\_\+ptr@{x\+\_\+ptr}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{x\+\_\+ptr}{x\_ptr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,IC,H,W$>$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::x\+\_\+ptr}
+
+pointer to the input to forward (x) \mbox{\Hypertarget{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}\label{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}} 
+\index{Convolution2D@{Convolution2D}!y@{y}}
+\index{y@{y}!Convolution2D@{Convolution2D}}
+\subsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,OC,H,W$>$ \hyperlink{structConvolution2D}{Convolution2D}$<$ maxB, IC, H, W, K, OC $>$\+::y}
+
+y = forward(x) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{convolution_8h}{convolution.\+h}\end{DoxyCompactItemize}

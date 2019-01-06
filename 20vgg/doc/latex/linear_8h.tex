@@ -1,0 +1,168 @@
+\hypertarget{linear_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/linear.h File Reference}
+\label{linear_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/linear.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/linear.\+h}}
+
+
+linear (fully connected) layer  
+
+
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}vgg\+\_\+util.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vgg\+\_\+arrays.\+h\char`\"{}}\newline
+Include dependency graph for linear.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{linear_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{linear_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structLinear}{Linear$<$ max\+B, I\+C, n\+C $>$}
+\begin{DoxyCompactList}\small\item\em linear (fully connected) layer \end{DoxyCompactList}\item 
+struct \hyperlink{structLinear}{Linear$<$ max\+B, I\+C, n\+C $>$}
+\begin{DoxyCompactList}\small\item\em linear (fully connected) layer \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{linear_8h_a72e4feabf89d4e07eed43e83a9c9ebd0}{forward\+\_\+global} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$dev, \hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ $\ast$x\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline forward function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{linear_8h_a99240505fdaa0211315f5749d0c61320}{backward\+\_\+global} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$dev, \hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ $\ast$gy\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline backward function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} (\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$dev, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline update function for G\+PU \end{DoxyCompactList}\item 
+{\footnotesize template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ }\\\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{linear_8h_ae7cdd9494703205b86a32059ff049f21}{linear\+\_\+grad\+\_\+check\+\_\+rand} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} opt, \hyperlink{structlogger}{logger} $\ast$lgr, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B)
+\begin{DoxyCompactList}\small\item\em check the gradient computation of a linear layer \end{DoxyCompactList}\item 
+int \hyperlink{linear_8h_a72d8c80e7ab95f113236f842c8b77937}{linear\+\_\+main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em entry point of this header file \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+linear (fully connected) layer 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{linear_8h_a99240505fdaa0211315f5749d0c61320}\label{linear_8h_a99240505fdaa0211315f5749d0c61320}} 
+\index{linear.\+h@{linear.\+h}!backward\+\_\+global@{backward\+\_\+global}}
+\index{backward\+\_\+global@{backward\+\_\+global}!linear.\+h@{linear.\+h}}
+\subsubsection{\texorpdfstring{backward\+\_\+global()}{backward\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void backward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$<$ maxB, nC, 1, 1 $>$ $\ast$}]{gy\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline backward function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (gy\+\_\+dev)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+backward\+\_\+dev 
+
+backward\+\_\+gpu 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{linear_8h_a72e4feabf89d4e07eed43e83a9c9ebd0}\label{linear_8h_a72e4feabf89d4e07eed43e83a9c9ebd0}} 
+\index{linear.\+h@{linear.\+h}!forward\+\_\+global@{forward\+\_\+global}}
+\index{forward\+\_\+global@{forward\+\_\+global}!linear.\+h@{linear.\+h}}
+\subsubsection{\texorpdfstring{forward\+\_\+global()}{forward\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void forward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$<$ maxB, IC, 1, 1 $>$ $\ast$}]{x\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline forward function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (x\+\_\+dev)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+forward\+\_\+dev 
+
+forward\+\_\+gpu 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{linear_8h_ae7cdd9494703205b86a32059ff049f21}\label{linear_8h_ae7cdd9494703205b86a32059ff049f21}} 
+\index{linear.\+h@{linear.\+h}!linear\+\_\+grad\+\_\+check\+\_\+rand@{linear\+\_\+grad\+\_\+check\+\_\+rand}}
+\index{linear\+\_\+grad\+\_\+check\+\_\+rand@{linear\+\_\+grad\+\_\+check\+\_\+rand}!linear.\+h@{linear.\+h}}
+\subsubsection{\texorpdfstring{linear\+\_\+grad\+\_\+check\+\_\+rand()}{linear\_grad\_check\_rand()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} linear\+\_\+grad\+\_\+check\+\_\+rand (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B }\end{DoxyParamCaption})}
+
+
+
+check the gradient computation of a linear layer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line option \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator \\
+\hline
+{\em (\+B)} & the number of images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{linear_8h_a72d8c80e7ab95f113236f842c8b77937}{linear\+\_\+main}
+\end{DoxySeeAlso}
+it first makes a layer object with initial weights W and generates an input (x and t). it then creates two layers whose weights are slightly different from the original one by dw/2 (i.\+e., w-\/dw/2 and w+dw/2), as well as two inputs slighly different from the original inputs by dx/2 (x-\/dx/2 and x+dx/2). it then computes L(w,x), L(x-\/dw/2,x-\/dx/2) and L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-\/L(x-\/dw/2,x-\/dx/2) is close to ∂\+L/∂x dx + ∂\+L/∂w dw. ∂\+L/∂x and ∂\+L/∂w are obtained by backward computation. This is essentially checking if the gradients obtained by backward computation correctly approximates the diff of the output. \mbox{\Hypertarget{linear_8h_a72d8c80e7ab95f113236f842c8b77937}\label{linear_8h_a72d8c80e7ab95f113236f842c8b77937}} 
+\index{linear.\+h@{linear.\+h}!linear\+\_\+main@{linear\+\_\+main}}
+\index{linear\+\_\+main@{linear\+\_\+main}!linear.\+h@{linear.\+h}}
+\subsubsection{\texorpdfstring{linear\+\_\+main()}{linear\_main()}}
+{\footnotesize\ttfamily int linear\+\_\+main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+entry point of this header file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (argc)} & the number of command line args \\
+\hline
+{\em (argv)} & command line args \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{linear_8h_ae7cdd9494703205b86a32059ff049f21}{linear\+\_\+grad\+\_\+check\+\_\+rand}
+\end{DoxySeeAlso}
+if this header file is included from a main C++ file and define linear\+\_\+main to be main (e.\+g., with -\/\+Dlinear\+\_\+main=main), then this function becomes th main function of the executable. it calls linear\+\_\+grad\+\_\+check\+\_\+rand repeatedly to test the implementation of \hyperlink{structVGG}{V\+GG} network. \mbox{\Hypertarget{linear_8h_a810703be28422bb9483665cbdbafd968}\label{linear_8h_a810703be28422bb9483665cbdbafd968}} 
+\index{linear.\+h@{linear.\+h}!update\+\_\+global@{update\+\_\+global}}
+\index{update\+\_\+global@{update\+\_\+global}!linear.\+h@{linear.\+h}}
+\subsubsection{\texorpdfstring{update\+\_\+global()}{update\_global()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t nC$>$ \\
+\+\_\+\+\_\+global\+\_\+\+\_\+ void update\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structLinear}{Linear}$<$ maxB, IC, nC $>$ $\ast$}]{dev,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})}
+
+
+
+a global C\+U\+DA function that implements the baseline update function for G\+PU 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & the address of the device shadow of the object \\
+\hline
+{\em (eta)} & the address of the device shadow of the input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+update\+\_\+dev 
+
+update\+\_\+gpu 
+\end{DoxySeeAlso}

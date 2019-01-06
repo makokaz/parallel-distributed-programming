@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['get_5fdata_5ftrain',['get_data_train',['../structcifar10__dataset.html#afafc5833390f1f3f9c2fefea15d643ca',1,'cifar10_dataset']]],
+  ['get_5fdata_5fvalidate',['get_data_validate',['../structcifar10__dataset.html#a4176a67684d105dac1c95a1556761173',1,'cifar10_dataset']]],
+  ['get_5ffreq',['get_freq',['../cuda__util_8h.html#a859de24e23ee0450818ab96ea6a4798a',1,'cuda_util.h']]],
+  ['get_5fn_5fdata_5fin_5ffile',['get_n_data_in_file',['../structcifar10__dataset.html#ad0025b0632ecfa9810d8a7c99d279f51',1,'cifar10_dataset']]],
+  ['get_5fnthreads',['get_nthreads',['../cuda__util_8h.html#a74d008c0d996e10f203bdd1fdee76511',1,'cuda_util.h']]],
+  ['get_5fnthreads_5fx',['get_nthreads_x',['../cuda__util_8h.html#ae13980c33ac8f950ed35d613415034c0',1,'cuda_util.h']]],
+  ['get_5fnthreads_5fy',['get_nthreads_y',['../cuda__util_8h.html#a79fd9ff68db3a81b8b0feb446e4e9b99',1,'cuda_util.h']]],
+  ['get_5fnthreads_5fz',['get_nthreads_z',['../cuda__util_8h.html#a59cd23ec9bc1ab07e3eaac1ad3e109b4',1,'cuda_util.h']]],
+  ['get_5fsmid',['get_smid',['../cuda__util_8h.html#a42ba739c08e201d58f7a031d899a0e7f',1,'cuda_util.h']]],
+  ['get_5fstate',['get_state',['../structrnd__gen__t.html#a45c7eb16a8f87359f70e007a00cf92e4',1,'rnd_gen_t']]],
+  ['get_5fthread_5fid',['get_thread_id',['../cuda__util_8h.html#ace44c6e6794929ce9e48e1122c7a3a12',1,'cuda_util.h']]],
+  ['get_5fthread_5fid_5fx',['get_thread_id_x',['../cuda__util_8h.html#a30655f0f077528b999634c85513af4b0',1,'cuda_util.h']]],
+  ['get_5fthread_5fid_5fy',['get_thread_id_y',['../cuda__util_8h.html#a6ea184310bf6fc2e1313127215aab5b0',1,'cuda_util.h']]],
+  ['get_5fthread_5fid_5fz',['get_thread_id_z',['../cuda__util_8h.html#afff8c5c6d0e85b4a264786a4170ad777',1,'cuda_util.h']]],
+  ['get_5ftsc',['get_tsc',['../vgg__util_8h.html#a77ac450375c73868fcb54ca2ecae1ba2',1,'vgg_util.h']]],
+  ['gw_5fdot_5fgw',['gw_dot_gw',['../structBatchNormalization.html#a377e27f39a4f1e26c952fcf12b362cb3',1,'BatchNormalization::gw_dot_gw()'],['../structBlock.html#a69a63d3357f60c7b097e97169b175445',1,'Block::gw_dot_gw()'],['../structConvolution2D.html#a41442b7f48f34045660dbcd64301d14b',1,'Convolution2D::gw_dot_gw()'],['../structLinear.html#af920adb0c630cddb4f8012984784807c',1,'Linear::gw_dot_gw()'],['../structVGG.html#a07fae8209634342bbc335be1b342b8c7',1,'VGG::gw_dot_gw()']]]
+];

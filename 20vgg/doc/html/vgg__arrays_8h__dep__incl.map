@@ -1,0 +1,13 @@
+<map id="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/vgg_arrays.h" name="/home/tau/public_html/lecture/parallel_distributed/2018/handson/tau/parallel&#45;distributed&#45;handson/20vgg/include/vgg_arrays.h">
+<area shape="rect" id="node2" href="$vgg_8h.html" title="VGG network. " alt="" coords="528,405,707,491"/>
+<area shape="rect" id="node4" href="$block_8h.html" title="a block of three layers (convolution; batch normalization; relu) " alt="" coords="123,272,302,357"/>
+<area shape="rect" id="node5" href="$convolution_8h.html" title="convolution layer " alt="" coords="68,139,247,224"/>
+<area shape="rect" id="node6" href="$batchnormalization_8h.html" title="batch normalization layer " alt="" coords="272,139,462,224"/>
+<area shape="rect" id="node7" href="$relu_8h.html" title="rectified linear activation layer (relu(x) = max(0,x)) " alt="" coords="487,139,666,224"/>
+<area shape="rect" id="node8" href="$linear_8h.html" title="linear (fully connected) layer " alt="" coords="326,272,504,357"/>
+<area shape="rect" id="node9" href="$dropout_8h.html" title="dropout layer " alt="" coords="528,272,707,357"/>
+<area shape="rect" id="node10" href="$maxpooling_8h.html" title="max pooling layer " alt="" coords="731,272,910,357"/>
+<area shape="rect" id="node11" href="$softmaxcrossentropy_8h.html" title="softmax + cross entropy layer " alt="" coords="842,139,1046,224"/>
+<area shape="rect" id="node12" href="$cifar_8h.html" title="cifar dataset handling " alt="" coords="991,272,1170,357"/>
+<area shape="rect" id="node3" href="$vgg_8cc.html" title="/home/tau/public_html\l/lecture/parallel_distributed\l/2018/handson/tau/parallel\l&#45;distributed&#45;handson/20vgg/vgg.cc" alt="" coords="570,539,791,609"/>
+</map>

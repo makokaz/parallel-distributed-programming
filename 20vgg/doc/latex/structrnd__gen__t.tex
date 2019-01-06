@@ -1,0 +1,72 @@
+\hypertarget{structrnd__gen__t}{}\section{rnd\+\_\+gen\+\_\+t Struct Reference}
+\label{structrnd__gen__t}\index{rnd\+\_\+gen\+\_\+t@{rnd\+\_\+gen\+\_\+t}}
+
+
+pseudo random number generator crafted from man erand48 + libc source  
+
+
+
+
+{\ttfamily \#include $<$vgg\+\_\+util.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structrnd__gen__t_a681dc7d8fb26a098dd79b00a731565e1}\label{structrnd__gen__t_a681dc7d8fb26a098dd79b00a731565e1}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structrnd__gen__t_a681dc7d8fb26a098dd79b00a731565e1}{next} ()
+\begin{DoxyCompactList}\small\item\em set next state \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_abcddd9ef63e9228770b4e6a77f1aaaa8}\label{structrnd__gen__t_abcddd9ef63e9228770b4e6a77f1aaaa8}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ double \hyperlink{structrnd__gen__t_abcddd9ef63e9228770b4e6a77f1aaaa8}{rand01} ()
+\begin{DoxyCompactList}\small\item\em return a random number between 0 and 1 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_abb4b48e7a93b53df5af70476c07fe76f}\label{structrnd__gen__t_abb4b48e7a93b53df5af70476c07fe76f}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ long \hyperlink{structrnd__gen__t_abb4b48e7a93b53df5af70476c07fe76f}{randi32} ()
+\begin{DoxyCompactList}\small\item\em return a long between 0 to 2$^\wedge$31 -\/ 1 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_a0ccf64e18ecb0f64349863ec6883d9c2}\label{structrnd__gen__t_a0ccf64e18ecb0f64349863ec6883d9c2}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ double \hyperlink{structrnd__gen__t_a0ccf64e18ecb0f64349863ec6883d9c2}{rand} (double a, double b)
+\begin{DoxyCompactList}\small\item\em return a real between a and b \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_ae8f219398f4cf6b4db8b00ea390cf97b}\label{structrnd__gen__t_ae8f219398f4cf6b4db8b00ea390cf97b}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ long \hyperlink{structrnd__gen__t_ae8f219398f4cf6b4db8b00ea390cf97b}{randi} (long a, long b)
+\begin{DoxyCompactList}\small\item\em return a long between a and b \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structrnd__gen__t_a6015e76eb30c192e3b64a9bc2b546535}{rand\+\_\+normal} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+\begin{DoxyCompactList}\small\item\em generate a random number from a normal distribution of mean=mu and standard deviation=sigma. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_a45c7eb16a8f87359f70e007a00cf92e4}\label{structrnd__gen__t_a45c7eb16a8f87359f70e007a00cf92e4}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ long \hyperlink{structrnd__gen__t_a45c7eb16a8f87359f70e007a00cf92e4}{get\+\_\+state} ()
+\begin{DoxyCompactList}\small\item\em return the current state of the generator \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrnd__gen__t_a0e43f9b2d156cb2535bfa1a88cd9eb25}\label{structrnd__gen__t_a0e43f9b2d156cb2535bfa1a88cd9eb25}} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structrnd__gen__t_a0e43f9b2d156cb2535bfa1a88cd9eb25}{seed} (uint64\+\_\+t y)
+\begin{DoxyCompactList}\small\item\em set state of the generator \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{structrnd__gen__t_a80b2d559c8a8046b6e979840ad3379be}{x}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+pseudo random number generator crafted from man erand48 + libc source 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structrnd__gen__t_a6015e76eb30c192e3b64a9bc2b546535}\label{structrnd__gen__t_a6015e76eb30c192e3b64a9bc2b546535}} 
+\index{rnd\+\_\+gen\+\_\+t@{rnd\+\_\+gen\+\_\+t}!rand\+\_\+normal@{rand\+\_\+normal}}
+\index{rand\+\_\+normal@{rand\+\_\+normal}!rnd\+\_\+gen\+\_\+t@{rnd\+\_\+gen\+\_\+t}}
+\subsubsection{\texorpdfstring{rand\+\_\+normal()}{rand\_normal()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} rnd\+\_\+gen\+\_\+t\+::rand\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+generate a random number from a normal distribution of mean=mu and standard deviation=sigma. 
+
+see \href{https://en.wikipedia.org/wiki/Normal_distribution}{\tt https\+://en.\+wikipedia.\+org/wiki/\+Normal\+\_\+distribution} for how the following method works 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structrnd__gen__t_a80b2d559c8a8046b6e979840ad3379be}\label{structrnd__gen__t_a80b2d559c8a8046b6e979840ad3379be}} 
+\index{rnd\+\_\+gen\+\_\+t@{rnd\+\_\+gen\+\_\+t}!x@{x}}
+\index{x@{x}!rnd\+\_\+gen\+\_\+t@{rnd\+\_\+gen\+\_\+t}}
+\subsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily uint64\+\_\+t rnd\+\_\+gen\+\_\+t\+::x}
+
+random number state 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,93 @@
+\hypertarget{vgg__arrays_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+arrays.h File Reference}
+\label{vgg__arrays_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+arrays.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+arrays.\+h}}
+
+
+vectors, matrices, and multi-\/dimensional arrays  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}vgg\+\_\+util.\+h\char`\"{}}\newline
+Include dependency graph for vgg\+\_\+arrays.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vgg__arrays_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vgg__arrays_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structvec}{vec$<$ N $>$}
+\begin{DoxyCompactList}\small\item\em vector \end{DoxyCompactList}\item 
+struct \hyperlink{structivec}{ivec$<$ N $>$}
+\begin{DoxyCompactList}\small\item\em integer vector \end{DoxyCompactList}\item 
+struct \hyperlink{structarray2}{array2$<$ M, N $>$}
+\begin{DoxyCompactList}\small\item\em matrix (2D array) \end{DoxyCompactList}\item 
+struct \hyperlink{structarray4}{array4$<$ max\+B, C, H, W $>$}
+\begin{DoxyCompactList}\small\item\em 4D array \end{DoxyCompactList}\item 
+struct \hyperlink{structwarray4}{warray4$<$ O\+C, I\+C, H, W $>$}
+\begin{DoxyCompactList}\small\item\em 4D array for convolution \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vgg__arrays_8h_ab238ad0298ba0f760c1cc1afa64ab86d}\label{vgg__arrays_8h_ab238ad0298ba0f760c1cc1afa64ab86d}} 
+\#define \hyperlink{vgg__arrays_8h_ab238ad0298ba0f760c1cc1afa64ab86d}{range\+\_\+chk}(a,  x,  b)
+\begin{DoxyCompactList}\small\item\em array bounds check. turn off (on) if -\/\+D\+A\+R\+R\+A\+Y\+\_\+\+I\+N\+D\+E\+X\+\_\+\+C\+H\+E\+CK=0 (1) is given. turn it on when you are debugging your code. turn it off when you are measuring the performance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{vgg__arrays_8h_a8e9c898312e7fc15a07310b1a55284eb}{range\+\_\+chk\+\_\+} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} a, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} x, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b, const char $\ast$a\+\_\+str, const char $\ast$x\+\_\+str, const char $\ast$b\+\_\+str, const char $\ast$file, int line)
+\begin{DoxyCompactList}\small\item\em aux function for array bounds checking \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__arrays_8h_a319f9d8c1f71686c088abf70f7e24d1e}\label{vgg__arrays_8h_a319f9d8c1f71686c088abf70f7e24d1e}} 
+int \hyperlink{vgg__arrays_8h_a319f9d8c1f71686c088abf70f7e24d1e}{vgg\+\_\+arrays\+\_\+main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em entry point \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vgg__arrays_8h_a177ed30da9fa6624ec7f35ed35454a76}\label{vgg__arrays_8h_a177ed30da9fa6624ec7f35ed35454a76}} 
+void \hyperlink{vgg__arrays_8h_a177ed30da9fa6624ec7f35ed35454a76}{vgg\+\_\+arrays\+\_\+use\+\_\+unused\+\_\+functions} ()
+\begin{DoxyCompactList}\small\item\em suppress unused function warning \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+vectors, matrices, and multi-\/dimensional arrays 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{vgg__arrays_8h_a8e9c898312e7fc15a07310b1a55284eb}\label{vgg__arrays_8h_a8e9c898312e7fc15a07310b1a55284eb}} 
+\index{vgg\+\_\+arrays.\+h@{vgg\+\_\+arrays.\+h}!range\+\_\+chk\+\_\+@{range\+\_\+chk\+\_\+}}
+\index{range\+\_\+chk\+\_\+@{range\+\_\+chk\+\_\+}!vgg\+\_\+arrays.\+h@{vgg\+\_\+arrays.\+h}}
+\subsubsection{\texorpdfstring{range\+\_\+chk\+\_\+()}{range\_chk\_()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ void range\+\_\+chk\+\_\+ (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{a,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{x,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{b,  }\item[{const char $\ast$}]{a\+\_\+str,  }\item[{const char $\ast$}]{x\+\_\+str,  }\item[{const char $\ast$}]{b\+\_\+str,  }\item[{const char $\ast$}]{file,  }\item[{int}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+aux function for array bounds checking 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (a)} & the lower bound \\
+\hline
+{\em (x)} & the index \\
+\hline
+{\em (b)} & the upper bound + 1 \\
+\hline
+{\em (a\+\_\+str)} & the string representation of a \\
+\hline
+{\em (x\+\_\+str)} & the string representation of x \\
+\hline
+{\em (b\+\_\+str)} & the string representation of b \\
+\hline
+{\em (file)} & the file name from which it gets called \\
+\hline
+{\em (line)} & the line number from which it gets called\\
+\hline
+\end{DoxyParams}
+it checks if a$<$=x$<$b holds. if not, it shows an error message. on cpu, the error message contains the location where the error happened. 

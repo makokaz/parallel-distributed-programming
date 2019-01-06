@@ -1,0 +1,41 @@
+<map id="VGG&lt; maxB, C0, H, W, K, S, C1, nC &gt;" name="VGG&lt; maxB, C0, H, W, K, S, C1, nC &gt;">
+<area shape="rect" id="node2" href="$structBatchNormalization.html" title="BatchNormalization\l\&lt; maxB, C4, H6, W6 \&gt;" alt="" coords="456,870,615,911"/>
+<area shape="rect" id="node3" href="$structarray4.html" title="array4\&lt; maxB, IC, H, W \&gt;" alt="" coords="168,1328,345,1355"/>
+<area shape="rect" id="node14" href="$structBatchNormalization.html" title="BatchNormalization\l\&lt; maxB, OC, H, W \&gt;" alt="" coords="462,1433,609,1474"/>
+<area shape="rect" id="node4" href="$structvec.html" title="vec\&lt; IC \&gt;" alt="" coords="216,885,297,912"/>
+<area shape="rect" id="node5" href="$structcmdline__opt.html" title="command line options " alt="" coords="5,1687,97,1713"/>
+<area shape="rect" id="node6" href="$structlogger.html" title="logging object " alt="" coords="228,1827,285,1853"/>
+<area shape="rect" id="node8" href="$structMaxPooling2D.html" title="MaxPooling2D\&lt; maxB,\l C4, H5, W5, S \&gt;" alt="" coords="457,234,614,275"/>
+<area shape="rect" id="node10" href="$structMaxPooling2D.html" title="MaxPooling2D\&lt; maxB,\l C4, H4, W4, S \&gt;" alt="" coords="457,363,614,405"/>
+<area shape="rect" id="node12" href="$structBlock.html" title="Block\&lt; maxB, C1, H2,\l W2, K, C2 \&gt;" alt="" coords="709,1815,863,1857"/>
+<area shape="rect" id="node13" href="$structRelu.html" title="Relu\&lt; maxB, OC, H, W \&gt;" alt="" coords="448,1624,623,1651"/>
+<area shape="rect" id="node15" href="$structRelu.html" title="Relu\&lt; maxB, C4, H6,\l W6 \&gt;" alt="" coords="461,2229,610,2270"/>
+<area shape="rect" id="node16" href="$structLinear.html" title="Linear\&lt; maxB, C4, C4 \&gt;" alt="" coords="453,3067,618,3093"/>
+<area shape="rect" id="node20" href="$structBlock.html" title="Block\&lt; maxB, C3, H3,\l W3, K, C3 \&gt;" alt="" coords="709,1387,863,1429"/>
+<area shape="rect" id="node21" href="$structDropout.html" title="Dropout\&lt; maxB, C3,\l H3, W3 \&gt;" alt="" coords="464,2346,607,2387"/>
+<area shape="rect" id="node23" href="$structBlock.html" title="Block\&lt; maxB, C2, H2,\l W2, K, C2 \&gt;" alt="" coords="709,1263,863,1305"/>
+<area shape="rect" id="node24" href="$structBlock.html" title="Block\&lt; maxB, C3, H4,\l W4, K, C4 \&gt;" alt="" coords="709,1139,863,1181"/>
+<area shape="rect" id="node25" href="$structBlock.html" title="Block\&lt; maxB, C2, H3,\l W3, K, C3 \&gt;" alt="" coords="709,2029,863,2070"/>
+<area shape="rect" id="node26" href="$structDropout.html" title="Dropout\&lt; maxB, C2,\l H2, W2 \&gt;" alt="" coords="464,2411,607,2453"/>
+<area shape="rect" id="node27" href="$structDropout.html" title="Dropout\&lt; maxB, C4,\l H5, W5 \&gt;" alt="" coords="464,2482,607,2523"/>
+<area shape="rect" id="node28" href="$structDropout.html" title="Dropout\&lt; maxB, C4,\l H4, W4 \&gt;" alt="" coords="464,2841,607,2882"/>
+<area shape="rect" id="node29" href="$structBlock.html" title="Block\&lt; maxB, C4, H5,\l W5, K, C4 \&gt;" alt="" coords="709,982,863,1023"/>
+<area shape="rect" id="node30" href="$structBlock.html" title="Block\&lt; maxB, C4, H4,\l W4, K, C4 \&gt;" alt="" coords="709,1963,863,2005"/>
+<area shape="rect" id="node31" href="$structBlock.html" title="Block\&lt; maxB, C1, H1,\l W1, K, C1 \&gt;" alt="" coords="709,1602,863,1643"/>
+<area shape="rect" id="node32" href="$structBlock.html" title="Block\&lt; maxB, C0, H1,\l W1, K, C1 \&gt;" alt="" coords="709,2094,863,2135"/>
+<area shape="rect" id="node34" href="$structMaxPooling2D.html" title="MaxPooling2D\&lt; maxB,\l C3, H3, W3, S \&gt;" alt="" coords="457,519,614,561"/>
+<area shape="rect" id="node35" href="$structDropout.html" title="Dropout\&lt; maxB, C1,\l H1, W1 \&gt;" alt="" coords="464,2717,607,2758"/>
+<area shape="rect" id="node36" href="$structDropout.html" title="Dropout\&lt; maxB, C4,\l H6, W6 \&gt;" alt="" coords="464,2606,607,2647"/>
+<area shape="rect" id="node37" href="$structMaxPooling2D.html" title="MaxPooling2D\&lt; maxB,\l C2, H2, W2, S \&gt;" alt="" coords="457,621,614,662"/>
+<area shape="rect" id="node38" href="$structLinear.html" title="Linear\&lt; maxB, C4, nC \&gt;" alt="" coords="453,3204,618,3231"/>
+<area shape="rect" id="node39" href="$structMaxPooling2D.html" title="MaxPooling2D\&lt; maxB,\l C1, H1, W1, S \&gt;" alt="" coords="457,134,614,175"/>
+<area shape="rect" id="node7" href="$structtsc__t.html" title="timestamp " alt="" coords="26,2071,77,2097"/>
+<area shape="rect" id="node9" href="$structarray4.html" title="array4\&lt; maxB, C, H\l/S, W/S \&gt;" alt="" coords="187,283,327,325"/>
+<area shape="rect" id="node11" href="$structvec.html" title="vec\&lt; maxB \&gt;" alt="" coords="735,2897,837,2924"/>
+<area shape="rect" id="node17" href="$structarray4.html" title="array4\&lt; maxB, nC, 1, 1 \&gt;" alt="" coords="171,3129,342,3156"/>
+<area shape="rect" id="node18" href="$structarray4.html" title="array4\&lt; maxB, IC, 1, 1 \&gt;" alt="" coords="173,3384,341,3411"/>
+<area shape="rect" id="node19" href="$structarray2.html" title="array2\&lt; IC, nC \&gt;" alt="" coords="196,3272,317,3299"/>
+<area shape="rect" id="node22" href="$structrnd__gen__t.html" title="pseudo random number generator crafted from man erand48 + libc source " alt="" coords="217,2633,296,2660"/>
+<area shape="rect" id="node33" href="$structarray4.html" title="array4\&lt; maxB, C0, H, W \&gt;" alt="" coords="696,2948,876,2975"/>
+<area shape="rect" id="node40" href="$structivec.html" title="ivec\&lt; maxB \&gt;" alt="" coords="734,2999,838,3025"/>
+</map>

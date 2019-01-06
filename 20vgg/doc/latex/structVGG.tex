@@ -1,0 +1,812 @@
+\hypertarget{structVGG}{}\section{V\+GG$<$ maxB, C0, H, W, K, S, C1, nC $>$ Struct Template Reference}
+\label{structVGG}\index{V\+G\+G$<$ max\+B, C0, H, W, K, S, C1, n\+C $>$@{V\+G\+G$<$ max\+B, C0, H, W, K, S, C1, n\+C $>$}}
+
+
+\hyperlink{structVGG}{V\+GG} network.  
+
+
+
+
+{\ttfamily \#include $<$vgg.\+h$>$}
+
+
+
+Collaboration diagram for V\+GG$<$ maxB, C0, H, W, K, S, C1, nC $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{structVGG__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structVGG_aa8700968e0ee177cf7f129b2d46231fd}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structVGG_ad161d19c0d519768f32deca8dfd0598b}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structVGG_a5a8069856b54deb20f0b45e4522d9e4a}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg)
+\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$ \hyperlink{structVGG_a671e3b02b9a8e55c274f7863a116af30}{copy} ()
+\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_a07e0570fe0eb7152dee4eff0c0bcc86f}{set\+\_\+dev} (\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$\hyperlink{structVGG_acb66854790b4211ec6964690dcaba67b}{dev})
+\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_a26e977db7cff56b6bd9e2a8183635551}{make\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_ab3bcd5bb62b66713f5bf0ba3c8b539cb}{del\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structVGG_a2f45518df66ff8196e3224367739b590}\label{structVGG_a2f45518df66ff8196e3224367739b590}} 
+void \hyperlink{structVGG_a2f45518df66ff8196e3224367739b590}{to\+\_\+dev} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structVGG_ac4ea480624b916204e717a4f8b3b9db1}\label{structVGG_ac4ea480624b916204e717a4f8b3b9db1}} 
+void \hyperlink{structVGG_ac4ea480624b916204e717a4f8b3b9db1}{to\+\_\+host} ()
+\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_a1adaccb289e6577317b49df5e1f3b465}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+\hyperlink{structvec}{vec}$<$ maxB $>$ \& \hyperlink{structVGG_a256a1792818900ab2023554cea1ebb31}{forward} (\hyperlink{structarray4}{array4}$<$ maxB, C0, H, W $>$ \&\hyperlink{structVGG_ab352e8c1793b749d92b85e75ca4f66e8}{x}, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&\hyperlink{structVGG_a302cf15e5bd6f920d527334df6f3e2b2}{t})
+\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x,t) \end{DoxyCompactList}\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C0, \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1}, \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1} $>$ \& \hyperlink{structVGG_ad6c413558605836d7cffa87dc2971628}{backward} (\hyperlink{structvec}{vec}$<$ maxB $>$ \&\hyperlink{structVGG_a4a45e28a72f469b5b1432ee572627c17}{gy})
+\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structVGG_a5a97c3db3635e480b1160ff24793feb6}{forward\+\_\+backward\+\_\+update} (\hyperlink{structarray4}{array4}$<$ maxB, C0, H, W $>$ \&\hyperlink{structVGG_ab352e8c1793b749d92b85e75ca4f66e8}{x}, \hyperlink{structivec}{ivec}$<$ maxB $>$ \&\hyperlink{structVGG_a302cf15e5bd6f920d527334df6f3e2b2}{t}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+\begin{DoxyCompactList}\small\item\em perform an entire iteration (= forward; backward; update) \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_a4dfe4a13d0b10b743acb1f2c7ed9cea9}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+void \hyperlink{structVGG_a278f6bb4011563977a3965d592eb7ce8}{set\+\_\+grad} (\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ \&o)
+\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structVGG_a07fae8209634342bbc335be1b342b8c7}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ \&b)
+\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$ \hyperlink{structVGG_acb66854790b4211ec6964690dcaba67b}{dev}
+\item 
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structVGG_ad161d19c0d519768f32deca8dfd0598b}{opt}
+\item 
+\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structVGG_a5a8069856b54deb20f0b45e4522d9e4a}{lgr}
+\item 
+\hyperlink{structarray4}{array4}$<$ maxB, C0, H, W $>$ \hyperlink{structVGG_ab352e8c1793b749d92b85e75ca4f66e8}{x}
+\item 
+\hyperlink{structivec}{ivec}$<$ maxB $>$ \hyperlink{structVGG_a302cf15e5bd6f920d527334df6f3e2b2}{t}
+\item 
+\hyperlink{structvec}{vec}$<$ maxB $>$ \hyperlink{structVGG_a4a45e28a72f469b5b1432ee572627c17}{gy}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, C0, \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1}, \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1}, K, C1 $>$ \hyperlink{structVGG_ac5d2224851fa2936be629e3fdf89c959}{block1\+\_\+1}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, C1, \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1}, \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1} $>$ \hyperlink{structVGG_ac98c33f424e29ec2e36fb4348586b4fd}{dropout1\+\_\+1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, C1, \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1}, \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1}, K, C1 $>$ \hyperlink{structVGG_a8f6b6e4fa1009a0730e8ac7417ca4386}{block1\+\_\+2}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, C1, \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1}, \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1}, S $>$ \hyperlink{structVGG_a065b2bedbdef89ba2943d696fb54da61}{max\+\_\+pooling\+\_\+2d1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, C1, \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}, \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}, K, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2} $>$ \hyperlink{structVGG_a29cfe2459ad162095c5d420d12448de3}{block2\+\_\+1}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}, \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}, \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2} $>$ \hyperlink{structVGG_a691b281e14f4c2c17bcf2f5fa25b950d}{dropout2\+\_\+1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}, \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}, \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}, K, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2} $>$ \hyperlink{structVGG_a421787324ebcaa4cc140c7eb588818df}{block2\+\_\+2}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}, \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}, \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}, S $>$ \hyperlink{structVGG_a2f4ff4efd026307976663ba43dd678c9}{max\+\_\+pooling\+\_\+2d2}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}, K, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3} $>$ \hyperlink{structVGG_a89a31b1def0a1fad5f76e2a33ddf1489}{block3\+\_\+1}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3} $>$ \hyperlink{structVGG_a3f8cb97bce4b3641088b8d33b151427d}{dropout3\+\_\+1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}, K, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3} $>$ \hyperlink{structVGG_ae6f0d3f40c0c1f1f2fe656e446be7dd9}{block3\+\_\+2}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3} $>$ \hyperlink{structVGG_ae6b26b5e9a686f3ff6be6c95a56363c1}{dropout3\+\_\+2}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}, K, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3} $>$ \hyperlink{structVGG_a8002c03bc72a210d6bba027abf770ee5}{block3\+\_\+3}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}, \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}, S $>$ \hyperlink{structVGG_a0c29593e7a4726099dc2b982534df479}{max\+\_\+pooling\+\_\+2d3}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_a1461b736e9753f364a317c8e6305bb45}{block4\+\_\+1}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4} $>$ \hyperlink{structVGG_ad0b64f61c99e5449686362dffcc9e5ff}{dropout4\+\_\+1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_a449afed7008be198d32d2dfb3b9c32ff}{block4\+\_\+2}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4} $>$ \hyperlink{structVGG_a2309b0f61c5f16e7bb8425ab813e80c6}{dropout4\+\_\+2}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_a67b4a234cca6e0ececd290de5ef13063}{block4\+\_\+3}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}, \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}, S $>$ \hyperlink{structVGG_a0afbca6558a3efbad8a54c8d9c962d72}{max\+\_\+pooling\+\_\+2d4}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_ae2947bb7379eb4e5803854f25883304d}{block5\+\_\+1}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5} $>$ \hyperlink{structVGG_ac70005cd3deace7f8d5d8101cc17d43c}{dropout5\+\_\+1}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_a6f7a1d645be0c7421d5808613a0a22bf}{block5\+\_\+2}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5} $>$ \hyperlink{structVGG_a10005c43661e059cfebc8e004e7bc344}{dropout5\+\_\+2}
+\item 
+\hyperlink{structBlock}{Block}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}, K, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_a8a6bf842367d6269c6e0bd40e06115f2}{block5\+\_\+3}
+\item 
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}, \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}, S $>$ \hyperlink{structVGG_a71a381756e7f6f60347d99d05b3f0b1a}{max\+\_\+pooling\+\_\+2d5}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6}, \hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6} $>$ \hyperlink{structVGG_a3ed68e318387ff7e87b1c0d957d8d24a}{dropout6\+\_\+1}
+\item 
+\hyperlink{structLinear}{Linear}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} $>$ \hyperlink{structVGG_aca67ef058fa46d4f74022f308c72ad6c}{fc1}
+\item 
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6}, \hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6} $>$ \hyperlink{structVGG_a6a98e7662114881d493b635ca57fbf28}{bn\+\_\+fc1}
+\item 
+\hyperlink{structRelu}{Relu}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6}, \hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6} $>$ \hyperlink{structVGG_acc01c963dd716345709ab91f5eb6e2e3}{relu}
+\item 
+\hyperlink{structDropout}{Dropout}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, \hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6}, \hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6} $>$ \hyperlink{structVGG_abecd584b5b4bf336077b181e4f3e6f50}{dropout6\+\_\+2}
+\item 
+\hyperlink{structLinear}{Linear}$<$ maxB, \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}, nC $>$ \hyperlink{structVGG_a422a4d5100d100bb361155b1f093ebf7}{fc2}
+\item 
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$ maxB, nC $>$ \hyperlink{structVGG_af4bbc09cef74dbbff99b5a35f2c40608}{softmax\+\_\+cross\+\_\+entropy}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1} = H
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1} = W
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2} = H/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2} = W/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2} = S$\ast$C1
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3} = \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3} = \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3} = S$\ast$\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4} = \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4} = \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4} = S$\ast$\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5} = \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5} = \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6} = \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}/S
+\item 
+static const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6} = \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}/S
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$\newline
+struct V\+G\+G$<$ max\+B, C0, H, W, K, S, C1, n\+C $>$}
+
+\hyperlink{structVGG}{V\+GG} network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (max\+B)} & maximum batch size it can accommodate (64) \\
+\hline
+{\em (\+C0)} & the number of channels in an input image (3) \\
+\hline
+{\em (\+H)} & height of an input image (32) \\
+\hline
+{\em (\+W)} & width of an input image (32) \\
+\hline
+{\em (\+K)} & convolution kernel size (1). filter array has (2\+K+1)$\ast$(2\+K+1) elems) \\
+\hline
+{\em (\+S)} & shrink factor of pooling layers (2) \\
+\hline
+{\em (\+C1)} & number of channels in the first hidden layer (64). those in the following layers are C1/2, C2/4, C3/8, ..., 1 \\
+\hline
+{\em (n\+C)} & number of classes (10) \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structVGG_ad6c413558605836d7cffa87dc2971628}\label{structVGG_ad6c413558605836d7cffa87dc2971628}} 
+\index{V\+GG@{V\+GG}!backward@{backward}}
+\index{backward@{backward}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{backward()}{backward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C0,\hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1},\hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1}$>$\& \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$<$ maxB $>$ \&}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the gradient of loss wrt the input (x) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (gy)} & gradient of loss with respect to the output\\
+\hline
+\end{DoxyParams}
+calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a256a1792818900ab2023554cea1ebb31}{forward} 
+
+\hyperlink{structVGG_a1adaccb289e6577317b49df5e1f3b465}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structVGG_a671e3b02b9a8e55c274f7863a116af30}\label{structVGG_a671e3b02b9a8e55c274f7863a116af30}} 
+\index{V\+GG@{V\+GG}!copy@{copy}}
+\index{copy@{copy}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structVGG}{V\+GG}$<$maxB,C0,H,W,K,S,C1,nC$>$$\ast$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+make a copy of this 
+
+if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structVGG_ab3bcd5bb62b66713f5bf0ba3c8b539cb}\label{structVGG_ab3bcd5bb62b66713f5bf0ba3c8b539cb}} 
+\index{V\+GG@{V\+GG}!del\+\_\+dev@{del\+\_\+dev}}
+\index{del\+\_\+dev@{del\+\_\+dev}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a26e977db7cff56b6bd9e2a8183635551}{make\+\_\+dev} 
+
+\hyperlink{structVGG_a07e0570fe0eb7152dee4eff0c0bcc86f}{set\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structVGG_a256a1792818900ab2023554cea1ebb31}\label{structVGG_a256a1792818900ab2023554cea1ebb31}} 
+\index{V\+GG@{V\+GG}!forward@{forward}}
+\index{forward@{forward}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structvec}{vec}$<$maxB$>$\& \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C0, H, W $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+calc the loss function of a mini-\/batch (x,t) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images \\
+\hline
+{\em (t)} & true labels of images \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_ad6c413558605836d7cffa87dc2971628}{backward} 
+
+\hyperlink{structVGG_a1adaccb289e6577317b49df5e1f3b465}{update} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structVGG_a5a97c3db3635e480b1160ff24793feb6}\label{structVGG_a5a97c3db3635e480b1160ff24793feb6}} 
+\index{V\+GG@{V\+GG}!forward\+\_\+backward\+\_\+update@{forward\+\_\+backward\+\_\+update}}
+\index{forward\+\_\+backward\+\_\+update@{forward\+\_\+backward\+\_\+update}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{forward\+\_\+backward\+\_\+update()}{forward\_backward\_update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::forward\+\_\+backward\+\_\+update (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$<$ maxB, C0, H, W $>$ \&}]{x,  }\item[{\hyperlink{structivec}{ivec}$<$ maxB $>$ \&}]{t,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+perform an entire iteration (= forward; backward; update) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (x)} & input images (a mini batch) \\
+\hline
+{\em (t)} & true labels \\
+\hline
+{\em (eta)} & learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a256a1792818900ab2023554cea1ebb31}{forward} 
+
+\hyperlink{structVGG_ad6c413558605836d7cffa87dc2971628}{backward} 
+
+\hyperlink{structVGG_a1adaccb289e6577317b49df5e1f3b465}{update}
+\end{DoxySeeAlso}
+do everything on a mini-\/batch. forward calculates the loss wrt x and t; backward calculates the gradient of loss wrt x and weights; update updates weights with the gradients and the learning rate. \mbox{\Hypertarget{structVGG_a07fae8209634342bbc335be1b342b8c7}\label{structVGG_a07fae8209634342bbc335be1b342b8c7}} 
+\index{V\+GG@{V\+GG}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+take the inner product of gradients 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (b)} & the object to take the inner product with\\
+\hline
+\end{DoxyParams}
+take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structVGG_aa8700968e0ee177cf7f129b2d46231fd}\label{structVGG_aa8700968e0ee177cf7f129b2d46231fd}} 
+\index{V\+GG@{V\+GG}!init@{init}}
+\index{init@{init}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (opt)} & command line options \\
+\hline
+{\em (lgr)} & logger \\
+\hline
+{\em (rg)} & random number generator for initializing weights \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structVGG_a26e977db7cff56b6bd9e2a8183635551}\label{structVGG_a26e977db7cff56b6bd9e2a8183635551}} 
+\index{V\+GG@{V\+GG}!make\+\_\+dev@{make\+\_\+dev}}
+\index{make\+\_\+dev@{make\+\_\+dev}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a07e0570fe0eb7152dee4eff0c0bcc86f}{set\+\_\+dev} 
+
+\hyperlink{structVGG_ab3bcd5bb62b66713f5bf0ba3c8b539cb}{del\+\_\+dev} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{structVGG_a4dfe4a13d0b10b743acb1f2c7ed9cea9}\label{structVGG_a4dfe4a13d0b10b743acb1f2c7ed9cea9}} 
+\index{V\+GG@{V\+GG}!rand\+\_\+grad@{rand\+\_\+grad}}
+\index{rand\+\_\+grad@{rand\+\_\+grad}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+randomly set all gradients to values between p and q 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (rg)} & random number generator \\
+\hline
+{\em (p)} & minimum value of a component \\
+\hline
+{\em (q)} & maximum value of a component \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structVGG_a07e0570fe0eb7152dee4eff0c0bcc86f}\label{structVGG_a07e0570fe0eb7152dee4eff0c0bcc86f}} 
+\index{V\+GG@{V\+GG}!set\+\_\+dev@{set\+\_\+dev}}
+\index{set\+\_\+dev@{set\+\_\+dev}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set the device pointer for this and all subobjects 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (dev)} & a device memory or null \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a26e977db7cff56b6bd9e2a8183635551}{make\+\_\+dev} 
+
+\hyperlink{structVGG_ab3bcd5bb62b66713f5bf0ba3c8b539cb}{del\+\_\+dev}
+\end{DoxySeeAlso}
+if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structVGG_a278f6bb4011563977a3965d592eb7ce8}\label{structVGG_a278f6bb4011563977a3965d592eb7ce8}} 
+\index{V\+GG@{V\+GG}!set\+\_\+grad@{set\+\_\+grad}}
+\index{set\+\_\+grad@{set\+\_\+grad}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$ \&}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set all gradients to gradients of another object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (o)} & the object from which gradients get copied\\
+\hline
+\end{DoxyParams}
+transfer gradients of o to this object \mbox{\Hypertarget{structVGG_a1adaccb289e6577317b49df5e1f3b465}\label{structVGG_a1adaccb289e6577317b49df5e1f3b465}} 
+\index{V\+GG@{V\+GG}!update@{update}}
+\index{update@{update}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+void \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+update weights of all sublayers with gradients that must have been computed 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (eta)} & the learning rate \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{structVGG_a256a1792818900ab2023554cea1ebb31}{forward} 
+
+\hyperlink{structVGG_ad6c413558605836d7cffa87dc2971628}{backward} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structVGG_ac5d2224851fa2936be629e3fdf89c959}\label{structVGG_ac5d2224851fa2936be629e3fdf89c959}} 
+\index{V\+GG@{V\+GG}!block1\+\_\+1@{block1\+\_\+1}}
+\index{block1\+\_\+1@{block1\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block1\+\_\+1}{block1\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,C0,\hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1},\hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1},K,C1$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block1\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a8f6b6e4fa1009a0730e8ac7417ca4386}\label{structVGG_a8f6b6e4fa1009a0730e8ac7417ca4386}} 
+\index{V\+GG@{V\+GG}!block1\+\_\+2@{block1\+\_\+2}}
+\index{block1\+\_\+2@{block1\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block1\+\_\+2}{block1\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,C1,\hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1},\hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1},K,C1$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block1\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a29cfe2459ad162095c5d420d12448de3}\label{structVGG_a29cfe2459ad162095c5d420d12448de3}} 
+\index{V\+GG@{V\+GG}!block2\+\_\+1@{block2\+\_\+1}}
+\index{block2\+\_\+1@{block2\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block2\+\_\+1}{block2\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,C1,\hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2},\hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2},K,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block2\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a421787324ebcaa4cc140c7eb588818df}\label{structVGG_a421787324ebcaa4cc140c7eb588818df}} 
+\index{V\+GG@{V\+GG}!block2\+\_\+2@{block2\+\_\+2}}
+\index{block2\+\_\+2@{block2\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block2\+\_\+2}{block2\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2},\hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2},\hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2},K,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block2\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a89a31b1def0a1fad5f76e2a33ddf1489}\label{structVGG_a89a31b1def0a1fad5f76e2a33ddf1489}} 
+\index{V\+GG@{V\+GG}!block3\+\_\+1@{block3\+\_\+1}}
+\index{block3\+\_\+1@{block3\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block3\+\_\+1}{block3\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3},K,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block3\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_ae6f0d3f40c0c1f1f2fe656e446be7dd9}\label{structVGG_ae6f0d3f40c0c1f1f2fe656e446be7dd9}} 
+\index{V\+GG@{V\+GG}!block3\+\_\+2@{block3\+\_\+2}}
+\index{block3\+\_\+2@{block3\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block3\+\_\+2}{block3\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3},K,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block3\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a8002c03bc72a210d6bba027abf770ee5}\label{structVGG_a8002c03bc72a210d6bba027abf770ee5}} 
+\index{V\+GG@{V\+GG}!block3\+\_\+3@{block3\+\_\+3}}
+\index{block3\+\_\+3@{block3\+\_\+3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block3\+\_\+3}{block3\_3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3},K,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block3\+\_\+3}
+
+sublayer \mbox{\Hypertarget{structVGG_a1461b736e9753f364a317c8e6305bb45}\label{structVGG_a1461b736e9753f364a317c8e6305bb45}} 
+\index{V\+GG@{V\+GG}!block4\+\_\+1@{block4\+\_\+1}}
+\index{block4\+\_\+1@{block4\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block4\+\_\+1}{block4\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block4\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a449afed7008be198d32d2dfb3b9c32ff}\label{structVGG_a449afed7008be198d32d2dfb3b9c32ff}} 
+\index{V\+GG@{V\+GG}!block4\+\_\+2@{block4\+\_\+2}}
+\index{block4\+\_\+2@{block4\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block4\+\_\+2}{block4\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block4\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a67b4a234cca6e0ececd290de5ef13063}\label{structVGG_a67b4a234cca6e0ececd290de5ef13063}} 
+\index{V\+GG@{V\+GG}!block4\+\_\+3@{block4\+\_\+3}}
+\index{block4\+\_\+3@{block4\+\_\+3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block4\+\_\+3}{block4\_3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block4\+\_\+3}
+
+sublayer \mbox{\Hypertarget{structVGG_ae2947bb7379eb4e5803854f25883304d}\label{structVGG_ae2947bb7379eb4e5803854f25883304d}} 
+\index{V\+GG@{V\+GG}!block5\+\_\+1@{block5\+\_\+1}}
+\index{block5\+\_\+1@{block5\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block5\+\_\+1}{block5\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block5\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a6f7a1d645be0c7421d5808613a0a22bf}\label{structVGG_a6f7a1d645be0c7421d5808613a0a22bf}} 
+\index{V\+GG@{V\+GG}!block5\+\_\+2@{block5\+\_\+2}}
+\index{block5\+\_\+2@{block5\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block5\+\_\+2}{block5\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block5\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a8a6bf842367d6269c6e0bd40e06115f2}\label{structVGG_a8a6bf842367d6269c6e0bd40e06115f2}} 
+\index{V\+GG@{V\+GG}!block5\+\_\+3@{block5\+\_\+3}}
+\index{block5\+\_\+3@{block5\+\_\+3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{block5\+\_\+3}{block5\_3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBlock}{Block}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5},K,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::block5\+\_\+3}
+
+sublayer \mbox{\Hypertarget{structVGG_a6a98e7662114881d493b635ca57fbf28}\label{structVGG_a6a98e7662114881d493b635ca57fbf28}} 
+\index{V\+GG@{V\+GG}!bn\+\_\+fc1@{bn\+\_\+fc1}}
+\index{bn\+\_\+fc1@{bn\+\_\+fc1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{bn\+\_\+fc1}{bn\_fc1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structBatchNormalization}{Batch\+Normalization}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6},\hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::bn\+\_\+fc1}
+
+sublayer \mbox{\Hypertarget{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}\label{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}} 
+\index{V\+GG@{V\+GG}!C2@{C2}}
+\index{C2@{C2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{C2}{C2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::C2 = S$\ast$C1\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate channels \mbox{\Hypertarget{structVGG_a88a35c950ca73035ad75644925c05061}\label{structVGG_a88a35c950ca73035ad75644925c05061}} 
+\index{V\+GG@{V\+GG}!C3@{C3}}
+\index{C3@{C3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{C3}{C3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::C3 = S$\ast$\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2}\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate channels \mbox{\Hypertarget{structVGG_a4d54a1cc3e99340dfb67e7252719c663}\label{structVGG_a4d54a1cc3e99340dfb67e7252719c663}} 
+\index{V\+GG@{V\+GG}!C4@{C4}}
+\index{C4@{C4}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{C4}{C4}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::C4 = S$\ast$\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3}\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate channels \mbox{\Hypertarget{structVGG_acb66854790b4211ec6964690dcaba67b}\label{structVGG_acb66854790b4211ec6964690dcaba67b}} 
+\index{V\+GG@{V\+GG}!dev@{dev}}
+\index{dev@{dev}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structVGG}{V\+GG}$<$maxB,C0,H,W,K,S,C1,nC$>$$\ast$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dev}
+
+device shadow \mbox{\Hypertarget{structVGG_ac98c33f424e29ec2e36fb4348586b4fd}\label{structVGG_ac98c33f424e29ec2e36fb4348586b4fd}} 
+\index{V\+GG@{V\+GG}!dropout1\+\_\+1@{dropout1\+\_\+1}}
+\index{dropout1\+\_\+1@{dropout1\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout1\+\_\+1}{dropout1\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,C1,\hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1},\hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout1\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a691b281e14f4c2c17bcf2f5fa25b950d}\label{structVGG_a691b281e14f4c2c17bcf2f5fa25b950d}} 
+\index{V\+GG@{V\+GG}!dropout2\+\_\+1@{dropout2\+\_\+1}}
+\index{dropout2\+\_\+1@{dropout2\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout2\+\_\+1}{dropout2\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2},\hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2},\hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout2\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a3f8cb97bce4b3641088b8d33b151427d}\label{structVGG_a3f8cb97bce4b3641088b8d33b151427d}} 
+\index{V\+GG@{V\+GG}!dropout3\+\_\+1@{dropout3\+\_\+1}}
+\index{dropout3\+\_\+1@{dropout3\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout3\+\_\+1}{dropout3\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout3\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_ae6b26b5e9a686f3ff6be6c95a56363c1}\label{structVGG_ae6b26b5e9a686f3ff6be6c95a56363c1}} 
+\index{V\+GG@{V\+GG}!dropout3\+\_\+2@{dropout3\+\_\+2}}
+\index{dropout3\+\_\+2@{dropout3\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout3\+\_\+2}{dropout3\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout3\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_ad0b64f61c99e5449686362dffcc9e5ff}\label{structVGG_ad0b64f61c99e5449686362dffcc9e5ff}} 
+\index{V\+GG@{V\+GG}!dropout4\+\_\+1@{dropout4\+\_\+1}}
+\index{dropout4\+\_\+1@{dropout4\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout4\+\_\+1}{dropout4\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout4\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a2309b0f61c5f16e7bb8425ab813e80c6}\label{structVGG_a2309b0f61c5f16e7bb8425ab813e80c6}} 
+\index{V\+GG@{V\+GG}!dropout4\+\_\+2@{dropout4\+\_\+2}}
+\index{dropout4\+\_\+2@{dropout4\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout4\+\_\+2}{dropout4\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout4\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_ac70005cd3deace7f8d5d8101cc17d43c}\label{structVGG_ac70005cd3deace7f8d5d8101cc17d43c}} 
+\index{V\+GG@{V\+GG}!dropout5\+\_\+1@{dropout5\+\_\+1}}
+\index{dropout5\+\_\+1@{dropout5\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout5\+\_\+1}{dropout5\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout5\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_a10005c43661e059cfebc8e004e7bc344}\label{structVGG_a10005c43661e059cfebc8e004e7bc344}} 
+\index{V\+GG@{V\+GG}!dropout5\+\_\+2@{dropout5\+\_\+2}}
+\index{dropout5\+\_\+2@{dropout5\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout5\+\_\+2}{dropout5\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout5\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_a3ed68e318387ff7e87b1c0d957d8d24a}\label{structVGG_a3ed68e318387ff7e87b1c0d957d8d24a}} 
+\index{V\+GG@{V\+GG}!dropout6\+\_\+1@{dropout6\+\_\+1}}
+\index{dropout6\+\_\+1@{dropout6\+\_\+1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout6\+\_\+1}{dropout6\_1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6},\hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout6\+\_\+1}
+
+sublayer \mbox{\Hypertarget{structVGG_abecd584b5b4bf336077b181e4f3e6f50}\label{structVGG_abecd584b5b4bf336077b181e4f3e6f50}} 
+\index{V\+GG@{V\+GG}!dropout6\+\_\+2@{dropout6\+\_\+2}}
+\index{dropout6\+\_\+2@{dropout6\+\_\+2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{dropout6\+\_\+2}{dropout6\_2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structDropout}{Dropout}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6},\hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::dropout6\+\_\+2}
+
+sublayer \mbox{\Hypertarget{structVGG_aca67ef058fa46d4f74022f308c72ad6c}\label{structVGG_aca67ef058fa46d4f74022f308c72ad6c}} 
+\index{V\+GG@{V\+GG}!fc1@{fc1}}
+\index{fc1@{fc1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{fc1}{fc1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structLinear}{Linear}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::fc1}
+
+sublayer \mbox{\Hypertarget{structVGG_a422a4d5100d100bb361155b1f093ebf7}\label{structVGG_a422a4d5100d100bb361155b1f093ebf7}} 
+\index{V\+GG@{V\+GG}!fc2@{fc2}}
+\index{fc2@{fc2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{fc2}{fc2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structLinear}{Linear}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},nC$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::fc2}
+
+sublayer \mbox{\Hypertarget{structVGG_a4a45e28a72f469b5b1432ee572627c17}\label{structVGG_a4a45e28a72f469b5b1432ee572627c17}} 
+\index{V\+GG@{V\+GG}!gy@{gy}}
+\index{gy@{gy}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{gy}{gy}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structvec}{vec}$<$maxB$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::gy}
+
+gradient of the loss wrt the output \mbox{\Hypertarget{structVGG_a73f189c70eef33b8e8de32929db37b10}\label{structVGG_a73f189c70eef33b8e8de32929db37b10}} 
+\index{V\+GG@{V\+GG}!H1@{H1}}
+\index{H1@{H1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H1}{H1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H1 = H\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}\label{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}} 
+\index{V\+GG@{V\+GG}!H2@{H2}}
+\index{H2@{H2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H2}{H2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H2 = H/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}\label{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}} 
+\index{V\+GG@{V\+GG}!H3@{H3}}
+\index{H3@{H3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H3}{H3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H3 = \hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a1754afced5b0bbb91031179c1f58ee29}\label{structVGG_a1754afced5b0bbb91031179c1f58ee29}} 
+\index{V\+GG@{V\+GG}!H4@{H4}}
+\index{H4@{H4}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H4}{H4}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H4 = \hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}\label{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}} 
+\index{V\+GG@{V\+GG}!H5@{H5}}
+\index{H5@{H5}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H5}{H5}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H5 = \hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_aca7e136480c1e76d74bda917c1ddca97}\label{structVGG_aca7e136480c1e76d74bda917c1ddca97}} 
+\index{V\+GG@{V\+GG}!H6@{H6}}
+\index{H6@{H6}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{H6}{H6}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::H6 = \hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a5a8069856b54deb20f0b45e4522d9e4a}\label{structVGG_a5a8069856b54deb20f0b45e4522d9e4a}} 
+\index{V\+GG@{V\+GG}!lgr@{lgr}}
+\index{lgr@{lgr}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{lgr}{lgr}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::lgr}
+
+logger \mbox{\Hypertarget{structVGG_a065b2bedbdef89ba2943d696fb54da61}\label{structVGG_a065b2bedbdef89ba2943d696fb54da61}} 
+\index{V\+GG@{V\+GG}!max\+\_\+pooling\+\_\+2d1@{max\+\_\+pooling\+\_\+2d1}}
+\index{max\+\_\+pooling\+\_\+2d1@{max\+\_\+pooling\+\_\+2d1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{max\+\_\+pooling\+\_\+2d1}{max\_pooling\_2d1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,C1,\hyperlink{structVGG_a73f189c70eef33b8e8de32929db37b10}{H1},\hyperlink{structVGG_a01305ab6d90c95eb50c45352203b07e0}{W1},S$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::max\+\_\+pooling\+\_\+2d1}
+
+sublayer \mbox{\Hypertarget{structVGG_a2f4ff4efd026307976663ba43dd678c9}\label{structVGG_a2f4ff4efd026307976663ba43dd678c9}} 
+\index{V\+GG@{V\+GG}!max\+\_\+pooling\+\_\+2d2@{max\+\_\+pooling\+\_\+2d2}}
+\index{max\+\_\+pooling\+\_\+2d2@{max\+\_\+pooling\+\_\+2d2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{max\+\_\+pooling\+\_\+2d2}{max\_pooling\_2d2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,\hyperlink{structVGG_a1e9ad0d15e42696798d44b06ad3c9a9a}{C2},\hyperlink{structVGG_a6658da7d5fd275b2af6eb75511ba6f80}{H2},\hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2},S$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::max\+\_\+pooling\+\_\+2d2}
+
+sublayer \mbox{\Hypertarget{structVGG_a0c29593e7a4726099dc2b982534df479}\label{structVGG_a0c29593e7a4726099dc2b982534df479}} 
+\index{V\+GG@{V\+GG}!max\+\_\+pooling\+\_\+2d3@{max\+\_\+pooling\+\_\+2d3}}
+\index{max\+\_\+pooling\+\_\+2d3@{max\+\_\+pooling\+\_\+2d3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{max\+\_\+pooling\+\_\+2d3}{max\_pooling\_2d3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,\hyperlink{structVGG_a88a35c950ca73035ad75644925c05061}{C3},\hyperlink{structVGG_aad221438514d3b1a829d7f9c27a6f5ea}{H3},\hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3},S$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::max\+\_\+pooling\+\_\+2d3}
+
+sublayer \mbox{\Hypertarget{structVGG_a0afbca6558a3efbad8a54c8d9c962d72}\label{structVGG_a0afbca6558a3efbad8a54c8d9c962d72}} 
+\index{V\+GG@{V\+GG}!max\+\_\+pooling\+\_\+2d4@{max\+\_\+pooling\+\_\+2d4}}
+\index{max\+\_\+pooling\+\_\+2d4@{max\+\_\+pooling\+\_\+2d4}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{max\+\_\+pooling\+\_\+2d4}{max\_pooling\_2d4}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a1754afced5b0bbb91031179c1f58ee29}{H4},\hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4},S$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::max\+\_\+pooling\+\_\+2d4}
+
+sublayer \mbox{\Hypertarget{structVGG_a71a381756e7f6f60347d99d05b3f0b1a}\label{structVGG_a71a381756e7f6f60347d99d05b3f0b1a}} 
+\index{V\+GG@{V\+GG}!max\+\_\+pooling\+\_\+2d5@{max\+\_\+pooling\+\_\+2d5}}
+\index{max\+\_\+pooling\+\_\+2d5@{max\+\_\+pooling\+\_\+2d5}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{max\+\_\+pooling\+\_\+2d5}{max\_pooling\_2d5}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_a763d01cce59fd355cbcfb7b09c3c8cdc}{H5},\hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5},S$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::max\+\_\+pooling\+\_\+2d5}
+
+sublayer \mbox{\Hypertarget{structVGG_ad161d19c0d519768f32deca8dfd0598b}\label{structVGG_ad161d19c0d519768f32deca8dfd0598b}} 
+\index{V\+GG@{V\+GG}!opt@{opt}}
+\index{opt@{opt}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::opt}
+
+command line option \mbox{\Hypertarget{structVGG_acc01c963dd716345709ab91f5eb6e2e3}\label{structVGG_acc01c963dd716345709ab91f5eb6e2e3}} 
+\index{V\+GG@{V\+GG}!relu@{relu}}
+\index{relu@{relu}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{relu}{relu}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structRelu}{Relu}$<$maxB,\hyperlink{structVGG_a4d54a1cc3e99340dfb67e7252719c663}{C4},\hyperlink{structVGG_aca7e136480c1e76d74bda917c1ddca97}{H6},\hyperlink{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}{W6}$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::relu}
+
+sublayer \mbox{\Hypertarget{structVGG_af4bbc09cef74dbbff99b5a35f2c40608}\label{structVGG_af4bbc09cef74dbbff99b5a35f2c40608}} 
+\index{V\+GG@{V\+GG}!softmax\+\_\+cross\+\_\+entropy@{softmax\+\_\+cross\+\_\+entropy}}
+\index{softmax\+\_\+cross\+\_\+entropy@{softmax\+\_\+cross\+\_\+entropy}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{softmax\+\_\+cross\+\_\+entropy}{softmax\_cross\_entropy}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structSoftmaxCrossEntropy}{Softmax\+Cross\+Entropy}$<$maxB,nC$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::softmax\+\_\+cross\+\_\+entropy}
+
+sublayer \mbox{\Hypertarget{structVGG_a302cf15e5bd6f920d527334df6f3e2b2}\label{structVGG_a302cf15e5bd6f920d527334df6f3e2b2}} 
+\index{V\+GG@{V\+GG}!t@{t}}
+\index{t@{t}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structivec}{ivec}$<$maxB$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::t}
+
+true labels of images \mbox{\Hypertarget{structVGG_a01305ab6d90c95eb50c45352203b07e0}\label{structVGG_a01305ab6d90c95eb50c45352203b07e0}} 
+\index{V\+GG@{V\+GG}!W1@{W1}}
+\index{W1@{W1}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W1}{W1}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W1 = W\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}\label{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}} 
+\index{V\+GG@{V\+GG}!W2@{W2}}
+\index{W2@{W2}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W2}{W2}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W2 = W/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_ad3bde49e961175621e0937584dae0af0}\label{structVGG_ad3bde49e961175621e0937584dae0af0}} 
+\index{V\+GG@{V\+GG}!W3@{W3}}
+\index{W3@{W3}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W3}{W3}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W3 = \hyperlink{structVGG_ac4a4d00b5e2ee41b1d4e8861bbc6c499}{W2}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}\label{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}} 
+\index{V\+GG@{V\+GG}!W4@{W4}}
+\index{W4@{W4}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W4}{W4}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W4 = \hyperlink{structVGG_ad3bde49e961175621e0937584dae0af0}{W3}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_a01d04c8b89719716a0c45c3631765875}\label{structVGG_a01d04c8b89719716a0c45c3631765875}} 
+\index{V\+GG@{V\+GG}!W5@{W5}}
+\index{W5@{W5}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W5}{W5}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W5 = \hyperlink{structVGG_a9728cd3ccfa5011d2a795dff7e9abfe8}{W4}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}\label{structVGG_ada7bec62e12fac368b103ae3d8c59c0e}} 
+\index{V\+GG@{V\+GG}!W6@{W6}}
+\index{W6@{W6}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{W6}{W6}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+const \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::W6 = \hyperlink{structVGG_a01d04c8b89719716a0c45c3631765875}{W5}/S\hspace{0.3cm}{\ttfamily [static]}}
+
+intermediate image size \mbox{\Hypertarget{structVGG_ab352e8c1793b749d92b85e75ca4f66e8}\label{structVGG_ab352e8c1793b749d92b85e75ca4f66e8}} 
+\index{V\+GG@{V\+GG}!x@{x}}
+\index{x@{x}!V\+GG@{V\+GG}}
+\subsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily template$<$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$>$ \\
+\hyperlink{structarray4}{array4}$<$maxB,C0,H,W$>$ \hyperlink{structVGG}{V\+GG}$<$ maxB, C0, H, W, K, S, C1, nC $>$\+::x}
+
+input images 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg_8h}{vgg.\+h}\end{DoxyCompactItemize}
