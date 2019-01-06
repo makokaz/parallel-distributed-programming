@@ -50,7 +50,8 @@ struct cifar10_dataset {
     assert(sz % sz1 == 0);
     return sz / sz1;
   }
-  int load(const char * cifar_bin, long start, long end,
+  int load(logger& lgr,
+           const char * cifar_bin, long start, long end,
            double validate_ratio, long validate_seed) {
     long n_data_in_file = get_n_data_in_file(cifar_bin);
     if (end == 0) end = n_data_in_file;
@@ -61,6 +62,8 @@ struct cifar10_dataset {
     n_data = end - start;
     n_train = max_i(1, n_data - n_data * validate_ratio);
     n_validate = n_data - n_train;
+    lgr.log(1, "loading data from %s [%ld:%ld] (%ld/%ld train/validate) starts",
+            cifar_bin, start, end, n_train, n_validate);
     if (n_validate == 0) {
       printf("warning: no data left for validation (validation not performed)\n");
     }
@@ -112,6 +115,8 @@ struct cifar10_dataset {
         dataset[i] = d;
       }
     }    
+    lgr.log(1, "loading data from %s [%d:%d] ends",
+            cifar_bin, start, end);
     return 1;
   }
   int get_data_train(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t B) {
@@ -163,15 +168,18 @@ int cifar_main(int argc, char ** argv) {
   const idx_t C = 64;
   const idx_t H = 32;
   const idx_t W = 32;
+  logger lgr;
+  lgr.start_log(opt);
   cifar10_dataset<maxB,C,H,W> ds;
   ds.set_seed(opt.sample_seed);
   ds.get_n_data_in_file(opt.cifar_data);
-  ds.load(opt.cifar_data, 0, 0, 0, opt.validate_seed);
+  ds.load(lgr, opt.cifar_data, 0, 0, 0, opt.validate_seed);
   array4<maxB,C,H,W> x;
   ivec<maxB> t;
   x.init_const(B, 0);
   t.init_const(B, 0);
   ds.get_data_train(x, t, opt.batch_sz);
+  lgr.end_log();
   return 0;
 }
 

@@ -91,12 +91,10 @@ int main(int argc, char ** argv) {
   vgg->to_dev();
   lgr.log(1, "model building ends");
   /* data */
-  lgr.log(1, "data loading starts");
   cifar10_dataset<maxB,C0,H,W> data;
-  data.load(opt.cifar_data, opt.start_data, opt.end_data,
+  data.load(lgr, opt.cifar_data, opt.start_data, opt.end_data,
             opt.validate_ratio, opt.validate_seed);
   data.set_seed(opt.sample_seed);
-  lgr.log(1, "data loading ends");
   long n_trained = 0;
   long n_validated = 0;
   lgr.log(1, "training starts");
