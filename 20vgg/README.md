@@ -3,7 +3,7 @@ Overview
 
 This program trains VGG network with training data from a specified file.
 
-Code: VGG
+Neural Network: VGG
 ==================
 
  * VGG: http://www.robots.ox.ac.uk/~vgg/research/very_deep/
@@ -62,15 +62,49 @@ Verbosity (-v,--verbose)
 
 Give -v 2 option and you will see the progress more frequently.  You can also know which functions are taking much time.
 
+```
+$ ./vgg.g++ -v 2
+70211: open a log Mon Jan  7 09:07:48 2019
+130161: model building starts
+905950653: model building ends
+905992947: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+1406723395: loading data ends
+1406735978: training starts
+1406737797: === train 0 - 64 ===
+1407703007: array4<maxB, OC, H, W>& Convolution2D<maxB, IC, H, W, K, OC>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int IC = 3; int H = 32; int W = 32; int K = 1; int OC = 64]: starts
+1526199843: array4<maxB, OC, H, W>& Convolution2D<maxB, IC, H, W, K, OC>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int IC = 3; int H = 32; int W = 32; int K = 1; int OC = 64]: ends. took 118485686 nsec
+1526217618: array4<maxB, IC, H, W>& BatchNormalization<maxB, IC, H, W>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int IC = 64; int H = 32; int W = 32]: starts
+1544613196: array4<maxB, IC, H, W>& BatchNormalization<maxB, IC, H, W>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int IC = 64; int H = 32; int W = 32]: ends. took 18393112 nsec
+1544630242: array4<maxB, IC, H, W>& Relu<maxB, C, H, W>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: starts
+1547366138: array4<maxB, IC, H, W>& Relu<maxB, C, H, W>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: ends. took 2733413 nsec
+1547384137: array4<maxB, C, W, H>& Dropout<maxB, C, H, W>::forward(array4<maxB, IC, H, W>&) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: starts
+...
+```
+
 Execution log (--log)
 --------------------------
 
-Detailed execution records are saved into a file (default: vgg.log).  You can specify the filename with --log option.  When you execute many instances concurrently, make sure you specify a unique log file to each process.
+Detailed execution records are saved into a file (default: vgg.log).  The file includes everything you will see with -v 2 and more.  You can specify the filename with --log option.  When you execute many instances concurrently, make sure you specify a unique log file to each process.
 
 Batch size (-b,--batch_sz)
 --------------------------
 
-For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label).  In each iteration, it takes a number of samples specified by --batch_sz (-b).  This number is called the mini-batch size.  The default is MAX_BATCH_SIZE specified by a compile-time option -DMAX_BATCH_SIZE=N.  For example, "g++ -DMAX_BATCH_SIZE=64 ... vgg.cc" sets the mini-batch size to 64.  A usual value is 64 but you may consider changing it for performance tuning.  Note that MAX_BATCH_SIZE affects the memory footprint.  An instance of VGG object holds all intermediate data within the instance and its size is roughly proportional to MAX_BATCH_SIZE.  Note that specifying a small batch size at runtime (via --batch_sz) does not change the size of an instance.
+For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label).  In each iteration, it takes a number of samples specified by --batch_sz (-b).
+
+```
+$ ./vgg.g++ -b 1
+  ...
+```
+
+This number is called the mini-batch size.  The default is MAX_BATCH_SIZE specified by a compile-time option -DMAX_BATCH_SIZE=N.  For example, "g++ -DMAX_BATCH_SIZE=64 ... vgg.cc" sets the mini-batch size to 64.  A usual value is 64 but you may consider changing it for performance tuning.
+
+```
+$ ... (edit the Makefile at the line "flags += -DMAX_BATCH_SIZE=xxx") ...
+$ make
+g++  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=128 -Wall -Wextra -Wno-strict-overflow -march=native -o vgg.g++ vgg.cc
+```
+
+Note that MAX_BATCH_SIZE affects the memory footprint.  An instance of VGG object holds all intermediate data within the instance and its size is roughly proportional to MAX_BATCH_SIZE.  Note that specifying a small batch size at runtime (via --batch_sz) does not change the size of an instance.
 
 The batch size significantly affects the time of a single iteration, especially in an unoptimized baseline code.  The baseline code will take a time proportional to the batch size for a single iteration.
 
@@ -85,19 +119,50 @@ The number of iterations (-m,--iters)
 
 For a quick experiment, you will want to make both batch size and iterations small (e.g., -m 1 -b 1).
 
+```
+$ ./vgg.g++ -b 1 -m 1
+59257: model building starts
+1067454326: model building ends
+1067490294: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+1507158800: loading data ends
+1507168085: training starts
+1507170300: === train 0 - 1 ===
+2551752614: train loss = 1.770801783
+2551766476: training ends
+```
+
 dropout (--dropout 1)
 --------------------------
 
 There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  
 
-Dropout is OFF by default.  You may turn it on by giving --dropout 1.
+Dropout is OFF by default (i.e., output_i = input_i).  You may turn it on by giving --dropout 1.
 
-Dropout is generally believed to improve generalization.  The reason that dropout is off by default is to make the network behavior more predictable/deterministic and to make the convergence for small training data faster.
+Dropout is generally believed to improve generalization.  The reason that dropout is nevertheless off by default is to make the network behavior more predictable/deterministic and to make the convergence for small training data faster.
 
 Fix a batch (--single_batch 1)
 --------------------------
 
-During development, you may want to repeat processing the same mini-batch again and again, to make sure that the network is at least adjusting to the particular mini-batch.  Combine this with --dropout 0 (and perhaps with a small batch size, like -b 16 or even -b 1).  In those cases the loss should steadily decrease over iterations.  If it does not happen, suspect your bug, particularly in your backward phase.
+During development, you may want to repeat processing the same mini-batch again and again, to make sure that the network is at least adjusting to the particular mini-batch.  Combine this with --dropout 0 (default) and perhaps with a small batch size, like -b 16 or even -b 1).  In those cases the loss should steadily decrease over iterations.  If it does not happen, suspect your bug, particularly in your backward phase.
+
+```
+## pick 16 samples and keep using it in every iteration
+$ ./vgg.g++ -b 16 --single_batch 1  
+61817: model building starts
+1069297283: model building ends
+1069327665: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+1511663981: loading data ends
+1511674321: training starts
+1511678684: === train 0 - 16 ===
+17625595995: train loss = 2.878649473
+17625609968: === train 16 - 32 ===
+34872185986: train loss = 1.450479388
+34872200747: === train 32 - 48 ===
+52187145425: train loss = 0.543023527
+52187161277: === train 48 - 64 ===
+69594766356: train loss = 0.186343119
+  ...
+```
 
 Data file (-d, --partial_data and --partial_data_seed)
 --------------------------
@@ -105,6 +170,12 @@ Data file (-d, --partial_data and --partial_data_seed)
 It reads data from the file specified by --cifar_data (-d) option (default: cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
 
 If you want to use only a part of data, you can specify the number of data used by --partial_data option.  --partial_data N randomly chooses N images from the data file.  You can seed the random number generator to choose those images by --partial_data_seed X.  If N is zero, then the whole data set in the file are used.
+
+```
+## fix 160 samples and only picking data from there
+$ ./vgg.g++ --partial_data 160
+```
+
 
 Data for training and validation (--validate_ratio and --validate_interval)
 --------------------------
@@ -159,7 +230,7 @@ Change seeds
 There are a few places in which the program uses random numbers, namely,
 
  * when it initializes weight parameters,
- * when it divides the input data into validation and training,
+ * when it initially chooses the subset of data from the input file divides them into into validation and training,
  * when it chooses training samples in each iteration and
  * when it uses which cells to dropout in a dropout layer
  
@@ -176,7 +247,7 @@ You can change these things by giving different seeds for each of these random n
 
 Simply give an arbitrary number to any of them to make sure your algorithm is not sensitive to any of them.
 
-A general remark: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, _ALWAYS_ give it a seed you chose and make it behave deterministically given the same seed.  This is a tremendous help for debugging.  After you have done initial debugging, you can test your algorithm across different sequences of numbers just by giving different seeds.  Note that virtually all pseudo random number generators are deterministic after a seed is given.  A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.g., the current time) and uses it as a seed.  Nothing else is different.  In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time).  Without giving a seed, your algorithm can NEVER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
+A general remark: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, _ALWAYS_ give it a seed you chose and make it behave deterministically given the same seed.  This is a tremendous help for debugging.  After you have done initial debugging, you can test your algorithm across different sequences of random numbers just by giving different seeds.  Note that virtually all pseudo random number generators are deterministic after a seed is given.  A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.g., the current time) and uses it as a seed.  Nothing else is different.  In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time).  Without giving a seed, your algorithm can NEVER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
 
 GPU execution (-a gpu_base)
 --------------------------
@@ -197,7 +268,7 @@ Note that baseline code is neither vectorized nor parallelized.  In particular, 
 Algorithm choice (-a)
 --------------------------
 
-The -a option described above is an option that chooses an algorithm from available repertories.  In the given code, only baseline algorithms for GPU and CPU are implemented.  You probably want to make your implementation another available choice here.
+The -a option described above is an option that chooses an algorithm from available repertories.  In the given code, only baseline algorithms for GPU and CPU are implemented.  You will add your implementation as another available choice here.
 
 
 Controlled experiments
@@ -215,7 +286,7 @@ $ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
 
 They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-batch size extremely small (1, in this particular case) to have a quick turn around time.
 
-Here is a sample output.  With the default value of learning rate (1.0e-2), the loss seems decreasing too quickly.
+Here is a sample output.  With the default value of learning rate (1.0e-2), the loss seems decreasing quickly (perhaps so quickly that the remaining iterations are useless).
 
 ```
 $ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
@@ -262,7 +333,7 @@ train loss = 0.163231462
 How you interpret the loss?
 ==========================
 
-If you are curious what the value of the loss actually mean, here it is.  In the final stage of the network, it ends up computing a vector of 10 (the number of classes) elements for an image, each component of which represents the probability that the image belongs to a particular class.  This 10 elements vector is then compared with the true label (class) for it.  If the true class of that image is c, then the loss for this particular image is 
+If you are curious what the value of the loss actually means, here it is.  In the final stage of the network, it ends up with a vector of 10 components (the number of classes) for each image, each component of which represents the probability that the model thinks the image belongs to a particular class.  This 10 elements vector, say p, is then compared with the true label (class) for it.  If the true class of that image is c, then the loss for this particular image is 
 
    -log(p[c])
 
@@ -274,7 +345,7 @@ Therefore, if the network is a random guess that returns 1/10 for every class, t
 
 which is just about what you observe in the first iteration.
 
-The loss becomes zero if the network says the probability is 1 for the correct class and 0 for all other classes.  But as far as classification performance  is concerned, the network outputs a correct class as long as the probability for the true class is larger than for any other class.  A sufficient condition for this is p[c] > 0.5, as it guarantees that p[c] is maximum among p[0], ..., p[9], whose sum is one.  When p[c] = 0.5, the loss would be 
+The loss becomes zero if the network says the probability is 1 for the correct class and 0 for all other classes.  But as far as the classification performance  is concerned, the network outputs a correct class as long as the probability for the true class is larger than for any other class.  A sufficient condition for this is p[c] > 0.5, as it guarantees that p[c] is maximum among p[0], ..., p[9], whose sum is one.  When p[c] = 0.5, the loss would be 
 
    -log(1/2) = 0.69314...
 
@@ -286,10 +357,15 @@ The ultimate goal for training is to get a good classification performance (accu
  * The performance criteria is the number of trained samples per second.  For example, if you train the network with 256 images in 50 seconds, your score will be 256/50 = 5.12 samples/sec.  Your goal is simply to maximize this number.
  * Relevant data for measuring performance are taken from lines reporting the progress of training in the execution log.
  * For example, the following log
+
 ```
 815859250: === train 0 - 64 ===    (the first line of this form)
 
+
+
   ...
+
+
 
 1186702243923: === train 1216 - 1280 ===  (the last line of this form)
 
@@ -297,6 +373,7 @@ The ultimate goal for training is to get a good classification performance (accu
 
 1245300919526: train loss = 2.518893003   (the last line of this form)
 ```
+
 indicates the traing started at time 815859250 and ended at time 1245300919526 (times are shown in nano seconds) and it processed 1280 images.  The score is then 1280 / (1245.300919526 - 0.815859250) = 1.02853 images/sec.
  * In order to get a good throughput with vectorization and/or parallelization, you almost certainly want to process many images at a time (a fairly large batch size).  Try to play with it.
  * While the number of images per second is the goal, following constraints are imposed to preclude meaningless optimizations
@@ -317,11 +394,16 @@ Source code structure
 
  * vgg.cc -- the main file
  * include/
+
+  (nuts and bolts)
+
   - vgg_util.h  -- trivial utilities
   - cuda_util.h -- helpers for CUDA
   - vgg_arrays.h -- vectors, matrix and multidimensional tensors
   - cifar.h -- data loader
-    (primitive layers)
+
+  (primitive layers)
+
   - convolution.h -- convolution
   - batchnormalization.h -- batch normalization
   - relu.h -- rectified linear activation
@@ -329,7 +411,9 @@ Source code structure
   - linear.h -- linear (or fully connected) layer
   - maxpooling.h -- max pooling
   - softmaxcrossentropy.h -- softmax + cross entropy
-    (composite layers)
+
+  (composite layers)
+
   - block.h -- convolution; batch normalization; relu
   - vgg.h -- the entire VGG
 
@@ -511,7 +595,7 @@ If you work on GPU implementation, you need to implement two functions.  Let's s
       forward_gpu_ultra_fast(x); break;
 ```
 
-your forward_gpu_ultra_fast should launch a global function with a good thread block size.
+your forward_gpu_ultra_fast function will launch a global function with a more sensible value of the thread block size.
 
 ```
   void forward_gpu_ultra_fast(array4<maxB,IC,H,W>& x) {
