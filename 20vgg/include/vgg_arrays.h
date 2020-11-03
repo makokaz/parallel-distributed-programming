@@ -6,6 +6,9 @@
 #pragma once
 
 #include <stdio.h>
+#ifndef ARRAY_INDEX_CHECK
+#define ARRAY_INDEX_CHECK 1
+#endif
 #include "vgg_util.h"
 
 /**

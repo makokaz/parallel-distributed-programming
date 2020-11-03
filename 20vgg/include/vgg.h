@@ -20,7 +20,7 @@
    @param (W) width of an input image (32)
    @param (K) convolution kernel size (1). filter array has (2K+1)*(2K+1) elems)
    @param (S) shrink factor of pooling layers (2)
-   @param (C1) number of channels in the first hidden layer (64). those in the following layers are C1/2, C2/4, C3/8, ..., 1
+   @param (C1) number of channels in the first hidden layer (64). those in the following layers are 2xC1, 4xC1, 8xC1, ..., 
    @param (nC) number of classes (10)
  */
 template<idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC>
@@ -30,8 +30,9 @@ struct VGG {
 #endif
   cmdline_opt opt;              /**< command line option */
   logger * lgr;                 /**< logger */
-  array4<maxB,C0,H,W> x;        /**< input images  */
+  array4<maxB,C0,H,W> x;        /**< input images */
   ivec<maxB> t;                 /**< true labels of images */
+  ivec<maxB> idxs;              /**< indexes of images */
   vec<maxB> gy;                 /**< gradient of the loss wrt the output */
   
   /* group 1 : 64 channels x 32x32 */
@@ -408,6 +409,28 @@ struct VGG {
     array4<maxB,C0,H1,W1>&  g0 = block1_1.backward(g1);
     return g0;
   }
+  void log_minibatch() {
+    array2<maxB,nC>& lsm = softmax_cross_entropy.lsm;
+    lsm.to_host();
+    const idx_t B = idxs.n;
+    int correct = 0;
+    for (idx_t b = 0; b < B; b++) {
+      /* get the prediction from logsoftmax */
+      idx_t pred_class = 0;
+      for (idx_t c = 0; c < nC; c++) {
+        if (lsm(b,pred_class) < lsm(b,c)) {
+          pred_class = c;
+        }
+      }
+      if (pred_class == t(b)) {
+        correct++;
+      }
+      lgr->log(1, "sample %d image %d pred %d truth %d",
+               b, idxs(b), pred_class, t(b));
+    }
+    lgr->log(1, "correct labels %d / %d", correct, B);
+  }
+
   /**
      @brief perform an entire iteration (= forward; backward; update)
      @param (x) input images (a mini batch)

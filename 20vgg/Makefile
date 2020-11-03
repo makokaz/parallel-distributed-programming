@@ -30,6 +30,9 @@ flags += -DARRAY_INDEX_CHECK=0
 # ---- maximum batch size ---- 
 flags += -DMAX_BATCH_SIZE=64
 #flags += -DMAX_BATCH_SIZE=1
+# ---- channels of the first stage ---- 
+#flags += -DN_FIRST_CHANNELS=64
+flags += -DN_FIRST_CHANNELS=16
 
 #
 # flags applied only to g++
@@ -51,10 +54,16 @@ nvccflags += -Xptxas -O3,-v
 nvccflags += -x cu
 
 #
+#
+#
+
+exes := $(addprefix vgg.,$(cxxs))
+
+#
 # you probably do not need to change below
 #
 
-targets := $(addprefix vgg.,$(cxxs))
+targets := $(exes)
 
 all : $(targets)
 

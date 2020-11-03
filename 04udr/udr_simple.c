@@ -26,7 +26,7 @@ void vec_add(vec_t * y, vec_t * x) {
 
 /* user-defined reduction on vec_t */
 #pragma omp declare reduction \
-  (vp : vec_t : vec_add(&omp_out,&omp_in)) \
+  (vp : vec_t : vec_add(&omp_out,&omp_in))      \
   initializer(vec_init(&omp_priv))
 
 //  reduction(vp : y)

@@ -133,6 +133,7 @@ int algo_is_gpu(const char * s, algo_t a) {
 struct cmdline_opt {
   int verbose;                  /**< verbosity */
   const char * cifar_data;      /**< data file */
+  const char * cifar_data_dump; /**< prefix of data dump */
   idx_t batch_sz;               /**< batch size */
   real learnrate;               /**< learning rate */
   long iters;                   /**< number of batches to process */
@@ -157,7 +158,8 @@ struct cmdline_opt {
    */
   cmdline_opt() {
     verbose = 1;
-    cifar_data = "cifar-10-batches-bin/data_batch_1.bin";
+    cifar_data = "data/cifar-10-batches-bin/data_batch_1.bin";
+    cifar_data_dump = 0; //"cifar-10-imgs/i"
     batch_sz = MAX_BATCH_SIZE;
     learnrate = 1.0e-2;
     iters = 20;
@@ -195,6 +197,7 @@ static struct option long_options[] = {
   {"learnrate",         required_argument, 0, 'l' },
   {"algo",              required_argument, 0, 'a' },
   {"cifar_data",        required_argument, 0, 'd' },
+  {"cifar_data_dump",   required_argument, 0, 'D' },
   {"partial_data",      required_argument, 0,  0  },
   {"single_batch",      required_argument, 0,  0  },
   {"dropout",           required_argument, 0,  0  },
@@ -225,6 +228,7 @@ static void usage(const char * prog) {
           " -a,--algo ALGORITHM : set the algorithm (implementation) used [%s]\n"
           " -v,--verbose L : set verbosity level to L [%d]\n"
           " -d,--cifar_data F : read data from F [%s]\n"
+          " -D,--cifar_data_dump F : dump data to Fxxxx.ppm [%s]\n"
           " -l,--learnrate ETA : set learning rate to ETA [%f]\n"
           " --partial_data N : use only random N images from the file (0 for all) [%ld]\n"
           " --single_batch 0/1 : use the same mini batch in every iteration for debugging [%d]\n"
@@ -244,6 +248,7 @@ static void usage(const char * prog) {
           o.algo_s,
           o.verbose,
           o.cifar_data,
+          (o.cifar_data_dump ? o.cifar_data_dump : ""),
           o.learnrate,
           o.partial_data,
           o.single_batch,
@@ -269,7 +274,7 @@ static cmdline_opt parse_args(int argc, char ** argv) {
   while (1) {
     int option_index = 0;
     int c = getopt_long(argc, argv,
-                        "a:b:d:l:m:v:h", long_options, &option_index);
+                        "a:b:d:D:l:m:v:h", long_options, &option_index);
     if (c == -1) break;
     switch (c) {
     case 0:
@@ -311,6 +316,9 @@ static cmdline_opt parse_args(int argc, char ** argv) {
       break;
     case 'd':
       opt.cifar_data = strdup(optarg);
+      break;
+    case 'D':
+      opt.cifar_data_dump = strdup(optarg);
       break;
     case 'b':
       opt.batch_sz = atoi(optarg);

@@ -16,6 +16,7 @@
 template<idx_t IC,idx_t H,idx_t W>
 struct cifar10_data_item {
   int index;                    /**< index in the original file */
+  unsigned char rgb[IC][H][W];  /**< original pixel values */
   real w[IC][H][W];             /**< pixels of an image */
   char label;                   /**< true label (0..9) */
   /**
@@ -68,6 +69,65 @@ struct cifar10_dataset {
     assert(sz % sz1 == 0);
     return sz / sz1;
   }
+  long get_decimal_digits(long n) {
+    /* n <  10 -> 1 
+       n < 100 -> 2
+       find minimum d s.t. n < 10^d
+*/
+    long d = 1;
+    long x = 10;                // x = 10^d
+    for (d = 1; x < n; d++) {
+      x = x * 10;
+    }
+    assert(n <= x);
+    return d;
+  }
+  
+  /**
+     @brief dump dataset into files
+     @param (dataset) dataset
+     @param (n_data) size of dataset
+     @param (prefix) prefix of files, like "img/img_" (-> img/img_xxxxx.ppm)
+   */
+  int dump_cifar_files(cifar10_data_item<IC,H,W>* dataset, long n_data,
+                       long n_digits, 
+                       const char * prefix) {
+    /* chars required for data numbers */
+    long nd = get_decimal_digits(n_data);
+    if (n_digits < nd) {
+      n_digits = nd;
+    }
+    long len = strlen(prefix) + n_digits + strlen(".ppm");
+    char filename[len + 1];
+    char fmt[100];
+    /* -> "%s%05d.ppm" */
+    int w = snprintf(fmt, 100, "%%s%%0%ldld.ppm", n_digits);
+    assert(w <= 100);
+    for (long d = 0; d < n_data; d++) {
+      /* make a filename like "img/img_01234.ppm" */
+      int w = snprintf(filename, len + 1, fmt, prefix, d);
+      assert(w == len);
+      FILE * wp = fopen(filename, "w");
+      if (!wp) {
+        perror("fopen");
+        fprintf(stderr, "%s\n", filename);
+        exit(1);
+      }
+      fprintf(wp, "P3 %d %d 255\n", W, H);
+      for (idx_t i = 0; i < H; i++) {
+        for (idx_t j = 0; j < W; j++) {
+          for (idx_t c = 0; c < IC; c++) {
+            fprintf(wp, " %d", dataset[d].rgb[c][i][j]);
+          }
+          fprintf(wp, "\n");
+        }
+      }
+      fclose(wp);
+    }
+    return 1;                   /* OK */
+  }
+
+
   /**
      @brief load training/validation data from the file 
      @param (lgr) logger
@@ -79,13 +139,14 @@ struct cifar10_dataset {
    */
   int load(logger& lgr,
            const char * cifar_bin, long n_samples,
-           long sample_seed, double validate_ratio) {
+           long sample_seed, double validate_ratio,
+           const char * dump_prefix) {
     long n_data_in_file = get_n_data_in_file(cifar_bin);
     if (n_samples == 0) {
       n_samples = n_data_in_file;
     } else if (n_samples > n_data_in_file) {
       lgr.log(1, "specified number of samples (%ld) exeeds data in file (%ld). truncated\n",
-              n_data, n_data_in_file);
+              n_samples, n_data_in_file);
       n_samples = n_data_in_file;
     }
     n_data = n_samples;
@@ -124,12 +185,18 @@ struct cifar10_dataset {
       for (idx_t c = 0; c < IC; c++) {
         for (idx_t i = 0; i < H; i++) {
           for (idx_t j = 0; j < W; j++) {
+            dataset[k].rgb[c][i][j] = rgb[c][i][j];
             dataset[k](c,i,j) = rgb[c][i][j] * l_max;
           }
         }
       }
     }
     fclose(fp);
+
+    if (dump_prefix) {
+      dump_cifar_files(dataset, n_data, 0, dump_prefix);
+    }
+    
     /* shuffle data */
     rnd_gen_t rgv;
     rgv.seed(sample_seed);
@@ -194,13 +261,15 @@ struct cifar10_dataset {
      @param (t) array to load true labels into
      @param (B) the number of images to pick
    */
-  int get_data_train(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t B) {
+  int get_data_train(array4<maxB,IC,H,W>& x, ivec<maxB>& t, ivec<maxB>& idxs, idx_t B) {
     assert(B <= maxB);
     x.set_n_rows(B);
     t.set_n(B);
+    idxs.set_n(B);
     for (long b = 0; b < B; b++) {
       long idx = rg.randi(0, n_train);
       cifar10_data_item<IC,H,W>& itm = train[idx];
+      idxs(b) = itm.index;
       t(b) = itm.label;
       for (idx_t ic = 0; ic < IC; ic++) {
         for (idx_t i = 0; i < H; i++) {
@@ -212,6 +281,7 @@ struct cifar10_dataset {
     }
     x.to_dev();
     t.to_dev();
+    idxs.to_dev();
     return 1;
   }
   /**
@@ -260,12 +330,17 @@ int cifar_main(int argc, char ** argv) {
   cifar10_dataset<maxB,C,H,W> ds;
   ds.set_seed(opt.sample_seed);
   ds.get_n_data_in_file(opt.cifar_data);
-  ds.load(lgr, opt.cifar_data, opt.partial_data, opt.partial_data_seed, opt.validate_ratio);
+  ds.load(lgr,
+          opt.cifar_data,
+          opt.partial_data, opt.partial_data_seed, opt.validate_ratio,
+          opt.cifar_data_dump);
   array4<maxB,C,H,W> x;
   ivec<maxB> t;
+  ivec<maxB> idxs;
   x.init_const(B, 0);
   t.init_const(B, 0);
-  ds.get_data_train(x, t, opt.batch_sz);
+  idxs.init_const(B, 0);
+  ds.get_data_train(x, t, idxs, opt.batch_sz);
   lgr.end_log();
   return 0;
 }

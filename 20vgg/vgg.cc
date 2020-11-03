@@ -17,9 +17,10 @@ static real train(VGG<maxB,C0,H,W,K,S,C1,nC> * vgg,
   if (vgg->opt.single_batch) {
     data.set_seed(vgg->opt.sample_seed);
   }
-  data.get_data_train(vgg->x, vgg->t, B);
+  data.get_data_train(vgg->x, vgg->t, vgg->idxs, B);
   real Lsum = vgg->forward_backward_update(vgg->x, vgg->t, vgg->opt.learnrate);
   real L = Lsum / B;
+  vgg->log_minibatch();
   vgg->lgr->log(1, "train loss = %.9f", L);
   return L;
 }
@@ -45,12 +46,20 @@ static real validate(VGG<maxB,C0,H,W,K,S,C1,nC> * vgg,
       read_from = read_to; 
     }
     real L = Lsum / data.n_validate;
+    vgg->log_minibatch();
     vgg->lgr->log(1, "validate loss = %.9f", L);
     return L;
   } else {
     return 0.0;
   }
 }
+
+/**
+   @brief default number of channels at the first stage
+ */
+#ifndef N_FIRST_CHANNELS
+#define N_FIRST_CHANNELS 64
+#endif
 
 /**
    @brief main function of VGG
@@ -73,7 +82,8 @@ int main(int argc, char ** argv) {
   const idx_t W  = 32;                /**< width of an image */
   const idx_t K  = 1;        /**< kernel size (K=1 -> 3x3) */
   const idx_t S  = 2;        /**< max pooling stride HxW -> H/SxW/S */
-  const idx_t C1 = 64;       /**< channels of the last stage */
+  //const idx_t C1 = 64;       /**< channels of the first stage */
+  const idx_t C1 = N_FIRST_CHANNELS; /**< channels of the first stage */
   const idx_t nC = 10;       /**< number of classes */
   assert(B <= maxB);
   /* logger */
@@ -92,7 +102,8 @@ int main(int argc, char ** argv) {
   /* load data */
   cifar10_dataset<maxB,C0,H,W> data;
   data.load(lgr, opt.cifar_data, opt.partial_data,
-            opt.partial_data_seed, opt.validate_ratio);
+            opt.partial_data_seed, opt.validate_ratio,
+            opt.cifar_data_dump);
   data.set_seed(opt.sample_seed);
   /* training loop */
   long n_trained = 0;
