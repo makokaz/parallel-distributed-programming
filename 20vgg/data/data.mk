@@ -1,4 +1,4 @@
-n_imgs := 5
+n_imgs := 10000
 
 url := http://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz
 targz := $(notdir $(url))
@@ -31,7 +31,8 @@ $(bin) : $(targz)
 
 $(img_dir)/created : ../vgg.g++ $(bin)
 	mkdir -p $@
-	../vgg.g++ -d $(bin) -D $(img_prefix) -m 0 --partial_data $(n_imgs)
+	../vgg.g++ -d $(bin) -D $(img_prefix) -m 0
+# --partial_data $(n_imgs)
 
 $(ppm) : %.ppm : $(img_dir)/created
 	ls $@ && touch $@

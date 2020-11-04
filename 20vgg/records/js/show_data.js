@@ -16,39 +16,50 @@ function update_table_and_graph() {
     var table = d3.select(div_id).append('table').attr('border', 1);
     var tr = table.append('tr');
     var samples = g_data.samples;
-    var header = samples[0];
-    var cols = {};              // column name -> col index
-    for (var j = 0; j < header.length; j++) {
-        var col = header[j];
-        cols[col] = j;
-    }
+    var meta = g_data.meta;
+    /*
+      var header = samples[0];
+      var cols = {};              // column name -> col index
+      for (var j = 0; j < header.length; j++) {
+      var col = header[j];
+      cols[col] = j;
+      }
+    */
     tr.append('th').text("iter");
     tr.append('th').text("train/validate");
-    tr.append('th').text("image");
+    tr.append('th').text("correct");
+    tr.append('th').text("wrong");
     var cur_iter = -1;
     var cur_tr = null;
-    var cur_td = null;
-    for (var i = 1; i < samples.length; i++) {
-        var sample = samples[i];
-        var iter = sample[cols.iter];
-        var t_v = sample[cols.t_v];
-        var pred = sample[cols.pred];
-        var truth = sample[cols.truth];
-        if (iter != cur_iter) {
-            cur_iter = iter;
+    var cur_correct = null;
+    var cur_wrong = null;
+    for (var i = 0; i < samples.length; i++) {
+        var s = samples[i];
+        var pred = +s.pred;
+        var truth = +s.truth;
+        if (s.iter != cur_iter) {
+            cur_iter = s.iter;
             cur_tr = table.append('tr');
-            cur_tr.append("td").text(iter);
-            cur_tr.append("td").text(t_v);
-            cur_td = cur_tr.append("td");
+            cur_tr.append("td").text(s.iter);
+            cur_tr.append("td").text(s.t_v);
+            cur_correct = cur_tr.append("td");
+            cur_wrong = cur_tr.append("td");
         }
-        var image = 0; // sample[col.image];
-        var src = "i" + image + ".png";
-        var alt = image + "(" + pred + ")";
-        cur_td.append('img').attr("src", src).attr("title", alt).attr("width", 40);
+        var src = "imgs/i" + s.image.padStart(4, "0") + ".png";
+        var title;
+        var td;
+        if (pred == truth) {
+            td = cur_correct;
+            title = s.image + "(" + meta[pred].class + ")";
+        } else {
+            td = cur_wrong;
+            title = s.image + "(" + meta[pred].class + "," + meta[truth].class + ")";
+        }
+        td.append('img').attr("src", src).attr("title", title);
     }
 }
 
-function real_main(error, samples_csv) {
+function real_main(samples_csv, meta_csv) {
     if (samples_csv == null) {
         d3.select("#history")
             .append("p")
@@ -59,6 +70,7 @@ function real_main(error, samples_csv) {
     } else {
         g_data = {
             samples : samples_csv,
+            meta : meta_csv,
         };
         d3.selectAll("input").on("change", update_table_and_graph);
         update_table_and_graph();
@@ -66,19 +78,11 @@ function real_main(error, samples_csv) {
 }
 
 function main() {
-    if (true) {
-        var error = null;
-        var samples_csv = d3.csvParseRows("iter,t_v,image,pred,truth\n"
-                                          + "0,t,4921,9,3\n"
-                                          + "0,t,1971,1,2\n"
-                                          + "0,t,7160,1,5\n");
-	real_main(error, samples_csv);
-    } else {
-        d3.csv('data/samples.csv',
-               function (error, samples_csv) {
-	           real_main(error, sample_csv);
-               });
-    }
+    d3.csv('data/samples.csv').then(function (samples_csv) {
+        d3.csv('data/batches.meta.txt').then(function (meta_csv) {
+	    real_main(samples_csv, meta_csv);
+        })
+    });
 }
 
 main()
