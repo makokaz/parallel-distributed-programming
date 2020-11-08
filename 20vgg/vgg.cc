@@ -20,7 +20,9 @@ static real train(VGG<maxB,C0,H,W,K,S,C1,nC> * vgg,
   data.get_data_train(vgg->x, vgg->t, vgg->idxs, B);
   real Lsum = vgg->forward_backward_update(vgg->x, vgg->t, vgg->opt.learnrate);
   real L = Lsum / B;
-  vgg->log_minibatch();
+  int correct = vgg->log_minibatch(0);
+  vgg->lgr->log(1, "train accuracy %d / %d = %.3f",
+                correct, B, correct / (double)B);
   vgg->lgr->log(1, "train loss = %.9f", L);
   return L;
 }
@@ -37,16 +39,19 @@ static real validate(VGG<maxB,C0,H,W,K,S,C1,nC> * vgg,
     vgg->lgr->log(1, "=== validate %ld - %ld ===", count, count + data.n_validate);
     long read_from = 0;
     real Lsum = 0.0;
+    int correct = 0;
     while (read_from < data.n_validate) {
       long read_to = min_i(read_from + maxB, data.n_validate);
-      data.get_data_validate(vgg->x, vgg->t, read_from, read_to);
+      data.get_data_validate(vgg->x, vgg->t, vgg->idxs, read_from, read_to);
       vec<maxB>& y = vgg->forward(vgg->x, vgg->t);
       y.to_host();
       Lsum += y.sum();
+      correct += vgg->log_minibatch(read_from);
       read_from = read_to; 
     }
     real L = Lsum / data.n_validate;
-    vgg->log_minibatch();
+    vgg->lgr->log(1, "validate accuracy %d / %d = %.3f",
+                  correct, data.n_validate, correct / (double)data.n_validate);
     vgg->lgr->log(1, "validate loss = %.9f", L);
     return L;
   } else {

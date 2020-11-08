@@ -1,6 +1,6 @@
 #!/bin/bash
 
-start=2018-12-10T14:00:00
+start=2020-11-09T15:00:00
 reservation=tau
 partitions="knm big p v"
 

@@ -35,12 +35,13 @@ $(img_dir)/created : ../vgg.g++ $(bin)
 # --partial_data $(n_imgs)
 
 $(ppm) : %.ppm : $(img_dir)/created
-	ls $@ && touch $@
+	ls $@
+	touch $@
 
 $(png) : %.png : %.ppm
 	convert $< $@
 
 $(index) : % : $(png)
-	for p in $(png); do echo "<img src=\"$$(basename $${p})\" />" ; done > $@
+#	for p in $(png); do echo "<img src=\"$$(basename $${p})\" />" ; done > $@
 
 .DELETE_ON_ERROR:

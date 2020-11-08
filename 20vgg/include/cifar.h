@@ -215,10 +215,10 @@ struct cifar10_dataset {
     return 1;
   }
   /**
-     @brief log dataset
+     @brief log training dataset
      @param (lgr) logger
    */
-  void log_dataset(logger& lgr) {
+  void log_dataset_train(logger& lgr) {
     long l = 0;
     char s[30];
     l += strlen("train:");
@@ -226,13 +226,6 @@ struct cifar10_dataset {
       sprintf(s, " %d", train[i].index);
       l += strlen(s);
     }
-    l += strlen("\n");
-    l += strlen("validation:");
-    for (long i = 0; i < n_validate; i++) {
-      sprintf(s, " %d", validate[i].index);
-      l += strlen(s);
-    }
-
     char * data_str = (char *)malloc(l + 1);
     char * p = data_str;
     p[0] = 0;
@@ -242,17 +235,44 @@ struct cifar10_dataset {
       sprintf(p, " %d", train[i].index);
       p += strlen(p);
     }
-    sprintf(p, "\n");
     p += strlen(p);
-    sprintf(p, "validation:");
+    assert(p == data_str + l);
+    lgr.log(3, "%s", data_str);
+    free(data_str);
+  }
+  /**
+     @brief log validation dataset
+     @param (lgr) logger
+   */
+  void log_dataset_validate(logger& lgr) {
+    long l = 0;
+    char s[30];
+    l += strlen("validate:");
+    for (long i = 0; i < n_validate; i++) {
+      sprintf(s, " %d", validate[i].index);
+      l += strlen(s);
+    }
+    char * data_str = (char *)malloc(l + 1);
+    char * p = data_str;
+    p[0] = 0;
+    sprintf(p, "validate:");
     p += strlen(p);
     for (long i = 0; i < n_validate; i++) {
       sprintf(p, " %d", validate[i].index);
       p += strlen(p);
     }
+    p += strlen(p);
     assert(p == data_str + l);
     lgr.log(3, "%s", data_str);
     free(data_str);
+  }
+  /**
+     @brief log dataset
+     @param (lgr) logger
+   */
+  void log_dataset(logger& lgr) {
+    log_dataset_train(lgr);
+    log_dataset_validate(lgr);
   }
   
   /**
@@ -291,14 +311,16 @@ struct cifar10_dataset {
      @param (from) the first validation image to return
      @param (to) the last validation image to load + 1
    */
-  int get_data_validate(array4<maxB,IC,H,W>& x, ivec<maxB>& t, idx_t from, idx_t to) {
+  int get_data_validate(array4<maxB,IC,H,W>& x, ivec<maxB>& t, ivec<maxB>& idxs, idx_t from, idx_t to) {
     idx_t B = to - from;
     assert(B <= maxB);
     x.set_n_rows(B);
     t.set_n(B);
+    idxs.set_n(B);
     for (long b = 0; b < B; b++) {
       cifar10_data_item<IC,H,W>& itm = validate[from + b];
       t(b) = itm.label;
+      idxs(b) = itm.index;
       for (idx_t ic = 0; ic < IC; ic++) {
         for (idx_t i = 0; i < H; i++) {
           for (idx_t j = 0; j < W; j++) {
@@ -309,6 +331,7 @@ struct cifar10_dataset {
     }
     x.to_dev();
     t.to_dev();
+    idxs.to_dev();
     return 1;
   }
 };

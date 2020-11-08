@@ -1,3 +1,17 @@
+#森下
+#近藤
+藤堂
+#森下
+#須田?
+#相澤
+#江崎
+#相田
+関谷
+#千葉
+川原
+#関本
+
+
 #
 # Makefile for VGG
 #
@@ -39,7 +53,7 @@ flags += -DN_FIRST_CHANNELS=16
 #
 g++flags += -Wall -Wextra
 g++flags += -Wno-strict-overflow
-g++flags += -march=native
+#g++flags += -march=native
 
 #
 # flags applied only to nvcc
@@ -74,5 +88,11 @@ $(targets) : vgg.% : vgg.cc $(headers) Makefile
 
 clean :
 	rm -f $(targets)
+
+clean_tag :
+	rm -rf GPATH GTAGS GRTAGS HTML
+
+tag :
+	htags --suggest
 
 .DELETE_ON_ERROR :

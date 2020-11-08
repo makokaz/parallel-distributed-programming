@@ -409,7 +409,7 @@ struct VGG {
     array4<maxB,C0,H1,W1>&  g0 = block1_1.backward(g1);
     return g0;
   }
-  void log_minibatch() {
+  int log_minibatch(idx_t start_offset) {
     array2<maxB,nC>& lsm = softmax_cross_entropy.lsm;
     lsm.to_host();
     const idx_t B = idxs.n;
@@ -426,9 +426,9 @@ struct VGG {
         correct++;
       }
       lgr->log(1, "sample %d image %d pred %d truth %d",
-               b, idxs(b), pred_class, t(b));
+               start_offset + b, idxs(b), pred_class, t(b));
     }
-    lgr->log(1, "correct labels %d / %d", correct, B);
+    return correct;
   }
 
   /**
