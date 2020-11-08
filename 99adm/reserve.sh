@@ -2,7 +2,8 @@
 
 start=2020-11-09T15:00:00
 reservation=tau
-partitions="knm big p v"
+partitions="big p v"
+#partitions="knm"
 
 get_valid_users() {
     v="tau"
