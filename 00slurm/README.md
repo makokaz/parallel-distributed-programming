@@ -3,27 +3,31 @@
 
 Become familiar with slurm job manager
 
-For impatients
+For impatient
 ===================
 
 Try the following and check if they work.
 
-Run a command
+<font color="blue">srun</font> to run a command
 -------------------
 
 ```
 $ srun -p p   -t 0:01:00 hostname
+$ srun -p v   -t 0:01:00 hostname
 $ srun -p big -t 0:01:00 hostname
 $ srun -p knm -t 0:01:00 hostname
 ```
 
 Replace "hostname" part with a command you like to use.
 
+Each of these commands will submit the specified command (`hostname` in this case), waiting until a node becomes available on the specified partition.
+
 Run an interactive shell
 -------------------
 
 ```
 $ srun -p p   -t 0:01:00 --pty bash
+$ srun -p v   -t 0:01:00 --pty bash
 $ srun -p big -t 0:01:00 --pty bash
 $ srun -p knm -t 0:01:00 --pty bash
 ```
@@ -32,11 +36,16 @@ You will see the shell prompt of a compute node.
 Run a few commands and quit immediately.
 This is useful when you want to interactively diagnose problems.
 
+<font color="red">USE IT ONLY WHEN REALLY NECESSARY</font>
+
+Remember that when you are running a job on a compute host, others may be waiting for a host to become available.  
+
 Run a debugger
 -------------------
 
 ```
 $ srun -p p   -t 0:01:00 --pty cuda-gdb
+$ srun -p v   -t 0:01:00 --pty cuda-gdb
 $ srun -p big -t 0:01:00 --pty gdb
 $ srun -p knm -t 0:01:00 --pty gdb
 ```
@@ -48,10 +57,13 @@ It is recommended to do this from within Emacs (M-x gud-gdb).
 Reservation
 -------------------
 
-The following should work during hands-on session.
+In class hours, I may reserve a node of each type so that students do not have to wait for a long time.
+
+In that case, the following should work during classes.
 
 ```
 $ srun -p p   -t 0:01:00 --reservation ptau hostname
+$ srun -p v   -t 0:01:00 --reservation vtau hostname
 $ srun -p big -t 0:01:00 --reservation bigtau hostname
 $ srun -p knm -t 0:01:00 --reservation knmtau hostname
 ```
@@ -75,6 +87,8 @@ p101
 ```
 
 This runs "hostname" command on the "p" partition of the system with execution time limit of 1 minute.
+
+You are advised to run complex commands either through a shell script or a Makefile.  
 
 Available partitions
 ===================
@@ -115,11 +129,11 @@ srun: Requested reservation not usable now
 srun: job 12207 queued and waiting for resources
 ```
 
-scontrol to see the info about advanced reservations
+<font color="blue">scontrol</font> to see the info about advanced reservations
 ===================
 
 You can check the information about reservations by scontrol show reservation.
-In partiular, you can check if you are enlisted in the reservation.
+In particular, you can check if you are enlisted in the reservation.
 If you don't find your login ID in the Users part, you are not.
 This is simply because you do not have an account (or did not have one when I made the reservations).
 
@@ -149,7 +163,7 @@ ReservationName=ptau StartTime=2018-10-15T15:00:00 EndTime=2018-10-15T20:00:00 D
    Users=tau,ictish,qiao,u00059,u00060,u00062,u00063,u00064,u00066,u00067,u00069,u00070,u00071,u00072,u00073,u00075,u00076,u00077,u00078,u00079,u00080,u00081,u00083,u00084,u00086,u00087,u00088,u00089 Accounts=(null) Licenses=(null) State=INACTIVE BurstBuffer=(null) Watts=n/a
 ```
 
-squeue to see queued jobs
+<font color="blue">squeue</font> to see queued jobs
 ===================
 
 ```
@@ -167,7 +181,7 @@ The important column is ST (Status) column.
  * R : running
  * PD : pending
 
-sinfo to see node availability
+<font color="blue">sinfo</font> to see node availability
 ===================
 
 ```
@@ -185,6 +199,9 @@ big          up 2-00:00:00      1   idle big000
 More info
 ===================
 
- * consult manual pages (e.g., man srun, man squeue, etc.) on the login node or the web
- * consult IST cluster user guide https://login000.cluster.i.u-tokyo.ac.jp/wordpress/
+ * srun, squeue, etc. are part of <a href="https://slurm.schedmd.com/documentation.html" target="_blank">Slurm</font> job manager
+ * consult manual pages (e.g., man srun, man squeue, etc.) on the login node or on the web
+ * consult <a href="https://login000.cluster.i.u-tokyo.ac.jp/wordpress/" target="_blank">IST cluster user guide</a>
+   * this user guide is readable only from within the campus network
+   * use SSH tunneling (port forwarding) to access it from your home 
  

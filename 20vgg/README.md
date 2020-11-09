@@ -32,24 +32,43 @@ Run:
 
  * Make sure you have cifar-10-batches-bin/data_batch_1.bin file under the current directory.  On IST cluster, you can do so by
 ```
-$ ln -s /home/tau/cifar10/cifar-10-batches-bin
+$ cd data
+$ ln -s /home/tau/data/cifar-10-batches-bin
 ```
 
-You may download the data from the original source if you like.
+ * alternatively (or if you want to work outside IST cluster), you can download the data from the original VGG web site by
+```
+$ cd data
+$ make -f data.mk dl
+```
 
 CPU:
 ------------------
 
+* Run on login node. Do not do this for long runs.
+
 ```
-$ ./vgg.g++ [options]  # on login node. do not run for a long time
+$ ./vgg.g++ [options]
+```
+
+* Run on a compute node, through srun
+
+```
 $ srun -p big -t 0:20:00 ./vgg.g++ [options]
 ```
 
 GPU:
 ------------------
 
+* Run on login node.  You cannot run GPU code on the login node, so it's almost pointless
+
 ```
-$ ./vgg.nvcc   # on login node. do not run for a long time
+$ ./vgg.nvcc [options]
+```
+
+* Run on a compute node having GPUs. Do not forget `--gres gpu:1` option
+
+```
 $ srun -p p -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
 $ srun -p v -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
 ```
@@ -136,7 +155,7 @@ dropout (--dropout 1)
 
 There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  
 
-Dropout is OFF by default (i.e., output_i = input_i).  You may turn it on by giving --dropout 1.
+Dropout is OFF by default (i.e., output_i = input_i) for the reproducibility of the results.  You may turn it on by giving --dropout 1.
 
 Dropout is generally believed to improve generalization.  The reason that dropout is nevertheless off by default is to make the network behavior more predictable/deterministic and to make the convergence for small training data faster.
 
@@ -167,7 +186,7 @@ $ ./vgg.g++ -b 16 --single_batch 1
 Data file (-d, --partial_data and --partial_data_seed)
 --------------------------
 
-It reads data from the file specified by --cifar_data (-d) option (default: cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
+It reads data from the file specified by --cifar_data (-d) option (default: data/cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
 
 If you want to use only a part of data, you can specify the number of data used by --partial_data option.  --partial_data N randomly chooses N images from the data file.  You can seed the random number generator to choose those images by --partial_data_seed X.  If N is zero, then the whole data set in the file are used.
 
