@@ -8,22 +8,23 @@
 #
 cxxs :=
 cxxs += g++
+cxxs += clang++
 #cxxs += nvcc
 
 #
 # specify the full path to compilers if necessary
 #
 g++ := g++
+clang++ := clang++
 nvcc := nvcc
-#nvcc := /usr/local/bin/nvcc
 
 #
 # flags common across both compilers (g++ and nvcc)
 #
 flags :=
 # ---- optimize or debug ---- 
-flags += -O3
-#flags += -O0 -g
+#flags += -O3
+flags += -O0 -g
 # ---- turn on/off array index checking ---- 
 flags += -DARRAY_INDEX_CHECK=0
 #flags += -DARRAY_INDEX_CHECK=1
@@ -40,6 +41,13 @@ flags += -DN_FIRST_CHANNELS=16
 g++flags += -Wall -Wextra
 g++flags += -Wno-strict-overflow
 #g++flags += -march=native
+
+#
+# flags applied only to clang++
+#
+clang++flags += -Wall -Wextra
+clang++flags += -Wno-strict-overflow
+#clang++flags += -march=native
 
 #
 # flags applied only to nvcc

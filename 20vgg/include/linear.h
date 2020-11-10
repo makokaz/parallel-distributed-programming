@@ -114,6 +114,8 @@ struct Linear {
     y.set_dev(dev ? &dev->y : 0);
     gw.set_dev(dev ? &dev->gw : 0);
     gx.set_dev(dev ? &dev->gx : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

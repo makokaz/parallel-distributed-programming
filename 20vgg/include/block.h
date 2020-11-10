@@ -77,6 +77,8 @@ struct Block {
     conv.set_dev(dev ? &dev->conv : 0);
     bn.set_dev(dev ? &dev->bn : 0);
     relu.set_dev(dev ? &dev->relu : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

@@ -217,6 +217,8 @@ struct VGG {
     fc2.set_dev(dev ? &dev->fc2 : 0);
     
     softmax_cross_entropy.set_dev(dev ? &dev->softmax_cross_entropy : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

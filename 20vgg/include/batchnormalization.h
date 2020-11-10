@@ -127,6 +127,8 @@ struct BatchNormalization {
     ggamma.set_dev(dev ? &dev->ggamma : 0);
     gbeta.set_dev(dev ? &dev->gbeta : 0);
     gx.set_dev(dev ? &dev->gx : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

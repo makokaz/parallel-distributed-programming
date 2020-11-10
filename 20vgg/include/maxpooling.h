@@ -103,6 +103,8 @@ struct MaxPooling2D {
     y.set_dev(dev ? &dev->y : 0);
     max_idx.set_dev(dev ? &dev->max_idx : 0);
     gx.set_dev(dev ? &dev->gx : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

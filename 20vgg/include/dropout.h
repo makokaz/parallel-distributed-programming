@@ -106,6 +106,8 @@ struct Dropout {
     this->dev = dev;
     y.set_dev(dev ? &dev->y : 0);
     gx.set_dev(dev ? &dev->gx : 0);
+#else
+    (void)dev;
 #endif
   }
   /**

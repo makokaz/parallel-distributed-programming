@@ -195,6 +195,8 @@ struct vec {
   void set_dev(vec<N> * dev) {
 #if __NVCC__
     this->dev = dev;
+#else
+    (void)dev;
 #endif
   }
   /**
@@ -310,6 +312,8 @@ struct ivec {
   void set_dev(ivec<N> * dev) {
 #if __NVCC__
     this->dev = dev;
+#else
+    (void)dev;
 #endif
   }
   /**
@@ -482,6 +486,8 @@ struct array2 {
   void set_dev(array2<M,N> * dev) {
 #if __NVCC__
     this->dev = dev;
+#else
+    (void)dev;
 #endif
   }
   /**
@@ -704,6 +710,8 @@ struct array4 {
   void set_dev(array4<maxB,C,H,W>* dev) {
 #if __NVCC__
     this->dev = dev;
+#else
+    (void)dev;
 #endif
   }
   /**
@@ -888,6 +896,8 @@ struct warray4 {
   void set_dev(warray4<OC,IC,H,W>* dev) {
 #if __NVCC__
     this->dev = dev;
+#else
+    (void)dev;
 #endif
   }
   /**
