@@ -88,7 +88,36 @@ p101
 
 This runs "hostname" command on the "p" partition of the system with execution time limit of 1 minute.
 
-You are advised to run complex commands either through a shell script or a Makefile.  
+Write a shell script
+===================
+
+* You are advised to run complex commands either through a shell script or a Makefile
+* You are also advised to run many short commands either through a shell script or a Makefile
+
+sbatch 
+===================
+
+* srun waits until the job to finish, which is inconvenient when the queueing time becomes extremely long
+* sbatch queues the job and immediately finishes, allowing you to walk away 
+
+```
+$ sbatch -p <partition> -t <time_limit>  <command>
+```
+
+The <command> must be a shell script
+
+Example: you write a shell script, say job.sh, as follows
+```
+#!/bin/bash
+hostname
+```
+and run 
+```
+$ sbatch -p big -t 0:01:00 ./job.sh 
+Submitted batch job 524766
+```
+
+After the job is finished, the output will be available in a file `slurm-<job-id>.out`
 
 Available partitions
 ===================
