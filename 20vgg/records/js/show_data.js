@@ -11,7 +11,9 @@
 var g_data;
 
 function update_loss_graph() {
+    // graph area 1000x500
     var W = { x : 1000, y : 500 };
+    // location of the originl (50,50)
     var O = { x : 50, y : 50 };
     var font_height = 10;
 
@@ -107,12 +109,145 @@ function update_samples_table() {
     }
 }
 
-function update_tables_and_graphs() {
-    update_loss_graph();
-    //update_samples_table();
+function make_key_to_group(row, group_keys) {
+    var key = "";
+    for (var i = 0; i < group_keys.length; i++) {
+        var col = group_keys[i];
+        if (key != "") key = key.concat("::");
+        key = key.concat(row[col]);
+    }
+    return key;
 }
 
-function real_main(samples_csv, meta_csv, loss_accuracy_csv) {
+function summarize_kernel_times(kernel_times, group_keys, sort_keys, sort_dir) {
+    var D = {};
+    for (var i = 0; i < kernel_times.length; i++) {
+        var row = kernel_times[i];
+        var t0 = +row.t0;
+        var t1 = +row.t1;
+        var key = make_key_to_group(row, group_keys);
+        if (!(key in D)) D[key] = [];
+        D[key].push(t1 - t0)
+    }
+    var O = [];
+    var keys = Object.keys(D);
+    function make_keys(item) {
+        var keys = [];
+        for (var i = 0; i < sort_keys.length; i++) {
+            var sk = sort_keys[i];
+            var key = item[sk];
+            keys.push(key)
+        }
+        return keys;
+    }
+    function sum(a) {
+        return a.reduce(function(x, y){ return x + y; }, 0);
+    }
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var cls_fun = key.split("::");
+        var cls   = cls_fun[0];
+        var cargs = cls_fun[1];
+        var fun   = cls_fun[2];
+        var fargs = cls_fun[3];
+        var ts    = D[key];
+        var calls = ts.length;
+        var total = sum(ts);
+        var avg   = total / calls;
+        var sigma = Math.sqrt(sum(ts.map(x => (x - avg) * (x - avg))));
+        var item = {"cls" : cls, "cargs" : cargs,
+                    "fun" : fun, "fargs" : fargs,
+                    "calls" : calls, "total" : total, "avg" : avg, "sigma" : sigma };
+        item["keys"] = make_keys(item);
+        O.push(item)
+    }
+    function key_cmp(a, b) {
+        for (var i = 0; i < a.keys.length; i++) {
+            var ak = a.keys[i];
+            var bk = b.keys[i];
+            if (typeof ak == "number") {
+                if (ak < bk) {
+                    return -1;
+                } else if (ak > bk) {
+                    return 1;
+                }
+            } else {
+                var s = ak.localeCompare(bk);
+                if (s < 0) return -1;
+                else if (s > 0) return 1;
+            }
+        }
+        return 0;
+    }
+    O = O.sort(key_cmp);
+    if (sort_dir == -1) {
+        O = O.reverse();
+    }
+    return O;
+}
+
+function make_header(th, col) {
+    th.text(col);
+    th.append("a").attr("href", "javascript:void(0)")
+        .on("click",
+            function() {
+                g_data.sort_keys = [col];
+                g_data.sort_dir = 1;
+                refresh_page();
+            }).text("↑");
+    th.append("text").text("/");
+    th.append("a").attr("href", "javascript:void(0)")
+        .on("click",
+            function() {
+                g_data.sort_keys = [col]
+                g_data.sort_dir = -1;
+                refresh_page();
+            }).text("↓");
+    return th;
+}
+
+function make_kernel_times_table(div_id, times) {
+    d3.select(div_id).selectAll("*").remove();
+    var table = d3.select(div_id).append('table').attr('border', 1);
+    var tr = table.append('tr').selectAll()
+        .data(["cls", "cargs", "fun", "fargs", "calls", "total", "avg", "sigma/avg"]).enter()
+        .append("th").each(function (col) {
+            var th = d3.select(this);
+            make_header(th, col);
+        });
+    table.selectAll()
+        .data(times)
+        .enter()
+        .append("tr")
+        .each(function (row, i) {
+            var tr = d3.select(this);
+            var data = [row.cls, row.cargs, row.fun, row.fargs,
+                        row.calls, row.total, row.avg.toFixed(2), (row.sigma/row.avg).toFixed(2)]
+            tr.selectAll()
+                .data(data)
+                .enter()
+                .append("td")
+                .each(function (cell, i) {
+                    var td = d3.select(this);
+                    td.text(cell);
+                });
+        });
+}
+
+function update_kernel_times_table() {
+    var kernel_times = g_data.kernel_times;
+    var agg_times = summarize_kernel_times(kernel_times,
+                                           g_data.group_keys, g_data.sort_keys, g_data.sort_dir);
+    make_kernel_times_table("#kernel_times", agg_times);
+}
+
+function refresh_page() {
+    update_loss_graph();
+    update_samples_table();
+    update_kernel_times_table();
+}
+
+function real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv) {
     if (samples_csv == null) {
         d3.select("#history")
             .append("p")
@@ -125,20 +260,38 @@ function real_main(samples_csv, meta_csv, loss_accuracy_csv) {
             samples : samples_csv,
             meta : meta_csv,
             loss_accuracy : loss_accuracy_csv,
+            kernel_times : kernel_times_csv,
+            group_keys : ["cls", "cargs", "fun", "fargs"],
+            sort_keys : ["cls", "fun"],
+            sort_dir : 1,
         };
-        d3.selectAll("input").on("change", update_tables_and_graphs);
-        update_tables_and_graphs();
+        d3.selectAll("input").on("change", refresh_page);
+        refresh_page();
     }
 }
 
 function main() {
-    d3.csv('data/samples.csv').then(function (samples_csv) {
-        d3.csv('data/batches.meta.txt').then(function (meta_csv) {
+    var meta_csv = [{"class": "airplane"},
+                    {"class": "automobile"},
+                    {"class": "bird"},
+                    {"class": "cat"},
+                    {"class": "deer"},
+                    {"class": "dog"},
+                    {"class": "frog"},
+                    {"class": "horse"},
+                    {"class": "ship"},
+                    {"class": "truck"}];
+    if (0) {
+        d3.csv('data/samples.csv').then(function (samples_csv) {
             d3.csv('data/loss_accuracy.csv').then(function (loss_accuracy_csv) {
-	        real_main(samples_csv, meta_csv, loss_accuracy_csv);
+                d3.csv('data/kernel_times.csv').then(function (kernel_times_csv) {
+	            real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv);
+                })
             })
-        })
-    });
+        });
+    } else {
+	real_main(meta_csv, samples_json, loss_accuracy_json, kernel_times_json);
+    }
 }
 
 main()
