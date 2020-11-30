@@ -12,24 +12,25 @@ Try the following and check if they work.
 -------------------
 
 ```
-$ srun -p p   -t 0:01:00 hostname
-$ srun -p v   -t 0:01:00 hostname
-$ srun -p big -t 0:01:00 hostname
-$ srun -p knm -t 0:01:00 hostname
+$ srun -p big -t 0:01:00 hostname     # Intel Skylake
+$ srun -p knm -t 0:01:00 hostname     # Intel many core Knights Mill
+$ srun -p p   -t 0:01:00 --gres gpu:1 hostname # NVIDIA P100
+$ srun -p v   -t 0:01:00 --gres gpu:1 hostname # NVIDIA V100
 ```
 
-Replace "hostname" part with a command you like to use.
+Each of these commands will submit the specified command (`hostname` in this case), waiting until a node becomes available on the specified partition (big, knm, p, or v).
 
-Each of these commands will submit the specified command (`hostname` in this case), waiting until a node becomes available on the specified partition.
+* Replace "hostname" part with a command you like to run.
+* `--gres gpu:1` is necessary when you use a GPU; in practice, you use it to submit a job to GPU partition (p or v)
 
 Run an interactive shell
 -------------------
 
 ```
-$ srun -p p   -t 0:01:00 --pty bash
-$ srun -p v   -t 0:01:00 --pty bash
 $ srun -p big -t 0:01:00 --pty bash
 $ srun -p knm -t 0:01:00 --pty bash
+$ srun -p p   -t 0:01:00 --pty --gres gpu:1 bash
+$ srun -p v   -t 0:01:00 --pty --gres gpu:1 bash
 ```
 
 You will see the shell prompt of a compute node.
@@ -44,10 +45,10 @@ Run a debugger
 -------------------
 
 ```
-$ srun -p p   -t 0:01:00 --pty cuda-gdb
-$ srun -p v   -t 0:01:00 --pty cuda-gdb
 $ srun -p big -t 0:01:00 --pty gdb
 $ srun -p knm -t 0:01:00 --pty gdb
+$ srun -p p   -t 0:01:00 --pty --gres gpu:1 cuda-gdb
+$ srun -p v   -t 0:01:00 --pty --gres gpu:1 cuda-gdb
 ```
 
 When you need to debug CPU programs, you can simply do it on the login node.
@@ -62,10 +63,10 @@ In class hours, I may reserve a node of each type so that students do not have t
 In that case, the following should work during classes.
 
 ```
-$ srun -p p   -t 0:01:00 --reservation ptau hostname
-$ srun -p v   -t 0:01:00 --reservation vtau hostname
 $ srun -p big -t 0:01:00 --reservation bigtau hostname
 $ srun -p knm -t 0:01:00 --reservation knmtau hostname
+$ srun -p p   -t 0:01:00 --reservation ptau --gres gpu:1 hostname
+$ srun -p v   -t 0:01:00 --reservation vtau --gres gpu:1 hostname
 ```
 
 See below for more details.
@@ -77,7 +78,7 @@ srun
 The most basic command is srun, which simply runs any command on a specified partition
 
 ```
-$ srun -p <partition> -t <time_limit>  <command>
+$ srun -p <partition> -t <time_limit> [--gres gpu:1] <command>
 ```
 
 Example:
@@ -87,6 +88,9 @@ p101
 ```
 
 This runs "hostname" command on the "p" partition of the system with execution time limit of 1 minute.
+
+* `--gres gpu:1` claims one GPU to run your job; don't forget to specify this when you run a GPU job
+
 
 Write a shell script
 ===================
@@ -101,10 +105,10 @@ sbatch
 * sbatch queues the job and immediately finishes, allowing you to walk away 
 
 ```
-$ sbatch -p <partition> -t <time_limit>  <command>
+$ sbatch -p <partition> -t <time_limit> [--gres gpu:1]  <shell-script-command>
 ```
 
-The <command> must be a shell script
+The <shell-script-command> must be a shell script
 
 Example: you write a shell script, say job.sh, as follows
 ```
@@ -146,14 +150,16 @@ On Monday 15:00 - 18:00, I will reserve a node from each of partitions p, big an
 Example:
 
 ```
-$ srun -p p --reservation ptau -t 0:01:00 hostname
+$ srun -p p --reservation ptau -t 0:01:00 --gres gpu:1 hostname
 p101
 ```
+
+(there is no point in claiming GPU to run hostname command, but just for illustration)
 
 Outside the reservation period, you will see the following message.
 
 ```
-$ srun -p p --reservation ptau -t 0:01:00 hostname
+$ srun -p p --reservation ptau -t 0:01:00 --gres gpu:1 hostname
 srun: Requested reservation not usable now
 srun: job 12207 queued and waiting for resources
 ```
