@@ -368,6 +368,26 @@ The loss becomes zero if the network says the probability is 1 for the correct c
 
    -log(1/2) = 0.69314...
 
+Navigating the source code
+==========================
+
+1. open HTML/index.html in your browser
+1. compile it with -O0 -g (edit Makefile) run it under the debugger
+
+Performance profiling
+==========================
+
+1. after you run, you will get vgg.log that has a detailed execution log
+1. do the following
+``
+$ ./vgg.g++
+$ ls
+  ... vgg.log ...
+$ cd records
+$ ./parse_log ../vgg.log
+$ open index.html with your browser
+``
+
 Performance criteria and the regulation
 ==========================
 
