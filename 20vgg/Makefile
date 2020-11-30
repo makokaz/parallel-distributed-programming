@@ -8,7 +8,7 @@
 #
 cxxs :=
 cxxs += g++
-cxxs += clang++
+#cxxs += clang++
 #cxxs += nvcc
 
 #
