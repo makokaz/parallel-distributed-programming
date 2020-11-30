@@ -55,6 +55,8 @@ When you need to debug CPU programs, you can simply do it on the login node.
 When you need to debug GPU programs, use --pty option to run the debugger (cuda-gdb) on a compute node.
 It is recommended to do this from within Emacs (M-x gud-gdb).
 
+* When you debug a CPU program, consider doing it on the login node
+
 Reservation
 -------------------
 
