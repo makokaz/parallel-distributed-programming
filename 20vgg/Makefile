@@ -23,8 +23,8 @@ nvcc := nvcc
 #
 flags :=
 # ---- optimize or debug ---- 
-#flags += -O3
-flags += -O0 -g
+flags += -O3
+#flags += -O0 -g
 # ---- turn on/off array index checking ---- 
 flags += -DARRAY_INDEX_CHECK=0
 #flags += -DARRAY_INDEX_CHECK=1

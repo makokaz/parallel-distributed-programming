@@ -87,7 +87,6 @@ int main(int argc, char ** argv) {
   const idx_t W  = 32;                /**< width of an image */
   const idx_t K  = 1;        /**< kernel size (K=1 -> 3x3) */
   const idx_t S  = 2;        /**< max pooling stride HxW -> H/SxW/S */
-  //const idx_t C1 = 64;       /**< channels of the first stage */
   const idx_t C1 = N_FIRST_CHANNELS; /**< channels of the first stage */
   const idx_t nC = 10;       /**< number of classes */
   assert(B <= maxB);
