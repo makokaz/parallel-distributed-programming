@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>W</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L12'>W</a>                  12 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L23'>W</a>                  23 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L24'>W</a>                  24 include/batchnormalization.h __global__ void forward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L25'>W</a>                  25 include/batchnormalization.h                                array4&lt;maxB,IC,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/478.html#L37'>W</a>                  37 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L38'>W</a>                  38 include/batchnormalization.h __global__ void backward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L39'>W</a>                  39 include/batchnormalization.h                                 array4&lt;maxB,IC,H,W&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/478.html#L51'>W</a>                  51 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L52'>W</a>                  52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L73'>W</a>                  73 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L76'>W</a>                  76 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/478.html#L82'>W</a>                  82 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; x_hat;    /**&lt; normalized x */</span>
+<span class='curline'><a href='../S/478.html#L84'>W</a>                  84 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; y;        /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/478.html#L87'>W</a>                  87 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; gx;       /**&lt; gradient of loss wrt x  */</span>
+<span class='curline'><a href='../S/478.html#L105'>W</a>                 105 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/478.html#L106'>W</a>                 106 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;* c = new BatchNormalization&lt;maxB,IC,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/478.html#L119'>W</a>                 119 include/batchnormalization.h   void set_dev(BatchNormalization&lt;maxB,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/478.html#L144'>W</a>                 144 include/batchnormalization.h       dev = (BatchNormalization&lt;maxB,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/478.html#L186'>W</a>                 186 include/batchnormalization.h       BatchNormalization&lt;maxB,IC,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/478.html#L288'>W</a>                 288 include/batchnormalization.h   vec&lt;IC&gt; mean_bij(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L296'>W</a>                 296 include/batchnormalization.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L301'>W</a>                 301 include/batchnormalization.h       mean(ic) = s / (B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L316'>W</a>                 316 include/batchnormalization.h   vec&lt;IC&gt;&amp; inv_std_bij(array4&lt;maxB,IC,H,W&gt;&amp; x, vec&lt;IC&gt;&amp; mu) {</span>
+<span class='curline'><a href='../S/478.html#L319'>W</a>                 319 include/batchnormalization.h     const real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L325'>W</a>                 325 include/batchnormalization.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L348'>W</a>                 348 include/batchnormalization.h   void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L352'>W</a>                 352 include/batchnormalization.h     if (B * H * W &gt; 1) {</span>
+<span class='curline'><a href='../S/478.html#L358'>W</a>                 358 include/batchnormalization.h             for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L369'>W</a>                 369 include/batchnormalization.h             for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L388'>W</a>                 388 include/batchnormalization.h   void forward_dev(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L400'>W</a>                 400 include/batchnormalization.h   void forward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L411'>W</a>                 411 include/batchnormalization.h   void forward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L420'>W</a>                 420 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L459'>W</a>                 459 include/batchnormalization.h   void backward_base(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L464'>W</a>                 464 include/batchnormalization.h     if (B * H * W &gt; 1) {</span>
+<span class='curline'><a href='../S/478.html#L469'>W</a>                 469 include/batchnormalization.h             for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L478'>W</a>                 478 include/batchnormalization.h       real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L485'>W</a>                 485 include/batchnormalization.h             for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L495'>W</a>                 495 include/batchnormalization.h             for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/478.html#L514'>W</a>                 514 include/batchnormalization.h   void backward_dev(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L526'>W</a>                 526 include/batchnormalization.h   void backward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L537'>W</a>                 537 include/batchnormalization.h   void backward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L551'>W</a>                 551 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L594'>W</a>                 594 include/batchnormalization.h   void set_grad(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/478.html#L604'>W</a>                 604 include/batchnormalization.h   real gw_dot_gw(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/478.html#L605'>W</a>                 605 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/478.html#L632'>W</a>                 632 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L635'>W</a>                 635 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn = new BatchNormalization&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L640'>W</a>                 640 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_minus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L641'>W</a>                 641 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_plus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L643'>W</a>                 643 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * alpha = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L648'>W</a>                 648 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L653'>W</a>                 653 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y = bn-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/478.html#L654'>W</a>                 654 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = bn-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/478.html#L660'>W</a>                 660 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L663'>W</a>                 663 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/478.html#L665'>W</a>                 665 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/478.html#L683'>W</a>                 683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L684'>W</a>                 684 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_plus  = bn_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/478.html#L739'>W</a>                 739 include/batchnormalization.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/478.html#L752'>W</a>                 752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L32'>W</a>                  32 include/block.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/482.html#L35'>W</a>                  35 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/482.html#L39'>W</a>                  39 include/block.h   Convolution2D     &lt;maxB,IC,H,W,K,OC&gt; conv; /**&lt; convolution layer */</span>
+<span class='curline'><a href='../S/482.html#L40'>W</a>                  40 include/block.h   BatchNormalization&lt;maxB,OC,H,W&gt;      bn;   /**&lt; batch normalization layer */</span>
+<span class='curline'><a href='../S/482.html#L41'>W</a>                  41 include/block.h   Relu              &lt;maxB,OC,H,W&gt;      relu; /**&lt; rectified linear layer  */</span>
+<span class='curline'><a href='../S/482.html#L60'>W</a>                  60 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/482.html#L61'>W</a>                  61 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;* c = new Block&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/482.html#L74'>W</a>                  74 include/block.h   void set_dev(Block&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/482.html#L94'>W</a>                  94 include/block.h       dev = (Block&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/482.html#L136'>W</a>                 136 include/block.h       Block&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/482.html#L159'>W</a>                 159 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/482.html#L160'>W</a>                 160 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x1 = conv.forward(x);</span>
+<span class='curline'><a href='../S/482.html#L161'>W</a>                 161 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x2 = bn.forward(x1);</span>
+<span class='curline'><a href='../S/482.html#L162'>W</a>                 162 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp;  y = relu.forward(x2);</span>
+<span class='curline'><a href='../S/482.html#L176'>W</a>                 176 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/482.html#L177'>W</a>                 177 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; g2 = relu.backward(gy);</span>
+<span class='curline'><a href='../S/482.html#L178'>W</a>                 178 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; g1 = bn.backward(g2);</span>
+<span class='curline'><a href='../S/482.html#L179'>W</a>                 179 include/block.h     array4&lt;maxB,IC,H,W&gt;&amp; gx = conv.backward(g1);</span>
+<span class='curline'><a href='../S/482.html#L199'>W</a>                 199 include/block.h   void set_grad(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/482.html#L209'>W</a>                 209 include/block.h   real gw_dot_gw(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/482.html#L210'>W</a>                 210 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/482.html#L237'>W</a>                 237 include/block.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/482.html#L240'>W</a>                 240 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block = new Block&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/482.html#L245'>W</a>                 245 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_minus = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L246'>W</a>                 246 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_plus  = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L248'>W</a>                 248 include/block.h   array4&lt;maxB,OC,H,W&gt; * alpha = new array4&lt;maxB,OC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L253'>W</a>                 253 include/block.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L258'>W</a>                 258 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y = block-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/482.html#L259'>W</a>                 259 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = block-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/482.html#L265'>W</a>                 265 include/block.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L268'>W</a>                 268 include/block.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/482.html#L270'>W</a>                 270 include/block.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/482.html#L288'>W</a>                 288 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = block_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/482.html#L289'>W</a>                 289 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = block_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/482.html#L346'>W</a>                 346 include/block.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/482.html#L361'>W</a>                 361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/469.html#L16'>W</a>                  16 include/cifar.h template&lt;idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/469.html#L19'>W</a>                  19 include/cifar.h   unsigned char rgb[IC][H][W];  /**&lt; original pixel values */</span>
+<span class='curline'><a href='../S/469.html#L20'>W</a>                  20 include/cifar.h   real w[IC][H][W];             /**&lt; pixels of an image */</span>
+<span class='curline'><a href='../S/469.html#L28'>W</a>                  28 include/cifar.h     range_chk(0, j, W);</span>
+<span class='curline'><a href='../S/469.html#L36'>W</a>                  36 include/cifar.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/469.html#L41'>W</a>                  41 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * dataset; /**&lt; whole dataset (n_data items) */</span>
+<span class='curline'><a href='../S/469.html#L42'>W</a>                  42 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * validate; /**&lt; validation part (first n_validate items) */</span>
+<span class='curline'><a href='../S/469.html#L43'>W</a>                  43 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * train;   /**&lt; training part (remaining items) */</span>
+<span class='curline'><a href='../S/469.html#L68'>W</a>                  68 include/cifar.h     long sz1 = IC * H * W + 1;</span>
+<span class='curline'><a href='../S/469.html#L92'>W</a>                  92 include/cifar.h   int dump_cifar_files(cifar10_data_item&lt;IC,H,W&gt;* dataset, long n_data,</span>
+<span class='curline'><a href='../S/469.html#L116'>W</a>                 116 include/cifar.h       fprintf(wp, "P3 %d %d 255\n", W, H);</span>
+<span class='curline'><a href='../S/469.html#L118'>W</a>                 118 include/cifar.h         for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/469.html#L161'>W</a>                 161 include/cifar.h     dataset = new cifar10_data_item&lt;IC,H,W&gt; [n_data_in_file];</span>
+<span class='curline'><a href='../S/469.html#L168'>W</a>                 168 include/cifar.h       unsigned char rgb[IC][H][W];</span>
+<span class='curline'><a href='../S/469.html#L177'>W</a>                 177 include/cifar.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/469.html#L187'>W</a>                 187 include/cifar.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/469.html#L206'>W</a>                 206 include/cifar.h         cifar10_data_item&lt;IC,H,W&gt; d = dataset[j];</span>
+<span class='curline'><a href='../S/469.html#L284'>W</a>                 284 include/cifar.h   int get_data_train(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t B) {</span>
+<span class='curline'><a href='../S/469.html#L291'>W</a>                 291 include/cifar.h       cifar10_data_item&lt;IC,H,W&gt;&amp; itm = train[idx];</span>
+<span class='curline'><a href='../S/469.html#L296'>W</a>                 296 include/cifar.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/469.html#L314'>W</a>                 314 include/cifar.h   int get_data_validate(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t from, idx_t to) {</span>
+<span class='curline'><a href='../S/469.html#L321'>W</a>                 321 include/cifar.h       cifar10_data_item&lt;IC,H,W&gt;&amp; itm = validate[from + b];</span>
+<span class='curline'><a href='../S/469.html#L326'>W</a>                 326 include/cifar.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/469.html#L350'>W</a>                 350 include/cifar.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/469.html#L353'>W</a>                 353 include/cifar.h   cifar10_dataset&lt;maxB,C,H,W&gt; ds;</span>
+<span class='curline'><a href='../S/469.html#L360'>W</a>                 360 include/cifar.h   array4&lt;maxB,C,H,W&gt; x;</span>
+<span class='curline'><a href='../S/473.html#L11'>W</a>                  11 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L22'>W</a>                  22 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L23'>W</a>                  23 include/convolution.h __global__ void forward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L24'>W</a>                  24 include/convolution.h                                array4&lt;maxB,IC,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/473.html#L37'>W</a>                  37 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L38'>W</a>                  38 include/convolution.h __global__ void backward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L39'>W</a>                  39 include/convolution.h                                 array4&lt;maxB,OC,H,W&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/473.html#L51'>W</a>                  51 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L52'>W</a>                  52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L76'>W</a>                  76 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L79'>W</a>                  79 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/473.html#L83'>W</a>                  83 include/convolution.h   array4&lt;maxB,IC,H,W&gt;* x_ptr;      /**&lt; pointer to the input to forward (x) */</span>
+<span class='curline'><a href='../S/473.html#L85'>W</a>                  85 include/convolution.h   array4&lt;maxB,OC,H,W&gt; y;           /**&lt; y = forward(x) */</span>
+<span class='curline'><a href='../S/473.html#L87'>W</a>                  87 include/convolution.h   array4&lt;maxB,IC,H,W&gt; gx;          /**&lt; ∂L/∂x */</span>
+<span class='curline'><a href='../S/473.html#L104'>W</a>                 104 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/473.html#L105'>W</a>                 105 include/convolution.h     Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * c = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/473.html#L118'>W</a>                 118 include/convolution.h   void set_dev(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/473.html#L139'>W</a>                 139 include/convolution.h       dev = (Convolution2D&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/473.html#L181'>W</a>                 181 include/convolution.h       Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/473.html#L285'>W</a>                 285 include/convolution.h   void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L292'>W</a>                 292 include/convolution.h           for (idx_t j = 0; j &lt; W; j++) { // height</span>
+<span class='curline'><a href='../S/473.html#L297'>W</a>                 297 include/convolution.h                 for (idx_t j_ = max_i(-K,-j); j_ &lt;= min_i(K,W-j-1); j_++) {</span>
+<span class='curline'><a href='../S/473.html#L319'>W</a>                 319 include/convolution.h   void forward_dev(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L331'>W</a>                 331 include/convolution.h   void forward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L342'>W</a>                 342 include/convolution.h   void forward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L351'>W</a>                 351 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L390'>W</a>                 390 include/convolution.h   void backward_base(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L393'>W</a>                 393 include/convolution.h     array4&lt;maxB,IC,H,W&gt;&amp; x = *x_ptr;</span>
+<span class='curline'><a href='../S/473.html#L401'>W</a>                 401 include/convolution.h                 for (idx_t j = max_i(0,-j_); j &lt; min_i(W,W-j_); j++) { // height</span>
+<span class='curline'><a href='../S/473.html#L414'>W</a>                 414 include/convolution.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/473.html#L418'>W</a>                 418 include/convolution.h                 for (idx_t j_ = max_i(-K,j-W+1); j_ &lt;= min_i(K,j); j_++) {</span>
+<span class='curline'><a href='../S/473.html#L445'>W</a>                 445 include/convolution.h   void backward_dev(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L457'>W</a>                 457 include/convolution.h   void backward_gpu(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L468'>W</a>                 468 include/convolution.h   void backward_cpu(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L482'>W</a>                 482 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L524'>W</a>                 524 include/convolution.h   void set_grad(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L533'>W</a>                 533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L557'>W</a>                 557 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L560'>W</a>                 560 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/473.html#L565'>W</a>                 565 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_minus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L566'>W</a>                 566 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_plus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L568'>W</a>                 568 include/convolution.h   array4&lt;maxB,OC,H,W&gt; * alpha = new array4&lt;maxB,OC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L573'>W</a>                 573 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L578'>W</a>                 578 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y = conv-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/473.html#L579'>W</a>                 579 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = conv-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/473.html#L585'>W</a>                 585 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L588'>W</a>                 588 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/473.html#L590'>W</a>                 590 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/473.html#L608'>W</a>                 608 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = conv_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/473.html#L609'>W</a>                 609 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = conv_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/473.html#L667'>W</a>                 667 include/convolution.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/473.html#L682'>W</a>                 682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L11'>W</a>                  11 include/dropout.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/468.html#L22'>W</a>                  22 include/dropout.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/468.html#L23'>W</a>                  23 include/dropout.h   __global__ void forward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L24'>W</a>                  24 include/dropout.h                                array4&lt;maxB,C,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/468.html#L36'>W</a>                  36 include/dropout.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/468.html#L37'>W</a>                  37 include/dropout.h   __global__ void backward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L38'>W</a>                  38 include/dropout.h                                 array4&lt;maxB,C,H,W&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/468.html#L59'>W</a>                  59 include/dropout.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/468.html#L62'>W</a>                  62 include/dropout.h   Dropout&lt;maxB,C,H,W&gt;* dev;     /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/468.html#L67'>W</a>                  67 include/dropout.h   array4&lt;maxB,C,H,W&gt; y;         /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/468.html#L68'>W</a>                  68 include/dropout.h   array4&lt;maxB,C,H,W&gt; gx;        /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/468.html#L90'>W</a>                  90 include/dropout.h   Dropout&lt;maxB,C,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/468.html#L91'>W</a>                  91 include/dropout.h     Dropout&lt;maxB,C,H,W&gt;* c = new Dropout&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/468.html#L104'>W</a>                 104 include/dropout.h   void set_dev(Dropout&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/468.html#L123'>W</a>                 123 include/dropout.h       dev = (Dropout&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/468.html#L165'>W</a>                 165 include/dropout.h       Dropout&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/468.html#L184'>W</a>                 184 include/dropout.h   void forward_base(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L195'>W</a>                 195 include/dropout.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/468.html#L217'>W</a>                 217 include/dropout.h   void forward_dev(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L229'>W</a>                 229 include/dropout.h   void forward_gpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L240'>W</a>                 240 include/dropout.h   void forward_cpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L249'>W</a>                 249 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L288'>W</a>                 288 include/dropout.h   void backward_base(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L296'>W</a>                 296 include/dropout.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/468.html#L318'>W</a>                 318 include/dropout.h   void backward_dev(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L330'>W</a>                 330 include/dropout.h   void backward_gpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L341'>W</a>                 341 include/dropout.h   void backward_cpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L355'>W</a>                 355 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L402'>W</a>                 402 include/dropout.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/468.html#L406'>W</a>                 406 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout = new Dropout&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L411'>W</a>                 411 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_minus = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/468.html#L412'>W</a>                 412 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_plus  = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/468.html#L414'>W</a>                 414 include/dropout.h   array4&lt;maxB,C,H,W&gt; * alpha = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L419'>W</a>                 419 include/dropout.h   array4&lt;maxB,C,H,W&gt; * x = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L424'>W</a>                 424 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; y = dropout-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/468.html#L425'>W</a>                 425 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; gx = dropout-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/468.html#L430'>W</a>                 430 include/dropout.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L433'>W</a>                 433 include/dropout.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/468.html#L435'>W</a>                 435 include/dropout.h   array4&lt;maxB,C,H,W&gt; * x_plus  = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/468.html#L446'>W</a>                 446 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = dropout_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/468.html#L447'>W</a>                 447 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = dropout_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/468.html#L504'>W</a>                 504 include/dropout.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/468.html#L517'>W</a>                 517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L11'>W</a>                  11 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L22'>W</a>                  22 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L23'>W</a>                  23 include/maxpooling.h   __global__ void forward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L24'>W</a>                  24 include/maxpooling.h                                  array4&lt;maxB,C,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/474.html#L36'>W</a>                  36 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L37'>W</a>                  37 include/maxpooling.h   __global__ void backward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L38'>W</a>                  38 include/maxpooling.h                                   array4&lt;maxB,C,H/S,W/S&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/474.html#L62'>W</a>                  62 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L65'>W</a>                  65 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev; /**&lt; device shadow  */</span>
+<span class='curline'><a href='../S/474.html#L69'>W</a>                  69 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; y;     /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/474.html#L70'>W</a>                  70 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; max_idx; /**&lt; the index that gave the maximum of each output pixel */</span>
+<span class='curline'><a href='../S/474.html#L71'>W</a>                  71 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; gx;          /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/474.html#L86'>W</a>                  86 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* copy() {</span>
+<span class='curline'><a href='../S/474.html#L87'>W</a>                  87 include/maxpooling.h     MaxPooling2D&lt;maxB,C,H,W,S&gt;* c = new MaxPooling2D&lt;maxB,C,H,W,S&gt;(*this);</span>
+<span class='curline'><a href='../S/474.html#L100'>W</a>                 100 include/maxpooling.h   void set_dev(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev) {</span>
+<span class='curline'><a href='../S/474.html#L120'>W</a>                 120 include/maxpooling.h       dev = (MaxPooling2D&lt;maxB,C,H,W,S&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/474.html#L162'>W</a>                 162 include/maxpooling.h       MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/474.html#L181'>W</a>                 181 include/maxpooling.h   void forward_base(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L188'>W</a>                 188 include/maxpooling.h           for (idx_t j = 0; j &lt; W/S; j++) {</span>
+<span class='curline'><a href='../S/474.html#L190'>W</a>                 190 include/maxpooling.h             idx_t idx = W * S * i  + S * j;</span>
+<span class='curline'><a href='../S/474.html#L195'>W</a>                 195 include/maxpooling.h                   idx = W * i_ + j_;</span>
+<span class='curline'><a href='../S/474.html#L217'>W</a>                 217 include/maxpooling.h   void forward_dev(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L229'>W</a>                 229 include/maxpooling.h   void forward_gpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L240'>W</a>                 240 include/maxpooling.h   void forward_cpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L249'>W</a>                 249 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L288'>W</a>                 288 include/maxpooling.h   void backward_base(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L294'>W</a>                 294 include/maxpooling.h           for (idx_t j = 0; j &lt; W/S; j++) {</span>
+<span class='curline'><a href='../S/474.html#L301'>W</a>                 301 include/maxpooling.h             idx_t i_ = idx / W;</span>
+<span class='curline'><a href='../S/474.html#L302'>W</a>                 302 include/maxpooling.h             idx_t j_ = idx % W;</span>
+<span class='curline'><a href='../S/474.html#L320'>W</a>                 320 include/maxpooling.h   void backward_dev(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L332'>W</a>                 332 include/maxpooling.h   void backward_gpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L343'>W</a>                 343 include/maxpooling.h   void backward_cpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L357'>W</a>                 357 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L404'>W</a>                 404 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L407'>W</a>                 407 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp = new MaxPooling2D&lt;maxB,C,H,W,S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L413'>W</a>                 413 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_minus = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/474.html#L414'>W</a>                 414 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_plus  = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/474.html#L416'>W</a>                 416 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; * alpha = new array4&lt;maxB,C,H/S,W/S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L421'>W</a>                 421 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * x = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/474.html#L426'>W</a>                 426 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y = mp-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/474.html#L427'>W</a>                 427 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; gx = mp-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/474.html#L432'>W</a>                 432 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/474.html#L435'>W</a>                 435 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/474.html#L437'>W</a>                 437 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * x_plus  = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/474.html#L448'>W</a>                 448 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_minus = mp_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/474.html#L449'>W</a>                 449 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_plus  = mp_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/474.html#L506'>W</a>                 506 include/maxpooling.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/474.html#L520'>W</a>                 520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L11'>W</a>                  11 include/relu.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/471.html#L22'>W</a>                  22 include/relu.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/471.html#L23'>W</a>                  23 include/relu.h   __global__ void forward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L24'>W</a>                  24 include/relu.h                                  array4&lt;maxB,C,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/471.html#L36'>W</a>                  36 include/relu.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/471.html#L37'>W</a>                  37 include/relu.h   __global__ void backward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L38'>W</a>                  38 include/relu.h                                   array4&lt;maxB,C,H,W&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/471.html#L59'>W</a>                  59 include/relu.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/471.html#L62'>W</a>                  62 include/relu.h   Relu&lt;maxB,C,H,W&gt;* dev;        /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/471.html#L66'>W</a>                  66 include/relu.h   array4&lt;maxB,C,H,W&gt;* x_ptr;    /**&lt; pointer to input passed to forward */</span>
+<span class='curline'><a href='../S/471.html#L67'>W</a>                  67 include/relu.h   array4&lt;maxB,C,H,W&gt; y;         /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/471.html#L68'>W</a>                  68 include/relu.h   array4&lt;maxB,C,H,W&gt; gx;        /**&lt; gradient of loss wrt input x */</span>
+<span class='curline'><a href='../S/471.html#L83'>W</a>                  83 include/relu.h   Relu&lt;maxB,C,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/471.html#L84'>W</a>                  84 include/relu.h     Relu&lt;maxB,C,H,W&gt;* c = new Relu&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/471.html#L97'>W</a>                  97 include/relu.h   void set_dev(Relu&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/471.html#L116'>W</a>                 116 include/relu.h       dev = (Relu&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/471.html#L158'>W</a>                 158 include/relu.h       Relu&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/471.html#L177'>W</a>                 177 include/relu.h   void forward_base(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L184'>W</a>                 184 include/relu.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/471.html#L202'>W</a>                 202 include/relu.h   void forward_dev(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L214'>W</a>                 214 include/relu.h   void forward_gpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L225'>W</a>                 225 include/relu.h   void forward_cpu(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L234'>W</a>                 234 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L273'>W</a>                 273 include/relu.h   void backward_base(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L276'>W</a>                 276 include/relu.h     array4&lt;maxB,C,H,W&gt;&amp; x = *x_ptr;</span>
+<span class='curline'><a href='../S/471.html#L280'>W</a>                 280 include/relu.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/471.html#L298'>W</a>                 298 include/relu.h   void backward_dev(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L310'>W</a>                 310 include/relu.h   void backward_gpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L321'>W</a>                 321 include/relu.h   void backward_cpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L335'>W</a>                 335 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L382'>W</a>                 382 include/relu.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/471.html#L385'>W</a>                 385 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu = new Relu&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L390'>W</a>                 390 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_minus = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/471.html#L391'>W</a>                 391 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_plus  = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/471.html#L393'>W</a>                 393 include/relu.h   array4&lt;maxB,C,H,W&gt; * alpha = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L398'>W</a>                 398 include/relu.h   array4&lt;maxB,C,H,W&gt; * x = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L403'>W</a>                 403 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y = relu-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/471.html#L404'>W</a>                 404 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; gx = relu-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/471.html#L408'>W</a>                 408 include/relu.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L411'>W</a>                 411 include/relu.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/471.html#L413'>W</a>                 413 include/relu.h   array4&lt;maxB,C,H,W&gt; * x_plus  = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/471.html#L424'>W</a>                 424 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = relu_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/471.html#L425'>W</a>                 425 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = relu_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/471.html#L482'>W</a>                 482 include/relu.h   const idx_t W = 32;</span>
+<span class='curline'><a href='../S/471.html#L495'>W</a>                 495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L26'>W</a>                  26 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L29'>W</a>                  29 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/477.html#L33'>W</a>                  33 include/vgg.h    array4&lt;maxB,C0,H,W&gt; x;        /**&lt; input images */</span>
+<span class='curline'><a href='../S/477.html#L40'>W</a>                  40 include/vgg.h      W1 = W;                     /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L47'>W</a>                  47 include/vgg.h      W2 = W/S,                   /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L160'>W</a>                 160 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/477.html#L161'>W</a>                 161 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* c = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/477.html#L174'>W</a>                 174 include/vgg.h    void set_dev(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/477.html#L234'>W</a>                 234 include/vgg.h        dev = (VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/477.html#L277'>W</a>                 277 include/vgg.h        VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/477.html#L320'>W</a>                 320 include/vgg.h    vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/477.html#L450'>W</a>                 450 include/vgg.h    real forward_backward_update(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, real eta) {</span>
+<span class='curline'><a href='../S/477.html#L503'>W</a>                 503 include/vgg.h    void set_grad(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/477.html#L532'>W</a>                 532 include/vgg.h    real gw_dot_gw(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/477.html#L533'>W</a>                 533 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/477.html#L574'>W</a>                 574 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L577'>W</a>                 577 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/477.html#L582'>W</a>                 582 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_minus = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L583'>W</a>                 583 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_plus  = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L590'>W</a>                 590 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * x = new array4&lt;maxB,C0,H,W&gt;();</span>
+<span class='curline'><a href='../S/477.html#L601'>W</a>                 601 include/vgg.h    array4&lt;maxB,C0,H,W&gt;&amp; gx = vgg-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/477.html#L607'>W</a>                 607 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * dx = new array4&lt;maxB,C0,H,W&gt;();</span>
+<span class='curline'><a href='../S/477.html#L610'>W</a>                 610 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * x_minus = new array4&lt;maxB,C0,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/477.html#L612'>W</a>                 612 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * x_plus  = new array4&lt;maxB,C0,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/477.html#L688'>W</a>                 688 include/vgg.h    const int W = 32;</span>
+<span class='curline'><a href='../S/477.html#L705'>W</a>                 705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/481.html#L556'>W</a>                 556 include/vgg_arrays.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/481.html#L559'>W</a>                 559 include/vgg_arrays.h   array4&lt;maxB,C,H,W&gt; * dev;     /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L562'>W</a>                 562 include/vgg_arrays.h   real w[maxB][C][H][W];        /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L575'>W</a>                 575 include/vgg_arrays.h     range_chk(0, j, W);</span>
+<span class='curline'><a href='../S/481.html#L594'>W</a>                 594 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L598'>W</a>                 598 include/vgg_arrays.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L614'>W</a>                 614 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L618'>W</a>                 618 include/vgg_arrays.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L633'>W</a>                 633 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L638'>W</a>                 638 include/vgg_arrays.h     idx_t j = rg.randi(0, W);</span>
+<span class='curline'><a href='../S/481.html#L650'>W</a>                 650 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L654'>W</a>                 654 include/vgg_arrays.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L668'>W</a>                 668 include/vgg_arrays.h   void update(real eta, array4&lt;maxB,C,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L669'>W</a>                 669 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L674'>W</a>                 674 include/vgg_arrays.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L685'>W</a>                 685 include/vgg_arrays.h   real dot(array4&lt;maxB,C,H,W&gt;&amp; a_) {</span>
+<span class='curline'><a href='../S/481.html#L686'>W</a>                 686 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L695'>W</a>                 695 include/vgg_arrays.h           for (idx_t j = 0; j &lt; W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L710'>W</a>                 710 include/vgg_arrays.h   void set_dev(array4&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L725'>W</a>                 725 include/vgg_arrays.h       dev = (array4&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L760'>W</a>                 760 include/vgg_arrays.h       array4&lt;maxB,C,H,W&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L775'>W</a>                 775 include/vgg_arrays.h template&lt;idx_t OC,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/481.html#L778'>W</a>                 778 include/vgg_arrays.h   warray4&lt;OC,IC,H,W&gt; * dev;     /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L780'>W</a>                 780 include/vgg_arrays.h   real w[OC][IC][2*H+1][2*W+1];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L793'>W</a>                 793 include/vgg_arrays.h     range_chk(-W, j, W+1);</span>
+<span class='curline'><a href='../S/481.html#L794'>W</a>                 794 include/vgg_arrays.h     return w[oc][ic][i+H][j+W];</span>
+<span class='curline'><a href='../S/481.html#L801'>W</a>                 801 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L805'>W</a>                 805 include/vgg_arrays.h           for (idx_t j = -W; j &lt;= W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L819'>W</a>                 819 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L823'>W</a>                 823 include/vgg_arrays.h           for (idx_t j = -W; j &lt;= W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L837'>W</a>                 837 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L841'>W</a>                 841 include/vgg_arrays.h           for (idx_t j = -W; j &lt;= W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L855'>W</a>                 855 include/vgg_arrays.h   void update(real eta, warray4&lt;OC,IC,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L857'>W</a>                 857 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L861'>W</a>                 861 include/vgg_arrays.h           for (idx_t j = -W; j &lt;= W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L872'>W</a>                 872 include/vgg_arrays.h   real dot(warray4&lt;OC,IC,H,W&gt;&amp; a_) {</span>
+<span class='curline'><a href='../S/481.html#L873'>W</a>                 873 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L881'>W</a>                 881 include/vgg_arrays.h           for (idx_t j = -W; j &lt;= W; j++) {</span>
+<span class='curline'><a href='../S/481.html#L896'>W</a>                 896 include/vgg_arrays.h   void set_dev(warray4&lt;OC,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L911'>W</a>                 911 include/vgg_arrays.h       dev = (warray4&lt;OC,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L946'>W</a>                 946 include/vgg_arrays.h       warray4&lt;OC,IC,H,W&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/466.html#L13'>W</a>                  13 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L14'>W</a>                  14 vgg.cc         static real train(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L15'>W</a>                  15 vgg.cc                           cifar10_dataset&lt;maxB,C0,H,W&gt;&amp; data, idx_t B, long count) {</span>
+<span class='curline'><a href='../S/466.html#L35'>W</a>                  35 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L36'>W</a>                  36 vgg.cc         static real validate(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L37'>W</a>                  37 vgg.cc                              cifar10_dataset&lt;maxB,C0,H,W&gt;&amp; data, long count) {</span>
+<span class='curline'><a href='../S/466.html#L87'>W</a>                  87 vgg.cc           const idx_t W  = 32;                /**&lt; width of an image */</span>
+<span class='curline'><a href='../S/466.html#L101'>W</a>                 101 vgg.cc           VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/466.html#L107'>W</a>                 107 vgg.cc           cifar10_dataset&lt;maxB,C0,H,W&gt; data;</span>
+</pre>
+</body>
+</html>

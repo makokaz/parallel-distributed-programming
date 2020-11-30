@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>include/vgg_util.h</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#L54'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#L741'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/488.html'>include</a>/vgg_util.h</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/488.html'>include</a>/vgg_util.h</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 include/vgg_util.h'  /> */</em>
+<hr />
+<h2 class='header'><a href='../J/480.html' title='Multiple included from 12 places.'>INCLUDED FROM</a></h2>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L54' title='Defined at 54.'>bail</a></li>
+<li><a href='#L61' title='Defined at 61.'>err_gpu_algo_no_gpu_</a></li>
+<li><a href='#L95' title='Defined at 95.'>parse_algo</a></li>
+<li><a href='#L121' title='Defined at 121.'>algo_is_gpu</a></li>
+<li><a href='#L219' title='Defined at 219.'>usage</a></li>
+<li><a href='#L271' title='Defined at 271.'>parse_args</a></li>
+<li><a href='#L371' title='Defined at 371.'>max_r</a></li>
+<li><a href='#L379' title='Defined at 379.'>min_r</a></li>
+<li><a href='#L387' title='Defined at 387.'>max_i</a></li>
+<li><a href='#L395' title='Defined at 395.'>min_i</a></li>
+<li><a href='#L409' title='Defined at 409.'>get_tsc</a></li>
+<li><a href='#L518' title='Defined at 518.'>show_error</a></li>
+<li><a href='#L725' title='Defined at 725.'>vgg_util_main</a></li>
+<li><a href='#L741' title='Defined at 741.'>vgg_util_use_unused_functions</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>   1 <em class='comment'>/**</em>
+<a id='L2' name='L2'></a>   2 <em class='comment'>   @file vgg_util.h</em>
+<a id='L3' name='L3'></a>   3 <em class='comment'>   @brief VGG utility functions/classes</em>
+<a id='L4' name='L4'></a>   4 <em class='comment'> */</em>
+<a id='L5' name='L5'></a>   5 <em class='sharp'>#pragma</em> once
+<a id='L6' name='L6'></a>   6 <em class='sharp'>#include</em> &lt;assert.h&gt;
+<a id='L7' name='L7'></a>   7 <em class='sharp'>#include</em> &lt;getopt.h&gt;
+<a id='L8' name='L8'></a>   8 <em class='sharp'>#include</em> &lt;limits.h&gt;
+<a id='L9' name='L9'></a>   9 <em class='sharp'>#include</em> &lt;math.h&gt;
+<a id='L10' name='L10'></a>  10 <em class='sharp'>#include</em> &lt;stdio.h&gt;
+<a id='L11' name='L11'></a>  11 <em class='sharp'>#include</em> &lt;stdlib.h&gt;
+<a id='L12' name='L12'></a>  12 <em class='sharp'>#include</em> &lt;string.h&gt;
+<a id='L13' name='L13'></a>  13 <em class='sharp'>#include</em> &lt;stdarg.h&gt;
+<a id='L14' name='L14'></a>  14 <em class='sharp'>#include</em> &lt;stdint.h&gt;
+<a id='L15' name='L15'></a>  15 <em class='sharp'>#include</em> &lt;time.h&gt;
+<a id='L16' name='L16'></a>  16 <em class='sharp'>#include</em> &lt;unistd.h&gt;
+<a id='L17' name='L17'></a>  17 <em class='sharp'>#include</em> &lt;ieee754.h&gt;
+<a id='L18' name='L18'></a>  18 
+<a id='L19' name='L19'></a>  19 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L20' name='L20'></a>  20 <em class='sharp'>#include</em> "<a href='476.html'>cuda_util.h</a>"
+<a id='L21' name='L21'></a>  21 <em class='sharp'>#else</em>
+<a id='L22' name='L22'></a>  22 <em class='comment'>/** </em>
+<a id='L23' name='L23'></a>  23 <em class='comment'>    @brief for source compatibility with cuda, define __global__ as empty</em>
+<a id='L24' name='L24'></a>  24 <em class='comment'>*/</em>
+<a id='L25' name='L25'></a>  25 <em class='sharp'>#define</em> <a href='../R/13.html' title='Multiple referred from 17 places.'>__global__</a> 
+<a id='L26' name='L26'></a>  26 <em class='comment'>/** </em>
+<a id='L27' name='L27'></a>  27 <em class='comment'>    @brief for source compatibility with cuda, define __device__ as empty</em>
+<a id='L28' name='L28'></a>  28 <em class='comment'>*/</em>
+<a id='L29' name='L29'></a>  29 <em class='sharp'>#define</em> <a href='../R/12.html' title='Multiple referred from 73 places.'>__device__</a> 
+<a id='L30' name='L30'></a>  30 <em class='comment'>/** </em>
+<a id='L31' name='L31'></a>  31 <em class='comment'>    @brief for source compatibility with cuda, define __host__ as empty</em>
+<a id='L32' name='L32'></a>  32 <em class='comment'>*/</em>
+<a id='L33' name='L33'></a>  33 <em class='sharp'>#define</em> <a href='../R/14.html' title='Multiple referred from 47 places.'>__host__</a> 
+<a id='L34' name='L34'></a>  34 <em class='sharp'>#endif</em>
+<a id='L35' name='L35'></a>  35 
+<a id='L36' name='L36'></a>  36 <em class='comment'>/**</em>
+<a id='L37' name='L37'></a>  37 <em class='comment'>   @brief type of array index (either int or long)</em>
+<a id='L38' name='L38'></a>  38 <em class='comment'> */</em>
+<a id='L39' name='L39'></a>  39 <strong class='reserved'>typedef</strong> <strong class='reserved'>int</strong> <a href='../R/47.html' title='Multiple referred from 354 places.'>idx_t</a>;
+<a id='L40' name='L40'></a>  40 <em class='sharp'>#if</em> !<strong class='reserved'>defined</strong>(<a href='../S/475.html#L44' title='Defined at 44 in include/vgg_util.h.'>real_type</a>)
+<a id='L41' name='L41'></a>  41 <em class='comment'>/**</em>
+<a id='L42' name='L42'></a>  42 <em class='comment'>   @brief real_type is float if not supplied</em>
+<a id='L43' name='L43'></a>  43 <em class='comment'> */</em>
+<a id='L44' name='L44'></a>  44 <em class='sharp'>#define</em> <a href='../R/64.html' title='Multiple referred from 2 places.'>real_type</a> <strong class='reserved'>float</strong>
+<a id='L45' name='L45'></a>  45 <em class='sharp'>#endif</em>
+<a id='L46' name='L46'></a>  46 <em class='comment'>/**</em>
+<a id='L47' name='L47'></a>  47 <em class='comment'>   @brief type of array elements (may be changed by -Dreal_type=...)</em>
+<a id='L48' name='L48'></a>  48 <em class='comment'> */</em>
+<a id='L49' name='L49'></a>  49 <strong class='reserved'>typedef</strong> <a href='../S/475.html#L44' title='Defined at 44 in include/vgg_util.h.'>real_type</a> <a href='../R/63.html' title='Multiple referred from 264 places.'>real</a>;
+<a id='L50' name='L50'></a>  50 
+<a id='L51' name='L51'></a>  51 <em class='comment'>/**</em>
+<a id='L52' name='L52'></a>  52 <em class='comment'>   @brief exit(1) (just for setting breakpoints)</em>
+<a id='L53' name='L53'></a>  53 <em class='comment'> */</em>
+<a id='L54' name='L54'></a>  54 <strong class='reserved'>static</strong> <strong class='reserved'>void</strong> <a href='../R/23.html' title='Multiple referred from 3 places.'>bail</a>() <em class='brace'>{</em>
+     <em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><a href='#L61'><img class='icon' src='../icons/right.png' alt='[next]' /></a><img class='icon' src='../icons/n_first.png' alt='[first]' /><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+54 include/vgg_util.h'  /> */</em>
+<a id='L55' name='L55'></a>  55   <a href='../Y/163.html' title='Multiple used in 12 places.'>exit</a>(1);
+<a id='L56' name='L56'></a>  56 <em class='brace'>}</em>
+<a id='L57' name='L57'></a>  57 
+<a id='L58' name='L58'></a>  58 <em class='comment'>/**</em>
+<a id='L59' name='L59'></a>  59 <em class='comment'>   @brief signal a fatal error when a gpu algorithm gets called for cpu only compilation</em>
+<a id='L60' name='L60'></a>  60 <em class='comment'> */</em>
+<a id='L61' name='L61'></a>  61 <strong class='reserved'>static</strong> <strong class='reserved'>void</strong> <a href='../S/475.html#L71' title='Referred from 71 in include/vgg_util.h.'>err_gpu_algo_no_gpu_</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/174.html' title='Multiple used in 9 places.'>file</a>, <strong class='reserved'>int</strong> <a href='../Y/280.html' title='Multiple used in 9 places.'>line</a>, <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L54'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L95'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+61 include/vgg_util.h'  /> */</em>
+<a id='L62' name='L62'></a>  62   <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>,
+<a id='L63' name='L63'></a>  63           "error:%s:%d: a GPU algorithm (%s) specified for CPU-only compilation\n",
+<a id='L64' name='L64'></a>  64           <a href='../Y/174.html' title='Multiple used in 9 places.'>file</a>, <a href='../Y/280.html' title='Multiple used in 9 places.'>line</a>, <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L65' name='L65'></a>  65   <a href='../S/475.html#L54' title='Defined at 54 in include/vgg_util.h.'>bail</a>();
+<a id='L66' name='L66'></a>  66 <em class='brace'>}</em>
+<a id='L67' name='L67'></a>  67 
+<a id='L68' name='L68'></a>  68 <em class='comment'>/**</em>
+<a id='L69' name='L69'></a>  69 <em class='comment'>   @brief signal a fatal error when a gpu algorithm gets called for cpu only compilation</em>
+<a id='L70' name='L70'></a>  70 <em class='comment'> */</em>
+<a id='L71' name='L71'></a>  71 <em class='sharp'>#define</em> <a href='../R/37.html' title='Multiple referred from 17 places.'>err_gpu_algo_no_gpu</a>(<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>) <a href='../S/475.html#L61' title='Defined at 61 in include/vgg_util.h.'>err_gpu_algo_no_gpu_</a>(<a href='../Y/42.html' title='Multiple used in 6 places.'>__FILE__</a>, <a href='../Y/43.html' title='Multiple used in 6 places.'>__LINE__</a>, <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>)
+<a id='L72' name='L72'></a>  72 
+<a id='L73' name='L73'></a>  73 <em class='comment'>/**</em>
+<a id='L74' name='L74'></a>  74 <em class='comment'>   @brief an enumeration of implemented algorithms</em>
+<a id='L75' name='L75'></a>  75 <em class='comment'>   @details add your algorithm in this enum</em>
+<a id='L76' name='L76'></a>  76 <em class='comment'> */</em>
+<a id='L77' name='L77'></a>  77 <strong class='reserved'>typedef</strong> <strong class='reserved'>enum</strong> <em class='brace'>{</em>
+<a id='L78' name='L78'></a>  78   <a href='../R/15.html' title='Multiple referred from 18 places.'>algo_cpu_base</a>,
+<a id='L79' name='L79'></a>  79   <a href='../R/16.html' title='Multiple referred from 18 places.'>algo_gpu_base</a>,
+<a id='L80' name='L80'></a>  80   <em class='comment'>/* add your new algorithm here (name it arbitrarily) */</em>
+<a id='L81' name='L81'></a>  81   <em class='comment'>/* algo_cpu_simd? */</em>
+<a id='L82' name='L82'></a>  82   <em class='comment'>/* algo_cpu_omp */</em>
+<a id='L83' name='L83'></a>  83   <em class='comment'>/* algo_cpu_simd_omp? */</em>
+<a id='L84' name='L84'></a>  84   <em class='comment'>/* algo_cpu_super_fast? */</em>
+<a id='L85' name='L85'></a>  85   <em class='comment'>/* algo_gpu_super_fast? */</em>
+<a id='L86' name='L86'></a>  86   
+<a id='L87' name='L87'></a>  87   <a href='../R/17.html' title='Multiple referred from 3 places.'>algo_invalid</a>,
+<a id='L88' name='L88'></a>  88 <em class='brace'>}</em> <a href='../R/19.html' title='Multiple referred from 3 places.'>algo_t</a>;
+<a id='L89' name='L89'></a>  89 
+<a id='L90' name='L90'></a>  90 <em class='comment'>/**</em>
+<a id='L91' name='L91'></a>  91 <em class='comment'>   @brief convert a string to an algorithm enum </em>
+<a id='L92' name='L92'></a>  92 <em class='comment'>   @details when you add your algorithm, change this function </em>
+<a id='L93' name='L93'></a>  93 <em class='comment'>   so that it recognizes your algorithm</em>
+<a id='L94' name='L94'></a>  94 <em class='comment'> */</em>
+<a id='L95' name='L95'></a>  95 <strong class='reserved'>static</strong> <a href='../S/475.html#L88' title='Defined at 88 in include/vgg_util.h.'>algo_t</a> <a href='../S/475.html#L350' title='Referred from 350 in include/vgg_util.h.'>parse_algo</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L61'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L121'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+95 include/vgg_util.h'  /> */</em>
+<a id='L96' name='L96'></a>  96   <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>, "cpu_base") == 0) <em class='brace'>{</em>
+<a id='L97' name='L97'></a>  97     <strong class='reserved'>return</strong> <a href='../S/475.html#L78' title='Defined at 78 in include/vgg_util.h.'>algo_cpu_base</a>;
+<a id='L98' name='L98'></a>  98   <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>, "gpu_base") == 0) <em class='brace'>{</em>
+<a id='L99' name='L99'></a>  99     <strong class='reserved'>return</strong> <a href='../S/475.html#L79' title='Defined at 79 in include/vgg_util.h.'>algo_gpu_base</a>;
+<a id='L100' name='L100'></a> 100     <em class='comment'>/* add cases here to handle your algorithms</em>
+<a id='L101' name='L101'></a> 101 <em class='comment'>       } else if (strcmp(s, "gpu_base") == 0) {</em>
+<a id='L102' name='L102'></a> 102 <em class='comment'>       return algo_gpu_base;</em>
+<a id='L103' name='L103'></a> 103 <em class='comment'>    */</em>
+<a id='L104' name='L104'></a> 104   <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L105' name='L105'></a> 105     <strong class='reserved'>return</strong> <a href='../S/475.html#L87' title='Defined at 87 in include/vgg_util.h.'>algo_invalid</a>;
+<a id='L106' name='L106'></a> 106   <em class='brace'>}</em>
+<a id='L107' name='L107'></a> 107 <em class='brace'>}</em>
+<a id='L108' name='L108'></a> 108 
+<a id='L109' name='L109'></a> 109 <em class='comment'>/**</em>
+<a id='L110' name='L110'></a> 110 <em class='comment'>   @brief return 1 if the algorithm name (s) or its</em>
+<a id='L111' name='L111'></a> 111 <em class='comment'>   enum value (a) is a gpu algorithm </em>
+<a id='L112' name='L112'></a> 112 <em class='comment'>   @details when you add your algorithm, you may need to </em>
+<a id='L113' name='L113'></a> 113 <em class='comment'>   change this function so that it correctly recognizes </em>
+<a id='L114' name='L114'></a> 114 <em class='comment'>   whether it is a gpu algorithm or not</em>
+<a id='L115' name='L115'></a> 115 <em class='comment'>   currently, it considers all and only strings starting </em>
+<a id='L116' name='L116'></a> 116 <em class='comment'>   with "gpu" to be a gpu algorithm.</em>
+<a id='L117' name='L117'></a> 117 <em class='comment'>   for a gpu algorithm, the program transfers initial weights</em>
+<a id='L118' name='L118'></a> 118 <em class='comment'>   and training data to gpu.  weights stay on GPU until</em>
+<a id='L119' name='L119'></a> 119 <em class='comment'>   the program finishes.  </em>
+<a id='L120' name='L120'></a> 120 <em class='comment'>  */</em>
+<a id='L121' name='L121'></a> 121 <strong class='reserved'>int</strong> <a href='../S/475.html#L356' title='Referred from 356 in include/vgg_util.h.'>algo_is_gpu</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>, <a href='../S/475.html#L88' title='Defined at 88 in include/vgg_util.h.'>algo_t</a> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L95'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L219'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+121 include/vgg_util.h'  /> */</em>
+<a id='L122' name='L122'></a> 122   (<strong class='reserved'>void</strong>)<a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>;
+<a id='L123' name='L123'></a> 123   <strong class='reserved'>if</strong> (strncmp(<a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>, "gpu", 3) == 0) <em class='brace'>{</em>
+<a id='L124' name='L124'></a> 124     <strong class='reserved'>return</strong> 1;
+<a id='L125' name='L125'></a> 125   <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em> 
+<a id='L126' name='L126'></a> 126     <strong class='reserved'>return</strong> 0;
+<a id='L127' name='L127'></a> 127   <em class='brace'>}</em>
+<a id='L128' name='L128'></a> 128 <em class='brace'>}</em>
+<a id='L129' name='L129'></a> 129 
+<a id='L130' name='L130'></a> 130 <em class='comment'>/**</em>
+<a id='L131' name='L131'></a> 131 <em class='comment'>   @brief command line options</em>
+<a id='L132' name='L132'></a> 132 <em class='comment'>*/</em>
+<a id='L133' name='L133'></a> 133 <strong class='reserved'>struct</strong> <a href='../R/31.html' title='Multiple referred from 46 places.'>cmdline_opt</a> <em class='brace'>{</em>
+<a id='L134' name='L134'></a> 134   <strong class='reserved'>int</strong> <a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a>;                  <em class='comment'>/**&lt; verbosity */</em>
+<a id='L135' name='L135'></a> 135   <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/96.html' title='Multiple used in 8 places.'>cifar_data</a>;      <em class='comment'>/**&lt; data file */</em>
+<a id='L136' name='L136'></a> 136   <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/97.html' title='Multiple used in 6 places.'>cifar_data_dump</a>; <em class='comment'>/**&lt; prefix of data dump */</em>
+<a id='L137' name='L137'></a> 137   <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a>;               <em class='comment'>/**&lt; batch size */</em>
+<a id='L138' name='L138'></a> 138   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/276.html' title='Multiple used in 6 places.'>learnrate</a>;               <em class='comment'>/**&lt; learning rate */</em>
+<a id='L139' name='L139'></a> 139   <strong class='reserved'>long</strong> <a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a>;                   <em class='comment'>/**&lt; number of batches to process */</em>
+<a id='L140' name='L140'></a> 140   <strong class='reserved'>long</strong> <a href='../Y/351.html' title='Multiple used in 7 places.'>partial_data</a>;             <em class='comment'>/**&lt; choose this number of data in the file (0 for all) */</em>
+<a id='L141' name='L141'></a> 141   <strong class='reserved'>int</strong> <a href='../Y/394.html' title='Multiple used in 6 places.'>single_batch</a>;             <em class='comment'>/**&lt; 1 if we choose the same samples every iteration */</em>
+<a id='L142' name='L142'></a> 142   <strong class='reserved'>int</strong> <a href='../Y/133.html' title='Multiple used in 19 places.'>dropout</a>;                  <em class='comment'>/**&lt; 1 if we use dropout */</em>
+<a id='L143' name='L143'></a> 143   <strong class='reserved'>double</strong> <a href='../Y/451.html' title='Multiple used in 9 places.'>validate_ratio</a>;        <em class='comment'>/**&lt; ratio of data held out for validation */</em>
+<a id='L144' name='L144'></a> 144   <strong class='reserved'>double</strong> <a href='../Y/449.html' title='Multiple used in 6 places.'>validate_interval</a>;     <em class='comment'>/**&lt; relative validation frequency */</em>
+<a id='L145' name='L145'></a> 145   <strong class='reserved'>long</strong> <a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a>;             <em class='comment'>/**&lt; random seed to draw samples */</em>
+<a id='L146' name='L146'></a> 146   <strong class='reserved'>long</strong> <a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a>;             <em class='comment'>/**&lt; random seed to initialize weights and dropout */</em>
+<a id='L147' name='L147'></a> 147   <strong class='reserved'>long</strong> <a href='../Y/149.html' title='Multiple used in 7 places.'>dropout_seed</a>;            <em class='comment'>/**&lt; random seed to determine dropout */</em>
+<a id='L148' name='L148'></a> 148   <strong class='reserved'>long</strong> <a href='../Y/352.html' title='Multiple used in 7 places.'>partial_data_seed</a>;       <em class='comment'>/**&lt; random seed to determine which data in the file are used for training/validation */</em>
+<a id='L149' name='L149'></a> 149   <strong class='reserved'>int</strong> <a href='../Y/238.html' title='Multiple used in 5 places.'>grad_dbg</a>;                 <em class='comment'>/**&lt; 1 if we debug gradient */</em>
+<a id='L150' name='L150'></a> 150   <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>;          <em class='comment'>/**&lt; string passed to --algo */</em>
+<a id='L151' name='L151'></a> 151   <a href='../S/475.html#L88' title='Defined at 88 in include/vgg_util.h.'>algo_t</a> <a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a>;                  <em class='comment'>/**&lt; parse_algo(algo_s)  */</em>
+<a id='L152' name='L152'></a> 152   <strong class='reserved'>int</strong> <a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>;                 <em class='comment'>/**&lt; 1 if this is a GPU algorithm  */</em>
+<a id='L153' name='L153'></a> 153   <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>;             <em class='comment'>/**&lt; log file name */</em>
+<a id='L154' name='L154'></a> 154   <strong class='reserved'>int</strong> <a href='../Y/249.html' title='Multiple used in 6 places.'>help</a>;                     <em class='comment'>/**&lt; 1 if -h,--help is given  */</em>
+<a id='L155' name='L155'></a> 155   <strong class='reserved'>int</strong> <a href='../Y/161.html' title='Multiple used in 10 places.'>error</a>;                    <em class='comment'>/**&lt; set to one if any option is invalid */</em>
+<a id='L156' name='L156'></a> 156   <em class='comment'>/**</em>
+<a id='L157' name='L157'></a> 157 <em class='comment'>     @brief initialize a command line object with default vaules</em>
+<a id='L158' name='L158'></a> 158 <em class='comment'>   */</em>
+<a id='L159' name='L159'></a> 159   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a>() <em class='brace'>{</em>
+<a id='L160' name='L160'></a> 160     <a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a> = 1;
+<a id='L161' name='L161'></a> 161     <a href='../Y/96.html' title='Multiple used in 8 places.'>cifar_data</a> = "data/cifar-10-batches-bin/data_batch_1.bin";
+<a id='L162' name='L162'></a> 162     <a href='../Y/97.html' title='Multiple used in 6 places.'>cifar_data_dump</a> = 0; <em class='comment'>//"cifar-10-imgs/i"</em>
+<a id='L163' name='L163'></a> 163     <a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a> = <a href='../Y/28.html' title='Multiple used in 14 places.'>MAX_BATCH_SIZE</a>;
+<a id='L164' name='L164'></a> 164     <a href='../Y/276.html' title='Multiple used in 6 places.'>learnrate</a> = 1.0e-2;
+<a id='L165' name='L165'></a> 165     <a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a> = 20;
+<a id='L166' name='L166'></a> 166     <a href='../Y/351.html' title='Multiple used in 7 places.'>partial_data</a> = 0;
+<a id='L167' name='L167'></a> 167     <a href='../Y/394.html' title='Multiple used in 6 places.'>single_batch</a> = 0;
+<a id='L168' name='L168'></a> 168     <a href='../Y/133.html' title='Multiple used in 19 places.'>dropout</a> = 0;
+<a id='L169' name='L169'></a> 169     <a href='../Y/451.html' title='Multiple used in 9 places.'>validate_ratio</a> = 0.1;
+<a id='L170' name='L170'></a> 170     <a href='../Y/449.html' title='Multiple used in 6 places.'>validate_interval</a> = 5.0;
+<a id='L171' name='L171'></a> 171     <a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a>  = 34567890123452L;
+<a id='L172' name='L172'></a> 172     <a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a>  = 45678901234523L;
+<a id='L173' name='L173'></a> 173     <a href='../Y/149.html' title='Multiple used in 7 places.'>dropout_seed</a> = 56789012345234L;
+<a id='L174' name='L174'></a> 174     <a href='../Y/352.html' title='Multiple used in 7 places.'>partial_data_seed</a> = 67890123452345L;
+<a id='L175' name='L175'></a> 175     <a href='../Y/238.html' title='Multiple used in 5 places.'>grad_dbg</a> = 0;
+<a id='L176' name='L176'></a> 176 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>    
+<a id='L177' name='L177'></a> 177     <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a> = "gpu_base";
+<a id='L178' name='L178'></a> 178     <a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a> = 1;
+<a id='L179' name='L179'></a> 179 <em class='sharp'>#else</em>
+<a id='L180' name='L180'></a> 180     <a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a> = "cpu_base";
+<a id='L181' name='L181'></a> 181     <a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a> = 0;
+<a id='L182' name='L182'></a> 182 <em class='sharp'>#endif</em>
+<a id='L183' name='L183'></a> 183     <a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a> = <a href='../S/475.html#L87' title='Defined at 87 in include/vgg_util.h.'>algo_invalid</a>;
+<a id='L184' name='L184'></a> 184     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a> = "vgg.log";
+<a id='L185' name='L185'></a> 185     <a href='../Y/249.html' title='Multiple used in 6 places.'>help</a> = 0;
+<a id='L186' name='L186'></a> 186     <a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 0;
+<a id='L187' name='L187'></a> 187   <em class='brace'>}</em>
+<a id='L188' name='L188'></a> 188 <em class='brace'>}</em>;
+<a id='L189' name='L189'></a> 189 
+<a id='L190' name='L190'></a> 190 <em class='comment'>/**</em>
+<a id='L191' name='L191'></a> 191 <em class='comment'>   @brief command line options for getopt</em>
+<a id='L192' name='L192'></a> 192 <em class='comment'>*/</em>
+<a id='L193' name='L193'></a> 193 <strong class='reserved'>static</strong> <strong class='reserved'>struct</strong> option <a href='../Y/298.html' title='Multiple used in 3 places.'>long_options</a>[] = <em class='brace'>{</em>
+<a id='L194' name='L194'></a> 194   <em class='brace'>{</em>"batch_sz",          <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'b' <em class='brace'>}</em>,
+<a id='L195' name='L195'></a> 195   <em class='brace'>{</em>"iters",             <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'm' <em class='brace'>}</em>,
+<a id='L196' name='L196'></a> 196   <em class='brace'>{</em>"verbose",           <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'v' <em class='brace'>}</em>,
+<a id='L197' name='L197'></a> 197   <em class='brace'>{</em>"learnrate",         <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'l' <em class='brace'>}</em>,
+<a id='L198' name='L198'></a> 198   <em class='brace'>{</em>"algo",              <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'a' <em class='brace'>}</em>,
+<a id='L199' name='L199'></a> 199   <em class='brace'>{</em>"cifar_data",        <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'd' <em class='brace'>}</em>,
+<a id='L200' name='L200'></a> 200   <em class='brace'>{</em>"cifar_data_dump",   <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'D' <em class='brace'>}</em>,
+<a id='L201' name='L201'></a> 201   <em class='brace'>{</em>"partial_data",      <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L202' name='L202'></a> 202   <em class='brace'>{</em>"single_batch",      <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L203' name='L203'></a> 203   <em class='brace'>{</em>"dropout",           <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L204' name='L204'></a> 204   <em class='brace'>{</em>"validate_ratio",    <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L205' name='L205'></a> 205   <em class='brace'>{</em>"validate_interval", <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L206' name='L206'></a> 206   <em class='brace'>{</em>"sample_seed",       <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0 <em class='brace'>}</em>,
+<a id='L207' name='L207'></a> 207   <em class='brace'>{</em>"weight_seed",       <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0 <em class='brace'>}</em>,
+<a id='L208' name='L208'></a> 208   <em class='brace'>{</em>"dropout_seed",      <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0 <em class='brace'>}</em>,
+<a id='L209' name='L209'></a> 209   <em class='brace'>{</em>"partial_data_seed", <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0 <em class='brace'>}</em>,
+<a id='L210' name='L210'></a> 210   <em class='brace'>{</em>"grad_dbg",          <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L211' name='L211'></a> 211   <em class='brace'>{</em>"log",               <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0,  0  <em class='brace'>}</em>,
+<a id='L212' name='L212'></a> 212   <em class='brace'>{</em>"help",              <a href='../Y/373.html' title='Multiple used in 19 places.'>required_argument</a>, 0, 'h' <em class='brace'>}</em>,
+<a id='L213' name='L213'></a> 213   <em class='brace'>{</em>0,                   0,                 0,  0  <em class='brace'>}</em>
+<a id='L214' name='L214'></a> 214 <em class='brace'>}</em>;
+<a id='L215' name='L215'></a> 215 
+<a id='L216' name='L216'></a> 216 <em class='comment'>/**</em>
+<a id='L217' name='L217'></a> 217 <em class='comment'>   @brief show usage</em>
+<a id='L218' name='L218'></a> 218 <em class='comment'>*/</em>
+<a id='L219' name='L219'></a> 219 <strong class='reserved'>static</strong> <strong class='reserved'>void</strong> <a href='../R/74.html' title='Multiple referred from 4 places.'>usage</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/357.html' title='Multiple used in 4 places.'>prog</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L121'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L271'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+219 include/vgg_util.h'  /> */</em>
+<a id='L220' name='L220'></a> 220   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>;
+<a id='L221' name='L221'></a> 221   <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>,
+<a id='L222' name='L222'></a> 222           "usage:\n"
+<a id='L223' name='L223'></a> 223           "\n"
+<a id='L224' name='L224'></a> 224           "%s [options]\n"
+<a id='L225' name='L225'></a> 225           "\n"
+<a id='L226' name='L226'></a> 226           " -m,--iter N : iterate N times [%ld]\n"
+<a id='L227' name='L227'></a> 227           " -b,--batch_sz N : set batch size to N [%d]\n"
+<a id='L228' name='L228'></a> 228           " -a,--algo ALGORITHM : set the algorithm (implementation) used [%s]\n"
+<a id='L229' name='L229'></a> 229           " -v,--verbose L : set verbosity level to L [%d]\n"
+<a id='L230' name='L230'></a> 230           " -d,--cifar_data F : read data from F [%s]\n"
+<a id='L231' name='L231'></a> 231           " -D,--cifar_data_dump F : dump data to Fxxxx.ppm [%s]\n"
+<a id='L232' name='L232'></a> 232           " -l,--learnrate ETA : set learning rate to ETA [%f]\n"
+<a id='L233' name='L233'></a> 233           " --partial_data N : use only random N images from the file (0 for all) [%ld]\n"
+<a id='L234' name='L234'></a> 234           " --single_batch 0/1 : use the same mini batch in every iteration for debugging [%d]\n"
+<a id='L235' name='L235'></a> 235           " --dropout 0/1 : dropout or not [%d]\n"
+<a id='L236' name='L236'></a> 236           " --validate_ratio R : hold out this ratio of data for validation [%f]\n"
+<a id='L237' name='L237'></a> 237           " --validate_interval R : validate every (R * number of data for validation) training samples [%f]\n"
+<a id='L238' name='L238'></a> 238           " --sample_seed S : set seed for sampling to S [%ld]\n"
+<a id='L239' name='L239'></a> 239           " --dropout_seed S : set seed for dropout to S [%ld]\n"
+<a id='L240' name='L240'></a> 240           " --weight_seed S : set seed for initial weights to S [%ld]\n"
+<a id='L241' name='L241'></a> 241           " --partial_data_seed S : set seed for determining which data in the file are used for training/validation [%ld]\n"
+<a id='L242' name='L242'></a> 242           " --grad_dbg 0/1 : debug gradient computation [%d]\n"
+<a id='L243' name='L243'></a> 243           " --log FILE : write log to FILE [%s]\n"
+<a id='L244' name='L244'></a> 244           " -h,--help\n",
+<a id='L245' name='L245'></a> 245           <a href='../Y/357.html' title='Multiple used in 4 places.'>prog</a>,
+<a id='L246' name='L246'></a> 246           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a>,
+<a id='L247' name='L247'></a> 247           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a>,
+<a id='L248' name='L248'></a> 248           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>,
+<a id='L249' name='L249'></a> 249           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a>,
+<a id='L250' name='L250'></a> 250           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/96.html' title='Multiple used in 8 places.'>cifar_data</a>,
+<a id='L251' name='L251'></a> 251           (<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/97.html' title='Multiple used in 6 places.'>cifar_data_dump</a> ? <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/97.html' title='Multiple used in 6 places.'>cifar_data_dump</a> : ""),
+<a id='L252' name='L252'></a> 252           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/276.html' title='Multiple used in 6 places.'>learnrate</a>,
+<a id='L253' name='L253'></a> 253           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/351.html' title='Multiple used in 7 places.'>partial_data</a>,
+<a id='L254' name='L254'></a> 254           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/394.html' title='Multiple used in 6 places.'>single_batch</a>,
+<a id='L255' name='L255'></a> 255           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/133.html' title='Multiple used in 19 places.'>dropout</a>,
+<a id='L256' name='L256'></a> 256           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/451.html' title='Multiple used in 9 places.'>validate_ratio</a>,
+<a id='L257' name='L257'></a> 257           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/449.html' title='Multiple used in 6 places.'>validate_interval</a>,
+<a id='L258' name='L258'></a> 258           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a>,
+<a id='L259' name='L259'></a> 259           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/149.html' title='Multiple used in 7 places.'>dropout_seed</a>,
+<a id='L260' name='L260'></a> 260           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a>,
+<a id='L261' name='L261'></a> 261           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/352.html' title='Multiple used in 7 places.'>partial_data_seed</a>,
+<a id='L262' name='L262'></a> 262           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/238.html' title='Multiple used in 5 places.'>grad_dbg</a>,
+<a id='L263' name='L263'></a> 263           <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>.<a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>
+<a id='L264' name='L264'></a> 264           );
+<a id='L265' name='L265'></a> 265   <a href='../Y/163.html' title='Multiple used in 12 places.'>exit</a>(1);
+<a id='L266' name='L266'></a> 266 <em class='brace'>}</em>
+<a id='L267' name='L267'></a> 267 
+<a id='L268' name='L268'></a> 268 <em class='comment'>/**</em>
+<a id='L269' name='L269'></a> 269 <em class='comment'>   @brief parse command line args and make a command line object</em>
+<a id='L270' name='L270'></a> 270 <em class='comment'>*/</em>
+<a id='L271' name='L271'></a> 271 <strong class='reserved'>static</strong> <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../R/60.html' title='Multiple referred from 13 places.'>parse_args</a>(<strong class='reserved'>int</strong> <a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <strong class='reserved'>char</strong> ** <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L219'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L371'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+271 include/vgg_util.h'  /> */</em>
+<a id='L272' name='L272'></a> 272   <strong class='reserved'>char</strong> * <a href='../Y/357.html' title='Multiple used in 4 places.'>prog</a> = <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>[0];
+<a id='L273' name='L273'></a> 273   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L274' name='L274'></a> 274   <strong class='reserved'>while</strong> (1) <em class='brace'>{</em>
+<a id='L275' name='L275'></a> 275     <strong class='reserved'>int</strong> <a href='../Y/349.html' title='Multiple used in 3 places.'>option_index</a> = 0;
+<a id='L276' name='L276'></a> 276     <strong class='reserved'>int</strong> <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> = getopt_long(<a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>,
+<a id='L277' name='L277'></a> 277                         "a:b:d:D:l:m:v:h", <a href='../Y/298.html' title='Multiple used in 3 places.'>long_options</a>, &amp;<a href='../Y/349.html' title='Multiple used in 3 places.'>option_index</a>);
+<a id='L278' name='L278'></a> 278     <strong class='reserved'>if</strong> (<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> == -1) <strong class='reserved'>break</strong>;
+<a id='L279' name='L279'></a> 279     <strong class='reserved'>switch</strong> (<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>) <em class='brace'>{</em>
+<a id='L280' name='L280'></a> 280     <strong class='reserved'>case</strong> 0:
+<a id='L281' name='L281'></a> 281       <em class='brace'>{</em>
+<a id='L282' name='L282'></a> 282         <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a> = <a href='../Y/298.html' title='Multiple used in 3 places.'>long_options</a>[<a href='../Y/349.html' title='Multiple used in 3 places.'>option_index</a>].<a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>;
+<a id='L283' name='L283'></a> 283         <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "partial_data") == 0) <em class='brace'>{</em>
+<a id='L284' name='L284'></a> 284           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/351.html' title='Multiple used in 7 places.'>partial_data</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L285' name='L285'></a> 285         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "single_batch") == 0) <em class='brace'>{</em>
+<a id='L286' name='L286'></a> 286           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/394.html' title='Multiple used in 6 places.'>single_batch</a> = <a href='../Y/61.html' title='Multiple used in 5 places.'>atoi</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L287' name='L287'></a> 287         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "dropout") == 0) <em class='brace'>{</em>
+<a id='L288' name='L288'></a> 288           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/133.html' title='Multiple used in 19 places.'>dropout</a> = (<a href='../Y/61.html' title='Multiple used in 5 places.'>atoi</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>) != 0);
+<a id='L289' name='L289'></a> 289         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "validate_ratio") == 0) <em class='brace'>{</em>
+<a id='L290' name='L290'></a> 290           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/451.html' title='Multiple used in 9 places.'>validate_ratio</a> = <a href='../Y/60.html' title='Multiple used in 3 places.'>atof</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L291' name='L291'></a> 291         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "validate_interval") == 0) <em class='brace'>{</em>
+<a id='L292' name='L292'></a> 292           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/449.html' title='Multiple used in 6 places.'>validate_interval</a> = <a href='../Y/60.html' title='Multiple used in 3 places.'>atof</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L293' name='L293'></a> 293         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "sample_seed") == 0) <em class='brace'>{</em>
+<a id='L294' name='L294'></a> 294           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L295' name='L295'></a> 295         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "weight_seed") == 0) <em class='brace'>{</em>
+<a id='L296' name='L296'></a> 296           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L297' name='L297'></a> 297         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "dropout_seed") == 0) <em class='brace'>{</em>
+<a id='L298' name='L298'></a> 298           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/149.html' title='Multiple used in 7 places.'>dropout_seed</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L299' name='L299'></a> 299         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "partial_data_seed") == 0) <em class='brace'>{</em>
+<a id='L300' name='L300'></a> 300           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/352.html' title='Multiple used in 7 places.'>partial_data_seed</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L301' name='L301'></a> 301         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "grad_dbg") == 0) <em class='brace'>{</em>
+<a id='L302' name='L302'></a> 302           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/238.html' title='Multiple used in 5 places.'>grad_dbg</a> = <a href='../Y/61.html' title='Multiple used in 5 places.'>atoi</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L303' name='L303'></a> 303         <em class='brace'>}</em> <strong class='reserved'>else</strong> <strong class='reserved'>if</strong> (<a href='../Y/411.html' title='Multiple used in 13 places.'>strcmp</a>(<a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>, "log") == 0) <em class='brace'>{</em>
+<a id='L304' name='L304'></a> 304           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/285.html' title='Multiple used in 51 places.'>log</a> = <a href='../Y/412.html' title='Multiple used in 4 places.'>strdup</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L305' name='L305'></a> 305         <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L306' name='L306'></a> 306           <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>,
+<a id='L307' name='L307'></a> 307                   "bug:%s:%d: should handle option %s\n",
+<a id='L308' name='L308'></a> 308                   <a href='../Y/42.html' title='Multiple used in 6 places.'>__FILE__</a>, <a href='../Y/43.html' title='Multiple used in 6 places.'>__LINE__</a>, <a href='../Y/343.html' title='Multiple used in 63 places.'>o</a>);
+<a id='L309' name='L309'></a> 309           <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 1;
+<a id='L310' name='L310'></a> 310           <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L311' name='L311'></a> 311         <em class='brace'>}</em>
+<a id='L312' name='L312'></a> 312       <em class='brace'>}</em>
+<a id='L313' name='L313'></a> 313       <strong class='reserved'>break</strong>;
+<a id='L314' name='L314'></a> 314     <strong class='reserved'>case</strong> 'v':
+<a id='L315' name='L315'></a> 315       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a> = <a href='../Y/61.html' title='Multiple used in 5 places.'>atoi</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L316' name='L316'></a> 316       <strong class='reserved'>break</strong>;
+<a id='L317' name='L317'></a> 317     <strong class='reserved'>case</strong> 'd':
+<a id='L318' name='L318'></a> 318       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/96.html' title='Multiple used in 8 places.'>cifar_data</a> = <a href='../Y/412.html' title='Multiple used in 4 places.'>strdup</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L319' name='L319'></a> 319       <strong class='reserved'>break</strong>;
+<a id='L320' name='L320'></a> 320     <strong class='reserved'>case</strong> 'D':
+<a id='L321' name='L321'></a> 321       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/97.html' title='Multiple used in 6 places.'>cifar_data_dump</a> = <a href='../Y/412.html' title='Multiple used in 4 places.'>strdup</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L322' name='L322'></a> 322       <strong class='reserved'>break</strong>;
+<a id='L323' name='L323'></a> 323     <strong class='reserved'>case</strong> 'b':
+<a id='L324' name='L324'></a> 324       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a> = <a href='../Y/61.html' title='Multiple used in 5 places.'>atoi</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L325' name='L325'></a> 325       <strong class='reserved'>break</strong>;
+<a id='L326' name='L326'></a> 326     <strong class='reserved'>case</strong> 'a':
+<a id='L327' name='L327'></a> 327       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a> = <a href='../Y/412.html' title='Multiple used in 4 places.'>strdup</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L328' name='L328'></a> 328       <strong class='reserved'>break</strong>;
+<a id='L329' name='L329'></a> 329     <strong class='reserved'>case</strong> 'l':
+<a id='L330' name='L330'></a> 330       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/276.html' title='Multiple used in 6 places.'>learnrate</a> = <a href='../Y/60.html' title='Multiple used in 3 places.'>atof</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L331' name='L331'></a> 331       <strong class='reserved'>break</strong>;
+<a id='L332' name='L332'></a> 332     <strong class='reserved'>case</strong> 'm':
+<a id='L333' name='L333'></a> 333       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a> = <a href='../Y/62.html' title='Multiple used in 6 places.'>atol</a>(<a href='../Y/347.html' title='Multiple used in 18 places.'>optarg</a>);
+<a id='L334' name='L334'></a> 334       <strong class='reserved'>break</strong>;
+<a id='L335' name='L335'></a> 335     <strong class='reserved'>case</strong> 'h':
+<a id='L336' name='L336'></a> 336       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/249.html' title='Multiple used in 6 places.'>help</a> = 1;
+<a id='L337' name='L337'></a> 337       <strong class='reserved'>break</strong>;
+<a id='L338' name='L338'></a> 338     <strong class='reserved'>default</strong>: <em class='comment'>/* '?' */</em>
+<a id='L339' name='L339'></a> 339       <a href='../S/475.html#L219' title='Defined at 219 in include/vgg_util.h.'>usage</a>(<a href='../Y/357.html' title='Multiple used in 4 places.'>prog</a>);
+<a id='L340' name='L340'></a> 340       <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 1;
+<a id='L341' name='L341'></a> 341       <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L342' name='L342'></a> 342     <em class='brace'>}</em>
+<a id='L343' name='L343'></a> 343   <em class='brace'>}</em>
+<a id='L344' name='L344'></a> 344   <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a> &gt; <a href='../Y/28.html' title='Multiple used in 14 places.'>MAX_BATCH_SIZE</a>) <em class='brace'>{</em>
+<a id='L345' name='L345'></a> 345     <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>, "error: cannot specify --batch_sz (%d) &gt; MAX_BATCH_SIZE (%d)\n",
+<a id='L346' name='L346'></a> 346             <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a>, <a href='../Y/28.html' title='Multiple used in 14 places.'>MAX_BATCH_SIZE</a>);
+<a id='L347' name='L347'></a> 347     <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 1;
+<a id='L348' name='L348'></a> 348     <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L349' name='L349'></a> 349   <em class='brace'>}</em>
+<a id='L350' name='L350'></a> 350   <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a> = <a href='../S/475.html#L95' title='Defined at 95 in include/vgg_util.h.'>parse_algo</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L351' name='L351'></a> 351   <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a> == <a href='../S/475.html#L87' title='Defined at 87 in include/vgg_util.h.'>algo_invalid</a>) <em class='brace'>{</em>
+<a id='L352' name='L352'></a> 352     <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>, "error: invalid algorithm (%s)\n", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L353' name='L353'></a> 353     <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 1;
+<a id='L354' name='L354'></a> 354     <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L355' name='L355'></a> 355   <em class='brace'>}</em>
+<a id='L356' name='L356'></a> 356   <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a> = <a href='../S/475.html#L121' title='Defined at 121 in include/vgg_util.h.'>algo_is_gpu</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>, <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a>);
+<a id='L357' name='L357'></a> 357 <em class='sharp'>#if</em> !<a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L358' name='L358'></a> 358   <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L359' name='L359'></a> 359     <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/409.html' title='Multiple used in 13 places.'>stderr</a>, "error: --gpu 1 allowed only with nvcc\n");
+<a id='L360' name='L360'></a> 360     <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> = 1;
+<a id='L361' name='L361'></a> 361     <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L362' name='L362'></a> 362   <em class='brace'>}</em>
+<a id='L363' name='L363'></a> 363 <em class='sharp'>#endif</em>
+<a id='L364' name='L364'></a> 364   <strong class='reserved'>return</strong> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L365' name='L365'></a> 365 <em class='brace'>}</em>
+<a id='L366' name='L366'></a> 366 
+<a id='L367' name='L367'></a> 367 <em class='comment'>/**</em>
+<a id='L368' name='L368'></a> 368 <em class='comment'>   @brief maximum of two reals</em>
+<a id='L369' name='L369'></a> 369 <em class='comment'>*/</em>
+<a id='L370' name='L370'></a> 370 <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L371' name='L371'></a> 371 <strong class='reserved'>static</strong> <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../R/55.html' title='Multiple referred from 12 places.'>max_r</a>(<a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L271'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L379'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+371 include/vgg_util.h'  /> */</em>
+<a id='L372' name='L372'></a> 372   <strong class='reserved'>return</strong> (<a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> &lt; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> ? <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> : <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>);
+<a id='L373' name='L373'></a> 373 <em class='brace'>}</em>
+<a id='L374' name='L374'></a> 374 
+<a id='L375' name='L375'></a> 375 <em class='comment'>/**</em>
+<a id='L376' name='L376'></a> 376 <em class='comment'>   @brief miniumum of two reals</em>
+<a id='L377' name='L377'></a> 377 <em class='comment'>*/</em>
+<a id='L378' name='L378'></a> 378 <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L379' name='L379'></a> 379 <strong class='reserved'>static</strong> <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../S/475.html#L733' title='Referred from 733 in include/vgg_util.h.'>min_r</a>(<a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L371'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L387'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+379 include/vgg_util.h'  /> */</em>
+<a id='L380' name='L380'></a> 380   <strong class='reserved'>return</strong> (<a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> &lt; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> ? <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> : <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>);
+<a id='L381' name='L381'></a> 381 <em class='brace'>}</em>
+<a id='L382' name='L382'></a> 382 
+<a id='L383' name='L383'></a> 383 <em class='comment'>/**</em>
+<a id='L384' name='L384'></a> 384 <em class='comment'>   @brief maximum of two ints</em>
+<a id='L385' name='L385'></a> 385 <em class='comment'>*/</em>
+<a id='L386' name='L386'></a> 386 <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L387' name='L387'></a> 387 <strong class='reserved'>static</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../R/54.html' title='Multiple referred from 9 places.'>max_i</a>(<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L379'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L395'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+387 include/vgg_util.h'  /> */</em>
+<a id='L388' name='L388'></a> 388   <strong class='reserved'>return</strong> (<a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> &lt; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> ? <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> : <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>);
+<a id='L389' name='L389'></a> 389 <em class='brace'>}</em>
+<a id='L390' name='L390'></a> 390 
+<a id='L391' name='L391'></a> 391 <em class='comment'>/**</em>
+<a id='L392' name='L392'></a> 392 <em class='comment'>   @brief minimum of two ints</em>
+<a id='L393' name='L393'></a> 393 <em class='comment'>*/</em>
+<a id='L394' name='L394'></a> 394 <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L395' name='L395'></a> 395 <strong class='reserved'>static</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../R/57.html' title='Multiple referred from 17 places.'>min_i</a>(<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L387'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L409'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+395 include/vgg_util.h'  /> */</em>
+<a id='L396' name='L396'></a> 396   <strong class='reserved'>return</strong> (<a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> &lt; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> ? <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> : <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>);
+<a id='L397' name='L397'></a> 397 <em class='brace'>}</em>
+<a id='L398' name='L398'></a> 398 
+<a id='L399' name='L399'></a> 399 <em class='comment'>/**</em>
+<a id='L400' name='L400'></a> 400 <em class='comment'>   @brief timestamp </em>
+<a id='L401' name='L401'></a> 401 <em class='comment'>*/</em>
+<a id='L402' name='L402'></a> 402 <strong class='reserved'>struct</strong> <a href='../R/72.html' title='Multiple referred from 39 places.'>tsc_t</a> <em class='brace'>{</em>
+<a id='L403' name='L403'></a> 403   <strong class='reserved'>long</strong> <a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a>;                      <em class='comment'>/**&lt; nano seconds  */</em>
+<a id='L404' name='L404'></a> 404 <em class='brace'>}</em>;
+<a id='L405' name='L405'></a> 405 
+<a id='L406' name='L406'></a> 406 <em class='comment'>/**</em>
+<a id='L407' name='L407'></a> 407 <em class='comment'>   @brief get timestamp (currently just wallclock time in nano seconds)</em>
+<a id='L408' name='L408'></a> 408 <em class='comment'>*/</em>
+<a id='L409' name='L409'></a> 409 <strong class='reserved'>static</strong> <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../R/46.html' title='Multiple referred from 37 places.'>get_tsc</a>() <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L395'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L518'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+409 include/vgg_util.h'  /> */</em>
+<a id='L410' name='L410'></a> 410   <strong class='reserved'>struct</strong> timespec <a href='../Y/434.html' title='Multiple used in 3 places.'>ts</a>[1];
+<a id='L411' name='L411'></a> 411   <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a>;
+<a id='L412' name='L412'></a> 412   <strong class='reserved'>if</strong> (clock_gettime(CLOCK_REALTIME, <a href='../Y/434.html' title='Multiple used in 3 places.'>ts</a>) == -1) <em class='brace'>{</em>
+<a id='L413' name='L413'></a> 413     <a href='../Y/353.html' title='Multiple used in 8 places.'>perror</a>("clock_gettime"); <a href='../S/475.html#L54' title='Defined at 54 in include/vgg_util.h.'>bail</a>();
+<a id='L414' name='L414'></a> 414   <em class='brace'>}</em>
+<a id='L415' name='L415'></a> 415   <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a>.<a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a> = <a href='../Y/434.html' title='Multiple used in 3 places.'>ts</a>-&gt;tv_sec * 1000000000L + <a href='../Y/434.html' title='Multiple used in 3 places.'>ts</a>-&gt;tv_nsec;
+<a id='L416' name='L416'></a> 416   <strong class='reserved'>return</strong> <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a>;
+<a id='L417' name='L417'></a> 417 <em class='brace'>}</em>
+<a id='L418' name='L418'></a> 418 
+<a id='L419' name='L419'></a> 419 <em class='comment'>/**</em>
+<a id='L420' name='L420'></a> 420 <em class='comment'>   @brief pseudo random number generator</em>
+<a id='L421' name='L421'></a> 421 <em class='comment'>   crafted from man erand48 + libc source</em>
+<a id='L422' name='L422'></a> 422 <em class='comment'>*/</em>
+<a id='L423' name='L423'></a> 423 <strong class='reserved'>struct</strong> <a href='../R/66.html' title='Multiple referred from 44 places.'>rnd_gen_t</a> <em class='brace'>{</em>
+<a id='L424' name='L424'></a> 424   <a href='../Y/439.html' title='Multiple used in 5 places.'>uint64_t</a> <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>;                   <em class='comment'>/**&lt; random number state */</em>
+<a id='L425' name='L425'></a> 425   <em class='comment'>/**</em>
+<a id='L426' name='L426'></a> 426 <em class='comment'>     @brief set next state</em>
+<a id='L427' name='L427'></a> 427 <em class='comment'>   */</em>
+<a id='L428' name='L428'></a> 428   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L429' name='L429'></a> 429   <strong class='reserved'>void</strong> <a href='../Y/338.html' title='Multiple used in 3 places.'>next</a>() <em class='brace'>{</em>
+<a id='L430' name='L430'></a> 430     <strong class='reserved'>const</strong> <a href='../Y/439.html' title='Multiple used in 5 places.'>uint64_t</a> <a href='../Y/46.html' title='Multiple used in 2 places.'>__a</a> = 0x5deece66dull;
+<a id='L431' name='L431'></a> 431     <strong class='reserved'>const</strong> <a href='../Y/439.html' title='Multiple used in 5 places.'>uint64_t</a> <a href='../Y/47.html' title='Multiple used in 2 places.'>__c</a> = 0xb;
+<a id='L432' name='L432'></a> 432     <strong class='reserved'>const</strong> <a href='../Y/439.html' title='Multiple used in 5 places.'>uint64_t</a> <a href='../Y/306.html' title='Multiple used in 2 places.'>mask</a> = (1UL &lt;&lt; 48) - 1;
+<a id='L433' name='L433'></a> 433     <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> = (<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> * <a href='../Y/46.html' title='Multiple used in 2 places.'>__a</a> + <a href='../Y/47.html' title='Multiple used in 2 places.'>__c</a>) &amp; <a href='../Y/306.html' title='Multiple used in 2 places.'>mask</a>;
+<a id='L434' name='L434'></a> 434   <em class='brace'>}</em>
+<a id='L435' name='L435'></a> 435   <em class='comment'>/**</em>
+<a id='L436' name='L436'></a> 436 <em class='comment'>     @brief return a random number between 0 and 1</em>
+<a id='L437' name='L437'></a> 437 <em class='comment'>   */</em>
+<a id='L438' name='L438'></a> 438   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L439' name='L439'></a> 439   <strong class='reserved'>double</strong> <a href='../Y/362.html' title='Multiple used in 6 places.'>rand01</a>() <em class='brace'>{</em>
+<a id='L440' name='L440'></a> 440     <strong class='reserved'>union</strong> ieee754_double <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>;
+<a id='L441' name='L441'></a> 441     <em class='comment'>/* Compute next state.  */</em>
+<a id='L442' name='L442'></a> 442     <a href='../Y/338.html' title='Multiple used in 3 places.'>next</a>();
+<a id='L443' name='L443'></a> 443     <em class='comment'>/* Construct a positive double with the 48 random bits distributed over</em>
+<a id='L444' name='L444'></a> 444 <em class='comment'>       its fractional part so the resulting FP number is [0.0,1.0).  */</em>
+<a id='L445' name='L445'></a> 445     <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>.<a href='../Y/255.html' title='Multiple used in 4 places.'>ieee</a>.negative = 0;
+<a id='L446' name='L446'></a> 446     <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>.<a href='../Y/255.html' title='Multiple used in 4 places.'>ieee</a>.exponent = IEEE754_DOUBLE_BIAS;
+<a id='L447' name='L447'></a> 447     <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>.<a href='../Y/255.html' title='Multiple used in 4 places.'>ieee</a>.mantissa0 = (<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> &gt;&gt; 28) &amp; ((1UL &lt;&lt; 20) - 1); <em class='comment'>/* 20 bit */</em>
+<a id='L448' name='L448'></a> 448     <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>.<a href='../Y/255.html' title='Multiple used in 4 places.'>ieee</a>.mantissa1 = (<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> &amp; ((1UL &lt;&lt; 28) - 1)) &lt;&lt; 4;
+<a id='L449' name='L449'></a> 449     <em class='comment'>/* Please note the lower 4 bits of mantissa1 are always 0.  */</em>
+<a id='L450' name='L450'></a> 450     <strong class='reserved'>return</strong> <a href='../Y/424.html' title='Multiple used in 6 places.'>temp</a>.<a href='../Y/120.html' title='Multiple used in 9 places.'>d</a> - 1.0;
+<a id='L451' name='L451'></a> 451   <em class='brace'>}</em>
+<a id='L452' name='L452'></a> 452   <em class='comment'>/**</em>
+<a id='L453' name='L453'></a> 453 <em class='comment'>     @brief return a long between 0 to 2^31 - 1</em>
+<a id='L454' name='L454'></a> 454 <em class='comment'>   */</em>
+<a id='L455' name='L455'></a> 455   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L456' name='L456'></a> 456   <strong class='reserved'>long</strong> <a href='../Y/366.html' title='Multiple used in 2 places.'>randi32</a>() <em class='brace'>{</em>
+<a id='L457' name='L457'></a> 457     <em class='comment'>/* Compute next state.  */</em>
+<a id='L458' name='L458'></a> 458     <a href='../Y/338.html' title='Multiple used in 3 places.'>next</a>();
+<a id='L459' name='L459'></a> 459     <em class='comment'>/* Store the result.  */</em>
+<a id='L460' name='L460'></a> 460     <strong class='reserved'>return</strong> (<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> &gt;&gt; 17) &amp; ((1UL &lt;&lt; 31) - 1);
+<a id='L461' name='L461'></a> 461   <em class='brace'>}</em>
+<a id='L462' name='L462'></a> 462   <em class='comment'>/**</em>
+<a id='L463' name='L463'></a> 463 <em class='comment'>     @brief return a real between a and b</em>
+<a id='L464' name='L464'></a> 464 <em class='comment'>   */</em>
+<a id='L465' name='L465'></a> 465   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L466' name='L466'></a> 466   <strong class='reserved'>double</strong> <a href='../Y/361.html' title='Multiple used in 7 places.'>rand</a>(<strong class='reserved'>double</strong> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <strong class='reserved'>double</strong> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+<a id='L467' name='L467'></a> 467     <strong class='reserved'>return</strong> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> + (<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> - <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>) * <a href='../Y/362.html' title='Multiple used in 6 places.'>rand01</a>();
+<a id='L468' name='L468'></a> 468   <em class='brace'>}</em>
+<a id='L469' name='L469'></a> 469   <em class='comment'>/**</em>
+<a id='L470' name='L470'></a> 470 <em class='comment'>     @brief return a long between a and b</em>
+<a id='L471' name='L471'></a> 471 <em class='comment'>   */</em>
+<a id='L472' name='L472'></a> 472   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L473' name='L473'></a> 473   <strong class='reserved'>long</strong> <a href='../Y/365.html' title='Multiple used in 9 places.'>randi</a>(<strong class='reserved'>long</strong> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>, <strong class='reserved'>long</strong> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>) <em class='brace'>{</em>
+<a id='L474' name='L474'></a> 474     <strong class='reserved'>return</strong> <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a> + <a href='../Y/366.html' title='Multiple used in 2 places.'>randi32</a>() % (<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> - <a href='../Y/48.html' title='Multiple used in 87 places.'>a</a>);
+<a id='L475' name='L475'></a> 475   <em class='brace'>}</em>
+<a id='L476' name='L476'></a> 476   <em class='comment'>/**</em>
+<a id='L477' name='L477'></a> 477 <em class='comment'>     @brief generate a random number from a normal distribution</em>
+<a id='L478' name='L478'></a> 478 <em class='comment'>     of mean=mu and standard deviation=sigma.</em>
+<a id='L479' name='L479'></a> 479 <em class='comment'>     @details see</em>
+<a id='L480' name='L480'></a> 480 <em class='comment'>     https://en.wikipedia.org/wiki/Normal_distribution</em>
+<a id='L481' name='L481'></a> 481 <em class='comment'>     for how the following method works </em>
+<a id='L482' name='L482'></a> 482 <em class='comment'>  */</em>
+<a id='L483' name='L483'></a> 483   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L484' name='L484'></a> 484   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/364.html' title='Multiple used in 5 places.'>rand_normal</a>(<a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/322.html' title='Multiple used in 15 places.'>mu</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/393.html' title='Multiple used in 10 places.'>sigma</a>) <em class='brace'>{</em>
+<a id='L485' name='L485'></a> 485     <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/437.html' title='Multiple used in 2 places.'>u</a> = <a href='../Y/362.html' title='Multiple used in 6 places.'>rand01</a>();
+<a id='L486' name='L486'></a> 486     <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/445.html' title='Multiple used in 5 places.'>v</a> = <a href='../Y/362.html' title='Multiple used in 6 places.'>rand01</a>();
+<a id='L487' name='L487'></a> 487     <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> = <a href='../Y/402.html' title='Multiple used in 8 places.'>sqrt</a>(-2.0 * <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(<a href='../Y/437.html' title='Multiple used in 2 places.'>u</a>)) * cos(2.0 * M_PI * <a href='../Y/445.html' title='Multiple used in 5 places.'>v</a>);
+<a id='L488' name='L488'></a> 488     <strong class='reserved'>return</strong> <a href='../Y/322.html' title='Multiple used in 15 places.'>mu</a> + <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> * <a href='../Y/393.html' title='Multiple used in 10 places.'>sigma</a>;
+<a id='L489' name='L489'></a> 489   <em class='brace'>}</em>
+<a id='L490' name='L490'></a> 490   <em class='comment'>/**</em>
+<a id='L491' name='L491'></a> 491 <em class='comment'>     @brief return the current state of the generator</em>
+<a id='L492' name='L492'></a> 492 <em class='comment'>  */</em>
+<a id='L493' name='L493'></a> 493   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L494' name='L494'></a> 494   <strong class='reserved'>long</strong> <a href='../Y/230.html' title='Multiple used in 2 places.'>get_state</a>() <em class='brace'>{</em>
+<a id='L495' name='L495'></a> 495     <strong class='reserved'>return</strong> <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>;
+<a id='L496' name='L496'></a> 496   <em class='brace'>}</em>
+<a id='L497' name='L497'></a> 497   <em class='comment'>/**</em>
+<a id='L498' name='L498'></a> 498 <em class='comment'>     @brief set state of the generator</em>
+<a id='L499' name='L499'></a> 499 <em class='comment'>  */</em>
+<a id='L500' name='L500'></a> 500   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L501' name='L501'></a> 501   <strong class='reserved'>void</strong> <a href='../Y/387.html' title='Multiple used in 27 places.'>seed</a>(<a href='../Y/439.html' title='Multiple used in 5 places.'>uint64_t</a> <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>) <em class='brace'>{</em>
+<a id='L502' name='L502'></a> 502     <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> = <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>;
+<a id='L503' name='L503'></a> 503   <em class='brace'>}</em>
+<a id='L504' name='L504'></a> 504 <em class='brace'>}</em>;
+<a id='L505' name='L505'></a> 505 
+<a id='L506' name='L506'></a> 506 <em class='comment'>/**</em>
+<a id='L507' name='L507'></a> 507 <em class='comment'>   @brief show various errors </em>
+<a id='L508' name='L508'></a> 508 <em class='comment'>   @param (gx_gx) ∂L/∂x・∂L/∂x</em>
+<a id='L509' name='L509'></a> 509 <em class='comment'>   @param (dx_dx) dx・dx</em>
+<a id='L510' name='L510'></a> 510 <em class='comment'>   @param (gx_dx) ∂L/∂x・dx</em>
+<a id='L511' name='L511'></a> 511 <em class='comment'>   @param (gw_gw) ∂L/∂w・∂L/∂w</em>
+<a id='L512' name='L512'></a> 512 <em class='comment'>   @param (dw_dw) dw・dw</em>
+<a id='L513' name='L513'></a> 513 <em class='comment'>   @param (gw_dw) ∂L/∂w・dw</em>
+<a id='L514' name='L514'></a> 514 <em class='comment'>   @param (L_minus) L(w-dw,x-dx)</em>
+<a id='L515' name='L515'></a> 515 <em class='comment'>   @param (L) L(w,x)</em>
+<a id='L516' name='L516'></a> 516 <em class='comment'>   @param (L_plus) L(w+dw,x+dx)</em>
+<a id='L517' name='L517'></a> 517 <em class='comment'> */</em>
+<a id='L518' name='L518'></a> 518 <strong class='reserved'>static</strong> <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../R/67.html' title='Multiple referred from 10 places.'>show_error</a>(<a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/246.html' title='Multiple used in 20 places.'>gx_gx</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/157.html' title='Multiple used in 20 places.'>dx_dx</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a>,
+     <em class='comment'>/* <a href='#L409'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L725'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+518 include/vgg_util.h'  /> */</em>
+<a id='L519' name='L519'></a> 519                        <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/243.html' title='Multiple used in 20 places.'>gw_gw</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/155.html' title='Multiple used in 20 places.'>dw_dw</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a>,
+<a id='L520' name='L520'></a> 520                        <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/24.html' title='Multiple used in 21 places.'>L_minus</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/23.html' title='Multiple used in 28 places.'>L</a>, <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/25.html' title='Multiple used in 21 places.'>L_plus</a>) <em class='brace'>{</em>
+<a id='L521' name='L521'></a> 521   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("|∂L/∂x|   = %.9f\n", <a href='../Y/402.html' title='Multiple used in 8 places.'>sqrt</a>(<a href='../Y/246.html' title='Multiple used in 20 places.'>gx_gx</a>));
+<a id='L522' name='L522'></a> 522   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("|dx|      = %.9f\n", <a href='../Y/402.html' title='Multiple used in 8 places.'>sqrt</a>(<a href='../Y/157.html' title='Multiple used in 20 places.'>dx_dx</a>));
+<a id='L523' name='L523'></a> 523   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("∂L/∂x・dx = %.9f\n", <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a>);
+<a id='L524' name='L524'></a> 524   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("|∂L/∂w|   = %.9f\n", <a href='../Y/402.html' title='Multiple used in 8 places.'>sqrt</a>(<a href='../Y/243.html' title='Multiple used in 20 places.'>gw_gw</a>));
+<a id='L525' name='L525'></a> 525   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("|dw|      = %.9f\n", <a href='../Y/402.html' title='Multiple used in 8 places.'>sqrt</a>(<a href='../Y/155.html' title='Multiple used in 20 places.'>dw_dw</a>));
+<a id='L526' name='L526'></a> 526   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("∂L/∂w・dw = %.9f\n", <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a>);
+<a id='L527' name='L527'></a> 527   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("L- = %.9f\n", <a href='../Y/24.html' title='Multiple used in 21 places.'>L_minus</a>);
+<a id='L528' name='L528'></a> 528   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("L  = %.9f\n", <a href='../Y/23.html' title='Multiple used in 28 places.'>L</a>);
+<a id='L529' name='L529'></a> 529   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("L+ = %.9f\n", <a href='../Y/25.html' title='Multiple used in 21 places.'>L_plus</a>);
+<a id='L530' name='L530'></a> 530   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/121.html' title='Multiple used in 3 places.'>dL</a> = <a href='../Y/25.html' title='Multiple used in 21 places.'>L_plus</a> - <a href='../Y/24.html' title='Multiple used in 21 places.'>L_minus</a>;
+<a id='L531' name='L531'></a> 531   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/1.html' title='Multiple used in 2 places.'>A</a> = <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a> + <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a>;
+<a id='L532' name='L532'></a> 532   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a> = <a href='../Y/121.html' title='Multiple used in 3 places.'>dL</a>;
+<a id='L533' name='L533'></a> 533   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a> = (<a href='../Y/1.html' title='Multiple used in 2 places.'>A</a> == <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a> ? 0.0 : fabs(<a href='../Y/1.html' title='Multiple used in 2 places.'>A</a> - <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>) / <a href='../S/475.html#L371' title='Defined at 371 in include/vgg_util.h.'>max_r</a>(fabs(<a href='../Y/1.html' title='Multiple used in 2 places.'>A</a>), fabs(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>)));
+<a id='L534' name='L534'></a> 534   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("A = ∂L/∂x・dx + ∂L/∂w・dw = %.9f\n", <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a> + <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a>);
+<a id='L535' name='L535'></a> 535   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("B = ΔL = %.9f\n", <a href='../Y/121.html' title='Multiple used in 3 places.'>dL</a>);
+<a id='L536' name='L536'></a> 536   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("relative error = |A-B|/max(|A|,|B|) = %.9f\n", <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>);
+<a id='L537' name='L537'></a> 537   <strong class='reserved'>return</strong> <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>;
+<a id='L538' name='L538'></a> 538 <em class='brace'>}</em>
+<a id='L539' name='L539'></a> 539 
+<a id='L540' name='L540'></a> 540 <em class='comment'>/**</em>
+<a id='L541' name='L541'></a> 541 <em class='comment'>   @brief logging object</em>
+<a id='L542' name='L542'></a> 542 <em class='comment'> */</em>
+<a id='L543' name='L543'></a> 543 <strong class='reserved'>struct</strong> <a href='../R/53.html' title='Multiple referred from 42 places.'>logger</a> <em class='brace'>{</em>
+<a id='L544' name='L544'></a> 544   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;              <em class='comment'>/**&lt; command line options */</em>
+<a id='L545' name='L545'></a> 545   <a href='../Y/11.html' title='Multiple used in 3 places.'>FILE</a> * <a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>;                <em class='comment'>/**&lt; log file object */</em>
+<a id='L546' name='L546'></a> 546   <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>;                     <em class='comment'>/**&lt; the start time stamp */</em>
+<a id='L547' name='L547'></a> 547   <em class='comment'>/**</em>
+<a id='L548' name='L548'></a> 548 <em class='comment'>     @brief return the current time string like "Wed Jun 30 21:49:08 1993"</em>
+<a id='L549' name='L549'></a> 549 <em class='comment'>   */</em>
+<a id='L550' name='L550'></a> 550   <strong class='reserved'>char</strong> * <a href='../Y/119.html' title='Multiple used in 3 places.'>cur_time_str</a>() <em class='brace'>{</em>
+<a id='L551' name='L551'></a> 551     time_t <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a> = time(NULL);
+<a id='L552' name='L552'></a> 552     <strong class='reserved'>char</strong> * <a href='../Y/429.html' title='Multiple used in 5 places.'>time_s</a> = ctime(&amp;<a href='../Y/419.html' title='Multiple used in 66 places.'>t</a>);
+<a id='L553' name='L553'></a> 553     <strong class='reserved'>if</strong> (!<a href='../Y/429.html' title='Multiple used in 5 places.'>time_s</a>) <em class='brace'>{</em>
+<a id='L554' name='L554'></a> 554       <a href='../Y/353.html' title='Multiple used in 8 places.'>perror</a>("ctime_r");
+<a id='L555' name='L555'></a> 555       <a href='../Y/163.html' title='Multiple used in 12 places.'>exit</a>(EXIT_FAILURE);
+<a id='L556' name='L556'></a> 556     <em class='brace'>}</em>
+<a id='L557' name='L557'></a> 557     <strong class='reserved'>int</strong> <a href='../Y/277.html' title='Multiple used in 6 places.'>len</a> = <a href='../Y/413.html' title='Multiple used in 12 places.'>strlen</a>(<a href='../Y/429.html' title='Multiple used in 5 places.'>time_s</a>);
+<a id='L558' name='L558'></a> 558     <a href='../Y/429.html' title='Multiple used in 5 places.'>time_s</a>[<a href='../Y/277.html' title='Multiple used in 6 places.'>len</a>-1] = 0;
+<a id='L559' name='L559'></a> 559     <strong class='reserved'>return</strong> <a href='../Y/429.html' title='Multiple used in 5 places.'>time_s</a>;
+<a id='L560' name='L560'></a> 560   <em class='brace'>}</em>
+<a id='L561' name='L561'></a> 561   <em class='comment'>/**</em>
+<a id='L562' name='L562'></a> 562 <em class='comment'>     @brief write a formatted string to the log and may be to standard out</em>
+<a id='L563' name='L563'></a> 563 <em class='comment'>     @param (level) the level of this entry. if opt.verbose&gt;=level, then </em>
+<a id='L564' name='L564'></a> 564 <em class='comment'>     the string will be output to the standard out (in addition to the log file)</em>
+<a id='L565' name='L565'></a> 565 <em class='comment'>     @param (format) the printf-like format string</em>
+<a id='L566' name='L566'></a> 566 <em class='comment'>   */</em>
+<a id='L567' name='L567'></a> 567   <strong class='reserved'>int</strong> <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(<strong class='reserved'>int</strong> <a href='../Y/278.html' title='Multiple used in 2 places.'>level</a>, <strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/178.html' title='Multiple used in 5 places.'>format</a>, ...) <em class='brace'>{</em>
+<a id='L568' name='L568'></a> 568     <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L569' name='L569'></a> 569     <strong class='reserved'>long</strong> <a href='../Y/152.html' title='Multiple used in 3 places.'>dt</a> = <a href='../Y/419.html' title='Multiple used in 66 places.'>t</a>.<a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a> - <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>.<a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a>;
+<a id='L570' name='L570'></a> 570     <strong class='reserved'>if</strong> (<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>) <em class='brace'>{</em>
+<a id='L571' name='L571'></a> 571       <a href='../Y/447.html' title='Multiple used in 2 places.'>va_list</a> <a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>;
+<a id='L572' name='L572'></a> 572       <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>, "%ld: ", <a href='../Y/152.html' title='Multiple used in 3 places.'>dt</a>);
+<a id='L573' name='L573'></a> 573       <a href='../Y/448.html' title='Multiple used in 2 places.'>va_start</a>(<a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>, <a href='../Y/178.html' title='Multiple used in 5 places.'>format</a>);
+<a id='L574' name='L574'></a> 574       <a href='../Y/454.html' title='Multiple used in 2 places.'>vfprintf</a>(<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>, <a href='../Y/178.html' title='Multiple used in 5 places.'>format</a>, <a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>);
+<a id='L575' name='L575'></a> 575       <a href='../Y/446.html' title='Multiple used in 2 places.'>va_end</a>(<a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>);
+<a id='L576' name='L576'></a> 576       <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>, "\n");
+<a id='L577' name='L577'></a> 577     <em class='brace'>}</em>
+<a id='L578' name='L578'></a> 578     <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a>&gt;=<a href='../Y/278.html' title='Multiple used in 2 places.'>level</a>) <em class='brace'>{</em>
+<a id='L579' name='L579'></a> 579       <a href='../Y/447.html' title='Multiple used in 2 places.'>va_list</a> <a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>;
+<a id='L580' name='L580'></a> 580       <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/410.html' title='Multiple used in 4 places.'>stdout</a>, "%ld: ", <a href='../Y/152.html' title='Multiple used in 3 places.'>dt</a>);
+<a id='L581' name='L581'></a> 581       <a href='../Y/448.html' title='Multiple used in 2 places.'>va_start</a>(<a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>, <a href='../Y/178.html' title='Multiple used in 5 places.'>format</a>);
+<a id='L582' name='L582'></a> 582       <a href='../Y/454.html' title='Multiple used in 2 places.'>vfprintf</a>(<a href='../Y/410.html' title='Multiple used in 4 places.'>stdout</a>, <a href='../Y/178.html' title='Multiple used in 5 places.'>format</a>, <a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>);
+<a id='L583' name='L583'></a> 583       <a href='../Y/446.html' title='Multiple used in 2 places.'>va_end</a>(<a href='../Y/56.html' title='Multiple used in 8 places.'>ap</a>);
+<a id='L584' name='L584'></a> 584       <a href='../Y/186.html' title='Multiple used in 20 places.'>fprintf</a>(<a href='../Y/410.html' title='Multiple used in 4 places.'>stdout</a>, "\n");
+<a id='L585' name='L585'></a> 585       fflush(<a href='../Y/410.html' title='Multiple used in 4 places.'>stdout</a>);
+<a id='L586' name='L586'></a> 586     <em class='brace'>}</em>
+<a id='L587' name='L587'></a> 587     <strong class='reserved'>return</strong> 1;
+<a id='L588' name='L588'></a> 588   <em class='brace'>}</em>
+<a id='L589' name='L589'></a> 589   <em class='comment'>/**</em>
+<a id='L590' name='L590'></a> 590 <em class='comment'>     @brief open a log file and start logging</em>
+<a id='L591' name='L591'></a> 591 <em class='comment'>     @param (opt) command line option</em>
+<a id='L592' name='L592'></a> 592 <em class='comment'>   */</em>
+<a id='L593' name='L593'></a> 593   <strong class='reserved'>int</strong> <a href='../Y/405.html' title='Multiple used in 12 places.'>start_log</a>(<a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>) <em class='brace'>{</em>
+<a id='L594' name='L594'></a> 594     <a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>-&gt;<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a> = <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L595' name='L595'></a> 595     <a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a> = <a href='../Y/177.html' title='Multiple used in 3 places.'>fopen</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>, "wb");
+<a id='L596' name='L596'></a> 596     <strong class='reserved'>if</strong> (!<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>) <em class='brace'>{</em> <a href='../Y/353.html' title='Multiple used in 8 places.'>perror</a>("fopen"); <a href='../Y/163.html' title='Multiple used in 12 places.'>exit</a>(1); <em class='brace'>}</em>
+<a id='L597' name='L597'></a> 597     <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L598' name='L598'></a> 598     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(2, "open a log %s", <a href='../Y/119.html' title='Multiple used in 3 places.'>cur_time_str</a>());
+<a id='L599' name='L599'></a> 599     <a href='../Y/295.html' title='Multiple used in 2 places.'>log_opt</a>();
+<a id='L600' name='L600'></a> 600     <a href='../Y/293.html' title='Multiple used in 2 places.'>log_host</a>();
+<a id='L601' name='L601'></a> 601     <a href='../Y/291.html' title='Multiple used in 2 places.'>log_envs</a>();
+<a id='L602' name='L602'></a> 602     <strong class='reserved'>return</strong> 1;
+<a id='L603' name='L603'></a> 603   <em class='brace'>}</em>
+<a id='L604' name='L604'></a> 604   <em class='comment'>/**</em>
+<a id='L605' name='L605'></a> 605 <em class='comment'>     @brief end logging and close the log file</em>
+<a id='L606' name='L606'></a> 606 <em class='comment'>   */</em>
+<a id='L607' name='L607'></a> 607   <strong class='reserved'>int</strong> <a href='../Y/159.html' title='Multiple used in 12 places.'>end_log</a>() <em class='brace'>{</em>
+<a id='L608' name='L608'></a> 608     <strong class='reserved'>if</strong> (<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>) <em class='brace'>{</em>
+<a id='L609' name='L609'></a> 609       <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(2, "close a log %s", <a href='../Y/119.html' title='Multiple used in 3 places.'>cur_time_str</a>());
+<a id='L610' name='L610'></a> 610       <a href='../Y/170.html' title='Multiple used in 3 places.'>fclose</a>(<a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a>);
+<a id='L611' name='L611'></a> 611       <a href='../Y/292.html' title='Multiple used in 10 places.'>log_fp</a> = 0;
+<a id='L612' name='L612'></a> 612     <em class='brace'>}</em>
+<a id='L613' name='L613'></a> 613     <strong class='reserved'>return</strong> 1;
+<a id='L614' name='L614'></a> 614   <em class='brace'>}</em>
+<a id='L615' name='L615'></a> 615   <em class='comment'>/**</em>
+<a id='L616' name='L616'></a> 616 <em class='comment'>     @brief log command line options to the log file for the record</em>
+<a id='L617' name='L617'></a> 617 <em class='comment'>   */</em>
+<a id='L618' name='L618'></a> 618   <strong class='reserved'>int</strong> <a href='../Y/295.html' title='Multiple used in 2 places.'>log_opt</a>() <em class='brace'>{</em>
+<a id='L619' name='L619'></a> 619     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "verbose=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/453.html' title='Multiple used in 6 places.'>verbose</a>);
+<a id='L620' name='L620'></a> 620     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "cifar_data=%s", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/96.html' title='Multiple used in 8 places.'>cifar_data</a>);
+<a id='L621' name='L621'></a> 621     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "batch_sz=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a>);
+<a id='L622' name='L622'></a> 622     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "learnrate=%f", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/276.html' title='Multiple used in 6 places.'>learnrate</a>);
+<a id='L623' name='L623'></a> 623     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "iters=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a>);
+<a id='L624' name='L624'></a> 624     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "partial_data=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/351.html' title='Multiple used in 7 places.'>partial_data</a>);
+<a id='L625' name='L625'></a> 625     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "single_batch=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/394.html' title='Multiple used in 6 places.'>single_batch</a>);
+<a id='L626' name='L626'></a> 626     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "dropout=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/133.html' title='Multiple used in 19 places.'>dropout</a>);
+<a id='L627' name='L627'></a> 627     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "validate_ratio=%f", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/451.html' title='Multiple used in 9 places.'>validate_ratio</a>);
+<a id='L628' name='L628'></a> 628     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "validate_interval=%f", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/449.html' title='Multiple used in 6 places.'>validate_interval</a>);
+<a id='L629' name='L629'></a> 629     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "sample_seed=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a>);
+<a id='L630' name='L630'></a> 630     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "weight_seed=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a>);
+<a id='L631' name='L631'></a> 631     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "dropout_seed=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/149.html' title='Multiple used in 7 places.'>dropout_seed</a>);
+<a id='L632' name='L632'></a> 632     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "partial_data_seed=%ld", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/352.html' title='Multiple used in 7 places.'>partial_data_seed</a>);
+<a id='L633' name='L633'></a> 633     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "grad_dbg=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/238.html' title='Multiple used in 5 places.'>grad_dbg</a>);
+<a id='L634' name='L634'></a> 634     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "algo_s=%s", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L635' name='L635'></a> 635     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "algo=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a>);
+<a id='L636' name='L636'></a> 636     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "gpu_algo=%d", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>);
+<a id='L637' name='L637'></a> 637     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "log=%s", <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>);
+<a id='L638' name='L638'></a> 638     <strong class='reserved'>return</strong> 1;
+<a id='L639' name='L639'></a> 639   <em class='brace'>}</em>
+<a id='L640' name='L640'></a> 640   <em class='comment'>/**</em>
+<a id='L641' name='L641'></a> 641 <em class='comment'>     @brief log hostname for the record</em>
+<a id='L642' name='L642'></a> 642 <em class='comment'>   */</em>
+<a id='L643' name='L643'></a> 643   <strong class='reserved'>int</strong> <a href='../Y/293.html' title='Multiple used in 2 places.'>log_host</a>() <em class='brace'>{</em>
+<a id='L644' name='L644'></a> 644     <strong class='reserved'>char</strong> <a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>[HOST_NAME_MAX+1];
+<a id='L645' name='L645'></a> 645     <a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>[0] = 0;
+<a id='L646' name='L646'></a> 646     gethostname(<a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>, <strong class='reserved'>sizeof</strong>(<a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>));
+<a id='L647' name='L647'></a> 647     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "host=%s", <a href='../Y/334.html' title='Multiple used in 5 places.'>name</a>);
+<a id='L648' name='L648'></a> 648     <strong class='reserved'>return</strong> 1;
+<a id='L649' name='L649'></a> 649   <em class='brace'>}</em>
+<a id='L650' name='L650'></a> 650   <em class='comment'>/**</em>
+<a id='L651' name='L651'></a> 651 <em class='comment'>     @brief log an environment var for the record</em>
+<a id='L652' name='L652'></a> 652 <em class='comment'>   */</em>
+<a id='L653' name='L653'></a> 653   <strong class='reserved'>int</strong> <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/452.html' title='Multiple used in 4 places.'>var</a>) <em class='brace'>{</em>
+<a id='L654' name='L654'></a> 654     <strong class='reserved'>char</strong> * <a href='../Y/378.html' title='Multiple used in 80 places.'>s</a> = getenv(<a href='../Y/452.html' title='Multiple used in 4 places.'>var</a>);
+<a id='L655' name='L655'></a> 655     <strong class='reserved'>if</strong> (<a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>) <em class='brace'>{</em>
+<a id='L656' name='L656'></a> 656       <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "%s=%s", <a href='../Y/452.html' title='Multiple used in 4 places.'>var</a>, <a href='../Y/378.html' title='Multiple used in 80 places.'>s</a>);
+<a id='L657' name='L657'></a> 657     <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L658' name='L658'></a> 658       <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(3, "%s undefined", <a href='../Y/452.html' title='Multiple used in 4 places.'>var</a>);
+<a id='L659' name='L659'></a> 659     <em class='brace'>}</em>
+<a id='L660' name='L660'></a> 660     <strong class='reserved'>return</strong> 1;
+<a id='L661' name='L661'></a> 661   <em class='brace'>}</em>
+<a id='L662' name='L662'></a> 662   <em class='comment'>/**</em>
+<a id='L663' name='L663'></a> 663 <em class='comment'>     @brief log some environment vars for the record</em>
+<a id='L664' name='L664'></a> 664 <em class='comment'>   */</em>
+<a id='L665' name='L665'></a> 665   <strong class='reserved'>int</strong> <a href='../Y/291.html' title='Multiple used in 2 places.'>log_envs</a>() <em class='brace'>{</em>
+<a id='L666' name='L666'></a> 666     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("USER");
+<a id='L667' name='L667'></a> 667     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("PWD");
+<a id='L668' name='L668'></a> 668     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_SUBMIT_DIR");
+<a id='L669' name='L669'></a> 669     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_SUBMIT_HOST");
+<a id='L670' name='L670'></a> 670     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_NAME");
+<a id='L671' name='L671'></a> 671     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_CPUS_PER_NODE");
+<a id='L672' name='L672'></a> 672     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_NTASKS");
+<a id='L673' name='L673'></a> 673     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_NPROCS");
+<a id='L674' name='L674'></a> 674     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_ID");
+<a id='L675' name='L675'></a> 675     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOBID");
+<a id='L676' name='L676'></a> 676     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_NNODES");
+<a id='L677' name='L677'></a> 677     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_NUM_NODES");
+<a id='L678' name='L678'></a> 678     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_NODELIST");
+<a id='L679' name='L679'></a> 679     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_PARTITION");
+<a id='L680' name='L680'></a> 680     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_TASKS_PER_NODE");
+<a id='L681' name='L681'></a> 681     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_NODELIST");
+<a id='L682' name='L682'></a> 682     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("CUDA_VISIBLE_DEVICES");
+<a id='L683' name='L683'></a> 683     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("GPU_DEVICE_ORDINAL");
+<a id='L684' name='L684'></a> 684     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_CPUS_ON_NODE");
+<a id='L685' name='L685'></a> 685     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_TASK_PID");
+<a id='L686' name='L686'></a> 686     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_NODEID");
+<a id='L687' name='L687'></a> 687     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_PROCID");
+<a id='L688' name='L688'></a> 688     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_LOCALID");
+<a id='L689' name='L689'></a> 689     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_UID");
+<a id='L690' name='L690'></a> 690     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_USER");
+<a id='L691' name='L691'></a> 691     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURM_JOB_GID");
+<a id='L692' name='L692'></a> 692     <a href='../Y/290.html' title='Multiple used in 28 places.'>log_env</a>("SLURMD_NODENAME");
+<a id='L693' name='L693'></a> 693     <strong class='reserved'>return</strong> 1;                   <em class='comment'>/* OK */</em>
+<a id='L694' name='L694'></a> 694   <em class='brace'>}</em>
+<a id='L695' name='L695'></a> 695   <em class='comment'>/**</em>
+<a id='L696' name='L696'></a> 696 <em class='comment'>     @brief log the start of a function (f) </em>
+<a id='L697' name='L697'></a> 697 <em class='comment'>   */</em>
+<a id='L698' name='L698'></a> 698   <strong class='reserved'>void</strong> <a href='../Y/296.html' title='Multiple used in 2 places.'>log_start_fun_</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/166.html' title='Multiple used in 4 places.'>f</a>) <em class='brace'>{</em>
+<a id='L699' name='L699'></a> 699     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(2, "%s: starts", <a href='../Y/166.html' title='Multiple used in 4 places.'>f</a>);
+<a id='L700' name='L700'></a> 700   <em class='brace'>}</em>
+<a id='L701' name='L701'></a> 701   <em class='comment'>/**</em>
+<a id='L702' name='L702'></a> 702 <em class='comment'>     @brief log the end of a function (f) </em>
+<a id='L703' name='L703'></a> 703 <em class='comment'>   */</em>
+<a id='L704' name='L704'></a> 704   <strong class='reserved'>void</strong> <a href='../Y/289.html' title='Multiple used in 2 places.'>log_end_fun_</a>(<strong class='reserved'>const</strong> <strong class='reserved'>char</strong> * <a href='../Y/166.html' title='Multiple used in 4 places.'>f</a>, <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>, <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>) <em class='brace'>{</em>
+<a id='L705' name='L705'></a> 705     <a href='../Y/285.html' title='Multiple used in 51 places.'>log</a>(2, "%s: ends. took %ld nsec", <a href='../Y/166.html' title='Multiple used in 4 places.'>f</a>, <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>.<a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a> - <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>.<a href='../Y/339.html' title='Multiple used in 4 places.'>ns</a>);
+<a id='L706' name='L706'></a> 706   <em class='brace'>}</em>
+<a id='L707' name='L707'></a> 707 <em class='brace'>}</em>;
+<a id='L708' name='L708'></a> 708 
+<a id='L709' name='L709'></a> 709 <em class='comment'>/**</em>
+<a id='L710' name='L710'></a> 710 <em class='comment'>   @brief log the start of the current function</em>
+<a id='L711' name='L711'></a> 711 <em class='comment'>   @details just log_start_fun(lgr) and you get the caller's function</em>
+<a id='L712' name='L712'></a> 712 <em class='comment'>   name to the log</em>
+<a id='L713' name='L713'></a> 713 <em class='comment'>  */</em>
+<a id='L714' name='L714'></a> 714 <em class='sharp'>#define</em> <a href='../R/52.html' title='Multiple referred from 17 places.'>log_start_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>) <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>-&gt;<a href='../Y/296.html' title='Multiple used in 2 places.'>log_start_fun_</a>(<a href='../Y/45.html' title='Multiple used in 2 places.'>__PRETTY_FUNCTION__</a>)
+<a id='L715' name='L715'></a> 715 <em class='comment'>/**</em>
+<a id='L716' name='L716'></a> 716 <em class='comment'>   @brief log the end of the current function</em>
+<a id='L717' name='L717'></a> 717 <em class='comment'>   @details just log_end_fun(lgr, t0, t1) and you get the caller's function</em>
+<a id='L718' name='L718'></a> 718 <em class='comment'>   name to the log along with its execution time</em>
+<a id='L719' name='L719'></a> 719 <em class='comment'>  */</em>
+<a id='L720' name='L720'></a> 720 <em class='sharp'>#define</em> <a href='../R/51.html' title='Multiple referred from 17 places.'>log_end_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>, <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>, <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>)   <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>-&gt;<a href='../Y/289.html' title='Multiple used in 2 places.'>log_end_fun_</a>(<a href='../Y/45.html' title='Multiple used in 2 places.'>__PRETTY_FUNCTION__</a>, <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>, <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>)
+<a id='L721' name='L721'></a> 721 
+<a id='L722' name='L722'></a> 722 <em class='comment'>/**</em>
+<a id='L723' name='L723'></a> 723 <em class='comment'>   @brief entry point</em>
+<a id='L724' name='L724'></a> 724 <em class='comment'> */</em>
+<a id='L725' name='L725'></a> 725 <strong class='reserved'>int</strong> vgg_util_main(<strong class='reserved'>int</strong> <a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <strong class='reserved'>char</strong> ** <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L518'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L741'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+725 include/vgg_util.h'  /> */</em>
+<a id='L726' name='L726'></a> 726   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a> = <a href='../S/475.html#L271' title='Defined at 271 in include/vgg_util.h.'>parse_args</a>(<a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>);
+<a id='L727' name='L727'></a> 727   <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/161.html' title='Multiple used in 10 places.'>error</a> || <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/249.html' title='Multiple used in 6 places.'>help</a>) <a href='../S/475.html#L219' title='Defined at 219 in include/vgg_util.h.'>usage</a>(<a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>[0]);
+<a id='L728' name='L728'></a> 728   <a href='../S/475.html#L423' title='Defined at 423 in include/vgg_util.h.'>rnd_gen_t</a> <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>;
+<a id='L729' name='L729'></a> 729   <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>.<a href='../Y/387.html' title='Multiple used in 27 places.'>seed</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/383.html' title='Multiple used in 12 places.'>sample_seed</a>);
+<a id='L730' name='L730'></a> 730   <a href='../S/475.html#L54' title='Defined at 54 in include/vgg_util.h.'>bail</a>();
+<a id='L731' name='L731'></a> 731   <a href='../S/475.html#L395' title='Defined at 395 in include/vgg_util.h.'>min_i</a>(1,2);
+<a id='L732' name='L732'></a> 732   <a href='../S/475.html#L387' title='Defined at 387 in include/vgg_util.h.'>max_i</a>(3,4);
+<a id='L733' name='L733'></a> 733   <a href='../S/475.html#L379' title='Defined at 379 in include/vgg_util.h.'>min_r</a>(1.2,3.4);
+<a id='L734' name='L734'></a> 734   <a href='../S/475.html#L371' title='Defined at 371 in include/vgg_util.h.'>max_r</a>(5.6,7.8);
+<a id='L735' name='L735'></a> 735   <strong class='reserved'>return</strong> 0;
+<a id='L736' name='L736'></a> 736 <em class='brace'>}</em>
+<a id='L737' name='L737'></a> 737 
+<a id='L738' name='L738'></a> 738 <em class='comment'>/**</em>
+<a id='L739' name='L739'></a> 739 <em class='comment'>   @brief suppress unused function warning</em>
+<a id='L740' name='L740'></a> 740 <em class='comment'> */</em>
+<a id='L741' name='L741'></a> 741 <strong class='reserved'>void</strong> vgg_util_use_unused_functions() <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L725'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+741 include/vgg_util.h'  /> */</em>
+<a id='L742' name='L742'></a> 742   (<strong class='reserved'>void</strong>)<a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>;
+<a id='L743' name='L743'></a> 743   (<strong class='reserved'>void</strong>)<a href='../S/475.html#L518' title='Defined at 518 in include/vgg_util.h.'>show_error</a>;
+<a id='L744' name='L744'></a> 744 <em class='brace'>}</em>
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L54'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L741'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+744 include/vgg_util.h'  /> */</em>
+</body>
+</html>

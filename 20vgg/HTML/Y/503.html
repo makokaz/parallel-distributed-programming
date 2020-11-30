@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>y_plus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L684'>y_plus</a>            684 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_plus  = bn_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/478.html#L687'>y_plus</a>            687 include/batchnormalization.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/478.html#L692'>y_plus</a>            692 include/batchnormalization.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/482.html#L289'>y_plus</a>            289 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = block_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/482.html#L292'>y_plus</a>            292 include/block.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/482.html#L297'>y_plus</a>            297 include/block.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/473.html#L609'>y_plus</a>            609 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = conv_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/473.html#L612'>y_plus</a>            612 include/convolution.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/473.html#L617'>y_plus</a>            617 include/convolution.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/468.html#L447'>y_plus</a>            447 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = dropout_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/468.html#L450'>y_plus</a>            450 include/dropout.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/468.html#L455'>y_plus</a>            455 include/dropout.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/479.html#L571'>y_plus</a>            571 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_plus  = linear_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/479.html#L574'>y_plus</a>            574 include/linear.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/479.html#L579'>y_plus</a>            579 include/linear.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/474.html#L449'>y_plus</a>            449 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_plus  = mp_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/474.html#L452'>y_plus</a>            452 include/maxpooling.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/474.html#L457'>y_plus</a>            457 include/maxpooling.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/471.html#L425'>y_plus</a>            425 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = relu_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/471.html#L428'>y_plus</a>            428 include/relu.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/471.html#L433'>y_plus</a>            433 include/relu.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/480.html#L473'>y_plus</a>            473 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_plus  = smxe_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/480.html#L476'>y_plus</a>            476 include/softmaxcrossentropy.h   y_plus.to_host();</span>
+<span class='curline'><a href='../S/480.html#L481'>y_plus</a>            481 include/softmaxcrossentropy.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/477.html#L631'>y_plus</a>            631 include/vgg.h    vec&lt;maxB&gt;&amp; y_plus  = vgg_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/477.html#L634'>y_plus</a>            634 include/vgg.h    y_plus.to_host();</span>
+<span class='curline'><a href='../S/477.html#L639'>y_plus</a>            639 include/vgg.h    real L_plus  = alpha-&gt;dot(y_plus);</span>
+</pre>
+</body>
+</html>

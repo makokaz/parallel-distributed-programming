@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/dropout_8h.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/dropout_8h.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/dropout_8h.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/dropout_8h.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{dropout_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/dropout.h File Reference}
+<a id='L2' name='L2'></a>\label{dropout_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/dropout.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/dropout.\+h}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>dropout layer  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>{\ttfamily \#include \char`\"{}vgg\+\_\+util.\+h\char`\"{}}\newline
+<a id='L9' name='L9'></a>{\ttfamily \#include \char`\"{}vgg\+\_\+arrays.\+h\char`\"{}}\newline
+<a id='L10' name='L10'></a>Include dependency graph for dropout.\+h\+:\nopagebreak
+<a id='L11' name='L11'></a>\begin{figure}[H]
+<a id='L12' name='L12'></a>\begin{center}
+<a id='L13' name='L13'></a>\leavevmode
+<a id='L14' name='L14'></a>\includegraphics[width=350pt]{dropout_8h__incl}
+<a id='L15' name='L15'></a>\end{center}
+<a id='L16' name='L16'></a>\end{figure}
+<a id='L17' name='L17'></a>This graph shows which files directly or indirectly include this file\+:\nopagebreak
+<a id='L18' name='L18'></a>\begin{figure}[H]
+<a id='L19' name='L19'></a>\begin{center}
+<a id='L20' name='L20'></a>\leavevmode
+<a id='L21' name='L21'></a>\includegraphics[width=246pt]{dropout_8h__dep__incl}
+<a id='L22' name='L22'></a>\end{center}
+<a id='L23' name='L23'></a>\end{figure}
+<a id='L24' name='L24'></a>\subsection*{Classes}
+<a id='L25' name='L25'></a>\begin{DoxyCompactItemize}
+<a id='L26' name='L26'></a>\item 
+<a id='L27' name='L27'></a>struct \hyperlink{structDropout}{Dropout$&lt;$ max\+B, C, H, W $&gt;$}
+<a id='L28' name='L28'></a>\begin{DoxyCompactList}\small\item\em dropout layer \end{DoxyCompactList}\item 
+<a id='L29' name='L29'></a>struct \hyperlink{structDropout}{Dropout$&lt;$ max\+B, C, H, W $&gt;$}
+<a id='L30' name='L30'></a>\begin{DoxyCompactList}\small\item\em dropout layer \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L31' name='L31'></a>\subsection*{Functions}
+<a id='L32' name='L32'></a>\begin{DoxyCompactItemize}
+<a id='L33' name='L33'></a>\item 
+<a id='L34' name='L34'></a>{\footnotesize template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{dropout_8h_a481b6aac35e6819a36e87b00866a2cf8}{forward\+\_\+global} (\hyperlink{structDropout}{Dropout}$&lt;$ maxB, C, H, W $&gt;$ $\ast$dev, \hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ $\ast$x\+\_\+dev)
+<a id='L35' name='L35'></a>\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline forward function for G\+PU \end{DoxyCompactList}\item 
+<a id='L36' name='L36'></a>{\footnotesize template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{dropout_8h_a1eba1ae8b54b7b1ac7da64793993f58a}{backward\+\_\+global} (\hyperlink{structDropout}{Dropout}$&lt;$ maxB, C, H, W $&gt;$ $\ast$dev, \hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ $\ast$gy\+\_\+dev)
+<a id='L37' name='L37'></a>\begin{DoxyCompactList}\small\item\em a global C\+U\+DA function that implements the baseline backward function for G\+PU \end{DoxyCompactList}\item 
+<a id='L38' name='L38'></a>{\footnotesize template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{dropout_8h_a3078a106aefd1416b053dfc6aa2cef8f}{dropout\+\_\+grad\+\_\+check\+\_\+rand} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} opt, \hyperlink{structlogger}{logger} $\ast$lgr, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B)
+<a id='L39' name='L39'></a>\begin{DoxyCompactList}\small\item\em check the gradient computation of a dropout layer \end{DoxyCompactList}\item 
+<a id='L40' name='L40'></a>int \hyperlink{dropout_8h_a4ef5b975a86f550ff6e75094a34a88bf}{dropout\+\_\+main} (int argc, char $\ast$$\ast$argv)
+<a id='L41' name='L41'></a>\begin{DoxyCompactList}\small\item\em entry point of this header file \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>\subsection{Detailed Description}
+<a id='L45' name='L45'></a>dropout layer 
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>\subsection{Function Documentation}
+<a id='L50' name='L50'></a>\mbox{\Hypertarget{dropout_8h_a1eba1ae8b54b7b1ac7da64793993f58a}\label{dropout_8h_a1eba1ae8b54b7b1ac7da64793993f58a}} 
+<a id='L51' name='L51'></a>\index{dropout.\+h@{dropout.\+h}!backward\+\_\+global@{backward\+\_\+global}}
+<a id='L52' name='L52'></a>\index{backward\+\_\+global@{backward\+\_\+global}!dropout.\+h@{dropout.\+h}}
+<a id='L53' name='L53'></a>\subsubsection{\texorpdfstring{backward\+\_\+global()}{backward\_global()}}
+<a id='L54' name='L54'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L55' name='L55'></a>\+\_\+\+\_\+global\+\_\+\+\_\+ void backward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structDropout}{Dropout}$&lt;$ maxB, C, H, W $&gt;$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ $\ast$}]{gy\+\_\+dev }\end{DoxyParamCaption})}
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>a global C\+U\+DA function that implements the baseline backward function for G\+PU 
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>\begin{DoxyParams}{Parameters}
+<a id='L63' name='L63'></a>{\em (dev)} &amp; the address of the device shadow of the object \\
+<a id='L64' name='L64'></a>\hline
+<a id='L65' name='L65'></a>{\em (gy\+\_\+dev)} &amp; the address of the device shadow of the input matrix \\
+<a id='L66' name='L66'></a>\hline
+<a id='L67' name='L67'></a>\end{DoxyParams}
+<a id='L68' name='L68'></a>\begin{DoxySeeAlso}{See also}
+<a id='L69' name='L69'></a>backward\+\_\+dev 
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>backward\+\_\+gpu 
+<a id='L72' name='L72'></a>\end{DoxySeeAlso}
+<a id='L73' name='L73'></a>\mbox{\Hypertarget{dropout_8h_a3078a106aefd1416b053dfc6aa2cef8f}\label{dropout_8h_a3078a106aefd1416b053dfc6aa2cef8f}} 
+<a id='L74' name='L74'></a>\index{dropout.\+h@{dropout.\+h}!dropout\+\_\+grad\+\_\+check\+\_\+rand@{dropout\+\_\+grad\+\_\+check\+\_\+rand}}
+<a id='L75' name='L75'></a>\index{dropout\+\_\+grad\+\_\+check\+\_\+rand@{dropout\+\_\+grad\+\_\+check\+\_\+rand}!dropout.\+h@{dropout.\+h}}
+<a id='L76' name='L76'></a>\subsubsection{\texorpdfstring{dropout\+\_\+grad\+\_\+check\+\_\+rand()}{dropout\_grad\_check\_rand()}}
+<a id='L77' name='L77'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L78' name='L78'></a>static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} dropout\+\_\+grad\+\_\+check\+\_\+rand (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>check the gradient computation of a dropout layer 
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>\begin{DoxyParams}{Parameters}
+<a id='L86' name='L86'></a>{\em (opt)} &amp; command line option \\
+<a id='L87' name='L87'></a>\hline
+<a id='L88' name='L88'></a>{\em (lgr)} &amp; logger \\
+<a id='L89' name='L89'></a>\hline
+<a id='L90' name='L90'></a>{\em (rg)} &amp; random number generator \\
+<a id='L91' name='L91'></a>\hline
+<a id='L92' name='L92'></a>{\em (\+B)} &amp; the number of images \\
+<a id='L93' name='L93'></a>\hline
+<a id='L94' name='L94'></a>\end{DoxyParams}
+<a id='L95' name='L95'></a>\begin{DoxySeeAlso}{See also}
+<a id='L96' name='L96'></a>\hyperlink{dropout_8h_a4ef5b975a86f550ff6e75094a34a88bf}{dropout\+\_\+main}
+<a id='L97' name='L97'></a>\end{DoxySeeAlso}
+<a id='L98' name='L98'></a>it first makes a layer object with initial weights W and generates an input (x and t). it then creates two layers whose weights are slightly different from the original one by dw/2 (i.\+e., w-\/dw/2 and w+dw/2), as well as two inputs slighly different from the original inputs by dx/2 (x-\/dx/2 and x+dx/2). it then computes L(w,x), L(x-\/dw/2,x-\/dx/2) and L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-\/L(x-\/dw/2,x-\/dx/2) is close to ∂\+L/∂x dx + ∂\+L/∂w dw. ∂\+L/∂x and ∂\+L/∂w are obtained by backward computation. This is essentially checking if the gradients obtained by backward computation correctly approximates the diff of the output. \mbox{\Hypertarget{dropout_8h_a4ef5b975a86f550ff6e75094a34a88bf}\label{dropout_8h_a4ef5b975a86f550ff6e75094a34a88bf}} 
+<a id='L99' name='L99'></a>\index{dropout.\+h@{dropout.\+h}!dropout\+\_\+main@{dropout\+\_\+main}}
+<a id='L100' name='L100'></a>\index{dropout\+\_\+main@{dropout\+\_\+main}!dropout.\+h@{dropout.\+h}}
+<a id='L101' name='L101'></a>\subsubsection{\texorpdfstring{dropout\+\_\+main()}{dropout\_main()}}
+<a id='L102' name='L102'></a>{\footnotesize\ttfamily int dropout\+\_\+main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>
+<a id='L106' name='L106'></a>entry point of this header file 
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a>\begin{DoxyParams}{Parameters}
+<a id='L110' name='L110'></a>{\em (argc)} &amp; the number of command line args \\
+<a id='L111' name='L111'></a>\hline
+<a id='L112' name='L112'></a>{\em (argv)} &amp; command line args \\
+<a id='L113' name='L113'></a>\hline
+<a id='L114' name='L114'></a>\end{DoxyParams}
+<a id='L115' name='L115'></a>\begin{DoxySeeAlso}{See also}
+<a id='L116' name='L116'></a>\hyperlink{dropout_8h_a3078a106aefd1416b053dfc6aa2cef8f}{dropout\+\_\+grad\+\_\+check\+\_\+rand}
+<a id='L117' name='L117'></a>\end{DoxySeeAlso}
+<a id='L118' name='L118'></a>if this header file is included from a main C++ file and define dropout\+\_\+main to be main (e.\+g., with -\/\+Ddropout\+\_\+main=main), then this function becomes th main function of the executable. it calls dropout\+\_\+grad\+\_\+check\+\_\+rand repeatedly to test the implementation of \hyperlink{structVGG}{V\+GG} network. \mbox{\Hypertarget{dropout_8h_a481b6aac35e6819a36e87b00866a2cf8}\label{dropout_8h_a481b6aac35e6819a36e87b00866a2cf8}} 
+<a id='L119' name='L119'></a>\index{dropout.\+h@{dropout.\+h}!forward\+\_\+global@{forward\+\_\+global}}
+<a id='L120' name='L120'></a>\index{forward\+\_\+global@{forward\+\_\+global}!dropout.\+h@{dropout.\+h}}
+<a id='L121' name='L121'></a>\subsubsection{\texorpdfstring{forward\+\_\+global()}{forward\_global()}}
+<a id='L122' name='L122'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L123' name='L123'></a>\+\_\+\+\_\+global\+\_\+\+\_\+ void forward\+\_\+global (\begin{DoxyParamCaption}\item[{\hyperlink{structDropout}{Dropout}$&lt;$ maxB, C, H, W $&gt;$ $\ast$}]{dev,  }\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ $\ast$}]{x\+\_\+dev }\end{DoxyParamCaption})}
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>a global C\+U\+DA function that implements the baseline forward function for G\+PU 
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>\begin{DoxyParams}{Parameters}
+<a id='L131' name='L131'></a>{\em (dev)} &amp; the address of the device shadow of the object \\
+<a id='L132' name='L132'></a>\hline
+<a id='L133' name='L133'></a>{\em (x\+\_\+dev)} &amp; the address of the device shadow of the input matrix \\
+<a id='L134' name='L134'></a>\hline
+<a id='L135' name='L135'></a>\end{DoxyParams}
+<a id='L136' name='L136'></a>\begin{DoxySeeAlso}{See also}
+<a id='L137' name='L137'></a>forward\+\_\+dev 
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>forward\+\_\+gpu 
+<a id='L140' name='L140'></a>\end{DoxySeeAlso}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+140 doc/latex/dropout_8h.tex'  /> */</em>
+</body>
+</html>

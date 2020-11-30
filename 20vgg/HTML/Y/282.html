@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>linear_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/479.html#L527'>linear_minus</a>      527 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear_minus = linear-&gt;copy();</span>
+<span class='curline'><a href='../S/479.html#L561'>linear_minus</a>      561 include/linear.h   linear_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L562'>linear_minus</a>      562 include/linear.h   linear_plus-&gt;set_grad(*linear_minus);</span>
+<span class='curline'><a href='../S/479.html#L564'>linear_minus</a>      564 include/linear.h   linear_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/479.html#L567'>linear_minus</a>      567 include/linear.h   linear_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/479.html#L570'>linear_minus</a>      570 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_minus = linear_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/479.html#L585'>linear_minus</a>      585 include/linear.h   real dw_dw = linear_minus-&gt;gw_dot_gw(*linear_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/479.html#L586'>linear_minus</a>      586 include/linear.h   real gw_dw = linear-&gt;gw_dot_gw(*linear_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/479.html#L591'>linear_minus</a>      591 include/linear.h   linear_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/479.html#L600'>linear_minus</a>      600 include/linear.h   delete linear_minus;</span>
+</pre>
+</body>
+</html>

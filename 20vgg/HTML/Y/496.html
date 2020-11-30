@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>x_hat</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L82'>x_hat</a>              82 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; x_hat;    /**&lt; normalized x */</span>
+<span class='curline'><a href='../S/478.html#L124'>x_hat</a>             124 include/batchnormalization.h     x_hat.set_dev(dev ? &amp;dev-&gt;x_hat : 0);</span>
+<span class='curline'><a href='../S/478.html#L350'>x_hat</a>             350 include/batchnormalization.h     x_hat.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L359'>x_hat</a>             359 include/batchnormalization.h               x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L360'>x_hat</a>             360 include/batchnormalization.h               y(b,ic,i,j) = gamma(ic) * x_hat(b,ic,i,j) + beta(ic);</span>
+<span class='curline'><a href='../S/478.html#L471'>x_hat</a>             471 include/batchnormalization.h               t += gy(b,ic,i,j) * x_hat(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L486'>x_hat</a>             486 include/batchnormalization.h               gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));</span>
+</pre>
+</body>
+</html>

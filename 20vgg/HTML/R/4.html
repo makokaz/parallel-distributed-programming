@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Convolution2D</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L39'>Convolution2D</a>      39 include/block.h   Convolution2D     &lt;maxB,IC,H,W,K,OC&gt; conv; /**&lt; convolution layer */</span>
+<span class='curline'><a href='../S/473.html#L12'>Convolution2D</a>      12 include/convolution.h   struct Convolution2D;</span>
+<span class='curline'><a href='../S/473.html#L23'>Convolution2D</a>      23 include/convolution.h __global__ void forward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L38'>Convolution2D</a>      38 include/convolution.h __global__ void backward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L52'>Convolution2D</a>      52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L79'>Convolution2D</a>      79 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/473.html#L104'>Convolution2D</a>     104 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/473.html#L105'>Convolution2D</a>     105 include/convolution.h     Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * c = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/473.html#L118'>Convolution2D</a>     118 include/convolution.h   void set_dev(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/473.html#L139'>Convolution2D</a>     139 include/convolution.h       dev = (Convolution2D&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/473.html#L181'>Convolution2D</a>     181 include/convolution.h       Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/473.html#L524'>Convolution2D</a>     524 include/convolution.h   void set_grad(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L533'>Convolution2D</a>     533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L560'>Convolution2D</a>     560 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/473.html#L565'>Convolution2D</a>     565 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_minus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L566'>Convolution2D</a>     566 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_plus = conv-&gt;copy();</span>
+</pre>
+</body>
+</html>

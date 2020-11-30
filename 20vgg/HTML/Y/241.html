@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>gw_dot_gw</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L604'>gw_dot_gw</a>         604 include/batchnormalization.h   real gw_dot_gw(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/478.html#L697'>gw_dot_gw</a>         697 include/batchnormalization.h   real gw_gw = bn-&gt;gw_dot_gw(*bn);               /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/478.html#L698'>gw_dot_gw</a>         698 include/batchnormalization.h   real dw_dw = bn_minus-&gt;gw_dot_gw(*bn_minus);   /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/478.html#L699'>gw_dot_gw</a>         699 include/batchnormalization.h   real gw_dw = bn-&gt;gw_dot_gw(*bn_minus);         /* dw・dw */</span>
+<span class='curline'><a href='../S/482.html#L209'>gw_dot_gw</a>         209 include/block.h   real gw_dot_gw(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/482.html#L212'>gw_dot_gw</a>         212 include/block.h     s += a.conv.gw_dot_gw(b.conv);</span>
+<span class='curline'><a href='../S/482.html#L213'>gw_dot_gw</a>         213 include/block.h     s += a.bn.gw_dot_gw(b.bn);</span>
+<span class='curline'><a href='../S/482.html#L302'>gw_dot_gw</a>         302 include/block.h   real gw_gw = block-&gt;gw_dot_gw(*block);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/482.html#L303'>gw_dot_gw</a>         303 include/block.h   real dw_dw = block_minus-&gt;gw_dot_gw(*block_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/482.html#L304'>gw_dot_gw</a>         304 include/block.h   real gw_dw = block-&gt;gw_dot_gw(*block_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/473.html#L533'>gw_dot_gw</a>         533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L622'>gw_dot_gw</a>         622 include/convolution.h   real gw_gw = conv-&gt;gw_dot_gw(*conv);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/473.html#L623'>gw_dot_gw</a>         623 include/convolution.h   real dw_dw = conv_minus-&gt;gw_dot_gw(*conv_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/473.html#L624'>gw_dot_gw</a>         624 include/convolution.h   real gw_dw = conv-&gt;gw_dot_gw(*conv_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/479.html#L495'>gw_dot_gw</a>         495 include/linear.h   real gw_dot_gw(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L584'>gw_dot_gw</a>         584 include/linear.h   real gw_gw = linear-&gt;gw_dot_gw(*linear);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/479.html#L585'>gw_dot_gw</a>         585 include/linear.h   real dw_dw = linear_minus-&gt;gw_dot_gw(*linear_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/479.html#L586'>gw_dot_gw</a>         586 include/linear.h   real gw_dw = linear-&gt;gw_dot_gw(*linear_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/477.html#L532'>gw_dot_gw</a>         532 include/vgg.h    real gw_dot_gw(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/477.html#L535'>gw_dot_gw</a>         535 include/vgg.h      s += a.block1_1.gw_dot_gw(b.block1_1);</span>
+<span class='curline'><a href='../S/477.html#L536'>gw_dot_gw</a>         536 include/vgg.h      s += a.block1_2.gw_dot_gw(b.block1_2);</span>
+<span class='curline'><a href='../S/477.html#L537'>gw_dot_gw</a>         537 include/vgg.h      s += a.block2_1.gw_dot_gw(b.block2_1);</span>
+<span class='curline'><a href='../S/477.html#L538'>gw_dot_gw</a>         538 include/vgg.h      s += a.block2_2.gw_dot_gw(b.block2_2);</span>
+<span class='curline'><a href='../S/477.html#L539'>gw_dot_gw</a>         539 include/vgg.h      s += a.block3_1.gw_dot_gw(b.block3_1);</span>
+<span class='curline'><a href='../S/477.html#L540'>gw_dot_gw</a>         540 include/vgg.h      s += a.block3_2.gw_dot_gw(b.block3_2);</span>
+<span class='curline'><a href='../S/477.html#L541'>gw_dot_gw</a>         541 include/vgg.h      s += a.block3_3.gw_dot_gw(b.block3_3);</span>
+<span class='curline'><a href='../S/477.html#L542'>gw_dot_gw</a>         542 include/vgg.h      s += a.block4_1.gw_dot_gw(b.block4_1);</span>
+<span class='curline'><a href='../S/477.html#L543'>gw_dot_gw</a>         543 include/vgg.h      s += a.block4_2.gw_dot_gw(b.block4_2);</span>
+<span class='curline'><a href='../S/477.html#L544'>gw_dot_gw</a>         544 include/vgg.h      s += a.block4_3.gw_dot_gw(b.block4_3);</span>
+<span class='curline'><a href='../S/477.html#L545'>gw_dot_gw</a>         545 include/vgg.h      s += a.block5_1.gw_dot_gw(b.block5_1);</span>
+<span class='curline'><a href='../S/477.html#L546'>gw_dot_gw</a>         546 include/vgg.h      s += a.block5_2.gw_dot_gw(b.block5_2);</span>
+<span class='curline'><a href='../S/477.html#L547'>gw_dot_gw</a>         547 include/vgg.h      s += a.block5_3.gw_dot_gw(b.block5_3);</span>
+<span class='curline'><a href='../S/477.html#L549'>gw_dot_gw</a>         549 include/vgg.h      s += a.bn_fc1.gw_dot_gw(b.bn_fc1);</span>
+<span class='curline'><a href='../S/477.html#L644'>gw_dot_gw</a>         644 include/vgg.h    real gw_gw = vgg-&gt;gw_dot_gw(*vgg);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/477.html#L645'>gw_dot_gw</a>         645 include/vgg.h    real dw_dw = vgg_minus-&gt;gw_dot_gw(*vgg_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/477.html#L646'>gw_dot_gw</a>         646 include/vgg.h    real gw_dw = vgg-&gt;gw_dot_gw(*vgg_minus);       /* dw・dw */</span>
+</pre>
+</body>
+</html>

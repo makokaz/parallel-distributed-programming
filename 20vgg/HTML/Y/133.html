@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dropout</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/468.html#L406'>dropout</a>           406 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout = new Dropout&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L407'>dropout</a>           407 include/dropout.h   dropout-&gt;init(opt, lgr, drop_ratio, opt.dropout_seed);</span>
+<span class='curline'><a href='../S/468.html#L408'>dropout</a>           408 include/dropout.h   dropout-&gt;make_dev();</span>
+<span class='curline'><a href='../S/468.html#L409'>dropout</a>           409 include/dropout.h   dropout-&gt;to_dev();</span>
+<span class='curline'><a href='../S/468.html#L411'>dropout</a>           411 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_minus = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/468.html#L412'>dropout</a>           412 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_plus  = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/468.html#L424'>dropout</a>           424 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; y = dropout-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/468.html#L425'>dropout</a>           425 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; gx = dropout-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/468.html#L426'>dropout</a>           426 include/dropout.h   dropout-&gt;to_host();</span>
+<span class='curline'><a href='../S/468.html#L466'>dropout</a>           466 include/dropout.h   dropout-&gt;del_dev();</span>
+<span class='curline'><a href='../S/468.html#L475'>dropout</a>           475 include/dropout.h   delete dropout;</span>
+<span class='curline'><a href='../S/477.html#L111'>dropout</a>           111 include/vgg.h      real dropout_ratio1 = 0.3 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L112'>dropout</a>           112 include/vgg.h      real dropout_ratio2 = 0.4 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L113'>dropout</a>           113 include/vgg.h      real dropout_ratio3 = 0.5 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/475.html#L142'>dropout</a>           142 include/vgg_util.h   int dropout;                  /**&lt; 1 if we use dropout */</span>
+<span class='curline'><a href='../S/475.html#L168'>dropout</a>           168 include/vgg_util.h     dropout = 0;</span>
+<span class='curline'><a href='../S/475.html#L255'>dropout</a>           255 include/vgg_util.h           o.dropout,</span>
+<span class='curline'><a href='../S/475.html#L288'>dropout</a>           288 include/vgg_util.h           opt.dropout = (atoi(optarg) != 0);</span>
+<span class='curline'><a href='../S/475.html#L626'>dropout</a>           626 include/vgg_util.h     log(3, "dropout=%d", opt.dropout);</span>
+</pre>
+</body>
+</html>

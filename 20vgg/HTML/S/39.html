@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/refman.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/refman.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/refman.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/refman.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\documentclass[twoside]{book}
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>% Packages required by doxygen
+<a id='L4' name='L4'></a>\usepackage{fixltx2e}
+<a id='L5' name='L5'></a>\usepackage{calc}
+<a id='L6' name='L6'></a>\usepackage{doxygen}
+<a id='L7' name='L7'></a>\usepackage[export]{adjustbox} % also loads graphicx
+<a id='L8' name='L8'></a>\usepackage{graphicx}
+<a id='L9' name='L9'></a>\usepackage[utf8]{inputenc}
+<a id='L10' name='L10'></a>\usepackage{makeidx}
+<a id='L11' name='L11'></a>\usepackage{multicol}
+<a id='L12' name='L12'></a>\usepackage{multirow}
+<a id='L13' name='L13'></a>\PassOptionsToPackage{warn}{textcomp}
+<a id='L14' name='L14'></a>\usepackage{textcomp}
+<a id='L15' name='L15'></a>\usepackage[nointegrals]{wasysym}
+<a id='L16' name='L16'></a>\usepackage[table]{xcolor}
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>% Font selection
+<a id='L19' name='L19'></a>\usepackage[T1]{fontenc}
+<a id='L20' name='L20'></a>\usepackage[scaled=.90]{helvet}
+<a id='L21' name='L21'></a>\usepackage{courier}
+<a id='L22' name='L22'></a>\usepackage{amssymb}
+<a id='L23' name='L23'></a>\usepackage{sectsty}
+<a id='L24' name='L24'></a>\renewcommand{\familydefault}{\sfdefault}
+<a id='L25' name='L25'></a>\allsectionsfont{%
+<a id='L26' name='L26'></a>  \fontseries{bc}\selectfont%
+<a id='L27' name='L27'></a>  \color{darkgray}%
+<a id='L28' name='L28'></a>}
+<a id='L29' name='L29'></a>\renewcommand{\DoxyLabelFont}{%
+<a id='L30' name='L30'></a>  \fontseries{bc}\selectfont%
+<a id='L31' name='L31'></a>  \color{darkgray}%
+<a id='L32' name='L32'></a>}
+<a id='L33' name='L33'></a>\newcommand{\+}{\discretionary{\mbox{\scriptsize$\hookleftarrow$}}{}{}}
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>% Page &amp; text layout
+<a id='L36' name='L36'></a>\usepackage{geometry}
+<a id='L37' name='L37'></a>\geometry{%
+<a id='L38' name='L38'></a>  a4paper,%
+<a id='L39' name='L39'></a>  top=2.5cm,%
+<a id='L40' name='L40'></a>  bottom=2.5cm,%
+<a id='L41' name='L41'></a>  left=2.5cm,%
+<a id='L42' name='L42'></a>  right=2.5cm%
+<a id='L43' name='L43'></a>}
+<a id='L44' name='L44'></a>\tolerance=750
+<a id='L45' name='L45'></a>\hfuzz=15pt
+<a id='L46' name='L46'></a>\hbadness=750
+<a id='L47' name='L47'></a>\setlength{\emergencystretch}{15pt}
+<a id='L48' name='L48'></a>\setlength{\parindent}{0cm}
+<a id='L49' name='L49'></a>\setlength{\parskip}{3ex plus 2ex minus 2ex}
+<a id='L50' name='L50'></a>\makeatletter
+<a id='L51' name='L51'></a>\renewcommand{\paragraph}{%
+<a id='L52' name='L52'></a>  \@startsection{paragraph}{4}{0ex}{-1.0ex}{1.0ex}{%
+<a id='L53' name='L53'></a>    \normalfont\normalsize\bfseries\SS@parafont%
+<a id='L54' name='L54'></a>  }%
+<a id='L55' name='L55'></a>}
+<a id='L56' name='L56'></a>\renewcommand{\subparagraph}{%
+<a id='L57' name='L57'></a>  \@startsection{subparagraph}{5}{0ex}{-1.0ex}{1.0ex}{%
+<a id='L58' name='L58'></a>    \normalfont\normalsize\bfseries\SS@subparafont%
+<a id='L59' name='L59'></a>  }%
+<a id='L60' name='L60'></a>}
+<a id='L61' name='L61'></a>\makeatother
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>% Headers &amp; footers
+<a id='L64' name='L64'></a>\usepackage{fancyhdr}
+<a id='L65' name='L65'></a>\pagestyle{fancyplain}
+<a id='L66' name='L66'></a>\fancyhead[LE]{\fancyplain{}{\bfseries\thepage}}
+<a id='L67' name='L67'></a>\fancyhead[CE]{\fancyplain{}{}}
+<a id='L68' name='L68'></a>\fancyhead[RE]{\fancyplain{}{\bfseries\leftmark}}
+<a id='L69' name='L69'></a>\fancyhead[LO]{\fancyplain{}{\bfseries\rightmark}}
+<a id='L70' name='L70'></a>\fancyhead[CO]{\fancyplain{}{}}
+<a id='L71' name='L71'></a>\fancyhead[RO]{\fancyplain{}{\bfseries\thepage}}
+<a id='L72' name='L72'></a>\fancyfoot[LE]{\fancyplain{}{}}
+<a id='L73' name='L73'></a>\fancyfoot[CE]{\fancyplain{}{}}
+<a id='L74' name='L74'></a>\fancyfoot[RE]{\fancyplain{}{\bfseries\scriptsize Generated by Doxygen }}
+<a id='L75' name='L75'></a>\fancyfoot[LO]{\fancyplain{}{\bfseries\scriptsize Generated by Doxygen }}
+<a id='L76' name='L76'></a>\fancyfoot[CO]{\fancyplain{}{}}
+<a id='L77' name='L77'></a>\fancyfoot[RO]{\fancyplain{}{}}
+<a id='L78' name='L78'></a>\renewcommand{\footrulewidth}{0.4pt}
+<a id='L79' name='L79'></a>\renewcommand{\chaptermark}[1]{%
+<a id='L80' name='L80'></a>  \markboth{#1}{}%
+<a id='L81' name='L81'></a>}
+<a id='L82' name='L82'></a>\renewcommand{\sectionmark}[1]{%
+<a id='L83' name='L83'></a>  \markright{\thesection\ #1}%
+<a id='L84' name='L84'></a>}
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>% Indices &amp; bibliography
+<a id='L87' name='L87'></a>\usepackage{natbib}
+<a id='L88' name='L88'></a>\usepackage[titles]{tocloft}
+<a id='L89' name='L89'></a>\setcounter{tocdepth}{3}
+<a id='L90' name='L90'></a>\setcounter{secnumdepth}{5}
+<a id='L91' name='L91'></a>\makeindex
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>% Hyperlinks (required, but should be loaded last)
+<a id='L94' name='L94'></a>\usepackage{ifpdf}
+<a id='L95' name='L95'></a>\ifpdf
+<a id='L96' name='L96'></a>  \usepackage[pdftex,pagebackref=true]{hyperref}
+<a id='L97' name='L97'></a>\else
+<a id='L98' name='L98'></a>  \usepackage[ps2pdf,pagebackref=true]{hyperref}
+<a id='L99' name='L99'></a>\fi
+<a id='L100' name='L100'></a>\hypersetup{%
+<a id='L101' name='L101'></a>  colorlinks=true,%
+<a id='L102' name='L102'></a>  linkcolor=blue,%
+<a id='L103' name='L103'></a>  citecolor=blue,%
+<a id='L104' name='L104'></a>  unicode%
+<a id='L105' name='L105'></a>}
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a>% Custom commands
+<a id='L108' name='L108'></a>\newcommand{\clearemptydoublepage}{%
+<a id='L109' name='L109'></a>  \newpage{\pagestyle{empty}\cleardoublepage}%
+<a id='L110' name='L110'></a>}
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>\usepackage{caption}
+<a id='L113' name='L113'></a>\captionsetup{labelsep=space,justification=centering,font={bf},singlelinecheck=off,skip=4pt,position=top}
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>%===== C O N T E N T S =====
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>\begin{document}
+<a id='L118' name='L118'></a>
+<a id='L119' name='L119'></a>% Titlepage &amp; ToC
+<a id='L120' name='L120'></a>\hypersetup{pageanchor=false,
+<a id='L121' name='L121'></a>             bookmarksnumbered=true,
+<a id='L122' name='L122'></a>             pdfencoding=unicode
+<a id='L123' name='L123'></a>            }
+<a id='L124' name='L124'></a>\pagenumbering{alph}
+<a id='L125' name='L125'></a>\begin{titlepage}
+<a id='L126' name='L126'></a>\vspace*{7cm}
+<a id='L127' name='L127'></a>\begin{center}%
+<a id='L128' name='L128'></a>{\Large vgg }\\
+<a id='L129' name='L129'></a>\vspace*{1cm}
+<a id='L130' name='L130'></a>{\large Generated by Doxygen 1.8.13}\\
+<a id='L131' name='L131'></a>\end{center}
+<a id='L132' name='L132'></a>\end{titlepage}
+<a id='L133' name='L133'></a>\clearemptydoublepage
+<a id='L134' name='L134'></a>\pagenumbering{roman}
+<a id='L135' name='L135'></a>\tableofcontents
+<a id='L136' name='L136'></a>\clearemptydoublepage
+<a id='L137' name='L137'></a>\pagenumbering{arabic}
+<a id='L138' name='L138'></a>\hypersetup{pageanchor=true}
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>%--- Begin generated contents ---
+<a id='L141' name='L141'></a>\chapter{Overview}
+<a id='L142' name='L142'></a>\label{md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_README}
+<a id='L143' name='L143'></a>\Hypertarget{md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_README}
+<a id='L144' name='L144'></a>\input{md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_README}
+<a id='L145' name='L145'></a>\chapter{Class Index}
+<a id='L146' name='L146'></a>\input{annotated}
+<a id='L147' name='L147'></a>\chapter{File Index}
+<a id='L148' name='L148'></a>\input{files}
+<a id='L149' name='L149'></a>\chapter{Class Documentation}
+<a id='L150' name='L150'></a>\input{structarray2}
+<a id='L151' name='L151'></a>\input{structarray4}
+<a id='L152' name='L152'></a>\input{structBatchNormalization}
+<a id='L153' name='L153'></a>\input{structBlock}
+<a id='L154' name='L154'></a>\input{structcifar10__data__item}
+<a id='L155' name='L155'></a>\input{structcifar10__dataset}
+<a id='L156' name='L156'></a>\input{structcmdline__opt}
+<a id='L157' name='L157'></a>\input{structConvolution2D}
+<a id='L158' name='L158'></a>\input{structDropout}
+<a id='L159' name='L159'></a>\input{structivec}
+<a id='L160' name='L160'></a>\input{structLinear}
+<a id='L161' name='L161'></a>\input{structlogger}
+<a id='L162' name='L162'></a>\input{structMaxPooling2D}
+<a id='L163' name='L163'></a>\input{structRelu}
+<a id='L164' name='L164'></a>\input{structrnd__gen__t}
+<a id='L165' name='L165'></a>\input{structSoftmaxCrossEntropy}
+<a id='L166' name='L166'></a>\input{structtsc__t}
+<a id='L167' name='L167'></a>\input{structvec}
+<a id='L168' name='L168'></a>\input{structVGG}
+<a id='L169' name='L169'></a>\input{structwarray4}
+<a id='L170' name='L170'></a>\chapter{File Documentation}
+<a id='L171' name='L171'></a>\input{batchnormalization_8h}
+<a id='L172' name='L172'></a>\input{block_8h}
+<a id='L173' name='L173'></a>\input{cifar_8h}
+<a id='L174' name='L174'></a>\input{convolution_8h}
+<a id='L175' name='L175'></a>\input{cuda__util_8h}
+<a id='L176' name='L176'></a>\input{dropout_8h}
+<a id='L177' name='L177'></a>\input{linear_8h}
+<a id='L178' name='L178'></a>\input{maxpooling_8h}
+<a id='L179' name='L179'></a>\input{relu_8h}
+<a id='L180' name='L180'></a>\input{softmaxcrossentropy_8h}
+<a id='L181' name='L181'></a>\input{vgg_8h}
+<a id='L182' name='L182'></a>\input{vgg__arrays_8h}
+<a id='L183' name='L183'></a>\input{vgg__util_8h}
+<a id='L184' name='L184'></a>\input{vgg_8cc}
+<a id='L185' name='L185'></a>%--- End generated contents ---
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>% Index
+<a id='L188' name='L188'></a>\backmatter
+<a id='L189' name='L189'></a>\newpage
+<a id='L190' name='L190'></a>\phantomsection
+<a id='L191' name='L191'></a>\clearemptydoublepage
+<a id='L192' name='L192'></a>\addcontentsline{toc}{chapter}{Index}
+<a id='L193' name='L193'></a>\printindex
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>\end{document}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+195 doc/latex/refman.tex'  /> */</em>
+</body>
+</html>

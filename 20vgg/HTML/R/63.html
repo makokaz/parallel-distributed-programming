@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>real</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L52'>real</a>               52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L205'>real</a>              205 include/batchnormalization.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L220'>real</a>              220 include/batchnormalization.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L232'>real</a>              232 include/batchnormalization.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L243'>real</a>              243 include/batchnormalization.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L253'>real</a>              253 include/batchnormalization.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L293'>real</a>              293 include/batchnormalization.h       real s = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L318'>real</a>              318 include/batchnormalization.h     const real epsilon = 2.0e-5;</span>
+<span class='curline'><a href='../S/478.html#L319'>real</a>              319 include/batchnormalization.h     const real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L322'>real</a>              322 include/batchnormalization.h       real s = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L326'>real</a>              326 include/batchnormalization.h             real ds = x(b,ic,i,j) - mu(ic);</span>
+<span class='curline'><a href='../S/478.html#L466'>real</a>              466 include/batchnormalization.h         real s = 0.0, t = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L478'>real</a>              478 include/batchnormalization.h       real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L480'>real</a>              480 include/batchnormalization.h         real a = gamma(ic) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L481'>real</a>              481 include/batchnormalization.h         real gg = ggamma(ic);</span>
+<span class='curline'><a href='../S/478.html#L482'>real</a>              482 include/batchnormalization.h         real gb = gbeta(ic);</span>
+<span class='curline'><a href='../S/478.html#L585'>real</a>              585 include/batchnormalization.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/478.html#L604'>real</a>              604 include/batchnormalization.h   real gw_dot_gw(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/478.html#L606'>real</a>              606 include/batchnormalization.h     real s = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L633'>real</a>              633 include/batchnormalization.h   static real batchnormalization_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/478.html#L659'>real</a>              659 include/batchnormalization.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/478.html#L690'>real</a>              690 include/batchnormalization.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/478.html#L691'>real</a>              691 include/batchnormalization.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/478.html#L692'>real</a>              692 include/batchnormalization.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/478.html#L694'>real</a>              694 include/batchnormalization.h   real gx_gx = gx.dot(gx);                       /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/478.html#L695'>real</a>              695 include/batchnormalization.h   real dx_dx = dx-&gt;dot(*dx);                     /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/478.html#L696'>real</a>              696 include/batchnormalization.h   real gx_dx = gx.dot(*dx);                      /* dx・dx */</span>
+<span class='curline'><a href='../S/478.html#L697'>real</a>              697 include/batchnormalization.h   real gw_gw = bn-&gt;gw_dot_gw(*bn);               /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/478.html#L698'>real</a>              698 include/batchnormalization.h   real dw_dw = bn_minus-&gt;gw_dot_gw(*bn_minus);   /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/478.html#L699'>real</a>              699 include/batchnormalization.h   real gw_dw = bn-&gt;gw_dot_gw(*bn_minus);         /* dw・dw */</span>
+<span class='curline'><a href='../S/478.html#L701'>real</a>              701 include/batchnormalization.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/478.html#L748'>real</a>              748 include/batchnormalization.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L749'>real</a>              749 include/batchnormalization.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/478.html#L752'>real</a>              752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L149'>real</a>              149 include/block.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/482.html#L190'>real</a>              190 include/block.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/482.html#L209'>real</a>              209 include/block.h   real gw_dot_gw(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/482.html#L211'>real</a>              211 include/block.h     real s = 0.0;</span>
+<span class='curline'><a href='../S/482.html#L238'>real</a>              238 include/block.h   static real block_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/482.html#L264'>real</a>              264 include/block.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/482.html#L295'>real</a>              295 include/block.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/482.html#L296'>real</a>              296 include/block.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/482.html#L297'>real</a>              297 include/block.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/482.html#L299'>real</a>              299 include/block.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/482.html#L300'>real</a>              300 include/block.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/482.html#L301'>real</a>              301 include/block.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/482.html#L302'>real</a>              302 include/block.h   real gw_gw = block-&gt;gw_dot_gw(*block);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/482.html#L303'>real</a>              303 include/block.h   real dw_dw = block_minus-&gt;gw_dot_gw(*block_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/482.html#L304'>real</a>              304 include/block.h   real gw_dw = block-&gt;gw_dot_gw(*block_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/482.html#L306'>real</a>              306 include/block.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/482.html#L357'>real</a>              357 include/block.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/482.html#L358'>real</a>              358 include/block.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/482.html#L361'>real</a>              361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/469.html#L20'>real</a>               20 include/cifar.h   real w[IC][H][W];             /**&lt; pixels of an image */</span>
+<span class='curline'><a href='../S/469.html#L25'>real</a>               25 include/cifar.h   real&amp; operator()(idx_t ic, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/473.html#L52'>real</a>               52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L200'>real</a>              200 include/convolution.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L214'>real</a>              214 include/convolution.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L226'>real</a>              226 include/convolution.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L237'>real</a>              237 include/convolution.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L247'>real</a>              247 include/convolution.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L293'>real</a>              293 include/convolution.h             real s = 0.0;</span>
+<span class='curline'><a href='../S/473.html#L398'>real</a>              398 include/convolution.h             real s = 0.0;</span>
+<span class='curline'><a href='../S/473.html#L415'>real</a>              415 include/convolution.h             real s = 0.0;</span>
+<span class='curline'><a href='../S/473.html#L516'>real</a>              516 include/convolution.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/473.html#L533'>real</a>              533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L558'>real</a>              558 include/convolution.h   static real convolution_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/473.html#L584'>real</a>              584 include/convolution.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/473.html#L615'>real</a>              615 include/convolution.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/473.html#L616'>real</a>              616 include/convolution.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/473.html#L617'>real</a>              617 include/convolution.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/473.html#L619'>real</a>              619 include/convolution.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/473.html#L620'>real</a>              620 include/convolution.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/473.html#L621'>real</a>              621 include/convolution.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/473.html#L622'>real</a>              622 include/convolution.h   real gw_gw = conv-&gt;gw_dot_gw(*conv);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/473.html#L623'>real</a>              623 include/convolution.h   real dw_dw = conv_minus-&gt;gw_dot_gw(*conv_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/473.html#L624'>real</a>              624 include/convolution.h   real gw_dw = conv-&gt;gw_dot_gw(*conv_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/473.html#L626'>real</a>              626 include/convolution.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/473.html#L678'>real</a>              678 include/convolution.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/473.html#L679'>real</a>              679 include/convolution.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/473.html#L682'>real</a>              682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L69'>real</a>               69 include/dropout.h   real drop_ratio;              /**&lt; drop probability */</span>
+<span class='curline'><a href='../S/468.html#L79'>real</a>               79 include/dropout.h   void init(cmdline_opt opt, logger * lgr, real drop_ratio, long drop_seed) {</span>
+<span class='curline'><a href='../S/468.html#L191'>real</a>              191 include/dropout.h     real scale = 1.0 / (1 - drop_ratio);</span>
+<span class='curline'><a href='../S/468.html#L292'>real</a>              292 include/dropout.h     real scale = 1.0 / (1 - drop_ratio);</span>
+<span class='curline'><a href='../S/468.html#L403'>real</a>              403 include/dropout.h   static real dropout_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/468.html#L405'>real</a>              405 include/dropout.h   const real drop_ratio = 0.3;</span>
+<span class='curline'><a href='../S/468.html#L429'>real</a>              429 include/dropout.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/468.html#L453'>real</a>              453 include/dropout.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/468.html#L454'>real</a>              454 include/dropout.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/468.html#L455'>real</a>              455 include/dropout.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/468.html#L457'>real</a>              457 include/dropout.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/468.html#L458'>real</a>              458 include/dropout.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/468.html#L459'>real</a>              459 include/dropout.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/468.html#L460'>real</a>              460 include/dropout.h   real gw_gw = 0;                                  /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/468.html#L461'>real</a>              461 include/dropout.h   real dw_dw = 0;                                  /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/468.html#L462'>real</a>              462 include/dropout.h   real gw_dw = 0;                                  /* dw・dw */</span>
+<span class='curline'><a href='../S/468.html#L464'>real</a>              464 include/dropout.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/468.html#L513'>real</a>              513 include/dropout.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L514'>real</a>              514 include/dropout.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L517'>real</a>              517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L52'>real</a>               52 include/linear.h   __global__ void update_global(Linear&lt;maxB,IC,nC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/479.html#L192'>real</a>              192 include/linear.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L206'>real</a>              206 include/linear.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L218'>real</a>              218 include/linear.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L229'>real</a>              229 include/linear.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L239'>real</a>              239 include/linear.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L284'>real</a>              284 include/linear.h         real s = 0.0;</span>
+<span class='curline'><a href='../S/479.html#L381'>real</a>              381 include/linear.h         real s = 0.0;</span>
+<span class='curline'><a href='../S/479.html#L390'>real</a>              390 include/linear.h         real s = 0.0;</span>
+<span class='curline'><a href='../S/479.html#L478'>real</a>              478 include/linear.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/479.html#L495'>real</a>              495 include/linear.h   real gw_dot_gw(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L520'>real</a>              520 include/linear.h   real linear_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/479.html#L546'>real</a>              546 include/linear.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/479.html#L577'>real</a>              577 include/linear.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/479.html#L578'>real</a>              578 include/linear.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/479.html#L579'>real</a>              579 include/linear.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/479.html#L581'>real</a>              581 include/linear.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/479.html#L582'>real</a>              582 include/linear.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/479.html#L583'>real</a>              583 include/linear.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/479.html#L584'>real</a>              584 include/linear.h   real gw_gw = linear-&gt;gw_dot_gw(*linear);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/479.html#L585'>real</a>              585 include/linear.h   real dw_dw = linear_minus-&gt;gw_dot_gw(*linear_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/479.html#L586'>real</a>              586 include/linear.h   real gw_dw = linear-&gt;gw_dot_gw(*linear_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/479.html#L588'>real</a>              588 include/linear.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/479.html#L636'>real</a>              636 include/linear.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/479.html#L637'>real</a>              637 include/linear.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/479.html#L640'>real</a>              640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L189'>real</a>              189 include/maxpooling.h             real s = x(b,c,S*i,S*j);</span>
+<span class='curline'><a href='../S/474.html#L405'>real</a>              405 include/maxpooling.h   real maxpooling_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/474.html#L431'>real</a>              431 include/maxpooling.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/474.html#L455'>real</a>              455 include/maxpooling.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/474.html#L456'>real</a>              456 include/maxpooling.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/474.html#L457'>real</a>              457 include/maxpooling.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/474.html#L459'>real</a>              459 include/maxpooling.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/474.html#L460'>real</a>              460 include/maxpooling.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/474.html#L461'>real</a>              461 include/maxpooling.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/474.html#L462'>real</a>              462 include/maxpooling.h   real gw_gw = 0;                                  /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/474.html#L463'>real</a>              463 include/maxpooling.h   real dw_dw = 0;                                  /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/474.html#L464'>real</a>              464 include/maxpooling.h   real gw_dw = 0;                                  /* dw・dw */</span>
+<span class='curline'><a href='../S/474.html#L466'>real</a>              466 include/maxpooling.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/474.html#L516'>real</a>              516 include/maxpooling.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/474.html#L517'>real</a>              517 include/maxpooling.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/474.html#L520'>real</a>              520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L383'>real</a>              383 include/relu.h   static real relu_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/471.html#L407'>real</a>              407 include/relu.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/471.html#L431'>real</a>              431 include/relu.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/471.html#L432'>real</a>              432 include/relu.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/471.html#L433'>real</a>              433 include/relu.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/471.html#L435'>real</a>              435 include/relu.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/471.html#L436'>real</a>              436 include/relu.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/471.html#L437'>real</a>              437 include/relu.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/471.html#L438'>real</a>              438 include/relu.h   real gw_gw = 0;                                  /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/471.html#L439'>real</a>              439 include/relu.h   real dw_dw = 0;                                  /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/471.html#L440'>real</a>              440 include/relu.h   real gw_dw = 0;                                  /* dw・dw */</span>
+<span class='curline'><a href='../S/471.html#L442'>real</a>              442 include/relu.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/471.html#L491'>real</a>              491 include/relu.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/471.html#L492'>real</a>              492 include/relu.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/471.html#L495'>real</a>              495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/480.html#L193'>real</a>              193 include/softmaxcrossentropy.h       real s = 0.0;</span>
+<span class='curline'><a href='../S/480.html#L425'>real</a>              425 include/softmaxcrossentropy.h   static real softmaxcrossentropy_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/480.html#L455'>real</a>              455 include/softmaxcrossentropy.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/480.html#L479'>real</a>              479 include/softmaxcrossentropy.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/480.html#L480'>real</a>              480 include/softmaxcrossentropy.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/480.html#L481'>real</a>              481 include/softmaxcrossentropy.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/480.html#L483'>real</a>              483 include/softmaxcrossentropy.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/480.html#L484'>real</a>              484 include/softmaxcrossentropy.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/480.html#L485'>real</a>              485 include/softmaxcrossentropy.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/480.html#L486'>real</a>              486 include/softmaxcrossentropy.h   real gw_gw = 0;                                  /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/480.html#L487'>real</a>              487 include/softmaxcrossentropy.h   real dw_dw = 0;                                  /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/480.html#L488'>real</a>              488 include/softmaxcrossentropy.h   real gw_dw = 0;                                  /* dw・dw */</span>
+<span class='curline'><a href='../S/480.html#L490'>real</a>              490 include/softmaxcrossentropy.h   real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/480.html#L539'>real</a>              539 include/softmaxcrossentropy.h   real max_e = 0.0;</span>
+<span class='curline'><a href='../S/480.html#L540'>real</a>              540 include/softmaxcrossentropy.h   real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/480.html#L543'>real</a>              543 include/softmaxcrossentropy.h     real e = softmaxcrossentropy_grad_check_rand&lt;maxB,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L111'>real</a>              111 include/vgg.h      real dropout_ratio1 = 0.3 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L112'>real</a>              112 include/vgg.h      real dropout_ratio2 = 0.4 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L113'>real</a>              113 include/vgg.h      real dropout_ratio3 = 0.5 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L290'>real</a>              290 include/vgg.h    void update(real eta) {</span>
+<span class='curline'><a href='../S/477.html#L450'>real</a>              450 include/vgg.h    real forward_backward_update(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, real eta) {</span>
+<span class='curline'><a href='../S/477.html#L460'>real</a>              460 include/vgg.h      real e = eta / B;</span>
+<span class='curline'><a href='../S/477.html#L464'>real</a>              464 include/vgg.h      real L = gy.dot(y);</span>
+<span class='curline'><a href='../S/477.html#L475'>real</a>              475 include/vgg.h    void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/477.html#L532'>real</a>              532 include/vgg.h    real gw_dot_gw(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/477.html#L534'>real</a>              534 include/vgg.h      real s = 0.0;</span>
+<span class='curline'><a href='../S/477.html#L575'>real</a>              575 include/vgg.h    static real vgg_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/477.html#L606'>real</a>              606 include/vgg.h    real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/477.html#L637'>real</a>              637 include/vgg.h    real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/477.html#L638'>real</a>              638 include/vgg.h    real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/477.html#L639'>real</a>              639 include/vgg.h    real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/477.html#L641'>real</a>              641 include/vgg.h    real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/477.html#L642'>real</a>              642 include/vgg.h    real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/477.html#L643'>real</a>              643 include/vgg.h    real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/477.html#L644'>real</a>              644 include/vgg.h    real gw_gw = vgg-&gt;gw_dot_gw(*vgg);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/477.html#L645'>real</a>              645 include/vgg.h    real dw_dw = vgg_minus-&gt;gw_dot_gw(*vgg_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/477.html#L646'>real</a>              646 include/vgg.h    real gw_dw = vgg-&gt;gw_dot_gw(*vgg_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/477.html#L648'>real</a>              648 include/vgg.h    real rel_e = show_error(gx_gx, dx_dx, gx_dx, gw_gw, dw_dw, gw_dw, L_minus, L, L_plus);</span>
+<span class='curline'><a href='../S/477.html#L701'>real</a>              701 include/vgg.h    real max_e = 0.0;</span>
+<span class='curline'><a href='../S/477.html#L702'>real</a>              702 include/vgg.h    real sum_e = 0.0;</span>
+<span class='curline'><a href='../S/477.html#L705'>real</a>              705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/481.html#L79'>real</a>               79 include/vgg_arrays.h   real w[N];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L85'>real</a>               85 include/vgg_arrays.h   real&amp; operator()(idx_t i) {</span>
+<span class='curline'><a href='../S/481.html#L104'>real</a>              104 include/vgg_arrays.h   void init_const(idx_t n, real c) {</span>
+<span class='curline'><a href='../S/481.html#L118'>real</a>              118 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L132'>real</a>              132 include/vgg_arrays.h   void init_single(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L145'>real</a>              145 include/vgg_arrays.h   void init_normal(idx_t n, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L159'>real</a>              159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L170'>real</a>              170 include/vgg_arrays.h   real sum() {</span>
+<span class='curline'><a href='../S/481.html#L172'>real</a>              172 include/vgg_arrays.h     real s = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L182'>real</a>              182 include/vgg_arrays.h   real dot(vec&lt;N&gt;&amp; y) {</span>
+<span class='curline'><a href='../S/481.html#L185'>real</a>              185 include/vgg_arrays.h     real s = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L381'>real</a>              381 include/vgg_arrays.h   real w[M][N];              /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L388'>real</a>              388 include/vgg_arrays.h   real&amp; operator()(idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/481.html#L407'>real</a>              407 include/vgg_arrays.h   void init_const(idx_t m, real x) {</span>
+<span class='curline'><a href='../S/481.html#L423'>real</a>              423 include/vgg_arrays.h   void init_uniform(idx_t m, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L439'>real</a>              439 include/vgg_arrays.h   void init_normal(idx_t m, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L455'>real</a>              455 include/vgg_arrays.h   void update(real eta, array2&lt;M,N&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L469'>real</a>              469 include/vgg_arrays.h   real dot(array2&lt;M,N&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/481.html#L472'>real</a>              472 include/vgg_arrays.h     real s0 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L474'>real</a>              474 include/vgg_arrays.h       real s1 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L562'>real</a>              562 include/vgg_arrays.h   real w[maxB][C][H][W];        /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L571'>real</a>              571 include/vgg_arrays.h   real&amp; operator()(idx_t b, idx_t c, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/481.html#L592'>real</a>              592 include/vgg_arrays.h   void init_const(idx_t B, real x) {</span>
+<span class='curline'><a href='../S/481.html#L612'>real</a>              612 include/vgg_arrays.h   void init_uniform(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L632'>real</a>              632 include/vgg_arrays.h   void init_single(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L648'>real</a>              648 include/vgg_arrays.h   void init_normal(idx_t B, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L668'>real</a>              668 include/vgg_arrays.h   void update(real eta, array4&lt;maxB,C,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L685'>real</a>              685 include/vgg_arrays.h   real dot(array4&lt;maxB,C,H,W&gt;&amp; a_) {</span>
+<span class='curline'><a href='../S/481.html#L688'>real</a>              688 include/vgg_arrays.h     real s0 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L690'>real</a>              690 include/vgg_arrays.h       real s1 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L692'>real</a>              692 include/vgg_arrays.h         real s2 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L694'>real</a>              694 include/vgg_arrays.h           real s3 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L780'>real</a>              780 include/vgg_arrays.h   real w[OC][IC][2*H+1][2*W+1];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L789'>real</a>              789 include/vgg_arrays.h   real&amp; operator()(idx_t oc, idx_t ic, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/481.html#L800'>real</a>              800 include/vgg_arrays.h   void init_const(real x) {</span>
+<span class='curline'><a href='../S/481.html#L818'>real</a>              818 include/vgg_arrays.h   void init_uniform(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L836'>real</a>              836 include/vgg_arrays.h   void init_normal(rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L855'>real</a>              855 include/vgg_arrays.h   void update(real eta, warray4&lt;OC,IC,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L872'>real</a>              872 include/vgg_arrays.h   real dot(warray4&lt;OC,IC,H,W&gt;&amp; a_) {</span>
+<span class='curline'><a href='../S/481.html#L874'>real</a>              874 include/vgg_arrays.h     real s0 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L876'>real</a>              876 include/vgg_arrays.h       real s1 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L878'>real</a>              878 include/vgg_arrays.h         real s2 = 0.0;</span>
+<span class='curline'><a href='../S/481.html#L880'>real</a>              880 include/vgg_arrays.h           real s3 = 0.0;</span>
+<span class='curline'><a href='../S/475.html#L138'>real</a>              138 include/vgg_util.h   real learnrate;               /**&lt; learning rate */</span>
+<span class='curline'><a href='../S/475.html#L371'>real</a>              371 include/vgg_util.h static real max_r(real a, real b) {</span>
+<span class='curline'><a href='../S/475.html#L379'>real</a>              379 include/vgg_util.h static real min_r(real a, real b) {</span>
+<span class='curline'><a href='../S/475.html#L484'>real</a>              484 include/vgg_util.h   real rand_normal(real mu, real sigma) {</span>
+<span class='curline'><a href='../S/475.html#L485'>real</a>              485 include/vgg_util.h     real u = rand01();</span>
+<span class='curline'><a href='../S/475.html#L486'>real</a>              486 include/vgg_util.h     real v = rand01();</span>
+<span class='curline'><a href='../S/475.html#L487'>real</a>              487 include/vgg_util.h     real x = sqrt(-2.0 * log(u)) * cos(2.0 * M_PI * v);</span>
+<span class='curline'><a href='../S/475.html#L518'>real</a>              518 include/vgg_util.h static real show_error(real gx_gx, real dx_dx, real gx_dx,</span>
+<span class='curline'><a href='../S/475.html#L519'>real</a>              519 include/vgg_util.h                        real gw_gw, real dw_dw, real gw_dw,</span>
+<span class='curline'><a href='../S/475.html#L520'>real</a>              520 include/vgg_util.h                        real L_minus, real L, real L_plus) {</span>
+<span class='curline'><a href='../S/475.html#L530'>real</a>              530 include/vgg_util.h   real dL = L_plus - L_minus;</span>
+<span class='curline'><a href='../S/475.html#L531'>real</a>              531 include/vgg_util.h   real A = gx_dx + gw_dw;</span>
+<span class='curline'><a href='../S/475.html#L532'>real</a>              532 include/vgg_util.h   real B = dL;</span>
+<span class='curline'><a href='../S/475.html#L533'>real</a>              533 include/vgg_util.h   real e = (A == B ? 0.0 : fabs(A - B) / max_r(fabs(A), fabs(B)));</span>
+<span class='curline'><a href='../S/466.html#L14'>real</a>               14 vgg.cc         static real train(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L21'>real</a>               21 vgg.cc           real Lsum = vgg-&gt;forward_backward_update(vgg-&gt;x, vgg-&gt;t, vgg-&gt;opt.learnrate);</span>
+<span class='curline'><a href='../S/466.html#L22'>real</a>               22 vgg.cc           real L = Lsum / B;</span>
+<span class='curline'><a href='../S/466.html#L36'>real</a>               36 vgg.cc         static real validate(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L41'>real</a>               41 vgg.cc             real Lsum = 0.0;</span>
+<span class='curline'><a href='../S/466.html#L52'>real</a>               52 vgg.cc             real L = Lsum / data.n_validate;</span>
+<span class='curline'><a href='../S/466.html#L118'>real</a>              118 vgg.cc             real train_loss = train(vgg, data, B, n_trained);</span>
+<span class='curline'><a href='../S/466.html#L124'>real</a>              124 vgg.cc               real validate_loss = validate(vgg, data, n_validated);</span>
+</pre>
+</body>
+</html>

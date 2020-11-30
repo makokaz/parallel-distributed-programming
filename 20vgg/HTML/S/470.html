@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>include/Makefile</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/488.html'>include</a>/Makefile</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/488.html'>include</a>/Makefile</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 include/Makefile'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>layers := 
+<a id='L2' name='L2'></a>layers += convolution
+<a id='L3' name='L3'></a>layers += batchnormalization
+<a id='L4' name='L4'></a>layers += dropout
+<a id='L5' name='L5'></a>layers += maxpooling
+<a id='L6' name='L6'></a>layers += linear
+<a id='L7' name='L7'></a>layers += relu
+<a id='L8' name='L8'></a>layers += softmaxcrossentropy
+<a id='L9' name='L9'></a>layers += block
+<a id='L10' name='L10'></a>layers += vgg
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>real_types := 
+<a id='L13' name='L13'></a>real_types += float
+<a id='L14' name='L14'></a>real_types += double
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>cxxs :=
+<a id='L17' name='L17'></a>cxxs += g++
+<a id='L18' name='L18'></a>#cxxs += nvcc
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>g++ := g++
+<a id='L21' name='L21'></a>nvcc := nvcc
+<a id='L22' name='L22'></a>#nvcc := /usr/local/bin/nvcc
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>flags :=
+<a id='L25' name='L25'></a>flags += -O3
+<a id='L26' name='L26'></a>#flags += -O0 -g
+<a id='L27' name='L27'></a>flags += -DARRAY_INDEX_CHECK=0
+<a id='L28' name='L28'></a>#flags += -DARRAY_INDEX_CHECK=1
+<a id='L29' name='L29'></a>flags += -DMAX_BATCH_SIZE=64
+<a id='L30' name='L30'></a>#flags += -DMAX_BATCH_SIZE=1
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>g++flags += -Wall -Wextra
+<a id='L33' name='L33'></a>g++flags += -Wno-strict-overflow
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>nvccflags := 
+<a id='L36' name='L36'></a>nvccflags += --gpu-code sm_60
+<a id='L37' name='L37'></a>nvccflags += --gpu-architecture compute_60
+<a id='L38' name='L38'></a>#nvccflags += --maxrregcount 64
+<a id='L39' name='L39'></a>#nvccflags += -Xptxas -O3,-v
+<a id='L40' name='L40'></a>nvccflags += -Xptxas -O0,-v -G
+<a id='L41' name='L41'></a>nvccflags += -x cu
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>#
+<a id='L44' name='L44'></a># template of compilation rules
+<a id='L45' name='L45'></a>#
+<a id='L46' name='L46'></a>define compile
+<a id='L47' name='L47'></a>$(layer).$(real_type).$(cxx) : $(layer).h vgg_util.h vgg_arrays.h cuda_util.h Makefile
+<a id='L48' name='L48'></a>        $($(cxx)) $(flags) $($(cxx)flags) -o $$@ unit_check.cc -Dreal_type=$(real_type) -DINC_H=\"$(layer).h\" -D$(layer)_main=main
+<a id='L49' name='L49'></a>endef
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>targets:=$(foreach layer,$(layers),\
+<a id='L52' name='L52'></a>$(foreach real_type,$(real_types),\
+<a id='L53' name='L53'></a>$(foreach cxx,$(cxxs),\
+<a id='L54' name='L54'></a>$(layer).$(real_type).$(cxx))))
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>all : $(targets)
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>$(foreach layer,$(layers),\
+<a id='L59' name='L59'></a>$(foreach real_type,$(real_types),\
+<a id='L60' name='L60'></a>$(foreach cxx,$(cxxs),\
+<a id='L61' name='L61'></a>$(eval $(call compile)))))
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>clean :
+<a id='L64' name='L64'></a>        rm -f $(targets)
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>.DELETE_ON_ERROR :
+<a id='L67' name='L67'></a>
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+67 include/Makefile'  /> */</em>
+</body>
+</html>

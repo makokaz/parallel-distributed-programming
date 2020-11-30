@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>p</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L585'>p</a>                 585 include/batchnormalization.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/478.html#L586'>p</a>                 586 include/batchnormalization.h     ggamma.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/478.html#L587'>p</a>                 587 include/batchnormalization.h     gbeta.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/482.html#L190'>p</a>                 190 include/block.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/482.html#L191'>p</a>                 191 include/block.h     conv.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/482.html#L192'>p</a>                 192 include/block.h     bn.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/469.html#L230'>p</a>                 230 include/cifar.h     char * p = data_str;</span>
+<span class='curline'><a href='../S/469.html#L231'>p</a>                 231 include/cifar.h     p[0] = 0;</span>
+<span class='curline'><a href='../S/469.html#L232'>p</a>                 232 include/cifar.h     sprintf(p, "train:");</span>
+<span class='curline'><a href='../S/469.html#L233'>p</a>                 233 include/cifar.h     p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L235'>p</a>                 235 include/cifar.h       sprintf(p, " %d", train[i].index);</span>
+<span class='curline'><a href='../S/469.html#L236'>p</a>                 236 include/cifar.h       p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L238'>p</a>                 238 include/cifar.h     p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L239'>p</a>                 239 include/cifar.h     assert(p == data_str + l);</span>
+<span class='curline'><a href='../S/469.html#L256'>p</a>                 256 include/cifar.h     char * p = data_str;</span>
+<span class='curline'><a href='../S/469.html#L257'>p</a>                 257 include/cifar.h     p[0] = 0;</span>
+<span class='curline'><a href='../S/469.html#L258'>p</a>                 258 include/cifar.h     sprintf(p, "validate:");</span>
+<span class='curline'><a href='../S/469.html#L259'>p</a>                 259 include/cifar.h     p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L261'>p</a>                 261 include/cifar.h       sprintf(p, " %d", validate[i].index);</span>
+<span class='curline'><a href='../S/469.html#L262'>p</a>                 262 include/cifar.h       p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L264'>p</a>                 264 include/cifar.h     p += strlen(p);</span>
+<span class='curline'><a href='../S/469.html#L265'>p</a>                 265 include/cifar.h     assert(p == data_str + l);</span>
+<span class='curline'><a href='../S/473.html#L516'>p</a>                 516 include/convolution.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/473.html#L517'>p</a>                 517 include/convolution.h     gw.init_uniform(rg, p, q);</span>
+<span class='curline'><a href='../S/479.html#L478'>p</a>                 478 include/linear.h   void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/479.html#L479'>p</a>                 479 include/linear.h     gw.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L475'>p</a>                 475 include/vgg.h    void rand_grad(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/477.html#L476'>p</a>                 476 include/vgg.h      block1_1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L477'>p</a>                 477 include/vgg.h      block1_2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L479'>p</a>                 479 include/vgg.h      block2_1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L480'>p</a>                 480 include/vgg.h      block2_2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L482'>p</a>                 482 include/vgg.h      block3_1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L483'>p</a>                 483 include/vgg.h      block3_2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L484'>p</a>                 484 include/vgg.h      block3_3.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L486'>p</a>                 486 include/vgg.h      block4_1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L487'>p</a>                 487 include/vgg.h      block4_2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L488'>p</a>                 488 include/vgg.h      block4_3.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L490'>p</a>                 490 include/vgg.h      block5_1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L491'>p</a>                 491 include/vgg.h      block5_2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L492'>p</a>                 492 include/vgg.h      block5_3.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L494'>p</a>                 494 include/vgg.h      fc1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L495'>p</a>                 495 include/vgg.h      bn_fc1.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/477.html#L496'>p</a>                 496 include/vgg.h      fc2.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/481.html#L118'>p</a>                 118 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L122'>p</a>                 122 include/vgg_arrays.h       x(i) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L132'>p</a>                 132 include/vgg_arrays.h   void init_single(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L136'>p</a>                 136 include/vgg_arrays.h     x(i) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L301'>p</a>                 301 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, idx_t p, idx_t q) {</span>
+<span class='curline'><a href='../S/481.html#L305'>p</a>                 305 include/vgg_arrays.h       x(i) = rg.randi(p, q);</span>
+<span class='curline'><a href='../S/481.html#L423'>p</a>                 423 include/vgg_arrays.h   void init_uniform(idx_t m, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L428'>p</a>                 428 include/vgg_arrays.h         a(i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L612'>p</a>                 612 include/vgg_arrays.h   void init_uniform(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L619'>p</a>                 619 include/vgg_arrays.h             a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L632'>p</a>                 632 include/vgg_arrays.h   void init_single(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L639'>p</a>                 639 include/vgg_arrays.h     a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L818'>p</a>                 818 include/vgg_arrays.h   void init_uniform(rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L824'>p</a>                 824 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand(p, q);</span>
+</pre>
+</body>
+</html>

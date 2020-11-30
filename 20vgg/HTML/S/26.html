@@ -1,0 +1,691 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_vgg_help.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_vgg_help.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_vgg_help.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_vgg_help.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>This program trains \hyperlink{structVGG}{V\+GG} network with training data from a specified file.
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>\section*{Compilation }
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>\begin{DoxyCode}
+<a id='L7' name='L7'></a>$ make
+<a id='L8' name='L8'></a>\end{DoxyCode}
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>will compile the program both with g++ and nvcc. They are respectively named vgg.\+g++ and vgg.\+nvcc.
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>To change the compilation option, open Makefile and edit it.
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>\section*{Run }
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>C\+PU \+:
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>\begin{DoxyCode}
+<a id='L21' name='L21'></a>$ ./vgg.g++ [options]  # on login node. do not run for a long time
+<a id='L22' name='L22'></a>$ srun -p big -t 0:20:00 ./vgg.g++ [options]
+<a id='L23' name='L23'></a>\end{DoxyCode}
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>G\+PU \+:
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>\begin{DoxyCode}
+<a id='L30' name='L30'></a>$ ./vgg.nvcc   # on login node. do not run for a long time
+<a id='L31' name='L31'></a>$ srun -p p -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+<a id='L32' name='L32'></a>$ srun -p v -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+<a id='L33' name='L33'></a>\end{DoxyCode}
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>\section*{Description }
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>\subsection*{Verbosity (-\/v,--verbose) }
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>Give -\/v 2 option and you will see the progress more frequently. You can also know which functions are taking much time.
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>\subsection*{Batch size (-\/b,--batch\+\_\+sz) }
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label). In each iteration, it takes a number of samples specified by --batch\+\_\+sz (-\/b). This number is called the mini-\/batch size. The default is M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE specified by a compile-\/time option -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=N. For example, \char`\"{}g++ -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+Z\+E=64 ... vgg.\+cc\char`\"{} sets the mini-\/batch size to 64. A usual value is 64 but you may consider changing it for performance tuning. Note that M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE affects the memory footprint. An instance of \hyperlink{structVGG}{V\+GG} object holds all intermediate data within the instance and its size is roughly proportional to M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE. Note that specifying a small batch size at runtime (via --batch\+\_\+sz) does not change the size of an instance.
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>The batch size signficantly affects the time of a single iteration, especially in an unoptimized baseline code. The baseline code will take a time proportional to the batch size for a single iteration.
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>For a quick experiment, you will want to make it small (e.\+g., -\/b 1).
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>For easier debugging, you may also want to consider compiling the program with -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=1
+<a id='L51' name='L51'></a>
+<a id='L52' name='L52'></a>\subsection*{The number of iterations (-\/m,--iters) }
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>-\/m option specifies the number of iterations. Default 20.
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>For a quick experiment, you will want to make both batch size and iterations small (e.\+g., -\/m 1 -\/b 1).
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>\subsection*{Turn on/off dropout (--dropout 1/0) }
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.\+e., output\+\_\+i = 0 if some probabily and input\+\_\+i otherwise). \hyperlink{structDropout}{Dropout} is generally believed to improve generalization. You may turn off this feature during development, to make sure the network is exactly the same throughout iterations.
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>You can turn off dropout by --droput 0 (default\+: 1)
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>\subsection*{Fix a batch (--single\+\_\+batch 1) }
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>During development, you may want to repeat processing the same mini-\/batch again and again, to make sure that the network is at least adjusting to the particular mini-\/batch. Combine this with --dropout 0 (and perhaps with a small batch size, like -\/b 16 or even -\/b 1). In those cases the loss should steadily decrease over iterations. If it does not happen, suspect your bug, particularly in your backward phase.
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>\subsection*{Data file (-\/d, --start\+\_\+data and --end\+\_\+data) }
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>It reads data from the file specified by --cifar\+\_\+data (-\/d) option (default\+: cifar-\/10-\/batches-\/bin/data\+\_\+batch\+\_\+1.\+bin). The original data can be obtained from \href{https://www.cs.toronto.edu/~kriz/cifar.html}{\tt https\+://www.\+cs.\+toronto.\+edu/$\sim$kriz/cifar.\+html} (get \char`\"{}\+C\+I\+F\+A\+R-\/10 binary version (suitable for C programs)\char`\"{} or \href{https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz}{\tt https\+://www.\+cs.\+toronto.\+edu/$\sim$kriz/cifar-\/10-\/binary.\+tar.\+gz}). It contains 5 datasets and each one has 10000 images.
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>If you want to use only a part of data, you can specify a range by --start\+\_\+data and --end\+\_\+data. e.\+g., --start\+\_\+data 2000 --end\+\_\+data 3000 uses only 1000 images, from the 2000th image to 2999th image.
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>\subsection*{Data for training and validation (--validate\+\_\+ratio and --validate\+\_\+interval) }
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>A portion of data is reserved for validation and not used for training. The ratio of validation data relative to the whole data set is specified by --validate\+\_\+ratio option (default\+: 0.\+1). Note that they are taken out from the data specified by --cifar\+\_\+data, --start\+\_\+data and --end\+\_\+data. For example, --start\+\_\+data 2000 --end\+\_\+data 3000 --validate\+\_\+ratio 0.\+1 uses (3000 -\/ 2000) $\ast$ 0.\+1 = 100 images for validation and leaves 900 images for training.
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>Fractions are rounded down. If the number of validation data becomes zero as a result, the validation won\textquotesingle{}t be performed at all.
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>It occasionally evaluates the loss against the validation data. The frequency can be adjusted by --validate\+\_\+interval option, which specifies the relative number of samples to process for training and that for validation. For example, if it is set to 5.\+0 and the number of data for validation is 100, it runs a validation for every 5.\+0 $\ast$ 100 = 500 training samples processed. In other words, --validate\+\_\+interval x sets the time to run a validation below 1/(1+x) of the total processing time.
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>\subsection*{Learning rate }
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>In each iteration, the backward phase calculates the gradient of the averaged loss (the average taken over the mini-\/batch) with respect to all the weights of the network. The update phase that follows then changes the weights to the opposite direction of the gradient. Mathematically, we do \begin{DoxyVerb}W = W - (η/B) ∂L/∂W
+<a id='L85' name='L85'></a>\end{DoxyVerb}
+<a id='L86' name='L86'></a>
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>where L is the summation of the loss function over the mini batch and B the batch size (hence 1/B ∂\+L/∂W represents the gradient of the average loss with respect to weights W). We multiply it by a constant η, which is called a learning rate.
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>The reason why the above update will decrease the loss is as follows. In general, \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L91' name='L91'></a>\end{DoxyVerb}
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>holds, where ・ represents the inner product (summation all componentwise products).
+<a id='L95' name='L95'></a>
+<a id='L96' name='L96'></a>So if ΔW is taken as an opposite direction of ∂\+L/∂W (i.\+e., ΔW = -\/η∂\+L/∂W), then \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L97' name='L97'></a>           = L(W) + ∂L/∂W ・(-η∂L/∂W)
+<a id='L98' name='L98'></a>           = L(W) -η ∂L/∂W・∂L/∂W
+<a id='L99' name='L99'></a>           &lt; L(W)
+<a id='L100' name='L100'></a>\end{DoxyVerb}
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>The value of learning rate can be specified with --learnrate option. Default\+: 1.\+0e-\/2
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>The learning rate does not affect the time of each iteration, but may affect the time until convergence.
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a>Since the first-\/order approximation \begin{DoxyVerb}L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L108' name='L108'></a>\end{DoxyVerb}
+<a id='L109' name='L109'></a>
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>holds only for small ΔW, picking a too large η may break the very basic property that an update will decrease the loss.
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>On ther other hand, the larger the value of η, the \char`\"{}faster\char`\"{} weights move to the opposite direction of the gradient and the faster L(w) decreases. You may be able to reach the same point with a fewer numbrer of iterations.
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>In summary, choosing the right value for η is important but not necessarily easy.
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>Since our primary focus in the exercise is on optimizing each stage of computation, we are not concerned about the choice of η too much. Specifically, our (primary) performance criteria will be the average time to process a single sample.
+<a id='L118' name='L118'></a>
+<a id='L119' name='L119'></a>\subsection*{Change seeds }
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>There are a few places in which the program uses random numbers, namely,
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>\begin{DoxyItemize}
+<a id='L125' name='L125'></a>\item when it initializes weight parameters,
+<a id='L126' name='L126'></a>\item when it divides the input data into validation and training,
+<a id='L127' name='L127'></a>\item when it chooses training samples in each iteration and
+<a id='L128' name='L128'></a>\item when it uses which cells to dropout in a dropout layer
+<a id='L129' name='L129'></a>\end{DoxyItemize}
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>{\itshape A\+LL C\+O\+M\+P\+O\+N\+E\+N\+TS B\+E\+H\+A\+VE D\+E\+T\+E\+R\+M\+I\+N\+I\+S\+T\+I\+C\+A\+L\+LY.} That is, if you repeat executions with the same configuration repeatedly, it starts from the same weight parameters, uses the same data for validation and training, picks up the same training data and drops out the same cells.
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>Unless your algorithm behave undeterministically, the results should be always the same. This should help you debug your code.
+<a id='L134' name='L134'></a>
+<a id='L135' name='L135'></a>You can change these things by giving different seeds for each of these random number generators. Specifically,
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>
+<a id='L138' name='L138'></a>\begin{DoxyItemize}
+<a id='L139' name='L139'></a>\item --weight\+\_\+seeds changes initial weight parameters
+<a id='L140' name='L140'></a>\item --validate\+\_\+seed changes which data are used for validation
+<a id='L141' name='L141'></a>\item --sample\+\_\+seed changes which data are picked for training
+<a id='L142' name='L142'></a>\item --dropout\+\_\+seed changes which cells are dropped out
+<a id='L143' name='L143'></a>\end{DoxyItemize}
+<a id='L144' name='L144'></a>
+<a id='L145' name='L145'></a>Simply give an arbitrary number to any of them to make sure your algorithm is not sensitive to any of them.
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>A general remark\+: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, {\itshape A\+L\+W\+A\+YS} give it a seed you chose and make it behave deterministically given the same seed. This is a tremendous help for debugging. After you have done initial debugging, you can test your algorithm across different sequences of numbers just by giving different seeds. Note that virtually all pseudo random number generators are deterministic after a seed is given. A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.\+g., the current time) and uses it as a seed. Nothing else is different. In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time). Without giving a seed, your algorithm can N\+E\+V\+ER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>\subsection*{G\+PU execution (-\/a gpu\+\_\+base) }
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>The program compiled with nvcc, vgg.\+nvcc, supports G\+PU execution and this is the default behavior. vgg.\+nvcc also supports C\+PU execution with -\/a cpu\+\_\+base option.
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>
+<a id='L154' name='L154'></a>\begin{DoxyCode}
+<a id='L155' name='L155'></a>$ vgg.nvcc -a cpu\_base  # (1) baseline code on CPU 
+<a id='L156' name='L156'></a>$ vgg.nvcc -a gpu\_base  # (2) baseline code on GPU 
+<a id='L157' name='L157'></a>$ vgg.nvcc              # (3) same as (2)
+<a id='L158' name='L158'></a>$ vgg.g++  -a cpu\_base  # (4) baseline code on CPU 
+<a id='L159' name='L159'></a>$ vgg.g++  -a gpu\_base  # (5) error
+<a id='L160' name='L160'></a>$ vgg.g++               # (6) same as (4)
+<a id='L161' name='L161'></a>\end{DoxyCode}
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>Note that baseline code is neither vectorized nor parallelized. In particular, it uses only a single C\+U\+DA thread on G\+PU (!)
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>\subsection*{Algorithm choice (-\/a) }
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>The -\/a option described above is an option that chooses an algorithm from available repertories. In the given code, only baseline algorithms for G\+PU and C\+PU are implemented. You prbably want to make your implementation another available choice here.
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>\subsection*{Controlled experiemnts }
+<a id='L171' name='L171'></a>
+<a id='L172' name='L172'></a>After you did a bit of work, you want to make sure you got it done right. Especially, you may be afraid that you broke a function. To make sure the network is still functioning, you might want to do a small and controlled experiment.
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>You probably want to start with something like this.
+<a id='L175' name='L175'></a>
+<a id='L176' name='L176'></a>
+<a id='L177' name='L177'></a>\begin{DoxyCode}
+<a id='L178' name='L178'></a>$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1
+<a id='L179' name='L179'></a>\end{DoxyCode}
+<a id='L180' name='L180'></a>
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-\/batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-\/batch size extremely small (1, in this particular case) to have a quick turn around time.
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>Here is a sample output. With the default value of learning rate (1.\+0e-\/2), the loss seems decreasing too quickly.
+<a id='L185' name='L185'></a>
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>\begin{DoxyCode}
+<a id='L188' name='L188'></a>$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1
+<a id='L189' name='L189'></a>=== train 0 - 1 ===
+<a id='L190' name='L190'></a>train loss = 2.064959049
+<a id='L191' name='L191'></a>=== train 1 - 2 ===
+<a id='L192' name='L192'></a>train loss = 0.002221737
+<a id='L193' name='L193'></a>=== train 2 - 3 ===
+<a id='L194' name='L194'></a>train loss = 0.002113967
+<a id='L195' name='L195'></a>=== train 3 - 4 ===
+<a id='L196' name='L196'></a>train loss = 0.002022009
+<a id='L197' name='L197'></a>=== train 4 - 5 ===
+<a id='L198' name='L198'></a>train loss = 0.001938014
+<a id='L199' name='L199'></a>=== train 5 - 6 ===
+<a id='L200' name='L200'></a>train loss = 0.001864006
+<a id='L201' name='L201'></a>=== train 6 - 7 ===
+<a id='L202' name='L202'></a>train loss = 0.001799989
+<a id='L203' name='L203'></a>=== train 7 - 8 ===
+<a id='L204' name='L204'></a>train loss = 0.001746916
+<a id='L205' name='L205'></a>  ...
+<a id='L206' name='L206'></a>\end{DoxyCode}
+<a id='L207' name='L207'></a>
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>Remember that this will repeat processing only a single sample and the \char`\"{}train loss\char`\"{} refers to the loss against this particular sample. If the loss does not decrease, you are very likely to have introduced a bug in your gradient calculation (backward) or somewhere else.
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>You may play with small learning rates to see that it will keep decreasing for a larger number of iterations.
+<a id='L212' name='L212'></a>
+<a id='L213' name='L213'></a>
+<a id='L214' name='L214'></a>\begin{DoxyCode}
+<a id='L215' name='L215'></a>$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1 --learnrate 1.0e-3
+<a id='L216' name='L216'></a>=== train 0 - 1 ===
+<a id='L217' name='L217'></a>train loss = 2.064959049
+<a id='L218' name='L218'></a>=== train 1 - 2 ===
+<a id='L219' name='L219'></a>train loss = 0.937229633
+<a id='L220' name='L220'></a>=== train 2 - 3 ===
+<a id='L221' name='L221'></a>train loss = 0.503207982
+<a id='L222' name='L222'></a>=== train 3 - 4 ===
+<a id='L223' name='L223'></a>train loss = 0.290159106
+<a id='L224' name='L224'></a>=== train 4 - 5 ===
+<a id='L225' name='L225'></a>train loss = 0.209925532
+<a id='L226' name='L226'></a>=== train 5 - 6 ===
+<a id='L227' name='L227'></a>train loss = 0.163231462
+<a id='L228' name='L228'></a>  ...
+<a id='L229' name='L229'></a>\end{DoxyCode}
+<a id='L230' name='L230'></a>
+<a id='L231' name='L231'></a>
+<a id='L232' name='L232'></a>\section*{Guide for development }
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>\subsection*{Source code structure }
+<a id='L235' name='L235'></a>
+<a id='L236' name='L236'></a>
+<a id='L237' name='L237'></a>\begin{DoxyItemize}
+<a id='L238' name='L238'></a>\item \hyperlink{vgg_8cc}{vgg.\+cc} -- the main file
+<a id='L239' name='L239'></a>\item include/
+<a id='L240' name='L240'></a>\begin{DoxyItemize}
+<a id='L241' name='L241'></a>\item \hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h} -- trivial utilities
+<a id='L242' name='L242'></a>\item \hyperlink{cuda__util_8h}{cuda\+\_\+util.\+h} -- helpers for C\+U\+DA
+<a id='L243' name='L243'></a>\item \hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h} -- vectors, matrix and multidimensional tensors
+<a id='L244' name='L244'></a>\item \hyperlink{cifar_8h}{cifar.\+h} -- data loader (primitive layers)
+<a id='L245' name='L245'></a>\item \hyperlink{convolution_8h}{convolution.\+h} -- convolution
+<a id='L246' name='L246'></a>\item \hyperlink{batchnormalization_8h}{batchnormalization.\+h} -- batch normalization
+<a id='L247' name='L247'></a>\item \hyperlink{relu_8h}{relu.\+h} -- rectified linear activation
+<a id='L248' name='L248'></a>\item \hyperlink{dropout_8h}{dropout.\+h} -- dropout
+<a id='L249' name='L249'></a>\item \hyperlink{linear_8h}{linear.\+h} -- linear (or fully connected) layer
+<a id='L250' name='L250'></a>\item \hyperlink{maxpooling_8h}{maxpooling.\+h} -- max pooling
+<a id='L251' name='L251'></a>\item \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h} -- softmax + cross entropy (composite layers)
+<a id='L252' name='L252'></a>\item \hyperlink{block_8h}{block.\+h} -- convolution; batch normalization; relu
+<a id='L253' name='L253'></a>\item \hyperlink{vgg_8h}{vgg.\+h} -- the entire \hyperlink{structVGG}{V\+GG}
+<a id='L254' name='L254'></a>\end{DoxyItemize}
+<a id='L255' name='L255'></a>\end{DoxyItemize}
+<a id='L256' name='L256'></a>
+<a id='L257' name='L257'></a>The main function in \hyperlink{vgg_8cc}{vgg.\+cc} instantiates a \hyperlink{structVGG}{V\+GG} network, which is defined in \hyperlink{vgg_8h}{vgg.\+h}. It repeats processing training data, occassionally processing validation data.
+<a id='L258' name='L258'></a>
+<a id='L259' name='L259'></a>Each layer defines a class whose name is similar to the file name. e.\+g., \hyperlink{convolution_8h}{convolution.\+h} defines \hyperlink{structConvolution2D}{Convolution2D} class.
+<a id='L260' name='L260'></a>
+<a id='L261' name='L261'></a>All classes for primitive and compite layers have two important functions, among others.
+<a id='L262' name='L262'></a>\begin{DoxyItemize}
+<a id='L263' name='L263'></a>\item forward -- take an input from the previous (downstream) layer and computes its output
+<a id='L264' name='L264'></a>\item backward -- take a gradient of loss wrt the upstream layer and computes the gradient wrt its input and weights
+<a id='L265' name='L265'></a>\end{DoxyItemize}
+<a id='L266' name='L266'></a>
+<a id='L267' name='L267'></a>In addition, classes that have parameters (convolution, linear and batchnormalization) have another function.
+<a id='L268' name='L268'></a>
+<a id='L269' name='L269'></a>
+<a id='L270' name='L270'></a>\begin{DoxyItemize}
+<a id='L271' name='L271'></a>\item update -- take a learning rate parameter and update its weights, using the gradient computed in the backward phase.
+<a id='L272' name='L272'></a>\end{DoxyItemize}
+<a id='L273' name='L273'></a>
+<a id='L274' name='L274'></a>
+<a id='L275' name='L275'></a>
+<a id='L276' name='L276'></a> Y\+O\+UR M\+A\+IN J\+OB W\+I\+LL BE TO I\+M\+P\+L\+E\+M\+E\+NT A H\+I\+GH P\+E\+R\+F\+O\+R\+M\+A\+N\+CE V\+E\+R\+S\+I\+ON OF T\+H\+E\+SE F\+U\+N\+C\+T\+I\+O\+NS. 
+<a id='L277' name='L277'></a>
+<a id='L278' name='L278'></a>
+<a id='L279' name='L279'></a>
+<a id='L280' name='L280'></a>You eventually want to work on all seven files (\hyperlink{convolution_8h}{convolution.\+h}, \hyperlink{batchnormalization_8h}{batchnormalization.\+h}, \hyperlink{relu_8h}{relu.\+h}, \hyperlink{dropout_8h}{dropout.\+h}, \hyperlink{linear_8h}{linear.\+h}, \hyperlink{maxpooling_8h}{maxpooling.\+h}, \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h}) but you can work incrementally. You can make one layer faster while leaving all others intact. You can know which functions are taking much time by -\/v 2 option.
+<a id='L281' name='L281'></a>
+<a id='L282' name='L282'></a>\subsection*{Stepping through the code using gdb (or cuda-\/gdb) }
+<a id='L283' name='L283'></a>
+<a id='L284' name='L284'></a>When working on details, you want to step through the code using gdb (or cuda-\/gdb to step through G\+PU code). They also help you get an idea about how things work. For that, compile the code with -\/\+O0 -\/g. Also add -\/\+Xptxas -\/\+O0 if you compile with nvcc.
+<a id='L285' name='L285'></a>
+<a id='L286' name='L286'></a>\subsection*{The structure of the baseline implementations (and switching between different algorithms) }
+<a id='L287' name='L287'></a>
+<a id='L288' name='L288'></a>As I mentioned above, functions you will primarily be working on are forward and backward functions on the seven classes and update functions for the three classes. Each of them has a structure to switch between G\+PU code and C\+PU code (currently, a single execution can run either entirely on C\+PU or entirely on G\+PU; you cannot have some layers executed by C\+PU and others on G\+PU in the same execution). Let\textquotesingle{}s look at the forward function of Convolution class, for example.
+<a id='L289' name='L289'></a>
+<a id='L290' name='L290'></a>The member function named \char`\"{}forward\char`\"{} is the entry point of the forwarding phase. It only executes a switch statement to decide which implementation to use (cpu or gpu in the baseline code).
+<a id='L291' name='L291'></a>
+<a id='L292' name='L292'></a>
+<a id='L293' name='L293'></a>\begin{DoxyCode}
+<a id='L294' name='L294'></a>  array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L295' name='L295'></a>    if (opt.verbose&gt;=2) \{ print\_start(); \}
+<a id='L296' name='L296'></a>    tsc\_t t0 = get\_tsc();
+<a id='L297' name='L297'></a>    switch (opt.algo) \{
+<a id='L298' name='L298'></a>      /* add case for your implementations here */
+<a id='L299' name='L299'></a>    case algo\_cpu\_base:
+<a id='L300' name='L300'></a>      forward\_cpu(x); break;
+<a id='L301' name='L301'></a>#if \_\_NVCC\_\_
+<a id='L302' name='L302'></a>    case algo\_gpu\_base:
+<a id='L303' name='L303'></a>      forward\_gpu(x); break;
+<a id='L304' name='L304'></a>#endif
+<a id='L305' name='L305'></a>    default:
+<a id='L306' name='L306'></a>      if (opt.gpu\_algo) \{
+<a id='L307' name='L307'></a>#if \_\_NVCC\_\_
+<a id='L308' name='L308'></a>        forward\_gpu(x);
+<a id='L309' name='L309'></a>#else
+<a id='L310' name='L310'></a>        err\_gpu\_algo\_no\_gpu(opt.algo\_s);
+<a id='L311' name='L311'></a>#endif
+<a id='L312' name='L312'></a>      \} else \{
+<a id='L313' name='L313'></a>        forward\_cpu(x);
+<a id='L314' name='L314'></a>      \}        
+<a id='L315' name='L315'></a>    \}
+<a id='L316' name='L316'></a>    tsc\_t t1 = get\_tsc();
+<a id='L317' name='L317'></a>    if (opt.verbose&gt;=2) \{ print\_end(t0, t1); \}
+<a id='L318' name='L318'></a>    return y;
+<a id='L319' name='L319'></a>  \}
+<a id='L320' name='L320'></a>\end{DoxyCode}
+<a id='L321' name='L321'></a>
+<a id='L322' name='L322'></a>
+<a id='L323' name='L323'></a>Depending on the algorithm chosen at the command line (-\/a option), it calls either forward\+\_\+cpu or forward\+\_\+gpu. The former simply calls another function, forward\+\_\+base, which does the real job.
+<a id='L324' name='L324'></a>
+<a id='L325' name='L325'></a>
+<a id='L326' name='L326'></a>\begin{DoxyCode}
+<a id='L327' name='L327'></a>void forward\_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L328' name='L328'></a>  forward\_base(x);
+<a id='L329' name='L329'></a>\}
+<a id='L330' name='L330'></a>\end{DoxyCode}
+<a id='L331' name='L331'></a>
+<a id='L332' name='L332'></a>
+<a id='L333' name='L333'></a>The latter calls into a G\+PU code. Since nvcc does not allow a class member function to be a global function (a G\+PU function callable from a host), we need to define a global function outside the class (forawrd\+\_\+global), which then calls back a member function (forward\+\_\+dev). This is the baseline implementation of forward\+\_\+gpu.
+<a id='L334' name='L334'></a>
+<a id='L335' name='L335'></a>
+<a id='L336' name='L336'></a>\begin{DoxyCode}
+<a id='L337' name='L337'></a>void forward\_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L338' name='L338'></a>  launch\_and\_sync((forward\_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));
+<a id='L339' name='L339'></a>\}
+<a id='L340' name='L340'></a>\end{DoxyCode}
+<a id='L341' name='L341'></a>
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>The global function, forward\+\_\+global, is defined outside the class as follows. Note that it launches only a single C\+U\+D\+A-\/thread, something you definitely want to do differently in your high performance version.
+<a id='L344' name='L344'></a>
+<a id='L345' name='L345'></a>
+<a id='L346' name='L346'></a>\begin{DoxyCode}
+<a id='L347' name='L347'></a>template&lt;idx\_t maxB,idx\_t IC,idx\_t H,idx\_t W,idx\_t K,idx\_t OC&gt;
+<a id='L348' name='L348'></a>\_\_global\_\_ void forward\_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,
+<a id='L349' name='L349'></a>                               array4&lt;maxB,IC,H,W&gt;* x\_dev) \{
+<a id='L350' name='L350'></a>  dev-&gt;forward\_dev(*x\_dev);
+<a id='L351' name='L351'></a>\}
+<a id='L352' name='L352'></a>\end{DoxyCode}
+<a id='L353' name='L353'></a>
+<a id='L354' name='L354'></a>
+<a id='L355' name='L355'></a>The member function forward\+\_\+dev actually calls the same forward\+\_\+base function that does the real job.
+<a id='L356' name='L356'></a>
+<a id='L357' name='L357'></a>
+<a id='L358' name='L358'></a>\begin{DoxyCode}
+<a id='L359' name='L359'></a>\_\_device\_\_ \_\_host\_\_ 
+<a id='L360' name='L360'></a>void forward\_base(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L361' name='L361'></a>  ... do the real job ...
+<a id='L362' name='L362'></a>\}
+<a id='L363' name='L363'></a>\end{DoxyCode}
+<a id='L364' name='L364'></a>
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>This same pattern appears for backward and update too. In this way, the baseline code shares the same piece of code between C\+PU and G\+PU. The trick makes sense only for the baseline code. In your high performance implementations, you are probably going to have separate pieces of code for C\+PU and G\+PU anyways.
+<a id='L367' name='L367'></a>
+<a id='L368' name='L368'></a>\subsection*{How to add your implementation }
+<a id='L369' name='L369'></a>
+<a id='L370' name='L370'></a>Here is how you change the code when working on a new implementation. As already mentioned, there are two implementatoins already in place, cpu\+\_\+base and gpu\+\_\+base.
+<a id='L371' name='L371'></a>
+<a id='L372' name='L372'></a>Before starting the real work, there are some work for preparation.
+<a id='L373' name='L373'></a>
+<a id='L374' name='L374'></a>
+<a id='L375' name='L375'></a>\begin{DoxyItemize}
+<a id='L376' name='L376'></a>\item Come up with a name of the new implementation. Let\textquotesingle{}s say it is cpu\+\_\+ultra\+\_\+fast (in reality, you want to have a name that better represents what it does, like cpu\+\_\+simd).
+<a id='L377' name='L377'></a>\item Add a new symbol to the enum algo\+\_\+t defined in \hyperlink{vgg__util_8h}{vgg\+\_\+util.\+h} 
+<a id='L378' name='L378'></a>\begin{DoxyCode}
+<a id='L379' name='L379'></a>typedef enum \{
+<a id='L380' name='L380'></a>  algo\_cpu\_base,
+<a id='L381' name='L381'></a>  algo\_gpu\_base,
+<a id='L382' name='L382'></a>  /* add your new algorithm here (name it arbitrarily) */
+<a id='L383' name='L383'></a>
+<a id='L384' name='L384'></a>  algo\_cpu\_ultra\_fast, &lt;----  YOU ADD THIS
+<a id='L385' name='L385'></a>
+<a id='L386' name='L386'></a>  algo\_invalid,
+<a id='L387' name='L387'></a>\} algo\_t;
+<a id='L388' name='L388'></a>\end{DoxyCode}
+<a id='L389' name='L389'></a>
+<a id='L390' name='L390'></a>\item Change the parse\+\_\+algo function right below it so that it recognizes the new name. Obviously, the baseline code recognizes only \char`\"{}cpu\+\_\+base\char`\"{} and \char`\"{}gpu\+\_\+base\char`\"{}. You simply add an appropriate \char`\"{}else if\char`\"{} branch to handle your name.
+<a id='L391' name='L391'></a>\end{DoxyItemize}
+<a id='L392' name='L392'></a>
+<a id='L393' name='L393'></a>
+<a id='L394' name='L394'></a>\begin{DoxyCode}
+<a id='L395' name='L395'></a>algo\_t parse\_algo(const char * s) \{
+<a id='L396' name='L396'></a>  if (strcmp(s, "cpu\_base") == 0) \{
+<a id='L397' name='L397'></a>    return algo\_cpu\_base;
+<a id='L398' name='L398'></a>  \} else if (strcmp(s, "gpu\_base") == 0) \{
+<a id='L399' name='L399'></a>    return algo\_gpu\_base;
+<a id='L400' name='L400'></a>  \} else if (strcmp(s, "cpu\_ultra\_fast") == 0) \{  &lt;---- YOU ADD THIS
+<a id='L401' name='L401'></a>    return algo\_cpu\_ultra\_fast;                   &lt;---- YOU ADD THIS
+<a id='L402' name='L402'></a>  \} else \{
+<a id='L403' name='L403'></a>    return algo\_invalid;
+<a id='L404' name='L404'></a>  \}
+<a id='L405' name='L405'></a>\}
+<a id='L406' name='L406'></a>\end{DoxyCode}
+<a id='L407' name='L407'></a>
+<a id='L408' name='L408'></a>
+<a id='L409' name='L409'></a>
+<a id='L410' name='L410'></a>\begin{DoxyItemize}
+<a id='L411' name='L411'></a>\item You might also need to change the function algo\+\_\+is\+\_\+gpu so that the program correctly recognizes whether it is a C\+PU algorithm or a G\+PU algorithm. By default, it simply assumes all and only names starting with \char`\"{}gpu\char`\"{} are G\+PU algorithms. You need to change this only when your algorithm name does not conform to this convention (e.\+g., a G\+PU algorithm named \char`\"{}v100\+\_\+only\char`\"{}). It will be a good idea to stick to the convention rather than modifying this function.
+<a id='L412' name='L412'></a>\end{DoxyItemize}
+<a id='L413' name='L413'></a>
+<a id='L414' name='L414'></a>
+<a id='L415' name='L415'></a>\begin{DoxyCode}
+<a id='L416' name='L416'></a>int algo\_is\_gpu(const char * s, algo\_t a) \{
+<a id='L417' name='L417'></a>  (void)a;
+<a id='L418' name='L418'></a>  if (strncmp(s, "gpu", 3) == 0) \{
+<a id='L419' name='L419'></a>    return 1;
+<a id='L420' name='L420'></a>  \} else \{ 
+<a id='L421' name='L421'></a>    return 0;
+<a id='L422' name='L422'></a>  \}
+<a id='L423' name='L423'></a>\}
+<a id='L424' name='L424'></a>\end{DoxyCode}
+<a id='L425' name='L425'></a>
+<a id='L426' name='L426'></a>
+<a id='L427' name='L427'></a>At this point, the program at least recognizes your algorithm and calls G\+PU base code or C\+PU base code depending on your algorithm is a G\+PU algorithm or not (judged by algo\+\_\+is\+\_\+gpu function above). Recall that the switch statement falls back to forward\+\_\+gpu or forward\+\_\+cpu when the switch statement does not have a specific case for your algorithm.
+<a id='L428' name='L428'></a>
+<a id='L429' name='L429'></a>Now you are ready to add a real implementation. Thanks to the structure just mentioend, you can do so incrementally (you do not have to implement all functions to get your version used). To start off, let\textquotesingle{}s say you want to implement a forward function of \hyperlink{structConvolution2D}{Convolution2D} class. The first thing you need to do is to add an appropriate case in the switch statement.
+<a id='L430' name='L430'></a>
+<a id='L431' name='L431'></a>
+<a id='L432' name='L432'></a>\begin{DoxyCode}
+<a id='L433' name='L433'></a>array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L434' name='L434'></a>  if (opt.verbose&gt;=2) \{ print\_start(); \}
+<a id='L435' name='L435'></a>  tsc\_t t0 = get\_tsc();
+<a id='L436' name='L436'></a>  switch (opt.algo) \{
+<a id='L437' name='L437'></a>    /* add case for your implementations here */
+<a id='L438' name='L438'></a>  case algo\_cpu\_ultra\_fast:
+<a id='L439' name='L439'></a>    forward\_cpu\_ultra\_fast(x); break;
+<a id='L440' name='L440'></a>
+<a id='L441' name='L441'></a>    ...
+<a id='L442' name='L442'></a>  \}
+<a id='L443' name='L443'></a>  tsc\_t t1 = get\_tsc();
+<a id='L444' name='L444'></a>  if (opt.verbose&gt;=2) \{ print\_end(t0, t1); \}
+<a id='L445' name='L445'></a>  return y;
+<a id='L446' name='L446'></a>\}
+<a id='L447' name='L447'></a>\end{DoxyCode}
+<a id='L448' name='L448'></a>
+<a id='L449' name='L449'></a>
+<a id='L450' name='L450'></a>Your real job is, of course, to implement forward\+\_\+cpu\+\_\+ultra\+\_\+fast function. Use S\+I\+MD, Open\+MP or whatever is necessary to make it faster. You probably start by copy-\/pasting the forward\+\_\+base implementation.
+<a id='L451' name='L451'></a>
+<a id='L452' name='L452'></a>If you work on G\+PU implementation, you need to implement two functions. Let\textquotesingle{}s say your algorithm name is gpu\+\_\+ultra\+\_\+fast. After adding another case in the switch statement like this
+<a id='L453' name='L453'></a>
+<a id='L454' name='L454'></a>
+<a id='L455' name='L455'></a>\begin{DoxyCode}
+<a id='L456' name='L456'></a>case algo\_gpu\_ultra\_fast:
+<a id='L457' name='L457'></a>  forward\_gpu\_ultra\_fast(x); break;
+<a id='L458' name='L458'></a>\end{DoxyCode}
+<a id='L459' name='L459'></a>
+<a id='L460' name='L460'></a>
+<a id='L461' name='L461'></a>your forward\+\_\+gpu\+\_\+ultra\+\_\+fast should launch a global function with a good thread block size.
+<a id='L462' name='L462'></a>
+<a id='L463' name='L463'></a>
+<a id='L464' name='L464'></a>\begin{DoxyCode}
+<a id='L465' name='L465'></a>void forward\_gpu\_ultra\_fast(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L466' name='L466'></a>  int block\_sz = ...;
+<a id='L467' name='L467'></a>  int num\_blocks = ...;
+<a id='L468' name='L468'></a>  launch\_and\_sync((forward\_ultra\_fast\_global&lt;&lt;&lt;num\_blocks,block\_sz&gt;&gt;&gt;(dev, x.dev)));
+<a id='L469' name='L469'></a>\}
+<a id='L470' name='L470'></a>\end{DoxyCode}
+<a id='L471' name='L471'></a>
+<a id='L472' name='L472'></a>
+<a id='L473' name='L473'></a>Next you define forward\+\_\+ultra\+\_\+fast\+\_\+global function outside the class, near the beginning of the file. This will be a boilerplate code.
+<a id='L474' name='L474'></a>
+<a id='L475' name='L475'></a>
+<a id='L476' name='L476'></a>\begin{DoxyCode}
+<a id='L477' name='L477'></a>template&lt;idx\_t maxB,idx\_t IC,idx\_t H,idx\_t W,idx\_t K,idx\_t OC&gt;
+<a id='L478' name='L478'></a>\_\_global\_\_ void forward\_ultra\_fast\_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,
+<a id='L479' name='L479'></a>                                          array4&lt;maxB,IC,H,W&gt;* x\_dev) \{
+<a id='L480' name='L480'></a>  dev-&gt;forward\_ultra\_fast\_dev(*x\_dev);
+<a id='L481' name='L481'></a>\}
+<a id='L482' name='L482'></a>\end{DoxyCode}
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>
+<a id='L485' name='L485'></a>Finally, you define forward\+\_\+ultra\+\_\+fast\+\_\+dev member function, which does the real job.
+<a id='L486' name='L486'></a>
+<a id='L487' name='L487'></a>In forward\+\_\+base function that is supposed to do a real job, you compute the output and put them in the \textquotesingle{}y\textquotesingle{} variable, which is already defiened for you as a member field. This convention is used throughout the program. All classes have a member field named \textquotesingle{}y\textquotesingle{} to which you should put the results.
+<a id='L488' name='L488'></a>
+<a id='L489' name='L489'></a>
+<a id='L490' name='L490'></a>\begin{DoxyCode}
+<a id='L491' name='L491'></a>\_\_device\_\_ \_\_host\_\_ 
+<a id='L492' name='L492'></a>void forward\_base(array4&lt;maxB,IC,H,W&gt;&amp; x) \{
+<a id='L493' name='L493'></a>  idx\_t B = x.B;
+<a id='L494' name='L494'></a>  y.set\_n\_rows(B);
+<a id='L495' name='L495'></a>  ...
+<a id='L496' name='L496'></a>  for (idx\_t b = 0; b &lt; B; b++) \{       // samples
+<a id='L497' name='L497'></a>    ...
+<a id='L498' name='L498'></a>       ...
+<a id='L499' name='L499'></a>          y(b,oc,i,j) = s;
+<a id='L500' name='L500'></a>       ...
+<a id='L501' name='L501'></a>    ...
+<a id='L502' name='L502'></a>  \}
+<a id='L503' name='L503'></a>\}
+<a id='L504' name='L504'></a>\end{DoxyCode}
+<a id='L505' name='L505'></a>
+<a id='L506' name='L506'></a>
+<a id='L507' name='L507'></a>Similarly, a backward implementation is supposed to put the results into another member variable named \textquotesingle{}gx\textquotesingle{} (∂\+L/∂x, gradients with respect to x) and \textquotesingle{}gw\textquotesingle{} if the layer has weights.
+<a id='L508' name='L508'></a>
+<a id='L509' name='L509'></a>There is one thing to note here. The input typically is an array (single-\/ or multi-\/dimensional) whose primary (leftmost) index refers to a particular sample in a mini-\/batch. In the above example, x is a four dimensional array and thus has a type \hyperlink{structarray4}{array4$&lt;$max\+B,\+I\+C,\+H,\+W$&gt;$}\&amp;. maxB is a {\itshape compile time} constant you specified by -\/\+D\+M\+A\+X\+\_\+\+B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE=xxx. {\itshape The actual number of samples in this array may be smaller and is passed via a field variable of the input.} You have to process only the actual number of samples passed in the array.
+<a id='L510' name='L510'></a>
+<a id='L511' name='L511'></a>In this example, x.\+B has the actual number of rows in the array. Thus,
+<a id='L512' name='L512'></a>\begin{DoxyItemize}
+<a id='L513' name='L513'></a>\item the outermost loop iterates x.\+B number of times rather than maxB times. 
+<a id='L514' name='L514'></a>\begin{DoxyCode}
+<a id='L515' name='L515'></a>idx\_t B = x.B;
+<a id='L516' name='L516'></a> ...
+<a id='L517' name='L517'></a>for (idx\_t b = 0; b &lt; B; b++) \{       // samples
+<a id='L518' name='L518'></a>\end{DoxyCode}
+<a id='L519' name='L519'></a>
+<a id='L520' name='L520'></a>\item it also sets the actual number of rows in the output y, by doing 
+<a id='L521' name='L521'></a>\begin{DoxyCode}
+<a id='L522' name='L522'></a>idx\_t B = x.B;
+<a id='L523' name='L523'></a>y.set\_n\_rows(B);
+<a id='L524' name='L524'></a>\end{DoxyCode}
+<a id='L525' name='L525'></a>
+<a id='L526' name='L526'></a>\end{DoxyItemize}
+<a id='L527' name='L527'></a>
+<a id='L528' name='L528'></a>\subsection*{Debugging a layer }
+<a id='L529' name='L529'></a>
+<a id='L530' name='L530'></a>After you change implementation of a layer you will want to make sure you got it right. It may not happen immediately, however. Several mechanisms are in place to help you debug them efficiently.
+<a id='L531' name='L531'></a>
+<a id='L532' name='L532'></a>\subsection*{Catching basic coding errors }
+<a id='L533' name='L533'></a>
+<a id='L534' name='L534'></a>First, after you change an implementation of a layer, make sure you turn a compile-\/time option -\/\+D\+A\+R\+R\+A\+Y\+\_\+\+I\+N\+D\+E\+X\+\_\+\+C\+H\+E\+CK=1 on. This will check array index every time you access an element of a vector, matrix or tensor. It will catch obvious errors such as looping with wrong bounds or indexing arrays with wrong variables.
+<a id='L535' name='L535'></a>
+<a id='L536' name='L536'></a>
+<a id='L537' name='L537'></a>\begin{DoxyCode}
+<a id='L538' name='L538'></a>$ g++ ... -DARRAY\_INDEX\_CHECK=1 ... -o vgg.g++ vgg.cc
+<a id='L539' name='L539'></a>\end{DoxyCode}
+<a id='L540' name='L540'></a>
+<a id='L541' name='L541'></a>
+<a id='L542' name='L542'></a>\subsection*{Catching logical (mathematics) errors }
+<a id='L543' name='L543'></a>
+<a id='L544' name='L544'></a>After you have a code that at least is not caught by array indexing errors, you now want to check if the code really does the job. The first command line you want to test your code with is this.
+<a id='L545' name='L545'></a>
+<a id='L546' name='L546'></a>
+<a id='L547' name='L547'></a>\begin{DoxyCode}
+<a id='L548' name='L548'></a>$ ./vgg.gcc --dropout 0 --single\_batch 1 -b 1 -a name\_of\_your\_algorithm
+<a id='L549' name='L549'></a>\end{DoxyCode}
+<a id='L550' name='L550'></a>
+<a id='L551' name='L551'></a>
+<a id='L552' name='L552'></a>Like I introduced already, this processes only a single sample repeatedly, without any dropout that would introduce different behaviors between iterations. The error thus should steadily decrease over iterations, in almost exactly the same pace with the baseline implementation. Try different learning rate (--learnrate 1.\+0e-\/3, 1.\+0e-\/4, etc.) and confirm they behave very similarly for each one.
+<a id='L553' name='L553'></a>
+<a id='L554' name='L554'></a>Remember that both are doing exactly the same computation. There is a randomness in how it chooses samples, but {\itshape it is deterministic} as I already mentioned; the sample picked should be the same unless you change the seed of the random number generator (by --sample\+\_\+seed). Were there any difference between the two implementations, it should indicate that your algorithm outputs results different from the other implementation for the same input. If the difference is slight, it may be indicating that the two has different rounding errors for computing mathematically equivalent expressions. In particular, summing up many numbers in a different order affect rounding errors very much. When you parallelize or vectorize yoru code, you almost certainly change the order in which numbers are accumulated. Therefore, a slight difference in the loss may not be worth looking into.
+<a id='L555' name='L555'></a>
+<a id='L556' name='L556'></a>If you observe a significant change, you need to shootdown where you introduce a bug, for which you will want to debug a single layer at a time.
+<a id='L557' name='L557'></a>
+<a id='L558' name='L558'></a>Each layer is implemented in a single header file.
+<a id='L559' name='L559'></a>
+<a id='L560' name='L560'></a>
+<a id='L561' name='L561'></a>\begin{DoxyItemize}
+<a id='L562' name='L562'></a>\item \hyperlink{batchnormalization_8h}{batchnormalization.\+h}
+<a id='L563' name='L563'></a>\item \hyperlink{convolution_8h}{convolution.\+h}
+<a id='L564' name='L564'></a>\item \hyperlink{dropout_8h}{dropout.\+h}
+<a id='L565' name='L565'></a>\item \hyperlink{linear_8h}{linear.\+h}
+<a id='L566' name='L566'></a>\item \hyperlink{maxpooling_8h}{maxpooling.\+h}
+<a id='L567' name='L567'></a>\item \hyperlink{relu_8h}{relu.\+h}
+<a id='L568' name='L568'></a>\item \hyperlink{softmaxcrossentropy_8h}{softmaxcrossentropy.\+h}
+<a id='L569' name='L569'></a>\end{DoxyItemize}
+<a id='L570' name='L570'></a>
+<a id='L571' name='L571'></a>Each header file actually contains an entry point function so that it can compile and run alone. For example, \hyperlink{convolution_8h}{convolution.\+h} has a function convolution\+\_\+main that runs only a convolution. Therefore, if you include this file from any C++ file and compile it with -\/\+Dconvolution\+\_\+main=main, you get an executable that only runs that layer.
+<a id='L572' name='L572'></a>
+<a id='L573' name='L573'></a>Indeed,
+<a id='L574' name='L574'></a>
+<a id='L575' name='L575'></a>
+<a id='L576' name='L576'></a>\begin{DoxyCode}
+<a id='L577' name='L577'></a>$ cd include
+<a id='L578' name='L578'></a>$ make
+<a id='L579' name='L579'></a>\end{DoxyCode}
+<a id='L580' name='L580'></a>
+<a id='L581' name='L581'></a>
+<a id='L582' name='L582'></a>builds all such executables. You will obtain batchnormalization.\{float,double\}.\{g++,nvcc\}, etc.
+<a id='L583' name='L583'></a>
+<a id='L584' name='L584'></a>The entry point function checks if the gradients obtained by forward/backward computation indeed approximate the change of the output value. Specifically, let\textquotesingle{}s say we have a layer implementing a function F(\+W, X). We check if the following approximation holds. \begin{DoxyVerb}F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) ≒ ∂F/∂W・ΔW + ∂F/∂X・ΔX
+<a id='L585' name='L585'></a>\end{DoxyVerb}
+<a id='L586' name='L586'></a>
+<a id='L587' name='L587'></a>
+<a id='L588' name='L588'></a>(There are many layers that do not have weight parameters. For such layers, we simply check if F(X + Δ\+X/2) -\/ F(X -\/ Δ\+X/2) ≒ ∂\+F/∂\+X・ΔX holds).
+<a id='L589' name='L589'></a>
+<a id='L590' name='L590'></a>In implementation terms, we
+<a id='L591' name='L591'></a>
+<a id='L592' name='L592'></a>
+<a id='L593' name='L593'></a>\begin{DoxyItemize}
+<a id='L594' name='L594'></a>\item generate inputs (X) and weights (W) randomly
+<a id='L595' name='L595'></a>\item generate small changes to inputs (ΔX) and weights (ΔW) randomly
+<a id='L596' name='L596'></a>\item perform forward and backward computation to obtain ∂\+F/∂W and ∂\+F/∂X and thus to obtain ∂\+F/∂\+W・ΔW + ∂\+F/∂\+X・ΔX
+<a id='L597' name='L597'></a>\item apply changes to X and W to obtain X±ΔX and W±ΔW
+<a id='L598' name='L598'></a>\item perform forward computation on both of them, to obtain F(W + Δ\+W/2, X + Δ\+X/2) and F(W -\/ Δ\+W/2, X -\/ Δ\+X/2)
+<a id='L599' name='L599'></a>\item compare F(W + Δ\+W/2, X + Δ\+X/2) and F(W -\/ Δ\+W/2, X -\/ Δ\+X/2) and ∂\+F/∂\+W・ΔW + ∂\+F/∂\+X・ΔX and report their relative difference. The relative difference between A and B is $\vert$\+A-\/\+B$\vert$/max($\vert$\+A$\vert$,$\vert$\+B$\vert$)
+<a id='L600' name='L600'></a>\end{DoxyItemize}
+<a id='L601' name='L601'></a>
+<a id='L602' name='L602'></a>Here is an output of the linear layer.
+<a id='L603' name='L603'></a>
+<a id='L604' name='L604'></a>
+<a id='L605' name='L605'></a>\begin{DoxyCode}
+<a id='L606' name='L606'></a>$ ./linear.float.g++ -b 1
+<a id='L607' name='L607'></a>==== 0 ====
+<a id='L608' name='L608'></a>|∂L/∂x|   = 2.067968130
+<a id='L609' name='L609'></a>|dx|      = 0.001285600
+<a id='L610' name='L610'></a>∂L/∂x・dx = -0.000187458
+<a id='L611' name='L611'></a>|∂L/∂w|   = 27.588932037
+<a id='L612' name='L612'></a>|dw|      = 0.004125366
+<a id='L613' name='L613'></a>∂L/∂w・dw = 0.000541298
+<a id='L614' name='L614'></a>L- = -0.982513964
+<a id='L615' name='L615'></a>L  = -0.982336760
+<a id='L616' name='L616'></a>L+ = -0.982159197
+<a id='L617' name='L617'></a>A = ∂L/∂x・dx + ∂L/∂w・dw = 0.000353840
+<a id='L618' name='L618'></a>B = ΔL = 0.000354767
+<a id='L619' name='L619'></a>relative error = |A-B|/max(|A|,|B|) = 0.002611878
+<a id='L620' name='L620'></a>==== 1 ====
+<a id='L621' name='L621'></a>|∂L/∂x|   = 2.037896156
+<a id='L622' name='L622'></a>|dx|      = 0.001299710
+<a id='L623' name='L623'></a>    ...
+<a id='L624' name='L624'></a>
+<a id='L625' name='L625'></a>
+<a id='L626' name='L626'></a>max relative error = 0.009731923
+<a id='L627' name='L627'></a>avg relative error = 0.001512904
+<a id='L628' name='L628'></a>\end{DoxyCode}
+<a id='L629' name='L629'></a>
+<a id='L630' name='L630'></a>
+<a id='L631' name='L631'></a>In the end of the execution, it reports that the maximum and average relative errors are 0.\+009731923 and 0.\+001512904, respectively.
+<a id='L632' name='L632'></a>
+<a id='L633' name='L633'></a>Note that linear layer implements a linear function, for which an equation \begin{DoxyVerb}F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) = ∂F/∂W・ΔW + ∂F/∂X・ΔX
+<a id='L634' name='L634'></a>\end{DoxyVerb}
+<a id='L635' name='L635'></a>
+<a id='L636' name='L636'></a>
+<a id='L637' name='L637'></a>should strictly hold if all elementary computations are done without rounding errors. Any error should be due to rounding errors, which should be small if you are not accumulating too many numbers of numbers of significantly different magnitutes.
+<a id='L638' name='L638'></a>
+<a id='L639' name='L639'></a>If the reported relative error is small enough, it means that moving the weights to the opposite direction of the computed gradient should decrease the loss function, which is the very purpose of the optimization process. As long as this holds, you do not have be concered too much about the difference to the baseline code, which has its own rounding errors.
+<a id='L640' name='L640'></a>
+<a id='L641' name='L641'></a>How small is small enough? It actually depends on layers and the type of floating point numbers. Especially when using a single precision floating point numbers (executables $\ast$.float.$\ast$\} do so), rounding errors easily become significant. Average relative errors of 10\% or even 30\% do not necessarily indicate a bug. Double precision numbers are much less prone to rounding errors. For the purpose of checking if your code faithfully computes what it should compute, consider tesing the double-\/precision version of it ($\ast$.double.$\ast$), which should report tiny relative errors. Here are tables summarizing the maximum/average errors for a single sample.
+<a id='L642' name='L642'></a>
+<a id='L643' name='L643'></a>\tabulinesep=1mm
+<a id='L644' name='L644'></a>\begin{longtabu} spread 0pt [c]{*{5}{|X[-1]}|}
+<a id='L645' name='L645'></a>\hline
+<a id='L646' name='L646'></a>\rowcolor{\tableheadbgcolor}\textbf{ layer }&amp;\PBS\centering \textbf{ max (SP) }&amp;\PBS\centering \textbf{ avg (SP) }&amp;\PBS\centering \textbf{ max (DP) }&amp;\PBS\centering \textbf{ max (DB)  }\\\cline{1-5}
+<a id='L647' name='L647'></a>\endfirsthead
+<a id='L648' name='L648'></a>\hline
+<a id='L649' name='L649'></a>\endfoot
+<a id='L650' name='L650'></a>\hline
+<a id='L651' name='L651'></a>\rowcolor{\tableheadbgcolor}\textbf{ layer }&amp;\PBS\centering \textbf{ max (SP) }&amp;\PBS\centering \textbf{ avg (SP) }&amp;\PBS\centering \textbf{ max (DP) }&amp;\PBS\centering \textbf{ max (DB)  }\\\cline{1-5}
+<a id='L652' name='L652'></a>\endhead
+<a id='L653' name='L653'></a>batchnormalization &amp;\PBS\centering 0.\+321599394 &amp;\PBS\centering 0.\+047267061 &amp;\PBS\centering 0.\+000000012 &amp;\PBS\centering 0.\+000000001 \\\cline{1-5}
+<a id='L654' name='L654'></a>convolution &amp;\PBS\centering 0.\+005766520 &amp;\PBS\centering 0.\+001314429 &amp;\PBS\centering 0.\+000000000 &amp;\PBS\centering 0.\+000000000 \\\cline{1-5}
+<a id='L655' name='L655'></a>dropout &amp;\PBS\centering 0.\+927670479 &amp;\PBS\centering 0.\+083410397 &amp;\PBS\centering 0.\+000000003 &amp;\PBS\centering 0.\+000000000 \\\cline{1-5}
+<a id='L656' name='L656'></a>linear &amp;\PBS\centering 0.\+009731923 &amp;\PBS\centering 0.\+001512904 &amp;\PBS\centering 0.\+000000000 &amp;\PBS\centering 0.\+000000000 \\\cline{1-5}
+<a id='L657' name='L657'></a>maxpooling &amp;\PBS\centering 1.\+918741345 &amp;\PBS\centering 0.\+126148313 &amp;\PBS\centering 1.\+013361927 &amp;\PBS\centering 0.\+052107410 \\\cline{1-5}
+<a id='L658' name='L658'></a>relu &amp;\PBS\centering 0.\+170680821 &amp;\PBS\centering 0.\+019997066 &amp;\PBS\centering 0.\+136701009 &amp;\PBS\centering 0.\+014832921 \\\cline{1-5}
+<a id='L659' name='L659'></a>softmaxcrossentropy&amp;\PBS\centering 0.\+034060795 &amp;\PBS\centering 0.\+007438810 &amp;\PBS\centering 0.\+000000000 &amp;\PBS\centering 0.\+000000000 \\\cline{1-5}
+<a id='L660' name='L660'></a>\end{longtabu}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+660 doc/latex/md__home_tau_public_html_lecture_parallel_distributed_2018_handson_tau_parallel-distributed-handson_20vgg_vgg_help.tex'  /> */</em>
+</body>
+</html>

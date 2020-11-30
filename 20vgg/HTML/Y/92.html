@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>bn_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L640'>bn_minus</a>          640 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_minus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L674'>bn_minus</a>          674 include/batchnormalization.h   bn_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/478.html#L675'>bn_minus</a>          675 include/batchnormalization.h   bn_plus-&gt;set_grad(*bn_minus);</span>
+<span class='curline'><a href='../S/478.html#L677'>bn_minus</a>          677 include/batchnormalization.h   bn_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/478.html#L680'>bn_minus</a>          680 include/batchnormalization.h   bn_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/478.html#L683'>bn_minus</a>          683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L698'>bn_minus</a>          698 include/batchnormalization.h   real dw_dw = bn_minus-&gt;gw_dot_gw(*bn_minus);   /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/478.html#L699'>bn_minus</a>          699 include/batchnormalization.h   real gw_dw = bn-&gt;gw_dot_gw(*bn_minus);         /* dw・dw */</span>
+<span class='curline'><a href='../S/478.html#L703'>bn_minus</a>          703 include/batchnormalization.h   bn_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/478.html#L711'>bn_minus</a>          711 include/batchnormalization.h   delete bn_minus;</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>i_</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/473.html#L296'>i_</a>                296 include/convolution.h               for (idx_t i_ = max_i(-K,-i); i_ &lt;= min_i(K,H-i-1); i_++) {</span>
+<span class='curline'><a href='../S/473.html#L298'>i_</a>                298 include/convolution.h                   s += w(oc,ic,i_,j_) * x(b,ic,i+i_,j+j_);</span>
+<span class='curline'><a href='../S/473.html#L396'>i_</a>                396 include/convolution.h         for (idx_t i_ = -K; i_ &lt;= K; i_++) {</span>
+<span class='curline'><a href='../S/473.html#L400'>i_</a>                400 include/convolution.h               for (idx_t i = max_i(0,-i_); i &lt; min_i(H,H-i_); i++) {   // width</span>
+<span class='curline'><a href='../S/473.html#L402'>i_</a>                402 include/convolution.h                   s += gy(b,oc,i,j) * x(b,ic,i+i_,j+j_);</span>
+<span class='curline'><a href='../S/473.html#L406'>i_</a>                406 include/convolution.h             gw(oc,ic,i_,j_) = s;</span>
+<span class='curline'><a href='../S/473.html#L417'>i_</a>                417 include/convolution.h               for (idx_t i_ = max_i(-K,i-H+1); i_ &lt;= min_i(K,i); i_++) {</span>
+<span class='curline'><a href='../S/473.html#L424'>i_</a>                424 include/convolution.h                   s += gy(b,oc,i-i_,j-j_) * w(oc,ic,i_,j_);</span>
+<span class='curline'><a href='../S/474.html#L191'>i_</a>                191 include/maxpooling.h             for (idx_t i_ = S * i; i_ &lt; S * (i + 1); i_++) {</span>
+<span class='curline'><a href='../S/474.html#L193'>i_</a>                193 include/maxpooling.h                 if (s &lt; x(b,c,i_,j_)) {</span>
+<span class='curline'><a href='../S/474.html#L194'>i_</a>                194 include/maxpooling.h                   s = x(b,c,i_,j_);</span>
+<span class='curline'><a href='../S/474.html#L195'>i_</a>                195 include/maxpooling.h                   idx = W * i_ + j_;</span>
+<span class='curline'><a href='../S/474.html#L295'>i_</a>                295 include/maxpooling.h             for (idx_t i_ = S * i; i_ &lt; S * (i + 1); i_++) {</span>
+<span class='curline'><a href='../S/474.html#L297'>i_</a>                297 include/maxpooling.h                 gx(b,c,i_,j_) = 0;</span>
+<span class='curline'><a href='../S/474.html#L301'>i_</a>                301 include/maxpooling.h             idx_t i_ = idx / W;</span>
+<span class='curline'><a href='../S/474.html#L303'>i_</a>                303 include/maxpooling.h             gx(b,c,i_,j_) = gy(b,c,i,j);</span>
+</pre>
+</body>
+</html>

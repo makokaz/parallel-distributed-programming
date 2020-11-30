@@ -1,0 +1,818 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>README.md</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span>README.md</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/README.md</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 README.md'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>Overview
+<a id='L2' name='L2'></a>=============
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>This program trains VGG network with training data from a specified file.
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>Neural Network: VGG
+<a id='L7' name='L7'></a>==================
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a> * VGG: http://www.robots.ox.ac.uk/~vgg/research/very_deep/
+<a id='L10' name='L10'></a> * published at ICLR 2015 https://www.iclr.cc/archive/www/doku.php%3Fid=iclr2015:main.html
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>Dataset: CIFAR-10
+<a id='L13' name='L13'></a>==================
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a> * on IST Cluster, it's in /home/tau/cifar10
+<a id='L16' name='L16'></a> * original source: http://www.cs.toronto.edu/~kriz/cifar.html
+<a id='L17' name='L17'></a>  * download "CIFAR-10 binary version (suitable for C programs)" if you download yourself
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>Compile: 
+<a id='L20' name='L20'></a>==================
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>```
+<a id='L23' name='L23'></a>$ make
+<a id='L24' name='L24'></a>g++  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=64 -Wall -Wextra -Wno-strict-overflow -march=native -o vgg.g++ vgg.cc
+<a id='L25' name='L25'></a>nvcc  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=64  --generate-code arch=compute_60,code=sm_60 --generate-code arch=compute_70,code=sm_70 --compiler-options=-mavx2 -Xptxas -O3,-v -x cu -o vgg.nvcc vgg.cc
+<a id='L26' name='L26'></a>```
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>(make sure you have -O3 or -O0 -g in the command line, depending on whether you want to measure performance or debug)
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>Run: 
+<a id='L31' name='L31'></a>==================
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a> * Make sure you have cifar-10-batches-bin/data_batch_1.bin file under the current directory.  On IST cluster, you can do so by
+<a id='L34' name='L34'></a>```
+<a id='L35' name='L35'></a>$ cd data
+<a id='L36' name='L36'></a>$ ln -s /home/tau/data/cifar-10-batches-bin
+<a id='L37' name='L37'></a>```
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a> * alternatively (or if you want to work outside IST cluster), you can download the data from the original VGG web site by
+<a id='L40' name='L40'></a>```
+<a id='L41' name='L41'></a>$ cd data
+<a id='L42' name='L42'></a>$ make -f data.mk dl
+<a id='L43' name='L43'></a>```
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>CPU:
+<a id='L46' name='L46'></a>------------------
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>* Run on login node. Do not do this for long runs.
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>```
+<a id='L51' name='L51'></a>$ ./vgg.g++ [options]
+<a id='L52' name='L52'></a>```
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>* Run on a compute node, through srun
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>```
+<a id='L57' name='L57'></a>$ srun -p big -t 0:20:00 ./vgg.g++ [options]
+<a id='L58' name='L58'></a>```
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>GPU:
+<a id='L61' name='L61'></a>------------------
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>* Run on login node.  You cannot run GPU code on the login node, so it's almost pointless
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>```
+<a id='L66' name='L66'></a>$ ./vgg.nvcc [options]
+<a id='L67' name='L67'></a>```
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>* Run on a compute node having GPUs. Do not forget `--gres gpu:1` option
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>```
+<a id='L72' name='L72'></a>$ srun -p p -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+<a id='L73' name='L73'></a>$ srun -p v -t 0:20:00 --gres gpu:1 ./vgg.nvcc [options]
+<a id='L74' name='L74'></a>```
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>Options
+<a id='L77' name='L77'></a>=============
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>Verbosity (-v,--verbose)
+<a id='L80' name='L80'></a>--------------------------
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>Give -v 2 option and you will see the progress more frequently.  You can also know which functions are taking much time.
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>```
+<a id='L85' name='L85'></a>$ ./vgg.g++ -v 2
+<a id='L86' name='L86'></a>70211: open a log Mon Jan  7 09:07:48 2019
+<a id='L87' name='L87'></a>130161: model building starts
+<a id='L88' name='L88'></a>905950653: model building ends
+<a id='L89' name='L89'></a>905992947: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+<a id='L90' name='L90'></a>1406723395: loading data ends
+<a id='L91' name='L91'></a>1406735978: training starts
+<a id='L92' name='L92'></a>1406737797: === train 0 - 64 ===
+<a id='L93' name='L93'></a>1407703007: array4&lt;maxB, OC, H, W&gt;&amp; Convolution2D&lt;maxB, IC, H, W, K, OC&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int IC = 3; int H = 32; int W = 32; int K = 1; int OC = 64]: starts
+<a id='L94' name='L94'></a>1526199843: array4&lt;maxB, OC, H, W&gt;&amp; Convolution2D&lt;maxB, IC, H, W, K, OC&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int IC = 3; int H = 32; int W = 32; int K = 1; int OC = 64]: ends. took 118485686 nsec
+<a id='L95' name='L95'></a>1526217618: array4&lt;maxB, IC, H, W&gt;&amp; BatchNormalization&lt;maxB, IC, H, W&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int IC = 64; int H = 32; int W = 32]: starts
+<a id='L96' name='L96'></a>1544613196: array4&lt;maxB, IC, H, W&gt;&amp; BatchNormalization&lt;maxB, IC, H, W&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int IC = 64; int H = 32; int W = 32]: ends. took 18393112 nsec
+<a id='L97' name='L97'></a>1544630242: array4&lt;maxB, IC, H, W&gt;&amp; Relu&lt;maxB, C, H, W&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: starts
+<a id='L98' name='L98'></a>1547366138: array4&lt;maxB, IC, H, W&gt;&amp; Relu&lt;maxB, C, H, W&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: ends. took 2733413 nsec
+<a id='L99' name='L99'></a>1547384137: array4&lt;maxB, C, W, H&gt;&amp; Dropout&lt;maxB, C, H, W&gt;::forward(array4&lt;maxB, IC, H, W&gt;&amp;) [with int maxB = 64; int C = 64; int H = 32; int W = 32]: starts
+<a id='L100' name='L100'></a>...
+<a id='L101' name='L101'></a>```
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>Execution log (--log)
+<a id='L104' name='L104'></a>--------------------------
+<a id='L105' name='L105'></a>
+<a id='L106' name='L106'></a>Detailed execution records are saved into a file (default: vgg.log).  The file includes everything you will see with -v 2 and more.  You can specify the filename with --log option.  When you execute many instances concurrently, make sure you specify a unique log file to each process.
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>Batch size (-b,--batch_sz)
+<a id='L109' name='L109'></a>--------------------------
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>For training, it repeats taking a number of samples and updating the model parameters (weights) to the direction that decreases the loss (the difference between the model prediction and the true label).  In each iteration, it takes a number of samples specified by --batch_sz (-b).
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>```
+<a id='L114' name='L114'></a>$ ./vgg.g++ -b 1
+<a id='L115' name='L115'></a>  ...
+<a id='L116' name='L116'></a>```
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>This number is called the mini-batch size.  The default is MAX_BATCH_SIZE specified by a compile-time option -DMAX_BATCH_SIZE=N.  For example, "g++ -DMAX_BATCH_SIZE=64 ... vgg.cc" sets the mini-batch size to 64.  A usual value is 64 but you may consider changing it for performance tuning.
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>```
+<a id='L121' name='L121'></a>$ ... (edit the Makefile at the line "flags += -DMAX_BATCH_SIZE=xxx") ...
+<a id='L122' name='L122'></a>$ make
+<a id='L123' name='L123'></a>g++  -O3 -DARRAY_INDEX_CHECK=0 -DMAX_BATCH_SIZE=128 -Wall -Wextra -Wno-strict-overflow -march=native -o vgg.g++ vgg.cc
+<a id='L124' name='L124'></a>```
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a>Note that MAX_BATCH_SIZE affects the memory footprint.  An instance of VGG object holds all intermediate data within the instance and its size is roughly proportional to MAX_BATCH_SIZE.  Note that specifying a small batch size at runtime (via --batch_sz) does not change the size of an instance.
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>The batch size significantly affects the time of a single iteration, especially in an unoptimized baseline code.  The baseline code will take a time proportional to the batch size for a single iteration.
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>For a quick experiment, you will want to make it small (e.g., -b 1).
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>For easier debugging, you may also want to consider compiling the program with -DMAX_BATCH_SIZE=1
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>The number of iterations (-m,--iters)
+<a id='L135' name='L135'></a>--------------------------
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>-m option specifies the number of iterations.  Default 20.
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>For a quick experiment, you will want to make both batch size and iterations small (e.g., -m 1 -b 1).
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>```
+<a id='L142' name='L142'></a>$ ./vgg.g++ -b 1 -m 1
+<a id='L143' name='L143'></a>59257: model building starts
+<a id='L144' name='L144'></a>1067454326: model building ends
+<a id='L145' name='L145'></a>1067490294: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+<a id='L146' name='L146'></a>1507158800: loading data ends
+<a id='L147' name='L147'></a>1507168085: training starts
+<a id='L148' name='L148'></a>1507170300: === train 0 - 1 ===
+<a id='L149' name='L149'></a>2551752614: train loss = 1.770801783
+<a id='L150' name='L150'></a>2551766476: training ends
+<a id='L151' name='L151'></a>```
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>dropout (--dropout 1)
+<a id='L154' name='L154'></a>--------------------------
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>There is a layer called dropout, which randomly turns off (zeros) output of the previous layer (i.e., output_i = 0 with some probability and input_i otherwise).  
+<a id='L157' name='L157'></a>
+<a id='L158' name='L158'></a>Dropout is OFF by default (i.e., output_i = input_i) for the reproducibility of the results.  You may turn it on by giving --dropout 1.
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>Dropout is generally believed to improve generalization.  The reason that dropout is nevertheless off by default is to make the network behavior more predictable/deterministic and to make the convergence for small training data faster.
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>Fix a batch (--single_batch 1)
+<a id='L163' name='L163'></a>--------------------------
+<a id='L164' name='L164'></a>
+<a id='L165' name='L165'></a>During development, you may want to repeat processing the same mini-batch again and again, to make sure that the network is at least adjusting to the particular mini-batch.  Combine this with --dropout 0 (default) and perhaps with a small batch size, like -b 16 or even -b 1).  In those cases the loss should steadily decrease over iterations.  If it does not happen, suspect your bug, particularly in your backward phase.
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>```
+<a id='L168' name='L168'></a>## pick 16 samples and keep using it in every iteration
+<a id='L169' name='L169'></a>$ ./vgg.g++ -b 16 --single_batch 1  
+<a id='L170' name='L170'></a>61817: model building starts
+<a id='L171' name='L171'></a>1069297283: model building ends
+<a id='L172' name='L172'></a>1069327665: loading 9000/1000 training/validation data from cifar-10-batches-bin/data_batch_1.bin starts
+<a id='L173' name='L173'></a>1511663981: loading data ends
+<a id='L174' name='L174'></a>1511674321: training starts
+<a id='L175' name='L175'></a>1511678684: === train 0 - 16 ===
+<a id='L176' name='L176'></a>17625595995: train loss = 2.878649473
+<a id='L177' name='L177'></a>17625609968: === train 16 - 32 ===
+<a id='L178' name='L178'></a>34872185986: train loss = 1.450479388
+<a id='L179' name='L179'></a>34872200747: === train 32 - 48 ===
+<a id='L180' name='L180'></a>52187145425: train loss = 0.543023527
+<a id='L181' name='L181'></a>52187161277: === train 48 - 64 ===
+<a id='L182' name='L182'></a>69594766356: train loss = 0.186343119
+<a id='L183' name='L183'></a>  ...
+<a id='L184' name='L184'></a>```
+<a id='L185' name='L185'></a>
+<a id='L186' name='L186'></a>Data file (-d, --partial_data and --partial_data_seed)
+<a id='L187' name='L187'></a>--------------------------
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a>It reads data from the file specified by --cifar_data (-d) option (default: data/cifar-10-batches-bin/data_batch_1.bin).  The original data can be obtained from https://www.cs.toronto.edu/~kriz/cifar.html (get "CIFAR-10 binary version (suitable for C programs)" or https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz).  It contains 5 datasets and each one has 10000 images.
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>If you want to use only a part of data, you can specify the number of data used by --partial_data option.  --partial_data N randomly chooses N images from the data file.  You can seed the random number generator to choose those images by --partial_data_seed X.  If N is zero, then the whole data set in the file are used.
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>```
+<a id='L194' name='L194'></a>## fix 160 samples and only picking data from there
+<a id='L195' name='L195'></a>$ ./vgg.g++ --partial_data 160
+<a id='L196' name='L196'></a>```
+<a id='L197' name='L197'></a>
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>Data for training and validation (--validate_ratio and --validate_interval)
+<a id='L200' name='L200'></a>--------------------------
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>A portion of data is reserved for validation and not used for training.  The ratio of validation data relative to the data set is specified by --validate_ratio option (default: 0.1).  Note that the number of data you specified with --partial_data N counts both training and validation data.  For example, --partial_data 1000 --validate_ratio 0.1 uses 1000 * 0.1 = 100 images for validation and leaves 900 images for training.
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>Fractions are rounded down.  If the number of validation data becomes zero as a result, the validation won't be performed at all.
+<a id='L205' name='L205'></a>
+<a id='L206' name='L206'></a>It occasionally evaluates the loss against the validation data.  The frequency can be adjusted by --validate_interval option, which specifies the relative number of samples to process for training and that for validation.  For example, if it is set to 5.0 and the number of data for validation is 100, it runs a validation for every 5.0 * 100 = 500 training samples processed.  In other words, --validate_interval x sets the time to run a validation below 1/(1+x) of the total processing time.
+<a id='L207' name='L207'></a>
+<a id='L208' name='L208'></a>Learning rate
+<a id='L209' name='L209'></a>--------------------------
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>In each iteration, the backward phase calculates the gradient of the averaged loss (the average taken over the mini-batch) with respect to all the weights of the network.  The update phase that follows then changes the weights to the opposite direction of the gradient.  Mathematically, we do
+<a id='L212' name='L212'></a>
+<a id='L213' name='L213'></a>    W = W - (η/B) ∂L/∂W
+<a id='L214' name='L214'></a>
+<a id='L215' name='L215'></a>where L is the summation of the loss function over the mini batch and B the batch size (hence 1/B ∂L/∂W represents the gradient of the average loss with respect to weights W).  We multiply it by a constant η, which is called a learning rate.
+<a id='L216' name='L216'></a>
+<a id='L217' name='L217'></a>The reason why the above update will decrease the loss is as follows.  In general, 
+<a id='L218' name='L218'></a>
+<a id='L219' name='L219'></a>    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L220' name='L220'></a>
+<a id='L221' name='L221'></a>holds, where ・ represents the inner product (summation of all component-wise products).
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>So if ΔW is taken as an opposite direction of ∂L/∂W (i.e., ΔW = -η∂L/∂W), then
+<a id='L224' name='L224'></a>
+<a id='L225' name='L225'></a>    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L226' name='L226'></a>               = L(W) + ∂L/∂W ・(-η∂L/∂W)
+<a id='L227' name='L227'></a>               = L(W) -η ∂L/∂W・∂L/∂W
+<a id='L228' name='L228'></a>               &lt; L(W)
+<a id='L229' name='L229'></a>
+<a id='L230' name='L230'></a>The value of learning rate can be specified with --learnrate option.  Default: 1.0e-2
+<a id='L231' name='L231'></a>
+<a id='L232' name='L232'></a>The learning rate does not affect the time of each iteration, but may affect the time until convergence.
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>Since the first-order approximation
+<a id='L235' name='L235'></a>
+<a id='L236' name='L236'></a>    L(W + ΔW) ≒ L(W) + ∂L/∂W・ΔW
+<a id='L237' name='L237'></a>
+<a id='L238' name='L238'></a>holds only for small ΔW, picking a too large η may break the very basic property that an update will decrease the loss.  
+<a id='L239' name='L239'></a>
+<a id='L240' name='L240'></a>On the other hand, the larger the value of η, the "faster" weights move to the opposite direction of the gradient and the faster L(w) decreases.  You may be able to reach the same point with a fewer number of iterations.
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>In summary, choosing the right value for η is important but not necessarily easy.
+<a id='L243' name='L243'></a>
+<a id='L244' name='L244'></a>Since our primary focus in the exercise is on optimizing each stage of computation, we are not concerned about the choice of η too much.  Specifically, our (primary) performance criteria will be the average time to process a single sample.
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>Change seeds
+<a id='L247' name='L247'></a>--------------------------
+<a id='L248' name='L248'></a>
+<a id='L249' name='L249'></a>There are a few places in which the program uses random numbers, namely,
+<a id='L250' name='L250'></a>
+<a id='L251' name='L251'></a> * when it initializes weight parameters,
+<a id='L252' name='L252'></a> * when it initially chooses the subset of data from the input file divides them into into validation and training,
+<a id='L253' name='L253'></a> * when it chooses training samples in each iteration and
+<a id='L254' name='L254'></a> * when it uses which cells to dropout in a dropout layer
+<a id='L255' name='L255'></a> 
+<a id='L256' name='L256'></a>_ALL COMPONENTS BEHAVE DETERMINISTICALLY._  That is, if you repeat executions with the same configuration repeatedly, it starts from the same weight parameters, uses the same data for validation and training, picks up the same training data and drops out the same cells.
+<a id='L257' name='L257'></a>
+<a id='L258' name='L258'></a>Unless your algorithm behave undeterministically, the results should be always the same.  This should help you debug your code.
+<a id='L259' name='L259'></a>
+<a id='L260' name='L260'></a>You can change these things by giving different seeds for each of these random number generators.  Specifically,
+<a id='L261' name='L261'></a>
+<a id='L262' name='L262'></a> * --weight_seeds changes initial weight parameters
+<a id='L263' name='L263'></a> * --partial_data_seed changes which data in the file are used
+<a id='L264' name='L264'></a> * --sample_seed changes which data are picked for training
+<a id='L265' name='L265'></a> * --dropout_seed changes which cells are dropped out
+<a id='L266' name='L266'></a>
+<a id='L267' name='L267'></a>Simply give an arbitrary number to any of them to make sure your algorithm is not sensitive to any of them.
+<a id='L268' name='L268'></a>
+<a id='L269' name='L269'></a>A general remark: when using a pseudo random number for a randomized algorithm such as stochastic gradient descent, _ALWAYS_ give it a seed you chose and make it behave deterministically given the same seed.  This is a tremendous help for debugging.  After you have done initial debugging, you can test your algorithm across different sequences of random numbers just by giving different seeds.  Note that virtually all pseudo random number generators are deterministic after a seed is given.  A random number generator without any seed generates different sequences every time simply because they use different seeds every time; when you do not give it a seed, it simply takes a value from an external source (e.g., the current time) and uses it as a seed.  Nothing else is different.  In this sense, there is almost no point in not giving a seed of your choice (give the current time as a seed if you want to purposefully make it behave differently each time).  Without giving a seed, your algorithm can NEVER behave deterministically, which is a nightmare for debugging and the nightmare is nothing but unnecessary.
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>GPU execution (-a gpu_base)
+<a id='L272' name='L272'></a>--------------------------
+<a id='L273' name='L273'></a>
+<a id='L274' name='L274'></a>The program compiled with nvcc, vgg.nvcc, supports GPU execution and this is the default behavior. vgg.nvcc also supports CPU execution with -a cpu_base option.
+<a id='L275' name='L275'></a>
+<a id='L276' name='L276'></a>```
+<a id='L277' name='L277'></a>$ vgg.nvcc -a cpu_base  # (1) baseline code on CPU 
+<a id='L278' name='L278'></a>$ vgg.nvcc -a gpu_base  # (2) baseline code on GPU 
+<a id='L279' name='L279'></a>$ vgg.nvcc              # (3) same as (2)
+<a id='L280' name='L280'></a>$ vgg.g++  -a cpu_base  # (4) baseline code on CPU 
+<a id='L281' name='L281'></a>$ vgg.g++  -a gpu_base  # (5) error
+<a id='L282' name='L282'></a>$ vgg.g++               # (6) same as (4)
+<a id='L283' name='L283'></a>```
+<a id='L284' name='L284'></a>
+<a id='L285' name='L285'></a>Note that baseline code is neither vectorized nor parallelized.  In particular, it uses only a single CUDA thread on GPU (!)
+<a id='L286' name='L286'></a>
+<a id='L287' name='L287'></a>Algorithm choice (-a)
+<a id='L288' name='L288'></a>--------------------------
+<a id='L289' name='L289'></a>
+<a id='L290' name='L290'></a>The -a option described above is an option that chooses an algorithm from available repertories.  In the given code, only baseline algorithms for GPU and CPU are implemented.  You will add your implementation as another available choice here.
+<a id='L291' name='L291'></a>
+<a id='L292' name='L292'></a>
+<a id='L293' name='L293'></a>Controlled experiments
+<a id='L294' name='L294'></a>--------------------------
+<a id='L295' name='L295'></a>
+<a id='L296' name='L296'></a>After you did a bit of work, you want to make sure you got it done right.  Especially, you may be afraid that you broke a function.  To make sure the network is still functioning, you might want to do a small and controlled experiment.
+<a id='L297' name='L297'></a>
+<a id='L298' name='L298'></a>You probably want to start with something like this.
+<a id='L299' name='L299'></a>
+<a id='L300' name='L300'></a>```
+<a id='L301' name='L301'></a>$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
+<a id='L302' name='L302'></a>```
+<a id='L303' name='L303'></a>
+<a id='L304' name='L304'></a>(Note: --dropout 0 is the default, so you actually do not have to give it explicitly)
+<a id='L305' name='L305'></a>
+<a id='L306' name='L306'></a>They together (1) turn off dropout to avoid fluctuating losses across iterations due to the changing network (--dropout 0), (2) process the same mini-batch at every iteration to avoid fluctuating losses due to different data in different iterations, and (3) make the mini-batch size extremely small (1, in this particular case) to have a quick turn around time.
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>Here is a sample output.  With the default value of learning rate (1.0e-2), the loss seems decreasing quickly (perhaps so quickly that the remaining iterations are useless).
+<a id='L309' name='L309'></a>
+<a id='L310' name='L310'></a>```
+<a id='L311' name='L311'></a>$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1
+<a id='L312' name='L312'></a>=== train 0 - 1 ===
+<a id='L313' name='L313'></a>train loss = 2.064959049
+<a id='L314' name='L314'></a>=== train 1 - 2 ===
+<a id='L315' name='L315'></a>train loss = 0.002221737
+<a id='L316' name='L316'></a>=== train 2 - 3 ===
+<a id='L317' name='L317'></a>train loss = 0.002113967
+<a id='L318' name='L318'></a>=== train 3 - 4 ===
+<a id='L319' name='L319'></a>train loss = 0.002022009
+<a id='L320' name='L320'></a>=== train 4 - 5 ===
+<a id='L321' name='L321'></a>train loss = 0.001938014
+<a id='L322' name='L322'></a>=== train 5 - 6 ===
+<a id='L323' name='L323'></a>train loss = 0.001864006
+<a id='L324' name='L324'></a>=== train 6 - 7 ===
+<a id='L325' name='L325'></a>train loss = 0.001799989
+<a id='L326' name='L326'></a>=== train 7 - 8 ===
+<a id='L327' name='L327'></a>train loss = 0.001746916
+<a id='L328' name='L328'></a>  ...
+<a id='L329' name='L329'></a>```
+<a id='L330' name='L330'></a>
+<a id='L331' name='L331'></a>Remember that this will repeat processing only a single sample and the "train loss" refers to the loss against this particular sample.  If the loss does not decrease, you are very likely to have introduced a bug in your gradient calculation (backward) or somewhere else.
+<a id='L332' name='L332'></a>
+<a id='L333' name='L333'></a>You may play with small learning rates to see that it will keep decreasing for a larger number of iterations.
+<a id='L334' name='L334'></a>
+<a id='L335' name='L335'></a>```
+<a id='L336' name='L336'></a>$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1 --learnrate 1.0e-3
+<a id='L337' name='L337'></a>=== train 0 - 1 ===
+<a id='L338' name='L338'></a>train loss = 2.064959049
+<a id='L339' name='L339'></a>=== train 1 - 2 ===
+<a id='L340' name='L340'></a>train loss = 0.937229633
+<a id='L341' name='L341'></a>=== train 2 - 3 ===
+<a id='L342' name='L342'></a>train loss = 0.503207982
+<a id='L343' name='L343'></a>=== train 3 - 4 ===
+<a id='L344' name='L344'></a>train loss = 0.290159106
+<a id='L345' name='L345'></a>=== train 4 - 5 ===
+<a id='L346' name='L346'></a>train loss = 0.209925532
+<a id='L347' name='L347'></a>=== train 5 - 6 ===
+<a id='L348' name='L348'></a>train loss = 0.163231462
+<a id='L349' name='L349'></a>  ...
+<a id='L350' name='L350'></a>```
+<a id='L351' name='L351'></a>
+<a id='L352' name='L352'></a>How you interpret the loss?
+<a id='L353' name='L353'></a>==========================
+<a id='L354' name='L354'></a>
+<a id='L355' name='L355'></a>If you are curious what the value of the loss actually means, here it is.  In the final stage of the network, it ends up with a vector of 10 components (the number of classes) for each image, each component of which represents the probability that the model thinks the image belongs to a particular class.  This 10 elements vector, say p, is then compared with the true label (class) for it.  If the true class of that image is c, then the loss for this particular image is 
+<a id='L356' name='L356'></a>
+<a id='L357' name='L357'></a>   -log(p[c])
+<a id='L358' name='L358'></a>
+<a id='L359' name='L359'></a>where p[c] is the probability that the model says the image belongs to the true class c.
+<a id='L360' name='L360'></a>
+<a id='L361' name='L361'></a>Therefore, if the network is a random guess that returns 1/10 for every class, the average loss for an image is
+<a id='L362' name='L362'></a>
+<a id='L363' name='L363'></a>   -log(1/10) = 2.3025850...
+<a id='L364' name='L364'></a>
+<a id='L365' name='L365'></a>which is just about what you observe in the first iteration.
+<a id='L366' name='L366'></a>
+<a id='L367' name='L367'></a>The loss becomes zero if the network says the probability is 1 for the correct class and 0 for all other classes.  But as far as the classification performance  is concerned, the network outputs a correct class as long as the probability for the true class is larger than for any other class.  A sufficient condition for this is p[c] &gt; 0.5, as it guarantees that p[c] is maximum among p[0], ..., p[9], whose sum is one.  When p[c] = 0.5, the loss would be 
+<a id='L368' name='L368'></a>
+<a id='L369' name='L369'></a>   -log(1/2) = 0.69314...
+<a id='L370' name='L370'></a>
+<a id='L371' name='L371'></a>Performance criteria and the regulation
+<a id='L372' name='L372'></a>==========================
+<a id='L373' name='L373'></a>
+<a id='L374' name='L374'></a>The ultimate goal for training is to get a good classification performance (accuracy) as fast as possible.  So, ideally, our performance criteria should be the time until you meet a certain accuracy (or conversly, the achieved accuracy in a given amount of time).  It is a bit challenging to define a good regulation along this line, because meeting any meaningful accuracy would take a large amount of time (at least until you get a very high performance code) that makes your experiments very time consuming.  Accuracy also depends on many heuristics such as learning rate or how you update weights, which are orthogonal to the main objective of our study (making a given computation fast).  To simplify your goal and make the amount of time for experiments shorter, we set our performance criteria and the regulation as follows.
+<a id='L375' name='L375'></a>
+<a id='L376' name='L376'></a> * The performance criteria is the number of trained samples per second.  For example, if you train the network with 256 images in 50 seconds, your score will be 256/50 = 5.12 samples/sec.  Your goal is simply to maximize this number.
+<a id='L377' name='L377'></a> * Relevant data for measuring performance are taken from lines reporting the progress of training in the execution log.
+<a id='L378' name='L378'></a> * For example, the following log
+<a id='L379' name='L379'></a>
+<a id='L380' name='L380'></a>```
+<a id='L381' name='L381'></a>815859250: === train 0 - 64 ===    (the first line of this form)
+<a id='L382' name='L382'></a>
+<a id='L383' name='L383'></a>
+<a id='L384' name='L384'></a>
+<a id='L385' name='L385'></a>  ...
+<a id='L386' name='L386'></a>
+<a id='L387' name='L387'></a>
+<a id='L388' name='L388'></a>
+<a id='L389' name='L389'></a>1186702243923: === train 1216 - 1280 ===  (the last line of this form)
+<a id='L390' name='L390'></a>
+<a id='L391' name='L391'></a>  ...
+<a id='L392' name='L392'></a>
+<a id='L393' name='L393'></a>1245300919526: train loss = 2.518893003   (the last line of this form)
+<a id='L394' name='L394'></a>```
+<a id='L395' name='L395'></a>
+<a id='L396' name='L396'></a>indicates the traing started at time 815859250 and ended at time 1245300919526 (times are shown in nano seconds) and it processed 1280 images.  The score is then 1280 / (1245.300919526 - 0.815859250) = 1.02853 images/sec.
+<a id='L397' name='L397'></a> * In order to get a good throughput with vectorization and/or parallelization, you almost certainly want to process many images at a time (a fairly large batch size).  Try to play with it.
+<a id='L398' name='L398'></a> * While the number of images per second is the goal, following constraints are imposed to preclude meaningless optimizations
+<a id='L399' name='L399'></a>  - You can use only a subset of the dataset (otherwise the training may take too much time until you get a noticeabl improvement on the loss), but your data must have at least 64 images for training
+<a id='L400' name='L400'></a>  - When you report the result, your network must achieve the average a loss &lt;= 1.0 for at least the images used for training.  The easiest setting is to use only 64 images for training, like this.
+<a id='L401' name='L401'></a>```
+<a id='L402' name='L402'></a>./vgg.g++ --partial_data 64 --validate_ratio 0
+<a id='L403' name='L403'></a>```
+<a id='L404' name='L404'></a>  - The baseline code should achieve a training loss = 0.851912320 after 4 iterations (256 images have been processed) and took about 4 minutes on my laptop.  Your code should achieve a similar loss in a similar setting unless you somehow break it.  It should be much faster, of course.
+<a id='L405' name='L405'></a>
+<a id='L406' name='L406'></a>Remarks: The setting (of achieving loss = 0.85.. for the same 64 images used for training) is not very meaningful as a machine learning task.  First, it achieves good classification performance only for data used for training and not for validation data.  If you check the network against a validation data, the loss is still very large, so clearly the mission has not been accomplished.  Having a large gap between training data and validation data means the network may be over-fitting.  Second, the dataset is obviously too small to be meaningful.  We nevertheless allow such settings to make a single experiment finish quickly and make it still possible to observe that the loss is decreasing (so you got the job done correctly).  Having a more stringent condition, e.g., achieve a similar loss for validation data, would make the training time much longer.
+<a id='L407' name='L407'></a>
+<a id='L408' name='L408'></a>Guide for development
+<a id='L409' name='L409'></a>==========================
+<a id='L410' name='L410'></a>
+<a id='L411' name='L411'></a>Source code structure
+<a id='L412' name='L412'></a>--------------------------
+<a id='L413' name='L413'></a>
+<a id='L414' name='L414'></a> * vgg.cc -- the main file
+<a id='L415' name='L415'></a> * include/
+<a id='L416' name='L416'></a>
+<a id='L417' name='L417'></a>  (nuts and bolts)
+<a id='L418' name='L418'></a>
+<a id='L419' name='L419'></a>  - vgg_util.h  -- trivial utilities
+<a id='L420' name='L420'></a>  - cuda_util.h -- helpers for CUDA
+<a id='L421' name='L421'></a>  - vgg_arrays.h -- vectors, matrix and multidimensional tensors
+<a id='L422' name='L422'></a>  - cifar.h -- data loader
+<a id='L423' name='L423'></a>
+<a id='L424' name='L424'></a>  (primitive layers)
+<a id='L425' name='L425'></a>
+<a id='L426' name='L426'></a>  - convolution.h -- convolution
+<a id='L427' name='L427'></a>  - batchnormalization.h -- batch normalization
+<a id='L428' name='L428'></a>  - relu.h -- rectified linear activation
+<a id='L429' name='L429'></a>  - dropout.h -- dropout
+<a id='L430' name='L430'></a>  - linear.h -- linear (or fully connected) layer
+<a id='L431' name='L431'></a>  - maxpooling.h -- max pooling
+<a id='L432' name='L432'></a>  - softmaxcrossentropy.h -- softmax + cross entropy
+<a id='L433' name='L433'></a>
+<a id='L434' name='L434'></a>  (composite layers)
+<a id='L435' name='L435'></a>
+<a id='L436' name='L436'></a>  - block.h -- convolution; batch normalization; relu
+<a id='L437' name='L437'></a>  - vgg.h -- the entire VGG
+<a id='L438' name='L438'></a>
+<a id='L439' name='L439'></a>The main function in vgg.cc instantiates a VGG network, which is defined in vgg.h.
+<a id='L440' name='L440'></a>It repeats processing training data, occasionally processing validation data.
+<a id='L441' name='L441'></a>
+<a id='L442' name='L442'></a>Each layer defines a class whose name is similar to the file name.  e.g., convolution.h defines Convolution2D class.
+<a id='L443' name='L443'></a>
+<a id='L444' name='L444'></a>All classes for primitive and composite layers have two important functions, among others.
+<a id='L445' name='L445'></a> * forward -- take an input from the previous (downstream) layer and computes its output
+<a id='L446' name='L446'></a> * backward -- take a gradient of loss wrt the upstream layer and computes the gradient wrt its input and weights
+<a id='L447' name='L447'></a>
+<a id='L448' name='L448'></a>In addition, classes that have parameters (convolution, linear and batchnormalization) have another function.
+<a id='L449' name='L449'></a>
+<a id='L450' name='L450'></a> * update -- take a learning rate parameter and update its weights, using the gradient computed in the backward phase.
+<a id='L451' name='L451'></a>
+<a id='L452' name='L452'></a>**********************************************************************************
+<a id='L453' name='L453'></a>YOUR MAIN JOB WILL BE TO IMPLEMENT A HIGH PERFORMANCE VERSION OF THESE FUNCTIONS.
+<a id='L454' name='L454'></a>**********************************************************************************
+<a id='L455' name='L455'></a>
+<a id='L456' name='L456'></a>You eventually want to work on all seven files (convolution.h, batchnormalization.h, relu.h, dropout.h, linear.h, maxpooling.h, softmaxcrossentropy.h) but you can work incrementally.  You can make one layer faster while leaving all others intact.  You can know which functions are taking much time by -v 2 option.
+<a id='L457' name='L457'></a>
+<a id='L458' name='L458'></a>Stepping through the code using gdb (or cuda-gdb)
+<a id='L459' name='L459'></a>--------------------------
+<a id='L460' name='L460'></a>
+<a id='L461' name='L461'></a>When working on details, you want to step through the code using gdb (or cuda-gdb to step through GPU code).  They also help you get an idea about how things work.  For that, compile the code with -O0 -g.  Also add -Xptxas -O0 if you compile with nvcc.
+<a id='L462' name='L462'></a>
+<a id='L463' name='L463'></a>The structure of the baseline implementations (and switching between different algorithms)
+<a id='L464' name='L464'></a>--------------------------
+<a id='L465' name='L465'></a>
+<a id='L466' name='L466'></a>As I mentioned above, functions you will primarily be working on are forward and backward functions on the seven classes and update functions for the three classes.  Each of them has a structure to switch between GPU code and CPU code (currently, a single execution can run either entirely on CPU or entirely on GPU; you cannot have some layers executed by CPU and others on GPU in the same execution).  Let's look at the forward function of Convolution class, for example.
+<a id='L467' name='L467'></a>
+<a id='L468' name='L468'></a>The member function named "forward" is the entry point of the forwarding phase.  It only executes a switch statement to decide which implementation to use (cpu or gpu in the baseline code).
+<a id='L469' name='L469'></a>
+<a id='L470' name='L470'></a>```
+<a id='L471' name='L471'></a>  array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L472' name='L472'></a>    if (opt.verbose&gt;=2) { print_start(); }
+<a id='L473' name='L473'></a>    tsc_t t0 = get_tsc();
+<a id='L474' name='L474'></a>    switch (opt.algo) {
+<a id='L475' name='L475'></a>      /* add case for your implementations here */
+<a id='L476' name='L476'></a>    case algo_cpu_base:
+<a id='L477' name='L477'></a>      forward_cpu(x); break;
+<a id='L478' name='L478'></a>#if __NVCC__
+<a id='L479' name='L479'></a>    case algo_gpu_base:
+<a id='L480' name='L480'></a>      forward_gpu(x); break;
+<a id='L481' name='L481'></a>#endif
+<a id='L482' name='L482'></a>    default:
+<a id='L483' name='L483'></a>      if (opt.gpu_algo) {
+<a id='L484' name='L484'></a>#if __NVCC__
+<a id='L485' name='L485'></a>        forward_gpu(x);
+<a id='L486' name='L486'></a>#else
+<a id='L487' name='L487'></a>        err_gpu_algo_no_gpu(opt.algo_s);
+<a id='L488' name='L488'></a>#endif
+<a id='L489' name='L489'></a>      } else {
+<a id='L490' name='L490'></a>        forward_cpu(x);
+<a id='L491' name='L491'></a>      }        
+<a id='L492' name='L492'></a>    }
+<a id='L493' name='L493'></a>    tsc_t t1 = get_tsc();
+<a id='L494' name='L494'></a>    if (opt.verbose&gt;=2) { print_end(t0, t1); }
+<a id='L495' name='L495'></a>    return y;
+<a id='L496' name='L496'></a>  }
+<a id='L497' name='L497'></a>```
+<a id='L498' name='L498'></a>
+<a id='L499' name='L499'></a>Depending on the algorithm chosen at the command line (-a option), it calls either forward_cpu or forward_gpu.  The former simply calls another function, forward_base, which does the real job.
+<a id='L500' name='L500'></a>
+<a id='L501' name='L501'></a>```
+<a id='L502' name='L502'></a>  void forward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L503' name='L503'></a>    forward_base(x);
+<a id='L504' name='L504'></a>  }
+<a id='L505' name='L505'></a>```
+<a id='L506' name='L506'></a>
+<a id='L507' name='L507'></a>The latter calls into a GPU code.  Since nvcc does not allow a class member function to be a global function (a GPU function callable from a host), we need to define a global function outside the class (forward_global), which then calls back a member function (forward_dev).  This is the baseline implementation of forward_gpu.
+<a id='L508' name='L508'></a>
+<a id='L509' name='L509'></a>```
+<a id='L510' name='L510'></a>  void forward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L511' name='L511'></a>    launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));
+<a id='L512' name='L512'></a>  }
+<a id='L513' name='L513'></a>```
+<a id='L514' name='L514'></a>
+<a id='L515' name='L515'></a>The global function, forward_global, is defined outside the class as follows.  Note that it launches only a single CUDA-thread, something you definitely want to do differently in your high performance version.
+<a id='L516' name='L516'></a>
+<a id='L517' name='L517'></a>```
+<a id='L518' name='L518'></a>template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;
+<a id='L519' name='L519'></a>__global__ void forward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,
+<a id='L520' name='L520'></a>                               array4&lt;maxB,IC,H,W&gt;* x_dev) {
+<a id='L521' name='L521'></a>  dev-&gt;forward_dev(*x_dev);
+<a id='L522' name='L522'></a>}
+<a id='L523' name='L523'></a>```
+<a id='L524' name='L524'></a>
+<a id='L525' name='L525'></a>The member function forward_dev actually calls the same forward_base function that does the real job.
+<a id='L526' name='L526'></a>
+<a id='L527' name='L527'></a>```
+<a id='L528' name='L528'></a>  __device__ __host__ 
+<a id='L529' name='L529'></a>  void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L530' name='L530'></a>    ... do the real job ...
+<a id='L531' name='L531'></a>  }
+<a id='L532' name='L532'></a>```
+<a id='L533' name='L533'></a>
+<a id='L534' name='L534'></a>This same pattern appears for backward and update too.  In this way, the baseline code shares the same piece of code between CPU and GPU.  The trick makes sense only for the baseline code.  In your high performance implementations, you are probably going to have separate pieces of code for CPU and GPU anyways.
+<a id='L535' name='L535'></a>
+<a id='L536' name='L536'></a>How to add your implementation
+<a id='L537' name='L537'></a>--------------------------
+<a id='L538' name='L538'></a>
+<a id='L539' name='L539'></a>Here is how you change the code when working on a new implementation.  As already mentioned, there are two implementations already in place, cpu_base and gpu_base.
+<a id='L540' name='L540'></a>
+<a id='L541' name='L541'></a>Before starting the real work, there are some work for preparation.
+<a id='L542' name='L542'></a>
+<a id='L543' name='L543'></a> * Come up with a name of the new implementation.  Let's say it is cpu_ultra_fast (in reality, you want to have a name that better represents what it does, like cpu_simd).
+<a id='L544' name='L544'></a>
+<a id='L545' name='L545'></a> * Add a new symbol to the enum algo_t defined in vgg_util.h
+<a id='L546' name='L546'></a>``` 
+<a id='L547' name='L547'></a>typedef enum {
+<a id='L548' name='L548'></a>  algo_cpu_base,
+<a id='L549' name='L549'></a>  algo_gpu_base,
+<a id='L550' name='L550'></a>  /* add your new algorithm here (name it arbitrarily) */
+<a id='L551' name='L551'></a>
+<a id='L552' name='L552'></a>  algo_cpu_ultra_fast, &lt;----  YOU ADD THIS
+<a id='L553' name='L553'></a>
+<a id='L554' name='L554'></a>  algo_invalid,
+<a id='L555' name='L555'></a>} algo_t;
+<a id='L556' name='L556'></a>```
+<a id='L557' name='L557'></a>
+<a id='L558' name='L558'></a> * Change the parse_algo function right below it so that it recognizes the new name.  Obviously, the baseline code recognizes only "cpu_base" and "gpu_base".  You simply add an appropriate "else if" branch to handle your name.
+<a id='L559' name='L559'></a>
+<a id='L560' name='L560'></a>```
+<a id='L561' name='L561'></a>algo_t parse_algo(const char * s) {
+<a id='L562' name='L562'></a>  if (strcmp(s, "cpu_base") == 0) {
+<a id='L563' name='L563'></a>    return algo_cpu_base;
+<a id='L564' name='L564'></a>  } else if (strcmp(s, "gpu_base") == 0) {
+<a id='L565' name='L565'></a>    return algo_gpu_base;
+<a id='L566' name='L566'></a>  } else if (strcmp(s, "cpu_ultra_fast") == 0) {  &lt;---- YOU ADD THIS
+<a id='L567' name='L567'></a>    return algo_cpu_ultra_fast;                   &lt;---- YOU ADD THIS
+<a id='L568' name='L568'></a>  } else {
+<a id='L569' name='L569'></a>    return algo_invalid;
+<a id='L570' name='L570'></a>  }
+<a id='L571' name='L571'></a>}
+<a id='L572' name='L572'></a>```
+<a id='L573' name='L573'></a>
+<a id='L574' name='L574'></a> * You might also need to change the function algo_is_gpu so that the program correctly recognizes whether it is a CPU algorithm or a GPU algorithm.  By default, it simply assumes all and only names starting with "gpu" are GPU algorithms.  You need to change this only when your algorithm name does not conform to this convention (e.g., a GPU algorithm named "v100_only").  It will be a good idea to stick to the convention rather than modifying this function.
+<a id='L575' name='L575'></a>
+<a id='L576' name='L576'></a>```
+<a id='L577' name='L577'></a>int algo_is_gpu(const char * s, algo_t a) {
+<a id='L578' name='L578'></a>  (void)a;
+<a id='L579' name='L579'></a>  if (strncmp(s, "gpu", 3) == 0) {
+<a id='L580' name='L580'></a>    return 1;
+<a id='L581' name='L581'></a>  } else { 
+<a id='L582' name='L582'></a>    return 0;
+<a id='L583' name='L583'></a>  }
+<a id='L584' name='L584'></a>}
+<a id='L585' name='L585'></a>```
+<a id='L586' name='L586'></a>
+<a id='L587' name='L587'></a>At this point, the program at least recognizes your algorithm and calls GPU base code or CPU base code depending on your algorithm is a GPU algorithm or not (judged by algo_is_gpu function above).  Recall that the switch statement falls back to forward_gpu or forward_cpu when the switch statement does not have a specific case for your algorithm.
+<a id='L588' name='L588'></a>
+<a id='L589' name='L589'></a>Now you are ready to add a real implementation.  Thanks to the structure just mentioned, you can do so incrementally (you do not have to implement all functions to get your version used).  To start off, let's say you want to implement a forward function of Convolution2D class.  The first thing you need to do is to add an appropriate case in the switch statement.
+<a id='L590' name='L590'></a>
+<a id='L591' name='L591'></a>```
+<a id='L592' name='L592'></a>  array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L593' name='L593'></a>    if (opt.verbose&gt;=2) { print_start(); }
+<a id='L594' name='L594'></a>    tsc_t t0 = get_tsc();
+<a id='L595' name='L595'></a>    switch (opt.algo) {
+<a id='L596' name='L596'></a>      /* add case for your implementations here */
+<a id='L597' name='L597'></a>    case algo_cpu_ultra_fast:
+<a id='L598' name='L598'></a>      forward_cpu_ultra_fast(x); break;
+<a id='L599' name='L599'></a>
+<a id='L600' name='L600'></a>      ...
+<a id='L601' name='L601'></a>    }
+<a id='L602' name='L602'></a>    tsc_t t1 = get_tsc();
+<a id='L603' name='L603'></a>    if (opt.verbose&gt;=2) { print_end(t0, t1); }
+<a id='L604' name='L604'></a>    return y;
+<a id='L605' name='L605'></a>  }
+<a id='L606' name='L606'></a>```
+<a id='L607' name='L607'></a>
+<a id='L608' name='L608'></a>Your real job is, of course, to implement forward_cpu_ultra_fast function.  Use SIMD, OpenMP or whatever is necessary to make it faster.  You probably start by copy-pasting the forward_base implementation.
+<a id='L609' name='L609'></a>
+<a id='L610' name='L610'></a>If you work on GPU implementation, you need to implement two functions.  Let's say your algorithm name is gpu_ultra_fast.  After adding another case in the switch statement like this
+<a id='L611' name='L611'></a>
+<a id='L612' name='L612'></a>```
+<a id='L613' name='L613'></a>    case algo_gpu_ultra_fast:
+<a id='L614' name='L614'></a>      forward_gpu_ultra_fast(x); break;
+<a id='L615' name='L615'></a>```
+<a id='L616' name='L616'></a>
+<a id='L617' name='L617'></a>your forward_gpu_ultra_fast function will launch a global function with a more sensible value of the thread block size.
+<a id='L618' name='L618'></a>
+<a id='L619' name='L619'></a>```
+<a id='L620' name='L620'></a>  void forward_gpu_ultra_fast(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L621' name='L621'></a>    int block_sz = ...;
+<a id='L622' name='L622'></a>    int num_blocks = ...;
+<a id='L623' name='L623'></a>    launch_and_sync((forward_ultra_fast_global&lt;&lt;&lt;num_blocks,block_sz&gt;&gt;&gt;(dev, x.dev)));
+<a id='L624' name='L624'></a>  }
+<a id='L625' name='L625'></a>```
+<a id='L626' name='L626'></a>
+<a id='L627' name='L627'></a>Next you define forward_ultra_fast_global function outside the class, near the beginning of the file.  This will be a boilerplate code.
+<a id='L628' name='L628'></a>
+<a id='L629' name='L629'></a>```
+<a id='L630' name='L630'></a>template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;
+<a id='L631' name='L631'></a>__global__ void forward_ultra_fast_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,
+<a id='L632' name='L632'></a>                                          array4&lt;maxB,IC,H,W&gt;* x_dev) {
+<a id='L633' name='L633'></a>  dev-&gt;forward_ultra_fast_dev(*x_dev);
+<a id='L634' name='L634'></a>}
+<a id='L635' name='L635'></a>```
+<a id='L636' name='L636'></a>
+<a id='L637' name='L637'></a>Finally, you define forward_ultra_fast_dev member function, which does the real job.
+<a id='L638' name='L638'></a>
+<a id='L639' name='L639'></a>In forward_base function that is supposed to do a real job, you compute the output and put them in the 'y' variable, which is already defined for you as a member field.  This convention is used throughout the program.  All classes have a member field named 'y' to which you should put the results.  
+<a id='L640' name='L640'></a>
+<a id='L641' name='L641'></a>```
+<a id='L642' name='L642'></a>  __device__ __host__ 
+<a id='L643' name='L643'></a>  void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {
+<a id='L644' name='L644'></a>    idx_t B = x.B;
+<a id='L645' name='L645'></a>    y.set_n_rows(B);
+<a id='L646' name='L646'></a>    ...
+<a id='L647' name='L647'></a>    for (idx_t b = 0; b &lt; B; b++) {       // samples
+<a id='L648' name='L648'></a>      ...
+<a id='L649' name='L649'></a>         ...
+<a id='L650' name='L650'></a>            y(b,oc,i,j) = s;
+<a id='L651' name='L651'></a>         ...
+<a id='L652' name='L652'></a>      ...
+<a id='L653' name='L653'></a>    }
+<a id='L654' name='L654'></a>  }
+<a id='L655' name='L655'></a>```
+<a id='L656' name='L656'></a>
+<a id='L657' name='L657'></a>Similarly, a backward implementation is supposed to put the results into another member variable named 'gx' (∂L/∂x, gradients with respect to x) and 'gw' if the layer has weights.
+<a id='L658' name='L658'></a>
+<a id='L659' name='L659'></a>There is one thing to note here.  The input typically is an array (single- or multi-dimensional) whose primary (leftmost) index refers to a particular sample in a mini-batch.  In the above example, x is a four dimensional array and thus has a type array4&lt;maxB,IC,H,W&gt;&amp;. maxB is a _compile time_ constant you specified by -DMAX_BATCH_SIZE=xxx.  _The actual number of samples in this array may be smaller and is passed via a field variable of the input._  You have to process only the actual number of samples passed in the array.
+<a id='L660' name='L660'></a>
+<a id='L661' name='L661'></a>In this example, x.B has the actual number of rows in the array.  Thus,
+<a id='L662' name='L662'></a> * the outermost loop iterates x.B number of times rather than maxB times.
+<a id='L663' name='L663'></a>```
+<a id='L664' name='L664'></a>    idx_t B = x.B;
+<a id='L665' name='L665'></a>     ...
+<a id='L666' name='L666'></a>    for (idx_t b = 0; b &lt; B; b++) {       // samples
+<a id='L667' name='L667'></a>```
+<a id='L668' name='L668'></a> * it also sets the actual number of rows in the output y, by doing
+<a id='L669' name='L669'></a>```
+<a id='L670' name='L670'></a>    idx_t B = x.B;
+<a id='L671' name='L671'></a>    y.set_n_rows(B);
+<a id='L672' name='L672'></a>```
+<a id='L673' name='L673'></a>
+<a id='L674' name='L674'></a>Debugging a layer
+<a id='L675' name='L675'></a>--------------------------
+<a id='L676' name='L676'></a>
+<a id='L677' name='L677'></a>After you change implementation of a layer you will want to make sure you got it right.  It may not happen immediately, however.  Several mechanisms are in place to help you debug them efficiently.
+<a id='L678' name='L678'></a>
+<a id='L679' name='L679'></a>Catching basic coding errors
+<a id='L680' name='L680'></a>--------------------------
+<a id='L681' name='L681'></a>
+<a id='L682' name='L682'></a>First, after you change an implementation of a layer, make sure you turn a compile-time option -DARRAY_INDEX_CHECK=1 on.  This will check array index every time you access an element of a vector, matrix or tensor.  It will catch obvious errors such as looping with wrong bounds or indexing arrays with wrong variables.
+<a id='L683' name='L683'></a>
+<a id='L684' name='L684'></a>```
+<a id='L685' name='L685'></a>$ g++ ... -DARRAY_INDEX_CHECK=1 ... -o vgg.g++ vgg.cc
+<a id='L686' name='L686'></a>```
+<a id='L687' name='L687'></a>
+<a id='L688' name='L688'></a>Catching logical (mathematics) errors
+<a id='L689' name='L689'></a>--------------------------
+<a id='L690' name='L690'></a>
+<a id='L691' name='L691'></a>After you have a code that at least is not caught by array indexing errors, you now want to check if the code really does the job.  The first command line you want to test your code with is this.
+<a id='L692' name='L692'></a>
+<a id='L693' name='L693'></a>```
+<a id='L694' name='L694'></a>$ ./vgg.gcc --dropout 0 --single_batch 1 -b 1 -a name_of_your_algorithm
+<a id='L695' name='L695'></a>```
+<a id='L696' name='L696'></a>
+<a id='L697' name='L697'></a>Like I introduced already, this processes only a single sample repeatedly, without any dropout that would introduce different behaviors between iterations.  The error thus should steadily decrease over iterations, in almost exactly the same pace with the baseline implementation.  Try different learning rate (--learnrate 1.0e-3, 1.0e-4, etc.) and confirm they behave very similarly for each one.
+<a id='L698' name='L698'></a>
+<a id='L699' name='L699'></a>Remember that both are doing exactly the same computation.  There is a randomness in how it chooses samples, but _it is deterministic_ as I already mentioned; the sample picked should be the same unless you change the seed of the random number generator (by --sample_seed).  Were there any difference between the two implementations, it should indicate that your algorithm outputs results different from the other implementation for the same input.  If the difference is slight, it may be indicating that the two has different rounding errors for computing mathematically equivalent expressions.  In particular, summing up many numbers in a different order affect rounding errors very much.  When you parallelize or vectorize your code, you almost certainly change the order in which numbers are accumulated.  Therefore, a slight difference in the loss may not be worth looking into.
+<a id='L700' name='L700'></a>
+<a id='L701' name='L701'></a>If you observe a significant change, you need to shoot down where you introduce a bug, for which you will want to debug a single layer at a time.
+<a id='L702' name='L702'></a>
+<a id='L703' name='L703'></a>Each layer is implemented in a single header file.
+<a id='L704' name='L704'></a>
+<a id='L705' name='L705'></a> * batchnormalization.h
+<a id='L706' name='L706'></a> * convolution.h
+<a id='L707' name='L707'></a> * dropout.h
+<a id='L708' name='L708'></a> * linear.h
+<a id='L709' name='L709'></a> * maxpooling.h
+<a id='L710' name='L710'></a> * relu.h
+<a id='L711' name='L711'></a> * softmaxcrossentropy.h
+<a id='L712' name='L712'></a>
+<a id='L713' name='L713'></a>Each header file actually contains an entry point function so that it can compile and run alone.  For example, convolution.h has a function convolution_main that runs only a convolution.  Therefore, if you include this file from any C++ file and compile it with -Dconvolution_main=main, you get an executable that only runs that layer.
+<a id='L714' name='L714'></a>
+<a id='L715' name='L715'></a>Indeed,
+<a id='L716' name='L716'></a>
+<a id='L717' name='L717'></a>```
+<a id='L718' name='L718'></a>$ cd include
+<a id='L719' name='L719'></a>$ make
+<a id='L720' name='L720'></a>```
+<a id='L721' name='L721'></a>
+<a id='L722' name='L722'></a>builds all such executables.  You will obtain batchnormalization.{float,double}.{g++,nvcc}, etc.
+<a id='L723' name='L723'></a>
+<a id='L724' name='L724'></a>The entry point function checks if the gradients obtained by forward/backward computation indeed approximate the change of the output value.  Specifically, let's say we have a layer implementing a function F(W, X).  We check if the following approximation holds.
+<a id='L725' name='L725'></a>
+<a id='L726' name='L726'></a>    F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) ≒ ∂F/∂W・ΔW + ∂F/∂X・ΔX
+<a id='L727' name='L727'></a>
+<a id='L728' name='L728'></a>(There are many layers that do not have weight parameters.  For such layers, we simply check if F(X + ΔX/2) - F(X - ΔX/2) ≒ ∂F/∂X・ΔX holds).
+<a id='L729' name='L729'></a>
+<a id='L730' name='L730'></a>In implementation terms, we
+<a id='L731' name='L731'></a>
+<a id='L732' name='L732'></a> * generate inputs (X) and weights (W) randomly
+<a id='L733' name='L733'></a> * generate small changes to inputs (ΔX) and weights (ΔW) randomly
+<a id='L734' name='L734'></a> * perform forward and backward computation to obtain ∂F/∂W and ∂F/∂X and thus to obtain ∂F/∂W・ΔW + ∂F/∂X・ΔX
+<a id='L735' name='L735'></a> * apply changes to X and W to obtain X±ΔX and W±ΔW
+<a id='L736' name='L736'></a> * perform forward computation on both of them, to obtain F(W + ΔW/2, X + ΔX/2) and F(W - ΔW/2, X - ΔX/2)
+<a id='L737' name='L737'></a> * compare F(W + ΔW/2, X + ΔX/2) and F(W - ΔW/2, X - ΔX/2) and ∂F/∂W・ΔW + ∂F/∂X・ΔX and report their relative difference.  The relative difference between A and B is |A-B|/max(|A|,|B|)
+<a id='L738' name='L738'></a>
+<a id='L739' name='L739'></a>Here is an output of the linear layer.
+<a id='L740' name='L740'></a>
+<a id='L741' name='L741'></a>```
+<a id='L742' name='L742'></a>$ ./linear.float.g++ -b 1
+<a id='L743' name='L743'></a>==== 0 ====
+<a id='L744' name='L744'></a>|∂L/∂x|   = 2.067968130
+<a id='L745' name='L745'></a>|dx|      = 0.001285600
+<a id='L746' name='L746'></a>∂L/∂x・dx = -0.000187458
+<a id='L747' name='L747'></a>|∂L/∂w|   = 27.588932037
+<a id='L748' name='L748'></a>|dw|      = 0.004125366
+<a id='L749' name='L749'></a>∂L/∂w・dw = 0.000541298
+<a id='L750' name='L750'></a>L- = -0.982513964
+<a id='L751' name='L751'></a>L  = -0.982336760
+<a id='L752' name='L752'></a>L+ = -0.982159197
+<a id='L753' name='L753'></a>A = ∂L/∂x・dx + ∂L/∂w・dw = 0.000353840
+<a id='L754' name='L754'></a>B = ΔL = 0.000354767
+<a id='L755' name='L755'></a>relative error = |A-B|/max(|A|,|B|) = 0.002611878
+<a id='L756' name='L756'></a>==== 1 ====
+<a id='L757' name='L757'></a>|∂L/∂x|   = 2.037896156
+<a id='L758' name='L758'></a>|dx|      = 0.001299710
+<a id='L759' name='L759'></a>    ...
+<a id='L760' name='L760'></a>
+<a id='L761' name='L761'></a>
+<a id='L762' name='L762'></a>max relative error = 0.009731923
+<a id='L763' name='L763'></a>avg relative error = 0.001512904
+<a id='L764' name='L764'></a>```
+<a id='L765' name='L765'></a>
+<a id='L766' name='L766'></a>In the end of the execution, it reports that the maximum and average relative errors are 0.009731923 and 0.001512904, respectively.
+<a id='L767' name='L767'></a>
+<a id='L768' name='L768'></a>Note that linear layer implements a linear function, for which an equation
+<a id='L769' name='L769'></a>
+<a id='L770' name='L770'></a>    F(W + ΔW/2, X + ΔX/2) - F(W - ΔW/2, X - ΔX/2) = ∂F/∂W・ΔW + ∂F/∂X・ΔX
+<a id='L771' name='L771'></a>
+<a id='L772' name='L772'></a>should strictly hold if all elementary computations are done without rounding errors.  Any error should be due to rounding errors, which should be small if you are not accumulating too many numbers of numbers of significantly different magnitudes.
+<a id='L773' name='L773'></a>
+<a id='L774' name='L774'></a>If the reported relative error is small enough, it means that moving the weights to the opposite direction of the computed gradient should decrease the loss function, which is the very purpose of the optimization process.  As long as this holds, you do not have be concerned too much about the difference to the baseline code, which has its own rounding errors.  
+<a id='L775' name='L775'></a>
+<a id='L776' name='L776'></a>How small is small enough?  It actually depends on layers and the type of floating point numbers.  Especially when using a single precision floating point numbers (executables *.float.*} do so), rounding errors easily become significant.  Average relative errors of 10% or even 30% do not necessarily indicate a bug.  Double precision numbers are much less prone to rounding errors.  For the purpose of checking if your code faithfully computes what it should compute, consider testing the double-precision version of it (*.double.*), which should report tiny relative errors.  Here are tables summarizing the maximum/average errors for a single sample.
+<a id='L777' name='L777'></a>
+<a id='L778' name='L778'></a>| layer             | max (SP)    | avg (SP)    | max (DP)    | max (DB)    |
+<a id='L779' name='L779'></a>| ------------------|:-----------:|:-----------:|:-----------:|:-----------:|
+<a id='L780' name='L780'></a>|batchnormalization | 0.321599394 | 0.047267061 | 0.000000012 | 0.000000001 |
+<a id='L781' name='L781'></a>|convolution        | 0.005766520 | 0.001314429 | 0.000000000 | 0.000000000 |
+<a id='L782' name='L782'></a>|dropout            | 0.927670479 | 0.083410397 | 0.000000003 | 0.000000000 |
+<a id='L783' name='L783'></a>|linear             | 0.009731923 | 0.001512904 | 0.000000000 | 0.000000000 |
+<a id='L784' name='L784'></a>|maxpooling         | 1.918741345 | 0.126148313 | 1.013361927 | 0.052107410 |
+<a id='L785' name='L785'></a>|relu               | 0.170680821 | 0.019997066 | 0.136701009 | 0.014832921 |
+<a id='L786' name='L786'></a>|softmaxcrossentropy| 0.034060795 | 0.007438810 | 0.000000000 | 0.000000000 |
+<a id='L787' name='L787'></a>
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+787 README.md'  /> */</em>
+</body>
+</html>

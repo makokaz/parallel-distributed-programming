@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vgg_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/477.html#L582'>vgg_minus</a>         582 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_minus = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L621'>vgg_minus</a>         621 include/vgg.h    vgg_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L622'>vgg_minus</a>         622 include/vgg.h    vgg_plus-&gt;set_grad(*vgg_minus);</span>
+<span class='curline'><a href='../S/477.html#L624'>vgg_minus</a>         624 include/vgg.h    vgg_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/477.html#L627'>vgg_minus</a>         627 include/vgg.h    vgg_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/477.html#L630'>vgg_minus</a>         630 include/vgg.h    vec&lt;maxB&gt;&amp; y_minus = vgg_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/477.html#L645'>vgg_minus</a>         645 include/vgg.h    real dw_dw = vgg_minus-&gt;gw_dot_gw(*vgg_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/477.html#L646'>vgg_minus</a>         646 include/vgg.h    real gw_dw = vgg-&gt;gw_dot_gw(*vgg_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/477.html#L651'>vgg_minus</a>         651 include/vgg.h    vgg_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/477.html#L660'>vgg_minus</a>         660 include/vgg.h    delete vgg_minus;</span>
+</pre>
+</body>
+</html>

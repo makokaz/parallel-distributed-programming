@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>H6</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/477.html#L88'>H6</a>                 88 include/vgg.h    static const idx_t H6 = H5/S, /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L90'>H6</a>                 90 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L92'>H6</a>                 92 include/vgg.h    BatchNormalization&lt;maxB,C4,H6,W6&gt; bn_fc1;     /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L93'>H6</a>                 93 include/vgg.h    Relu              &lt;maxB,C4,H6,W6&gt; relu;       /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L94'>H6</a>                 94 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_2; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L107'>H6</a>                107 include/vgg.h      assert(H6 == 1);</span>
+<span class='curline'><a href='../S/477.html#L351'>H6</a>                351 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x26 = max_pooling_2d5.forward(x25);</span>
+<span class='curline'><a href='../S/477.html#L353'>H6</a>                353 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x27 = dropout6_1.forward(x26);</span>
+<span class='curline'><a href='../S/477.html#L354'>H6</a>                354 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x28 = fc1.forward(x27);</span>
+<span class='curline'><a href='../S/477.html#L355'>H6</a>                355 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x29 = bn_fc1.forward(x28);</span>
+<span class='curline'><a href='../S/477.html#L356'>H6</a>                356 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x30 = relu.forward(x29);</span>
+<span class='curline'><a href='../S/477.html#L357'>H6</a>                357 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x31 = dropout6_2.forward(x30);</span>
+<span class='curline'><a href='../S/477.html#L358'>H6</a>                358 include/vgg.h      array4&lt;maxB,nC,H6,W6&gt;&amp; x32 = fc2.forward(x31);</span>
+<span class='curline'><a href='../S/477.html#L375'>H6</a>                375 include/vgg.h      array4&lt;maxB,nC,H6,W6&gt;&amp; g32 = softmax_cross_entropy.backward(gy);</span>
+<span class='curline'><a href='../S/477.html#L376'>H6</a>                376 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g31 = fc2.backward(g32);</span>
+<span class='curline'><a href='../S/477.html#L377'>H6</a>                377 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g30 = dropout6_2.backward(g31);</span>
+<span class='curline'><a href='../S/477.html#L378'>H6</a>                378 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g29 = relu.backward(g30);</span>
+<span class='curline'><a href='../S/477.html#L379'>H6</a>                379 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g28 = bn_fc1.backward(g29);</span>
+<span class='curline'><a href='../S/477.html#L380'>H6</a>                380 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g27 = fc1.backward(g28);</span>
+<span class='curline'><a href='../S/477.html#L381'>H6</a>                381 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g26 = dropout6_1.backward(g27);</span>
+</pre>
+</body>
+</html>

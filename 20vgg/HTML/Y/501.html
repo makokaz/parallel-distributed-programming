@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>y</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L84'>y</a>                  84 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; y;        /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/478.html#L126'>y</a>                 126 include/batchnormalization.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/478.html#L351'>y</a>                 351 include/batchnormalization.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L360'>y</a>                 360 include/batchnormalization.h               y(b,ic,i,j) = gamma(ic) * x_hat(b,ic,i,j) + beta(ic);</span>
+<span class='curline'><a href='../S/478.html#L370'>y</a>                 370 include/batchnormalization.h               y(b,ic,i,j) = x(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L444'>y</a>                 444 include/batchnormalization.h     return y;</span>
+<span class='curline'><a href='../S/478.html#L653'>y</a>                 653 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y = bn-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/478.html#L691'>y</a>                 691 include/batchnormalization.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/482.html#L162'>y</a>                 162 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp;  y = relu.forward(x2);</span>
+<span class='curline'><a href='../S/482.html#L163'>y</a>                 163 include/block.h     return y;</span>
+<span class='curline'><a href='../S/482.html#L258'>y</a>                 258 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y = block-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/482.html#L296'>y</a>                 296 include/block.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/473.html#L85'>y</a>                  85 include/convolution.h   array4&lt;maxB,OC,H,W&gt; y;           /**&lt; y = forward(x) */</span>
+<span class='curline'><a href='../S/473.html#L122'>y</a>                 122 include/convolution.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/473.html#L287'>y</a>                 287 include/convolution.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/473.html#L302'>y</a>                 302 include/convolution.h             y(b,oc,i,j) = s;</span>
+<span class='curline'><a href='../S/473.html#L375'>y</a>                 375 include/convolution.h     return y;</span>
+<span class='curline'><a href='../S/473.html#L578'>y</a>                 578 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y = conv-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/473.html#L616'>y</a>                 616 include/convolution.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/476.html#L132'>y</a>                 132 include/cuda_util.h   return blockDim.y * blockIdx.y + threadIdx.y;</span>
+<span class='curline'><a href='../S/476.html#L153'>y</a>                 153 include/cuda_util.h   return gridDim.y * blockDim.y;</span>
+<span class='curline'><a href='../S/476.html#L168'>y</a>                 168 include/cuda_util.h   int y = get_thread_id_y();</span>
+<span class='curline'><a href='../S/476.html#L172'>y</a>                 172 include/cuda_util.h   return nx * ny * z + nx * y + x;</span>
+<span class='curline'><a href='../S/468.html#L67'>y</a>                  67 include/dropout.h   array4&lt;maxB,C,H,W&gt; y;         /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/468.html#L107'>y</a>                 107 include/dropout.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/468.html#L186'>y</a>                 186 include/dropout.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/468.html#L197'>y</a>                 197 include/dropout.h               y(b,c,i,j) = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L199'>y</a>                 199 include/dropout.h               y(b,c,i,j) = x(b,c,i,j) * scale;</span>
+<span class='curline'><a href='../S/468.html#L273'>y</a>                 273 include/dropout.h     return y;</span>
+<span class='curline'><a href='../S/468.html#L424'>y</a>                 424 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; y = dropout-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/468.html#L454'>y</a>                 454 include/dropout.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/479.html#L77'>y</a>                  77 include/linear.h   array4&lt;maxB,nC,1,1&gt; y;        /**&lt; output of the forward  */</span>
+<span class='curline'><a href='../S/479.html#L114'>y</a>                 114 include/linear.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/479.html#L279'>y</a>                 279 include/linear.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/479.html#L288'>y</a>                 288 include/linear.h         y(b,c,0,0) = s;</span>
+<span class='curline'><a href='../S/479.html#L359'>y</a>                 359 include/linear.h     return y;</span>
+<span class='curline'><a href='../S/479.html#L540'>y</a>                 540 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y = linear-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/479.html#L578'>y</a>                 578 include/linear.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/474.html#L69'>y</a>                  69 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; y;     /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/474.html#L103'>y</a>                 103 include/maxpooling.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/474.html#L183'>y</a>                 183 include/maxpooling.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/474.html#L199'>y</a>                 199 include/maxpooling.h             y(b,c,i,j) = s;</span>
+<span class='curline'><a href='../S/474.html#L273'>y</a>                 273 include/maxpooling.h     return y;</span>
+<span class='curline'><a href='../S/474.html#L426'>y</a>                 426 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y = mp-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/474.html#L456'>y</a>                 456 include/maxpooling.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/471.html#L67'>y</a>                  67 include/relu.h   array4&lt;maxB,C,H,W&gt; y;         /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/471.html#L100'>y</a>                 100 include/relu.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/471.html#L179'>y</a>                 179 include/relu.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/471.html#L185'>y</a>                 185 include/relu.h             y(b,c,i,j) = max_r(0, x(b,c,i,j));</span>
+<span class='curline'><a href='../S/471.html#L258'>y</a>                 258 include/relu.h     return y;</span>
+<span class='curline'><a href='../S/471.html#L403'>y</a>                 403 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y = relu-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/471.html#L432'>y</a>                 432 include/relu.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/480.html#L70'>y</a>                  70 include/softmaxcrossentropy.h   vec&lt;maxB&gt; y;                  /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/480.html#L104'>y</a>                 104 include/softmaxcrossentropy.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/480.html#L221'>y</a>                 221 include/softmaxcrossentropy.h     y.set_n(B);</span>
+<span class='curline'><a href='../S/480.html#L226'>y</a>                 226 include/softmaxcrossentropy.h       y(b) = -lsm(b,t(b));</span>
+<span class='curline'><a href='../S/480.html#L300'>y</a>                 300 include/softmaxcrossentropy.h     return y;</span>
+<span class='curline'><a href='../S/480.html#L450'>y</a>                 450 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y = smxe-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/480.html#L480'>y</a>                 480 include/softmaxcrossentropy.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/477.html#L359'>y</a>                 359 include/vgg.h      vec&lt;maxB&gt;&amp; y = softmax_cross_entropy.forward(x32, t);</span>
+<span class='curline'><a href='../S/477.html#L360'>y</a>                 360 include/vgg.h      return y;</span>
+<span class='curline'><a href='../S/477.html#L453'>y</a>                 453 include/vgg.h      vec&lt;maxB&gt;&amp; y = forward(x, t);</span>
+<span class='curline'><a href='../S/477.html#L463'>y</a>                 463 include/vgg.h      y.to_host();</span>
+<span class='curline'><a href='../S/477.html#L464'>y</a>                 464 include/vgg.h      real L = gy.dot(y);</span>
+<span class='curline'><a href='../S/477.html#L600'>y</a>                 600 include/vgg.h    vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/477.html#L638'>y</a>                 638 include/vgg.h    real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/481.html#L182'>y</a>                 182 include/vgg_arrays.h   real dot(vec&lt;N&gt;&amp; y) {</span>
+<span class='curline'><a href='../S/481.html#L184'>y</a>                 184 include/vgg_arrays.h     assert(x.n == y.n);</span>
+<span class='curline'><a href='../S/481.html#L187'>y</a>                 187 include/vgg_arrays.h       s += x(i) * y(i);</span>
+<span class='curline'><a href='../S/475.html#L501'>y</a>                 501 include/vgg_util.h   void seed(uint64_t y) {</span>
+<span class='curline'><a href='../S/475.html#L502'>y</a>                 502 include/vgg_util.h     x = y;</span>
+<span class='curline'><a href='../S/466.html#L46'>y</a>                  46 vgg.cc               vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(vgg-&gt;x, vgg-&gt;t);</span>
+<span class='curline'><a href='../S/466.html#L47'>y</a>                  47 vgg.cc               y.to_host();</span>
+<span class='curline'><a href='../S/466.html#L48'>y</a>                  48 vgg.cc               Lsum += y.sum();</span>
+</pre>
+</body>
+</html>

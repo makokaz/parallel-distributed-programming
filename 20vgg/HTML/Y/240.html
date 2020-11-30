@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>gw</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/473.html#L86'>gw</a>                 86 include/convolution.h   warray4&lt;OC,IC,K,K&gt; gw;           /**&lt; ∂L/∂w */</span>
+<span class='curline'><a href='../S/473.html#L123'>gw</a>                123 include/convolution.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/473.html#L201'>gw</a>                201 include/convolution.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/473.html#L406'>gw</a>                406 include/convolution.h             gw(oc,ic,i_,j_) = s;</span>
+<span class='curline'><a href='../S/473.html#L517'>gw</a>                517 include/convolution.h     gw.init_uniform(rg, p, q);</span>
+<span class='curline'><a href='../S/473.html#L525'>gw</a>                525 include/convolution.h     gw = o.gw;</span>
+<span class='curline'><a href='../S/473.html#L534'>gw</a>                534 include/convolution.h     return gw.dot(o.gw);</span>
+<span class='curline'><a href='../S/479.html#L78'>gw</a>                 78 include/linear.h   array2&lt;IC,nC&gt; gw;             /**&lt; gradient of loss wrt to w */</span>
+<span class='curline'><a href='../S/479.html#L115'>gw</a>                115 include/linear.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/479.html#L193'>gw</a>                193 include/linear.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/479.html#L376'>gw</a>                376 include/linear.h     gw.set_n_rows(IC);</span>
+<span class='curline'><a href='../S/479.html#L385'>gw</a>                385 include/linear.h         gw(ic,c) = s;</span>
+<span class='curline'><a href='../S/479.html#L479'>gw</a>                479 include/linear.h     gw.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/479.html#L487'>gw</a>                487 include/linear.h     gw = o.gw;</span>
+<span class='curline'><a href='../S/479.html#L496'>gw</a>                496 include/linear.h     return gw.dot(o.gw);</span>
+<span class='curline'><a href='../S/477.html#L548'>gw</a>                548 include/vgg.h      s += a.fc1.gw.dot(b.fc1.gw);</span>
+<span class='curline'><a href='../S/477.html#L550'>gw</a>                550 include/vgg.h      s += a.fc2.gw.dot(b.fc2.gw);</span>
+</pre>
+</body>
+</html>

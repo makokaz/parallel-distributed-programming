@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>S</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/474.html#L11'>S</a>                  11 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L22'>S</a>                  22 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L23'>S</a>                  23 include/maxpooling.h   __global__ void forward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L36'>S</a>                  36 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L37'>S</a>                  37 include/maxpooling.h   __global__ void backward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L38'>S</a>                  38 include/maxpooling.h                                   array4&lt;maxB,C,H/S,W/S&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/474.html#L62'>S</a>                  62 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L65'>S</a>                  65 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev; /**&lt; device shadow  */</span>
+<span class='curline'><a href='../S/474.html#L69'>S</a>                  69 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; y;     /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/474.html#L70'>S</a>                  70 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; max_idx; /**&lt; the index that gave the maximum of each output pixel */</span>
+<span class='curline'><a href='../S/474.html#L86'>S</a>                  86 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* copy() {</span>
+<span class='curline'><a href='../S/474.html#L87'>S</a>                  87 include/maxpooling.h     MaxPooling2D&lt;maxB,C,H,W,S&gt;* c = new MaxPooling2D&lt;maxB,C,H,W,S&gt;(*this);</span>
+<span class='curline'><a href='../S/474.html#L100'>S</a>                 100 include/maxpooling.h   void set_dev(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev) {</span>
+<span class='curline'><a href='../S/474.html#L120'>S</a>                 120 include/maxpooling.h       dev = (MaxPooling2D&lt;maxB,C,H,W,S&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/474.html#L162'>S</a>                 162 include/maxpooling.h       MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/474.html#L187'>S</a>                 187 include/maxpooling.h         for (idx_t i = 0; i &lt; H/S; i++) {</span>
+<span class='curline'><a href='../S/474.html#L188'>S</a>                 188 include/maxpooling.h           for (idx_t j = 0; j &lt; W/S; j++) {</span>
+<span class='curline'><a href='../S/474.html#L189'>S</a>                 189 include/maxpooling.h             real s = x(b,c,S*i,S*j);</span>
+<span class='curline'><a href='../S/474.html#L190'>S</a>                 190 include/maxpooling.h             idx_t idx = W * S * i  + S * j;</span>
+<span class='curline'><a href='../S/474.html#L191'>S</a>                 191 include/maxpooling.h             for (idx_t i_ = S * i; i_ &lt; S * (i + 1); i_++) {</span>
+<span class='curline'><a href='../S/474.html#L192'>S</a>                 192 include/maxpooling.h               for (idx_t j_ = S * j; j_ &lt; S * (j + 1); j_++) {</span>
+<span class='curline'><a href='../S/474.html#L249'>S</a>                 249 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L288'>S</a>                 288 include/maxpooling.h   void backward_base(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L293'>S</a>                 293 include/maxpooling.h         for (idx_t i = 0; i &lt; H/S; i++) {</span>
+<span class='curline'><a href='../S/474.html#L294'>S</a>                 294 include/maxpooling.h           for (idx_t j = 0; j &lt; W/S; j++) {</span>
+<span class='curline'><a href='../S/474.html#L295'>S</a>                 295 include/maxpooling.h             for (idx_t i_ = S * i; i_ &lt; S * (i + 1); i_++) {</span>
+<span class='curline'><a href='../S/474.html#L296'>S</a>                 296 include/maxpooling.h               for (idx_t j_ = S * j; j_ &lt; S * (j + 1); j_++) {</span>
+<span class='curline'><a href='../S/474.html#L320'>S</a>                 320 include/maxpooling.h   void backward_dev(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L332'>S</a>                 332 include/maxpooling.h   void backward_gpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L343'>S</a>                 343 include/maxpooling.h   void backward_cpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L357'>S</a>                 357 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L404'>S</a>                 404 include/maxpooling.h template&lt;idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S&gt;</span>
+<span class='curline'><a href='../S/474.html#L407'>S</a>                 407 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp = new MaxPooling2D&lt;maxB,C,H,W,S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L413'>S</a>                 413 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_minus = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/474.html#L414'>S</a>                 414 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_plus  = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/474.html#L416'>S</a>                 416 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; * alpha = new array4&lt;maxB,C,H/S,W/S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L426'>S</a>                 426 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y = mp-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/474.html#L448'>S</a>                 448 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_minus = mp_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/474.html#L449'>S</a>                 449 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_plus  = mp_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/474.html#L507'>S</a>                 507 include/maxpooling.h   const idx_t S = 2;</span>
+<span class='curline'><a href='../S/474.html#L520'>S</a>                 520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L26'>S</a>                  26 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L29'>S</a>                  29 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/477.html#L44'>S</a>                  44 include/vgg.h    MaxPooling2D&lt;maxB,C1,H1,W1,S&gt;    max_pooling_2d1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L46'>S</a>                  46 include/vgg.h    static const idx_t H2 = H/S,  /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L47'>S</a>                  47 include/vgg.h      W2 = W/S,                   /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L48'>S</a>                  48 include/vgg.h      C2 = S*C1;                  /**&lt; intermediate channels */</span>
+<span class='curline'><a href='../S/477.html#L53'>S</a>                  53 include/vgg.h    MaxPooling2D&lt;maxB,C2,H2,W2,S&gt;    max_pooling_2d2; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L55'>S</a>                  55 include/vgg.h    static const idx_t H3 = H2/S, /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L56'>S</a>                  56 include/vgg.h      W3 = W2/S,                  /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L57'>S</a>                  57 include/vgg.h      C3 = S*C2;                  /**&lt; intermediate channels */</span>
+<span class='curline'><a href='../S/477.html#L64'>S</a>                  64 include/vgg.h    MaxPooling2D&lt;maxB,C3,H3,W3,S&gt;    max_pooling_2d3; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L66'>S</a>                  66 include/vgg.h    static const idx_t H4 = H3/S, /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L67'>S</a>                  67 include/vgg.h      W4 = W3/S,                  /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L68'>S</a>                  68 include/vgg.h      C4 = S*C3;                  /**&lt; intermediate channels */</span>
+<span class='curline'><a href='../S/477.html#L75'>S</a>                  75 include/vgg.h    MaxPooling2D&lt;maxB,C4,H4,W4,S&gt;    max_pooling_2d4; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L77'>S</a>                  77 include/vgg.h    static const idx_t H5 = H4/S, /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L78'>S</a>                  78 include/vgg.h      W5 = W4/S;                  /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L85'>S</a>                  85 include/vgg.h    MaxPooling2D&lt;maxB,C4,H5,W5,S&gt;    max_pooling_2d5; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L88'>S</a>                  88 include/vgg.h    static const idx_t H6 = H5/S, /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L89'>S</a>                  89 include/vgg.h      W6 = W5/S;                  /**&lt; intermediate image size */</span>
+<span class='curline'><a href='../S/477.html#L160'>S</a>                 160 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/477.html#L161'>S</a>                 161 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* c = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/477.html#L174'>S</a>                 174 include/vgg.h    void set_dev(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/477.html#L234'>S</a>                 234 include/vgg.h        dev = (VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/477.html#L277'>S</a>                 277 include/vgg.h        VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/477.html#L503'>S</a>                 503 include/vgg.h    void set_grad(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/477.html#L532'>S</a>                 532 include/vgg.h    real gw_dot_gw(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/477.html#L533'>S</a>                 533 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/477.html#L574'>S</a>                 574 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L577'>S</a>                 577 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/477.html#L582'>S</a>                 582 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_minus = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L583'>S</a>                 583 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_plus  = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L690'>S</a>                 690 include/vgg.h    const int S = 2;</span>
+<span class='curline'><a href='../S/477.html#L705'>S</a>                 705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/466.html#L13'>S</a>                  13 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L14'>S</a>                  14 vgg.cc         static real train(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L35'>S</a>                  35 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L36'>S</a>                  36 vgg.cc         static real validate(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L89'>S</a>                  89 vgg.cc           const idx_t S  = 2;        /**&lt; max pooling stride HxW -&gt; H/SxW/S */</span>
+<span class='curline'><a href='../S/466.html#L101'>S</a>                 101 vgg.cc           VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+</pre>
+</body>
+</html>

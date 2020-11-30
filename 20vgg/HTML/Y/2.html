@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>B</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L289'>B</a>                 289 include/batchnormalization.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/478.html#L294'>B</a>                 294 include/batchnormalization.h       for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L301'>B</a>                 301 include/batchnormalization.h       mean(ic) = s / (B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L317'>B</a>                 317 include/batchnormalization.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/478.html#L319'>B</a>                 319 include/batchnormalization.h     const real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L323'>B</a>                 323 include/batchnormalization.h       for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L349'>B</a>                 349 include/batchnormalization.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/478.html#L350'>B</a>                 350 include/batchnormalization.h     x_hat.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L351'>B</a>                 351 include/batchnormalization.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L352'>B</a>                 352 include/batchnormalization.h     if (B * H * W &gt; 1) {</span>
+<span class='curline'><a href='../S/478.html#L355'>B</a>                 355 include/batchnormalization.h       for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L366'>B</a>                 366 include/batchnormalization.h       for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L460'>B</a>                 460 include/batchnormalization.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/478.html#L461'>B</a>                 461 include/batchnormalization.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L464'>B</a>                 464 include/batchnormalization.h     if (B * H * W &gt; 1) {</span>
+<span class='curline'><a href='../S/478.html#L467'>B</a>                 467 include/batchnormalization.h         for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L478'>B</a>                 478 include/batchnormalization.h       real l_BHW = 1 / (real)(B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L483'>B</a>                 483 include/batchnormalization.h         for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L492'>B</a>                 492 include/batchnormalization.h       for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/478.html#L633'>B</a>                 633 include/batchnormalization.h   static real batchnormalization_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/478.html#L645'>B</a>                 645 include/batchnormalization.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L650'>B</a>                 650 include/batchnormalization.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L661'>B</a>                 661 include/batchnormalization.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/478.html#L736'>B</a>                 736 include/batchnormalization.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/478.html#L752'>B</a>                 752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L238'>B</a>                 238 include/block.h   static real block_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/482.html#L250'>B</a>                 250 include/block.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/482.html#L255'>B</a>                 255 include/block.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/482.html#L266'>B</a>                 266 include/block.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L343'>B</a>                 343 include/block.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/482.html#L361'>B</a>                 361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/469.html#L284'>B</a>                 284 include/cifar.h   int get_data_train(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t B) {</span>
+<span class='curline'><a href='../S/469.html#L285'>B</a>                 285 include/cifar.h     assert(B &lt;= maxB);</span>
+<span class='curline'><a href='../S/469.html#L286'>B</a>                 286 include/cifar.h     x.set_n_rows(B);</span>
+<span class='curline'><a href='../S/469.html#L287'>B</a>                 287 include/cifar.h     t.set_n(B);</span>
+<span class='curline'><a href='../S/469.html#L288'>B</a>                 288 include/cifar.h     idxs.set_n(B);</span>
+<span class='curline'><a href='../S/469.html#L289'>B</a>                 289 include/cifar.h     for (long b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/469.html#L315'>B</a>                 315 include/cifar.h     idx_t B = to - from;</span>
+<span class='curline'><a href='../S/469.html#L316'>B</a>                 316 include/cifar.h     assert(B &lt;= maxB);</span>
+<span class='curline'><a href='../S/469.html#L317'>B</a>                 317 include/cifar.h     x.set_n_rows(B);</span>
+<span class='curline'><a href='../S/469.html#L318'>B</a>                 318 include/cifar.h     t.set_n(B);</span>
+<span class='curline'><a href='../S/469.html#L319'>B</a>                 319 include/cifar.h     idxs.set_n(B);</span>
+<span class='curline'><a href='../S/469.html#L320'>B</a>                 320 include/cifar.h     for (long b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/469.html#L347'>B</a>                 347 include/cifar.h   const idx_t B = opt.batch_sz;</span>
+<span class='curline'><a href='../S/469.html#L363'>B</a>                 363 include/cifar.h   x.init_const(B, 0);</span>
+<span class='curline'><a href='../S/469.html#L364'>B</a>                 364 include/cifar.h   t.init_const(B, 0);</span>
+<span class='curline'><a href='../S/469.html#L365'>B</a>                 365 include/cifar.h   idxs.init_const(B, 0);</span>
+<span class='curline'><a href='../S/473.html#L286'>B</a>                 286 include/convolution.h     idx_t B = x.B;</span>
+<span class='curline'><a href='../S/473.html#L287'>B</a>                 287 include/convolution.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/473.html#L289'>B</a>                 289 include/convolution.h     for (idx_t b = 0; b &lt; B; b++) {       // samples</span>
+<span class='curline'><a href='../S/473.html#L391'>B</a>                 391 include/convolution.h     idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/473.html#L392'>B</a>                 392 include/convolution.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/473.html#L399'>B</a>                 399 include/convolution.h             for (idx_t b = 0; b &lt; B; b++) { // samples</span>
+<span class='curline'><a href='../S/473.html#L411'>B</a>                 411 include/convolution.h     for (idx_t b = 0; b &lt; B; b++) { // samples</span>
+<span class='curline'><a href='../S/473.html#L558'>B</a>                 558 include/convolution.h   static real convolution_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/473.html#L570'>B</a>                 570 include/convolution.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/473.html#L575'>B</a>                 575 include/convolution.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/473.html#L586'>B</a>                 586 include/convolution.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L664'>B</a>                 664 include/convolution.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/473.html#L682'>B</a>                 682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L185'>B</a>                 185 include/dropout.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/468.html#L186'>B</a>                 186 include/dropout.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/468.html#L192'>B</a>                 192 include/dropout.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/468.html#L289'>B</a>                 289 include/dropout.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/468.html#L290'>B</a>                 290 include/dropout.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/468.html#L293'>B</a>                 293 include/dropout.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/468.html#L403'>B</a>                 403 include/dropout.h   static real dropout_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/468.html#L416'>B</a>                 416 include/dropout.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/468.html#L421'>B</a>                 421 include/dropout.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/468.html#L431'>B</a>                 431 include/dropout.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/468.html#L501'>B</a>                 501 include/dropout.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/468.html#L517'>B</a>                 517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L278'>B</a>                 278 include/linear.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/479.html#L279'>B</a>                 279 include/linear.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/479.html#L282'>B</a>                 282 include/linear.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/479.html#L375'>B</a>                 375 include/linear.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/479.html#L377'>B</a>                 377 include/linear.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/479.html#L382'>B</a>                 382 include/linear.h         for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/479.html#L388'>B</a>                 388 include/linear.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/479.html#L520'>B</a>                 520 include/linear.h   real linear_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/479.html#L532'>B</a>                 532 include/linear.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/479.html#L537'>B</a>                 537 include/linear.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/479.html#L548'>B</a>                 548 include/linear.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L625'>B</a>                 625 include/linear.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/479.html#L640'>B</a>                 640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L182'>B</a>                 182 include/maxpooling.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/474.html#L183'>B</a>                 183 include/maxpooling.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/474.html#L184'>B</a>                 184 include/maxpooling.h     max_idx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/474.html#L185'>B</a>                 185 include/maxpooling.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/474.html#L289'>B</a>                 289 include/maxpooling.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/474.html#L290'>B</a>                 290 include/maxpooling.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/474.html#L291'>B</a>                 291 include/maxpooling.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/474.html#L405'>B</a>                 405 include/maxpooling.h   real maxpooling_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/474.html#L418'>B</a>                 418 include/maxpooling.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/474.html#L423'>B</a>                 423 include/maxpooling.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/474.html#L433'>B</a>                 433 include/maxpooling.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/474.html#L503'>B</a>                 503 include/maxpooling.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/474.html#L520'>B</a>                 520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L178'>B</a>                 178 include/relu.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/471.html#L179'>B</a>                 179 include/relu.h     y.set_n_rows(B);</span>
+<span class='curline'><a href='../S/471.html#L181'>B</a>                 181 include/relu.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/471.html#L274'>B</a>                 274 include/relu.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/471.html#L275'>B</a>                 275 include/relu.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/471.html#L277'>B</a>                 277 include/relu.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/471.html#L383'>B</a>                 383 include/relu.h   static real relu_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/471.html#L395'>B</a>                 395 include/relu.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/471.html#L400'>B</a>                 400 include/relu.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/471.html#L409'>B</a>                 409 include/relu.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/471.html#L479'>B</a>                 479 include/relu.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/471.html#L495'>B</a>                 495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/480.html#L187'>B</a>                 187 include/softmaxcrossentropy.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/480.html#L188'>B</a>                 188 include/softmaxcrossentropy.h     for (long b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/480.html#L219'>B</a>                 219 include/softmaxcrossentropy.h     const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/480.html#L220'>B</a>                 220 include/softmaxcrossentropy.h     lsm.set_n_rows(B);</span>
+<span class='curline'><a href='../S/480.html#L221'>B</a>                 221 include/softmaxcrossentropy.h     y.set_n(B);</span>
+<span class='curline'><a href='../S/480.html#L225'>B</a>                 225 include/softmaxcrossentropy.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/480.html#L316'>B</a>                 316 include/softmaxcrossentropy.h     const idx_t B = gy.n;</span>
+<span class='curline'><a href='../S/480.html#L317'>B</a>                 317 include/softmaxcrossentropy.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/480.html#L319'>B</a>                 319 include/softmaxcrossentropy.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/480.html#L425'>B</a>                 425 include/softmaxcrossentropy.h   static real softmaxcrossentropy_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/480.html#L437'>B</a>                 437 include/softmaxcrossentropy.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/480.html#L442'>B</a>                 442 include/softmaxcrossentropy.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/480.html#L447'>B</a>                 447 include/softmaxcrossentropy.h   t-&gt;init_uniform(B, rg, 0, nC);</span>
+<span class='curline'><a href='../S/480.html#L457'>B</a>                 457 include/softmaxcrossentropy.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/480.html#L529'>B</a>                 529 include/softmaxcrossentropy.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/480.html#L543'>B</a>                 543 include/softmaxcrossentropy.h     real e = softmaxcrossentropy_grad_check_rand&lt;maxB,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L418'>B</a>                 418 include/vgg.h      const idx_t B = idxs.n;</span>
+<span class='curline'><a href='../S/477.html#L420'>B</a>                 420 include/vgg.h      for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/477.html#L451'>B</a>                 451 include/vgg.h      const idx_t B = x.B;</span>
+<span class='curline'><a href='../S/477.html#L455'>B</a>                 455 include/vgg.h      gy.init_const(B, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L460'>B</a>                 460 include/vgg.h      real e = eta / B;</span>
+<span class='curline'><a href='../S/477.html#L575'>B</a>                 575 include/vgg.h    static real vgg_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/477.html#L587'>B</a>                 587 include/vgg.h    alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L592'>B</a>                 592 include/vgg.h    x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L597'>B</a>                 597 include/vgg.h    t-&gt;init_uniform(B, rg, 0, nC);</span>
+<span class='curline'><a href='../S/477.html#L608'>B</a>                 608 include/vgg.h    dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L685'>B</a>                 685 include/vgg.h    const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/477.html#L705'>B</a>                 705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/481.html#L561'>B</a>                 561 include/vgg_arrays.h   idx_t B;                      /**&lt; actual number of clements (&lt;= B)  */</span>
+<span class='curline'><a href='../S/481.html#L572'>B</a>                 572 include/vgg_arrays.h     range_chk(0, b, B);</span>
+<span class='curline'><a href='../S/481.html#L583'>B</a>                 583 include/vgg_arrays.h   void set_n_rows(idx_t B) {</span>
+<span class='curline'><a href='../S/481.html#L584'>B</a>                 584 include/vgg_arrays.h     this-&gt;B = B;</span>
+<span class='curline'><a href='../S/481.html#L585'>B</a>                 585 include/vgg_arrays.h     assert(B &lt;= maxB);</span>
+<span class='curline'><a href='../S/481.html#L592'>B</a>                 592 include/vgg_arrays.h   void init_const(idx_t B, real x) {</span>
+<span class='curline'><a href='../S/481.html#L593'>B</a>                 593 include/vgg_arrays.h     set_n_rows(B);</span>
+<span class='curline'><a href='../S/481.html#L595'>B</a>                 595 include/vgg_arrays.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/481.html#L612'>B</a>                 612 include/vgg_arrays.h   void init_uniform(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L613'>B</a>                 613 include/vgg_arrays.h     set_n_rows(B);</span>
+<span class='curline'><a href='../S/481.html#L615'>B</a>                 615 include/vgg_arrays.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/481.html#L632'>B</a>                 632 include/vgg_arrays.h   void init_single(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L634'>B</a>                 634 include/vgg_arrays.h     a.init_const(B, 0);</span>
+<span class='curline'><a href='../S/481.html#L635'>B</a>                 635 include/vgg_arrays.h     idx_t b = rg.randi(0, B);</span>
+<span class='curline'><a href='../S/481.html#L648'>B</a>                 648 include/vgg_arrays.h   void init_normal(idx_t B, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L649'>B</a>                 649 include/vgg_arrays.h     set_n_rows(B);</span>
+<span class='curline'><a href='../S/481.html#L651'>B</a>                 651 include/vgg_arrays.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/481.html#L670'>B</a>                 670 include/vgg_arrays.h     assert(a.B == da.B);</span>
+<span class='curline'><a href='../S/481.html#L671'>B</a>                 671 include/vgg_arrays.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/481.html#L687'>B</a>                 687 include/vgg_arrays.h     assert(a.B == a_.B);</span>
+<span class='curline'><a href='../S/481.html#L689'>B</a>                 689 include/vgg_arrays.h     for (idx_t b = 0; b &lt; B; b++) {</span>
+<span class='curline'><a href='../S/475.html#L532'>B</a>                 532 include/vgg_util.h   real B = dL;</span>
+<span class='curline'><a href='../S/475.html#L533'>B</a>                 533 include/vgg_util.h   real e = (A == B ? 0.0 : fabs(A - B) / max_r(fabs(A), fabs(B)));</span>
+<span class='curline'><a href='../S/466.html#L15'>B</a>                  15 vgg.cc                           cifar10_dataset&lt;maxB,C0,H,W&gt;&amp; data, idx_t B, long count) {</span>
+<span class='curline'><a href='../S/466.html#L16'>B</a>                  16 vgg.cc           vgg-&gt;lgr-&gt;log(1, "=== train %ld - %ld ===", count, count + B);</span>
+<span class='curline'><a href='../S/466.html#L20'>B</a>                  20 vgg.cc           data.get_data_train(vgg-&gt;x, vgg-&gt;t, vgg-&gt;idxs, B);</span>
+<span class='curline'><a href='../S/466.html#L22'>B</a>                  22 vgg.cc           real L = Lsum / B;</span>
+<span class='curline'><a href='../S/466.html#L25'>B</a>                  25 vgg.cc                         correct, B, correct / (double)B);</span>
+<span class='curline'><a href='../S/466.html#L84'>B</a>                  84 vgg.cc           const idx_t B  = opt.batch_sz;      /**&lt; true batch size (&lt;= maxB) */</span>
+<span class='curline'><a href='../S/466.html#L92'>B</a>                  92 vgg.cc           assert(B &lt;= maxB);</span>
+<span class='curline'><a href='../S/466.html#L118'>B</a>                 118 vgg.cc             real train_loss = train(vgg, data, B, n_trained);</span>
+<span class='curline'><a href='../S/466.html#L120'>B</a>                 120 vgg.cc             n_trained += B;</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>y_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L683'>y_minus</a>           683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L686'>y_minus</a>           686 include/batchnormalization.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/478.html#L690'>y_minus</a>           690 include/batchnormalization.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/482.html#L288'>y_minus</a>           288 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = block_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/482.html#L291'>y_minus</a>           291 include/block.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/482.html#L295'>y_minus</a>           295 include/block.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/473.html#L608'>y_minus</a>           608 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = conv_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/473.html#L611'>y_minus</a>           611 include/convolution.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/473.html#L615'>y_minus</a>           615 include/convolution.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/468.html#L446'>y_minus</a>           446 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = dropout_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/468.html#L449'>y_minus</a>           449 include/dropout.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/468.html#L453'>y_minus</a>           453 include/dropout.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/479.html#L570'>y_minus</a>           570 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_minus = linear_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/479.html#L573'>y_minus</a>           573 include/linear.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/479.html#L577'>y_minus</a>           577 include/linear.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/474.html#L448'>y_minus</a>           448 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_minus = mp_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/474.html#L451'>y_minus</a>           451 include/maxpooling.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/474.html#L455'>y_minus</a>           455 include/maxpooling.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/471.html#L424'>y_minus</a>           424 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = relu_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/471.html#L427'>y_minus</a>           427 include/relu.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/471.html#L431'>y_minus</a>           431 include/relu.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/480.html#L472'>y_minus</a>           472 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_minus = smxe_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/480.html#L475'>y_minus</a>           475 include/softmaxcrossentropy.h   y_minus.to_host();</span>
+<span class='curline'><a href='../S/480.html#L479'>y_minus</a>           479 include/softmaxcrossentropy.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/477.html#L630'>y_minus</a>           630 include/vgg.h    vec&lt;maxB&gt;&amp; y_minus = vgg_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/477.html#L633'>y_minus</a>           633 include/vgg.h    y_minus.to_host();</span>
+<span class='curline'><a href='../S/477.html#L637'>y_minus</a>           637 include/vgg.h    real L_minus = alpha-&gt;dot(y_minus);</span>
+</pre>
+</body>
+</html>

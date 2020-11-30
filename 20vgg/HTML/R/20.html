@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>array2</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/479.html#L76'>array2</a>             76 include/linear.h   array2&lt;IC,nC&gt; w;              /**&lt; weight of the matrix */</span>
+<span class='curline'><a href='../S/479.html#L78'>array2</a>             78 include/linear.h   array2&lt;IC,nC&gt; gw;             /**&lt; gradient of loss wrt to w */</span>
+<span class='curline'><a href='../S/480.html#L69'>array2</a>             69 include/softmaxcrossentropy.h   array2&lt;maxB,nC&gt; lsm;          /**&lt; record log(softmax)  */</span>
+<span class='curline'><a href='../S/480.html#L186'>array2</a>            186 include/softmaxcrossentropy.h   array2&lt;maxB,nC&gt;&amp; logsoftmax(array4&lt;maxB,nC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/477.html#L416'>array2</a>            416 include/vgg.h      array2&lt;maxB,nC&gt;&amp; lsm = softmax_cross_entropy.lsm;</span>
+<span class='curline'><a href='../S/481.html#L378'>array2</a>            378 include/vgg_arrays.h   array2&lt;M,N&gt; * dev;            /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L409'>array2</a>            409 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L425'>array2</a>            425 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L441'>array2</a>            441 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L455'>array2</a>            455 include/vgg_arrays.h   void update(real eta, array2&lt;M,N&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L457'>array2</a>            457 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L469'>array2</a>            469 include/vgg_arrays.h   real dot(array2&lt;M,N&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/481.html#L470'>array2</a>            470 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L486'>array2</a>            486 include/vgg_arrays.h   void set_dev(array2&lt;M,N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L501'>array2</a>            501 include/vgg_arrays.h       dev = (array2&lt;M,N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L536'>array2</a>            536 include/vgg_arrays.h       array2&lt;M,N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L963'>array2</a>            963 include/vgg_arrays.h   array2&lt;N,N&gt; a2;</span>
+</pre>
+</body>
+</html>

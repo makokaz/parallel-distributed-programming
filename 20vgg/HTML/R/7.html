@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MaxPooling2D</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/474.html#L12'>MaxPooling2D</a>       12 include/maxpooling.h   struct MaxPooling2D;</span>
+<span class='curline'><a href='../S/474.html#L23'>MaxPooling2D</a>       23 include/maxpooling.h   __global__ void forward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L37'>MaxPooling2D</a>       37 include/maxpooling.h   __global__ void backward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L65'>MaxPooling2D</a>       65 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev; /**&lt; device shadow  */</span>
+<span class='curline'><a href='../S/474.html#L86'>MaxPooling2D</a>       86 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* copy() {</span>
+<span class='curline'><a href='../S/474.html#L87'>MaxPooling2D</a>       87 include/maxpooling.h     MaxPooling2D&lt;maxB,C,H,W,S&gt;* c = new MaxPooling2D&lt;maxB,C,H,W,S&gt;(*this);</span>
+<span class='curline'><a href='../S/474.html#L100'>MaxPooling2D</a>      100 include/maxpooling.h   void set_dev(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev) {</span>
+<span class='curline'><a href='../S/474.html#L120'>MaxPooling2D</a>      120 include/maxpooling.h       dev = (MaxPooling2D&lt;maxB,C,H,W,S&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/474.html#L162'>MaxPooling2D</a>      162 include/maxpooling.h       MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/474.html#L407'>MaxPooling2D</a>      407 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp = new MaxPooling2D&lt;maxB,C,H,W,S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L413'>MaxPooling2D</a>      413 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_minus = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/474.html#L414'>MaxPooling2D</a>      414 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt; * mp_plus  = mp-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L44'>MaxPooling2D</a>       44 include/vgg.h    MaxPooling2D&lt;maxB,C1,H1,W1,S&gt;    max_pooling_2d1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L53'>MaxPooling2D</a>       53 include/vgg.h    MaxPooling2D&lt;maxB,C2,H2,W2,S&gt;    max_pooling_2d2; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L64'>MaxPooling2D</a>       64 include/vgg.h    MaxPooling2D&lt;maxB,C3,H3,W3,S&gt;    max_pooling_2d3; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L75'>MaxPooling2D</a>       75 include/vgg.h    MaxPooling2D&lt;maxB,C4,H4,W4,S&gt;    max_pooling_2d4; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L85'>MaxPooling2D</a>       85 include/vgg.h    MaxPooling2D&lt;maxB,C4,H5,W5,S&gt;    max_pooling_2d5; /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

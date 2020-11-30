@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/structcifar10__dataset.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structcifar10__dataset.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structcifar10__dataset.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/structcifar10__dataset.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{structcifar10__dataset}{}\section{cifar10\+\_\+dataset$&lt;$ maxB, IC, H, W $&gt;$ Struct Template Reference}
+<a id='L2' name='L2'></a>\label{structcifar10__dataset}\index{cifar10\+\_\+dataset$&lt;$ max\+B, I\+C, H, W $&gt;$@{cifar10\+\_\+dataset$&lt;$ max\+B, I\+C, H, W $&gt;$}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>an entire cifar10 data  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$cifar.\+h$&gt;$}
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>Collaboration diagram for cifar10\+\_\+dataset$&lt;$ maxB, IC, H, W $&gt;$\+:\nopagebreak
+<a id='L15' name='L15'></a>\begin{figure}[H]
+<a id='L16' name='L16'></a>\begin{center}
+<a id='L17' name='L17'></a>\leavevmode
+<a id='L18' name='L18'></a>\includegraphics[width=201pt]{structcifar10__dataset__coll__graph}
+<a id='L19' name='L19'></a>\end{center}
+<a id='L20' name='L20'></a>\end{figure}
+<a id='L21' name='L21'></a>\subsection*{Public Member Functions}
+<a id='L22' name='L22'></a>\begin{DoxyCompactItemize}
+<a id='L23' name='L23'></a>\item 
+<a id='L24' name='L24'></a>void \hyperlink{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}{set\+\_\+seed} (long sd)
+<a id='L25' name='L25'></a>\begin{DoxyCompactList}\small\item\em set seed for random number generator \end{DoxyCompactList}\item 
+<a id='L26' name='L26'></a>long \hyperlink{structcifar10__dataset_ad0025b0632ecfa9810d8a7c99d279f51}{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file} (const char $\ast$cifar\+\_\+bin)
+<a id='L27' name='L27'></a>\begin{DoxyCompactList}\small\item\em count the number of images in a file (should be 10000) \end{DoxyCompactList}\item 
+<a id='L28' name='L28'></a>int \hyperlink{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}{load} (\hyperlink{structlogger}{logger} \&amp;lgr, const char $\ast$cifar\+\_\+bin, long n\+\_\+samples, long sample\+\_\+seed, double validate\+\_\+ratio)
+<a id='L29' name='L29'></a>\begin{DoxyCompactList}\small\item\em load training/validation data from the file \end{DoxyCompactList}\item 
+<a id='L30' name='L30'></a>void \hyperlink{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}{log\+\_\+dataset} (\hyperlink{structlogger}{logger} \&amp;lgr)
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em log dataset \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>int \hyperlink{structcifar10__dataset_afafc5833390f1f3f9c2fefea15d643ca}{get\+\_\+data\+\_\+train} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x, \hyperlink{structivec}{ivec}$&lt;$ maxB $&gt;$ \&amp;t, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B)
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em load x and t with the a mini batch of B images \end{DoxyCompactList}\item 
+<a id='L34' name='L34'></a>int \hyperlink{structcifar10__dataset_a4176a67684d105dac1c95a1556761173}{get\+\_\+data\+\_\+validate} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x, \hyperlink{structivec}{ivec}$&lt;$ maxB $&gt;$ \&amp;t, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} from, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} to)
+<a id='L35' name='L35'></a>\begin{DoxyCompactList}\small\item\em load x and t with a part of validation data (from\+:to) \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L36' name='L36'></a>\subsection*{Public Attributes}
+<a id='L37' name='L37'></a>\begin{DoxyCompactItemize}
+<a id='L38' name='L38'></a>\item 
+<a id='L39' name='L39'></a>long \hyperlink{structcifar10__dataset_a60c9f64838a155a1127912cf190b3ed0}{n\+\_\+data}
+<a id='L40' name='L40'></a>\item 
+<a id='L41' name='L41'></a>long \hyperlink{structcifar10__dataset_a0f447993bfd499e4222e66dca3e111a0}{n\+\_\+validate}
+<a id='L42' name='L42'></a>\item 
+<a id='L43' name='L43'></a>long \hyperlink{structcifar10__dataset_ac6e5dbe7c30b683d01e600901c51e010}{n\+\_\+train}
+<a id='L44' name='L44'></a>\item 
+<a id='L45' name='L45'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$ IC, H, W $&gt;$ $\ast$ \hyperlink{structcifar10__dataset_a8c4071c746bf18e875b9e7975c7929fd}{dataset}
+<a id='L46' name='L46'></a>\item 
+<a id='L47' name='L47'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$ IC, H, W $&gt;$ $\ast$ \hyperlink{structcifar10__dataset_a3264803c2eb493dabaedb7eca4d7725f}{validate}
+<a id='L48' name='L48'></a>\item 
+<a id='L49' name='L49'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$ IC, H, W $&gt;$ $\ast$ \hyperlink{structcifar10__dataset_a0c64c36b940f91c63a9d5f89360f5335}{train}
+<a id='L50' name='L50'></a>\item 
+<a id='L51' name='L51'></a>\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \hyperlink{structcifar10__dataset_a59998ba824d0a527fe0f6e7aad0693eb}{rg}
+<a id='L52' name='L52'></a>\end{DoxyCompactItemize}
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>\subsection{Detailed Description}
+<a id='L56' name='L56'></a>\subsubsection*{template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$\newline
+<a id='L57' name='L57'></a>struct cifar10\+\_\+dataset$&lt;$ max\+B, I\+C, H, W $&gt;$}
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>an entire cifar10 data 
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>\subsection{Member Function Documentation}
+<a id='L62' name='L62'></a>\mbox{\Hypertarget{structcifar10__dataset_afafc5833390f1f3f9c2fefea15d643ca}\label{structcifar10__dataset_afafc5833390f1f3f9c2fefea15d643ca}} 
+<a id='L63' name='L63'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!get\+\_\+data\+\_\+train@{get\+\_\+data\+\_\+train}}
+<a id='L64' name='L64'></a>\index{get\+\_\+data\+\_\+train@{get\+\_\+data\+\_\+train}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L65' name='L65'></a>\subsubsection{\texorpdfstring{get\+\_\+data\+\_\+train()}{get\_data\_train()}}
+<a id='L66' name='L66'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L67' name='L67'></a>int \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::get\+\_\+data\+\_\+train (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x,  }\item[{\hyperlink{structivec}{ivec}$&lt;$ maxB $&gt;$ \&amp;}]{t,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>load x and t with the a mini batch of B images 
+<a id='L72' name='L72'></a>
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>\begin{DoxyParams}{Parameters}
+<a id='L75' name='L75'></a>{\em (x)} &amp; array to load images into \\
+<a id='L76' name='L76'></a>\hline
+<a id='L77' name='L77'></a>{\em (t)} &amp; array to load true labels into \\
+<a id='L78' name='L78'></a>\hline
+<a id='L79' name='L79'></a>{\em (\+B)} &amp; the number of images to pick \\
+<a id='L80' name='L80'></a>\hline
+<a id='L81' name='L81'></a>\end{DoxyParams}
+<a id='L82' name='L82'></a>\mbox{\Hypertarget{structcifar10__dataset_a4176a67684d105dac1c95a1556761173}\label{structcifar10__dataset_a4176a67684d105dac1c95a1556761173}} 
+<a id='L83' name='L83'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!get\+\_\+data\+\_\+validate@{get\+\_\+data\+\_\+validate}}
+<a id='L84' name='L84'></a>\index{get\+\_\+data\+\_\+validate@{get\+\_\+data\+\_\+validate}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L85' name='L85'></a>\subsubsection{\texorpdfstring{get\+\_\+data\+\_\+validate()}{get\_data\_validate()}}
+<a id='L86' name='L86'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L87' name='L87'></a>int \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::get\+\_\+data\+\_\+validate (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x,  }\item[{\hyperlink{structivec}{ivec}$&lt;$ maxB $&gt;$ \&amp;}]{t,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{from,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{to }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>
+<a id='L91' name='L91'></a>load x and t with a part of validation data (from\+:to) 
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>\begin{DoxyParams}{Parameters}
+<a id='L95' name='L95'></a>{\em (x)} &amp; array to load images into \\
+<a id='L96' name='L96'></a>\hline
+<a id='L97' name='L97'></a>{\em (t)} &amp; array to load true labels into \\
+<a id='L98' name='L98'></a>\hline
+<a id='L99' name='L99'></a>{\em (from)} &amp; the first validation image to return \\
+<a id='L100' name='L100'></a>\hline
+<a id='L101' name='L101'></a>{\em (to)} &amp; the last validation image to load + 1 \\
+<a id='L102' name='L102'></a>\hline
+<a id='L103' name='L103'></a>\end{DoxyParams}
+<a id='L104' name='L104'></a>\mbox{\Hypertarget{structcifar10__dataset_ad0025b0632ecfa9810d8a7c99d279f51}\label{structcifar10__dataset_ad0025b0632ecfa9810d8a7c99d279f51}} 
+<a id='L105' name='L105'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!get\+\_\+n\+\_\+data\+\_\+in\+\_\+file@{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file}}
+<a id='L106' name='L106'></a>\index{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file@{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L107' name='L107'></a>\subsubsection{\texorpdfstring{get\+\_\+n\+\_\+data\+\_\+in\+\_\+file()}{get\_n\_data\_in\_file()}}
+<a id='L108' name='L108'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L109' name='L109'></a>long \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::get\+\_\+n\+\_\+data\+\_\+in\+\_\+file (\begin{DoxyParamCaption}\item[{const char $\ast$}]{cifar\+\_\+bin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>count the number of images in a file (should be 10000) 
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>\begin{DoxyParams}{Parameters}
+<a id='L117' name='L117'></a>{\em (cifar\+\_\+bin)} &amp; the name of the file to read data from \\
+<a id='L118' name='L118'></a>\hline
+<a id='L119' name='L119'></a>\end{DoxyParams}
+<a id='L120' name='L120'></a>\mbox{\Hypertarget{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}\label{structcifar10__dataset_a4574eb110a71faac0e38445fd7be6fd2}} 
+<a id='L121' name='L121'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!load@{load}}
+<a id='L122' name='L122'></a>\index{load@{load}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L123' name='L123'></a>\subsubsection{\texorpdfstring{load()}{load()}}
+<a id='L124' name='L124'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L125' name='L125'></a>int \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::load (\begin{DoxyParamCaption}\item[{\hyperlink{structlogger}{logger} \&amp;}]{lgr,  }\item[{const char $\ast$}]{cifar\+\_\+bin,  }\item[{long}]{n\+\_\+samples,  }\item[{long}]{sample\+\_\+seed,  }\item[{double}]{validate\+\_\+ratio }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>load training/validation data from the file 
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>\begin{DoxyParams}{Parameters}
+<a id='L133' name='L133'></a>{\em (lgr)} &amp; logger \\
+<a id='L134' name='L134'></a>\hline
+<a id='L135' name='L135'></a>{\em (cifar\+\_\+bin)} &amp; the name of the file to read data from \\
+<a id='L136' name='L136'></a>\hline
+<a id='L137' name='L137'></a>{\em (n\+\_\+samples)} &amp; the number of data used \\
+<a id='L138' name='L138'></a>\hline
+<a id='L139' name='L139'></a>{\em (sample\+\_\+seed)} &amp; seed of the random number generator to pick training and validation data \\
+<a id='L140' name='L140'></a>\hline
+<a id='L141' name='L141'></a>{\em (validate\+\_\+ratio)} &amp; leave this much for validation ($&lt;$1.\+0) \\
+<a id='L142' name='L142'></a>\hline
+<a id='L143' name='L143'></a>\end{DoxyParams}
+<a id='L144' name='L144'></a>\mbox{\Hypertarget{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}\label{structcifar10__dataset_acaa1adc9988bbb59550f778b82026ff8}} 
+<a id='L145' name='L145'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!log\+\_\+dataset@{log\+\_\+dataset}}
+<a id='L146' name='L146'></a>\index{log\+\_\+dataset@{log\+\_\+dataset}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L147' name='L147'></a>\subsubsection{\texorpdfstring{log\+\_\+dataset()}{log\_dataset()}}
+<a id='L148' name='L148'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L149' name='L149'></a>void \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::log\+\_\+dataset (\begin{DoxyParamCaption}\item[{\hyperlink{structlogger}{logger} \&amp;}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>log dataset 
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>\begin{DoxyParams}{Parameters}
+<a id='L157' name='L157'></a>{\em (lgr)} &amp; logger \\
+<a id='L158' name='L158'></a>\hline
+<a id='L159' name='L159'></a>\end{DoxyParams}
+<a id='L160' name='L160'></a>\mbox{\Hypertarget{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}\label{structcifar10__dataset_a90bb8f4e440939589db017dbc89004c4}} 
+<a id='L161' name='L161'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!set\+\_\+seed@{set\+\_\+seed}}
+<a id='L162' name='L162'></a>\index{set\+\_\+seed@{set\+\_\+seed}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L163' name='L163'></a>\subsubsection{\texorpdfstring{set\+\_\+seed()}{set\_seed()}}
+<a id='L164' name='L164'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L165' name='L165'></a>void \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::set\+\_\+seed (\begin{DoxyParamCaption}\item[{long}]{sd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>
+<a id='L169' name='L169'></a>set seed for random number generator 
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>\begin{DoxySeeAlso}{See also}
+<a id='L172' name='L172'></a>(sd) seed 
+<a id='L173' name='L173'></a>\end{DoxySeeAlso}
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>
+<a id='L176' name='L176'></a>\subsection{Member Data Documentation}
+<a id='L177' name='L177'></a>\mbox{\Hypertarget{structcifar10__dataset_a8c4071c746bf18e875b9e7975c7929fd}\label{structcifar10__dataset_a8c4071c746bf18e875b9e7975c7929fd}} 
+<a id='L178' name='L178'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!dataset@{dataset}}
+<a id='L179' name='L179'></a>\index{dataset@{dataset}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L180' name='L180'></a>\subsubsection{\texorpdfstring{dataset}{dataset}}
+<a id='L181' name='L181'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L182' name='L182'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$IC,H,W$&gt;$$\ast$ \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::dataset}
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>whole dataset (n\+\_\+data items) \mbox{\Hypertarget{structcifar10__dataset_a60c9f64838a155a1127912cf190b3ed0}\label{structcifar10__dataset_a60c9f64838a155a1127912cf190b3ed0}} 
+<a id='L185' name='L185'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!n\+\_\+data@{n\+\_\+data}}
+<a id='L186' name='L186'></a>\index{n\+\_\+data@{n\+\_\+data}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L187' name='L187'></a>\subsubsection{\texorpdfstring{n\+\_\+data}{n\_data}}
+<a id='L188' name='L188'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L189' name='L189'></a>long \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::n\+\_\+data}
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>the total number of images \mbox{\Hypertarget{structcifar10__dataset_ac6e5dbe7c30b683d01e600901c51e010}\label{structcifar10__dataset_ac6e5dbe7c30b683d01e600901c51e010}} 
+<a id='L192' name='L192'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!n\+\_\+train@{n\+\_\+train}}
+<a id='L193' name='L193'></a>\index{n\+\_\+train@{n\+\_\+train}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L194' name='L194'></a>\subsubsection{\texorpdfstring{n\+\_\+train}{n\_train}}
+<a id='L195' name='L195'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L196' name='L196'></a>long \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::n\+\_\+train}
+<a id='L197' name='L197'></a>
+<a id='L198' name='L198'></a>the number of traininig images \mbox{\Hypertarget{structcifar10__dataset_a0f447993bfd499e4222e66dca3e111a0}\label{structcifar10__dataset_a0f447993bfd499e4222e66dca3e111a0}} 
+<a id='L199' name='L199'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!n\+\_\+validate@{n\+\_\+validate}}
+<a id='L200' name='L200'></a>\index{n\+\_\+validate@{n\+\_\+validate}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L201' name='L201'></a>\subsubsection{\texorpdfstring{n\+\_\+validate}{n\_validate}}
+<a id='L202' name='L202'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L203' name='L203'></a>long \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::n\+\_\+validate}
+<a id='L204' name='L204'></a>
+<a id='L205' name='L205'></a>the number of validation images \mbox{\Hypertarget{structcifar10__dataset_a59998ba824d0a527fe0f6e7aad0693eb}\label{structcifar10__dataset_a59998ba824d0a527fe0f6e7aad0693eb}} 
+<a id='L206' name='L206'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!rg@{rg}}
+<a id='L207' name='L207'></a>\index{rg@{rg}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L208' name='L208'></a>\subsubsection{\texorpdfstring{rg}{rg}}
+<a id='L209' name='L209'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L210' name='L210'></a>\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::rg}
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a>random number generator to pick images for a mini batch \mbox{\Hypertarget{structcifar10__dataset_a0c64c36b940f91c63a9d5f89360f5335}\label{structcifar10__dataset_a0c64c36b940f91c63a9d5f89360f5335}} 
+<a id='L213' name='L213'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!train@{train}}
+<a id='L214' name='L214'></a>\index{train@{train}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L215' name='L215'></a>\subsubsection{\texorpdfstring{train}{train}}
+<a id='L216' name='L216'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L217' name='L217'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$IC,H,W$&gt;$$\ast$ \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::train}
+<a id='L218' name='L218'></a>
+<a id='L219' name='L219'></a>training part (remaining items) \mbox{\Hypertarget{structcifar10__dataset_a3264803c2eb493dabaedb7eca4d7725f}\label{structcifar10__dataset_a3264803c2eb493dabaedb7eca4d7725f}} 
+<a id='L220' name='L220'></a>\index{cifar10\+\_\+dataset@{cifar10\+\_\+dataset}!validate@{validate}}
+<a id='L221' name='L221'></a>\index{validate@{validate}!cifar10\+\_\+dataset@{cifar10\+\_\+dataset}}
+<a id='L222' name='L222'></a>\subsubsection{\texorpdfstring{validate}{validate}}
+<a id='L223' name='L223'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W$&gt;$ \\
+<a id='L224' name='L224'></a>\hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item}$&lt;$IC,H,W$&gt;$$\ast$ \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, IC, H, W $&gt;$\+::validate}
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>validation part (first n\+\_\+validate items) 
+<a id='L227' name='L227'></a>
+<a id='L228' name='L228'></a>The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+<a id='L229' name='L229'></a>\item 
+<a id='L230' name='L230'></a>/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{cifar_8h}{cifar.\+h}\end{DoxyCompactItemize}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+230 doc/latex/structcifar10__dataset.tex'  /> */</em>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>gy</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L459'>gy</a>                459 include/batchnormalization.h   void backward_base(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L460'>gy</a>                460 include/batchnormalization.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/478.html#L470'>gy</a>                470 include/batchnormalization.h               s += gy(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L471'>gy</a>                471 include/batchnormalization.h               t += gy(b,ic,i,j) * x_hat(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L486'>gy</a>                486 include/batchnormalization.h               gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));</span>
+<span class='curline'><a href='../S/478.html#L496'>gy</a>                496 include/batchnormalization.h               gx(b,ic,i,j) = gy(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L514'>gy</a>                514 include/batchnormalization.h   void backward_dev(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L515'>gy</a>                515 include/batchnormalization.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/478.html#L526'>gy</a>                526 include/batchnormalization.h   void backward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L527'>gy</a>                527 include/batchnormalization.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/478.html#L537'>gy</a>                537 include/batchnormalization.h   void backward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L538'>gy</a>                538 include/batchnormalization.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/478.html#L551'>gy</a>                551 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L557'>gy</a>                557 include/batchnormalization.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/478.html#L560'>gy</a>                560 include/batchnormalization.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/478.html#L565'>gy</a>                565 include/batchnormalization.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/478.html#L570'>gy</a>                570 include/batchnormalization.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/482.html#L176'>gy</a>                176 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/482.html#L177'>gy</a>                177 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; g2 = relu.backward(gy);</span>
+<span class='curline'><a href='../S/473.html#L390'>gy</a>                390 include/convolution.h   void backward_base(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L391'>gy</a>                391 include/convolution.h     idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/473.html#L402'>gy</a>                402 include/convolution.h                   s += gy(b,oc,i,j) * x(b,ic,i+i_,j+j_);</span>
+<span class='curline'><a href='../S/473.html#L424'>gy</a>                424 include/convolution.h                   s += gy(b,oc,i-i_,j-j_) * w(oc,ic,i_,j_);</span>
+<span class='curline'><a href='../S/473.html#L445'>gy</a>                445 include/convolution.h   void backward_dev(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L446'>gy</a>                446 include/convolution.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/473.html#L457'>gy</a>                457 include/convolution.h   void backward_gpu(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L458'>gy</a>                458 include/convolution.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/473.html#L468'>gy</a>                468 include/convolution.h   void backward_cpu(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L469'>gy</a>                469 include/convolution.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/473.html#L482'>gy</a>                482 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L488'>gy</a>                488 include/convolution.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/473.html#L491'>gy</a>                491 include/convolution.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/473.html#L496'>gy</a>                496 include/convolution.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/473.html#L501'>gy</a>                501 include/convolution.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/468.html#L288'>gy</a>                288 include/dropout.h   void backward_base(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L289'>gy</a>                289 include/dropout.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/468.html#L300'>gy</a>                300 include/dropout.h               gx(b,c,i,j) = scale * gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/468.html#L318'>gy</a>                318 include/dropout.h   void backward_dev(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L319'>gy</a>                319 include/dropout.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/468.html#L330'>gy</a>                330 include/dropout.h   void backward_gpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L331'>gy</a>                331 include/dropout.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/468.html#L341'>gy</a>                341 include/dropout.h   void backward_cpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L342'>gy</a>                342 include/dropout.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/468.html#L355'>gy</a>                355 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/468.html#L361'>gy</a>                361 include/dropout.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/468.html#L364'>gy</a>                364 include/dropout.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/468.html#L369'>gy</a>                369 include/dropout.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/468.html#L374'>gy</a>                374 include/dropout.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/479.html#L374'>gy</a>                374 include/linear.h   void backward_base(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L375'>gy</a>                375 include/linear.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/479.html#L383'>gy</a>                383 include/linear.h           s += gy(b,c,0,0) * x(b,ic,0,0);</span>
+<span class='curline'><a href='../S/479.html#L392'>gy</a>                392 include/linear.h           s += gy(b,c,0,0) * w(ic,c);</span>
+<span class='curline'><a href='../S/479.html#L409'>gy</a>                409 include/linear.h   void backward_dev(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L410'>gy</a>                410 include/linear.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/479.html#L421'>gy</a>                421 include/linear.h   void backward_gpu(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L422'>gy</a>                422 include/linear.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/479.html#L432'>gy</a>                432 include/linear.h   void backward_cpu(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L433'>gy</a>                433 include/linear.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/479.html#L446'>gy</a>                446 include/linear.h   array4&lt;maxB,IC,1,1&gt;&amp; backward(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L452'>gy</a>                452 include/linear.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/479.html#L455'>gy</a>                455 include/linear.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/479.html#L460'>gy</a>                460 include/linear.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/479.html#L465'>gy</a>                465 include/linear.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/474.html#L288'>gy</a>                288 include/maxpooling.h   void backward_base(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L289'>gy</a>                289 include/maxpooling.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/474.html#L303'>gy</a>                303 include/maxpooling.h             gx(b,c,i_,j_) = gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/474.html#L320'>gy</a>                320 include/maxpooling.h   void backward_dev(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L321'>gy</a>                321 include/maxpooling.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/474.html#L332'>gy</a>                332 include/maxpooling.h   void backward_gpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L333'>gy</a>                333 include/maxpooling.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/474.html#L343'>gy</a>                343 include/maxpooling.h   void backward_cpu(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L344'>gy</a>                344 include/maxpooling.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/474.html#L357'>gy</a>                357 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H/S,W/S&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/474.html#L363'>gy</a>                363 include/maxpooling.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/474.html#L366'>gy</a>                366 include/maxpooling.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/474.html#L371'>gy</a>                371 include/maxpooling.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/474.html#L376'>gy</a>                376 include/maxpooling.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/471.html#L273'>gy</a>                273 include/relu.h   void backward_base(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L274'>gy</a>                274 include/relu.h     const idx_t B = gy.B;</span>
+<span class='curline'><a href='../S/471.html#L281'>gy</a>                281 include/relu.h             gx(b,c,i,j) = (x(b,c,i,j) &gt;= 0 ? gy(b,c,i,j) : 0);</span>
+<span class='curline'><a href='../S/471.html#L298'>gy</a>                298 include/relu.h   void backward_dev(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L299'>gy</a>                299 include/relu.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/471.html#L310'>gy</a>                310 include/relu.h   void backward_gpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L311'>gy</a>                311 include/relu.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/471.html#L321'>gy</a>                321 include/relu.h   void backward_cpu(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L322'>gy</a>                322 include/relu.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/471.html#L335'>gy</a>                335 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; backward(array4&lt;maxB,C,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/471.html#L341'>gy</a>                341 include/relu.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/471.html#L344'>gy</a>                344 include/relu.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/471.html#L349'>gy</a>                349 include/relu.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/471.html#L354'>gy</a>                354 include/relu.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/480.html#L315'>gy</a>                315 include/softmaxcrossentropy.h   void backward_base(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L316'>gy</a>                316 include/softmaxcrossentropy.h     const idx_t B = gy.n;</span>
+<span class='curline'><a href='../S/480.html#L322'>gy</a>                322 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * (-1 + exp(lsm(b,c)));</span>
+<span class='curline'><a href='../S/480.html#L324'>gy</a>                324 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/480.html#L340'>gy</a>                340 include/softmaxcrossentropy.h   void backward_dev(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L341'>gy</a>                341 include/softmaxcrossentropy.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/480.html#L352'>gy</a>                352 include/softmaxcrossentropy.h   void backward_gpu(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L353'>gy</a>                353 include/softmaxcrossentropy.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/480.html#L363'>gy</a>                363 include/softmaxcrossentropy.h   void backward_cpu(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L364'>gy</a>                364 include/softmaxcrossentropy.h     backward_base(gy);</span>
+<span class='curline'><a href='../S/480.html#L377'>gy</a>                377 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt;&amp; backward(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L383'>gy</a>                383 include/softmaxcrossentropy.h       backward_cpu(gy); break;</span>
+<span class='curline'><a href='../S/480.html#L386'>gy</a>                386 include/softmaxcrossentropy.h       backward_gpu(gy); break;</span>
+<span class='curline'><a href='../S/480.html#L391'>gy</a>                391 include/softmaxcrossentropy.h         backward_gpu(gy);</span>
+<span class='curline'><a href='../S/480.html#L396'>gy</a>                396 include/softmaxcrossentropy.h         backward_cpu(gy);</span>
+<span class='curline'><a href='../S/477.html#L36'>gy</a>                 36 include/vgg.h    vec&lt;maxB&gt; gy;                 /**&lt; gradient of the loss wrt the output */</span>
+<span class='curline'><a href='../S/477.html#L179'>gy</a>                179 include/vgg.h      gy.set_dev(dev ? &amp;dev-&gt;gy : 0);</span>
+<span class='curline'><a href='../S/477.html#L373'>gy</a>                373 include/vgg.h    array4&lt;maxB,C0,H1,W1&gt;&amp; backward(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/477.html#L375'>gy</a>                375 include/vgg.h      array4&lt;maxB,nC,H6,W6&gt;&amp; g32 = softmax_cross_entropy.backward(gy);</span>
+<span class='curline'><a href='../S/477.html#L455'>gy</a>                455 include/vgg.h      gy.init_const(B, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L456'>gy</a>                456 include/vgg.h      gy.to_dev();</span>
+<span class='curline'><a href='../S/477.html#L458'>gy</a>                458 include/vgg.h      backward(gy);</span>
+<span class='curline'><a href='../S/477.html#L464'>gy</a>                464 include/vgg.h      real L = gy.dot(y);</span>
+</pre>
+</body>
+</html>

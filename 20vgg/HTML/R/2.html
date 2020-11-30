@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>BatchNormalization</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L13'>BatchNormalization</a>   13 include/batchnormalization.h   struct BatchNormalization;</span>
+<span class='curline'><a href='../S/478.html#L24'>BatchNormalization</a>   24 include/batchnormalization.h __global__ void forward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L38'>BatchNormalization</a>   38 include/batchnormalization.h __global__ void backward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L52'>BatchNormalization</a>   52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L76'>BatchNormalization</a>   76 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/478.html#L105'>BatchNormalization</a>  105 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/478.html#L106'>BatchNormalization</a>  106 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;* c = new BatchNormalization&lt;maxB,IC,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/478.html#L119'>BatchNormalization</a>  119 include/batchnormalization.h   void set_dev(BatchNormalization&lt;maxB,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/478.html#L144'>BatchNormalization</a>  144 include/batchnormalization.h       dev = (BatchNormalization&lt;maxB,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/478.html#L186'>BatchNormalization</a>  186 include/batchnormalization.h       BatchNormalization&lt;maxB,IC,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/478.html#L594'>BatchNormalization</a>  594 include/batchnormalization.h   void set_grad(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/478.html#L604'>BatchNormalization</a>  604 include/batchnormalization.h   real gw_dot_gw(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/478.html#L605'>BatchNormalization</a>  605 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/478.html#L635'>BatchNormalization</a>  635 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn = new BatchNormalization&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L640'>BatchNormalization</a>  640 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_minus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L641'>BatchNormalization</a>  641 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_plus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L40'>BatchNormalization</a>   40 include/block.h   BatchNormalization&lt;maxB,OC,H,W&gt;      bn;   /**&lt; batch normalization layer */</span>
+<span class='curline'><a href='../S/477.html#L92'>BatchNormalization</a>   92 include/vgg.h    BatchNormalization&lt;maxB,C4,H6,W6&gt; bn_fc1;     /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

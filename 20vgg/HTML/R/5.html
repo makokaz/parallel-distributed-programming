@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Dropout</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/468.html#L12'>Dropout</a>            12 include/dropout.h   struct Dropout;</span>
+<span class='curline'><a href='../S/468.html#L23'>Dropout</a>            23 include/dropout.h   __global__ void forward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L37'>Dropout</a>            37 include/dropout.h   __global__ void backward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L62'>Dropout</a>            62 include/dropout.h   Dropout&lt;maxB,C,H,W&gt;* dev;     /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/468.html#L90'>Dropout</a>            90 include/dropout.h   Dropout&lt;maxB,C,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/468.html#L91'>Dropout</a>            91 include/dropout.h     Dropout&lt;maxB,C,H,W&gt;* c = new Dropout&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/468.html#L104'>Dropout</a>           104 include/dropout.h   void set_dev(Dropout&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/468.html#L123'>Dropout</a>           123 include/dropout.h       dev = (Dropout&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/468.html#L165'>Dropout</a>           165 include/dropout.h       Dropout&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/468.html#L406'>Dropout</a>           406 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout = new Dropout&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L411'>Dropout</a>           411 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_minus = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/468.html#L412'>Dropout</a>           412 include/dropout.h   Dropout&lt;maxB,C,H,W&gt; * dropout_plus  = dropout-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L42'>Dropout</a>            42 include/vgg.h    Dropout     &lt;maxB,C1,H1,W1&gt;      dropout1_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L51'>Dropout</a>            51 include/vgg.h    Dropout     &lt;maxB,C2,H2,W2&gt;      dropout2_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L60'>Dropout</a>            60 include/vgg.h    Dropout     &lt;maxB,C3,H3,W3&gt;      dropout3_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L62'>Dropout</a>            62 include/vgg.h    Dropout     &lt;maxB,C3,H3,W3&gt;      dropout3_2;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L71'>Dropout</a>            71 include/vgg.h    Dropout     &lt;maxB,C4,H4,W4&gt;      dropout4_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L73'>Dropout</a>            73 include/vgg.h    Dropout     &lt;maxB,C4,H4,W4&gt;      dropout4_2;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L81'>Dropout</a>            81 include/vgg.h    Dropout     &lt;maxB,C4,H5,W5&gt;      dropout5_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L83'>Dropout</a>            83 include/vgg.h    Dropout     &lt;maxB,C4,H5,W5&gt;      dropout5_2;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L90'>Dropout</a>            90 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L94'>Dropout</a>            94 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_2; /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

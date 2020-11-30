@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>set_grad</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L594'>set_grad</a>          594 include/batchnormalization.h   void set_grad(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/478.html#L675'>set_grad</a>          675 include/batchnormalization.h   bn_plus-&gt;set_grad(*bn_minus);</span>
+<span class='curline'><a href='../S/482.html#L199'>set_grad</a>          199 include/block.h   void set_grad(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/482.html#L200'>set_grad</a>          200 include/block.h     conv.set_grad(o.conv);</span>
+<span class='curline'><a href='../S/482.html#L201'>set_grad</a>          201 include/block.h     bn.set_grad(o.bn);</span>
+<span class='curline'><a href='../S/482.html#L280'>set_grad</a>          280 include/block.h   block_plus-&gt;set_grad(*block_minus);</span>
+<span class='curline'><a href='../S/473.html#L524'>set_grad</a>          524 include/convolution.h   void set_grad(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L600'>set_grad</a>          600 include/convolution.h   conv_plus-&gt;set_grad(*conv_minus);</span>
+<span class='curline'><a href='../S/479.html#L486'>set_grad</a>          486 include/linear.h   void set_grad(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L562'>set_grad</a>          562 include/linear.h   linear_plus-&gt;set_grad(*linear_minus);</span>
+<span class='curline'><a href='../S/477.html#L503'>set_grad</a>          503 include/vgg.h    void set_grad(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/477.html#L504'>set_grad</a>          504 include/vgg.h      block1_1.set_grad(o.block1_1);</span>
+<span class='curline'><a href='../S/477.html#L505'>set_grad</a>          505 include/vgg.h      block1_2.set_grad(o.block1_2);</span>
+<span class='curline'><a href='../S/477.html#L507'>set_grad</a>          507 include/vgg.h      block2_1.set_grad(o.block2_1);</span>
+<span class='curline'><a href='../S/477.html#L508'>set_grad</a>          508 include/vgg.h      block2_2.set_grad(o.block2_2);</span>
+<span class='curline'><a href='../S/477.html#L510'>set_grad</a>          510 include/vgg.h      block3_1.set_grad(o.block3_1);</span>
+<span class='curline'><a href='../S/477.html#L511'>set_grad</a>          511 include/vgg.h      block3_2.set_grad(o.block3_2);</span>
+<span class='curline'><a href='../S/477.html#L512'>set_grad</a>          512 include/vgg.h      block3_3.set_grad(o.block3_3);</span>
+<span class='curline'><a href='../S/477.html#L514'>set_grad</a>          514 include/vgg.h      block4_1.set_grad(o.block4_1);</span>
+<span class='curline'><a href='../S/477.html#L515'>set_grad</a>          515 include/vgg.h      block4_2.set_grad(o.block4_2);</span>
+<span class='curline'><a href='../S/477.html#L516'>set_grad</a>          516 include/vgg.h      block4_3.set_grad(o.block4_3);</span>
+<span class='curline'><a href='../S/477.html#L518'>set_grad</a>          518 include/vgg.h      block5_1.set_grad(o.block5_1);</span>
+<span class='curline'><a href='../S/477.html#L519'>set_grad</a>          519 include/vgg.h      block5_2.set_grad(o.block5_2);</span>
+<span class='curline'><a href='../S/477.html#L520'>set_grad</a>          520 include/vgg.h      block5_3.set_grad(o.block5_3);</span>
+<span class='curline'><a href='../S/477.html#L522'>set_grad</a>          522 include/vgg.h      fc1.set_grad(o.fc1);</span>
+<span class='curline'><a href='../S/477.html#L523'>set_grad</a>          523 include/vgg.h      bn_fc1.set_grad(o.bn_fc1);</span>
+<span class='curline'><a href='../S/477.html#L524'>set_grad</a>          524 include/vgg.h      fc2.set_grad(o.fc2);</span>
+<span class='curline'><a href='../S/477.html#L622'>set_grad</a>          622 include/vgg.h    vgg_plus-&gt;set_grad(*vgg_minus);</span>
+</pre>
+</body>
+</html>

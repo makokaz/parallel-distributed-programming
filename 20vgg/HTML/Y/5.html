@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>C1</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/477.html#L26'>C1</a>                 26 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L29'>C1</a>                 29 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/477.html#L41'>C1</a>                 41 include/vgg.h    Block       &lt;maxB,C0,H1,W1,K,C1&gt; block1_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L42'>C1</a>                 42 include/vgg.h    Dropout     &lt;maxB,C1,H1,W1&gt;      dropout1_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L43'>C1</a>                 43 include/vgg.h    Block       &lt;maxB,C1,H1,W1,K,C1&gt; block1_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L44'>C1</a>                 44 include/vgg.h    MaxPooling2D&lt;maxB,C1,H1,W1,S&gt;    max_pooling_2d1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L48'>C1</a>                 48 include/vgg.h      C2 = S*C1;                  /**&lt; intermediate channels */</span>
+<span class='curline'><a href='../S/477.html#L50'>C1</a>                 50 include/vgg.h    Block       &lt;maxB,C1,H2,W2,K,C2&gt; block2_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L160'>C1</a>                160 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/477.html#L161'>C1</a>                161 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* c = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/477.html#L174'>C1</a>                174 include/vgg.h    void set_dev(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/477.html#L234'>C1</a>                234 include/vgg.h        dev = (VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/477.html#L277'>C1</a>                277 include/vgg.h        VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/477.html#L322'>C1</a>                322 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x1 = block1_1.forward(x);</span>
+<span class='curline'><a href='../S/477.html#L323'>C1</a>                323 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x2 = dropout1_1.forward(x1);</span>
+<span class='curline'><a href='../S/477.html#L324'>C1</a>                324 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x3 = block1_2.forward(x2);</span>
+<span class='curline'><a href='../S/477.html#L325'>C1</a>                325 include/vgg.h      array4&lt;maxB,C1,H2,W2&gt;&amp;  x4 = max_pooling_2d1.forward(x3);</span>
+<span class='curline'><a href='../S/477.html#L408'>C1</a>                408 include/vgg.h      array4&lt;maxB,C1,H2,W2&gt;&amp;  g4 = block2_1.backward(g5);</span>
+<span class='curline'><a href='../S/477.html#L409'>C1</a>                409 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  g3 = max_pooling_2d1.backward(g4);</span>
+<span class='curline'><a href='../S/477.html#L410'>C1</a>                410 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  g2 = block1_2.backward(g3);</span>
+<span class='curline'><a href='../S/477.html#L411'>C1</a>                411 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  g1 = dropout1_1.backward(g2);</span>
+<span class='curline'><a href='../S/477.html#L503'>C1</a>                503 include/vgg.h    void set_grad(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/477.html#L532'>C1</a>                532 include/vgg.h    real gw_dot_gw(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/477.html#L533'>C1</a>                533 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/477.html#L574'>C1</a>                574 include/vgg.h  template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/477.html#L577'>C1</a>                577 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/477.html#L582'>C1</a>                582 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_minus = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L583'>C1</a>                583 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_plus  = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L691'>C1</a>                691 include/vgg.h    const int C1 = 64;</span>
+<span class='curline'><a href='../S/477.html#L705'>C1</a>                705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/466.html#L13'>C1</a>                 13 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L14'>C1</a>                 14 vgg.cc         static real train(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L35'>C1</a>                 35 vgg.cc         template&lt;idx_t maxB,idx_t C0,idx_t H,idx_t W,idx_t K,idx_t S,idx_t C1,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/466.html#L36'>C1</a>                 36 vgg.cc         static real validate(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L90'>C1</a>                 90 vgg.cc           const idx_t C1 = N_FIRST_CHANNELS; /**&lt; channels of the first stage */</span>
+<span class='curline'><a href='../S/466.html#L101'>C1</a>                101 vgg.cc           VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Block</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L35'>Block</a>              35 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/482.html#L60'>Block</a>              60 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/482.html#L61'>Block</a>              61 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;* c = new Block&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/482.html#L74'>Block</a>              74 include/block.h   void set_dev(Block&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/482.html#L94'>Block</a>              94 include/block.h       dev = (Block&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/482.html#L136'>Block</a>             136 include/block.h       Block&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/482.html#L199'>Block</a>             199 include/block.h   void set_grad(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/482.html#L209'>Block</a>             209 include/block.h   real gw_dot_gw(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/482.html#L210'>Block</a>             210 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/482.html#L240'>Block</a>             240 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block = new Block&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/482.html#L245'>Block</a>             245 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_minus = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L246'>Block</a>             246 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_plus  = block-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L41'>Block</a>              41 include/vgg.h    Block       &lt;maxB,C0,H1,W1,K,C1&gt; block1_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L43'>Block</a>              43 include/vgg.h    Block       &lt;maxB,C1,H1,W1,K,C1&gt; block1_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L50'>Block</a>              50 include/vgg.h    Block       &lt;maxB,C1,H2,W2,K,C2&gt; block2_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L52'>Block</a>              52 include/vgg.h    Block       &lt;maxB,C2,H2,W2,K,C2&gt; block2_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L59'>Block</a>              59 include/vgg.h    Block       &lt;maxB,C2,H3,W3,K,C3&gt; block3_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L61'>Block</a>              61 include/vgg.h    Block       &lt;maxB,C3,H3,W3,K,C3&gt; block3_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L63'>Block</a>              63 include/vgg.h    Block       &lt;maxB,C3,H3,W3,K,C3&gt; block3_3;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L70'>Block</a>              70 include/vgg.h    Block       &lt;maxB,C3,H4,W4,K,C4&gt; block4_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L72'>Block</a>              72 include/vgg.h    Block       &lt;maxB,C4,H4,W4,K,C4&gt; block4_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L74'>Block</a>              74 include/vgg.h    Block       &lt;maxB,C4,H4,W4,K,C4&gt; block4_3;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L80'>Block</a>              80 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L82'>Block</a>              82 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L84'>Block</a>              84 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_3;        /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>e</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L659'>e</a>                 659 include/batchnormalization.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/478.html#L661'>e</a>                 661 include/batchnormalization.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/478.html#L674'>e</a>                 674 include/batchnormalization.h   bn_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/478.html#L752'>e</a>                 752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/478.html#L753'>e</a>                 753 include/batchnormalization.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/478.html#L754'>e</a>                 754 include/batchnormalization.h     sum_e += e;</span>
+<span class='curline'><a href='../S/482.html#L264'>e</a>                 264 include/block.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/482.html#L266'>e</a>                 266 include/block.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L279'>e</a>                 279 include/block.h   block_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L361'>e</a>                 361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L362'>e</a>                 362 include/block.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/482.html#L363'>e</a>                 363 include/block.h     sum_e += e;</span>
+<span class='curline'><a href='../S/473.html#L584'>e</a>                 584 include/convolution.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/473.html#L586'>e</a>                 586 include/convolution.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L599'>e</a>                 599 include/convolution.h   conv_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L682'>e</a>                 682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/473.html#L683'>e</a>                 683 include/convolution.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/473.html#L684'>e</a>                 684 include/convolution.h     sum_e += e;</span>
+<span class='curline'><a href='../S/476.html#L13'>e</a>                  13 include/cuda_util.h static void check_api_error_(cudaError_t e,</span>
+<span class='curline'><a href='../S/476.html#L15'>e</a>                  15 include/cuda_util.h   if (e) {</span>
+<span class='curline'><a href='../S/476.html#L17'>e</a>                  17 include/cuda_util.h             file, line, msg, cudaGetErrorString(e));</span>
+<span class='curline'><a href='../S/476.html#L28'>e</a>                  28 include/cuda_util.h #define check_api_error(e) check_api_error_(e, #e, __FILE__, __LINE__)</span>
+<span class='curline'><a href='../S/476.html#L36'>e</a>                  36 include/cuda_util.h   cudaError_t e = cudaGetLastError();</span>
+<span class='curline'><a href='../S/476.html#L37'>e</a>                  37 include/cuda_util.h   if (e) {</span>
+<span class='curline'><a href='../S/476.html#L39'>e</a>                  39 include/cuda_util.h             file, line, msg, cudaGetErrorString(e));</span>
+<span class='curline'><a href='../S/476.html#L92'>e</a>                  92 include/cuda_util.h   cudaError_t e = cudaMalloc(&amp;a, sz);</span>
+<span class='curline'><a href='../S/476.html#L94'>e</a>                  94 include/cuda_util.h     fprintf(stderr, "error: %s\n", cudaGetErrorString(e));</span>
+<span class='curline'><a href='../S/468.html#L429'>e</a>                 429 include/dropout.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/468.html#L431'>e</a>                 431 include/dropout.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/468.html#L517'>e</a>                 517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L518'>e</a>                 518 include/dropout.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/468.html#L519'>e</a>                 519 include/dropout.h     sum_e += e;</span>
+<span class='curline'><a href='../S/479.html#L546'>e</a>                 546 include/linear.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/479.html#L548'>e</a>                 548 include/linear.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L561'>e</a>                 561 include/linear.h   linear_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L640'>e</a>                 640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L641'>e</a>                 641 include/linear.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/479.html#L642'>e</a>                 642 include/linear.h     sum_e += e;</span>
+<span class='curline'><a href='../S/474.html#L431'>e</a>                 431 include/maxpooling.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/474.html#L433'>e</a>                 433 include/maxpooling.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/474.html#L520'>e</a>                 520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L521'>e</a>                 521 include/maxpooling.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/474.html#L522'>e</a>                 522 include/maxpooling.h     sum_e += e;</span>
+<span class='curline'><a href='../S/471.html#L407'>e</a>                 407 include/relu.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/471.html#L409'>e</a>                 409 include/relu.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/471.html#L495'>e</a>                 495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L496'>e</a>                 496 include/relu.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/471.html#L497'>e</a>                 497 include/relu.h     sum_e += e;</span>
+<span class='curline'><a href='../S/480.html#L455'>e</a>                 455 include/softmaxcrossentropy.h   real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/480.html#L457'>e</a>                 457 include/softmaxcrossentropy.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/480.html#L543'>e</a>                 543 include/softmaxcrossentropy.h     real e = softmaxcrossentropy_grad_check_rand&lt;maxB,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/480.html#L544'>e</a>                 544 include/softmaxcrossentropy.h     max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/480.html#L545'>e</a>                 545 include/softmaxcrossentropy.h     sum_e += e;</span>
+<span class='curline'><a href='../S/477.html#L460'>e</a>                 460 include/vgg.h      real e = eta / B;</span>
+<span class='curline'><a href='../S/477.html#L461'>e</a>                 461 include/vgg.h      update(-e);</span>
+<span class='curline'><a href='../S/477.html#L606'>e</a>                 606 include/vgg.h    real e = 1.0e-4;</span>
+<span class='curline'><a href='../S/477.html#L608'>e</a>                 608 include/vgg.h    dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L621'>e</a>                 621 include/vgg.h    vgg_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L705'>e</a>                 705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L706'>e</a>                 706 include/vgg.h      max_e = max_r(max_e, e);</span>
+<span class='curline'><a href='../S/477.html#L707'>e</a>                 707 include/vgg.h      sum_e += e;</span>
+<span class='curline'><a href='../S/475.html#L533'>e</a>                 533 include/vgg_util.h   real e = (A == B ? 0.0 : fabs(A - B) / max_r(fabs(A), fabs(B)));</span>
+<span class='curline'><a href='../S/475.html#L536'>e</a>                 536 include/vgg_util.h   printf("relative error = |A-B|/max(|A|,|B|) = %.9f\n", e);</span>
+<span class='curline'><a href='../S/475.html#L537'>e</a>                 537 include/vgg_util.h   return e;</span>
+</pre>
+</body>
+</html>

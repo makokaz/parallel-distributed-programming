@@ -1,0 +1,822 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/html/search/search.js</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/485.html'>html</a>/<a href='../files/486.html'>search</a>/search.js</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/485.html'>html</a>/<a href='../files/486.html'>search</a>/search.js</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/html/search/search.js'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>function convertToId(search)
+<a id='L2' name='L2'></a>{
+<a id='L3' name='L3'></a>  var result = '';
+<a id='L4' name='L4'></a>  for (i=0;i&lt;search.length;i++)
+<a id='L5' name='L5'></a>  {
+<a id='L6' name='L6'></a>    var c = search.charAt(i);
+<a id='L7' name='L7'></a>    var cn = c.charCodeAt(0);
+<a id='L8' name='L8'></a>    if (c.match(/[a-z0-9\u0080-\uFFFF]/))
+<a id='L9' name='L9'></a>    {
+<a id='L10' name='L10'></a>      result+=c;
+<a id='L11' name='L11'></a>    }
+<a id='L12' name='L12'></a>    else if (cn&lt;16)
+<a id='L13' name='L13'></a>    {
+<a id='L14' name='L14'></a>      result+="_0"+cn.toString(16);
+<a id='L15' name='L15'></a>    }
+<a id='L16' name='L16'></a>    else
+<a id='L17' name='L17'></a>    {
+<a id='L18' name='L18'></a>      result+="_"+cn.toString(16);
+<a id='L19' name='L19'></a>    }
+<a id='L20' name='L20'></a>  }
+<a id='L21' name='L21'></a>  return result;
+<a id='L22' name='L22'></a>}
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>function getXPos(item)
+<a id='L25' name='L25'></a>{
+<a id='L26' name='L26'></a>  var x = 0;
+<a id='L27' name='L27'></a>  if (item.offsetWidth)
+<a id='L28' name='L28'></a>  {
+<a id='L29' name='L29'></a>    while (item &amp;&amp; item!=document.body)
+<a id='L30' name='L30'></a>    {
+<a id='L31' name='L31'></a>      x   += item.offsetLeft;
+<a id='L32' name='L32'></a>      item = item.offsetParent;
+<a id='L33' name='L33'></a>    }
+<a id='L34' name='L34'></a>  }
+<a id='L35' name='L35'></a>  return x;
+<a id='L36' name='L36'></a>}
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>function getYPos(item)
+<a id='L39' name='L39'></a>{
+<a id='L40' name='L40'></a>  var y = 0;
+<a id='L41' name='L41'></a>  if (item.offsetWidth)
+<a id='L42' name='L42'></a>  {
+<a id='L43' name='L43'></a>     while (item &amp;&amp; item!=document.body)
+<a id='L44' name='L44'></a>     {
+<a id='L45' name='L45'></a>       y   += item.offsetTop;
+<a id='L46' name='L46'></a>       item = item.offsetParent;
+<a id='L47' name='L47'></a>     }
+<a id='L48' name='L48'></a>  }
+<a id='L49' name='L49'></a>  return y;
+<a id='L50' name='L50'></a>}
+<a id='L51' name='L51'></a>
+<a id='L52' name='L52'></a>/* A class handling everything associated with the search panel.
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>   Parameters:
+<a id='L55' name='L55'></a>   name - The name of the global variable that will be
+<a id='L56' name='L56'></a>          storing this instance.  Is needed to be able to set timeouts.
+<a id='L57' name='L57'></a>   resultPath - path to use for external files
+<a id='L58' name='L58'></a>*/
+<a id='L59' name='L59'></a>function SearchBox(name, resultsPath, inFrame, label)
+<a id='L60' name='L60'></a>{
+<a id='L61' name='L61'></a>  if (!name || !resultsPath) {  alert("Missing parameters to SearchBox."); }
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  // ---------- Instance variables
+<a id='L64' name='L64'></a>  this.name                  = name;
+<a id='L65' name='L65'></a>  this.resultsPath           = resultsPath;
+<a id='L66' name='L66'></a>  this.keyTimeout            = 0;
+<a id='L67' name='L67'></a>  this.keyTimeoutLength      = 500;
+<a id='L68' name='L68'></a>  this.closeSelectionTimeout = 300;
+<a id='L69' name='L69'></a>  this.lastSearchValue       = "";
+<a id='L70' name='L70'></a>  this.lastResultsPage       = "";
+<a id='L71' name='L71'></a>  this.hideTimeout           = 0;
+<a id='L72' name='L72'></a>  this.searchIndex           = 0;
+<a id='L73' name='L73'></a>  this.searchActive          = false;
+<a id='L74' name='L74'></a>  this.insideFrame           = inFrame;
+<a id='L75' name='L75'></a>  this.searchLabel           = label;
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  // ----------- DOM Elements
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>  this.DOMSearchField = function()
+<a id='L80' name='L80'></a>  {  return document.getElementById("MSearchField");  }
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>  this.DOMSearchSelect = function()
+<a id='L83' name='L83'></a>  {  return document.getElementById("MSearchSelect");  }
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  this.DOMSearchSelectWindow = function()
+<a id='L86' name='L86'></a>  {  return document.getElementById("MSearchSelectWindow");  }
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>  this.DOMPopupSearchResults = function()
+<a id='L89' name='L89'></a>  {  return document.getElementById("MSearchResults");  }
+<a id='L90' name='L90'></a>
+<a id='L91' name='L91'></a>  this.DOMPopupSearchResultsWindow = function()
+<a id='L92' name='L92'></a>  {  return document.getElementById("MSearchResultsWindow");  }
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>  this.DOMSearchClose = function()
+<a id='L95' name='L95'></a>  {  return document.getElementById("MSearchClose"); }
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>  this.DOMSearchBox = function()
+<a id='L98' name='L98'></a>  {  return document.getElementById("MSearchBox");  }
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  // ------------ Event Handlers
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>  // Called when focus is added or removed from the search field.
+<a id='L103' name='L103'></a>  this.OnSearchFieldFocus = function(isActive)
+<a id='L104' name='L104'></a>  {
+<a id='L105' name='L105'></a>    this.Activate(isActive);
+<a id='L106' name='L106'></a>  }
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  this.OnSearchSelectShow = function()
+<a id='L109' name='L109'></a>  {
+<a id='L110' name='L110'></a>    var searchSelectWindow = this.DOMSearchSelectWindow();
+<a id='L111' name='L111'></a>    var searchField        = this.DOMSearchSelect();
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>    if (this.insideFrame)
+<a id='L114' name='L114'></a>    {
+<a id='L115' name='L115'></a>      var left = getXPos(searchField);
+<a id='L116' name='L116'></a>      var top  = getYPos(searchField);
+<a id='L117' name='L117'></a>      left += searchField.offsetWidth + 6;
+<a id='L118' name='L118'></a>      top += searchField.offsetHeight;
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>      // show search selection popup
+<a id='L121' name='L121'></a>      searchSelectWindow.style.display='block';
+<a id='L122' name='L122'></a>      left -= searchSelectWindow.offsetWidth;
+<a id='L123' name='L123'></a>      searchSelectWindow.style.left =  left + 'px';
+<a id='L124' name='L124'></a>      searchSelectWindow.style.top  =  top  + 'px';
+<a id='L125' name='L125'></a>    }
+<a id='L126' name='L126'></a>    else
+<a id='L127' name='L127'></a>    {
+<a id='L128' name='L128'></a>      var left = getXPos(searchField);
+<a id='L129' name='L129'></a>      var top  = getYPos(searchField);
+<a id='L130' name='L130'></a>      top += searchField.offsetHeight;
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>      // show search selection popup
+<a id='L133' name='L133'></a>      searchSelectWindow.style.display='block';
+<a id='L134' name='L134'></a>      searchSelectWindow.style.left =  left + 'px';
+<a id='L135' name='L135'></a>      searchSelectWindow.style.top  =  top  + 'px';
+<a id='L136' name='L136'></a>    }
+<a id='L137' name='L137'></a>
+<a id='L138' name='L138'></a>    // stop selection hide timer
+<a id='L139' name='L139'></a>    if (this.hideTimeout)
+<a id='L140' name='L140'></a>    {
+<a id='L141' name='L141'></a>      clearTimeout(this.hideTimeout);
+<a id='L142' name='L142'></a>      this.hideTimeout=0;
+<a id='L143' name='L143'></a>    }
+<a id='L144' name='L144'></a>    return false; // to avoid "image drag" default event
+<a id='L145' name='L145'></a>  }
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>  this.OnSearchSelectHide = function()
+<a id='L148' name='L148'></a>  {
+<a id='L149' name='L149'></a>    this.hideTimeout = setTimeout(this.name +".CloseSelectionWindow()",
+<a id='L150' name='L150'></a>                                  this.closeSelectionTimeout);
+<a id='L151' name='L151'></a>  }
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>  // Called when the content of the search field is changed.
+<a id='L154' name='L154'></a>  this.OnSearchFieldChange = function(evt)
+<a id='L155' name='L155'></a>  {
+<a id='L156' name='L156'></a>    if (this.keyTimeout) // kill running timer
+<a id='L157' name='L157'></a>    {
+<a id='L158' name='L158'></a>      clearTimeout(this.keyTimeout);
+<a id='L159' name='L159'></a>      this.keyTimeout = 0;
+<a id='L160' name='L160'></a>    }
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>    var e  = (evt) ? evt : window.event; // for IE
+<a id='L163' name='L163'></a>    if (e.keyCode==40 || e.keyCode==13)
+<a id='L164' name='L164'></a>    {
+<a id='L165' name='L165'></a>      if (e.shiftKey==1)
+<a id='L166' name='L166'></a>      {
+<a id='L167' name='L167'></a>        this.OnSearchSelectShow();
+<a id='L168' name='L168'></a>        var win=this.DOMSearchSelectWindow();
+<a id='L169' name='L169'></a>        for (i=0;i&lt;win.childNodes.length;i++)
+<a id='L170' name='L170'></a>        {
+<a id='L171' name='L171'></a>          var child = win.childNodes[i]; // get span within a
+<a id='L172' name='L172'></a>          if (child.className=='SelectItem')
+<a id='L173' name='L173'></a>          {
+<a id='L174' name='L174'></a>            child.focus();
+<a id='L175' name='L175'></a>            return;
+<a id='L176' name='L176'></a>          }
+<a id='L177' name='L177'></a>        }
+<a id='L178' name='L178'></a>        return;
+<a id='L179' name='L179'></a>      }
+<a id='L180' name='L180'></a>      else if (window.frames.MSearchResults.searchResults)
+<a id='L181' name='L181'></a>      {
+<a id='L182' name='L182'></a>        var elem = window.frames.MSearchResults.searchResults.NavNext(0);
+<a id='L183' name='L183'></a>        if (elem) elem.focus();
+<a id='L184' name='L184'></a>      }
+<a id='L185' name='L185'></a>    }
+<a id='L186' name='L186'></a>    else if (e.keyCode==27) // Escape out of the search field
+<a id='L187' name='L187'></a>    {
+<a id='L188' name='L188'></a>      this.DOMSearchField().blur();
+<a id='L189' name='L189'></a>      this.DOMPopupSearchResultsWindow().style.display = 'none';
+<a id='L190' name='L190'></a>      this.DOMSearchClose().style.display = 'none';
+<a id='L191' name='L191'></a>      this.lastSearchValue = '';
+<a id='L192' name='L192'></a>      this.Activate(false);
+<a id='L193' name='L193'></a>      return;
+<a id='L194' name='L194'></a>    }
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>    // strip whitespaces
+<a id='L197' name='L197'></a>    var searchValue = this.DOMSearchField().value.replace(/ +/g, "");
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>    if (searchValue != this.lastSearchValue) // search value has changed
+<a id='L200' name='L200'></a>    {
+<a id='L201' name='L201'></a>      if (searchValue != "") // non-empty search
+<a id='L202' name='L202'></a>      {
+<a id='L203' name='L203'></a>        // set timer for search update
+<a id='L204' name='L204'></a>        this.keyTimeout = setTimeout(this.name + '.Search()',
+<a id='L205' name='L205'></a>                                     this.keyTimeoutLength);
+<a id='L206' name='L206'></a>      }
+<a id='L207' name='L207'></a>      else // empty search field
+<a id='L208' name='L208'></a>      {
+<a id='L209' name='L209'></a>        this.DOMPopupSearchResultsWindow().style.display = 'none';
+<a id='L210' name='L210'></a>        this.DOMSearchClose().style.display = 'none';
+<a id='L211' name='L211'></a>        this.lastSearchValue = '';
+<a id='L212' name='L212'></a>      }
+<a id='L213' name='L213'></a>    }
+<a id='L214' name='L214'></a>  }
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>  this.SelectItemCount = function(id)
+<a id='L217' name='L217'></a>  {
+<a id='L218' name='L218'></a>    var count=0;
+<a id='L219' name='L219'></a>    var win=this.DOMSearchSelectWindow();
+<a id='L220' name='L220'></a>    for (i=0;i&lt;win.childNodes.length;i++)
+<a id='L221' name='L221'></a>    {
+<a id='L222' name='L222'></a>      var child = win.childNodes[i]; // get span within a
+<a id='L223' name='L223'></a>      if (child.className=='SelectItem')
+<a id='L224' name='L224'></a>      {
+<a id='L225' name='L225'></a>        count++;
+<a id='L226' name='L226'></a>      }
+<a id='L227' name='L227'></a>    }
+<a id='L228' name='L228'></a>    return count;
+<a id='L229' name='L229'></a>  }
+<a id='L230' name='L230'></a>
+<a id='L231' name='L231'></a>  this.SelectItemSet = function(id)
+<a id='L232' name='L232'></a>  {
+<a id='L233' name='L233'></a>    var i,j=0;
+<a id='L234' name='L234'></a>    var win=this.DOMSearchSelectWindow();
+<a id='L235' name='L235'></a>    for (i=0;i&lt;win.childNodes.length;i++)
+<a id='L236' name='L236'></a>    {
+<a id='L237' name='L237'></a>      var child = win.childNodes[i]; // get span within a
+<a id='L238' name='L238'></a>      if (child.className=='SelectItem')
+<a id='L239' name='L239'></a>      {
+<a id='L240' name='L240'></a>        var node = child.firstChild;
+<a id='L241' name='L241'></a>        if (j==id)
+<a id='L242' name='L242'></a>        {
+<a id='L243' name='L243'></a>          node.innerHTML='&amp;#8226;';
+<a id='L244' name='L244'></a>        }
+<a id='L245' name='L245'></a>        else
+<a id='L246' name='L246'></a>        {
+<a id='L247' name='L247'></a>          node.innerHTML='&amp;#160;';
+<a id='L248' name='L248'></a>        }
+<a id='L249' name='L249'></a>        j++;
+<a id='L250' name='L250'></a>      }
+<a id='L251' name='L251'></a>    }
+<a id='L252' name='L252'></a>  }
+<a id='L253' name='L253'></a>
+<a id='L254' name='L254'></a>  // Called when an search filter selection is made.
+<a id='L255' name='L255'></a>  // set item with index id as the active item
+<a id='L256' name='L256'></a>  this.OnSelectItem = function(id)
+<a id='L257' name='L257'></a>  {
+<a id='L258' name='L258'></a>    this.searchIndex = id;
+<a id='L259' name='L259'></a>    this.SelectItemSet(id);
+<a id='L260' name='L260'></a>    var searchValue = this.DOMSearchField().value.replace(/ +/g, "");
+<a id='L261' name='L261'></a>    if (searchValue!="" &amp;&amp; this.searchActive) // something was found -&gt; do a search
+<a id='L262' name='L262'></a>    {
+<a id='L263' name='L263'></a>      this.Search();
+<a id='L264' name='L264'></a>    }
+<a id='L265' name='L265'></a>  }
+<a id='L266' name='L266'></a>
+<a id='L267' name='L267'></a>  this.OnSearchSelectKey = function(evt)
+<a id='L268' name='L268'></a>  {
+<a id='L269' name='L269'></a>    var e = (evt) ? evt : window.event; // for IE
+<a id='L270' name='L270'></a>    if (e.keyCode==40 &amp;&amp; this.searchIndex&lt;this.SelectItemCount()) // Down
+<a id='L271' name='L271'></a>    {
+<a id='L272' name='L272'></a>      this.searchIndex++;
+<a id='L273' name='L273'></a>      this.OnSelectItem(this.searchIndex);
+<a id='L274' name='L274'></a>    }
+<a id='L275' name='L275'></a>    else if (e.keyCode==38 &amp;&amp; this.searchIndex&gt;0) // Up
+<a id='L276' name='L276'></a>    {
+<a id='L277' name='L277'></a>      this.searchIndex--;
+<a id='L278' name='L278'></a>      this.OnSelectItem(this.searchIndex);
+<a id='L279' name='L279'></a>    }
+<a id='L280' name='L280'></a>    else if (e.keyCode==13 || e.keyCode==27)
+<a id='L281' name='L281'></a>    {
+<a id='L282' name='L282'></a>      this.OnSelectItem(this.searchIndex);
+<a id='L283' name='L283'></a>      this.CloseSelectionWindow();
+<a id='L284' name='L284'></a>      this.DOMSearchField().focus();
+<a id='L285' name='L285'></a>    }
+<a id='L286' name='L286'></a>    return false;
+<a id='L287' name='L287'></a>  }
+<a id='L288' name='L288'></a>
+<a id='L289' name='L289'></a>  // --------- Actions
+<a id='L290' name='L290'></a>
+<a id='L291' name='L291'></a>  // Closes the results window.
+<a id='L292' name='L292'></a>  this.CloseResultsWindow = function()
+<a id='L293' name='L293'></a>  {
+<a id='L294' name='L294'></a>    this.DOMPopupSearchResultsWindow().style.display = 'none';
+<a id='L295' name='L295'></a>    this.DOMSearchClose().style.display = 'none';
+<a id='L296' name='L296'></a>    this.Activate(false);
+<a id='L297' name='L297'></a>  }
+<a id='L298' name='L298'></a>
+<a id='L299' name='L299'></a>  this.CloseSelectionWindow = function()
+<a id='L300' name='L300'></a>  {
+<a id='L301' name='L301'></a>    this.DOMSearchSelectWindow().style.display = 'none';
+<a id='L302' name='L302'></a>  }
+<a id='L303' name='L303'></a>
+<a id='L304' name='L304'></a>  // Performs a search.
+<a id='L305' name='L305'></a>  this.Search = function()
+<a id='L306' name='L306'></a>  {
+<a id='L307' name='L307'></a>    this.keyTimeout = 0;
+<a id='L308' name='L308'></a>
+<a id='L309' name='L309'></a>    // strip leading whitespace
+<a id='L310' name='L310'></a>    var searchValue = this.DOMSearchField().value.replace(/^ +/, "");
+<a id='L311' name='L311'></a>
+<a id='L312' name='L312'></a>    var code = searchValue.toLowerCase().charCodeAt(0);
+<a id='L313' name='L313'></a>    var idxChar = searchValue.substr(0, 1).toLowerCase();
+<a id='L314' name='L314'></a>    if ( 0xD800 &lt;= code &amp;&amp; code &lt;= 0xDBFF &amp;&amp; searchValue &gt; 1) // surrogate pair
+<a id='L315' name='L315'></a>    {
+<a id='L316' name='L316'></a>      idxChar = searchValue.substr(0, 2);
+<a id='L317' name='L317'></a>    }
+<a id='L318' name='L318'></a>
+<a id='L319' name='L319'></a>    var resultsPage;
+<a id='L320' name='L320'></a>    var resultsPageWithSearch;
+<a id='L321' name='L321'></a>    var hasResultsPage;
+<a id='L322' name='L322'></a>
+<a id='L323' name='L323'></a>    var idx = indexSectionsWithContent[this.searchIndex].indexOf(idxChar);
+<a id='L324' name='L324'></a>    if (idx!=-1)
+<a id='L325' name='L325'></a>    {
+<a id='L326' name='L326'></a>       var hexCode=idx.toString(16);
+<a id='L327' name='L327'></a>       resultsPage = this.resultsPath + '/' + indexSectionNames[this.searchIndex] + '_' + hexCode + '.html';
+<a id='L328' name='L328'></a>       resultsPageWithSearch = resultsPage+'?'+escape(searchValue);
+<a id='L329' name='L329'></a>       hasResultsPage = true;
+<a id='L330' name='L330'></a>    }
+<a id='L331' name='L331'></a>    else // nothing available for this search term
+<a id='L332' name='L332'></a>    {
+<a id='L333' name='L333'></a>       resultsPage = this.resultsPath + '/nomatches.html';
+<a id='L334' name='L334'></a>       resultsPageWithSearch = resultsPage;
+<a id='L335' name='L335'></a>       hasResultsPage = false;
+<a id='L336' name='L336'></a>    }
+<a id='L337' name='L337'></a>
+<a id='L338' name='L338'></a>    window.frames.MSearchResults.location = resultsPageWithSearch;
+<a id='L339' name='L339'></a>    var domPopupSearchResultsWindow = this.DOMPopupSearchResultsWindow();
+<a id='L340' name='L340'></a>
+<a id='L341' name='L341'></a>    if (domPopupSearchResultsWindow.style.display!='block')
+<a id='L342' name='L342'></a>    {
+<a id='L343' name='L343'></a>       var domSearchBox = this.DOMSearchBox();
+<a id='L344' name='L344'></a>       this.DOMSearchClose().style.display = 'inline';
+<a id='L345' name='L345'></a>       if (this.insideFrame)
+<a id='L346' name='L346'></a>       {
+<a id='L347' name='L347'></a>         var domPopupSearchResults = this.DOMPopupSearchResults();
+<a id='L348' name='L348'></a>         domPopupSearchResultsWindow.style.position = 'relative';
+<a id='L349' name='L349'></a>         domPopupSearchResultsWindow.style.display  = 'block';
+<a id='L350' name='L350'></a>         var width = document.body.clientWidth - 8; // the -8 is for IE :-(
+<a id='L351' name='L351'></a>         domPopupSearchResultsWindow.style.width    = width + 'px';
+<a id='L352' name='L352'></a>         domPopupSearchResults.style.width          = width + 'px';
+<a id='L353' name='L353'></a>       }
+<a id='L354' name='L354'></a>       else
+<a id='L355' name='L355'></a>       {
+<a id='L356' name='L356'></a>         var domPopupSearchResults = this.DOMPopupSearchResults();
+<a id='L357' name='L357'></a>         var left = getXPos(domSearchBox) + 150; // domSearchBox.offsetWidth;
+<a id='L358' name='L358'></a>         var top  = getYPos(domSearchBox) + 20;  // domSearchBox.offsetHeight + 1;
+<a id='L359' name='L359'></a>         domPopupSearchResultsWindow.style.display = 'block';
+<a id='L360' name='L360'></a>         left -= domPopupSearchResults.offsetWidth;
+<a id='L361' name='L361'></a>         domPopupSearchResultsWindow.style.top     = top  + 'px';
+<a id='L362' name='L362'></a>         domPopupSearchResultsWindow.style.left    = left + 'px';
+<a id='L363' name='L363'></a>       }
+<a id='L364' name='L364'></a>    }
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>    this.lastSearchValue = searchValue;
+<a id='L367' name='L367'></a>    this.lastResultsPage = resultsPage;
+<a id='L368' name='L368'></a>  }
+<a id='L369' name='L369'></a>
+<a id='L370' name='L370'></a>  // -------- Activation Functions
+<a id='L371' name='L371'></a>
+<a id='L372' name='L372'></a>  // Activates or deactivates the search panel, resetting things to
+<a id='L373' name='L373'></a>  // their default values if necessary.
+<a id='L374' name='L374'></a>  this.Activate = function(isActive)
+<a id='L375' name='L375'></a>  {
+<a id='L376' name='L376'></a>    if (isActive || // open it
+<a id='L377' name='L377'></a>        this.DOMPopupSearchResultsWindow().style.display == 'block'
+<a id='L378' name='L378'></a>       )
+<a id='L379' name='L379'></a>    {
+<a id='L380' name='L380'></a>      this.DOMSearchBox().className = 'MSearchBoxActive';
+<a id='L381' name='L381'></a>
+<a id='L382' name='L382'></a>      var searchField = this.DOMSearchField();
+<a id='L383' name='L383'></a>
+<a id='L384' name='L384'></a>      if (searchField.value == this.searchLabel) // clear "Search" term upon entry
+<a id='L385' name='L385'></a>      {
+<a id='L386' name='L386'></a>        searchField.value = '';
+<a id='L387' name='L387'></a>        this.searchActive = true;
+<a id='L388' name='L388'></a>      }
+<a id='L389' name='L389'></a>    }
+<a id='L390' name='L390'></a>    else if (!isActive) // directly remove the panel
+<a id='L391' name='L391'></a>    {
+<a id='L392' name='L392'></a>      this.DOMSearchBox().className = 'MSearchBoxInactive';
+<a id='L393' name='L393'></a>      this.DOMSearchField().value   = this.searchLabel;
+<a id='L394' name='L394'></a>      this.searchActive             = false;
+<a id='L395' name='L395'></a>      this.lastSearchValue          = ''
+<a id='L396' name='L396'></a>      this.lastResultsPage          = '';
+<a id='L397' name='L397'></a>    }
+<a id='L398' name='L398'></a>  }
+<a id='L399' name='L399'></a>}
+<a id='L400' name='L400'></a>
+<a id='L401' name='L401'></a>// -----------------------------------------------------------------------
+<a id='L402' name='L402'></a>
+<a id='L403' name='L403'></a>// The class that handles everything on the search results page.
+<a id='L404' name='L404'></a>function SearchResults(name)
+<a id='L405' name='L405'></a>{
+<a id='L406' name='L406'></a>    // The number of matches from the last run of &lt;Search()&gt;.
+<a id='L407' name='L407'></a>    this.lastMatchCount = 0;
+<a id='L408' name='L408'></a>    this.lastKey = 0;
+<a id='L409' name='L409'></a>    this.repeatOn = false;
+<a id='L410' name='L410'></a>
+<a id='L411' name='L411'></a>    // Toggles the visibility of the passed element ID.
+<a id='L412' name='L412'></a>    this.FindChildElement = function(id)
+<a id='L413' name='L413'></a>    {
+<a id='L414' name='L414'></a>      var parentElement = document.getElementById(id);
+<a id='L415' name='L415'></a>      var element = parentElement.firstChild;
+<a id='L416' name='L416'></a>
+<a id='L417' name='L417'></a>      while (element &amp;&amp; element!=parentElement)
+<a id='L418' name='L418'></a>      {
+<a id='L419' name='L419'></a>        if (element.nodeName == 'DIV' &amp;&amp; element.className == 'SRChildren')
+<a id='L420' name='L420'></a>        {
+<a id='L421' name='L421'></a>          return element;
+<a id='L422' name='L422'></a>        }
+<a id='L423' name='L423'></a>
+<a id='L424' name='L424'></a>        if (element.nodeName == 'DIV' &amp;&amp; element.hasChildNodes())
+<a id='L425' name='L425'></a>        {
+<a id='L426' name='L426'></a>           element = element.firstChild;
+<a id='L427' name='L427'></a>        }
+<a id='L428' name='L428'></a>        else if (element.nextSibling)
+<a id='L429' name='L429'></a>        {
+<a id='L430' name='L430'></a>           element = element.nextSibling;
+<a id='L431' name='L431'></a>        }
+<a id='L432' name='L432'></a>        else
+<a id='L433' name='L433'></a>        {
+<a id='L434' name='L434'></a>          do
+<a id='L435' name='L435'></a>          {
+<a id='L436' name='L436'></a>            element = element.parentNode;
+<a id='L437' name='L437'></a>          }
+<a id='L438' name='L438'></a>          while (element &amp;&amp; element!=parentElement &amp;&amp; !element.nextSibling);
+<a id='L439' name='L439'></a>
+<a id='L440' name='L440'></a>          if (element &amp;&amp; element!=parentElement)
+<a id='L441' name='L441'></a>          {
+<a id='L442' name='L442'></a>            element = element.nextSibling;
+<a id='L443' name='L443'></a>          }
+<a id='L444' name='L444'></a>        }
+<a id='L445' name='L445'></a>      }
+<a id='L446' name='L446'></a>    }
+<a id='L447' name='L447'></a>
+<a id='L448' name='L448'></a>    this.Toggle = function(id)
+<a id='L449' name='L449'></a>    {
+<a id='L450' name='L450'></a>      var element = this.FindChildElement(id);
+<a id='L451' name='L451'></a>      if (element)
+<a id='L452' name='L452'></a>      {
+<a id='L453' name='L453'></a>        if (element.style.display == 'block')
+<a id='L454' name='L454'></a>        {
+<a id='L455' name='L455'></a>          element.style.display = 'none';
+<a id='L456' name='L456'></a>        }
+<a id='L457' name='L457'></a>        else
+<a id='L458' name='L458'></a>        {
+<a id='L459' name='L459'></a>          element.style.display = 'block';
+<a id='L460' name='L460'></a>        }
+<a id='L461' name='L461'></a>      }
+<a id='L462' name='L462'></a>    }
+<a id='L463' name='L463'></a>
+<a id='L464' name='L464'></a>    // Searches for the passed string.  If there is no parameter,
+<a id='L465' name='L465'></a>    // it takes it from the URL query.
+<a id='L466' name='L466'></a>    //
+<a id='L467' name='L467'></a>    // Always returns true, since other documents may try to call it
+<a id='L468' name='L468'></a>    // and that may or may not be possible.
+<a id='L469' name='L469'></a>    this.Search = function(search)
+<a id='L470' name='L470'></a>    {
+<a id='L471' name='L471'></a>      if (!search) // get search word from URL
+<a id='L472' name='L472'></a>      {
+<a id='L473' name='L473'></a>        search = window.location.search;
+<a id='L474' name='L474'></a>        search = search.substring(1);  // Remove the leading '?'
+<a id='L475' name='L475'></a>        search = unescape(search);
+<a id='L476' name='L476'></a>      }
+<a id='L477' name='L477'></a>
+<a id='L478' name='L478'></a>      search = search.replace(/^ +/, ""); // strip leading spaces
+<a id='L479' name='L479'></a>      search = search.replace(/ +$/, ""); // strip trailing spaces
+<a id='L480' name='L480'></a>      search = search.toLowerCase();
+<a id='L481' name='L481'></a>      search = convertToId(search);
+<a id='L482' name='L482'></a>
+<a id='L483' name='L483'></a>      var resultRows = document.getElementsByTagName("div");
+<a id='L484' name='L484'></a>      var matches = 0;
+<a id='L485' name='L485'></a>
+<a id='L486' name='L486'></a>      var i = 0;
+<a id='L487' name='L487'></a>      while (i &lt; resultRows.length)
+<a id='L488' name='L488'></a>      {
+<a id='L489' name='L489'></a>        var row = resultRows.item(i);
+<a id='L490' name='L490'></a>        if (row.className == "SRResult")
+<a id='L491' name='L491'></a>        {
+<a id='L492' name='L492'></a>          var rowMatchName = row.id.toLowerCase();
+<a id='L493' name='L493'></a>          rowMatchName = rowMatchName.replace(/^sr\d*_/, ''); // strip 'sr123_'
+<a id='L494' name='L494'></a>
+<a id='L495' name='L495'></a>          if (search.length&lt;=rowMatchName.length &amp;&amp;
+<a id='L496' name='L496'></a>             rowMatchName.substr(0, search.length)==search)
+<a id='L497' name='L497'></a>          {
+<a id='L498' name='L498'></a>            row.style.display = 'block';
+<a id='L499' name='L499'></a>            matches++;
+<a id='L500' name='L500'></a>          }
+<a id='L501' name='L501'></a>          else
+<a id='L502' name='L502'></a>          {
+<a id='L503' name='L503'></a>            row.style.display = 'none';
+<a id='L504' name='L504'></a>          }
+<a id='L505' name='L505'></a>        }
+<a id='L506' name='L506'></a>        i++;
+<a id='L507' name='L507'></a>      }
+<a id='L508' name='L508'></a>      document.getElementById("Searching").style.display='none';
+<a id='L509' name='L509'></a>      if (matches == 0) // no results
+<a id='L510' name='L510'></a>      {
+<a id='L511' name='L511'></a>        document.getElementById("NoMatches").style.display='block';
+<a id='L512' name='L512'></a>      }
+<a id='L513' name='L513'></a>      else // at least one result
+<a id='L514' name='L514'></a>      {
+<a id='L515' name='L515'></a>        document.getElementById("NoMatches").style.display='none';
+<a id='L516' name='L516'></a>      }
+<a id='L517' name='L517'></a>      this.lastMatchCount = matches;
+<a id='L518' name='L518'></a>      return true;
+<a id='L519' name='L519'></a>    }
+<a id='L520' name='L520'></a>
+<a id='L521' name='L521'></a>    // return the first item with index index or higher that is visible
+<a id='L522' name='L522'></a>    this.NavNext = function(index)
+<a id='L523' name='L523'></a>    {
+<a id='L524' name='L524'></a>      var focusItem;
+<a id='L525' name='L525'></a>      while (1)
+<a id='L526' name='L526'></a>      {
+<a id='L527' name='L527'></a>        var focusName = 'Item'+index;
+<a id='L528' name='L528'></a>        focusItem = document.getElementById(focusName);
+<a id='L529' name='L529'></a>        if (focusItem &amp;&amp; focusItem.parentNode.parentNode.style.display=='block')
+<a id='L530' name='L530'></a>        {
+<a id='L531' name='L531'></a>          break;
+<a id='L532' name='L532'></a>        }
+<a id='L533' name='L533'></a>        else if (!focusItem) // last element
+<a id='L534' name='L534'></a>        {
+<a id='L535' name='L535'></a>          break;
+<a id='L536' name='L536'></a>        }
+<a id='L537' name='L537'></a>        focusItem=null;
+<a id='L538' name='L538'></a>        index++;
+<a id='L539' name='L539'></a>      }
+<a id='L540' name='L540'></a>      return focusItem;
+<a id='L541' name='L541'></a>    }
+<a id='L542' name='L542'></a>
+<a id='L543' name='L543'></a>    this.NavPrev = function(index)
+<a id='L544' name='L544'></a>    {
+<a id='L545' name='L545'></a>      var focusItem;
+<a id='L546' name='L546'></a>      while (1)
+<a id='L547' name='L547'></a>      {
+<a id='L548' name='L548'></a>        var focusName = 'Item'+index;
+<a id='L549' name='L549'></a>        focusItem = document.getElementById(focusName);
+<a id='L550' name='L550'></a>        if (focusItem &amp;&amp; focusItem.parentNode.parentNode.style.display=='block')
+<a id='L551' name='L551'></a>        {
+<a id='L552' name='L552'></a>          break;
+<a id='L553' name='L553'></a>        }
+<a id='L554' name='L554'></a>        else if (!focusItem) // last element
+<a id='L555' name='L555'></a>        {
+<a id='L556' name='L556'></a>          break;
+<a id='L557' name='L557'></a>        }
+<a id='L558' name='L558'></a>        focusItem=null;
+<a id='L559' name='L559'></a>        index--;
+<a id='L560' name='L560'></a>      }
+<a id='L561' name='L561'></a>      return focusItem;
+<a id='L562' name='L562'></a>    }
+<a id='L563' name='L563'></a>
+<a id='L564' name='L564'></a>    this.ProcessKeys = function(e)
+<a id='L565' name='L565'></a>    {
+<a id='L566' name='L566'></a>      if (e.type == "keydown")
+<a id='L567' name='L567'></a>      {
+<a id='L568' name='L568'></a>        this.repeatOn = false;
+<a id='L569' name='L569'></a>        this.lastKey = e.keyCode;
+<a id='L570' name='L570'></a>      }
+<a id='L571' name='L571'></a>      else if (e.type == "keypress")
+<a id='L572' name='L572'></a>      {
+<a id='L573' name='L573'></a>        if (!this.repeatOn)
+<a id='L574' name='L574'></a>        {
+<a id='L575' name='L575'></a>          if (this.lastKey) this.repeatOn = true;
+<a id='L576' name='L576'></a>          return false; // ignore first keypress after keydown
+<a id='L577' name='L577'></a>        }
+<a id='L578' name='L578'></a>      }
+<a id='L579' name='L579'></a>      else if (e.type == "keyup")
+<a id='L580' name='L580'></a>      {
+<a id='L581' name='L581'></a>        this.lastKey = 0;
+<a id='L582' name='L582'></a>        this.repeatOn = false;
+<a id='L583' name='L583'></a>      }
+<a id='L584' name='L584'></a>      return this.lastKey!=0;
+<a id='L585' name='L585'></a>    }
+<a id='L586' name='L586'></a>
+<a id='L587' name='L587'></a>    this.Nav = function(evt,itemIndex)
+<a id='L588' name='L588'></a>    {
+<a id='L589' name='L589'></a>      var e  = (evt) ? evt : window.event; // for IE
+<a id='L590' name='L590'></a>      if (e.keyCode==13) return true;
+<a id='L591' name='L591'></a>      if (!this.ProcessKeys(e)) return false;
+<a id='L592' name='L592'></a>
+<a id='L593' name='L593'></a>      if (this.lastKey==38) // Up
+<a id='L594' name='L594'></a>      {
+<a id='L595' name='L595'></a>        var newIndex = itemIndex-1;
+<a id='L596' name='L596'></a>        var focusItem = this.NavPrev(newIndex);
+<a id='L597' name='L597'></a>        if (focusItem)
+<a id='L598' name='L598'></a>        {
+<a id='L599' name='L599'></a>          var child = this.FindChildElement(focusItem.parentNode.parentNode.id);
+<a id='L600' name='L600'></a>          if (child &amp;&amp; child.style.display == 'block') // children visible
+<a id='L601' name='L601'></a>          {
+<a id='L602' name='L602'></a>            var n=0;
+<a id='L603' name='L603'></a>            var tmpElem;
+<a id='L604' name='L604'></a>            while (1) // search for last child
+<a id='L605' name='L605'></a>            {
+<a id='L606' name='L606'></a>              tmpElem = document.getElementById('Item'+newIndex+'_c'+n);
+<a id='L607' name='L607'></a>              if (tmpElem)
+<a id='L608' name='L608'></a>              {
+<a id='L609' name='L609'></a>                focusItem = tmpElem;
+<a id='L610' name='L610'></a>              }
+<a id='L611' name='L611'></a>              else // found it!
+<a id='L612' name='L612'></a>              {
+<a id='L613' name='L613'></a>                break;
+<a id='L614' name='L614'></a>              }
+<a id='L615' name='L615'></a>              n++;
+<a id='L616' name='L616'></a>            }
+<a id='L617' name='L617'></a>          }
+<a id='L618' name='L618'></a>        }
+<a id='L619' name='L619'></a>        if (focusItem)
+<a id='L620' name='L620'></a>        {
+<a id='L621' name='L621'></a>          focusItem.focus();
+<a id='L622' name='L622'></a>        }
+<a id='L623' name='L623'></a>        else // return focus to search field
+<a id='L624' name='L624'></a>        {
+<a id='L625' name='L625'></a>           parent.document.getElementById("MSearchField").focus();
+<a id='L626' name='L626'></a>        }
+<a id='L627' name='L627'></a>      }
+<a id='L628' name='L628'></a>      else if (this.lastKey==40) // Down
+<a id='L629' name='L629'></a>      {
+<a id='L630' name='L630'></a>        var newIndex = itemIndex+1;
+<a id='L631' name='L631'></a>        var focusItem;
+<a id='L632' name='L632'></a>        var item = document.getElementById('Item'+itemIndex);
+<a id='L633' name='L633'></a>        var elem = this.FindChildElement(item.parentNode.parentNode.id);
+<a id='L634' name='L634'></a>        if (elem &amp;&amp; elem.style.display == 'block') // children visible
+<a id='L635' name='L635'></a>        {
+<a id='L636' name='L636'></a>          focusItem = document.getElementById('Item'+itemIndex+'_c0');
+<a id='L637' name='L637'></a>        }
+<a id='L638' name='L638'></a>        if (!focusItem) focusItem = this.NavNext(newIndex);
+<a id='L639' name='L639'></a>        if (focusItem)  focusItem.focus();
+<a id='L640' name='L640'></a>      }
+<a id='L641' name='L641'></a>      else if (this.lastKey==39) // Right
+<a id='L642' name='L642'></a>      {
+<a id='L643' name='L643'></a>        var item = document.getElementById('Item'+itemIndex);
+<a id='L644' name='L644'></a>        var elem = this.FindChildElement(item.parentNode.parentNode.id);
+<a id='L645' name='L645'></a>        if (elem) elem.style.display = 'block';
+<a id='L646' name='L646'></a>      }
+<a id='L647' name='L647'></a>      else if (this.lastKey==37) // Left
+<a id='L648' name='L648'></a>      {
+<a id='L649' name='L649'></a>        var item = document.getElementById('Item'+itemIndex);
+<a id='L650' name='L650'></a>        var elem = this.FindChildElement(item.parentNode.parentNode.id);
+<a id='L651' name='L651'></a>        if (elem) elem.style.display = 'none';
+<a id='L652' name='L652'></a>      }
+<a id='L653' name='L653'></a>      else if (this.lastKey==27) // Escape
+<a id='L654' name='L654'></a>      {
+<a id='L655' name='L655'></a>        parent.searchBox.CloseResultsWindow();
+<a id='L656' name='L656'></a>        parent.document.getElementById("MSearchField").focus();
+<a id='L657' name='L657'></a>      }
+<a id='L658' name='L658'></a>      else if (this.lastKey==13) // Enter
+<a id='L659' name='L659'></a>      {
+<a id='L660' name='L660'></a>        return true;
+<a id='L661' name='L661'></a>      }
+<a id='L662' name='L662'></a>      return false;
+<a id='L663' name='L663'></a>    }
+<a id='L664' name='L664'></a>
+<a id='L665' name='L665'></a>    this.NavChild = function(evt,itemIndex,childIndex)
+<a id='L666' name='L666'></a>    {
+<a id='L667' name='L667'></a>      var e  = (evt) ? evt : window.event; // for IE
+<a id='L668' name='L668'></a>      if (e.keyCode==13) return true;
+<a id='L669' name='L669'></a>      if (!this.ProcessKeys(e)) return false;
+<a id='L670' name='L670'></a>
+<a id='L671' name='L671'></a>      if (this.lastKey==38) // Up
+<a id='L672' name='L672'></a>      {
+<a id='L673' name='L673'></a>        if (childIndex&gt;0)
+<a id='L674' name='L674'></a>        {
+<a id='L675' name='L675'></a>          var newIndex = childIndex-1;
+<a id='L676' name='L676'></a>          document.getElementById('Item'+itemIndex+'_c'+newIndex).focus();
+<a id='L677' name='L677'></a>        }
+<a id='L678' name='L678'></a>        else // already at first child, jump to parent
+<a id='L679' name='L679'></a>        {
+<a id='L680' name='L680'></a>          document.getElementById('Item'+itemIndex).focus();
+<a id='L681' name='L681'></a>        }
+<a id='L682' name='L682'></a>      }
+<a id='L683' name='L683'></a>      else if (this.lastKey==40) // Down
+<a id='L684' name='L684'></a>      {
+<a id='L685' name='L685'></a>        var newIndex = childIndex+1;
+<a id='L686' name='L686'></a>        var elem = document.getElementById('Item'+itemIndex+'_c'+newIndex);
+<a id='L687' name='L687'></a>        if (!elem) // last child, jump to parent next parent
+<a id='L688' name='L688'></a>        {
+<a id='L689' name='L689'></a>          elem = this.NavNext(itemIndex+1);
+<a id='L690' name='L690'></a>        }
+<a id='L691' name='L691'></a>        if (elem)
+<a id='L692' name='L692'></a>        {
+<a id='L693' name='L693'></a>          elem.focus();
+<a id='L694' name='L694'></a>        }
+<a id='L695' name='L695'></a>      }
+<a id='L696' name='L696'></a>      else if (this.lastKey==27) // Escape
+<a id='L697' name='L697'></a>      {
+<a id='L698' name='L698'></a>        parent.searchBox.CloseResultsWindow();
+<a id='L699' name='L699'></a>        parent.document.getElementById("MSearchField").focus();
+<a id='L700' name='L700'></a>      }
+<a id='L701' name='L701'></a>      else if (this.lastKey==13) // Enter
+<a id='L702' name='L702'></a>      {
+<a id='L703' name='L703'></a>        return true;
+<a id='L704' name='L704'></a>      }
+<a id='L705' name='L705'></a>      return false;
+<a id='L706' name='L706'></a>    }
+<a id='L707' name='L707'></a>}
+<a id='L708' name='L708'></a>
+<a id='L709' name='L709'></a>function setKeyActions(elem,action)
+<a id='L710' name='L710'></a>{
+<a id='L711' name='L711'></a>  elem.setAttribute('onkeydown',action);
+<a id='L712' name='L712'></a>  elem.setAttribute('onkeypress',action);
+<a id='L713' name='L713'></a>  elem.setAttribute('onkeyup',action);
+<a id='L714' name='L714'></a>}
+<a id='L715' name='L715'></a>
+<a id='L716' name='L716'></a>function setClassAttr(elem,attr)
+<a id='L717' name='L717'></a>{
+<a id='L718' name='L718'></a>  elem.setAttribute('class',attr);
+<a id='L719' name='L719'></a>  elem.setAttribute('className',attr);
+<a id='L720' name='L720'></a>}
+<a id='L721' name='L721'></a>
+<a id='L722' name='L722'></a>function createResults()
+<a id='L723' name='L723'></a>{
+<a id='L724' name='L724'></a>  var results = document.getElementById("SRResults");
+<a id='L725' name='L725'></a>  for (var e=0; e&lt;searchData.length; e++)
+<a id='L726' name='L726'></a>  {
+<a id='L727' name='L727'></a>    var id = searchData[e][0];
+<a id='L728' name='L728'></a>    var srResult = document.createElement('div');
+<a id='L729' name='L729'></a>    srResult.setAttribute('id','SR_'+id);
+<a id='L730' name='L730'></a>    setClassAttr(srResult,'SRResult');
+<a id='L731' name='L731'></a>    var srEntry = document.createElement('div');
+<a id='L732' name='L732'></a>    setClassAttr(srEntry,'SREntry');
+<a id='L733' name='L733'></a>    var srLink = document.createElement('a');
+<a id='L734' name='L734'></a>    srLink.setAttribute('id','Item'+e);
+<a id='L735' name='L735'></a>    setKeyActions(srLink,'return searchResults.Nav(event,'+e+')');
+<a id='L736' name='L736'></a>    setClassAttr(srLink,'SRSymbol');
+<a id='L737' name='L737'></a>    srLink.innerHTML = searchData[e][1][0];
+<a id='L738' name='L738'></a>    srEntry.appendChild(srLink);
+<a id='L739' name='L739'></a>    if (searchData[e][1].length==2) // single result
+<a id='L740' name='L740'></a>    {
+<a id='L741' name='L741'></a>      srLink.setAttribute('href',searchData[e][1][1][0]);
+<a id='L742' name='L742'></a>      if (searchData[e][1][1][1])
+<a id='L743' name='L743'></a>      {
+<a id='L744' name='L744'></a>       srLink.setAttribute('target','_parent');
+<a id='L745' name='L745'></a>      }
+<a id='L746' name='L746'></a>      var srScope = document.createElement('span');
+<a id='L747' name='L747'></a>      setClassAttr(srScope,'SRScope');
+<a id='L748' name='L748'></a>      srScope.innerHTML = searchData[e][1][1][2];
+<a id='L749' name='L749'></a>      srEntry.appendChild(srScope);
+<a id='L750' name='L750'></a>    }
+<a id='L751' name='L751'></a>    else // multiple results
+<a id='L752' name='L752'></a>    {
+<a id='L753' name='L753'></a>      srLink.setAttribute('href','javascript:searchResults.Toggle("SR_'+id+'")');
+<a id='L754' name='L754'></a>      var srChildren = document.createElement('div');
+<a id='L755' name='L755'></a>      setClassAttr(srChildren,'SRChildren');
+<a id='L756' name='L756'></a>      for (var c=0; c&lt;searchData[e][1].length-1; c++)
+<a id='L757' name='L757'></a>      {
+<a id='L758' name='L758'></a>        var srChild = document.createElement('a');
+<a id='L759' name='L759'></a>        srChild.setAttribute('id','Item'+e+'_c'+c);
+<a id='L760' name='L760'></a>        setKeyActions(srChild,'return searchResults.NavChild(event,'+e+','+c+')');
+<a id='L761' name='L761'></a>        setClassAttr(srChild,'SRScope');
+<a id='L762' name='L762'></a>        srChild.setAttribute('href',searchData[e][1][c+1][0]);
+<a id='L763' name='L763'></a>        if (searchData[e][1][c+1][1])
+<a id='L764' name='L764'></a>        {
+<a id='L765' name='L765'></a>         srChild.setAttribute('target','_parent');
+<a id='L766' name='L766'></a>        }
+<a id='L767' name='L767'></a>        srChild.innerHTML = searchData[e][1][c+1][2];
+<a id='L768' name='L768'></a>        srChildren.appendChild(srChild);
+<a id='L769' name='L769'></a>      }
+<a id='L770' name='L770'></a>      srEntry.appendChild(srChildren);
+<a id='L771' name='L771'></a>    }
+<a id='L772' name='L772'></a>    srResult.appendChild(srEntry);
+<a id='L773' name='L773'></a>    results.appendChild(srResult);
+<a id='L774' name='L774'></a>  }
+<a id='L775' name='L775'></a>}
+<a id='L776' name='L776'></a>
+<a id='L777' name='L777'></a>function init_search()
+<a id='L778' name='L778'></a>{
+<a id='L779' name='L779'></a>  var results = document.getElementById("MSearchSelectWindow");
+<a id='L780' name='L780'></a>  for (var key in indexSectionLabels)
+<a id='L781' name='L781'></a>  {
+<a id='L782' name='L782'></a>    var link = document.createElement('a');
+<a id='L783' name='L783'></a>    link.setAttribute('class','SelectItem');
+<a id='L784' name='L784'></a>    link.setAttribute('onclick','searchBox.OnSelectItem('+key+')');
+<a id='L785' name='L785'></a>    link.href='javascript:void(0)';
+<a id='L786' name='L786'></a>    link.innerHTML='&lt;span class="SelectionMark"&gt;&amp;#160;&lt;/span&gt;'+indexSectionLabels[key];
+<a id='L787' name='L787'></a>    results.appendChild(link);
+<a id='L788' name='L788'></a>  }
+<a id='L789' name='L789'></a>  searchBox.OnSelectItem(0);
+<a id='L790' name='L790'></a>}
+<a id='L791' name='L791'></a>
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+791 doc/html/search/search.js'  /> */</em>
+</body>
+</html>

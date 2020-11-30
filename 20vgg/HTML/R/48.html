@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ivec</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/469.html#L284'>ivec</a>              284 include/cifar.h   int get_data_train(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t B) {</span>
+<span class='curline'><a href='../S/469.html#L314'>ivec</a>              314 include/cifar.h   int get_data_validate(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t from, idx_t to) {</span>
+<span class='curline'><a href='../S/469.html#L361'>ivec</a>              361 include/cifar.h   ivec&lt;maxB&gt; t;</span>
+<span class='curline'><a href='../S/469.html#L362'>ivec</a>              362 include/cifar.h   ivec&lt;maxB&gt; idxs;</span>
+<span class='curline'><a href='../S/480.html#L26'>ivec</a>               26 include/softmaxcrossentropy.h                                  array4&lt;maxB,nC,1,1&gt;* x_dev, ivec&lt;maxB&gt;* t_dev) {</span>
+<span class='curline'><a href='../S/480.html#L68'>ivec</a>               68 include/softmaxcrossentropy.h   ivec&lt;maxB&gt;* t_ptr;            /**&lt; pointer to the true labels passed to forward */</span>
+<span class='curline'><a href='../S/480.html#L218'>ivec</a>              218 include/softmaxcrossentropy.h   void forward_base(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L241'>ivec</a>              241 include/softmaxcrossentropy.h   void forward_dev(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L254'>ivec</a>              254 include/softmaxcrossentropy.h   void forward_gpu(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L266'>ivec</a>              266 include/softmaxcrossentropy.h   void forward_cpu(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L276'>ivec</a>              276 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L318'>ivec</a>              318 include/softmaxcrossentropy.h     ivec&lt;maxB&gt;&amp; t = *t_ptr;</span>
+<span class='curline'><a href='../S/480.html#L445'>ivec</a>              445 include/softmaxcrossentropy.h   ivec&lt;maxB&gt; * t = new ivec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/477.html#L34'>ivec</a>               34 include/vgg.h    ivec&lt;maxB&gt; t;                 /**&lt; true labels of images */</span>
+<span class='curline'><a href='../S/477.html#L35'>ivec</a>               35 include/vgg.h    ivec&lt;maxB&gt; idxs;              /**&lt; indexes of images */</span>
+<span class='curline'><a href='../S/477.html#L320'>ivec</a>              320 include/vgg.h    vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/477.html#L450'>ivec</a>              450 include/vgg.h    real forward_backward_update(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, real eta) {</span>
+<span class='curline'><a href='../S/477.html#L595'>ivec</a>              595 include/vgg.h    ivec&lt;maxB&gt;* t = new ivec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/481.html#L260'>ivec</a>              260 include/vgg_arrays.h   ivec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L289'>ivec</a>              289 include/vgg_arrays.h     ivec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L303'>ivec</a>              303 include/vgg_arrays.h     ivec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L312'>ivec</a>              312 include/vgg_arrays.h   void set_dev(ivec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L327'>ivec</a>              327 include/vgg_arrays.h       dev = (ivec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L362'>ivec</a>              362 include/vgg_arrays.h       ivec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L962'>ivec</a>              962 include/vgg_arrays.h   ivec&lt;N&gt; iv;</span>
+</pre>
+</body>
+</html>

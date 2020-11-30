@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>conv_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/473.html#L565'>conv_minus</a>        565 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_minus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L599'>conv_minus</a>        599 include/convolution.h   conv_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L600'>conv_minus</a>        600 include/convolution.h   conv_plus-&gt;set_grad(*conv_minus);</span>
+<span class='curline'><a href='../S/473.html#L602'>conv_minus</a>        602 include/convolution.h   conv_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/473.html#L605'>conv_minus</a>        605 include/convolution.h   conv_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/473.html#L608'>conv_minus</a>        608 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = conv_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/473.html#L623'>conv_minus</a>        623 include/convolution.h   real dw_dw = conv_minus-&gt;gw_dot_gw(*conv_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/473.html#L624'>conv_minus</a>        624 include/convolution.h   real gw_dw = conv-&gt;gw_dot_gw(*conv_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/473.html#L629'>conv_minus</a>        629 include/convolution.h   conv_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/473.html#L638'>conv_minus</a>        638 include/convolution.h   delete conv_minus;</span>
+</pre>
+</body>
+</html>

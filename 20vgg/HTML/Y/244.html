@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>gx</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L87'>gx</a>                 87 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; gx;       /**&lt; gradient of loss wrt x  */</span>
+<span class='curline'><a href='../S/478.html#L129'>gx</a>                129 include/batchnormalization.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/478.html#L461'>gx</a>                461 include/batchnormalization.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/478.html#L486'>gx</a>                486 include/batchnormalization.h               gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));</span>
+<span class='curline'><a href='../S/478.html#L496'>gx</a>                496 include/batchnormalization.h               gx(b,ic,i,j) = gy(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L575'>gx</a>                575 include/batchnormalization.h     return gx;</span>
+<span class='curline'><a href='../S/478.html#L654'>gx</a>                654 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = bn-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/478.html#L694'>gx</a>                694 include/batchnormalization.h   real gx_gx = gx.dot(gx);                       /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/478.html#L696'>gx</a>                696 include/batchnormalization.h   real gx_dx = gx.dot(*dx);                      /* dx・dx */</span>
+<span class='curline'><a href='../S/482.html#L179'>gx</a>                179 include/block.h     array4&lt;maxB,IC,H,W&gt;&amp; gx = conv.backward(g1);</span>
+<span class='curline'><a href='../S/482.html#L180'>gx</a>                180 include/block.h     return gx;</span>
+<span class='curline'><a href='../S/482.html#L259'>gx</a>                259 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = block-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/482.html#L299'>gx</a>                299 include/block.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/482.html#L301'>gx</a>                301 include/block.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/473.html#L87'>gx</a>                 87 include/convolution.h   array4&lt;maxB,IC,H,W&gt; gx;          /**&lt; ∂L/∂x */</span>
+<span class='curline'><a href='../S/473.html#L124'>gx</a>                124 include/convolution.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/473.html#L392'>gx</a>                392 include/convolution.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/473.html#L428'>gx</a>                428 include/convolution.h             gx(b,ic,i,j) = s;</span>
+<span class='curline'><a href='../S/473.html#L506'>gx</a>                506 include/convolution.h     return gx;</span>
+<span class='curline'><a href='../S/473.html#L579'>gx</a>                579 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = conv-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/473.html#L619'>gx</a>                619 include/convolution.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/473.html#L621'>gx</a>                621 include/convolution.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/468.html#L68'>gx</a>                 68 include/dropout.h   array4&lt;maxB,C,H,W&gt; gx;        /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/468.html#L108'>gx</a>                108 include/dropout.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/468.html#L290'>gx</a>                290 include/dropout.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/468.html#L298'>gx</a>                298 include/dropout.h               gx(b,c,i,j) = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L300'>gx</a>                300 include/dropout.h               gx(b,c,i,j) = scale * gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/468.html#L379'>gx</a>                379 include/dropout.h     return gx;</span>
+<span class='curline'><a href='../S/468.html#L425'>gx</a>                425 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; gx = dropout-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/468.html#L457'>gx</a>                457 include/dropout.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/468.html#L459'>gx</a>                459 include/dropout.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/479.html#L79'>gx</a>                 79 include/linear.h   array4&lt;maxB,IC,1,1&gt; gx;       /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/479.html#L116'>gx</a>                116 include/linear.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/479.html#L377'>gx</a>                377 include/linear.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/479.html#L394'>gx</a>                394 include/linear.h         gx(b,ic,0,0) = s;</span>
+<span class='curline'><a href='../S/479.html#L470'>gx</a>                470 include/linear.h     return gx;</span>
+<span class='curline'><a href='../S/479.html#L541'>gx</a>                541 include/linear.h   array4&lt;maxB,IC,1,1&gt;&amp; gx = linear-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/479.html#L581'>gx</a>                581 include/linear.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/479.html#L583'>gx</a>                583 include/linear.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/474.html#L71'>gx</a>                 71 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; gx;          /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/474.html#L105'>gx</a>                105 include/maxpooling.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/474.html#L290'>gx</a>                290 include/maxpooling.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/474.html#L297'>gx</a>                297 include/maxpooling.h                 gx(b,c,i_,j_) = 0;</span>
+<span class='curline'><a href='../S/474.html#L303'>gx</a>                303 include/maxpooling.h             gx(b,c,i_,j_) = gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/474.html#L381'>gx</a>                381 include/maxpooling.h     return gx;</span>
+<span class='curline'><a href='../S/474.html#L427'>gx</a>                427 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; gx = mp-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/474.html#L459'>gx</a>                459 include/maxpooling.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/474.html#L461'>gx</a>                461 include/maxpooling.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/471.html#L68'>gx</a>                 68 include/relu.h   array4&lt;maxB,C,H,W&gt; gx;        /**&lt; gradient of loss wrt input x */</span>
+<span class='curline'><a href='../S/471.html#L101'>gx</a>                101 include/relu.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/471.html#L275'>gx</a>                275 include/relu.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/471.html#L281'>gx</a>                281 include/relu.h             gx(b,c,i,j) = (x(b,c,i,j) &gt;= 0 ? gy(b,c,i,j) : 0);</span>
+<span class='curline'><a href='../S/471.html#L359'>gx</a>                359 include/relu.h     return gx;</span>
+<span class='curline'><a href='../S/471.html#L404'>gx</a>                404 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; gx = relu-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/471.html#L435'>gx</a>                435 include/relu.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/471.html#L437'>gx</a>                437 include/relu.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/480.html#L71'>gx</a>                 71 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt; gx;       /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/480.html#L105'>gx</a>                105 include/softmaxcrossentropy.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/480.html#L317'>gx</a>                317 include/softmaxcrossentropy.h     gx.set_n_rows(B);</span>
+<span class='curline'><a href='../S/480.html#L322'>gx</a>                322 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * (-1 + exp(lsm(b,c)));</span>
+<span class='curline'><a href='../S/480.html#L324'>gx</a>                324 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/480.html#L401'>gx</a>                401 include/softmaxcrossentropy.h     return gx;</span>
+<span class='curline'><a href='../S/480.html#L451'>gx</a>                451 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt;&amp; gx = smxe-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/480.html#L483'>gx</a>                483 include/softmaxcrossentropy.h   real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/480.html#L485'>gx</a>                485 include/softmaxcrossentropy.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/477.html#L601'>gx</a>                601 include/vgg.h    array4&lt;maxB,C0,H,W&gt;&amp; gx = vgg-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/477.html#L641'>gx</a>                641 include/vgg.h    real gx_gx = gx.dot(gx);                         /* ∂L/∂x・∂L/∂x */</span>
+<span class='curline'><a href='../S/477.html#L643'>gx</a>                643 include/vgg.h    real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+</pre>
+</body>
+</html>

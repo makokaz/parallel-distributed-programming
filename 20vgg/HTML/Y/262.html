@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>init_uniform</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L97'>init_uniform</a>       97 include/batchnormalization.h     gamma.init_uniform(IC, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L98'>init_uniform</a>       98 include/batchnormalization.h     beta.init_uniform(IC, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L586'>init_uniform</a>      586 include/batchnormalization.h     ggamma.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/478.html#L587'>init_uniform</a>      587 include/batchnormalization.h     gbeta.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/478.html#L645'>init_uniform</a>      645 include/batchnormalization.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L650'>init_uniform</a>      650 include/batchnormalization.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L661'>init_uniform</a>      661 include/batchnormalization.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L250'>init_uniform</a>      250 include/block.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/482.html#L255'>init_uniform</a>      255 include/block.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/482.html#L266'>init_uniform</a>      266 include/block.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L517'>init_uniform</a>      517 include/convolution.h     gw.init_uniform(rg, p, q);</span>
+<span class='curline'><a href='../S/473.html#L570'>init_uniform</a>      570 include/convolution.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/473.html#L575'>init_uniform</a>      575 include/convolution.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/473.html#L586'>init_uniform</a>      586 include/convolution.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/468.html#L416'>init_uniform</a>      416 include/dropout.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/468.html#L421'>init_uniform</a>      421 include/dropout.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/468.html#L431'>init_uniform</a>      431 include/dropout.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L479'>init_uniform</a>      479 include/linear.h     gw.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/479.html#L532'>init_uniform</a>      532 include/linear.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/479.html#L537'>init_uniform</a>      537 include/linear.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/479.html#L548'>init_uniform</a>      548 include/linear.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/474.html#L418'>init_uniform</a>      418 include/maxpooling.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/474.html#L423'>init_uniform</a>      423 include/maxpooling.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/474.html#L433'>init_uniform</a>      433 include/maxpooling.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/471.html#L395'>init_uniform</a>      395 include/relu.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/471.html#L400'>init_uniform</a>      400 include/relu.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/471.html#L409'>init_uniform</a>      409 include/relu.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/480.html#L437'>init_uniform</a>      437 include/softmaxcrossentropy.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/480.html#L442'>init_uniform</a>      442 include/softmaxcrossentropy.h   x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/480.html#L447'>init_uniform</a>      447 include/softmaxcrossentropy.h   t-&gt;init_uniform(B, rg, 0, nC);</span>
+<span class='curline'><a href='../S/480.html#L457'>init_uniform</a>      457 include/softmaxcrossentropy.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L587'>init_uniform</a>      587 include/vgg.h    alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L592'>init_uniform</a>      592 include/vgg.h    x-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L597'>init_uniform</a>      597 include/vgg.h    t-&gt;init_uniform(B, rg, 0, nC);</span>
+<span class='curline'><a href='../S/477.html#L608'>init_uniform</a>      608 include/vgg.h    dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/481.html#L118'>init_uniform</a>      118 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L301'>init_uniform</a>      301 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, idx_t p, idx_t q) {</span>
+<span class='curline'><a href='../S/481.html#L423'>init_uniform</a>      423 include/vgg_arrays.h   void init_uniform(idx_t m, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L612'>init_uniform</a>      612 include/vgg_arrays.h   void init_uniform(idx_t B, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L818'>init_uniform</a>      818 include/vgg_arrays.h   void init_uniform(rnd_gen_t&amp; rg, real p, real q) {</span>
+</pre>
+</body>
+</html>

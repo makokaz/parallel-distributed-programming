@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inv_std</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L83'>inv_std</a>            83 include/batchnormalization.h   vec&lt;IC&gt; inv_std;              /**&lt; inverse of standard deviation */</span>
+<span class='curline'><a href='../S/478.html#L125'>inv_std</a>           125 include/batchnormalization.h     inv_std.set_dev(dev ? &amp;dev-&gt;inv_std : 0);</span>
+<span class='curline'><a href='../S/478.html#L320'>inv_std</a>           320 include/batchnormalization.h     inv_std.set_n(IC);</span>
+<span class='curline'><a href='../S/478.html#L331'>inv_std</a>           331 include/batchnormalization.h       inv_std(ic) = 1.0 / sqrt(s * l_BHW + epsilon);</span>
+<span class='curline'><a href='../S/478.html#L333'>inv_std</a>           333 include/batchnormalization.h     return inv_std;</span>
+<span class='curline'><a href='../S/478.html#L354'>inv_std</a>           354 include/batchnormalization.h       inv_std = inv_std_bij(x, mu);</span>
+<span class='curline'><a href='../S/478.html#L359'>inv_std</a>           359 include/batchnormalization.h               x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L480'>inv_std</a>           480 include/batchnormalization.h         real a = gamma(ic) * inv_std(ic);</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>x_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L663'>x_minus</a>           663 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/478.html#L664'>x_minus</a>           664 include/batchnormalization.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L668'>x_minus</a>           668 include/batchnormalization.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/478.html#L670'>x_minus</a>           670 include/batchnormalization.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/478.html#L683'>x_minus</a>           683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L708'>x_minus</a>           708 include/batchnormalization.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/478.html#L716'>x_minus</a>           716 include/batchnormalization.h   delete x_minus;</span>
+<span class='curline'><a href='../S/482.html#L268'>x_minus</a>           268 include/block.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/482.html#L269'>x_minus</a>           269 include/block.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L273'>x_minus</a>           273 include/block.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/482.html#L275'>x_minus</a>           275 include/block.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/482.html#L288'>x_minus</a>           288 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = block_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/482.html#L314'>x_minus</a>           314 include/block.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/482.html#L323'>x_minus</a>           323 include/block.h   delete x_minus;</span>
+<span class='curline'><a href='../S/473.html#L588'>x_minus</a>           588 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/473.html#L589'>x_minus</a>           589 include/convolution.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L593'>x_minus</a>           593 include/convolution.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/473.html#L595'>x_minus</a>           595 include/convolution.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/473.html#L608'>x_minus</a>           608 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = conv_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/473.html#L634'>x_minus</a>           634 include/convolution.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/473.html#L643'>x_minus</a>           643 include/convolution.h   delete x_minus;</span>
+<span class='curline'><a href='../S/468.html#L433'>x_minus</a>           433 include/dropout.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/468.html#L434'>x_minus</a>           434 include/dropout.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L437'>x_minus</a>           437 include/dropout.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/468.html#L439'>x_minus</a>           439 include/dropout.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/468.html#L446'>x_minus</a>           446 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = dropout_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/468.html#L472'>x_minus</a>           472 include/dropout.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/468.html#L481'>x_minus</a>           481 include/dropout.h   delete x_minus;</span>
+<span class='curline'><a href='../S/479.html#L550'>x_minus</a>           550 include/linear.h   array4&lt;maxB,IC,1,1&gt; * x_minus = new array4&lt;maxB,IC,1,1&gt;(*x);</span>
+<span class='curline'><a href='../S/479.html#L551'>x_minus</a>           551 include/linear.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L555'>x_minus</a>           555 include/linear.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L557'>x_minus</a>           557 include/linear.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/479.html#L570'>x_minus</a>           570 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_minus = linear_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/479.html#L596'>x_minus</a>           596 include/linear.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/479.html#L605'>x_minus</a>           605 include/linear.h   delete x_minus;</span>
+<span class='curline'><a href='../S/474.html#L435'>x_minus</a>           435 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/474.html#L436'>x_minus</a>           436 include/maxpooling.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L439'>x_minus</a>           439 include/maxpooling.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/474.html#L441'>x_minus</a>           441 include/maxpooling.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/474.html#L448'>x_minus</a>           448 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_minus = mp_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/474.html#L474'>x_minus</a>           474 include/maxpooling.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/474.html#L483'>x_minus</a>           483 include/maxpooling.h   delete x_minus;</span>
+<span class='curline'><a href='../S/471.html#L411'>x_minus</a>           411 include/relu.h   array4&lt;maxB,C,H,W&gt; * x_minus = new array4&lt;maxB,C,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/471.html#L412'>x_minus</a>           412 include/relu.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L415'>x_minus</a>           415 include/relu.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/471.html#L417'>x_minus</a>           417 include/relu.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/471.html#L424'>x_minus</a>           424 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = relu_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/471.html#L450'>x_minus</a>           450 include/relu.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/471.html#L459'>x_minus</a>           459 include/relu.h   delete x_minus;</span>
+<span class='curline'><a href='../S/480.html#L459'>x_minus</a>           459 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt; * x_minus = new array4&lt;maxB,nC,1,1&gt;(*x);</span>
+<span class='curline'><a href='../S/480.html#L460'>x_minus</a>           460 include/softmaxcrossentropy.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L463'>x_minus</a>           463 include/softmaxcrossentropy.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/480.html#L465'>x_minus</a>           465 include/softmaxcrossentropy.h   x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/480.html#L472'>x_minus</a>           472 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_minus = smxe_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/480.html#L499'>x_minus</a>           499 include/softmaxcrossentropy.h   x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/480.html#L509'>x_minus</a>           509 include/softmaxcrossentropy.h   delete x_minus;</span>
+<span class='curline'><a href='../S/477.html#L610'>x_minus</a>           610 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * x_minus = new array4&lt;maxB,C0,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/477.html#L611'>x_minus</a>           611 include/vgg.h    x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L615'>x_minus</a>           615 include/vgg.h    x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L617'>x_minus</a>           617 include/vgg.h    x_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/477.html#L630'>x_minus</a>           630 include/vgg.h    vec&lt;maxB&gt;&amp; y_minus = vgg_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/477.html#L656'>x_minus</a>           656 include/vgg.h    x_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/477.html#L665'>x_minus</a>           665 include/vgg.h    delete x_minus;</span>
+</pre>
+</body>
+</html>

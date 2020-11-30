@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>init</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L94'>init</a>               94 include/batchnormalization.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/478.html#L636'>init</a>              636 include/batchnormalization.h   bn-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L48'>init</a>               48 include/block.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/482.html#L51'>init</a>               51 include/block.h     conv.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L52'>init</a>               52 include/block.h     bn.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L53'>init</a>               53 include/block.h     relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/482.html#L241'>init</a>              241 include/block.h   block-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/473.html#L94'>init</a>               94 include/convolution.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/473.html#L561'>init</a>              561 include/convolution.h   conv-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/468.html#L79'>init</a>               79 include/dropout.h   void init(cmdline_opt opt, logger * lgr, real drop_ratio, long drop_seed) {</span>
+<span class='curline'><a href='../S/468.html#L407'>init</a>              407 include/dropout.h   dropout-&gt;init(opt, lgr, drop_ratio, opt.dropout_seed);</span>
+<span class='curline'><a href='../S/479.html#L86'>init</a>               86 include/linear.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/479.html#L523'>init</a>              523 include/linear.h   linear-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/474.html#L77'>init</a>               77 include/maxpooling.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/474.html#L408'>init</a>              408 include/maxpooling.h   mp-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/471.html#L74'>init</a>               74 include/relu.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/471.html#L386'>init</a>              386 include/relu.h   relu-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/480.html#L78'>init</a>               78 include/softmaxcrossentropy.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/480.html#L428'>init</a>              428 include/softmaxcrossentropy.h   smxe-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L104'>init</a>              104 include/vgg.h    void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/477.html#L115'>init</a>              115 include/vgg.h      block1_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L116'>init</a>              116 include/vgg.h      dropout1_1.init(opt, lgr, dropout_ratio1, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L117'>init</a>              117 include/vgg.h      block1_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L118'>init</a>              118 include/vgg.h      max_pooling_2d1.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L120'>init</a>              120 include/vgg.h      block2_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L121'>init</a>              121 include/vgg.h      dropout2_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L122'>init</a>              122 include/vgg.h      block2_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L123'>init</a>              123 include/vgg.h      max_pooling_2d2.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L125'>init</a>              125 include/vgg.h      block3_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L126'>init</a>              126 include/vgg.h      dropout3_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L127'>init</a>              127 include/vgg.h      block3_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L128'>init</a>              128 include/vgg.h      dropout3_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L129'>init</a>              129 include/vgg.h      block3_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L130'>init</a>              130 include/vgg.h      max_pooling_2d3.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L132'>init</a>              132 include/vgg.h      block4_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L133'>init</a>              133 include/vgg.h      dropout4_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L134'>init</a>              134 include/vgg.h      block4_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L135'>init</a>              135 include/vgg.h      dropout4_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L136'>init</a>              136 include/vgg.h      block4_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L137'>init</a>              137 include/vgg.h      max_pooling_2d4.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L139'>init</a>              139 include/vgg.h      block5_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L140'>init</a>              140 include/vgg.h      dropout5_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L141'>init</a>              141 include/vgg.h      block5_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L142'>init</a>              142 include/vgg.h      dropout5_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L143'>init</a>              143 include/vgg.h      block5_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L144'>init</a>              144 include/vgg.h      max_pooling_2d5.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L146'>init</a>              146 include/vgg.h      dropout6_1.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L147'>init</a>              147 include/vgg.h      fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L148'>init</a>              148 include/vgg.h      bn_fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L149'>init</a>              149 include/vgg.h      relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L150'>init</a>              150 include/vgg.h      dropout6_2.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L151'>init</a>              151 include/vgg.h      fc2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L153'>init</a>              153 include/vgg.h      softmax_cross_entropy.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L578'>init</a>              578 include/vgg.h    vgg-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/466.html#L102'>init</a>              102 vgg.cc           vgg-&gt;init(opt, &amp;lgr, rg);</span>
+</pre>
+</body>
+</html>

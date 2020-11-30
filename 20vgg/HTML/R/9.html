@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Relu</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L41'>Relu</a>               41 include/block.h   Relu              &lt;maxB,OC,H,W&gt;      relu; /**&lt; rectified linear layer  */</span>
+<span class='curline'><a href='../S/471.html#L12'>Relu</a>               12 include/relu.h   struct Relu;</span>
+<span class='curline'><a href='../S/471.html#L23'>Relu</a>               23 include/relu.h   __global__ void forward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L37'>Relu</a>               37 include/relu.h   __global__ void backward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L62'>Relu</a>               62 include/relu.h   Relu&lt;maxB,C,H,W&gt;* dev;        /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/471.html#L83'>Relu</a>               83 include/relu.h   Relu&lt;maxB,C,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/471.html#L84'>Relu</a>               84 include/relu.h     Relu&lt;maxB,C,H,W&gt;* c = new Relu&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/471.html#L97'>Relu</a>               97 include/relu.h   void set_dev(Relu&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/471.html#L116'>Relu</a>              116 include/relu.h       dev = (Relu&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/471.html#L158'>Relu</a>              158 include/relu.h       Relu&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/471.html#L385'>Relu</a>              385 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu = new Relu&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L390'>Relu</a>              390 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_minus = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/471.html#L391'>Relu</a>              391 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_plus  = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L93'>Relu</a>               93 include/vgg.h    Relu              &lt;maxB,C4,H6,W6&gt; relu;       /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

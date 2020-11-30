@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>IC</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L12'>IC</a>                 12 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L23'>IC</a>                 23 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L24'>IC</a>                 24 include/batchnormalization.h __global__ void forward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L25'>IC</a>                 25 include/batchnormalization.h                                array4&lt;maxB,IC,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/478.html#L37'>IC</a>                 37 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L38'>IC</a>                 38 include/batchnormalization.h __global__ void backward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L39'>IC</a>                 39 include/batchnormalization.h                                 array4&lt;maxB,IC,H,W&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/478.html#L51'>IC</a>                 51 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L52'>IC</a>                 52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L73'>IC</a>                 73 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L76'>IC</a>                 76 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/478.html#L80'>IC</a>                 80 include/batchnormalization.h   vec&lt;IC&gt; gamma;                /**&lt; gamma parameter */</span>
+<span class='curline'><a href='../S/478.html#L81'>IC</a>                 81 include/batchnormalization.h   vec&lt;IC&gt; beta;                 /**&lt; beta parameter  */</span>
+<span class='curline'><a href='../S/478.html#L82'>IC</a>                 82 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; x_hat;    /**&lt; normalized x */</span>
+<span class='curline'><a href='../S/478.html#L83'>IC</a>                 83 include/batchnormalization.h   vec&lt;IC&gt; inv_std;              /**&lt; inverse of standard deviation */</span>
+<span class='curline'><a href='../S/478.html#L84'>IC</a>                 84 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; y;        /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/478.html#L85'>IC</a>                 85 include/batchnormalization.h   vec&lt;IC&gt; ggamma;               /**&lt; gradient of loss wrt gamma */</span>
+<span class='curline'><a href='../S/478.html#L86'>IC</a>                 86 include/batchnormalization.h   vec&lt;IC&gt; gbeta;                /**&lt; gradient of loss wrt beta  */</span>
+<span class='curline'><a href='../S/478.html#L87'>IC</a>                 87 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; gx;       /**&lt; gradient of loss wrt x  */</span>
+<span class='curline'><a href='../S/478.html#L97'>IC</a>                 97 include/batchnormalization.h     gamma.init_uniform(IC, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L98'>IC</a>                 98 include/batchnormalization.h     beta.init_uniform(IC, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L105'>IC</a>                105 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt;* copy() {</span>
+<span class='curline'><a href='../S/478.html#L106'>IC</a>                106 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;* c = new BatchNormalization&lt;maxB,IC,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/478.html#L119'>IC</a>                119 include/batchnormalization.h   void set_dev(BatchNormalization&lt;maxB,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/478.html#L144'>IC</a>                144 include/batchnormalization.h       dev = (BatchNormalization&lt;maxB,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/478.html#L186'>IC</a>                186 include/batchnormalization.h       BatchNormalization&lt;maxB,IC,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/478.html#L288'>IC</a>                288 include/batchnormalization.h   vec&lt;IC&gt; mean_bij(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L290'>IC</a>                290 include/batchnormalization.h     vec&lt;IC&gt; mean;</span>
+<span class='curline'><a href='../S/478.html#L291'>IC</a>                291 include/batchnormalization.h     mean.init_const(IC, 0);</span>
+<span class='curline'><a href='../S/478.html#L292'>IC</a>                292 include/batchnormalization.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L316'>IC</a>                316 include/batchnormalization.h   vec&lt;IC&gt;&amp; inv_std_bij(array4&lt;maxB,IC,H,W&gt;&amp; x, vec&lt;IC&gt;&amp; mu) {</span>
+<span class='curline'><a href='../S/478.html#L320'>IC</a>                320 include/batchnormalization.h     inv_std.set_n(IC);</span>
+<span class='curline'><a href='../S/478.html#L321'>IC</a>                321 include/batchnormalization.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L348'>IC</a>                348 include/batchnormalization.h   void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L353'>IC</a>                353 include/batchnormalization.h       vec&lt;IC&gt; mu = mean_bij(x);</span>
+<span class='curline'><a href='../S/478.html#L356'>IC</a>                356 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L367'>IC</a>                367 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L388'>IC</a>                388 include/batchnormalization.h   void forward_dev(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L400'>IC</a>                400 include/batchnormalization.h   void forward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L411'>IC</a>                411 include/batchnormalization.h   void forward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L420'>IC</a>                420 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L459'>IC</a>                459 include/batchnormalization.h   void backward_base(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L462'>IC</a>                462 include/batchnormalization.h     gbeta.set_n(IC);</span>
+<span class='curline'><a href='../S/478.html#L463'>IC</a>                463 include/batchnormalization.h     ggamma.set_n(IC);</span>
+<span class='curline'><a href='../S/478.html#L465'>IC</a>                465 include/batchnormalization.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L479'>IC</a>                479 include/batchnormalization.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L493'>IC</a>                493 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L514'>IC</a>                514 include/batchnormalization.h   void backward_dev(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L526'>IC</a>                526 include/batchnormalization.h   void backward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L537'>IC</a>                537 include/batchnormalization.h   void backward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L551'>IC</a>                551 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,IC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/478.html#L586'>IC</a>                586 include/batchnormalization.h     ggamma.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/478.html#L587'>IC</a>                587 include/batchnormalization.h     gbeta.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/478.html#L594'>IC</a>                594 include/batchnormalization.h   void set_grad(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/478.html#L604'>IC</a>                604 include/batchnormalization.h   real gw_dot_gw(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/478.html#L605'>IC</a>                605 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/478.html#L632'>IC</a>                632 include/batchnormalization.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/478.html#L635'>IC</a>                635 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn = new BatchNormalization&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L640'>IC</a>                640 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_minus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L641'>IC</a>                641 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_plus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L643'>IC</a>                643 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * alpha = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L648'>IC</a>                648 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L653'>IC</a>                653 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y = bn-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/478.html#L654'>IC</a>                654 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = bn-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/478.html#L660'>IC</a>                660 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L663'>IC</a>                663 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/478.html#L665'>IC</a>                665 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/478.html#L683'>IC</a>                683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L684'>IC</a>                684 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_plus  = bn_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/478.html#L737'>IC</a>                737 include/batchnormalization.h   const idx_t IC = 64;</span>
+<span class='curline'><a href='../S/478.html#L752'>IC</a>                752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L32'>IC</a>                 32 include/block.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/482.html#L35'>IC</a>                 35 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/482.html#L39'>IC</a>                 39 include/block.h   Convolution2D     &lt;maxB,IC,H,W,K,OC&gt; conv; /**&lt; convolution layer */</span>
+<span class='curline'><a href='../S/482.html#L60'>IC</a>                 60 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/482.html#L61'>IC</a>                 61 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;* c = new Block&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/482.html#L74'>IC</a>                 74 include/block.h   void set_dev(Block&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/482.html#L94'>IC</a>                 94 include/block.h       dev = (Block&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/482.html#L136'>IC</a>                136 include/block.h       Block&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/482.html#L159'>IC</a>                159 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/482.html#L176'>IC</a>                176 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/482.html#L179'>IC</a>                179 include/block.h     array4&lt;maxB,IC,H,W&gt;&amp; gx = conv.backward(g1);</span>
+<span class='curline'><a href='../S/482.html#L199'>IC</a>                199 include/block.h   void set_grad(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/482.html#L209'>IC</a>                209 include/block.h   real gw_dot_gw(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/482.html#L210'>IC</a>                210 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/482.html#L237'>IC</a>                237 include/block.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/482.html#L240'>IC</a>                240 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block = new Block&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/482.html#L245'>IC</a>                245 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_minus = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L246'>IC</a>                246 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_plus  = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L253'>IC</a>                253 include/block.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L259'>IC</a>                259 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = block-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/482.html#L265'>IC</a>                265 include/block.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L268'>IC</a>                268 include/block.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/482.html#L270'>IC</a>                270 include/block.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/482.html#L344'>IC</a>                344 include/block.h   const idx_t IC = 3;</span>
+<span class='curline'><a href='../S/482.html#L361'>IC</a>                361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/469.html#L16'>IC</a>                 16 include/cifar.h template&lt;idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/469.html#L19'>IC</a>                 19 include/cifar.h   unsigned char rgb[IC][H][W];  /**&lt; original pixel values */</span>
+<span class='curline'><a href='../S/469.html#L20'>IC</a>                 20 include/cifar.h   real w[IC][H][W];             /**&lt; pixels of an image */</span>
+<span class='curline'><a href='../S/469.html#L26'>IC</a>                 26 include/cifar.h     range_chk(0, ic, IC);</span>
+<span class='curline'><a href='../S/469.html#L36'>IC</a>                 36 include/cifar.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/469.html#L41'>IC</a>                 41 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * dataset; /**&lt; whole dataset (n_data items) */</span>
+<span class='curline'><a href='../S/469.html#L42'>IC</a>                 42 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * validate; /**&lt; validation part (first n_validate items) */</span>
+<span class='curline'><a href='../S/469.html#L43'>IC</a>                 43 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * train;   /**&lt; training part (remaining items) */</span>
+<span class='curline'><a href='../S/469.html#L68'>IC</a>                 68 include/cifar.h     long sz1 = IC * H * W + 1;</span>
+<span class='curline'><a href='../S/469.html#L92'>IC</a>                 92 include/cifar.h   int dump_cifar_files(cifar10_data_item&lt;IC,H,W&gt;* dataset, long n_data,</span>
+<span class='curline'><a href='../S/469.html#L119'>IC</a>                119 include/cifar.h           for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L161'>IC</a>                161 include/cifar.h     dataset = new cifar10_data_item&lt;IC,H,W&gt; [n_data_in_file];</span>
+<span class='curline'><a href='../S/469.html#L168'>IC</a>                168 include/cifar.h       unsigned char rgb[IC][H][W];</span>
+<span class='curline'><a href='../S/469.html#L175'>IC</a>                175 include/cifar.h       for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L185'>IC</a>                185 include/cifar.h       for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L206'>IC</a>                206 include/cifar.h         cifar10_data_item&lt;IC,H,W&gt; d = dataset[j];</span>
+<span class='curline'><a href='../S/469.html#L284'>IC</a>                284 include/cifar.h   int get_data_train(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t B) {</span>
+<span class='curline'><a href='../S/469.html#L291'>IC</a>                291 include/cifar.h       cifar10_data_item&lt;IC,H,W&gt;&amp; itm = train[idx];</span>
+<span class='curline'><a href='../S/469.html#L294'>IC</a>                294 include/cifar.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/469.html#L314'>IC</a>                314 include/cifar.h   int get_data_validate(array4&lt;maxB,IC,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, ivec&lt;maxB&gt;&amp; idxs, idx_t from, idx_t to) {</span>
+<span class='curline'><a href='../S/469.html#L321'>IC</a>                321 include/cifar.h       cifar10_data_item&lt;IC,H,W&gt;&amp; itm = validate[from + b];</span>
+<span class='curline'><a href='../S/469.html#L324'>IC</a>                324 include/cifar.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/473.html#L11'>IC</a>                 11 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L22'>IC</a>                 22 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L23'>IC</a>                 23 include/convolution.h __global__ void forward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L24'>IC</a>                 24 include/convolution.h                                array4&lt;maxB,IC,H,W&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/473.html#L37'>IC</a>                 37 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L38'>IC</a>                 38 include/convolution.h __global__ void backward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L51'>IC</a>                 51 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L52'>IC</a>                 52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L76'>IC</a>                 76 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L79'>IC</a>                 79 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/473.html#L83'>IC</a>                 83 include/convolution.h   array4&lt;maxB,IC,H,W&gt;* x_ptr;      /**&lt; pointer to the input to forward (x) */</span>
+<span class='curline'><a href='../S/473.html#L84'>IC</a>                 84 include/convolution.h   warray4&lt;OC,IC,K,K&gt; w;            /**&lt; y = w * x (convolution) */ </span>
+<span class='curline'><a href='../S/473.html#L86'>IC</a>                 86 include/convolution.h   warray4&lt;OC,IC,K,K&gt; gw;           /**&lt; ∂L/∂w */</span>
+<span class='curline'><a href='../S/473.html#L87'>IC</a>                 87 include/convolution.h   array4&lt;maxB,IC,H,W&gt; gx;          /**&lt; ∂L/∂x */</span>
+<span class='curline'><a href='../S/473.html#L97'>IC</a>                 97 include/convolution.h     w.init_normal(rg, 0.0, 1 / sqrt((2 * K + 1) * (2 * K + 1) * IC));</span>
+<span class='curline'><a href='../S/473.html#L104'>IC</a>                104 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* copy() {</span>
+<span class='curline'><a href='../S/473.html#L105'>IC</a>                105 include/convolution.h     Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * c = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/473.html#L118'>IC</a>                118 include/convolution.h   void set_dev(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/473.html#L139'>IC</a>                139 include/convolution.h       dev = (Convolution2D&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/473.html#L181'>IC</a>                181 include/convolution.h       Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/473.html#L285'>IC</a>                285 include/convolution.h   void forward_base(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L294'>IC</a>                294 include/convolution.h             for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L319'>IC</a>                319 include/convolution.h   void forward_dev(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L331'>IC</a>                331 include/convolution.h   void forward_gpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L342'>IC</a>                342 include/convolution.h   void forward_cpu(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L351'>IC</a>                351 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L393'>IC</a>                393 include/convolution.h     array4&lt;maxB,IC,H,W&gt;&amp; x = *x_ptr;</span>
+<span class='curline'><a href='../S/473.html#L395'>IC</a>                395 include/convolution.h       for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L412'>IC</a>                412 include/convolution.h       for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L482'>IC</a>                482 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; backward(array4&lt;maxB,OC,H,W&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/473.html#L524'>IC</a>                524 include/convolution.h   void set_grad(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L533'>IC</a>                533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L557'>IC</a>                557 include/convolution.h template&lt;idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC&gt;</span>
+<span class='curline'><a href='../S/473.html#L560'>IC</a>                560 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/473.html#L565'>IC</a>                565 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_minus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L566'>IC</a>                566 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_plus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L573'>IC</a>                573 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L579'>IC</a>                579 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = conv-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/473.html#L585'>IC</a>                585 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L588'>IC</a>                588 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x_minus = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/473.html#L590'>IC</a>                590 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * x_plus  = new array4&lt;maxB,IC,H,W&gt;(*x);</span>
+<span class='curline'><a href='../S/473.html#L665'>IC</a>                665 include/convolution.h   const idx_t IC = 3;</span>
+<span class='curline'><a href='../S/473.html#L682'>IC</a>                682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L12'>IC</a>                 12 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L23'>IC</a>                 23 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L24'>IC</a>                 24 include/linear.h __global__ void forward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L25'>IC</a>                 25 include/linear.h                                array4&lt;maxB,IC,1,1&gt;* x_dev) {</span>
+<span class='curline'><a href='../S/479.html#L37'>IC</a>                 37 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L38'>IC</a>                 38 include/linear.h   __global__ void backward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L51'>IC</a>                 51 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L52'>IC</a>                 52 include/linear.h   __global__ void update_global(Linear&lt;maxB,IC,nC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/479.html#L68'>IC</a>                 68 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L71'>IC</a>                 71 include/linear.h   Linear&lt;maxB,IC,nC&gt;* dev;      /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/479.html#L75'>IC</a>                 75 include/linear.h   array4&lt;maxB,IC,1,1&gt;* x_ptr;   /**&lt; address of input passed to forward */</span>
+<span class='curline'><a href='../S/479.html#L76'>IC</a>                 76 include/linear.h   array2&lt;IC,nC&gt; w;              /**&lt; weight of the matrix */</span>
+<span class='curline'><a href='../S/479.html#L78'>IC</a>                 78 include/linear.h   array2&lt;IC,nC&gt; gw;             /**&lt; gradient of loss wrt to w */</span>
+<span class='curline'><a href='../S/479.html#L79'>IC</a>                 79 include/linear.h   array4&lt;maxB,IC,1,1&gt; gx;       /**&lt; gradient of loss wrt to input x */</span>
+<span class='curline'><a href='../S/479.html#L89'>IC</a>                 89 include/linear.h     w.init_normal(IC, rg, 0.0, 1 / sqrt(IC));</span>
+<span class='curline'><a href='../S/479.html#L96'>IC</a>                 96 include/linear.h   Linear&lt;maxB,IC,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/479.html#L97'>IC</a>                 97 include/linear.h     Linear&lt;maxB,IC,nC&gt;* c = new Linear&lt;maxB,IC,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/479.html#L110'>IC</a>                110 include/linear.h   void set_dev(Linear&lt;maxB,IC,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/479.html#L131'>IC</a>                131 include/linear.h       dev = (Linear&lt;maxB,IC,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/479.html#L173'>IC</a>                173 include/linear.h       Linear&lt;maxB,IC,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/479.html#L277'>IC</a>                277 include/linear.h   void forward_base(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L285'>IC</a>                285 include/linear.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L303'>IC</a>                303 include/linear.h   void forward_dev(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L315'>IC</a>                315 include/linear.h   void forward_gpu(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L326'>IC</a>                326 include/linear.h   void forward_cpu(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L335'>IC</a>                335 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; forward(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L376'>IC</a>                376 include/linear.h     gw.set_n_rows(IC);</span>
+<span class='curline'><a href='../S/479.html#L378'>IC</a>                378 include/linear.h     array4&lt;maxB,IC,1,1&gt;&amp; x = *x_ptr;</span>
+<span class='curline'><a href='../S/479.html#L379'>IC</a>                379 include/linear.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L389'>IC</a>                389 include/linear.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L446'>IC</a>                446 include/linear.h   array4&lt;maxB,IC,1,1&gt;&amp; backward(array4&lt;maxB,nC,1,1&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/479.html#L479'>IC</a>                479 include/linear.h     gw.init_uniform(IC, rg, p, q);</span>
+<span class='curline'><a href='../S/479.html#L486'>IC</a>                486 include/linear.h   void set_grad(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L495'>IC</a>                495 include/linear.h   real gw_dot_gw(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L519'>IC</a>                519 include/linear.h template&lt;idx_t maxB,idx_t IC,idx_t nC&gt;</span>
+<span class='curline'><a href='../S/479.html#L522'>IC</a>                522 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear = new Linear&lt;maxB,IC,nC&gt;();</span>
+<span class='curline'><a href='../S/479.html#L527'>IC</a>                527 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear_minus = linear-&gt;copy();</span>
+<span class='curline'><a href='../S/479.html#L528'>IC</a>                528 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear_plus  = linear-&gt;copy();</span>
+<span class='curline'><a href='../S/479.html#L535'>IC</a>                535 include/linear.h   array4&lt;maxB,IC,1,1&gt; * x = new array4&lt;maxB,IC,1,1&gt;();</span>
+<span class='curline'><a href='../S/479.html#L541'>IC</a>                541 include/linear.h   array4&lt;maxB,IC,1,1&gt;&amp; gx = linear-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/479.html#L547'>IC</a>                547 include/linear.h   array4&lt;maxB,IC,1,1&gt; * dx = new array4&lt;maxB,IC,1,1&gt;();</span>
+<span class='curline'><a href='../S/479.html#L550'>IC</a>                550 include/linear.h   array4&lt;maxB,IC,1,1&gt; * x_minus = new array4&lt;maxB,IC,1,1&gt;(*x);</span>
+<span class='curline'><a href='../S/479.html#L552'>IC</a>                552 include/linear.h   array4&lt;maxB,IC,1,1&gt; * x_plus  = new array4&lt;maxB,IC,1,1&gt;(*x);</span>
+<span class='curline'><a href='../S/479.html#L626'>IC</a>                626 include/linear.h   const idx_t IC = 512;</span>
+<span class='curline'><a href='../S/479.html#L640'>IC</a>                640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/481.html#L775'>IC</a>                775 include/vgg_arrays.h template&lt;idx_t OC,idx_t IC,idx_t H,idx_t W&gt;</span>
+<span class='curline'><a href='../S/481.html#L778'>IC</a>                778 include/vgg_arrays.h   warray4&lt;OC,IC,H,W&gt; * dev;     /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L780'>IC</a>                780 include/vgg_arrays.h   real w[OC][IC][2*H+1][2*W+1];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L791'>IC</a>                791 include/vgg_arrays.h     range_chk(0, ic, IC);</span>
+<span class='curline'><a href='../S/481.html#L801'>IC</a>                801 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L803'>IC</a>                803 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L819'>IC</a>                819 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L821'>IC</a>                821 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L837'>IC</a>                837 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L839'>IC</a>                839 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L855'>IC</a>                855 include/vgg_arrays.h   void update(real eta, warray4&lt;OC,IC,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L857'>IC</a>                857 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L859'>IC</a>                859 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L872'>IC</a>                872 include/vgg_arrays.h   real dot(warray4&lt;OC,IC,H,W&gt;&amp; a_) {</span>
+<span class='curline'><a href='../S/481.html#L873'>IC</a>                873 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L877'>IC</a>                877 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L896'>IC</a>                896 include/vgg_arrays.h   void set_dev(warray4&lt;OC,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L911'>IC</a>                911 include/vgg_arrays.h       dev = (warray4&lt;OC,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L946'>IC</a>                946 include/vgg_arrays.h       warray4&lt;OC,IC,H,W&gt; * dev_ = dev;</span>
+</pre>
+</body>
+</html>

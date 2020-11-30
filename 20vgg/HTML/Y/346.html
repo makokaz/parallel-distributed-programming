@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>opt</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L78'>opt</a>                78 include/batchnormalization.h   cmdline_opt opt;              /**&lt; command line options */</span>
+<span class='curline'><a href='../S/478.html#L94'>opt</a>                94 include/batchnormalization.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/478.html#L95'>opt</a>                95 include/batchnormalization.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/478.html#L143'>opt</a>               143 include/batchnormalization.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L159'>opt</a>               159 include/batchnormalization.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L172'>opt</a>               172 include/batchnormalization.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L184'>opt</a>               184 include/batchnormalization.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L256'>opt</a>               256 include/batchnormalization.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/478.html#L265'>opt</a>               265 include/batchnormalization.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L269'>opt</a>               269 include/batchnormalization.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/478.html#L423'>opt</a>               423 include/batchnormalization.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/478.html#L432'>opt</a>               432 include/batchnormalization.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L436'>opt</a>               436 include/batchnormalization.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/478.html#L554'>opt</a>               554 include/batchnormalization.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/478.html#L563'>opt</a>               563 include/batchnormalization.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/478.html#L567'>opt</a>               567 include/batchnormalization.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/478.html#L633'>opt</a>               633 include/batchnormalization.h   static real batchnormalization_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/478.html#L636'>opt</a>               636 include/batchnormalization.h   bn-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/478.html#L644'>opt</a>               644 include/batchnormalization.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L649'>opt</a>               649 include/batchnormalization.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L664'>opt</a>               664 include/batchnormalization.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L666'>opt</a>               666 include/batchnormalization.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L734'>opt</a>               734 include/batchnormalization.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/478.html#L736'>opt</a>               736 include/batchnormalization.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/478.html#L740'>opt</a>               740 include/batchnormalization.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/478.html#L743'>opt</a>               743 include/batchnormalization.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/478.html#L746'>opt</a>               746 include/batchnormalization.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/478.html#L752'>opt</a>               752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L37'>opt</a>                37 include/block.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/482.html#L48'>opt</a>                48 include/block.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/482.html#L49'>opt</a>                49 include/block.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/482.html#L51'>opt</a>                51 include/block.h     conv.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L52'>opt</a>                52 include/block.h     bn.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L53'>opt</a>                53 include/block.h     relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/482.html#L93'>opt</a>                93 include/block.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/482.html#L109'>opt</a>               109 include/block.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/482.html#L122'>opt</a>               122 include/block.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/482.html#L134'>opt</a>               134 include/block.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/482.html#L238'>opt</a>               238 include/block.h   static real block_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/482.html#L241'>opt</a>               241 include/block.h   block-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L249'>opt</a>               249 include/block.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L254'>opt</a>               254 include/block.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L269'>opt</a>               269 include/block.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L271'>opt</a>               271 include/block.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L341'>opt</a>               341 include/block.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/482.html#L343'>opt</a>               343 include/block.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/482.html#L349'>opt</a>               349 include/block.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/482.html#L352'>opt</a>               352 include/block.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/482.html#L355'>opt</a>               355 include/block.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/482.html#L361'>opt</a>               361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/469.html#L345'>opt</a>               345 include/cifar.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/469.html#L347'>opt</a>               347 include/cifar.h   const idx_t B = opt.batch_sz;</span>
+<span class='curline'><a href='../S/469.html#L352'>opt</a>               352 include/cifar.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/469.html#L354'>opt</a>               354 include/cifar.h   ds.set_seed(opt.sample_seed);</span>
+<span class='curline'><a href='../S/469.html#L355'>opt</a>               355 include/cifar.h   ds.get_n_data_in_file(opt.cifar_data);</span>
+<span class='curline'><a href='../S/469.html#L357'>opt</a>               357 include/cifar.h           opt.cifar_data,</span>
+<span class='curline'><a href='../S/469.html#L358'>opt</a>               358 include/cifar.h           opt.partial_data, opt.partial_data_seed, opt.validate_ratio,</span>
+<span class='curline'><a href='../S/469.html#L359'>opt</a>               359 include/cifar.h           opt.cifar_data_dump);</span>
+<span class='curline'><a href='../S/469.html#L366'>opt</a>               366 include/cifar.h   ds.get_data_train(x, t, idxs, opt.batch_sz);</span>
+<span class='curline'><a href='../S/473.html#L81'>opt</a>                81 include/convolution.h   cmdline_opt opt;              /**&lt; command line option  */</span>
+<span class='curline'><a href='../S/473.html#L94'>opt</a>                94 include/convolution.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/473.html#L95'>opt</a>                95 include/convolution.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/473.html#L138'>opt</a>               138 include/convolution.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L154'>opt</a>               154 include/convolution.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L167'>opt</a>               167 include/convolution.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L179'>opt</a>               179 include/convolution.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L250'>opt</a>               250 include/convolution.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/473.html#L259'>opt</a>               259 include/convolution.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L263'>opt</a>               263 include/convolution.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/473.html#L354'>opt</a>               354 include/convolution.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/473.html#L363'>opt</a>               363 include/convolution.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L367'>opt</a>               367 include/convolution.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/473.html#L485'>opt</a>               485 include/convolution.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/473.html#L494'>opt</a>               494 include/convolution.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/473.html#L498'>opt</a>               498 include/convolution.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/473.html#L558'>opt</a>               558 include/convolution.h   static real convolution_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/473.html#L561'>opt</a>               561 include/convolution.h   conv-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/473.html#L569'>opt</a>               569 include/convolution.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L574'>opt</a>               574 include/convolution.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L589'>opt</a>               589 include/convolution.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L591'>opt</a>               591 include/convolution.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L661'>opt</a>               661 include/convolution.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/473.html#L662'>opt</a>               662 include/convolution.h   if (opt.error || opt.help) usage(argv[0]);</span>
+<span class='curline'><a href='../S/473.html#L664'>opt</a>               664 include/convolution.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/473.html#L670'>opt</a>               670 include/convolution.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/473.html#L673'>opt</a>               673 include/convolution.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/473.html#L676'>opt</a>               676 include/convolution.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/473.html#L682'>opt</a>               682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L64'>opt</a>                64 include/dropout.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/468.html#L79'>opt</a>                79 include/dropout.h   void init(cmdline_opt opt, logger * lgr, real drop_ratio, long drop_seed) {</span>
+<span class='curline'><a href='../S/468.html#L80'>opt</a>                80 include/dropout.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/468.html#L122'>opt</a>               122 include/dropout.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L138'>opt</a>               138 include/dropout.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L151'>opt</a>               151 include/dropout.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L163'>opt</a>               163 include/dropout.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L252'>opt</a>               252 include/dropout.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/468.html#L261'>opt</a>               261 include/dropout.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L265'>opt</a>               265 include/dropout.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/468.html#L358'>opt</a>               358 include/dropout.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/468.html#L367'>opt</a>               367 include/dropout.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/468.html#L371'>opt</a>               371 include/dropout.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/468.html#L403'>opt</a>               403 include/dropout.h   static real dropout_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/468.html#L407'>opt</a>               407 include/dropout.h   dropout-&gt;init(opt, lgr, drop_ratio, opt.dropout_seed);</span>
+<span class='curline'><a href='../S/468.html#L415'>opt</a>               415 include/dropout.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L420'>opt</a>               420 include/dropout.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L434'>opt</a>               434 include/dropout.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L436'>opt</a>               436 include/dropout.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L499'>opt</a>               499 include/dropout.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/468.html#L501'>opt</a>               501 include/dropout.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/468.html#L505'>opt</a>               505 include/dropout.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/468.html#L508'>opt</a>               508 include/dropout.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/468.html#L511'>opt</a>               511 include/dropout.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/468.html#L517'>opt</a>               517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L73'>opt</a>                73 include/linear.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/479.html#L86'>opt</a>                86 include/linear.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/479.html#L87'>opt</a>                87 include/linear.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/479.html#L130'>opt</a>               130 include/linear.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L146'>opt</a>               146 include/linear.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L159'>opt</a>               159 include/linear.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L171'>opt</a>               171 include/linear.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L242'>opt</a>               242 include/linear.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/479.html#L251'>opt</a>               251 include/linear.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L255'>opt</a>               255 include/linear.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/479.html#L338'>opt</a>               338 include/linear.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/479.html#L347'>opt</a>               347 include/linear.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L351'>opt</a>               351 include/linear.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/479.html#L449'>opt</a>               449 include/linear.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/479.html#L458'>opt</a>               458 include/linear.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/479.html#L462'>opt</a>               462 include/linear.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/479.html#L520'>opt</a>               520 include/linear.h   real linear_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/479.html#L523'>opt</a>               523 include/linear.h   linear-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/479.html#L531'>opt</a>               531 include/linear.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L536'>opt</a>               536 include/linear.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L551'>opt</a>               551 include/linear.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L553'>opt</a>               553 include/linear.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L623'>opt</a>               623 include/linear.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/479.html#L625'>opt</a>               625 include/linear.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/479.html#L628'>opt</a>               628 include/linear.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/479.html#L631'>opt</a>               631 include/linear.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/479.html#L634'>opt</a>               634 include/linear.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/479.html#L640'>opt</a>               640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L67'>opt</a>                67 include/maxpooling.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/474.html#L77'>opt</a>                77 include/maxpooling.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/474.html#L78'>opt</a>                78 include/maxpooling.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/474.html#L119'>opt</a>               119 include/maxpooling.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L135'>opt</a>               135 include/maxpooling.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L148'>opt</a>               148 include/maxpooling.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L160'>opt</a>               160 include/maxpooling.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L252'>opt</a>               252 include/maxpooling.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/474.html#L261'>opt</a>               261 include/maxpooling.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L265'>opt</a>               265 include/maxpooling.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/474.html#L360'>opt</a>               360 include/maxpooling.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/474.html#L369'>opt</a>               369 include/maxpooling.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/474.html#L373'>opt</a>               373 include/maxpooling.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/474.html#L405'>opt</a>               405 include/maxpooling.h   real maxpooling_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/474.html#L408'>opt</a>               408 include/maxpooling.h   mp-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/474.html#L417'>opt</a>               417 include/maxpooling.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L422'>opt</a>               422 include/maxpooling.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L436'>opt</a>               436 include/maxpooling.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L438'>opt</a>               438 include/maxpooling.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L501'>opt</a>               501 include/maxpooling.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/474.html#L503'>opt</a>               503 include/maxpooling.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/474.html#L508'>opt</a>               508 include/maxpooling.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/474.html#L511'>opt</a>               511 include/maxpooling.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/474.html#L514'>opt</a>               514 include/maxpooling.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/474.html#L520'>opt</a>               520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L64'>opt</a>                64 include/relu.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/471.html#L74'>opt</a>                74 include/relu.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/471.html#L75'>opt</a>                75 include/relu.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/471.html#L115'>opt</a>               115 include/relu.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L131'>opt</a>               131 include/relu.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L144'>opt</a>               144 include/relu.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L156'>opt</a>               156 include/relu.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L237'>opt</a>               237 include/relu.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/471.html#L246'>opt</a>               246 include/relu.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L250'>opt</a>               250 include/relu.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/471.html#L338'>opt</a>               338 include/relu.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/471.html#L347'>opt</a>               347 include/relu.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/471.html#L351'>opt</a>               351 include/relu.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/471.html#L383'>opt</a>               383 include/relu.h   static real relu_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/471.html#L386'>opt</a>               386 include/relu.h   relu-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/471.html#L394'>opt</a>               394 include/relu.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L399'>opt</a>               399 include/relu.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L412'>opt</a>               412 include/relu.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L414'>opt</a>               414 include/relu.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L477'>opt</a>               477 include/relu.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/471.html#L479'>opt</a>               479 include/relu.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/471.html#L483'>opt</a>               483 include/relu.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/471.html#L486'>opt</a>               486 include/relu.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/471.html#L489'>opt</a>               489 include/relu.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/471.html#L495'>opt</a>               495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/480.html#L66'>opt</a>                66 include/softmaxcrossentropy.h   cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/480.html#L78'>opt</a>                78 include/softmaxcrossentropy.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/480.html#L79'>opt</a>                79 include/softmaxcrossentropy.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/480.html#L119'>opt</a>               119 include/softmaxcrossentropy.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L135'>opt</a>               135 include/softmaxcrossentropy.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L148'>opt</a>               148 include/softmaxcrossentropy.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L160'>opt</a>               160 include/softmaxcrossentropy.h     if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L279'>opt</a>               279 include/softmaxcrossentropy.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/480.html#L288'>opt</a>               288 include/softmaxcrossentropy.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L292'>opt</a>               292 include/softmaxcrossentropy.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/480.html#L380'>opt</a>               380 include/softmaxcrossentropy.h     switch (opt.algo) {</span>
+<span class='curline'><a href='../S/480.html#L389'>opt</a>               389 include/softmaxcrossentropy.h       if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/480.html#L393'>opt</a>               393 include/softmaxcrossentropy.h         err_gpu_algo_no_gpu(opt.algo_s);</span>
+<span class='curline'><a href='../S/480.html#L425'>opt</a>               425 include/softmaxcrossentropy.h   static real softmaxcrossentropy_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/480.html#L428'>opt</a>               428 include/softmaxcrossentropy.h   smxe-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/480.html#L436'>opt</a>               436 include/softmaxcrossentropy.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L441'>opt</a>               441 include/softmaxcrossentropy.h   x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L446'>opt</a>               446 include/softmaxcrossentropy.h   t-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L460'>opt</a>               460 include/softmaxcrossentropy.h   x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L462'>opt</a>               462 include/softmaxcrossentropy.h   x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L527'>opt</a>               527 include/softmaxcrossentropy.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/480.html#L529'>opt</a>               529 include/softmaxcrossentropy.h   const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/480.html#L531'>opt</a>               531 include/softmaxcrossentropy.h   const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/480.html#L534'>opt</a>               534 include/softmaxcrossentropy.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/480.html#L537'>opt</a>               537 include/softmaxcrossentropy.h   rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/480.html#L543'>opt</a>               543 include/softmaxcrossentropy.h     real e = softmaxcrossentropy_grad_check_rand&lt;maxB,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L31'>opt</a>                31 include/vgg.h    cmdline_opt opt;              /**&lt; command line option */</span>
+<span class='curline'><a href='../S/477.html#L104'>opt</a>               104 include/vgg.h    void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/477.html#L105'>opt</a>               105 include/vgg.h      this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/477.html#L110'>opt</a>               110 include/vgg.h      long seed = opt.dropout_seed;</span>
+<span class='curline'><a href='../S/477.html#L111'>opt</a>               111 include/vgg.h      real dropout_ratio1 = 0.3 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L112'>opt</a>               112 include/vgg.h      real dropout_ratio2 = 0.4 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L113'>opt</a>               113 include/vgg.h      real dropout_ratio3 = 0.5 * (opt.dropout != 0);</span>
+<span class='curline'><a href='../S/477.html#L115'>opt</a>               115 include/vgg.h      block1_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L116'>opt</a>               116 include/vgg.h      dropout1_1.init(opt, lgr, dropout_ratio1, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L117'>opt</a>               117 include/vgg.h      block1_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L118'>opt</a>               118 include/vgg.h      max_pooling_2d1.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L120'>opt</a>               120 include/vgg.h      block2_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L121'>opt</a>               121 include/vgg.h      dropout2_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L122'>opt</a>               122 include/vgg.h      block2_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L123'>opt</a>               123 include/vgg.h      max_pooling_2d2.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L125'>opt</a>               125 include/vgg.h      block3_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L126'>opt</a>               126 include/vgg.h      dropout3_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L127'>opt</a>               127 include/vgg.h      block3_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L128'>opt</a>               128 include/vgg.h      dropout3_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L129'>opt</a>               129 include/vgg.h      block3_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L130'>opt</a>               130 include/vgg.h      max_pooling_2d3.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L132'>opt</a>               132 include/vgg.h      block4_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L133'>opt</a>               133 include/vgg.h      dropout4_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L134'>opt</a>               134 include/vgg.h      block4_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L135'>opt</a>               135 include/vgg.h      dropout4_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L136'>opt</a>               136 include/vgg.h      block4_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L137'>opt</a>               137 include/vgg.h      max_pooling_2d4.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L139'>opt</a>               139 include/vgg.h      block5_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L140'>opt</a>               140 include/vgg.h      dropout5_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L141'>opt</a>               141 include/vgg.h      block5_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L142'>opt</a>               142 include/vgg.h      dropout5_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L143'>opt</a>               143 include/vgg.h      block5_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L144'>opt</a>               144 include/vgg.h      max_pooling_2d5.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L146'>opt</a>               146 include/vgg.h      dropout6_1.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L147'>opt</a>               147 include/vgg.h      fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L148'>opt</a>               148 include/vgg.h      bn_fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L149'>opt</a>               149 include/vgg.h      relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L150'>opt</a>               150 include/vgg.h      dropout6_2.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L151'>opt</a>               151 include/vgg.h      fc2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L153'>opt</a>               153 include/vgg.h      softmax_cross_entropy.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L233'>opt</a>               233 include/vgg.h      if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/477.html#L249'>opt</a>               249 include/vgg.h      if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/477.html#L262'>opt</a>               262 include/vgg.h      if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/477.html#L274'>opt</a>               274 include/vgg.h      if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/477.html#L575'>opt</a>               575 include/vgg.h    static real vgg_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/477.html#L578'>opt</a>               578 include/vgg.h    vgg-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L586'>opt</a>               586 include/vgg.h    alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L591'>opt</a>               591 include/vgg.h    x-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L596'>opt</a>               596 include/vgg.h    t-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L611'>opt</a>               611 include/vgg.h    x_minus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L613'>opt</a>               613 include/vgg.h    x_plus-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L683'>opt</a>               683 include/vgg.h    cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/477.html#L685'>opt</a>               685 include/vgg.h    const idx_t B = min_i(maxB, opt.batch_sz);</span>
+<span class='curline'><a href='../S/477.html#L693'>opt</a>               693 include/vgg.h    const int n_checks = opt.iters;</span>
+<span class='curline'><a href='../S/477.html#L696'>opt</a>               696 include/vgg.h    lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/477.html#L699'>opt</a>               699 include/vgg.h    rg.seed(opt.sample_seed);</span>
+<span class='curline'><a href='../S/477.html#L705'>opt</a>               705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/481.html#L958'>opt</a>               958 include/vgg_arrays.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/481.html#L971'>opt</a>               971 include/vgg_arrays.h   v(n-1) = opt.iters;</span>
+<span class='curline'><a href='../S/475.html#L273'>opt</a>               273 include/vgg_util.h   cmdline_opt opt;</span>
+<span class='curline'><a href='../S/475.html#L284'>opt</a>               284 include/vgg_util.h           opt.partial_data = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L286'>opt</a>               286 include/vgg_util.h           opt.single_batch = atoi(optarg);</span>
+<span class='curline'><a href='../S/475.html#L288'>opt</a>               288 include/vgg_util.h           opt.dropout = (atoi(optarg) != 0);</span>
+<span class='curline'><a href='../S/475.html#L290'>opt</a>               290 include/vgg_util.h           opt.validate_ratio = atof(optarg);</span>
+<span class='curline'><a href='../S/475.html#L292'>opt</a>               292 include/vgg_util.h           opt.validate_interval = atof(optarg);</span>
+<span class='curline'><a href='../S/475.html#L294'>opt</a>               294 include/vgg_util.h           opt.sample_seed = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L296'>opt</a>               296 include/vgg_util.h           opt.weight_seed = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L298'>opt</a>               298 include/vgg_util.h           opt.dropout_seed = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L300'>opt</a>               300 include/vgg_util.h           opt.partial_data_seed = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L302'>opt</a>               302 include/vgg_util.h           opt.grad_dbg = atoi(optarg);</span>
+<span class='curline'><a href='../S/475.html#L304'>opt</a>               304 include/vgg_util.h           opt.log = strdup(optarg);</span>
+<span class='curline'><a href='../S/475.html#L309'>opt</a>               309 include/vgg_util.h           opt.error = 1;</span>
+<span class='curline'><a href='../S/475.html#L310'>opt</a>               310 include/vgg_util.h           return opt;</span>
+<span class='curline'><a href='../S/475.html#L315'>opt</a>               315 include/vgg_util.h       opt.verbose = atoi(optarg);</span>
+<span class='curline'><a href='../S/475.html#L318'>opt</a>               318 include/vgg_util.h       opt.cifar_data = strdup(optarg);</span>
+<span class='curline'><a href='../S/475.html#L321'>opt</a>               321 include/vgg_util.h       opt.cifar_data_dump = strdup(optarg);</span>
+<span class='curline'><a href='../S/475.html#L324'>opt</a>               324 include/vgg_util.h       opt.batch_sz = atoi(optarg);</span>
+<span class='curline'><a href='../S/475.html#L327'>opt</a>               327 include/vgg_util.h       opt.algo_s = strdup(optarg);</span>
+<span class='curline'><a href='../S/475.html#L330'>opt</a>               330 include/vgg_util.h       opt.learnrate = atof(optarg);</span>
+<span class='curline'><a href='../S/475.html#L333'>opt</a>               333 include/vgg_util.h       opt.iters = atol(optarg);</span>
+<span class='curline'><a href='../S/475.html#L336'>opt</a>               336 include/vgg_util.h       opt.help = 1;</span>
+<span class='curline'><a href='../S/475.html#L340'>opt</a>               340 include/vgg_util.h       opt.error = 1;</span>
+<span class='curline'><a href='../S/475.html#L341'>opt</a>               341 include/vgg_util.h       return opt;</span>
+<span class='curline'><a href='../S/475.html#L344'>opt</a>               344 include/vgg_util.h   if (opt.batch_sz &gt; MAX_BATCH_SIZE) {</span>
+<span class='curline'><a href='../S/475.html#L346'>opt</a>               346 include/vgg_util.h             opt.batch_sz, MAX_BATCH_SIZE);</span>
+<span class='curline'><a href='../S/475.html#L347'>opt</a>               347 include/vgg_util.h     opt.error = 1;</span>
+<span class='curline'><a href='../S/475.html#L348'>opt</a>               348 include/vgg_util.h     return opt;</span>
+<span class='curline'><a href='../S/475.html#L350'>opt</a>               350 include/vgg_util.h   opt.algo = parse_algo(opt.algo_s);</span>
+<span class='curline'><a href='../S/475.html#L351'>opt</a>               351 include/vgg_util.h   if (opt.algo == algo_invalid) {</span>
+<span class='curline'><a href='../S/475.html#L352'>opt</a>               352 include/vgg_util.h     fprintf(stderr, "error: invalid algorithm (%s)\n", opt.algo_s);</span>
+<span class='curline'><a href='../S/475.html#L353'>opt</a>               353 include/vgg_util.h     opt.error = 1;</span>
+<span class='curline'><a href='../S/475.html#L354'>opt</a>               354 include/vgg_util.h     return opt;</span>
+<span class='curline'><a href='../S/475.html#L356'>opt</a>               356 include/vgg_util.h   opt.gpu_algo = algo_is_gpu(opt.algo_s, opt.algo);</span>
+<span class='curline'><a href='../S/475.html#L358'>opt</a>               358 include/vgg_util.h   if (opt.gpu_algo) {</span>
+<span class='curline'><a href='../S/475.html#L360'>opt</a>               360 include/vgg_util.h     opt.error = 1;</span>
+<span class='curline'><a href='../S/475.html#L361'>opt</a>               361 include/vgg_util.h     return opt;</span>
+<span class='curline'><a href='../S/475.html#L364'>opt</a>               364 include/vgg_util.h   return opt;</span>
+<span class='curline'><a href='../S/475.html#L544'>opt</a>               544 include/vgg_util.h   cmdline_opt opt;              /**&lt; command line options */</span>
+<span class='curline'><a href='../S/475.html#L578'>opt</a>               578 include/vgg_util.h     if (opt.verbose&gt;=level) {</span>
+<span class='curline'><a href='../S/475.html#L593'>opt</a>               593 include/vgg_util.h   int start_log(cmdline_opt opt) {</span>
+<span class='curline'><a href='../S/475.html#L594'>opt</a>               594 include/vgg_util.h     this-&gt;opt = opt;</span>
+<span class='curline'><a href='../S/475.html#L595'>opt</a>               595 include/vgg_util.h     log_fp = fopen(opt.log, "wb");</span>
+<span class='curline'><a href='../S/475.html#L619'>opt</a>               619 include/vgg_util.h     log(3, "verbose=%d", opt.verbose);</span>
+<span class='curline'><a href='../S/475.html#L620'>opt</a>               620 include/vgg_util.h     log(3, "cifar_data=%s", opt.cifar_data);</span>
+<span class='curline'><a href='../S/475.html#L621'>opt</a>               621 include/vgg_util.h     log(3, "batch_sz=%d", opt.batch_sz);</span>
+<span class='curline'><a href='../S/475.html#L622'>opt</a>               622 include/vgg_util.h     log(3, "learnrate=%f", opt.learnrate);</span>
+<span class='curline'><a href='../S/475.html#L623'>opt</a>               623 include/vgg_util.h     log(3, "iters=%ld", opt.iters);</span>
+<span class='curline'><a href='../S/475.html#L624'>opt</a>               624 include/vgg_util.h     log(3, "partial_data=%ld", opt.partial_data);</span>
+<span class='curline'><a href='../S/475.html#L625'>opt</a>               625 include/vgg_util.h     log(3, "single_batch=%d", opt.single_batch);</span>
+<span class='curline'><a href='../S/475.html#L626'>opt</a>               626 include/vgg_util.h     log(3, "dropout=%d", opt.dropout);</span>
+<span class='curline'><a href='../S/475.html#L627'>opt</a>               627 include/vgg_util.h     log(3, "validate_ratio=%f", opt.validate_ratio);</span>
+<span class='curline'><a href='../S/475.html#L628'>opt</a>               628 include/vgg_util.h     log(3, "validate_interval=%f", opt.validate_interval);</span>
+<span class='curline'><a href='../S/475.html#L629'>opt</a>               629 include/vgg_util.h     log(3, "sample_seed=%ld", opt.sample_seed);</span>
+<span class='curline'><a href='../S/475.html#L630'>opt</a>               630 include/vgg_util.h     log(3, "weight_seed=%ld", opt.weight_seed);</span>
+<span class='curline'><a href='../S/475.html#L631'>opt</a>               631 include/vgg_util.h     log(3, "dropout_seed=%ld", opt.dropout_seed);</span>
+<span class='curline'><a href='../S/475.html#L632'>opt</a>               632 include/vgg_util.h     log(3, "partial_data_seed=%ld", opt.partial_data_seed);</span>
+<span class='curline'><a href='../S/475.html#L633'>opt</a>               633 include/vgg_util.h     log(3, "grad_dbg=%d", opt.grad_dbg);</span>
+<span class='curline'><a href='../S/475.html#L634'>opt</a>               634 include/vgg_util.h     log(3, "algo_s=%s", opt.algo_s);</span>
+<span class='curline'><a href='../S/475.html#L635'>opt</a>               635 include/vgg_util.h     log(3, "algo=%d", opt.algo);</span>
+<span class='curline'><a href='../S/475.html#L636'>opt</a>               636 include/vgg_util.h     log(3, "gpu_algo=%d", opt.gpu_algo);</span>
+<span class='curline'><a href='../S/475.html#L637'>opt</a>               637 include/vgg_util.h     log(3, "log=%s", opt.log);</span>
+<span class='curline'><a href='../S/475.html#L726'>opt</a>               726 include/vgg_util.h   cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/475.html#L727'>opt</a>               727 include/vgg_util.h   if (opt.error || opt.help) usage(argv[0]);</span>
+<span class='curline'><a href='../S/475.html#L729'>opt</a>               729 include/vgg_util.h   rg.seed(opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L17'>opt</a>                17 vgg.cc           if (vgg-&gt;opt.single_batch) {</span>
+<span class='curline'><a href='../S/466.html#L18'>opt</a>                18 vgg.cc             data.set_seed(vgg-&gt;opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L21'>opt</a>                21 vgg.cc           real Lsum = vgg-&gt;forward_backward_update(vgg-&gt;x, vgg-&gt;t, vgg-&gt;opt.learnrate);</span>
+<span class='curline'><a href='../S/466.html#L81'>opt</a>                81 vgg.cc           cmdline_opt opt = parse_args(argc, argv);</span>
+<span class='curline'><a href='../S/466.html#L82'>opt</a>                82 vgg.cc           if (opt.error || opt.help) usage(argv[0]);</span>
+<span class='curline'><a href='../S/466.html#L84'>opt</a>                84 vgg.cc           const idx_t B  = opt.batch_sz;      /**&lt; true batch size (&lt;= maxB) */</span>
+<span class='curline'><a href='../S/466.html#L95'>opt</a>                95 vgg.cc           lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/466.html#L98'>opt</a>                98 vgg.cc           rg.seed(opt.weight_seed);</span>
+<span class='curline'><a href='../S/466.html#L102'>opt</a>               102 vgg.cc           vgg-&gt;init(opt, &amp;lgr, rg);</span>
+<span class='curline'><a href='../S/466.html#L108'>opt</a>               108 vgg.cc           data.load(lgr, opt.cifar_data, opt.partial_data,</span>
+<span class='curline'><a href='../S/466.html#L109'>opt</a>               109 vgg.cc                     opt.partial_data_seed, opt.validate_ratio,</span>
+<span class='curline'><a href='../S/466.html#L110'>opt</a>               110 vgg.cc                     opt.cifar_data_dump);</span>
+<span class='curline'><a href='../S/466.html#L111'>opt</a>               111 vgg.cc           data.set_seed(opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L116'>opt</a>               116 vgg.cc           for (long i = 0; i &lt; opt.iters; i++) {</span>
+<span class='curline'><a href='../S/466.html#L123'>opt</a>               123 vgg.cc                 n_trained &gt;= opt.validate_interval * (n_validated + data.n_validate)) {</span>
+</pre>
+</body>
+</html>

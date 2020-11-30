@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>include/relu.h</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#L23'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#L476'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/488.html'>include</a>/relu.h</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/488.html'>include</a>/relu.h</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L23'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L476'><img class='icon' src='../icons/last.png' alt='[last]' /></a><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 include/relu.h'  /> */</em>
+<hr />
+<h2 class='header'><a href='482.html#L11' title='Included from 11 in include/block.h.'>INCLUDED FROM</a></h2>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L23' title='Defined at 23.'>forward_global</a></li>
+<li><a href='#L37' title='Defined at 37.'>backward_global</a></li>
+<li><a href='#L383' title='Defined at 383.'>relu_grad_check_rand</a></li>
+<li><a href='#L476' title='Defined at 476.'>relu_main</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>   1 <em class='comment'>/**</em>
+<a id='L2' name='L2'></a>   2 <em class='comment'>   @file relu.h</em>
+<a id='L3' name='L3'></a>   3 <em class='comment'>   @brief rectified linear activation layer (relu(x) = max(0,x))</em>
+<a id='L4' name='L4'></a>   4 <em class='comment'> */</em>
+<a id='L5' name='L5'></a>   5 <em class='sharp'>#pragma</em> once
+<a id='L6' name='L6'></a>   6 
+<a id='L7' name='L7'></a>   7 <em class='sharp'>#include</em> "<a href='475.html'>vgg_util.h</a>"
+<a id='L8' name='L8'></a>   8 <em class='sharp'>#include</em> "<a href='481.html'>vgg_arrays.h</a>"
+<a id='L9' name='L9'></a>   9 
+<a id='L10' name='L10'></a>  10 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L11' name='L11'></a>  11 <a href='../Y/425.html' title='Multiple used in 49 places.'>template</a>&lt;<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;
+<a id='L12' name='L12'></a>  12   <strong class='reserved'>struct</strong> <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>;
+<a id='L13' name='L13'></a>  13 
+<a id='L14' name='L14'></a>  14 <em class='comment'>/**</em>
+<a id='L15' name='L15'></a>  15 <em class='comment'>   @brief a global CUDA function that implements the baseline </em>
+<a id='L16' name='L16'></a>  16 <em class='comment'>   forward function for GPU</em>
+<a id='L17' name='L17'></a>  17 <em class='comment'>   @param (dev) the address of the device shadow of the object</em>
+<a id='L18' name='L18'></a>  18 <em class='comment'>   @param (x_dev) the address of the device shadow of the input matrix</em>
+<a id='L19' name='L19'></a>  19 <em class='comment'>   @sa forward_dev</em>
+<a id='L20' name='L20'></a>  20 <em class='comment'>   @sa forward_gpu</em>
+<a id='L21' name='L21'></a>  21 <em class='comment'>  */</em>
+<a id='L22' name='L22'></a>  22 <a href='../Y/425.html' title='Multiple used in 49 places.'>template</a>&lt;<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;
+<a id='L23' name='L23'></a>  23   <a href='../S/475.html#L25' title='Defined at 25 in include/vgg_util.h.'>__global__</a> <strong class='reserved'>void</strong> <a href='../R/39.html' title='Multiple referred from 7 places.'>forward_global</a>(<a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>,
+     <em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><a href='#L37'><img class='icon' src='../icons/right.png' alt='[next]' /></a><img class='icon' src='../icons/n_first.png' alt='[first]' /><a href='#L476'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+23 include/relu.h'  /> */</em>
+<a id='L24' name='L24'></a>  24                                  <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/495.html' title='Multiple used in 14 places.'>x_dev</a>) <em class='brace'>{</em>
+<a id='L25' name='L25'></a>  25   <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>-&gt;<a href='../Y/183.html' title='Multiple used in 14 places.'>forward_dev</a>(*<a href='../Y/495.html' title='Multiple used in 14 places.'>x_dev</a>);
+<a id='L26' name='L26'></a>  26 <em class='brace'>}</em>
+<a id='L27' name='L27'></a>  27 
+<a id='L28' name='L28'></a>  28 <em class='comment'>/**</em>
+<a id='L29' name='L29'></a>  29 <em class='comment'>   @brief a global CUDA function that implements the baseline </em>
+<a id='L30' name='L30'></a>  30 <em class='comment'>   backward function for GPU</em>
+<a id='L31' name='L31'></a>  31 <em class='comment'>   @param (dev) the address of the device shadow of the object</em>
+<a id='L32' name='L32'></a>  32 <em class='comment'>   @param (gy_dev) the address of the device shadow of the input matrix</em>
+<a id='L33' name='L33'></a>  33 <em class='comment'>   @sa backward_dev</em>
+<a id='L34' name='L34'></a>  34 <em class='comment'>   @sa backward_gpu</em>
+<a id='L35' name='L35'></a>  35 <em class='comment'>  */</em>
+<a id='L36' name='L36'></a>  36 <a href='../Y/425.html' title='Multiple used in 49 places.'>template</a>&lt;<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;
+<a id='L37' name='L37'></a>  37   <a href='../S/475.html#L25' title='Defined at 25 in include/vgg_util.h.'>__global__</a> <strong class='reserved'>void</strong> <a href='../R/22.html' title='Multiple referred from 7 places.'>backward_global</a>(<a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>,
+     <em class='comment'>/* <a href='#L23'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L383'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L23'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L476'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+37 include/relu.h'  /> */</em>
+<a id='L38' name='L38'></a>  38                                   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/248.html' title='Multiple used in 14 places.'>gy_dev</a>) <em class='brace'>{</em>
+<a id='L39' name='L39'></a>  39   <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>-&gt;<a href='../Y/68.html' title='Multiple used in 14 places.'>backward_dev</a>(*<a href='../Y/248.html' title='Multiple used in 14 places.'>gy_dev</a>);
+<a id='L40' name='L40'></a>  40 <em class='brace'>}</em>
+<a id='L41' name='L41'></a>  41 <em class='sharp'>#endif</em>
+<a id='L42' name='L42'></a>  42 
+<a id='L43' name='L43'></a>  43 <em class='comment'>/**</em>
+<a id='L44' name='L44'></a>  44 <em class='comment'>   @brief dropout layer</em>
+<a id='L45' name='L45'></a>  45 <em class='comment'></em>
+<a id='L46' name='L46'></a>  46 <em class='comment'>   @param (maxB) the maximum number of images (batch size)</em>
+<a id='L47' name='L47'></a>  47 <em class='comment'>   @param (C) the number of channels per input image (the </em>
+<a id='L48' name='L48'></a>  48 <em class='comment'>               original input has typically three channels for RGB. </em>
+<a id='L49' name='L49'></a>  49 <em class='comment'>               in hidden layers, it starts from 64 and goes up </em>
+<a id='L50' name='L50'></a>  50 <em class='comment'>               to 512 in the last hidden layer)</em>
+<a id='L51' name='L51'></a>  51 <em class='comment'>   @param (H) height of an image (32 for an input image, down to 1 in</em>
+<a id='L52' name='L52'></a>  52 <em class='comment'>              the last hidden layer)</em>
+<a id='L53' name='L53'></a>  53 <em class='comment'>   @param (W) width of an image (32 for an input image, down to 1 in</em>
+<a id='L54' name='L54'></a>  54 <em class='comment'>              the last hidden layer)</em>
+<a id='L55' name='L55'></a>  55 <em class='comment'></em>
+<a id='L56' name='L56'></a>  56 <em class='comment'>   @details this layer normalizes a batch of images </em>
+<a id='L57' name='L57'></a>  57 <em class='comment'></em>
+<a id='L58' name='L58'></a>  58 <em class='comment'> */</em>
+<a id='L59' name='L59'></a>  59 <a href='../Y/425.html' title='Multiple used in 49 places.'>template</a>&lt;<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;
+<a id='L60' name='L60'></a>  60 <strong class='reserved'>struct</strong> <a href='../R/9.html' title='Multiple referred from 14 places.'>Relu</a> <em class='brace'>{</em>
+<a id='L61' name='L61'></a>  61 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L62' name='L62'></a>  62   <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>;        <em class='comment'>/**&lt; device shadow */</em>
+<a id='L63' name='L63'></a>  63 <em class='sharp'>#endif</em>
+<a id='L64' name='L64'></a>  64   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;              <em class='comment'>/**&lt; command line option */</em>
+<a id='L65' name='L65'></a>  65   <a href='../S/475.html#L543' title='Defined at 543 in include/vgg_util.h.'>logger</a> * <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>;                 <em class='comment'>/**&lt; logger */</em>
+<a id='L66' name='L66'></a>  66   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/499.html' title='Multiple used in 9 places.'>x_ptr</a>;    <em class='comment'>/**&lt; pointer to input passed to forward */</em>
+<a id='L67' name='L67'></a>  67   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>;         <em class='comment'>/**&lt; output of the forward */</em>
+<a id='L68' name='L68'></a>  68   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>;        <em class='comment'>/**&lt; gradient of loss wrt input x */</em>
+<a id='L69' name='L69'></a>  69   <em class='comment'>/**</em>
+<a id='L70' name='L70'></a>  70 <em class='comment'>     @brief initialize </em>
+<a id='L71' name='L71'></a>  71 <em class='comment'>     @param (opt) command line options</em>
+<a id='L72' name='L72'></a>  72 <em class='comment'>     @param (lgr) logger</em>
+<a id='L73' name='L73'></a>  73 <em class='comment'>  */</em>
+<a id='L74' name='L74'></a>  74   <strong class='reserved'>void</strong> <a href='../Y/258.html' title='Multiple used in 55 places.'>init</a>(<a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>, <a href='../S/475.html#L543' title='Defined at 543 in include/vgg_util.h.'>logger</a> * <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>) <em class='brace'>{</em>
+<a id='L75' name='L75'></a>  75     <a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>-&gt;<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a> = <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>;
+<a id='L76' name='L76'></a>  76     <a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>-&gt;<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a> = <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>;
+<a id='L77' name='L77'></a>  77   <em class='brace'>}</em>
+<a id='L78' name='L78'></a>  78   <em class='comment'>/**</em>
+<a id='L79' name='L79'></a>  79 <em class='comment'>     @brief make a copy of this </em>
+<a id='L80' name='L80'></a>  80 <em class='comment'>     @details if this object has a device pointer, the copy will have</em>
+<a id='L81' name='L81'></a>  81 <em class='comment'>     a device pointer too, but its contents are NOT copied</em>
+<a id='L82' name='L82'></a>  82 <em class='comment'>  */</em>
+<a id='L83' name='L83'></a>  83   <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/103.html' title='Multiple used in 27 places.'>copy</a>() <em class='brace'>{</em>
+<a id='L84' name='L84'></a>  84     <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;(*<a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>);
+<a id='L85' name='L85'></a>  85     <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>();
+<a id='L86' name='L86'></a>  86     <strong class='reserved'>return</strong> <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>;
+<a id='L87' name='L87'></a>  87   <em class='brace'>}</em>
+<a id='L88' name='L88'></a>  88   <em class='comment'>/**</em>
+<a id='L89' name='L89'></a>  89 <em class='comment'>     @brief set the device pointer for this and all subobjects</em>
+<a id='L90' name='L90'></a>  90 <em class='comment'>     @param (dev) a device memory or null</em>
+<a id='L91' name='L91'></a>  91 <em class='comment'>     @sa make_dev</em>
+<a id='L92' name='L92'></a>  92 <em class='comment'>     @sa del_dev</em>
+<a id='L93' name='L93'></a>  93 <em class='comment'>     @details if dev is not null, dev fields of all subojects </em>
+<a id='L94' name='L94'></a>  94 <em class='comment'>     point to the corresponding subjects in the device memory.</em>
+<a id='L95' name='L95'></a>  95 <em class='comment'>     if dev is not null, all dev fields become null.</em>
+<a id='L96' name='L96'></a>  96 <em class='comment'>  */</em>
+<a id='L97' name='L97'></a>  97   <strong class='reserved'>void</strong> <a href='../Y/388.html' title='Multiple used in 87 places.'>set_dev</a>(<a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>) <em class='brace'>{</em>
+<a id='L98' name='L98'></a>  98 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L99' name='L99'></a>  99     <a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>-&gt;<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> = <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>;
+<a id='L100' name='L100'></a> 100     <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>.<a href='../Y/388.html' title='Multiple used in 87 places.'>set_dev</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> ? &amp;<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>-&gt;<a href='../Y/501.html' title='Multiple used in 74 places.'>y</a> : 0);
+<a id='L101' name='L101'></a> 101     <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>.<a href='../Y/388.html' title='Multiple used in 87 places.'>set_dev</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> ? &amp;<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>-&gt;<a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a> : 0);
+<a id='L102' name='L102'></a> 102 <em class='sharp'>#else</em>
+<a id='L103' name='L103'></a> 103     (<strong class='reserved'>void</strong>)<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>;
+<a id='L104' name='L104'></a> 104 <em class='sharp'>#endif</em>
+<a id='L105' name='L105'></a> 105   <em class='brace'>}</em>
+<a id='L106' name='L106'></a> 106   <em class='comment'>/**</em>
+<a id='L107' name='L107'></a> 107 <em class='comment'>     @brief if the algorithm is a gpu algorithm, allocate a device shadow </em>
+<a id='L108' name='L108'></a> 108 <em class='comment'>     of this object and set dev field of this and all subobjects. otherwise</em>
+<a id='L109' name='L109'></a> 109 <em class='comment'>     it sets all dev fields to null.</em>
+<a id='L110' name='L110'></a> 110 <em class='comment'>     @sa set_dev</em>
+<a id='L111' name='L111'></a> 111 <em class='comment'>     @sa del_dev</em>
+<a id='L112' name='L112'></a> 112 <em class='comment'>  */</em>
+<a id='L113' name='L113'></a> 113   <strong class='reserved'>void</strong> <a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>() <em class='brace'>{</em>
+<a id='L114' name='L114'></a> 114 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L115' name='L115'></a> 115     <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L116' name='L116'></a> 116       <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> = (<a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;*)<a href='../S/476.html#L90' title='Defined at 90 in include/cuda_util.h.'>dev_malloc</a>(<strong class='reserved'>sizeof</strong>(*<a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>));
+<a id='L117' name='L117'></a> 117     <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L118' name='L118'></a> 118       <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> = 0;
+<a id='L119' name='L119'></a> 119     <em class='brace'>}</em>
+<a id='L120' name='L120'></a> 120     <a href='../Y/388.html' title='Multiple used in 87 places.'>set_dev</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L121' name='L121'></a> 121 <em class='sharp'>#endif</em>
+<a id='L122' name='L122'></a> 122   <em class='brace'>}</em>
+<a id='L123' name='L123'></a> 123   <em class='comment'>/**</em>
+<a id='L124' name='L124'></a> 124 <em class='comment'>     @brief if the algorithm is a gpu algorithm, dev field must not</em>
+<a id='L125' name='L125'></a> 125 <em class='comment'>     be null and deallocate it.</em>
+<a id='L126' name='L126'></a> 126 <em class='comment'>     @sa make_dev</em>
+<a id='L127' name='L127'></a> 127 <em class='comment'>     @sa set_dev</em>
+<a id='L128' name='L128'></a> 128 <em class='comment'>  */</em>
+<a id='L129' name='L129'></a> 129   <strong class='reserved'>void</strong> <a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>() <em class='brace'>{</em>
+<a id='L130' name='L130'></a> 130 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L131' name='L131'></a> 131     <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L132' name='L132'></a> 132       <a href='../Y/59.html' title='Multiple used in 64 places.'>assert</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L133' name='L133'></a> 133       <a href='../S/476.html#L103' title='Defined at 103 in include/cuda_util.h.'>dev_free</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L134' name='L134'></a> 134       <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a> = 0;
+<a id='L135' name='L135'></a> 135     <em class='brace'>}</em>
+<a id='L136' name='L136'></a> 136 <em class='sharp'>#endif</em>
+<a id='L137' name='L137'></a> 137   <em class='brace'>}</em>
+<a id='L138' name='L138'></a> 138   <em class='comment'>/**</em>
+<a id='L139' name='L139'></a> 139 <em class='comment'>     @brief if the algorithm is a gpu algorithm, dev field must</em>
+<a id='L140' name='L140'></a> 140 <em class='comment'>     not be null and send the host data to the device memory</em>
+<a id='L141' name='L141'></a> 141 <em class='comment'>  */</em>
+<a id='L142' name='L142'></a> 142   <strong class='reserved'>void</strong> <a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>() <em class='brace'>{</em>
+<a id='L143' name='L143'></a> 143 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L144' name='L144'></a> 144     <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L145' name='L145'></a> 145       <a href='../Y/59.html' title='Multiple used in 64 places.'>assert</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L146' name='L146'></a> 146       ::<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>, <a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>, <strong class='reserved'>sizeof</strong>(*<a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>));
+<a id='L147' name='L147'></a> 147     <em class='brace'>}</em>
+<a id='L148' name='L148'></a> 148 <em class='sharp'>#endif</em>
+<a id='L149' name='L149'></a> 149   <em class='brace'>}</em>
+<a id='L150' name='L150'></a> 150   <em class='comment'>/**</em>
+<a id='L151' name='L151'></a> 151 <em class='comment'>     @brief if the algorithm is a gpu algorithm, dev field must</em>
+<a id='L152' name='L152'></a> 152 <em class='comment'>     not be null and send the device data to the host memory</em>
+<a id='L153' name='L153'></a> 153 <em class='comment'>  */</em>
+<a id='L154' name='L154'></a> 154   <strong class='reserved'>void</strong> <a href='../S/476.html#L110' title='Defined at 110 in include/cuda_util.h.'>to_host</a>() <em class='brace'>{</em>
+<a id='L155' name='L155'></a> 155 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L156' name='L156'></a> 156     <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L157' name='L157'></a> 157       <a href='../Y/59.html' title='Multiple used in 64 places.'>assert</a>(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L158' name='L158'></a> 158       <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;* <a href='../Y/129.html' title='Multiple used in 42 places.'>dev_</a> = <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>;
+<a id='L159' name='L159'></a> 159       ::<a href='../S/476.html#L110' title='Defined at 110 in include/cuda_util.h.'>to_host</a>(<a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>, <a href='../Y/129.html' title='Multiple used in 42 places.'>dev_</a>, <strong class='reserved'>sizeof</strong>(*<a href='../Y/426.html' title='Multiple used in 117 places.'>this</a>));
+<a id='L160' name='L160'></a> 160       <a href='../Y/59.html' title='Multiple used in 64 places.'>assert</a>(<a href='../Y/129.html' title='Multiple used in 42 places.'>dev_</a> == <a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>);
+<a id='L161' name='L161'></a> 161     <em class='brace'>}</em>
+<a id='L162' name='L162'></a> 162 <em class='sharp'>#endif</em>
+<a id='L163' name='L163'></a> 163   <em class='brace'>}</em>
+<a id='L164' name='L164'></a> 164   <em class='comment'>/**</em>
+<a id='L165' name='L165'></a> 165 <em class='comment'>     @brief the baseline (serial) implementation of forward</em>
+<a id='L166' name='L166'></a> 166 <em class='comment'>     called both by cpu implementation (forward_cpu) and </em>
+<a id='L167' name='L167'></a> 167 <em class='comment'>     gpu implementation (forward_dev). the call sequence</em>
+<a id='L168' name='L168'></a> 168 <em class='comment'>     forward -&gt; forward_cpu -&gt; forward_base on cpu and</em>
+<a id='L169' name='L169'></a> 169 <em class='comment'>     and is forward -&gt; forward_gpu -&gt; forward_global -&gt; forward_dev -&gt; forward_base</em>
+<a id='L170' name='L170'></a> 170 <em class='comment'>     @param (x) input images</em>
+<a id='L171' name='L171'></a> 171 <em class='comment'>     @sa forward</em>
+<a id='L172' name='L172'></a> 172 <em class='comment'>     @sa forward_gpu</em>
+<a id='L173' name='L173'></a> 173 <em class='comment'>     @sa forward_global</em>
+<a id='L174' name='L174'></a> 174 <em class='comment'>     @sa forward_dev</em>
+<a id='L175' name='L175'></a> 175 <em class='comment'>  */</em>
+<a id='L176' name='L176'></a> 176   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L177' name='L177'></a> 177   <strong class='reserved'>void</strong> <a href='../Y/181.html' title='Multiple used in 21 places.'>forward_base</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>) <em class='brace'>{</em>
+<a id='L178' name='L178'></a> 178     <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a> = <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>.<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>;
+<a id='L179' name='L179'></a> 179     <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>.<a href='../Y/391.html' title='Multiple used in 27 places.'>set_n_rows</a>(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>);
+<a id='L180' name='L180'></a> 180     <a href='../Y/499.html' title='Multiple used in 9 places.'>x_ptr</a> = &amp;<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>;
+<a id='L181' name='L181'></a> 181     <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> = 0; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> &lt; <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>++) <em class='brace'>{</em>
+<a id='L182' name='L182'></a> 182       <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> = 0; <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> &lt; <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>; <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>++) <em class='brace'>{</em>
+<a id='L183' name='L183'></a> 183         <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a> = 0; <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a> &lt; <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>; <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>++) <em class='brace'>{</em>
+<a id='L184' name='L184'></a> 184           <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a> = 0; <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a> &lt; <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>; <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>++) <em class='brace'>{</em>
+<a id='L185' name='L185'></a> 185             <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>(<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>,<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>,<a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>,<a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>) = <a href='../S/475.html#L371' title='Defined at 371 in include/vgg_util.h.'>max_r</a>(0, <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>(<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>,<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>,<a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>,<a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>));
+<a id='L186' name='L186'></a> 186           <em class='brace'>}</em>
+<a id='L187' name='L187'></a> 187         <em class='brace'>}</em>
+<a id='L188' name='L188'></a> 188       <em class='brace'>}</em>
+<a id='L189' name='L189'></a> 189     <em class='brace'>}</em>
+<a id='L190' name='L190'></a> 190   <em class='brace'>}</em>
+<a id='L191' name='L191'></a> 191 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L192' name='L192'></a> 192   <em class='comment'>/**</em>
+<a id='L193' name='L193'></a> 193 <em class='comment'>     @brief the device function of forward called from the </em>
+<a id='L194' name='L194'></a> 194 <em class='comment'>     global (non-member) function</em>
+<a id='L195' name='L195'></a> 195 <em class='comment'>     @param (x) input images</em>
+<a id='L196' name='L196'></a> 196 <em class='comment'>     @sa forward</em>
+<a id='L197' name='L197'></a> 197 <em class='comment'>     @sa forward_gpu</em>
+<a id='L198' name='L198'></a> 198 <em class='comment'>     @sa forward_global</em>
+<a id='L199' name='L199'></a> 199 <em class='comment'>     @sa forward_base</em>
+<a id='L200' name='L200'></a> 200 <em class='comment'>  */</em>
+<a id='L201' name='L201'></a> 201   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a>
+<a id='L202' name='L202'></a> 202   <strong class='reserved'>void</strong> <a href='../Y/183.html' title='Multiple used in 14 places.'>forward_dev</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>) <em class='brace'>{</em>
+<a id='L203' name='L203'></a> 203     <a href='../Y/181.html' title='Multiple used in 21 places.'>forward_base</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L204' name='L204'></a> 204   <em class='brace'>}</em>
+<a id='L205' name='L205'></a> 205   <em class='comment'>/**</em>
+<a id='L206' name='L206'></a> 206 <em class='comment'>     @brief a gpu version of baseline code called from the </em>
+<a id='L207' name='L207'></a> 207 <em class='comment'>     entry function (forward)</em>
+<a id='L208' name='L208'></a> 208 <em class='comment'>     @param (x) input images</em>
+<a id='L209' name='L209'></a> 209 <em class='comment'>     @sa forward</em>
+<a id='L210' name='L210'></a> 210 <em class='comment'>     @sa forward_global</em>
+<a id='L211' name='L211'></a> 211 <em class='comment'>     @sa forward_dev</em>
+<a id='L212' name='L212'></a> 212 <em class='comment'>     @sa forward_base</em>
+<a id='L213' name='L213'></a> 213 <em class='comment'>  */</em>
+<a id='L214' name='L214'></a> 214   <strong class='reserved'>void</strong> <a href='../Y/184.html' title='Multiple used in 21 places.'>forward_gpu</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>) <em class='brace'>{</em>
+<a id='L215' name='L215'></a> 215     <a href='../S/476.html#L67' title='Defined at 67 in include/cuda_util.h.'>launch_and_sync</a>((<a href='../D/45.html' title='Multiple defined in 7 places.'>forward_global</a>&lt;&lt;&lt;1,1&gt;&gt;&gt;(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>, <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>.<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>)));
+<a id='L216' name='L216'></a> 216   <em class='brace'>}</em>
+<a id='L217' name='L217'></a> 217 <em class='sharp'>#endif</em>
+<a id='L218' name='L218'></a> 218   <em class='comment'>/**</em>
+<a id='L219' name='L219'></a> 219 <em class='comment'>     @brief a cpu version of baseline code called from the </em>
+<a id='L220' name='L220'></a> 220 <em class='comment'>     entry function (forward)</em>
+<a id='L221' name='L221'></a> 221 <em class='comment'>     @param (x) input images</em>
+<a id='L222' name='L222'></a> 222 <em class='comment'>     @sa forward</em>
+<a id='L223' name='L223'></a> 223 <em class='comment'>     @sa forward_base</em>
+<a id='L224' name='L224'></a> 224 <em class='comment'>  */</em>
+<a id='L225' name='L225'></a> 225   <strong class='reserved'>void</strong> <a href='../Y/182.html' title='Multiple used in 21 places.'>forward_cpu</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>) <em class='brace'>{</em>
+<a id='L226' name='L226'></a> 226     <a href='../Y/181.html' title='Multiple used in 21 places.'>forward_base</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L227' name='L227'></a> 227   <em class='brace'>}</em>
+<a id='L228' name='L228'></a> 228   <em class='comment'>/**</em>
+<a id='L229' name='L229'></a> 229 <em class='comment'>     @brief calc the loss function of a mini-batch (x)</em>
+<a id='L230' name='L230'></a> 230 <em class='comment'>     @param (x) input images</em>
+<a id='L231' name='L231'></a> 231 <em class='comment'>     @sa backward</em>
+<a id='L232' name='L232'></a> 232 <em class='comment'>     @sa update</em>
+<a id='L233' name='L233'></a> 233 <em class='comment'>  */</em>
+<a id='L234' name='L234'></a> 234   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/179.html' title='Multiple used in 74 places.'>forward</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>) <em class='brace'>{</em>
+<a id='L235' name='L235'></a> 235     <a href='../S/475.html#L714' title='Defined at 714 in include/vgg_util.h.'>log_start_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>);
+<a id='L236' name='L236'></a> 236     <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L237' name='L237'></a> 237     <strong class='reserved'>switch</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a>) <em class='brace'>{</em>
+<a id='L238' name='L238'></a> 238       <em class='comment'>/* add case for your implementations here */</em>
+<a id='L239' name='L239'></a> 239     <strong class='reserved'>case</strong> <a href='../S/475.html#L78' title='Defined at 78 in include/vgg_util.h.'>algo_cpu_base</a>:
+<a id='L240' name='L240'></a> 240       <a href='../Y/182.html' title='Multiple used in 21 places.'>forward_cpu</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>); <strong class='reserved'>break</strong>;
+<a id='L241' name='L241'></a> 241 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L242' name='L242'></a> 242     <strong class='reserved'>case</strong> <a href='../S/475.html#L79' title='Defined at 79 in include/vgg_util.h.'>algo_gpu_base</a>:
+<a id='L243' name='L243'></a> 243       <a href='../Y/184.html' title='Multiple used in 21 places.'>forward_gpu</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>); <strong class='reserved'>break</strong>;
+<a id='L244' name='L244'></a> 244 <em class='sharp'>#endif</em>
+<a id='L245' name='L245'></a> 245     <strong class='reserved'>default</strong>:
+<a id='L246' name='L246'></a> 246       <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L247' name='L247'></a> 247 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L248' name='L248'></a> 248         <a href='../Y/184.html' title='Multiple used in 21 places.'>forward_gpu</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L249' name='L249'></a> 249 <em class='sharp'>#else</em>
+<a id='L250' name='L250'></a> 250         <a href='../S/475.html#L71' title='Defined at 71 in include/vgg_util.h.'>err_gpu_algo_no_gpu</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L251' name='L251'></a> 251 <em class='sharp'>#endif</em>
+<a id='L252' name='L252'></a> 252       <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L253' name='L253'></a> 253         <a href='../Y/182.html' title='Multiple used in 21 places.'>forward_cpu</a>(<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L254' name='L254'></a> 254       <em class='brace'>}</em>        
+<a id='L255' name='L255'></a> 255     <em class='brace'>}</em>
+<a id='L256' name='L256'></a> 256     <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L257' name='L257'></a> 257     <a href='../S/475.html#L720' title='Defined at 720 in include/vgg_util.h.'>log_end_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>, <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>, <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>);
+<a id='L258' name='L258'></a> 258     <strong class='reserved'>return</strong> <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>;
+<a id='L259' name='L259'></a> 259   <em class='brace'>}</em>
+<a id='L260' name='L260'></a> 260   <em class='comment'>/**</em>
+<a id='L261' name='L261'></a> 261 <em class='comment'>     @brief the baseline (serial) implementation of backward</em>
+<a id='L262' name='L262'></a> 262 <em class='comment'>     called both by cpu implementation (backward_cpu) and </em>
+<a id='L263' name='L263'></a> 263 <em class='comment'>     gpu implementation (backward_dev). the call sequence</em>
+<a id='L264' name='L264'></a> 264 <em class='comment'>     backward -&gt; backward_cpu -&gt; backward_base on cpu and</em>
+<a id='L265' name='L265'></a> 265 <em class='comment'>     and is backward -&gt; backward_gpu -&gt; backward_global -&gt; backward_dev -&gt; backward_base</em>
+<a id='L266' name='L266'></a> 266 <em class='comment'>     @param (gy) gradient of loss with respect to the output</em>
+<a id='L267' name='L267'></a> 267 <em class='comment'>     @sa backward</em>
+<a id='L268' name='L268'></a> 268 <em class='comment'>     @sa backward_gpu</em>
+<a id='L269' name='L269'></a> 269 <em class='comment'>     @sa backward_global</em>
+<a id='L270' name='L270'></a> 270 <em class='comment'>     @sa backward_dev</em>
+<a id='L271' name='L271'></a> 271 <em class='comment'>  */</em>
+<a id='L272' name='L272'></a> 272   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a> <a href='../S/475.html#L33' title='Defined at 33 in include/vgg_util.h.'>__host__</a>
+<a id='L273' name='L273'></a> 273   <strong class='reserved'>void</strong> <a href='../Y/66.html' title='Multiple used in 21 places.'>backward_base</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>) <em class='brace'>{</em>
+<a id='L274' name='L274'></a> 274     <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a> = <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>.<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>;
+<a id='L275' name='L275'></a> 275     <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>.<a href='../Y/391.html' title='Multiple used in 27 places.'>set_n_rows</a>(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>);
+<a id='L276' name='L276'></a> 276     <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> = *<a href='../Y/499.html' title='Multiple used in 9 places.'>x_ptr</a>;
+<a id='L277' name='L277'></a> 277     <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> = 0; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a> &lt; <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>; <a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>++) <em class='brace'>{</em>
+<a id='L278' name='L278'></a> 278       <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> = 0; <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a> &lt; <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>; <a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>++) <em class='brace'>{</em>
+<a id='L279' name='L279'></a> 279         <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a> = 0; <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a> &lt; <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>; <a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>++) <em class='brace'>{</em>
+<a id='L280' name='L280'></a> 280           <strong class='reserved'>for</strong> (<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a> = 0; <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a> &lt; <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>; <a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>++) <em class='brace'>{</em>
+<a id='L281' name='L281'></a> 281             <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>(<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>,<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>,<a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>,<a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>) = (<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>(<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>,<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>,<a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>,<a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>) &gt;= 0 ? <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>(<a href='../Y/63.html' title='Multiple used in 134 places.'>b</a>,<a href='../Y/94.html' title='Multiple used in 98 places.'>c</a>,<a href='../Y/250.html' title='Multiple used in 138 places.'>i</a>,<a href='../Y/269.html' title='Multiple used in 104 places.'>j</a>) : 0);
+<a id='L282' name='L282'></a> 282           <em class='brace'>}</em>
+<a id='L283' name='L283'></a> 283         <em class='brace'>}</em>
+<a id='L284' name='L284'></a> 284       <em class='brace'>}</em>
+<a id='L285' name='L285'></a> 285     <em class='brace'>}</em>
+<a id='L286' name='L286'></a> 286   <em class='brace'>}</em>
+<a id='L287' name='L287'></a> 287 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L288' name='L288'></a> 288   <em class='comment'>/**</em>
+<a id='L289' name='L289'></a> 289 <em class='comment'>     @brief the device function of backward called from the </em>
+<a id='L290' name='L290'></a> 290 <em class='comment'>     global (non-member) function</em>
+<a id='L291' name='L291'></a> 291 <em class='comment'>     @param (gy) gradient of loss with respect to the output</em>
+<a id='L292' name='L292'></a> 292 <em class='comment'>     @sa backward</em>
+<a id='L293' name='L293'></a> 293 <em class='comment'>     @sa backward_gpu</em>
+<a id='L294' name='L294'></a> 294 <em class='comment'>     @sa backward_global</em>
+<a id='L295' name='L295'></a> 295 <em class='comment'>     @sa backward_base</em>
+<a id='L296' name='L296'></a> 296 <em class='comment'>  */</em>
+<a id='L297' name='L297'></a> 297   <a href='../S/475.html#L29' title='Defined at 29 in include/vgg_util.h.'>__device__</a>
+<a id='L298' name='L298'></a> 298   <strong class='reserved'>void</strong> <a href='../Y/68.html' title='Multiple used in 14 places.'>backward_dev</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>) <em class='brace'>{</em>
+<a id='L299' name='L299'></a> 299     <a href='../Y/66.html' title='Multiple used in 21 places.'>backward_base</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>);
+<a id='L300' name='L300'></a> 300   <em class='brace'>}</em>
+<a id='L301' name='L301'></a> 301   <em class='comment'>/**</em>
+<a id='L302' name='L302'></a> 302 <em class='comment'>     @brief a gpu version of baseline code called from the </em>
+<a id='L303' name='L303'></a> 303 <em class='comment'>     entry function (backward)</em>
+<a id='L304' name='L304'></a> 304 <em class='comment'>     @param (gy) gradient of loss with respect to the output</em>
+<a id='L305' name='L305'></a> 305 <em class='comment'>     @sa backward</em>
+<a id='L306' name='L306'></a> 306 <em class='comment'>     @sa backward_global</em>
+<a id='L307' name='L307'></a> 307 <em class='comment'>     @sa backward_dev</em>
+<a id='L308' name='L308'></a> 308 <em class='comment'>     @sa backward_base</em>
+<a id='L309' name='L309'></a> 309 <em class='comment'>  */</em>
+<a id='L310' name='L310'></a> 310   <strong class='reserved'>void</strong> <a href='../Y/69.html' title='Multiple used in 21 places.'>backward_gpu</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>) <em class='brace'>{</em>
+<a id='L311' name='L311'></a> 311     <a href='../S/476.html#L67' title='Defined at 67 in include/cuda_util.h.'>launch_and_sync</a>((<a href='../D/22.html' title='Multiple defined in 7 places.'>backward_global</a>&lt;&lt;&lt;1,1&gt;&gt;&gt;(<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>, <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>.<a href='../Y/128.html' title='Multiple used in 320 places.'>dev</a>)));
+<a id='L312' name='L312'></a> 312   <em class='brace'>}</em>
+<a id='L313' name='L313'></a> 313 <em class='sharp'>#endif</em>
+<a id='L314' name='L314'></a> 314   <em class='comment'>/**</em>
+<a id='L315' name='L315'></a> 315 <em class='comment'>     @brief a cpu version of baseline code called from the </em>
+<a id='L316' name='L316'></a> 316 <em class='comment'>     entry function (backward)</em>
+<a id='L317' name='L317'></a> 317 <em class='comment'>     @param (gy) gradient of loss with respect to the output</em>
+<a id='L318' name='L318'></a> 318 <em class='comment'>     @sa backward</em>
+<a id='L319' name='L319'></a> 319 <em class='comment'>     @sa backward_base</em>
+<a id='L320' name='L320'></a> 320 <em class='comment'>  */</em>
+<a id='L321' name='L321'></a> 321   <strong class='reserved'>void</strong> <a href='../Y/67.html' title='Multiple used in 21 places.'>backward_cpu</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>) <em class='brace'>{</em>
+<a id='L322' name='L322'></a> 322     <a href='../Y/66.html' title='Multiple used in 21 places.'>backward_base</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>);
+<a id='L323' name='L323'></a> 323   <em class='brace'>}</em>
+<a id='L324' name='L324'></a> 324   <em class='comment'>/**</em>
+<a id='L325' name='L325'></a> 325 <em class='comment'>     @brief calc the gradient of loss wrt the input (x)</em>
+<a id='L326' name='L326'></a> 326 <em class='comment'>     @param (gy) gradient of loss with respect to the output</em>
+<a id='L327' name='L327'></a> 327 <em class='comment'>     @details calc the gradient of loss wrt the input. along the way,</em>
+<a id='L328' name='L328'></a> 328 <em class='comment'>     it also calculates the gradient of loss wrt weights for</em>
+<a id='L329' name='L329'></a> 329 <em class='comment'>     all sublayers that have weights. since this is the entire</em>
+<a id='L330' name='L330'></a> 330 <em class='comment'>     network, gy is actually a vector whose components are all 1.</em>
+<a id='L331' name='L331'></a> 331 <em class='comment'>     (loss = sum of losses of each data).</em>
+<a id='L332' name='L332'></a> 332 <em class='comment'>     @sa forward</em>
+<a id='L333' name='L333'></a> 333 <em class='comment'>     @sa update</em>
+<a id='L334' name='L334'></a> 334 <em class='comment'>  */</em>
+<a id='L335' name='L335'></a> 335   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/65.html' title='Multiple used in 55 places.'>backward</a>(<a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>) <em class='brace'>{</em>
+<a id='L336' name='L336'></a> 336     <a href='../S/475.html#L714' title='Defined at 714 in include/vgg_util.h.'>log_start_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>);
+<a id='L337' name='L337'></a> 337     <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L338' name='L338'></a> 338     <strong class='reserved'>switch</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/53.html' title='Multiple used in 23 places.'>algo</a>) <em class='brace'>{</em>
+<a id='L339' name='L339'></a> 339       <em class='comment'>/* add case for your implementations here */</em>
+<a id='L340' name='L340'></a> 340     <strong class='reserved'>case</strong> <a href='../S/475.html#L78' title='Defined at 78 in include/vgg_util.h.'>algo_cpu_base</a>:
+<a id='L341' name='L341'></a> 341       <a href='../Y/67.html' title='Multiple used in 21 places.'>backward_cpu</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>); <strong class='reserved'>break</strong>;
+<a id='L342' name='L342'></a> 342 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L343' name='L343'></a> 343     <strong class='reserved'>case</strong> <a href='../S/475.html#L79' title='Defined at 79 in include/vgg_util.h.'>algo_gpu_base</a>:
+<a id='L344' name='L344'></a> 344       <a href='../Y/69.html' title='Multiple used in 21 places.'>backward_gpu</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>); <strong class='reserved'>break</strong>;
+<a id='L345' name='L345'></a> 345 <em class='sharp'>#endif</em>
+<a id='L346' name='L346'></a> 346     <strong class='reserved'>default</strong>:
+<a id='L347' name='L347'></a> 347       <strong class='reserved'>if</strong> (<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>) <em class='brace'>{</em>
+<a id='L348' name='L348'></a> 348 <em class='sharp'>#if</em> <a href='../Y/44.html' title='Multiple used in 145 places.'>__NVCC__</a>
+<a id='L349' name='L349'></a> 349         <a href='../Y/69.html' title='Multiple used in 21 places.'>backward_gpu</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>);
+<a id='L350' name='L350'></a> 350 <em class='sharp'>#else</em>
+<a id='L351' name='L351'></a> 351         <a href='../S/475.html#L71' title='Defined at 71 in include/vgg_util.h.'>err_gpu_algo_no_gpu</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/54.html' title='Multiple used in 29 places.'>algo_s</a>);
+<a id='L352' name='L352'></a> 352 <em class='sharp'>#endif</em>
+<a id='L353' name='L353'></a> 353       <em class='brace'>}</em> <strong class='reserved'>else</strong> <em class='brace'>{</em>
+<a id='L354' name='L354'></a> 354         <a href='../Y/67.html' title='Multiple used in 21 places.'>backward_cpu</a>(<a href='../Y/247.html' title='Multiple used in 114 places.'>gy</a>);
+<a id='L355' name='L355'></a> 355       <em class='brace'>}</em>        
+<a id='L356' name='L356'></a> 356     <em class='brace'>}</em>
+<a id='L357' name='L357'></a> 357     <a href='../S/475.html#L402' title='Defined at 402 in include/vgg_util.h.'>tsc_t</a> <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a> = <a href='../S/475.html#L409' title='Defined at 409 in include/vgg_util.h.'>get_tsc</a>();
+<a id='L358' name='L358'></a> 358     <a href='../S/475.html#L720' title='Defined at 720 in include/vgg_util.h.'>log_end_fun</a>(<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>, <a href='../Y/420.html' title='Multiple used in 40 places.'>t0</a>, <a href='../Y/421.html' title='Multiple used in 37 places.'>t1</a>);
+<a id='L359' name='L359'></a> 359     <strong class='reserved'>return</strong> <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>;
+<a id='L360' name='L360'></a> 360   <em class='brace'>}</em>
+<a id='L361' name='L361'></a> 361 <em class='brace'>}</em>;
+<a id='L362' name='L362'></a> 362 
+<a id='L363' name='L363'></a> 363 <em class='comment'>/**</em>
+<a id='L364' name='L364'></a> 364 <em class='comment'>   @brief check the gradient computation of a relu layer</em>
+<a id='L365' name='L365'></a> 365 <em class='comment'>   @param (opt) command line option</em>
+<a id='L366' name='L366'></a> 366 <em class='comment'>   @param (lgr) logger </em>
+<a id='L367' name='L367'></a> 367 <em class='comment'>   @param (rg) random number generator</em>
+<a id='L368' name='L368'></a> 368 <em class='comment'>   @param (B) the number of images</em>
+<a id='L369' name='L369'></a> 369 <em class='comment'>   @sa relu_main</em>
+<a id='L370' name='L370'></a> 370 <em class='comment'>   @details it first makes a layer object with initial weights W </em>
+<a id='L371' name='L371'></a> 371 <em class='comment'>   and generates an input (x and t).</em>
+<a id='L372' name='L372'></a> 372 <em class='comment'>   it then creates two layers whose weights are slightly different</em>
+<a id='L373' name='L373'></a> 373 <em class='comment'>   from the original one by dw/2 (i.e., w-dw/2 and w+dw/2), as well as</em>
+<a id='L374' name='L374'></a> 374 <em class='comment'>   two inputs slighly different from the original inputs by dx/2</em>
+<a id='L375' name='L375'></a> 375 <em class='comment'>   (x-dx/2 and x+dx/2).  it then computes L(w,x), L(x-dw/2,x-dx/2) and</em>
+<a id='L376' name='L376'></a> 376 <em class='comment'>   L(w+dw/2,x+dw/2) and check if L(x+dw/2,x+dx/2)-L(x-dw/2,x-dx/2)</em>
+<a id='L377' name='L377'></a> 377 <em class='comment'>   is close to ∂L/∂x dx + ∂L/∂w dw.  ∂L/∂x and ∂L/∂w are obtained</em>
+<a id='L378' name='L378'></a> 378 <em class='comment'>   by backward computation. This is essentially checking if</em>
+<a id='L379' name='L379'></a> 379 <em class='comment'>   the gradients obtained by backward computation correctly approximates</em>
+<a id='L380' name='L380'></a> 380 <em class='comment'>   the diff of the output.</em>
+<a id='L381' name='L381'></a> 381 <em class='comment'>*/</em>
+<a id='L382' name='L382'></a> 382 <a href='../Y/425.html' title='Multiple used in 49 places.'>template</a>&lt;<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;
+<a id='L383' name='L383'></a> 383   <strong class='reserved'>static</strong> <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../S/471.html#L495' title='Referred from 495 in include/relu.h.'>relu_grad_check_rand</a>(<a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>, <a href='../S/475.html#L543' title='Defined at 543 in include/vgg_util.h.'>logger</a> * <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>, <a href='../S/475.html#L423' title='Defined at 423 in include/vgg_util.h.'>rnd_gen_t</a>&amp; <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>, <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L37'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><a href='#L476'><img class='icon' src='../icons/right.png' alt='[next]' /></a><a href='#L23'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L476'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+383 include/relu.h'  /> */</em>
+<a id='L384' name='L384'></a> 384   <em class='comment'>/* initialize relu parameters */</em>
+<a id='L385' name='L385'></a> 385   <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;();
+<a id='L386' name='L386'></a> 386   <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/258.html' title='Multiple used in 55 places.'>init</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>, <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>);
+<a id='L387' name='L387'></a> 387   <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>();
+<a id='L388' name='L388'></a> 388   <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L389' name='L389'></a> 389   <em class='comment'>/* make copies */</em>
+<a id='L390' name='L390'></a> 390   <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/371.html' title='Multiple used in 5 places.'>relu_minus</a> = <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/103.html' title='Multiple used in 27 places.'>copy</a>();
+<a id='L391' name='L391'></a> 391   <a href='../S/471.html#L60' title='Defined at 60 in include/relu.h.'>Relu</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/372.html' title='Multiple used in 5 places.'>relu_plus</a>  = <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/103.html' title='Multiple used in 27 places.'>copy</a>();
+<a id='L392' name='L392'></a> 392   <em class='comment'>/* make coefficients to make the single loss value */</em>
+<a id='L393' name='L393'></a> 393   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;();
+<a id='L394' name='L394'></a> 394   <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>);
+<a id='L395' name='L395'></a> 395   <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/262.html' title='Multiple used in 40 places.'>init_uniform</a>(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>, <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>, 0.0, 1.0);
+<a id='L396' name='L396'></a> 396   <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L397' name='L397'></a> 397   <em class='comment'>/* make input (x) */</em>
+<a id='L398' name='L398'></a> 398   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;();
+<a id='L399' name='L399'></a> 399   <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>);
+<a id='L400' name='L400'></a> 400   <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>-&gt;<a href='../Y/262.html' title='Multiple used in 40 places.'>init_uniform</a>(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>, <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>, 0.0, 1.0);
+<a id='L401' name='L401'></a> 401   <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L402' name='L402'></a> 402   <em class='comment'>/* forward and backward */</em>
+<a id='L403' name='L403'></a> 403   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/501.html' title='Multiple used in 74 places.'>y</a> = <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/179.html' title='Multiple used in 74 places.'>forward</a>(*<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L404' name='L404'></a> 404   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a> = <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/65.html' title='Multiple used in 55 places.'>backward</a>(*<a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>);
+<a id='L405' name='L405'></a> 405   <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../S/476.html#L110' title='Defined at 110 in include/cuda_util.h.'>to_host</a>();
+<a id='L406' name='L406'></a> 406   <em class='comment'>/* make dx */</em>
+<a id='L407' name='L407'></a> 407   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a> = 1.0e-4;
+<a id='L408' name='L408'></a> 408   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;();
+<a id='L409' name='L409'></a> 409   <a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>-&gt;<a href='../Y/262.html' title='Multiple used in 40 places.'>init_uniform</a>(<a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>, <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>, -<a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>, <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>);
+<a id='L410' name='L410'></a> 410   <em class='comment'>/* make x - dx/2 and x + dx/2 */</em>
+<a id='L411' name='L411'></a> 411   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a> = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;(*<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L412' name='L412'></a> 412   <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>);
+<a id='L413' name='L413'></a> 413   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt; * <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>  = <a href='../Y/337.html' title='Multiple used in 66 places.'>new</a> <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;(*<a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>);
+<a id='L414' name='L414'></a> 414   <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>-&gt;<a href='../Y/302.html' title='Multiple used in 71 places.'>make_dev</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/237.html' title='Multiple used in 97 places.'>gpu_algo</a>);
+<a id='L415' name='L415'></a> 415   <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>-&gt;<a href='../Y/440.html' title='Multiple used in 60 places.'>update</a>(-0.5, *<a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>);
+<a id='L416' name='L416'></a> 416   <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>-&gt;<a href='../Y/440.html' title='Multiple used in 60 places.'>update</a>(0.5, *<a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>);
+<a id='L417' name='L417'></a> 417   <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L418' name='L418'></a> 418   <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L419' name='L419'></a> 419     
+<a id='L420' name='L420'></a> 420   <em class='comment'>/* send copies to gpu */</em>
+<a id='L421' name='L421'></a> 421   <a href='../Y/371.html' title='Multiple used in 5 places.'>relu_minus</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L422' name='L422'></a> 422   <a href='../Y/372.html' title='Multiple used in 5 places.'>relu_plus</a>-&gt;<a href='../S/476.html#L117' title='Defined at 117 in include/cuda_util.h.'>to_dev</a>();
+<a id='L423' name='L423'></a> 423   <em class='comment'>/* make y(x-dx/2), y(x+dx/2) */</em>
+<a id='L424' name='L424'></a> 424   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/502.html' title='Multiple used in 27 places.'>y_minus</a> = <a href='../Y/371.html' title='Multiple used in 5 places.'>relu_minus</a>-&gt;<a href='../Y/179.html' title='Multiple used in 74 places.'>forward</a>(*<a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>);
+<a id='L425' name='L425'></a> 425   <a href='../S/481.html#L557' title='Defined at 557 in include/vgg_arrays.h.'>array4</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;&amp; <a href='../Y/503.html' title='Multiple used in 27 places.'>y_plus</a>  = <a href='../Y/372.html' title='Multiple used in 5 places.'>relu_plus</a>-&gt;<a href='../Y/179.html' title='Multiple used in 74 places.'>forward</a>(*<a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>);
+<a id='L426' name='L426'></a> 426   <em class='comment'>/* get the result back to host */</em>
+<a id='L427' name='L427'></a> 427   <a href='../Y/502.html' title='Multiple used in 27 places.'>y_minus</a>.<a href='../S/476.html#L110' title='Defined at 110 in include/cuda_util.h.'>to_host</a>();
+<a id='L428' name='L428'></a> 428   <a href='../Y/503.html' title='Multiple used in 27 places.'>y_plus</a>.<a href='../S/476.html#L110' title='Defined at 110 in include/cuda_util.h.'>to_host</a>();
+<a id='L429' name='L429'></a> 429 
+<a id='L430' name='L430'></a> 430   <em class='comment'>/* get the single loss values */</em>
+<a id='L431' name='L431'></a> 431   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/24.html' title='Multiple used in 21 places.'>L_minus</a> = <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(<a href='../Y/502.html' title='Multiple used in 27 places.'>y_minus</a>);
+<a id='L432' name='L432'></a> 432   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/23.html' title='Multiple used in 28 places.'>L</a>       = <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(<a href='../Y/501.html' title='Multiple used in 74 places.'>y</a>);
+<a id='L433' name='L433'></a> 433   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/25.html' title='Multiple used in 21 places.'>L_plus</a>  = <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(<a href='../Y/503.html' title='Multiple used in 27 places.'>y_plus</a>);
+<a id='L434' name='L434'></a> 434   <em class='comment'>/* various inner products */</em>
+<a id='L435' name='L435'></a> 435   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/246.html' title='Multiple used in 20 places.'>gx_gx</a> = <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>.<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(<a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>);                         <em class='comment'>/* ∂L/∂x・∂L/∂x */</em>
+<a id='L436' name='L436'></a> 436   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/157.html' title='Multiple used in 20 places.'>dx_dx</a> = <a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>-&gt;<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(*<a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>);                       <em class='comment'>/* ∂L/∂x・dx */</em>
+<a id='L437' name='L437'></a> 437   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a> = <a href='../Y/244.html' title='Multiple used in 68 places.'>gx</a>.<a href='../Y/130.html' title='Multiple used in 65 places.'>dot</a>(*<a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>);                        <em class='comment'>/* dx・dx */</em>
+<a id='L438' name='L438'></a> 438   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/243.html' title='Multiple used in 20 places.'>gw_gw</a> = 0;                                  <em class='comment'>/* ∂L/∂w・∂L/∂w */</em>
+<a id='L439' name='L439'></a> 439   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/155.html' title='Multiple used in 20 places.'>dw_dw</a> = 0;                                  <em class='comment'>/* ∂L/∂w・dw */</em>
+<a id='L440' name='L440'></a> 440   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a> = 0;                                  <em class='comment'>/* dw・dw */</em>
+<a id='L441' name='L441'></a> 441 
+<a id='L442' name='L442'></a> 442   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/369.html' title='Multiple used in 18 places.'>rel_e</a> = <a href='../S/475.html#L518' title='Defined at 518 in include/vgg_util.h.'>show_error</a>(<a href='../Y/246.html' title='Multiple used in 20 places.'>gx_gx</a>, <a href='../Y/157.html' title='Multiple used in 20 places.'>dx_dx</a>, <a href='../Y/245.html' title='Multiple used in 22 places.'>gx_dx</a>, <a href='../Y/243.html' title='Multiple used in 20 places.'>gw_gw</a>, <a href='../Y/155.html' title='Multiple used in 20 places.'>dw_dw</a>, <a href='../Y/242.html' title='Multiple used in 22 places.'>gw_dw</a>, <a href='../Y/24.html' title='Multiple used in 21 places.'>L_minus</a>, <a href='../Y/23.html' title='Multiple used in 28 places.'>L</a>, <a href='../Y/25.html' title='Multiple used in 21 places.'>L_plus</a>);
+<a id='L443' name='L443'></a> 443   <em class='comment'>/* clean up */</em>
+<a id='L444' name='L444'></a> 444   <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L445' name='L445'></a> 445   <a href='../Y/371.html' title='Multiple used in 5 places.'>relu_minus</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L446' name='L446'></a> 446   <a href='../Y/372.html' title='Multiple used in 5 places.'>relu_plus</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L447' name='L447'></a> 447   <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L448' name='L448'></a> 448   <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L449' name='L449'></a> 449   <a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L450' name='L450'></a> 450   <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L451' name='L451'></a> 451   <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>-&gt;<a href='../Y/126.html' title='Multiple used in 86 places.'>del_dev</a>();
+<a id='L452' name='L452'></a> 452 
+<a id='L453' name='L453'></a> 453   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/370.html' title='Multiple used in 21 places.'>relu</a>;
+<a id='L454' name='L454'></a> 454   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/371.html' title='Multiple used in 5 places.'>relu_minus</a>;
+<a id='L455' name='L455'></a> 455   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/372.html' title='Multiple used in 5 places.'>relu_plus</a>;
+<a id='L456' name='L456'></a> 456   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/55.html' title='Multiple used in 90 places.'>alpha</a>;
+<a id='L457' name='L457'></a> 457   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/462.html' title='Multiple used in 280 places.'>x</a>;
+<a id='L458' name='L458'></a> 458   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/156.html' title='Multiple used in 75 places.'>dx</a>;
+<a id='L459' name='L459'></a> 459   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/497.html' title='Multiple used in 63 places.'>x_minus</a>;
+<a id='L460' name='L460'></a> 460   <a href='../Y/127.html' title='Multiple used in 72 places.'>delete</a> <a href='../Y/498.html' title='Multiple used in 63 places.'>x_plus</a>;
+<a id='L461' name='L461'></a> 461   <strong class='reserved'>return</strong> <a href='../Y/369.html' title='Multiple used in 18 places.'>rel_e</a>;
+<a id='L462' name='L462'></a> 462 <em class='brace'>}</em>
+<a id='L463' name='L463'></a> 463 
+<a id='L464' name='L464'></a> 464 <em class='comment'>/**</em>
+<a id='L465' name='L465'></a> 465 <em class='comment'>   @brief entry point of this header file</em>
+<a id='L466' name='L466'></a> 466 <em class='comment'>   @param (argc) the number of command line args</em>
+<a id='L467' name='L467'></a> 467 <em class='comment'>   @param (argv) command line args</em>
+<a id='L468' name='L468'></a> 468 <em class='comment'>   @sa relu_grad_check_rand</em>
+<a id='L469' name='L469'></a> 469 <em class='comment'>   @details if this header file is included from</em>
+<a id='L470' name='L470'></a> 470 <em class='comment'>   a main C++ file and define relu_main to be main</em>
+<a id='L471' name='L471'></a> 471 <em class='comment'>   (e.g., with -Drelu_main=main), then this</em>
+<a id='L472' name='L472'></a> 472 <em class='comment'>   function becomes th main function of the executable.</em>
+<a id='L473' name='L473'></a> 473 <em class='comment'>   it calls relu_grad_check_rand repeatedly to test</em>
+<a id='L474' name='L474'></a> 474 <em class='comment'>   the implementation of VGG network.</em>
+<a id='L475' name='L475'></a> 475 <em class='comment'>*/</em>
+<a id='L476' name='L476'></a> 476 <strong class='reserved'>int</strong> relu_main(<strong class='reserved'>int</strong> <a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <strong class='reserved'>char</strong> ** <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>) <em class='brace'>{</em>
+     <em class='comment'>/* <a href='#L383'><img class='icon' src='../icons/left.png' alt='[previous]' /></a><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L23'><img class='icon' src='../icons/first.png' alt='[first]' /></a><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+476 include/relu.h'  /> */</em>
+<a id='L477' name='L477'></a> 477   <a href='../S/475.html#L133' title='Defined at 133 in include/vgg_util.h.'>cmdline_opt</a> <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a> = <a href='../S/475.html#L271' title='Defined at 271 in include/vgg_util.h.'>parse_args</a>(<a href='../Y/57.html' title='Multiple used in 28 places.'>argc</a>, <a href='../Y/58.html' title='Multiple used in 32 places.'>argv</a>);
+<a id='L478' name='L478'></a> 478   <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a> = <a href='../Y/28.html' title='Multiple used in 14 places.'>MAX_BATCH_SIZE</a>;
+<a id='L479' name='L479'></a> 479   <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a> = <a href='../S/475.html#L395' title='Defined at 395 in include/vgg_util.h.'>min_i</a>(<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>, <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/70.html' title='Multiple used in 19 places.'>batch_sz</a>);
+<a id='L480' name='L480'></a> 480   <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/3.html' title='Multiple used in 156 places.'>C</a> = 3;
+<a id='L481' name='L481'></a> 481   <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/12.html' title='Multiple used in 383 places.'>H</a> = 32;
+<a id='L482' name='L482'></a> 482   <strong class='reserved'>const</strong> <a href='../S/475.html#L39' title='Defined at 39 in include/vgg_util.h.'>idx_t</a> <a href='../Y/34.html' title='Multiple used in 387 places.'>W</a> = 32;
+<a id='L483' name='L483'></a> 483   <strong class='reserved'>const</strong> <strong class='reserved'>int</strong> <a href='../Y/325.html' title='Multiple used in 27 places.'>n_checks</a> = <a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/266.html' title='Multiple used in 16 places.'>iters</a>;
+<a id='L484' name='L484'></a> 484   <em class='comment'>/* logger */</em>
+<a id='L485' name='L485'></a> 485   <a href='../S/475.html#L543' title='Defined at 543 in include/vgg_util.h.'>logger</a> <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>;
+<a id='L486' name='L486'></a> 486   <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>.<a href='../Y/405.html' title='Multiple used in 12 places.'>start_log</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>);
+<a id='L487' name='L487'></a> 487   <em class='comment'>/* initialize random number generator */</em>
+<a id='L488' name='L488'></a> 488   <a href='../S/475.html#L423' title='Defined at 423 in include/vgg_util.h.'>rnd_gen_t</a> <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>;
+<a id='L489' name='L489'></a> 489   <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>.<a href='../Y/387.html' title='Multiple used in 27 places.'>seed</a>(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>.<a href='../Y/460.html' title='Multiple used in 14 places.'>weight_seed</a>);
+<a id='L490' name='L490'></a> 490   <em class='comment'>/* check errors */</em>
+<a id='L491' name='L491'></a> 491   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/308.html' title='Multiple used in 27 places.'>max_e</a> = 0.0;
+<a id='L492' name='L492'></a> 492   <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/416.html' title='Multiple used in 27 places.'>sum_e</a> = 0.0;
+<a id='L493' name='L493'></a> 493   <strong class='reserved'>for</strong> (<strong class='reserved'>int</strong> <a href='../Y/265.html' title='Multiple used in 18 places.'>iter</a> = 0; <a href='../Y/265.html' title='Multiple used in 18 places.'>iter</a> &lt; <a href='../Y/325.html' title='Multiple used in 27 places.'>n_checks</a>; <a href='../Y/265.html' title='Multiple used in 18 places.'>iter</a>++) <em class='brace'>{</em>
+<a id='L494' name='L494'></a> 494     <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("==== %d ====\n", <a href='../Y/265.html' title='Multiple used in 18 places.'>iter</a>);
+<a id='L495' name='L495'></a> 495     <a href='../S/475.html#L49' title='Defined at 49 in include/vgg_util.h.'>real</a> <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a> = <a href='../S/471.html#L383' title='Defined at 383 in include/relu.h.'>relu_grad_check_rand</a>&lt;<a href='../Y/307.html' title='Multiple used in 531 places.'>maxB</a>,<a href='../Y/3.html' title='Multiple used in 156 places.'>C</a>,<a href='../Y/12.html' title='Multiple used in 383 places.'>H</a>,<a href='../Y/34.html' title='Multiple used in 387 places.'>W</a>&gt;(<a href='../Y/346.html' title='Multiple used in 356 places.'>opt</a>, &amp;<a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>, <a href='../Y/375.html' title='Multiple used in 170 places.'>rg</a>, <a href='../Y/2.html' title='Multiple used in 170 places.'>B</a>);
+<a id='L496' name='L496'></a> 496     <a href='../Y/308.html' title='Multiple used in 27 places.'>max_e</a> = <a href='../S/475.html#L371' title='Defined at 371 in include/vgg_util.h.'>max_r</a>(<a href='../Y/308.html' title='Multiple used in 27 places.'>max_e</a>, <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>);
+<a id='L497' name='L497'></a> 497     <a href='../Y/416.html' title='Multiple used in 27 places.'>sum_e</a> += <a href='../Y/158.html' title='Multiple used in 64 places.'>e</a>;
+<a id='L498' name='L498'></a> 498   <em class='brace'>}</em>
+<a id='L499' name='L499'></a> 499   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("max relative error = %.9f\n", <a href='../Y/308.html' title='Multiple used in 27 places.'>max_e</a>);
+<a id='L500' name='L500'></a> 500   <a href='../Y/356.html' title='Multiple used in 39 places.'>printf</a>("avg relative error = %.9f\n", <a href='../Y/416.html' title='Multiple used in 27 places.'>sum_e</a> / <a href='../Y/325.html' title='Multiple used in 27 places.'>n_checks</a>);
+<a id='L501' name='L501'></a> 501   <a href='../Y/279.html' title='Multiple used in 186 places.'>lgr</a>.<a href='../Y/159.html' title='Multiple used in 12 places.'>end_log</a>();
+<a id='L502' name='L502'></a> 502   <strong class='reserved'>return</strong> 0;
+<a id='L503' name='L503'></a> 503 <em class='brace'>}</em>
+<a id='L504' name='L504'></a> 504 
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><a href='#L23'><img class='icon' src='../icons/first.png' alt='[first]' /></a><a href='#L476'><img class='icon' src='../icons/last.png' alt='[last]' /></a><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+504 include/relu.h'  /> */</em>
+</body>
+</html>

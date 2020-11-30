@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/vgg_8cc.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/vgg_8cc.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/vgg_8cc.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/vgg_8cc.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{vgg_8cc}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.cc File Reference}
+<a id='L2' name='L2'></a>\label{vgg_8cc}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.\+cc@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/vgg.\+cc}}
+<a id='L3' name='L3'></a>{\ttfamily \#include \char`\"{}include/vgg\+\_\+util.\+h\char`\"{}}\newline
+<a id='L4' name='L4'></a>{\ttfamily \#include \char`\"{}include/vgg.\+h\char`\"{}}\newline
+<a id='L5' name='L5'></a>{\ttfamily \#include \char`\"{}include/cifar.\+h\char`\"{}}\newline
+<a id='L6' name='L6'></a>Include dependency graph for vgg.\+cc\+:\nopagebreak
+<a id='L7' name='L7'></a>\begin{figure}[H]
+<a id='L8' name='L8'></a>\begin{center}
+<a id='L9' name='L9'></a>\leavevmode
+<a id='L10' name='L10'></a>\includegraphics[width=350pt]{vgg_8cc__incl}
+<a id='L11' name='L11'></a>\end{center}
+<a id='L12' name='L12'></a>\end{figure}
+<a id='L13' name='L13'></a>\subsection*{Functions}
+<a id='L14' name='L14'></a>\begin{DoxyCompactItemize}
+<a id='L15' name='L15'></a>\item 
+<a id='L16' name='L16'></a>{\footnotesize template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$&gt;$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg_8cc_a4b438057b926d7708dec390aa2948569}{train} (\hyperlink{structVGG}{V\+GG}$&lt;$ maxB, C0, H, W, K, S, C1, nC $&gt;$ $\ast$vgg, \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, C0, H, W $&gt;$ \&amp;data, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} B, long count)
+<a id='L17' name='L17'></a>\begin{DoxyCompactList}\small\item\em grab a mini batch (B training samples), forward, backward and update. \end{DoxyCompactList}\item 
+<a id='L18' name='L18'></a>{\footnotesize template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$&gt;$ }\\static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}{validate} (\hyperlink{structVGG}{V\+GG}$&lt;$ maxB, C0, H, W, K, S, C1, nC $&gt;$ $\ast$vgg, \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, C0, H, W $&gt;$ \&amp;data, long count)
+<a id='L19' name='L19'></a>\begin{DoxyCompactList}\small\item\em forward compute B\+\_\+validate validation samples (taking several mini batches if necessary) \end{DoxyCompactList}\item 
+<a id='L20' name='L20'></a>int \hyperlink{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+<a id='L21' name='L21'></a>\begin{DoxyCompactList}\small\item\em main function of \hyperlink{structVGG}{V\+GG} \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>\subsection{Detailed Description}
+<a id='L25' name='L25'></a>--- a C++ implemention of \hyperlink{structVGG}{V\+GG} 
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>\subsection{Function Documentation}
+<a id='L28' name='L28'></a>\mbox{\Hypertarget{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}\label{vgg_8cc_a3c04138a5bfe5d72780bb7e82a18e627}} 
+<a id='L29' name='L29'></a>\index{vgg.\+cc@{vgg.\+cc}!main@{main}}
+<a id='L30' name='L30'></a>\index{main@{main}!vgg.\+cc@{vgg.\+cc}}
+<a id='L31' name='L31'></a>\subsubsection{\texorpdfstring{main()}{main()}}
+<a id='L32' name='L32'></a>{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>main function of \hyperlink{structVGG}{V\+GG} 
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>Train \hyperlink{structVGG}{V\+GG} network with data from the file specified by --cifar\+\_\+data/-\/d (default\+: cifar-\/10-\/batches-\/bin/data\+\_\+batch\+\_\+1.\+bin). If you want to use only a part of data, you can specify a range by --start\+\_\+data and --end\+\_\+data. e.\+g., --start Take a number of samples specified by --batch\+\_\+sz/-\/d samples at a time for training. Occasionally evaluate the network with validation data. \begin{DoxyReturn}{Returns}
+<a id='L39' name='L39'></a>the average loss of the validation data 
+<a id='L40' name='L40'></a>\end{DoxyReturn}
+<a id='L41' name='L41'></a>$&lt;$ max batch size (constant)
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>$&lt;$ true batch size ($&lt;$= maxB)
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>$&lt;$ input channels (R\+GB)
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>$&lt;$ height of an image
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>$&lt;$ width of an image
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>$&lt;$ kernel size (K=1 -\/$&gt;$ 3x3)
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>$&lt;$ max pooling stride HxW -\/$&gt;$ H/\+Sx\+W/S
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>$&lt;$ channels of the last stage
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>$&lt;$ number of classes \mbox{\Hypertarget{vgg_8cc_a4b438057b926d7708dec390aa2948569}\label{vgg_8cc_a4b438057b926d7708dec390aa2948569}} 
+<a id='L58' name='L58'></a>\index{vgg.\+cc@{vgg.\+cc}!train@{train}}
+<a id='L59' name='L59'></a>\index{train@{train}!vgg.\+cc@{vgg.\+cc}}
+<a id='L60' name='L60'></a>\subsubsection{\texorpdfstring{train()}{train()}}
+<a id='L61' name='L61'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$&gt;$ \\
+<a id='L62' name='L62'></a>static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} train (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$&lt;$ maxB, C0, H, W, K, S, C1, nC $&gt;$ $\ast$}]{vgg,  }\item[{\hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, C0, H, W $&gt;$ \&amp;}]{data,  }\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{B,  }\item[{long}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>grab a mini batch (B training samples), forward, backward and update. 
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>\begin{DoxyReturn}{Returns}
+<a id='L69' name='L69'></a>the average loss of the mini batch. 
+<a id='L70' name='L70'></a>\end{DoxyReturn}
+<a id='L71' name='L71'></a>\mbox{\Hypertarget{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}\label{vgg_8cc_a04d52217a0a48fc133711ff5eb0153ca}} 
+<a id='L72' name='L72'></a>\index{vgg.\+cc@{vgg.\+cc}!validate@{validate}}
+<a id='L73' name='L73'></a>\index{validate@{validate}!vgg.\+cc@{vgg.\+cc}}
+<a id='L74' name='L74'></a>\subsubsection{\texorpdfstring{validate()}{validate()}}
+<a id='L75' name='L75'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C0, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t S, idx\+\_\+t C1, idx\+\_\+t nC$&gt;$ \\
+<a id='L76' name='L76'></a>static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} validate (\begin{DoxyParamCaption}\item[{\hyperlink{structVGG}{V\+GG}$&lt;$ maxB, C0, H, W, K, S, C1, nC $&gt;$ $\ast$}]{vgg,  }\item[{\hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset}$&lt;$ maxB, C0, H, W $&gt;$ \&amp;}]{data,  }\item[{long}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>forward compute B\+\_\+validate validation samples (taking several mini batches if necessary) 
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>\begin{DoxyReturn}{Returns}
+<a id='L83' name='L83'></a>the average loss of the validation data 
+<a id='L84' name='L84'></a>\end{DoxyReturn}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+84 doc/latex/vgg_8cc.tex'  /> */</em>
+</body>
+</html>

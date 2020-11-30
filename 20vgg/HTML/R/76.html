@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vec</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L80'>vec</a>                80 include/batchnormalization.h   vec&lt;IC&gt; gamma;                /**&lt; gamma parameter */</span>
+<span class='curline'><a href='../S/478.html#L81'>vec</a>                81 include/batchnormalization.h   vec&lt;IC&gt; beta;                 /**&lt; beta parameter  */</span>
+<span class='curline'><a href='../S/478.html#L83'>vec</a>                83 include/batchnormalization.h   vec&lt;IC&gt; inv_std;              /**&lt; inverse of standard deviation */</span>
+<span class='curline'><a href='../S/478.html#L85'>vec</a>                85 include/batchnormalization.h   vec&lt;IC&gt; ggamma;               /**&lt; gradient of loss wrt gamma */</span>
+<span class='curline'><a href='../S/478.html#L86'>vec</a>                86 include/batchnormalization.h   vec&lt;IC&gt; gbeta;                /**&lt; gradient of loss wrt beta  */</span>
+<span class='curline'><a href='../S/478.html#L288'>vec</a>               288 include/batchnormalization.h   vec&lt;IC&gt; mean_bij(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L290'>vec</a>               290 include/batchnormalization.h     vec&lt;IC&gt; mean;</span>
+<span class='curline'><a href='../S/478.html#L316'>vec</a>               316 include/batchnormalization.h   vec&lt;IC&gt;&amp; inv_std_bij(array4&lt;maxB,IC,H,W&gt;&amp; x, vec&lt;IC&gt;&amp; mu) {</span>
+<span class='curline'><a href='../S/478.html#L353'>vec</a>               353 include/batchnormalization.h       vec&lt;IC&gt; mu = mean_bij(x);</span>
+<span class='curline'><a href='../S/480.html#L40'>vec</a>                40 include/softmaxcrossentropy.h                                   vec&lt;maxB&gt;* gy_dev) {</span>
+<span class='curline'><a href='../S/480.html#L70'>vec</a>                70 include/softmaxcrossentropy.h   vec&lt;maxB&gt; y;                  /**&lt; output of the forward */</span>
+<span class='curline'><a href='../S/480.html#L276'>vec</a>               276 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L315'>vec</a>               315 include/softmaxcrossentropy.h   void backward_base(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L340'>vec</a>               340 include/softmaxcrossentropy.h   void backward_dev(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L352'>vec</a>               352 include/softmaxcrossentropy.h   void backward_gpu(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L363'>vec</a>               363 include/softmaxcrossentropy.h   void backward_cpu(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L377'>vec</a>               377 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt;&amp; backward(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/480.html#L435'>vec</a>               435 include/softmaxcrossentropy.h   vec&lt;maxB&gt; * alpha = new vec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/480.html#L450'>vec</a>               450 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y = smxe-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/480.html#L472'>vec</a>               472 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_minus = smxe_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/480.html#L473'>vec</a>               473 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_plus  = smxe_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/477.html#L36'>vec</a>                36 include/vgg.h    vec&lt;maxB&gt; gy;                 /**&lt; gradient of the loss wrt the output */</span>
+<span class='curline'><a href='../S/477.html#L320'>vec</a>               320 include/vgg.h    vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/477.html#L359'>vec</a>               359 include/vgg.h      vec&lt;maxB&gt;&amp; y = softmax_cross_entropy.forward(x32, t);</span>
+<span class='curline'><a href='../S/477.html#L373'>vec</a>               373 include/vgg.h    array4&lt;maxB,C0,H1,W1&gt;&amp; backward(vec&lt;maxB&gt;&amp; gy) {</span>
+<span class='curline'><a href='../S/477.html#L453'>vec</a>               453 include/vgg.h      vec&lt;maxB&gt;&amp; y = forward(x, t);</span>
+<span class='curline'><a href='../S/477.html#L585'>vec</a>               585 include/vgg.h    vec&lt;maxB&gt; * alpha = new vec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/477.html#L600'>vec</a>               600 include/vgg.h    vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/477.html#L630'>vec</a>               630 include/vgg.h    vec&lt;maxB&gt;&amp; y_minus = vgg_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/477.html#L631'>vec</a>               631 include/vgg.h    vec&lt;maxB&gt;&amp; y_plus  = vgg_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/481.html#L76'>vec</a>                76 include/vgg_arrays.h   vec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L106'>vec</a>               106 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L120'>vec</a>               120 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L133'>vec</a>               133 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L147'>vec</a>               147 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L159'>vec</a>               159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L161'>vec</a>               161 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L171'>vec</a>               171 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L182'>vec</a>               182 include/vgg_arrays.h   real dot(vec&lt;N&gt;&amp; y) {</span>
+<span class='curline'><a href='../S/481.html#L183'>vec</a>               183 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L195'>vec</a>               195 include/vgg_arrays.h   void set_dev(vec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L210'>vec</a>               210 include/vgg_arrays.h       dev = (vec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L245'>vec</a>               245 include/vgg_arrays.h       vec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L961'>vec</a>               961 include/vgg_arrays.h   vec&lt;N&gt; v;</span>
+<span class='curline'><a href='../S/466.html#L46'>vec</a>                46 vgg.cc               vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(vgg-&gt;x, vgg-&gt;t);</span>
+</pre>
+</body>
+</html>

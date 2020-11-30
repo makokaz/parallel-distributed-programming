@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/structMaxPooling2D.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structMaxPooling2D.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structMaxPooling2D.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/structMaxPooling2D.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{structMaxPooling2D}{}\section{Max\+Pooling2D$&lt;$ maxB, C, H, W, S $&gt;$ Struct Template Reference}
+<a id='L2' name='L2'></a>\label{structMaxPooling2D}\index{Max\+Pooling2\+D$&lt;$ max\+B, C, H, W, S $&gt;$@{Max\+Pooling2\+D$&lt;$ max\+B, C, H, W, S $&gt;$}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>max pooling layer  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$maxpooling.\+h$&gt;$}
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>Collaboration diagram for Max\+Pooling2D$&lt;$ maxB, C, H, W, S $&gt;$\+:\nopagebreak
+<a id='L15' name='L15'></a>\begin{figure}[H]
+<a id='L16' name='L16'></a>\begin{center}
+<a id='L17' name='L17'></a>\leavevmode
+<a id='L18' name='L18'></a>\includegraphics[width=314pt]{structMaxPooling2D__coll__graph}
+<a id='L19' name='L19'></a>\end{center}
+<a id='L20' name='L20'></a>\end{figure}
+<a id='L21' name='L21'></a>\subsection*{Public Member Functions}
+<a id='L22' name='L22'></a>\begin{DoxyCompactItemize}
+<a id='L23' name='L23'></a>\item 
+<a id='L24' name='L24'></a>void \hyperlink{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}{lgr})
+<a id='L25' name='L25'></a>\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+<a id='L26' name='L26'></a>\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$ $\ast$ \hyperlink{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}{copy} ()
+<a id='L27' name='L27'></a>\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+<a id='L28' name='L28'></a>void \hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} (\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$ $\ast$\hyperlink{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}{dev})
+<a id='L29' name='L29'></a>\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+<a id='L30' name='L30'></a>void \hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} ()
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>void \hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev} ()
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+<a id='L34' name='L34'></a>\mbox{\Hypertarget{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}\label{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}} 
+<a id='L35' name='L35'></a>void \hyperlink{structMaxPooling2D_ab99bc63b1e21dc7839b05d4ef299d9fd}{to\+\_\+dev} ()
+<a id='L36' name='L36'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+<a id='L37' name='L37'></a>\mbox{\Hypertarget{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}\label{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}} 
+<a id='L38' name='L38'></a>void \hyperlink{structMaxPooling2D_a457aa9a435b46cbf6419aa91d5a8a007}{to\+\_\+host} ()
+<a id='L39' name='L39'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+<a id='L40' name='L40'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;x)
+<a id='L41' name='L41'></a>\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$&gt;$ forward\+\_\+cpu -\/$&gt;$ forward\+\_\+base on cpu and and is forward -\/$&gt;$ forward\+\_\+gpu -\/$&gt;$ forward\+\_\+global -\/$&gt;$ forward\+\_\+dev -\/$&gt;$ forward\+\_\+base \end{DoxyCompactList}\item 
+<a id='L42' name='L42'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;x)
+<a id='L43' name='L43'></a>\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+<a id='L44' name='L44'></a>void \hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;x)
+<a id='L45' name='L45'></a>\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+<a id='L46' name='L46'></a>void \hyperlink{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;x)
+<a id='L47' name='L47'></a>\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+<a id='L48' name='L48'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp; \hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;x)
+<a id='L49' name='L49'></a>\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+<a id='L50' name='L50'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;gy)
+<a id='L51' name='L51'></a>\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$&gt;$ backward\+\_\+cpu -\/$&gt;$ backward\+\_\+base on cpu and and is backward -\/$&gt;$ backward\+\_\+gpu -\/$&gt;$ backward\+\_\+global -\/$&gt;$ backward\+\_\+dev -\/$&gt;$ backward\+\_\+base \end{DoxyCompactList}\item 
+<a id='L52' name='L52'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;gy)
+<a id='L53' name='L53'></a>\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+<a id='L54' name='L54'></a>void \hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;gy)
+<a id='L55' name='L55'></a>\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+<a id='L56' name='L56'></a>void \hyperlink{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;gy)
+<a id='L57' name='L57'></a>\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+<a id='L58' name='L58'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp; \hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;gy)
+<a id='L59' name='L59'></a>\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L60' name='L60'></a>\subsection*{Public Attributes}
+<a id='L61' name='L61'></a>\begin{DoxyCompactItemize}
+<a id='L62' name='L62'></a>\item 
+<a id='L63' name='L63'></a>\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$ $\ast$ \hyperlink{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}{dev}
+<a id='L64' name='L64'></a>\item 
+<a id='L65' name='L65'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}{opt}
+<a id='L66' name='L66'></a>\item 
+<a id='L67' name='L67'></a>\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}{lgr}
+<a id='L68' name='L68'></a>\item 
+<a id='L69' name='L69'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \hyperlink{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}{y}
+<a id='L70' name='L70'></a>\item 
+<a id='L71' name='L71'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \hyperlink{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}{max\+\_\+idx}
+<a id='L72' name='L72'></a>\item 
+<a id='L73' name='L73'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \hyperlink{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}{gx}
+<a id='L74' name='L74'></a>\end{DoxyCompactItemize}
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>\subsection{Detailed Description}
+<a id='L78' name='L78'></a>\subsubsection*{template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$\newline
+<a id='L79' name='L79'></a>struct Max\+Pooling2\+D$&lt;$ max\+B, C, H, W, S $&gt;$}
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>max pooling layer 
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>\begin{DoxyParams}{Parameters}
+<a id='L85' name='L85'></a>{\em (max\+B)} &amp; the maximum number of images (batch size) \\
+<a id='L86' name='L86'></a>\hline
+<a id='L87' name='L87'></a>{\em (\+C)} &amp; the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+<a id='L88' name='L88'></a>\hline
+<a id='L89' name='L89'></a>{\em (\+H)} &amp; height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L90' name='L90'></a>\hline
+<a id='L91' name='L91'></a>{\em (\+W)} &amp; width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L92' name='L92'></a>\hline
+<a id='L93' name='L93'></a>{\em (\+S)} &amp; shrink factor of pooling layers (2)\\
+<a id='L94' name='L94'></a>\hline
+<a id='L95' name='L95'></a>\end{DoxyParams}
+<a id='L96' name='L96'></a>this layer implements max pooling. it takes SxS patch of input images and take the maximum of it. given an HxW image, output (H/S)x(W/S) image 
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>\subsection{Member Function Documentation}
+<a id='L99' name='L99'></a>\mbox{\Hypertarget{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}\label{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}} 
+<a id='L100' name='L100'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!backward@{backward}}
+<a id='L101' name='L101'></a>\index{backward@{backward}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L102' name='L102'></a>\subsubsection{\texorpdfstring{backward()}{backward()}}
+<a id='L103' name='L103'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L104' name='L104'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,C,H,W$&gt;$\&amp; \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L105' name='L105'></a>
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>calc the gradient of loss wrt the input (x) 
+<a id='L109' name='L109'></a>
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>\begin{DoxyParams}{Parameters}
+<a id='L112' name='L112'></a>{\em (gy)} &amp; gradient of loss with respect to the output\\
+<a id='L113' name='L113'></a>\hline
+<a id='L114' name='L114'></a>\end{DoxyParams}
+<a id='L115' name='L115'></a>calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+<a id='L116' name='L116'></a>\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>update 
+<a id='L119' name='L119'></a>\end{DoxySeeAlso}
+<a id='L120' name='L120'></a>\mbox{\Hypertarget{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}\label{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}} 
+<a id='L121' name='L121'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+base@{backward\+\_\+base}}
+<a id='L122' name='L122'></a>\index{backward\+\_\+base@{backward\+\_\+base}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L123' name='L123'></a>\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+<a id='L124' name='L124'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L125' name='L125'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$&gt;$ backward\+\_\+cpu -\/$&gt;$ backward\+\_\+base on cpu and and is backward -\/$&gt;$ backward\+\_\+gpu -\/$&gt;$ backward\+\_\+global -\/$&gt;$ backward\+\_\+dev -\/$&gt;$ backward\+\_\+base 
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>\begin{DoxyParams}{Parameters}
+<a id='L133' name='L133'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L134' name='L134'></a>\hline
+<a id='L135' name='L135'></a>\end{DoxyParams}
+<a id='L136' name='L136'></a>\begin{DoxySeeAlso}{See also}
+<a id='L137' name='L137'></a>\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>\hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} 
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L142' name='L142'></a>
+<a id='L143' name='L143'></a>\hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} 
+<a id='L144' name='L144'></a>\end{DoxySeeAlso}
+<a id='L145' name='L145'></a>\mbox{\Hypertarget{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}\label{structMaxPooling2D_a28487a560998c1eb511f3d4e3b948fd6}} 
+<a id='L146' name='L146'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+<a id='L147' name='L147'></a>\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L148' name='L148'></a>\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+<a id='L149' name='L149'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L150' name='L150'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>
+<a id='L154' name='L154'></a>a cpu version of baseline code called from the entry function (backward) 
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>
+<a id='L157' name='L157'></a>\begin{DoxyParams}{Parameters}
+<a id='L158' name='L158'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L159' name='L159'></a>\hline
+<a id='L160' name='L160'></a>\end{DoxyParams}
+<a id='L161' name='L161'></a>\begin{DoxySeeAlso}{See also}
+<a id='L162' name='L162'></a>\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+<a id='L165' name='L165'></a>\end{DoxySeeAlso}
+<a id='L166' name='L166'></a>\mbox{\Hypertarget{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}\label{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}} 
+<a id='L167' name='L167'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+dev@{backward\+\_\+dev}}
+<a id='L168' name='L168'></a>\index{backward\+\_\+dev@{backward\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L169' name='L169'></a>\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+<a id='L170' name='L170'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L171' name='L171'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>the device function of backward called from the global (non-\/member) function 
+<a id='L176' name='L176'></a>
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>\begin{DoxyParams}{Parameters}
+<a id='L179' name='L179'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L180' name='L180'></a>\hline
+<a id='L181' name='L181'></a>\end{DoxyParams}
+<a id='L182' name='L182'></a>\begin{DoxySeeAlso}{See also}
+<a id='L183' name='L183'></a>\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>\hyperlink{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}{backward\+\_\+gpu} 
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a>\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+<a id='L190' name='L190'></a>\end{DoxySeeAlso}
+<a id='L191' name='L191'></a>\mbox{\Hypertarget{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}\label{structMaxPooling2D_ae7d3c7c84e64b9060471973b58899315}} 
+<a id='L192' name='L192'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+<a id='L193' name='L193'></a>\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L194' name='L194'></a>\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+<a id='L195' name='L195'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L196' name='L196'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H/S, W/S $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L197' name='L197'></a>
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>
+<a id='L200' name='L200'></a>a gpu version of baseline code called from the entry function (backward) 
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>
+<a id='L203' name='L203'></a>\begin{DoxyParams}{Parameters}
+<a id='L204' name='L204'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L205' name='L205'></a>\hline
+<a id='L206' name='L206'></a>\end{DoxyParams}
+<a id='L207' name='L207'></a>\begin{DoxySeeAlso}{See also}
+<a id='L208' name='L208'></a>\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+<a id='L209' name='L209'></a>
+<a id='L210' name='L210'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a>\hyperlink{structMaxPooling2D_ad54e972c24822a97aac4f43066d25db8}{backward\+\_\+dev} 
+<a id='L213' name='L213'></a>
+<a id='L214' name='L214'></a>\hyperlink{structMaxPooling2D_a3a2ce37cba46cc7cfd219e55bb3c2f29}{backward\+\_\+base} 
+<a id='L215' name='L215'></a>\end{DoxySeeAlso}
+<a id='L216' name='L216'></a>\mbox{\Hypertarget{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}\label{structMaxPooling2D_a84452150daaa577f3a13d13e429d1eca}} 
+<a id='L217' name='L217'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!copy@{copy}}
+<a id='L218' name='L218'></a>\index{copy@{copy}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L219' name='L219'></a>\subsubsection{\texorpdfstring{copy()}{copy()}}
+<a id='L220' name='L220'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L221' name='L221'></a>\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$maxB,C,H,W,S$&gt;$$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>
+<a id='L224' name='L224'></a>
+<a id='L225' name='L225'></a>make a copy of this 
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}\label{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}} 
+<a id='L228' name='L228'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!del\+\_\+dev@{del\+\_\+dev}}
+<a id='L229' name='L229'></a>\index{del\+\_\+dev@{del\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L230' name='L230'></a>\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+<a id='L231' name='L231'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L232' name='L232'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>
+<a id='L235' name='L235'></a>
+<a id='L236' name='L236'></a>if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+<a id='L237' name='L237'></a>
+<a id='L238' name='L238'></a>\begin{DoxySeeAlso}{See also}
+<a id='L239' name='L239'></a>\hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} 
+<a id='L240' name='L240'></a>
+<a id='L241' name='L241'></a>\hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} 
+<a id='L242' name='L242'></a>\end{DoxySeeAlso}
+<a id='L243' name='L243'></a>\mbox{\Hypertarget{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}\label{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}} 
+<a id='L244' name='L244'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!forward@{forward}}
+<a id='L245' name='L245'></a>\index{forward@{forward}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L246' name='L246'></a>\subsubsection{\texorpdfstring{forward()}{forward()}}
+<a id='L247' name='L247'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L248' name='L248'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,C,H/S,W/S$&gt;$\&amp; \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L249' name='L249'></a>
+<a id='L250' name='L250'></a>
+<a id='L251' name='L251'></a>
+<a id='L252' name='L252'></a>calc the loss function of a mini-\/batch (x) 
+<a id='L253' name='L253'></a>
+<a id='L254' name='L254'></a>
+<a id='L255' name='L255'></a>\begin{DoxyParams}{Parameters}
+<a id='L256' name='L256'></a>{\em (x)} &amp; input images \\
+<a id='L257' name='L257'></a>\hline
+<a id='L258' name='L258'></a>\end{DoxyParams}
+<a id='L259' name='L259'></a>\begin{DoxySeeAlso}{See also}
+<a id='L260' name='L260'></a>\hyperlink{structMaxPooling2D_ae0ad0f868dcf5f976f4dd99dd91e2f91}{backward} 
+<a id='L261' name='L261'></a>
+<a id='L262' name='L262'></a>update 
+<a id='L263' name='L263'></a>\end{DoxySeeAlso}
+<a id='L264' name='L264'></a>\mbox{\Hypertarget{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}\label{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}} 
+<a id='L265' name='L265'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+base@{forward\+\_\+base}}
+<a id='L266' name='L266'></a>\index{forward\+\_\+base@{forward\+\_\+base}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L267' name='L267'></a>\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+<a id='L268' name='L268'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L269' name='L269'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>
+<a id='L272' name='L272'></a>
+<a id='L273' name='L273'></a>the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$&gt;$ forward\+\_\+cpu -\/$&gt;$ forward\+\_\+base on cpu and and is forward -\/$&gt;$ forward\+\_\+gpu -\/$&gt;$ forward\+\_\+global -\/$&gt;$ forward\+\_\+dev -\/$&gt;$ forward\+\_\+base 
+<a id='L274' name='L274'></a>
+<a id='L275' name='L275'></a>
+<a id='L276' name='L276'></a>\begin{DoxyParams}{Parameters}
+<a id='L277' name='L277'></a>{\em (x)} &amp; input images \\
+<a id='L278' name='L278'></a>\hline
+<a id='L279' name='L279'></a>\end{DoxyParams}
+<a id='L280' name='L280'></a>\begin{DoxySeeAlso}{See also}
+<a id='L281' name='L281'></a>\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+<a id='L282' name='L282'></a>
+<a id='L283' name='L283'></a>\hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} 
+<a id='L284' name='L284'></a>
+<a id='L285' name='L285'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L286' name='L286'></a>
+<a id='L287' name='L287'></a>\hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} 
+<a id='L288' name='L288'></a>\end{DoxySeeAlso}
+<a id='L289' name='L289'></a>\mbox{\Hypertarget{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}\label{structMaxPooling2D_a3f9af927ce1e269b42c097bdb64ef90a}} 
+<a id='L290' name='L290'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+<a id='L291' name='L291'></a>\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L292' name='L292'></a>\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+<a id='L293' name='L293'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L294' name='L294'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L295' name='L295'></a>
+<a id='L296' name='L296'></a>
+<a id='L297' name='L297'></a>
+<a id='L298' name='L298'></a>a cpu version of baseline code called from the entry function (forward) 
+<a id='L299' name='L299'></a>
+<a id='L300' name='L300'></a>
+<a id='L301' name='L301'></a>\begin{DoxyParams}{Parameters}
+<a id='L302' name='L302'></a>{\em (x)} &amp; input images \\
+<a id='L303' name='L303'></a>\hline
+<a id='L304' name='L304'></a>\end{DoxyParams}
+<a id='L305' name='L305'></a>\begin{DoxySeeAlso}{See also}
+<a id='L306' name='L306'></a>\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+<a id='L309' name='L309'></a>\end{DoxySeeAlso}
+<a id='L310' name='L310'></a>\mbox{\Hypertarget{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}\label{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}} 
+<a id='L311' name='L311'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+dev@{forward\+\_\+dev}}
+<a id='L312' name='L312'></a>\index{forward\+\_\+dev@{forward\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L313' name='L313'></a>\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+<a id='L314' name='L314'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L315' name='L315'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L316' name='L316'></a>
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>
+<a id='L319' name='L319'></a>the device function of forward called from the global (non-\/member) function 
+<a id='L320' name='L320'></a>
+<a id='L321' name='L321'></a>
+<a id='L322' name='L322'></a>\begin{DoxyParams}{Parameters}
+<a id='L323' name='L323'></a>{\em (x)} &amp; input images \\
+<a id='L324' name='L324'></a>\hline
+<a id='L325' name='L325'></a>\end{DoxyParams}
+<a id='L326' name='L326'></a>\begin{DoxySeeAlso}{See also}
+<a id='L327' name='L327'></a>\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+<a id='L328' name='L328'></a>
+<a id='L329' name='L329'></a>\hyperlink{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}{forward\+\_\+gpu} 
+<a id='L330' name='L330'></a>
+<a id='L331' name='L331'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L332' name='L332'></a>
+<a id='L333' name='L333'></a>\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+<a id='L334' name='L334'></a>\end{DoxySeeAlso}
+<a id='L335' name='L335'></a>\mbox{\Hypertarget{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}\label{structMaxPooling2D_a4e8ee0e7bf1cc0b7688fbbe1b04019ec}} 
+<a id='L336' name='L336'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+<a id='L337' name='L337'></a>\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L338' name='L338'></a>\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+<a id='L339' name='L339'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L340' name='L340'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, C, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L341' name='L341'></a>
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>
+<a id='L344' name='L344'></a>a gpu version of baseline code called from the entry function (forward) 
+<a id='L345' name='L345'></a>
+<a id='L346' name='L346'></a>
+<a id='L347' name='L347'></a>\begin{DoxyParams}{Parameters}
+<a id='L348' name='L348'></a>{\em (x)} &amp; input images \\
+<a id='L349' name='L349'></a>\hline
+<a id='L350' name='L350'></a>\end{DoxyParams}
+<a id='L351' name='L351'></a>\begin{DoxySeeAlso}{See also}
+<a id='L352' name='L352'></a>\hyperlink{structMaxPooling2D_ac533b4e08d8f2e708bbdc8f8e2d784a2}{forward} 
+<a id='L353' name='L353'></a>
+<a id='L354' name='L354'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L355' name='L355'></a>
+<a id='L356' name='L356'></a>\hyperlink{structMaxPooling2D_a978800c6648a820257f2934e9970e12e}{forward\+\_\+dev} 
+<a id='L357' name='L357'></a>
+<a id='L358' name='L358'></a>\hyperlink{structMaxPooling2D_adde941f72d6c91ecb63253afb845dbfa}{forward\+\_\+base} 
+<a id='L359' name='L359'></a>\end{DoxySeeAlso}
+<a id='L360' name='L360'></a>\mbox{\Hypertarget{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}\label{structMaxPooling2D_a004da9768f6934b82ce6758ab7da92be}} 
+<a id='L361' name='L361'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!init@{init}}
+<a id='L362' name='L362'></a>\index{init@{init}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L363' name='L363'></a>\subsubsection{\texorpdfstring{init()}{init()}}
+<a id='L364' name='L364'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L365' name='L365'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L366' name='L366'></a>
+<a id='L367' name='L367'></a>
+<a id='L368' name='L368'></a>
+<a id='L369' name='L369'></a>initialize 
+<a id='L370' name='L370'></a>
+<a id='L371' name='L371'></a>
+<a id='L372' name='L372'></a>\begin{DoxyParams}{Parameters}
+<a id='L373' name='L373'></a>{\em (opt)} &amp; command line options \\
+<a id='L374' name='L374'></a>\hline
+<a id='L375' name='L375'></a>{\em (lgr)} &amp; logger \\
+<a id='L376' name='L376'></a>\hline
+<a id='L377' name='L377'></a>\end{DoxyParams}
+<a id='L378' name='L378'></a>\mbox{\Hypertarget{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}\label{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}} 
+<a id='L379' name='L379'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!make\+\_\+dev@{make\+\_\+dev}}
+<a id='L380' name='L380'></a>\index{make\+\_\+dev@{make\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L381' name='L381'></a>\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+<a id='L382' name='L382'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L383' name='L383'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L384' name='L384'></a>
+<a id='L385' name='L385'></a>
+<a id='L386' name='L386'></a>
+<a id='L387' name='L387'></a>if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+<a id='L388' name='L388'></a>
+<a id='L389' name='L389'></a>\begin{DoxySeeAlso}{See also}
+<a id='L390' name='L390'></a>\hyperlink{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}{set\+\_\+dev} 
+<a id='L391' name='L391'></a>
+<a id='L392' name='L392'></a>\hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev} 
+<a id='L393' name='L393'></a>\end{DoxySeeAlso}
+<a id='L394' name='L394'></a>\mbox{\Hypertarget{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}\label{structMaxPooling2D_ab534c745a6fbfac5a8bd1718a1510dbe}} 
+<a id='L395' name='L395'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!set\+\_\+dev@{set\+\_\+dev}}
+<a id='L396' name='L396'></a>\index{set\+\_\+dev@{set\+\_\+dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L397' name='L397'></a>\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+<a id='L398' name='L398'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L399' name='L399'></a>void \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L400' name='L400'></a>
+<a id='L401' name='L401'></a>
+<a id='L402' name='L402'></a>
+<a id='L403' name='L403'></a>set the device pointer for this and all subobjects 
+<a id='L404' name='L404'></a>
+<a id='L405' name='L405'></a>
+<a id='L406' name='L406'></a>\begin{DoxyParams}{Parameters}
+<a id='L407' name='L407'></a>{\em (dev)} &amp; a device memory or null \\
+<a id='L408' name='L408'></a>\hline
+<a id='L409' name='L409'></a>\end{DoxyParams}
+<a id='L410' name='L410'></a>\begin{DoxySeeAlso}{See also}
+<a id='L411' name='L411'></a>\hyperlink{structMaxPooling2D_a2cb8392bfcf78dc55e7157ef3095364e}{make\+\_\+dev} 
+<a id='L412' name='L412'></a>
+<a id='L413' name='L413'></a>\hyperlink{structMaxPooling2D_a5d3cd9d8a476ae96cb7f86b5a0409f72}{del\+\_\+dev}
+<a id='L414' name='L414'></a>\end{DoxySeeAlso}
+<a id='L415' name='L415'></a>if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. 
+<a id='L416' name='L416'></a>
+<a id='L417' name='L417'></a>\subsection{Member Data Documentation}
+<a id='L418' name='L418'></a>\mbox{\Hypertarget{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}\label{structMaxPooling2D_ad21014604fa6abddbfdcdc0b64f37196}} 
+<a id='L419' name='L419'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!dev@{dev}}
+<a id='L420' name='L420'></a>\index{dev@{dev}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L421' name='L421'></a>\subsubsection{\texorpdfstring{dev}{dev}}
+<a id='L422' name='L422'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L423' name='L423'></a>\hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$maxB,C,H,W,S$&gt;$$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::dev}
+<a id='L424' name='L424'></a>
+<a id='L425' name='L425'></a>device shadow \mbox{\Hypertarget{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}\label{structMaxPooling2D_abf5754c5b154e54b09c38bc2c189562b}} 
+<a id='L426' name='L426'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!gx@{gx}}
+<a id='L427' name='L427'></a>\index{gx@{gx}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L428' name='L428'></a>\subsubsection{\texorpdfstring{gx}{gx}}
+<a id='L429' name='L429'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L430' name='L430'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,C,H,W$&gt;$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::gx}
+<a id='L431' name='L431'></a>
+<a id='L432' name='L432'></a>gradient of loss wrt to input x \mbox{\Hypertarget{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}\label{structMaxPooling2D_a516ea469a544d99543c9073bc318f970}} 
+<a id='L433' name='L433'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!lgr@{lgr}}
+<a id='L434' name='L434'></a>\index{lgr@{lgr}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L435' name='L435'></a>\subsubsection{\texorpdfstring{lgr}{lgr}}
+<a id='L436' name='L436'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L437' name='L437'></a>\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::lgr}
+<a id='L438' name='L438'></a>
+<a id='L439' name='L439'></a>logger \mbox{\Hypertarget{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}\label{structMaxPooling2D_ac6ca7dc8ceca1e9e5d2403634ebd8802}} 
+<a id='L440' name='L440'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!max\+\_\+idx@{max\+\_\+idx}}
+<a id='L441' name='L441'></a>\index{max\+\_\+idx@{max\+\_\+idx}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L442' name='L442'></a>\subsubsection{\texorpdfstring{max\+\_\+idx}{max\_idx}}
+<a id='L443' name='L443'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L444' name='L444'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,C,H/S,W/S$&gt;$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::max\+\_\+idx}
+<a id='L445' name='L445'></a>
+<a id='L446' name='L446'></a>the index that gave the maximum of each output pixel \mbox{\Hypertarget{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}\label{structMaxPooling2D_a573bf3df3ae3d9043763c6743f1b87f9}} 
+<a id='L447' name='L447'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!opt@{opt}}
+<a id='L448' name='L448'></a>\index{opt@{opt}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L449' name='L449'></a>\subsubsection{\texorpdfstring{opt}{opt}}
+<a id='L450' name='L450'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L451' name='L451'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::opt}
+<a id='L452' name='L452'></a>
+<a id='L453' name='L453'></a>command line option \mbox{\Hypertarget{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}\label{structMaxPooling2D_a0ad5375e31a495c53600f3367da9fddc}} 
+<a id='L454' name='L454'></a>\index{Max\+Pooling2D@{Max\+Pooling2D}!y@{y}}
+<a id='L455' name='L455'></a>\index{y@{y}!Max\+Pooling2D@{Max\+Pooling2D}}
+<a id='L456' name='L456'></a>\subsubsection{\texorpdfstring{y}{y}}
+<a id='L457' name='L457'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t C, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t S$&gt;$ \\
+<a id='L458' name='L458'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,C,H/S,W/S$&gt;$ \hyperlink{structMaxPooling2D}{Max\+Pooling2D}$&lt;$ maxB, C, H, W, S $&gt;$\+::y}
+<a id='L459' name='L459'></a>
+<a id='L460' name='L460'></a>output of the forward 
+<a id='L461' name='L461'></a>
+<a id='L462' name='L462'></a>The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+<a id='L463' name='L463'></a>\item 
+<a id='L464' name='L464'></a>/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{maxpooling_8h}{maxpooling.\+h}\end{DoxyCompactItemize}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+464 doc/latex/structMaxPooling2D.tex'  /> */</em>
+</body>
+</html>

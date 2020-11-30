@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>lsm</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/480.html#L69'>lsm</a>                69 include/softmaxcrossentropy.h   array2&lt;maxB,nC&gt; lsm;          /**&lt; record log(softmax)  */</span>
+<span class='curline'><a href='../S/480.html#L195'>lsm</a>               195 include/softmaxcrossentropy.h         lsm(b,c) = x(b,c,0,0) - x(b,m,0,0);</span>
+<span class='curline'><a href='../S/480.html#L196'>lsm</a>               196 include/softmaxcrossentropy.h         s += exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/480.html#L199'>lsm</a>               199 include/softmaxcrossentropy.h         lsm(b,c) -= log(s);</span>
+<span class='curline'><a href='../S/480.html#L202'>lsm</a>               202 include/softmaxcrossentropy.h     return lsm;</span>
+<span class='curline'><a href='../S/480.html#L220'>lsm</a>               220 include/softmaxcrossentropy.h     lsm.set_n_rows(B);</span>
+<span class='curline'><a href='../S/480.html#L226'>lsm</a>               226 include/softmaxcrossentropy.h       y(b) = -lsm(b,t(b));</span>
+<span class='curline'><a href='../S/480.html#L322'>lsm</a>               322 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * (-1 + exp(lsm(b,c)));</span>
+<span class='curline'><a href='../S/480.html#L324'>lsm</a>               324 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/477.html#L416'>lsm</a>               416 include/vgg.h      array2&lt;maxB,nC&gt;&amp; lsm = softmax_cross_entropy.lsm;</span>
+<span class='curline'><a href='../S/477.html#L417'>lsm</a>               417 include/vgg.h      lsm.to_host();</span>
+<span class='curline'><a href='../S/477.html#L424'>lsm</a>               424 include/vgg.h          if (lsm(b,pred_class) &lt; lsm(b,c)) {</span>
+</pre>
+</body>
+</html>

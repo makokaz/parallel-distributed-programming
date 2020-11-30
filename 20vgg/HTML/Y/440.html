@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>update</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L206'>update</a>            206 include/batchnormalization.h     gamma.update(eta, ggamma);</span>
+<span class='curline'><a href='../S/478.html#L207'>update</a>            207 include/batchnormalization.h     beta.update(eta, gbeta);</span>
+<span class='curline'><a href='../S/478.html#L253'>update</a>            253 include/batchnormalization.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L668'>update</a>            668 include/batchnormalization.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/478.html#L669'>update</a>            669 include/batchnormalization.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/478.html#L680'>update</a>            680 include/batchnormalization.h   bn_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/478.html#L681'>update</a>            681 include/batchnormalization.h   bn_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/482.html#L149'>update</a>            149 include/block.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/482.html#L150'>update</a>            150 include/block.h     conv.update(eta);</span>
+<span class='curline'><a href='../S/482.html#L151'>update</a>            151 include/block.h     bn.update(eta);</span>
+<span class='curline'><a href='../S/482.html#L273'>update</a>            273 include/block.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/482.html#L274'>update</a>            274 include/block.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/482.html#L285'>update</a>            285 include/block.h   block_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/482.html#L286'>update</a>            286 include/block.h   block_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/473.html#L201'>update</a>            201 include/convolution.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/473.html#L247'>update</a>            247 include/convolution.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L593'>update</a>            593 include/convolution.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/473.html#L594'>update</a>            594 include/convolution.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/473.html#L605'>update</a>            605 include/convolution.h   conv_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/473.html#L606'>update</a>            606 include/convolution.h   conv_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/468.html#L437'>update</a>            437 include/dropout.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/468.html#L438'>update</a>            438 include/dropout.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L193'>update</a>            193 include/linear.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/479.html#L239'>update</a>            239 include/linear.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L555'>update</a>            555 include/linear.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L556'>update</a>            556 include/linear.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L567'>update</a>            567 include/linear.h   linear_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/479.html#L568'>update</a>            568 include/linear.h   linear_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/474.html#L439'>update</a>            439 include/maxpooling.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/474.html#L440'>update</a>            440 include/maxpooling.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/471.html#L415'>update</a>            415 include/relu.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/471.html#L416'>update</a>            416 include/relu.h   x_plus-&gt;update(0.5, *dx);</span>
+<span class='curline'><a href='../S/480.html#L463'>update</a>            463 include/softmaxcrossentropy.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/480.html#L464'>update</a>            464 include/softmaxcrossentropy.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L290'>update</a>            290 include/vgg.h    void update(real eta) {</span>
+<span class='curline'><a href='../S/477.html#L291'>update</a>            291 include/vgg.h      block1_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L292'>update</a>            292 include/vgg.h      block1_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L294'>update</a>            294 include/vgg.h      block2_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L295'>update</a>            295 include/vgg.h      block2_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L297'>update</a>            297 include/vgg.h      block3_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L298'>update</a>            298 include/vgg.h      block3_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L299'>update</a>            299 include/vgg.h      block3_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L301'>update</a>            301 include/vgg.h      block4_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L302'>update</a>            302 include/vgg.h      block4_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L303'>update</a>            303 include/vgg.h      block4_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L305'>update</a>            305 include/vgg.h      block5_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L306'>update</a>            306 include/vgg.h      block5_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L307'>update</a>            307 include/vgg.h      block5_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L309'>update</a>            309 include/vgg.h      fc1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L310'>update</a>            310 include/vgg.h      bn_fc1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L311'>update</a>            311 include/vgg.h      fc2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L461'>update</a>            461 include/vgg.h      update(-e);</span>
+<span class='curline'><a href='../S/477.html#L615'>update</a>            615 include/vgg.h    x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L616'>update</a>            616 include/vgg.h    x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L627'>update</a>            627 include/vgg.h    vgg_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/477.html#L628'>update</a>            628 include/vgg.h    vgg_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/481.html#L159'>update</a>            159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L455'>update</a>            455 include/vgg_arrays.h   void update(real eta, array2&lt;M,N&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L668'>update</a>            668 include/vgg_arrays.h   void update(real eta, array4&lt;maxB,C,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L855'>update</a>            855 include/vgg_arrays.h   void update(real eta, warray4&lt;OC,IC,H,W&gt;&amp; da) {</span>
+</pre>
+</body>
+</html>

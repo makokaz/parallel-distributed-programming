@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>lgr</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L79'>lgr</a>                79 include/batchnormalization.h   logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/478.html#L94'>lgr</a>                94 include/batchnormalization.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/478.html#L96'>lgr</a>                96 include/batchnormalization.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/478.html#L254'>lgr</a>               254 include/batchnormalization.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/478.html#L276'>lgr</a>               276 include/batchnormalization.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/478.html#L421'>lgr</a>               421 include/batchnormalization.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/478.html#L443'>lgr</a>               443 include/batchnormalization.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/478.html#L552'>lgr</a>               552 include/batchnormalization.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/478.html#L574'>lgr</a>               574 include/batchnormalization.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/478.html#L633'>lgr</a>               633 include/batchnormalization.h   static real batchnormalization_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/478.html#L636'>lgr</a>               636 include/batchnormalization.h   bn-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/478.html#L742'>lgr</a>               742 include/batchnormalization.h   logger lgr;</span>
+<span class='curline'><a href='../S/478.html#L743'>lgr</a>               743 include/batchnormalization.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/478.html#L752'>lgr</a>               752 include/batchnormalization.h     real e = batchnormalization_grad_check_rand&lt;maxB,IC,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/478.html#L758'>lgr</a>               758 include/batchnormalization.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/482.html#L38'>lgr</a>                38 include/block.h   logger * lgr;                 /**&lt; logger  */</span>
+<span class='curline'><a href='../S/482.html#L48'>lgr</a>                48 include/block.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/482.html#L50'>lgr</a>                50 include/block.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/482.html#L51'>lgr</a>                51 include/block.h     conv.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L52'>lgr</a>                52 include/block.h     bn.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L53'>lgr</a>                53 include/block.h     relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/482.html#L238'>lgr</a>               238 include/block.h   static real block_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/482.html#L241'>lgr</a>               241 include/block.h   block-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L351'>lgr</a>               351 include/block.h   logger lgr;</span>
+<span class='curline'><a href='../S/482.html#L352'>lgr</a>               352 include/block.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/482.html#L361'>lgr</a>               361 include/block.h     real e = block_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/482.html#L367'>lgr</a>               367 include/block.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/469.html#L140'>lgr</a>               140 include/cifar.h   int load(logger&amp; lgr,</span>
+<span class='curline'><a href='../S/469.html#L148'>lgr</a>               148 include/cifar.h       lgr.log(1, "specified number of samples (%ld) exeeds data in file (%ld). truncated\n",</span>
+<span class='curline'><a href='../S/469.html#L155'>lgr</a>               155 include/cifar.h     lgr.log(1, "loading %ld/%ld training/validation data from %s starts",</span>
+<span class='curline'><a href='../S/469.html#L158'>lgr</a>               158 include/cifar.h       lgr.log(1, "warning: no data left for validation (validation not performed)");</span>
+<span class='curline'><a href='../S/469.html#L213'>lgr</a>               213 include/cifar.h     log_dataset(lgr);</span>
+<span class='curline'><a href='../S/469.html#L214'>lgr</a>               214 include/cifar.h     lgr.log(1, "loading data ends");</span>
+<span class='curline'><a href='../S/469.html#L221'>lgr</a>               221 include/cifar.h   void log_dataset_train(logger&amp; lgr) {</span>
+<span class='curline'><a href='../S/469.html#L240'>lgr</a>               240 include/cifar.h     lgr.log(3, "%s", data_str);</span>
+<span class='curline'><a href='../S/469.html#L247'>lgr</a>               247 include/cifar.h   void log_dataset_validate(logger&amp; lgr) {</span>
+<span class='curline'><a href='../S/469.html#L266'>lgr</a>               266 include/cifar.h     lgr.log(3, "%s", data_str);</span>
+<span class='curline'><a href='../S/469.html#L273'>lgr</a>               273 include/cifar.h   void log_dataset(logger&amp; lgr) {</span>
+<span class='curline'><a href='../S/469.html#L274'>lgr</a>               274 include/cifar.h     log_dataset_train(lgr);</span>
+<span class='curline'><a href='../S/469.html#L275'>lgr</a>               275 include/cifar.h     log_dataset_validate(lgr);</span>
+<span class='curline'><a href='../S/469.html#L351'>lgr</a>               351 include/cifar.h   logger lgr;</span>
+<span class='curline'><a href='../S/469.html#L352'>lgr</a>               352 include/cifar.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/469.html#L356'>lgr</a>               356 include/cifar.h   ds.load(lgr,</span>
+<span class='curline'><a href='../S/469.html#L367'>lgr</a>               367 include/cifar.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/473.html#L82'>lgr</a>                82 include/convolution.h   logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/473.html#L94'>lgr</a>                94 include/convolution.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/473.html#L96'>lgr</a>                96 include/convolution.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/473.html#L248'>lgr</a>               248 include/convolution.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/473.html#L270'>lgr</a>               270 include/convolution.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/473.html#L352'>lgr</a>               352 include/convolution.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/473.html#L374'>lgr</a>               374 include/convolution.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/473.html#L483'>lgr</a>               483 include/convolution.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/473.html#L505'>lgr</a>               505 include/convolution.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/473.html#L558'>lgr</a>               558 include/convolution.h   static real convolution_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/473.html#L561'>lgr</a>               561 include/convolution.h   conv-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/473.html#L672'>lgr</a>               672 include/convolution.h   logger lgr;</span>
+<span class='curline'><a href='../S/473.html#L673'>lgr</a>               673 include/convolution.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/473.html#L682'>lgr</a>               682 include/convolution.h     real e = convolution_grad_check_rand&lt;maxB,IC,H,W,K,OC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/473.html#L688'>lgr</a>               688 include/convolution.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/468.html#L65'>lgr</a>                65 include/dropout.h   logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/468.html#L79'>lgr</a>                79 include/dropout.h   void init(cmdline_opt opt, logger * lgr, real drop_ratio, long drop_seed) {</span>
+<span class='curline'><a href='../S/468.html#L81'>lgr</a>                81 include/dropout.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/468.html#L250'>lgr</a>               250 include/dropout.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/468.html#L272'>lgr</a>               272 include/dropout.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/468.html#L356'>lgr</a>               356 include/dropout.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/468.html#L378'>lgr</a>               378 include/dropout.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/468.html#L403'>lgr</a>               403 include/dropout.h   static real dropout_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/468.html#L407'>lgr</a>               407 include/dropout.h   dropout-&gt;init(opt, lgr, drop_ratio, opt.dropout_seed);</span>
+<span class='curline'><a href='../S/468.html#L507'>lgr</a>               507 include/dropout.h   logger lgr;</span>
+<span class='curline'><a href='../S/468.html#L508'>lgr</a>               508 include/dropout.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/468.html#L517'>lgr</a>               517 include/dropout.h     real e = dropout_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/468.html#L523'>lgr</a>               523 include/dropout.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/479.html#L74'>lgr</a>                74 include/linear.h   logger * lgr;                 /**&lt; logger  */</span>
+<span class='curline'><a href='../S/479.html#L86'>lgr</a>                86 include/linear.h   void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/479.html#L88'>lgr</a>                88 include/linear.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/479.html#L240'>lgr</a>               240 include/linear.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/479.html#L262'>lgr</a>               262 include/linear.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/479.html#L336'>lgr</a>               336 include/linear.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/479.html#L358'>lgr</a>               358 include/linear.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/479.html#L447'>lgr</a>               447 include/linear.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/479.html#L469'>lgr</a>               469 include/linear.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/479.html#L520'>lgr</a>               520 include/linear.h   real linear_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/479.html#L523'>lgr</a>               523 include/linear.h   linear-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/479.html#L630'>lgr</a>               630 include/linear.h   logger lgr;</span>
+<span class='curline'><a href='../S/479.html#L631'>lgr</a>               631 include/linear.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/479.html#L640'>lgr</a>               640 include/linear.h     real e = linear_grad_check_rand&lt;maxB,IC,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/479.html#L646'>lgr</a>               646 include/linear.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/474.html#L68'>lgr</a>                68 include/maxpooling.h   logger * lgr;                 /**&lt; logger  */</span>
+<span class='curline'><a href='../S/474.html#L77'>lgr</a>                77 include/maxpooling.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/474.html#L79'>lgr</a>                79 include/maxpooling.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/474.html#L250'>lgr</a>               250 include/maxpooling.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/474.html#L272'>lgr</a>               272 include/maxpooling.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/474.html#L358'>lgr</a>               358 include/maxpooling.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/474.html#L380'>lgr</a>               380 include/maxpooling.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/474.html#L405'>lgr</a>               405 include/maxpooling.h   real maxpooling_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/474.html#L408'>lgr</a>               408 include/maxpooling.h   mp-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/474.html#L510'>lgr</a>               510 include/maxpooling.h   logger lgr;</span>
+<span class='curline'><a href='../S/474.html#L511'>lgr</a>               511 include/maxpooling.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/474.html#L520'>lgr</a>               520 include/maxpooling.h     real e = maxpooling_grad_check_rand&lt;maxB,C,H,W,S&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/474.html#L526'>lgr</a>               526 include/maxpooling.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/471.html#L65'>lgr</a>                65 include/relu.h   logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/471.html#L74'>lgr</a>                74 include/relu.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/471.html#L76'>lgr</a>                76 include/relu.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/471.html#L235'>lgr</a>               235 include/relu.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/471.html#L257'>lgr</a>               257 include/relu.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/471.html#L336'>lgr</a>               336 include/relu.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/471.html#L358'>lgr</a>               358 include/relu.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/471.html#L383'>lgr</a>               383 include/relu.h   static real relu_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/471.html#L386'>lgr</a>               386 include/relu.h   relu-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/471.html#L485'>lgr</a>               485 include/relu.h   logger lgr;</span>
+<span class='curline'><a href='../S/471.html#L486'>lgr</a>               486 include/relu.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/471.html#L495'>lgr</a>               495 include/relu.h     real e = relu_grad_check_rand&lt;maxB,C,H,W&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/471.html#L501'>lgr</a>               501 include/relu.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/480.html#L67'>lgr</a>                67 include/softmaxcrossentropy.h   logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/480.html#L78'>lgr</a>                78 include/softmaxcrossentropy.h   void init(cmdline_opt opt, logger * lgr) {</span>
+<span class='curline'><a href='../S/480.html#L80'>lgr</a>                80 include/softmaxcrossentropy.h     this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/480.html#L277'>lgr</a>               277 include/softmaxcrossentropy.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/480.html#L299'>lgr</a>               299 include/softmaxcrossentropy.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/480.html#L378'>lgr</a>               378 include/softmaxcrossentropy.h     log_start_fun(lgr);</span>
+<span class='curline'><a href='../S/480.html#L400'>lgr</a>               400 include/softmaxcrossentropy.h     log_end_fun(lgr, t0, t1);</span>
+<span class='curline'><a href='../S/480.html#L425'>lgr</a>               425 include/softmaxcrossentropy.h   static real softmaxcrossentropy_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/480.html#L428'>lgr</a>               428 include/softmaxcrossentropy.h   smxe-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/480.html#L533'>lgr</a>               533 include/softmaxcrossentropy.h   logger lgr;</span>
+<span class='curline'><a href='../S/480.html#L534'>lgr</a>               534 include/softmaxcrossentropy.h   lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/480.html#L543'>lgr</a>               543 include/softmaxcrossentropy.h     real e = softmaxcrossentropy_grad_check_rand&lt;maxB,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/480.html#L549'>lgr</a>               549 include/softmaxcrossentropy.h   lgr.end_log();</span>
+<span class='curline'><a href='../S/477.html#L32'>lgr</a>                32 include/vgg.h    logger * lgr;                 /**&lt; logger */</span>
+<span class='curline'><a href='../S/477.html#L104'>lgr</a>               104 include/vgg.h    void init(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg) {</span>
+<span class='curline'><a href='../S/477.html#L106'>lgr</a>               106 include/vgg.h      this-&gt;lgr = lgr;</span>
+<span class='curline'><a href='../S/477.html#L115'>lgr</a>               115 include/vgg.h      block1_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L116'>lgr</a>               116 include/vgg.h      dropout1_1.init(opt, lgr, dropout_ratio1, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L117'>lgr</a>               117 include/vgg.h      block1_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L118'>lgr</a>               118 include/vgg.h      max_pooling_2d1.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L120'>lgr</a>               120 include/vgg.h      block2_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L121'>lgr</a>               121 include/vgg.h      dropout2_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L122'>lgr</a>               122 include/vgg.h      block2_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L123'>lgr</a>               123 include/vgg.h      max_pooling_2d2.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L125'>lgr</a>               125 include/vgg.h      block3_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L126'>lgr</a>               126 include/vgg.h      dropout3_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L127'>lgr</a>               127 include/vgg.h      block3_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L128'>lgr</a>               128 include/vgg.h      dropout3_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L129'>lgr</a>               129 include/vgg.h      block3_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L130'>lgr</a>               130 include/vgg.h      max_pooling_2d3.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L132'>lgr</a>               132 include/vgg.h      block4_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L133'>lgr</a>               133 include/vgg.h      dropout4_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L134'>lgr</a>               134 include/vgg.h      block4_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L135'>lgr</a>               135 include/vgg.h      dropout4_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L136'>lgr</a>               136 include/vgg.h      block4_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L137'>lgr</a>               137 include/vgg.h      max_pooling_2d4.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L139'>lgr</a>               139 include/vgg.h      block5_1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L140'>lgr</a>               140 include/vgg.h      dropout5_1.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L141'>lgr</a>               141 include/vgg.h      block5_2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L142'>lgr</a>               142 include/vgg.h      dropout5_2.init(opt, lgr, dropout_ratio2, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L143'>lgr</a>               143 include/vgg.h      block5_3.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L144'>lgr</a>               144 include/vgg.h      max_pooling_2d5.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L146'>lgr</a>               146 include/vgg.h      dropout6_1.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L147'>lgr</a>               147 include/vgg.h      fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L148'>lgr</a>               148 include/vgg.h      bn_fc1.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L149'>lgr</a>               149 include/vgg.h      relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L150'>lgr</a>               150 include/vgg.h      dropout6_2.init(opt, lgr, dropout_ratio3, seed += 100);</span>
+<span class='curline'><a href='../S/477.html#L151'>lgr</a>               151 include/vgg.h      fc2.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L153'>lgr</a>               153 include/vgg.h      softmax_cross_entropy.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L431'>lgr</a>               431 include/vgg.h        lgr-&gt;log(1, "sample %d image %d pred %d truth %d",</span>
+<span class='curline'><a href='../S/477.html#L575'>lgr</a>               575 include/vgg.h    static real vgg_grad_check_rand(cmdline_opt opt, logger * lgr, rnd_gen_t&amp; rg, idx_t B) {</span>
+<span class='curline'><a href='../S/477.html#L578'>lgr</a>               578 include/vgg.h    vgg-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L695'>lgr</a>               695 include/vgg.h    logger lgr;</span>
+<span class='curline'><a href='../S/477.html#L696'>lgr</a>               696 include/vgg.h    lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/477.html#L705'>lgr</a>               705 include/vgg.h      real e = vgg_grad_check_rand&lt;maxB,C0,H,W,K,S,C1,nC&gt;(opt, &amp;lgr, rg, B);</span>
+<span class='curline'><a href='../S/477.html#L711'>lgr</a>               711 include/vgg.h    lgr.end_log();</span>
+<span class='curline'><a href='../S/475.html#L714'>lgr</a>               714 include/vgg_util.h #define log_start_fun(lgr) lgr-&gt;log_start_fun_(__PRETTY_FUNCTION__)</span>
+<span class='curline'><a href='../S/475.html#L720'>lgr</a>               720 include/vgg_util.h #define log_end_fun(lgr, t0, t1)   lgr-&gt;log_end_fun_(__PRETTY_FUNCTION__, t0, t1)</span>
+<span class='curline'><a href='../S/466.html#L16'>lgr</a>                16 vgg.cc           vgg-&gt;lgr-&gt;log(1, "=== train %ld - %ld ===", count, count + B);</span>
+<span class='curline'><a href='../S/466.html#L24'>lgr</a>                24 vgg.cc           vgg-&gt;lgr-&gt;log(1, "train accuracy %d / %d = %.3f",</span>
+<span class='curline'><a href='../S/466.html#L26'>lgr</a>                26 vgg.cc           vgg-&gt;lgr-&gt;log(1, "train loss = %.9f", L);</span>
+<span class='curline'><a href='../S/466.html#L39'>lgr</a>                39 vgg.cc             vgg-&gt;lgr-&gt;log(1, "=== validate %ld - %ld ===", count, count + data.n_validate);</span>
+<span class='curline'><a href='../S/466.html#L53'>lgr</a>                53 vgg.cc             vgg-&gt;lgr-&gt;log(1, "validate accuracy %d / %d = %.3f",</span>
+<span class='curline'><a href='../S/466.html#L55'>lgr</a>                55 vgg.cc             vgg-&gt;lgr-&gt;log(1, "validate loss = %.9f", L);</span>
+<span class='curline'><a href='../S/466.html#L94'>lgr</a>                94 vgg.cc           logger lgr;</span>
+<span class='curline'><a href='../S/466.html#L95'>lgr</a>                95 vgg.cc           lgr.start_log(opt);</span>
+<span class='curline'><a href='../S/466.html#L100'>lgr</a>               100 vgg.cc           lgr.log(1, "model building starts");</span>
+<span class='curline'><a href='../S/466.html#L102'>lgr</a>               102 vgg.cc           vgg-&gt;init(opt, &amp;lgr, rg);</span>
+<span class='curline'><a href='../S/466.html#L105'>lgr</a>               105 vgg.cc           lgr.log(1, "model building ends");</span>
+<span class='curline'><a href='../S/466.html#L108'>lgr</a>               108 vgg.cc           data.load(lgr, opt.cifar_data, opt.partial_data,</span>
+<span class='curline'><a href='../S/466.html#L115'>lgr</a>               115 vgg.cc           lgr.log(1, "training starts");</span>
+<span class='curline'><a href='../S/466.html#L129'>lgr</a>               129 vgg.cc           lgr.log(1, "training ends");</span>
+<span class='curline'><a href='../S/466.html#L130'>lgr</a>               130 vgg.cc           lgr.end_log();</span>
+</pre>
+</body>
+</html>

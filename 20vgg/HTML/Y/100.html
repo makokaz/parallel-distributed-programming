@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>conv</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L39'>conv</a>               39 include/block.h   Convolution2D     &lt;maxB,IC,H,W,K,OC&gt; conv; /**&lt; convolution layer */</span>
+<span class='curline'><a href='../S/482.html#L51'>conv</a>               51 include/block.h     conv.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L77'>conv</a>               77 include/block.h     conv.set_dev(dev ? &amp;dev-&gt;conv : 0);</span>
+<span class='curline'><a href='../S/482.html#L150'>conv</a>              150 include/block.h     conv.update(eta);</span>
+<span class='curline'><a href='../S/482.html#L160'>conv</a>              160 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x1 = conv.forward(x);</span>
+<span class='curline'><a href='../S/482.html#L179'>conv</a>              179 include/block.h     array4&lt;maxB,IC,H,W&gt;&amp; gx = conv.backward(g1);</span>
+<span class='curline'><a href='../S/482.html#L191'>conv</a>              191 include/block.h     conv.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/482.html#L200'>conv</a>              200 include/block.h     conv.set_grad(o.conv);</span>
+<span class='curline'><a href='../S/482.html#L212'>conv</a>              212 include/block.h     s += a.conv.gw_dot_gw(b.conv);</span>
+<span class='curline'><a href='../S/473.html#L560'>conv</a>              560 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;();</span>
+<span class='curline'><a href='../S/473.html#L561'>conv</a>              561 include/convolution.h   conv-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/473.html#L562'>conv</a>              562 include/convolution.h   conv-&gt;make_dev();</span>
+<span class='curline'><a href='../S/473.html#L563'>conv</a>              563 include/convolution.h   conv-&gt;to_dev();</span>
+<span class='curline'><a href='../S/473.html#L565'>conv</a>              565 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_minus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L566'>conv</a>              566 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * conv_plus = conv-&gt;copy();</span>
+<span class='curline'><a href='../S/473.html#L578'>conv</a>              578 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y = conv-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/473.html#L579'>conv</a>              579 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = conv-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/473.html#L581'>conv</a>              581 include/convolution.h   conv-&gt;to_host();</span>
+<span class='curline'><a href='../S/473.html#L622'>conv</a>              622 include/convolution.h   real gw_gw = conv-&gt;gw_dot_gw(*conv);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/473.html#L624'>conv</a>              624 include/convolution.h   real gw_dw = conv-&gt;gw_dot_gw(*conv_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/473.html#L628'>conv</a>              628 include/convolution.h   conv-&gt;del_dev();</span>
+<span class='curline'><a href='../S/473.html#L637'>conv</a>              637 include/convolution.h   delete conv;</span>
+</pre>
+</body>
+</html>

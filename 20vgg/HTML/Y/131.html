@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>drop_ratio</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/468.html#L69'>drop_ratio</a>         69 include/dropout.h   real drop_ratio;              /**&lt; drop probability */</span>
+<span class='curline'><a href='../S/468.html#L79'>drop_ratio</a>         79 include/dropout.h   void init(cmdline_opt opt, logger * lgr, real drop_ratio, long drop_seed) {</span>
+<span class='curline'><a href='../S/468.html#L82'>drop_ratio</a>         82 include/dropout.h     this-&gt;drop_ratio = drop_ratio;</span>
+<span class='curline'><a href='../S/468.html#L191'>drop_ratio</a>        191 include/dropout.h     real scale = 1.0 / (1 - drop_ratio);</span>
+<span class='curline'><a href='../S/468.html#L196'>drop_ratio</a>        196 include/dropout.h             if (rg.rand01() &lt; drop_ratio) {</span>
+<span class='curline'><a href='../S/468.html#L292'>drop_ratio</a>        292 include/dropout.h     real scale = 1.0 / (1 - drop_ratio);</span>
+<span class='curline'><a href='../S/468.html#L297'>drop_ratio</a>        297 include/dropout.h             if (rg.rand01() &lt; drop_ratio) {</span>
+<span class='curline'><a href='../S/468.html#L405'>drop_ratio</a>        405 include/dropout.h   const real drop_ratio = 0.3;</span>
+<span class='curline'><a href='../S/468.html#L407'>drop_ratio</a>        407 include/dropout.h   dropout-&gt;init(opt, lgr, drop_ratio, opt.dropout_seed);</span>
+</pre>
+</body>
+</html>

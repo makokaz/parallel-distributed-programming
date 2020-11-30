@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dataset</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/469.html#L41'>dataset</a>            41 include/cifar.h   cifar10_data_item&lt;IC,H,W&gt; * dataset; /**&lt; whole dataset (n_data items) */</span>
+<span class='curline'><a href='../S/469.html#L92'>dataset</a>            92 include/cifar.h   int dump_cifar_files(cifar10_data_item&lt;IC,H,W&gt;* dataset, long n_data,</span>
+<span class='curline'><a href='../S/469.html#L120'>dataset</a>           120 include/cifar.h             fprintf(wp, " %d", dataset[d].rgb[c][i][j]);</span>
+<span class='curline'><a href='../S/469.html#L161'>dataset</a>           161 include/cifar.h     dataset = new cifar10_data_item&lt;IC,H,W&gt; [n_data_in_file];</span>
+<span class='curline'><a href='../S/469.html#L183'>dataset</a>           183 include/cifar.h       dataset[k].index = k;</span>
+<span class='curline'><a href='../S/469.html#L184'>dataset</a>           184 include/cifar.h       dataset[k].label = label[0];</span>
+<span class='curline'><a href='../S/469.html#L188'>dataset</a>           188 include/cifar.h             dataset[k].rgb[c][i][j] = rgb[c][i][j];</span>
+<span class='curline'><a href='../S/469.html#L189'>dataset</a>           189 include/cifar.h             dataset[k](c,i,j) = rgb[c][i][j] * l_max;</span>
+<span class='curline'><a href='../S/469.html#L197'>dataset</a>           197 include/cifar.h       dump_cifar_files(dataset, n_data, 0, dump_prefix);</span>
+<span class='curline'><a href='../S/469.html#L206'>dataset</a>           206 include/cifar.h         cifar10_data_item&lt;IC,H,W&gt; d = dataset[j];</span>
+<span class='curline'><a href='../S/469.html#L207'>dataset</a>           207 include/cifar.h         dataset[j] = dataset[i];</span>
+<span class='curline'><a href='../S/469.html#L208'>dataset</a>           208 include/cifar.h         dataset[i] = d;</span>
+<span class='curline'><a href='../S/469.html#L211'>dataset</a>           211 include/cifar.h     train = dataset;</span>
+<span class='curline'><a href='../S/469.html#L212'>dataset</a>           212 include/cifar.h     validate = dataset + n_train;</span>
+</pre>
+</body>
+</html>

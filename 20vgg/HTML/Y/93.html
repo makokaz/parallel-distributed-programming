@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>bn_plus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L641'>bn_plus</a>           641 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_plus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L675'>bn_plus</a>           675 include/batchnormalization.h   bn_plus-&gt;set_grad(*bn_minus);</span>
+<span class='curline'><a href='../S/478.html#L678'>bn_plus</a>           678 include/batchnormalization.h   bn_plus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/478.html#L681'>bn_plus</a>           681 include/batchnormalization.h   bn_plus-&gt;update(0.5);        /* w += dw/2 */</span>
+<span class='curline'><a href='../S/478.html#L684'>bn_plus</a>           684 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_plus  = bn_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/478.html#L704'>bn_plus</a>           704 include/batchnormalization.h   bn_plus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/478.html#L712'>bn_plus</a>           712 include/batchnormalization.h   delete bn_plus;</span>
+</pre>
+</body>
+</html>

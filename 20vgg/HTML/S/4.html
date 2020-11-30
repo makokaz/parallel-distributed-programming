@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/vgg__util_8h.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/vgg__util_8h.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/vgg__util_8h.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/vgg__util_8h.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{vgg__util_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.h File Reference}
+<a id='L2' name='L2'></a>\label{vgg__util_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/vgg\+\_\+util.\+h}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>\hyperlink{structVGG}{V\+GG} utility functions/classes.  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>{\ttfamily \#include $&lt;$assert.\+h$&gt;$}\newline
+<a id='L9' name='L9'></a>{\ttfamily \#include $&lt;$getopt.\+h$&gt;$}\newline
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$limits.\+h$&gt;$}\newline
+<a id='L11' name='L11'></a>{\ttfamily \#include $&lt;$math.\+h$&gt;$}\newline
+<a id='L12' name='L12'></a>{\ttfamily \#include $&lt;$stdio.\+h$&gt;$}\newline
+<a id='L13' name='L13'></a>{\ttfamily \#include $&lt;$stdlib.\+h$&gt;$}\newline
+<a id='L14' name='L14'></a>{\ttfamily \#include $&lt;$string.\+h$&gt;$}\newline
+<a id='L15' name='L15'></a>{\ttfamily \#include $&lt;$stdarg.\+h$&gt;$}\newline
+<a id='L16' name='L16'></a>{\ttfamily \#include $&lt;$stdint.\+h$&gt;$}\newline
+<a id='L17' name='L17'></a>{\ttfamily \#include $&lt;$time.\+h$&gt;$}\newline
+<a id='L18' name='L18'></a>{\ttfamily \#include $&lt;$unistd.\+h$&gt;$}\newline
+<a id='L19' name='L19'></a>{\ttfamily \#include $&lt;$ieee754.\+h$&gt;$}\newline
+<a id='L20' name='L20'></a>{\ttfamily \#include \char`\"{}cuda\+\_\+util.\+h\char`\"{}}\newline
+<a id='L21' name='L21'></a>Include dependency graph for vgg\+\_\+util.\+h\+:\nopagebreak
+<a id='L22' name='L22'></a>\begin{figure}[H]
+<a id='L23' name='L23'></a>\begin{center}
+<a id='L24' name='L24'></a>\leavevmode
+<a id='L25' name='L25'></a>\includegraphics[width=350pt]{vgg__util_8h__incl}
+<a id='L26' name='L26'></a>\end{center}
+<a id='L27' name='L27'></a>\end{figure}
+<a id='L28' name='L28'></a>This graph shows which files directly or indirectly include this file\+:\nopagebreak
+<a id='L29' name='L29'></a>\begin{figure}[H]
+<a id='L30' name='L30'></a>\begin{center}
+<a id='L31' name='L31'></a>\leavevmode
+<a id='L32' name='L32'></a>\includegraphics[width=350pt]{vgg__util_8h__dep__incl}
+<a id='L33' name='L33'></a>\end{center}
+<a id='L34' name='L34'></a>\end{figure}
+<a id='L35' name='L35'></a>\subsection*{Classes}
+<a id='L36' name='L36'></a>\begin{DoxyCompactItemize}
+<a id='L37' name='L37'></a>\item 
+<a id='L38' name='L38'></a>struct \hyperlink{structcmdline__opt}{cmdline\+\_\+opt}
+<a id='L39' name='L39'></a>\begin{DoxyCompactList}\small\item\em command line options \end{DoxyCompactList}\item 
+<a id='L40' name='L40'></a>struct \hyperlink{structtsc__t}{tsc\+\_\+t}
+<a id='L41' name='L41'></a>\begin{DoxyCompactList}\small\item\em timestamp \end{DoxyCompactList}\item 
+<a id='L42' name='L42'></a>struct \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t}
+<a id='L43' name='L43'></a>\begin{DoxyCompactList}\small\item\em pseudo random number generator crafted from man erand48 + libc source \end{DoxyCompactList}\item 
+<a id='L44' name='L44'></a>struct \hyperlink{structlogger}{logger}
+<a id='L45' name='L45'></a>\begin{DoxyCompactList}\small\item\em logging object \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L46' name='L46'></a>\subsection*{Macros}
+<a id='L47' name='L47'></a>\begin{DoxyCompactItemize}
+<a id='L48' name='L48'></a>\item 
+<a id='L49' name='L49'></a>\mbox{\Hypertarget{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}\label{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}} 
+<a id='L50' name='L50'></a>\#define \hyperlink{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}{real\+\_\+type}~float
+<a id='L51' name='L51'></a>\begin{DoxyCompactList}\small\item\em real\+\_\+type is float if not supplied \end{DoxyCompactList}\item 
+<a id='L52' name='L52'></a>\mbox{\Hypertarget{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}\label{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}} 
+<a id='L53' name='L53'></a>\#define \hyperlink{vgg__util_8h_a5451ba9b35b36fff317b514218f7fcb8}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu}(algo\+\_\+s)~\hyperlink{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu\+\_\+}(\+\_\+\+\_\+\+F\+I\+L\+E\+\_\+\+\_\+, \+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+, algo\+\_\+s)
+<a id='L54' name='L54'></a>\begin{DoxyCompactList}\small\item\em signal a fatal error when a gpu algorithm gets called for cpu only compilation \end{DoxyCompactList}\item 
+<a id='L55' name='L55'></a>\#define \hyperlink{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}{log\+\_\+start\+\_\+fun}(lgr)~lgr-\/$&gt;$log\+\_\+start\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)
+<a id='L56' name='L56'></a>\begin{DoxyCompactList}\small\item\em log the start of the current function \end{DoxyCompactList}\item 
+<a id='L57' name='L57'></a>\#define \hyperlink{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}{log\+\_\+end\+\_\+fun}(lgr,  t0,  t1)~lgr-\/$&gt;$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+, t0, t1)
+<a id='L58' name='L58'></a>\begin{DoxyCompactList}\small\item\em log the end of the current function \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L59' name='L59'></a>\subsection*{Typedefs}
+<a id='L60' name='L60'></a>\begin{DoxyCompactItemize}
+<a id='L61' name='L61'></a>\item 
+<a id='L62' name='L62'></a>\mbox{\Hypertarget{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}\label{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}} 
+<a id='L63' name='L63'></a>typedef int \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}
+<a id='L64' name='L64'></a>\begin{DoxyCompactList}\small\item\em type of array index (either int or long) \end{DoxyCompactList}\item 
+<a id='L65' name='L65'></a>\mbox{\Hypertarget{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}\label{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}} 
+<a id='L66' name='L66'></a>typedef \hyperlink{vgg__util_8h_a731a48e08c9b18c801b19dba5392ebd3}{real\+\_\+type} \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}
+<a id='L67' name='L67'></a>\begin{DoxyCompactList}\small\item\em type of array elements (may be changed by -\/\+Dreal\+\_\+type=...) \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L68' name='L68'></a>\subsection*{Enumerations}
+<a id='L69' name='L69'></a>\begin{DoxyCompactItemize}
+<a id='L70' name='L70'></a>\item 
+<a id='L71' name='L71'></a>enum \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} \{ {\bfseries algo\+\_\+cpu\+\_\+base}, 
+<a id='L72' name='L72'></a>{\bfseries algo\+\_\+gpu\+\_\+base}, 
+<a id='L73' name='L73'></a>{\bfseries algo\+\_\+invalid}
+<a id='L74' name='L74'></a> \}\begin{DoxyCompactList}\small\item\em an enumeration of implemented algorithms \end{DoxyCompactList}
+<a id='L75' name='L75'></a>\end{DoxyCompactItemize}
+<a id='L76' name='L76'></a>\subsection*{Functions}
+<a id='L77' name='L77'></a>\begin{DoxyCompactItemize}
+<a id='L78' name='L78'></a>\item 
+<a id='L79' name='L79'></a>\mbox{\Hypertarget{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}\label{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}} 
+<a id='L80' name='L80'></a>static void \hyperlink{vgg__util_8h_ae756e98e6a7252adca6bee2fc58fb2ce}{bail} ()
+<a id='L81' name='L81'></a>\begin{DoxyCompactList}\small\item\em exit(1) (just for setting breakpoints) \end{DoxyCompactList}\item 
+<a id='L82' name='L82'></a>\mbox{\Hypertarget{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}\label{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}} 
+<a id='L83' name='L83'></a>static void \hyperlink{vgg__util_8h_abbf3f6741f183610f693696b84c6db8c}{err\+\_\+gpu\+\_\+algo\+\_\+no\+\_\+gpu\+\_\+} (const char $\ast$file, int line, const char $\ast$algo\+\_\+s)
+<a id='L84' name='L84'></a>\begin{DoxyCompactList}\small\item\em signal a fatal error when a gpu algorithm gets called for cpu only compilation \end{DoxyCompactList}\item 
+<a id='L85' name='L85'></a>static \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} \hyperlink{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}{parse\+\_\+algo} (const char $\ast$s)
+<a id='L86' name='L86'></a>\begin{DoxyCompactList}\small\item\em convert a string to an algorithm enum \end{DoxyCompactList}\item 
+<a id='L87' name='L87'></a>int \hyperlink{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}{algo\+\_\+is\+\_\+gpu} (const char $\ast$s, \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} a)
+<a id='L88' name='L88'></a>\begin{DoxyCompactList}\small\item\em return 1 if the algorithm name (s) or its enum value (a) is a gpu algorithm \end{DoxyCompactList}\item 
+<a id='L89' name='L89'></a>\mbox{\Hypertarget{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}\label{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}} 
+<a id='L90' name='L90'></a>static void \hyperlink{vgg__util_8h_a848c0ca46d3e3ecc39d2fccc4d85fa12}{usage} (const char $\ast$prog)
+<a id='L91' name='L91'></a>\begin{DoxyCompactList}\small\item\em show usage \end{DoxyCompactList}\item 
+<a id='L92' name='L92'></a>\mbox{\Hypertarget{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}\label{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}} 
+<a id='L93' name='L93'></a>static \hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{vgg__util_8h_aef68e2fab2ff620c9acef4ac2b6b3206}{parse\+\_\+args} (int argc, char $\ast$$\ast$argv)
+<a id='L94' name='L94'></a>\begin{DoxyCompactList}\small\item\em parse command line args and make a command line object \end{DoxyCompactList}\item 
+<a id='L95' name='L95'></a>\mbox{\Hypertarget{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}\label{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}} 
+<a id='L96' name='L96'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_ac365ac2e7b737d10f620cd27c0106bcf}{max\+\_\+r} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} a, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} b)
+<a id='L97' name='L97'></a>\begin{DoxyCompactList}\small\item\em maximum of two reals \end{DoxyCompactList}\item 
+<a id='L98' name='L98'></a>\mbox{\Hypertarget{vgg__util_8h_ad42447063d6f35ca417f60454557213e}\label{vgg__util_8h_ad42447063d6f35ca417f60454557213e}} 
+<a id='L99' name='L99'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_ad42447063d6f35ca417f60454557213e}{min\+\_\+r} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} a, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} b)
+<a id='L100' name='L100'></a>\begin{DoxyCompactList}\small\item\em miniumum of two reals \end{DoxyCompactList}\item 
+<a id='L101' name='L101'></a>\mbox{\Hypertarget{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}\label{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}} 
+<a id='L102' name='L102'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{vgg__util_8h_ad744c8c5ca0ceaf8b48d7f3026723ec4}{max\+\_\+i} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} a, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b)
+<a id='L103' name='L103'></a>\begin{DoxyCompactList}\small\item\em maximum of two ints \end{DoxyCompactList}\item 
+<a id='L104' name='L104'></a>\mbox{\Hypertarget{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}\label{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}} 
+<a id='L105' name='L105'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ static \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{vgg__util_8h_a6a018ccb714ccf21ed5241d7d1200212}{min\+\_\+i} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} a, \hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} b)
+<a id='L106' name='L106'></a>\begin{DoxyCompactList}\small\item\em minimum of two ints \end{DoxyCompactList}\item 
+<a id='L107' name='L107'></a>\mbox{\Hypertarget{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}\label{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}} 
+<a id='L108' name='L108'></a>static \hyperlink{structtsc__t}{tsc\+\_\+t} \hyperlink{vgg__util_8h_a77ac450375c73868fcb54ca2ecae1ba2}{get\+\_\+tsc} ()
+<a id='L109' name='L109'></a>\begin{DoxyCompactList}\small\item\em get timestamp (currently just wallclock time in nano seconds) \end{DoxyCompactList}\item 
+<a id='L110' name='L110'></a>static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}{show\+\_\+error} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gx\+\_\+gx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} dx\+\_\+dx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gx\+\_\+dx, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gw\+\_\+gw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} dw\+\_\+dw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} gw\+\_\+dw, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L\+\_\+minus, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} L\+\_\+plus)
+<a id='L111' name='L111'></a>\begin{DoxyCompactList}\small\item\em show various errors \end{DoxyCompactList}\item 
+<a id='L112' name='L112'></a>\mbox{\Hypertarget{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}\label{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}} 
+<a id='L113' name='L113'></a>int \hyperlink{vgg__util_8h_a3fd929568bf6280348e0ff1c133c8daa}{vgg\+\_\+util\+\_\+main} (int argc, char $\ast$$\ast$argv)
+<a id='L114' name='L114'></a>\begin{DoxyCompactList}\small\item\em entry point \end{DoxyCompactList}\item 
+<a id='L115' name='L115'></a>\mbox{\Hypertarget{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}\label{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}} 
+<a id='L116' name='L116'></a>void \hyperlink{vgg__util_8h_a3a6886a937220cd285c1c0c2b068c9e8}{vgg\+\_\+util\+\_\+use\+\_\+unused\+\_\+functions} ()
+<a id='L117' name='L117'></a>\begin{DoxyCompactList}\small\item\em suppress unused function warning \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L118' name='L118'></a>\subsection*{Variables}
+<a id='L119' name='L119'></a>\begin{DoxyCompactItemize}
+<a id='L120' name='L120'></a>\item 
+<a id='L121' name='L121'></a>static struct option \hyperlink{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}{long\+\_\+options} \mbox{[}$\,$\mbox{]}
+<a id='L122' name='L122'></a>\begin{DoxyCompactList}\small\item\em command line options for getopt \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>\subsection{Detailed Description}
+<a id='L126' name='L126'></a>\hyperlink{structVGG}{V\+GG} utility functions/classes. 
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>\subsection{Macro Definition Documentation}
+<a id='L131' name='L131'></a>\mbox{\Hypertarget{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}\label{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}} 
+<a id='L132' name='L132'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}}
+<a id='L133' name='L133'></a>\index{log\+\_\+end\+\_\+fun@{log\+\_\+end\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L134' name='L134'></a>\subsubsection{\texorpdfstring{log\+\_\+end\+\_\+fun}{log\_end\_fun}}
+<a id='L135' name='L135'></a>{\footnotesize\ttfamily \#define log\+\_\+end\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr,  }\item[{}]{t0,  }\item[{}]{t1 }\end{DoxyParamCaption})~lgr-\/$&gt;$log\+\_\+end\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+, t0, t1)}
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>log the end of the current function 
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>just \hyperlink{vgg__util_8h_ac27fe6f3d72940b92349035afd50ec6f}{log\+\_\+end\+\_\+fun(lgr, t0, t1)} and you get the caller\textquotesingle{}s function name to the log along with its execution time \mbox{\Hypertarget{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}\label{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}} 
+<a id='L142' name='L142'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}}
+<a id='L143' name='L143'></a>\index{log\+\_\+start\+\_\+fun@{log\+\_\+start\+\_\+fun}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L144' name='L144'></a>\subsubsection{\texorpdfstring{log\+\_\+start\+\_\+fun}{log\_start\_fun}}
+<a id='L145' name='L145'></a>{\footnotesize\ttfamily \#define log\+\_\+start\+\_\+fun(\begin{DoxyParamCaption}\item[{}]{lgr }\end{DoxyParamCaption})~lgr-\/$&gt;$log\+\_\+start\+\_\+fun\+\_\+(\+\_\+\+\_\+\+P\+R\+E\+T\+T\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+\_\+)}
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>log the start of the current function 
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>just \hyperlink{vgg__util_8h_a3729b3313855ba6b5af5e17b237c3558}{log\+\_\+start\+\_\+fun(lgr)} and you get the caller\textquotesingle{}s function name to the log 
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>\subsection{Enumeration Type Documentation}
+<a id='L154' name='L154'></a>\mbox{\Hypertarget{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}\label{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}} 
+<a id='L155' name='L155'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!algo\+\_\+t@{algo\+\_\+t}}
+<a id='L156' name='L156'></a>\index{algo\+\_\+t@{algo\+\_\+t}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L157' name='L157'></a>\subsubsection{\texorpdfstring{algo\+\_\+t}{algo\_t}}
+<a id='L158' name='L158'></a>{\footnotesize\ttfamily enum \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t}}
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>an enumeration of implemented algorithms 
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>add your algorithm in this enum 
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>\subsection{Function Documentation}
+<a id='L167' name='L167'></a>\mbox{\Hypertarget{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}\label{vgg__util_8h_a91850f66c102c10cf354da50287f6fc8}} 
+<a id='L168' name='L168'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!algo\+\_\+is\+\_\+gpu@{algo\+\_\+is\+\_\+gpu}}
+<a id='L169' name='L169'></a>\index{algo\+\_\+is\+\_\+gpu@{algo\+\_\+is\+\_\+gpu}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L170' name='L170'></a>\subsubsection{\texorpdfstring{algo\+\_\+is\+\_\+gpu()}{algo\_is\_gpu()}}
+<a id='L171' name='L171'></a>{\footnotesize\ttfamily int algo\+\_\+is\+\_\+gpu (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{\hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t}}]{a }\end{DoxyParamCaption})}
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>return 1 if the algorithm name (s) or its enum value (a) is a gpu algorithm 
+<a id='L176' name='L176'></a>
+<a id='L177' name='L177'></a>when you add your algorithm, you may need to change this function so that it correctly recognizes whether it is a gpu algorithm or not currently, it considers all and only strings starting with \char`\"{}gpu\char`\"{} to be a gpu algorithm. for a gpu algorithm, the program transfers initial weights and training data to gpu. weights stay on G\+PU until the program finishes. \mbox{\Hypertarget{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}\label{vgg__util_8h_a1a57784d46a47f8955eaf7d2a0c222c8}} 
+<a id='L178' name='L178'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!parse\+\_\+algo@{parse\+\_\+algo}}
+<a id='L179' name='L179'></a>\index{parse\+\_\+algo@{parse\+\_\+algo}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L180' name='L180'></a>\subsubsection{\texorpdfstring{parse\+\_\+algo()}{parse\_algo()}}
+<a id='L181' name='L181'></a>{\footnotesize\ttfamily static \hyperlink{vgg__util_8h_ae1267137aba8cc25a02220492efa7d3c}{algo\+\_\+t} parse\+\_\+algo (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L182' name='L182'></a>
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>convert a string to an algorithm enum 
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>when you add your algorithm, change this function so that it recognizes your algorithm \mbox{\Hypertarget{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}\label{vgg__util_8h_acbdb5e7729d72687cf8a7bade538ebd0}} 
+<a id='L188' name='L188'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!show\+\_\+error@{show\+\_\+error}}
+<a id='L189' name='L189'></a>\index{show\+\_\+error@{show\+\_\+error}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L190' name='L190'></a>\subsubsection{\texorpdfstring{show\+\_\+error()}{show\_error()}}
+<a id='L191' name='L191'></a>{\footnotesize\ttfamily static \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} show\+\_\+error (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gx\+\_\+gx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{dx\+\_\+dx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gx\+\_\+dx,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gw\+\_\+gw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{dw\+\_\+dw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{gw\+\_\+dw,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L\+\_\+minus,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{L\+\_\+plus }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>show various errors 
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>
+<a id='L198' name='L198'></a>\begin{DoxyParams}{Parameters}
+<a id='L199' name='L199'></a>{\em (gx\+\_\+gx)} &amp; ∂\+L/∂x・∂\+L/∂x \\
+<a id='L200' name='L200'></a>\hline
+<a id='L201' name='L201'></a>{\em (dx\+\_\+dx)} &amp; dx・dx \\
+<a id='L202' name='L202'></a>\hline
+<a id='L203' name='L203'></a>{\em (gx\+\_\+dx)} &amp; ∂\+L/∂x・dx \\
+<a id='L204' name='L204'></a>\hline
+<a id='L205' name='L205'></a>{\em (gw\+\_\+gw)} &amp; ∂\+L/∂w・∂\+L/∂w \\
+<a id='L206' name='L206'></a>\hline
+<a id='L207' name='L207'></a>{\em (dw\+\_\+dw)} &amp; dw・dw \\
+<a id='L208' name='L208'></a>\hline
+<a id='L209' name='L209'></a>{\em (gw\+\_\+dw)} &amp; ∂\+L/∂w・dw \\
+<a id='L210' name='L210'></a>\hline
+<a id='L211' name='L211'></a>{\em (\+L\+\_\+minus)} &amp; L(w-\/dw,x-\/dx) \\
+<a id='L212' name='L212'></a>\hline
+<a id='L213' name='L213'></a>{\em (\+L)} &amp; L(w,x) \\
+<a id='L214' name='L214'></a>\hline
+<a id='L215' name='L215'></a>{\em (\+L\+\_\+plus)} &amp; L(w+dw,x+dx) \\
+<a id='L216' name='L216'></a>\hline
+<a id='L217' name='L217'></a>\end{DoxyParams}
+<a id='L218' name='L218'></a>
+<a id='L219' name='L219'></a>
+<a id='L220' name='L220'></a>\subsection{Variable Documentation}
+<a id='L221' name='L221'></a>\mbox{\Hypertarget{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}\label{vgg__util_8h_ab5b68aa8f898c499ca2c3092ecd9e552}} 
+<a id='L222' name='L222'></a>\index{vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}!long\+\_\+options@{long\+\_\+options}}
+<a id='L223' name='L223'></a>\index{long\+\_\+options@{long\+\_\+options}!vgg\+\_\+util.\+h@{vgg\+\_\+util.\+h}}
+<a id='L224' name='L224'></a>\subsubsection{\texorpdfstring{long\+\_\+options}{long\_options}}
+<a id='L225' name='L225'></a>{\footnotesize\ttfamily struct option long\+\_\+options\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>{\bfseries Initial value\+:}
+<a id='L228' name='L228'></a>\begin{DoxyCode}
+<a id='L229' name='L229'></a>= \{
+<a id='L230' name='L230'></a>  \{\textcolor{stringliteral}{"batch\_sz"},          required\_argument, 0, \textcolor{charliteral}{'b'} \},
+<a id='L231' name='L231'></a>  \{\textcolor{stringliteral}{"iters"},             required\_argument, 0, \textcolor{charliteral}{'m'} \},
+<a id='L232' name='L232'></a>  \{\textcolor{stringliteral}{"verbose"},           required\_argument, 0, \textcolor{charliteral}{'v'} \},
+<a id='L233' name='L233'></a>  \{\textcolor{stringliteral}{"learnrate"},         required\_argument, 0, \textcolor{charliteral}{'l'} \},
+<a id='L234' name='L234'></a>  \{\textcolor{stringliteral}{"algo"},              required\_argument, 0, \textcolor{charliteral}{'a'} \},
+<a id='L235' name='L235'></a>  \{\textcolor{stringliteral}{"cifar\_data"},        required\_argument, 0, \textcolor{charliteral}{'d'} \},
+<a id='L236' name='L236'></a>  \{\textcolor{stringliteral}{"partial\_data"},      required\_argument, 0,  0  \},
+<a id='L237' name='L237'></a>  \{\textcolor{stringliteral}{"single\_batch"},      required\_argument, 0,  0  \},
+<a id='L238' name='L238'></a>  \{\textcolor{stringliteral}{"dropout"},           required\_argument, 0,  0  \},
+<a id='L239' name='L239'></a>  \{\textcolor{stringliteral}{"validate\_ratio"},    required\_argument, 0,  0  \},
+<a id='L240' name='L240'></a>  \{\textcolor{stringliteral}{"validate\_interval"}, required\_argument, 0,  0  \},
+<a id='L241' name='L241'></a>  \{\textcolor{stringliteral}{"sample\_seed"},       required\_argument, 0,  0 \},
+<a id='L242' name='L242'></a>  \{\textcolor{stringliteral}{"weight\_seed"},       required\_argument, 0,  0 \},
+<a id='L243' name='L243'></a>  \{\textcolor{stringliteral}{"dropout\_seed"},      required\_argument, 0,  0 \},
+<a id='L244' name='L244'></a>  \{\textcolor{stringliteral}{"partial\_data\_seed"}, required\_argument, 0,  0 \},
+<a id='L245' name='L245'></a>  \{\textcolor{stringliteral}{"grad\_dbg"},          required\_argument, 0,  0  \},
+<a id='L246' name='L246'></a>  \{\textcolor{stringliteral}{"log"},               required\_argument, 0,  0  \},
+<a id='L247' name='L247'></a>  \{\textcolor{stringliteral}{"help"},              required\_argument, 0, \textcolor{charliteral}{'h'} \},
+<a id='L248' name='L248'></a>  \{0,                   0,                 0,  0  \}
+<a id='L249' name='L249'></a>\}
+<a id='L250' name='L250'></a>\end{DoxyCode}
+<a id='L251' name='L251'></a>
+<a id='L252' name='L252'></a>
+<a id='L253' name='L253'></a>command line options for getopt 
+<a id='L254' name='L254'></a>
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+254 doc/latex/vgg__util_8h.tex'  /> */</em>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ic</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L292'>ic</a>                292 include/batchnormalization.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L297'>ic</a>                297 include/batchnormalization.h             s += x(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L301'>ic</a>                301 include/batchnormalization.h       mean(ic) = s / (B * H * W);</span>
+<span class='curline'><a href='../S/478.html#L321'>ic</a>                321 include/batchnormalization.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L326'>ic</a>                326 include/batchnormalization.h             real ds = x(b,ic,i,j) - mu(ic);</span>
+<span class='curline'><a href='../S/478.html#L331'>ic</a>                331 include/batchnormalization.h       inv_std(ic) = 1.0 / sqrt(s * l_BHW + epsilon);</span>
+<span class='curline'><a href='../S/478.html#L356'>ic</a>                356 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L359'>ic</a>                359 include/batchnormalization.h               x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L360'>ic</a>                360 include/batchnormalization.h               y(b,ic,i,j) = gamma(ic) * x_hat(b,ic,i,j) + beta(ic);</span>
+<span class='curline'><a href='../S/478.html#L367'>ic</a>                367 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L370'>ic</a>                370 include/batchnormalization.h               y(b,ic,i,j) = x(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L465'>ic</a>                465 include/batchnormalization.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L470'>ic</a>                470 include/batchnormalization.h               s += gy(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L471'>ic</a>                471 include/batchnormalization.h               t += gy(b,ic,i,j) * x_hat(b,ic,i,j);</span>
+<span class='curline'><a href='../S/478.html#L475'>ic</a>                475 include/batchnormalization.h         gbeta(ic) = s;</span>
+<span class='curline'><a href='../S/478.html#L476'>ic</a>                476 include/batchnormalization.h         ggamma(ic) = t;</span>
+<span class='curline'><a href='../S/478.html#L479'>ic</a>                479 include/batchnormalization.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L480'>ic</a>                480 include/batchnormalization.h         real a = gamma(ic) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L481'>ic</a>                481 include/batchnormalization.h         real gg = ggamma(ic);</span>
+<span class='curline'><a href='../S/478.html#L482'>ic</a>                482 include/batchnormalization.h         real gb = gbeta(ic);</span>
+<span class='curline'><a href='../S/478.html#L486'>ic</a>                486 include/batchnormalization.h               gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));</span>
+<span class='curline'><a href='../S/478.html#L493'>ic</a>                493 include/batchnormalization.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/478.html#L496'>ic</a>                496 include/batchnormalization.h               gx(b,ic,i,j) = gy(b,ic,i,j);</span>
+<span class='curline'><a href='../S/469.html#L25'>ic</a>                 25 include/cifar.h   real&amp; operator()(idx_t ic, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/469.html#L26'>ic</a>                 26 include/cifar.h     range_chk(0, ic, IC);</span>
+<span class='curline'><a href='../S/469.html#L29'>ic</a>                 29 include/cifar.h     return w[ic][i][j];</span>
+<span class='curline'><a href='../S/469.html#L294'>ic</a>                294 include/cifar.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/469.html#L297'>ic</a>                297 include/cifar.h             x(b,ic,i,j) = itm(ic,i,j);</span>
+<span class='curline'><a href='../S/469.html#L324'>ic</a>                324 include/cifar.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/469.html#L327'>ic</a>                327 include/cifar.h             x(b,ic,i,j) = itm(ic,i,j);</span>
+<span class='curline'><a href='../S/473.html#L294'>ic</a>                294 include/convolution.h             for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L298'>ic</a>                298 include/convolution.h                   s += w(oc,ic,i_,j_) * x(b,ic,i+i_,j+j_);</span>
+<span class='curline'><a href='../S/473.html#L395'>ic</a>                395 include/convolution.h       for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L402'>ic</a>                402 include/convolution.h                   s += gy(b,oc,i,j) * x(b,ic,i+i_,j+j_);</span>
+<span class='curline'><a href='../S/473.html#L406'>ic</a>                406 include/convolution.h             gw(oc,ic,i_,j_) = s;</span>
+<span class='curline'><a href='../S/473.html#L412'>ic</a>                412 include/convolution.h       for (idx_t ic = 0; ic &lt; IC; ic++) { // input channel</span>
+<span class='curline'><a href='../S/473.html#L424'>ic</a>                424 include/convolution.h                   s += gy(b,oc,i-i_,j-j_) * w(oc,ic,i_,j_);</span>
+<span class='curline'><a href='../S/473.html#L428'>ic</a>                428 include/convolution.h             gx(b,ic,i,j) = s;</span>
+<span class='curline'><a href='../S/479.html#L285'>ic</a>                285 include/linear.h         for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L286'>ic</a>                286 include/linear.h           s += x(b,ic,0,0) * w(ic,c);</span>
+<span class='curline'><a href='../S/479.html#L379'>ic</a>                379 include/linear.h     for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L383'>ic</a>                383 include/linear.h           s += gy(b,c,0,0) * x(b,ic,0,0);</span>
+<span class='curline'><a href='../S/479.html#L385'>ic</a>                385 include/linear.h         gw(ic,c) = s;</span>
+<span class='curline'><a href='../S/479.html#L389'>ic</a>                389 include/linear.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/479.html#L392'>ic</a>                392 include/linear.h           s += gy(b,c,0,0) * w(ic,c);</span>
+<span class='curline'><a href='../S/479.html#L394'>ic</a>                394 include/linear.h         gx(b,ic,0,0) = s;</span>
+<span class='curline'><a href='../S/481.html#L789'>ic</a>                789 include/vgg_arrays.h   real&amp; operator()(idx_t oc, idx_t ic, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/481.html#L791'>ic</a>                791 include/vgg_arrays.h     range_chk(0, ic, IC);</span>
+<span class='curline'><a href='../S/481.html#L794'>ic</a>                794 include/vgg_arrays.h     return w[oc][ic][i+H][j+W];</span>
+<span class='curline'><a href='../S/481.html#L803'>ic</a>                803 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L806'>ic</a>                806 include/vgg_arrays.h             a(oc,ic,i,j) = x;</span>
+<span class='curline'><a href='../S/481.html#L821'>ic</a>                821 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L824'>ic</a>                824 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L839'>ic</a>                839 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L842'>ic</a>                842 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L859'>ic</a>                859 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L862'>ic</a>                862 include/vgg_arrays.h             a(oc,ic,i,j) += eta * da(oc,ic,i,j);</span>
+<span class='curline'><a href='../S/481.html#L877'>ic</a>                877 include/vgg_arrays.h       for (idx_t ic = 0; ic &lt; IC; ic++) {</span>
+<span class='curline'><a href='../S/481.html#L882'>ic</a>                882 include/vgg_arrays.h             s3 += a(oc,ic,i,j) * a_(oc,ic,i,j);</span>
+</pre>
+</body>
+</html>

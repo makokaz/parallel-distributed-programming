@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>bn</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L635'>bn</a>                635 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn = new BatchNormalization&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L636'>bn</a>                636 include/batchnormalization.h   bn-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/478.html#L637'>bn</a>                637 include/batchnormalization.h   bn-&gt;make_dev();</span>
+<span class='curline'><a href='../S/478.html#L638'>bn</a>                638 include/batchnormalization.h   bn-&gt;to_dev();</span>
+<span class='curline'><a href='../S/478.html#L640'>bn</a>                640 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_minus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L641'>bn</a>                641 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * bn_plus = bn-&gt;copy();</span>
+<span class='curline'><a href='../S/478.html#L653'>bn</a>                653 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y = bn-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/478.html#L654'>bn</a>                654 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = bn-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/478.html#L656'>bn</a>                656 include/batchnormalization.h   bn-&gt;to_host();</span>
+<span class='curline'><a href='../S/478.html#L697'>bn</a>                697 include/batchnormalization.h   real gw_gw = bn-&gt;gw_dot_gw(*bn);               /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/478.html#L699'>bn</a>                699 include/batchnormalization.h   real gw_dw = bn-&gt;gw_dot_gw(*bn_minus);         /* dw・dw */</span>
+<span class='curline'><a href='../S/482.html#L40'>bn</a>                 40 include/block.h   BatchNormalization&lt;maxB,OC,H,W&gt;      bn;   /**&lt; batch normalization layer */</span>
+<span class='curline'><a href='../S/482.html#L52'>bn</a>                 52 include/block.h     bn.init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/482.html#L78'>bn</a>                 78 include/block.h     bn.set_dev(dev ? &amp;dev-&gt;bn : 0);</span>
+<span class='curline'><a href='../S/482.html#L151'>bn</a>                151 include/block.h     bn.update(eta);</span>
+<span class='curline'><a href='../S/482.html#L161'>bn</a>                161 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x2 = bn.forward(x1);</span>
+<span class='curline'><a href='../S/482.html#L178'>bn</a>                178 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; g1 = bn.backward(g2);</span>
+<span class='curline'><a href='../S/482.html#L192'>bn</a>                192 include/block.h     bn.rand_grad(rg, p, q);</span>
+<span class='curline'><a href='../S/482.html#L201'>bn</a>                201 include/block.h     bn.set_grad(o.bn);</span>
+<span class='curline'><a href='../S/482.html#L213'>bn</a>                213 include/block.h     s += a.bn.gw_dot_gw(b.bn);</span>
+</pre>
+</body>
+</html>

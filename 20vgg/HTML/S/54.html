@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/structBlock.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structBlock.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structBlock.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/structBlock.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{structBlock}{}\section{Block$&lt;$ maxB, IC, H, W, K, OC $&gt;$ Struct Template Reference}
+<a id='L2' name='L2'></a>\label{structBlock}\index{Block$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$@{Block$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>a block of three layers (convolution; batch normalization; relu)  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$block.\+h$&gt;$}
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>Collaboration diagram for Block$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+:\nopagebreak
+<a id='L15' name='L15'></a>\begin{figure}[H]
+<a id='L16' name='L16'></a>\begin{center}
+<a id='L17' name='L17'></a>\leavevmode
+<a id='L18' name='L18'></a>\includegraphics[width=350pt]{structBlock__coll__graph}
+<a id='L19' name='L19'></a>\end{center}
+<a id='L20' name='L20'></a>\end{figure}
+<a id='L21' name='L21'></a>\subsection*{Public Member Functions}
+<a id='L22' name='L22'></a>\begin{DoxyCompactItemize}
+<a id='L23' name='L23'></a>\item 
+<a id='L24' name='L24'></a>void \hyperlink{structBlock_a53eb5f86be4540cf491024b2b2783b42}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock_ad91e112b767ccd7035a37873cbc121a9}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg)
+<a id='L25' name='L25'></a>\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+<a id='L26' name='L26'></a>\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$ \hyperlink{structBlock_a10734345f8456513bbd7c792b51656af}{copy} ()
+<a id='L27' name='L27'></a>\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+<a id='L28' name='L28'></a>void \hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} (\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$\hyperlink{structBlock_a66767aae2045de05ce1dc09a92d164c4}{dev})
+<a id='L29' name='L29'></a>\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+<a id='L30' name='L30'></a>void \hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} ()
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>void \hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev} ()
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+<a id='L34' name='L34'></a>\mbox{\Hypertarget{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}\label{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}} 
+<a id='L35' name='L35'></a>void \hyperlink{structBlock_a5dfc150c9bbf7eb57ab9488a5096df8d}{to\+\_\+dev} ()
+<a id='L36' name='L36'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+<a id='L37' name='L37'></a>\mbox{\Hypertarget{structBlock_aa0485907d27a19d4374e3ad09c5b9012}\label{structBlock_aa0485907d27a19d4374e3ad09c5b9012}} 
+<a id='L38' name='L38'></a>void \hyperlink{structBlock_aa0485907d27a19d4374e3ad09c5b9012}{to\+\_\+host} ()
+<a id='L39' name='L39'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+<a id='L40' name='L40'></a>void \hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L41' name='L41'></a>\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+<a id='L42' name='L42'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp; \hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L43' name='L43'></a>\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+<a id='L44' name='L44'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp; \hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L45' name='L45'></a>\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+<a id='L46' name='L46'></a>void \hyperlink{structBlock_a3752b971026c8a6506b34aef3c7e780b}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+<a id='L47' name='L47'></a>\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+<a id='L48' name='L48'></a>void \hyperlink{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}{set\+\_\+grad} (\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;o)
+<a id='L49' name='L49'></a>\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+<a id='L50' name='L50'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBlock_a69a63d3357f60c7b097e97169b175445}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;b)
+<a id='L51' name='L51'></a>\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L52' name='L52'></a>\subsection*{Public Attributes}
+<a id='L53' name='L53'></a>\begin{DoxyCompactItemize}
+<a id='L54' name='L54'></a>\item 
+<a id='L55' name='L55'></a>\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$ \hyperlink{structBlock_a66767aae2045de05ce1dc09a92d164c4}{dev}
+<a id='L56' name='L56'></a>\item 
+<a id='L57' name='L57'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock_ad91e112b767ccd7035a37873cbc121a9}{opt}
+<a id='L58' name='L58'></a>\item 
+<a id='L59' name='L59'></a>\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}{lgr}
+<a id='L60' name='L60'></a>\item 
+<a id='L61' name='L61'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \hyperlink{structBlock_aac195c086bc1302e8324aa1d89067668}{conv}
+<a id='L62' name='L62'></a>\item 
+<a id='L63' name='L63'></a>\hyperlink{structBatchNormalization}{Batch\+Normalization}$&lt;$ maxB, OC, H, W $&gt;$ \hyperlink{structBlock_afedad10fac693a934c1d72e24d478b6b}{bn}
+<a id='L64' name='L64'></a>\item 
+<a id='L65' name='L65'></a>\hyperlink{structRelu}{Relu}$&lt;$ maxB, OC, H, W $&gt;$ \hyperlink{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}{relu}
+<a id='L66' name='L66'></a>\end{DoxyCompactItemize}
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>\subsection{Detailed Description}
+<a id='L70' name='L70'></a>\subsubsection*{template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$\newline
+<a id='L71' name='L71'></a>struct Block$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$}
+<a id='L72' name='L72'></a>
+<a id='L73' name='L73'></a>a block of three layers (convolution; batch normalization; relu) 
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>\begin{DoxyParams}{Parameters}
+<a id='L77' name='L77'></a>{\em (max\+B)} &amp; the maximum number of images (batch size) \\
+<a id='L78' name='L78'></a>\hline
+<a id='L79' name='L79'></a>{\em (\+I\+C)} &amp; the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+<a id='L80' name='L80'></a>\hline
+<a id='L81' name='L81'></a>{\em (\+H)} &amp; height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L82' name='L82'></a>\hline
+<a id='L83' name='L83'></a>{\em (\+W)} &amp; width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L84' name='L84'></a>\hline
+<a id='L85' name='L85'></a>{\em (\+K)} &amp; convolution kernel size (1). filter array has (2\+K+1)$\ast$(2\+K+1) elems) \\
+<a id='L86' name='L86'></a>\hline
+<a id='L87' name='L87'></a>{\em (\+O\+C)} &amp; the number of channels per an output image\\
+<a id='L88' name='L88'></a>\hline
+<a id='L89' name='L89'></a>\end{DoxyParams}
+<a id='L90' name='L90'></a>this layer applies convolution, batch normalization and relu in this order. 
+<a id='L91' name='L91'></a>
+<a id='L92' name='L92'></a>\subsection{Member Function Documentation}
+<a id='L93' name='L93'></a>\mbox{\Hypertarget{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}\label{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}} 
+<a id='L94' name='L94'></a>\index{Block@{Block}!backward@{backward}}
+<a id='L95' name='L95'></a>\index{backward@{backward}!Block@{Block}}
+<a id='L96' name='L96'></a>\subsubsection{\texorpdfstring{backward()}{backward()}}
+<a id='L97' name='L97'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L98' name='L98'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,IC,H,W$&gt;$\&amp; \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>calc the gradient of loss wrt the input (x) 
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>\begin{DoxyParams}{Parameters}
+<a id='L106' name='L106'></a>{\em (gy)} &amp; gradient of loss with respect to the output\\
+<a id='L107' name='L107'></a>\hline
+<a id='L108' name='L108'></a>\end{DoxyParams}
+<a id='L109' name='L109'></a>calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+<a id='L110' name='L110'></a>\hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} 
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>\hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} 
+<a id='L113' name='L113'></a>\end{DoxySeeAlso}
+<a id='L114' name='L114'></a>\mbox{\Hypertarget{structBlock_a10734345f8456513bbd7c792b51656af}\label{structBlock_a10734345f8456513bbd7c792b51656af}} 
+<a id='L115' name='L115'></a>\index{Block@{Block}!copy@{copy}}
+<a id='L116' name='L116'></a>\index{copy@{copy}!Block@{Block}}
+<a id='L117' name='L117'></a>\subsubsection{\texorpdfstring{copy()}{copy()}}
+<a id='L118' name='L118'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L119' name='L119'></a>\hyperlink{structBlock}{Block}$&lt;$maxB,IC,H,W,K,OC$&gt;$$\ast$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>make a copy of this 
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}\label{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}} 
+<a id='L126' name='L126'></a>\index{Block@{Block}!del\+\_\+dev@{del\+\_\+dev}}
+<a id='L127' name='L127'></a>\index{del\+\_\+dev@{del\+\_\+dev}!Block@{Block}}
+<a id='L128' name='L128'></a>\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+<a id='L129' name='L129'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L130' name='L130'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>\begin{DoxySeeAlso}{See also}
+<a id='L137' name='L137'></a>\hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} 
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>\hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} 
+<a id='L140' name='L140'></a>\end{DoxySeeAlso}
+<a id='L141' name='L141'></a>\mbox{\Hypertarget{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}\label{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}} 
+<a id='L142' name='L142'></a>\index{Block@{Block}!forward@{forward}}
+<a id='L143' name='L143'></a>\index{forward@{forward}!Block@{Block}}
+<a id='L144' name='L144'></a>\subsubsection{\texorpdfstring{forward()}{forward()}}
+<a id='L145' name='L145'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L146' name='L146'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,OC,H,W$&gt;$\&amp; \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>calc the loss function of a mini-\/batch (x) 
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>\begin{DoxyParams}{Parameters}
+<a id='L154' name='L154'></a>{\em (x)} &amp; input images \\
+<a id='L155' name='L155'></a>\hline
+<a id='L156' name='L156'></a>\end{DoxyParams}
+<a id='L157' name='L157'></a>\begin{DoxySeeAlso}{See also}
+<a id='L158' name='L158'></a>\hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} 
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>\hyperlink{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}{update} 
+<a id='L161' name='L161'></a>\end{DoxySeeAlso}
+<a id='L162' name='L162'></a>\mbox{\Hypertarget{structBlock_a69a63d3357f60c7b097e97169b175445}\label{structBlock_a69a63d3357f60c7b097e97169b175445}} 
+<a id='L163' name='L163'></a>\index{Block@{Block}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+<a id='L164' name='L164'></a>\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Block@{Block}}
+<a id='L165' name='L165'></a>\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+<a id='L166' name='L166'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L167' name='L167'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L168' name='L168'></a>
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>take the inner product of gradients 
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>\begin{DoxyParams}{Parameters}
+<a id='L175' name='L175'></a>{\em (b)} &amp; the object to take the inner product with\\
+<a id='L176' name='L176'></a>\hline
+<a id='L177' name='L177'></a>\end{DoxyParams}
+<a id='L178' name='L178'></a>take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structBlock_a53eb5f86be4540cf491024b2b2783b42}\label{structBlock_a53eb5f86be4540cf491024b2b2783b42}} 
+<a id='L179' name='L179'></a>\index{Block@{Block}!init@{init}}
+<a id='L180' name='L180'></a>\index{init@{init}!Block@{Block}}
+<a id='L181' name='L181'></a>\subsubsection{\texorpdfstring{init()}{init()}}
+<a id='L182' name='L182'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L183' name='L183'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>initialize 
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a>
+<a id='L190' name='L190'></a>\begin{DoxyParams}{Parameters}
+<a id='L191' name='L191'></a>{\em (opt)} &amp; command line options \\
+<a id='L192' name='L192'></a>\hline
+<a id='L193' name='L193'></a>{\em (lgr)} &amp; logger \\
+<a id='L194' name='L194'></a>\hline
+<a id='L195' name='L195'></a>{\em (rg)} &amp; random number generator for initializing weights \\
+<a id='L196' name='L196'></a>\hline
+<a id='L197' name='L197'></a>\end{DoxyParams}
+<a id='L198' name='L198'></a>\mbox{\Hypertarget{structBlock_a971798b11f5cdc883880c0be2f143908}\label{structBlock_a971798b11f5cdc883880c0be2f143908}} 
+<a id='L199' name='L199'></a>\index{Block@{Block}!make\+\_\+dev@{make\+\_\+dev}}
+<a id='L200' name='L200'></a>\index{make\+\_\+dev@{make\+\_\+dev}!Block@{Block}}
+<a id='L201' name='L201'></a>\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+<a id='L202' name='L202'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L203' name='L203'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L204' name='L204'></a>
+<a id='L205' name='L205'></a>
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>\begin{DoxySeeAlso}{See also}
+<a id='L210' name='L210'></a>\hyperlink{structBlock_a11093fd68976a6a40155cfb42397653c}{set\+\_\+dev} 
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a>\hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev} 
+<a id='L213' name='L213'></a>\end{DoxySeeAlso}
+<a id='L214' name='L214'></a>\mbox{\Hypertarget{structBlock_a3752b971026c8a6506b34aef3c7e780b}\label{structBlock_a3752b971026c8a6506b34aef3c7e780b}} 
+<a id='L215' name='L215'></a>\index{Block@{Block}!rand\+\_\+grad@{rand\+\_\+grad}}
+<a id='L216' name='L216'></a>\index{rand\+\_\+grad@{rand\+\_\+grad}!Block@{Block}}
+<a id='L217' name='L217'></a>\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+<a id='L218' name='L218'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L219' name='L219'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L220' name='L220'></a>
+<a id='L221' name='L221'></a>
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>randomly set all gradients to values between p and q 
+<a id='L224' name='L224'></a>
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>\begin{DoxyParams}{Parameters}
+<a id='L227' name='L227'></a>{\em (rg)} &amp; random number generator \\
+<a id='L228' name='L228'></a>\hline
+<a id='L229' name='L229'></a>{\em (p)} &amp; minimum value of a component \\
+<a id='L230' name='L230'></a>\hline
+<a id='L231' name='L231'></a>{\em (q)} &amp; maximum value of a component \\
+<a id='L232' name='L232'></a>\hline
+<a id='L233' name='L233'></a>\end{DoxyParams}
+<a id='L234' name='L234'></a>\mbox{\Hypertarget{structBlock_a11093fd68976a6a40155cfb42397653c}\label{structBlock_a11093fd68976a6a40155cfb42397653c}} 
+<a id='L235' name='L235'></a>\index{Block@{Block}!set\+\_\+dev@{set\+\_\+dev}}
+<a id='L236' name='L236'></a>\index{set\+\_\+dev@{set\+\_\+dev}!Block@{Block}}
+<a id='L237' name='L237'></a>\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+<a id='L238' name='L238'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L239' name='L239'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L240' name='L240'></a>
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>
+<a id='L243' name='L243'></a>set the device pointer for this and all subobjects 
+<a id='L244' name='L244'></a>
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>\begin{DoxyParams}{Parameters}
+<a id='L247' name='L247'></a>{\em (dev)} &amp; a device memory or null \\
+<a id='L248' name='L248'></a>\hline
+<a id='L249' name='L249'></a>\end{DoxyParams}
+<a id='L250' name='L250'></a>\begin{DoxySeeAlso}{See also}
+<a id='L251' name='L251'></a>\hyperlink{structBlock_a971798b11f5cdc883880c0be2f143908}{make\+\_\+dev} 
+<a id='L252' name='L252'></a>
+<a id='L253' name='L253'></a>\hyperlink{structBlock_a46e9e4f4dcffddc409fa2b20263ea3b9}{del\+\_\+dev}
+<a id='L254' name='L254'></a>\end{DoxySeeAlso}
+<a id='L255' name='L255'></a>if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}\label{structBlock_ae0db7335928b4b004b644f2ef3ac1bc0}} 
+<a id='L256' name='L256'></a>\index{Block@{Block}!set\+\_\+grad@{set\+\_\+grad}}
+<a id='L257' name='L257'></a>\index{set\+\_\+grad@{set\+\_\+grad}!Block@{Block}}
+<a id='L258' name='L258'></a>\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+<a id='L259' name='L259'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L260' name='L260'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L261' name='L261'></a>
+<a id='L262' name='L262'></a>
+<a id='L263' name='L263'></a>
+<a id='L264' name='L264'></a>set all gradients to gradients of another object 
+<a id='L265' name='L265'></a>
+<a id='L266' name='L266'></a>
+<a id='L267' name='L267'></a>\begin{DoxyParams}{Parameters}
+<a id='L268' name='L268'></a>{\em (o)} &amp; the object from which gradients get copied\\
+<a id='L269' name='L269'></a>\hline
+<a id='L270' name='L270'></a>\end{DoxyParams}
+<a id='L271' name='L271'></a>transfer gradients of o to this object \mbox{\Hypertarget{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}\label{structBlock_a3d431dfca3c47701c1c41e471ea17c8b}} 
+<a id='L272' name='L272'></a>\index{Block@{Block}!update@{update}}
+<a id='L273' name='L273'></a>\index{update@{update}!Block@{Block}}
+<a id='L274' name='L274'></a>\subsubsection{\texorpdfstring{update()}{update()}}
+<a id='L275' name='L275'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L276' name='L276'></a>void \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L277' name='L277'></a>
+<a id='L278' name='L278'></a>
+<a id='L279' name='L279'></a>
+<a id='L280' name='L280'></a>update weights of all sublayers with gradients that must have been computed 
+<a id='L281' name='L281'></a>
+<a id='L282' name='L282'></a>
+<a id='L283' name='L283'></a>\begin{DoxyParams}{Parameters}
+<a id='L284' name='L284'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L285' name='L285'></a>\hline
+<a id='L286' name='L286'></a>\end{DoxyParams}
+<a id='L287' name='L287'></a>\begin{DoxySeeAlso}{See also}
+<a id='L288' name='L288'></a>\hyperlink{structBlock_a6a6ee3389b0ea5618109c9ca525ba9bf}{forward} 
+<a id='L289' name='L289'></a>
+<a id='L290' name='L290'></a>\hyperlink{structBlock_a86b4cafe64fbb5d045b7f2bc401d9ddc}{backward} 
+<a id='L291' name='L291'></a>\end{DoxySeeAlso}
+<a id='L292' name='L292'></a>
+<a id='L293' name='L293'></a>
+<a id='L294' name='L294'></a>\subsection{Member Data Documentation}
+<a id='L295' name='L295'></a>\mbox{\Hypertarget{structBlock_afedad10fac693a934c1d72e24d478b6b}\label{structBlock_afedad10fac693a934c1d72e24d478b6b}} 
+<a id='L296' name='L296'></a>\index{Block@{Block}!bn@{bn}}
+<a id='L297' name='L297'></a>\index{bn@{bn}!Block@{Block}}
+<a id='L298' name='L298'></a>\subsubsection{\texorpdfstring{bn}{bn}}
+<a id='L299' name='L299'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L300' name='L300'></a>\hyperlink{structBatchNormalization}{Batch\+Normalization}$&lt;$maxB,OC,H,W$&gt;$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::bn}
+<a id='L301' name='L301'></a>
+<a id='L302' name='L302'></a>batch normalization layer \mbox{\Hypertarget{structBlock_aac195c086bc1302e8324aa1d89067668}\label{structBlock_aac195c086bc1302e8324aa1d89067668}} 
+<a id='L303' name='L303'></a>\index{Block@{Block}!conv@{conv}}
+<a id='L304' name='L304'></a>\index{conv@{conv}!Block@{Block}}
+<a id='L305' name='L305'></a>\subsubsection{\texorpdfstring{conv}{conv}}
+<a id='L306' name='L306'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L307' name='L307'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$maxB,IC,H,W,K,OC$&gt;$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::conv}
+<a id='L308' name='L308'></a>
+<a id='L309' name='L309'></a>convolution layer \mbox{\Hypertarget{structBlock_a66767aae2045de05ce1dc09a92d164c4}\label{structBlock_a66767aae2045de05ce1dc09a92d164c4}} 
+<a id='L310' name='L310'></a>\index{Block@{Block}!dev@{dev}}
+<a id='L311' name='L311'></a>\index{dev@{dev}!Block@{Block}}
+<a id='L312' name='L312'></a>\subsubsection{\texorpdfstring{dev}{dev}}
+<a id='L313' name='L313'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L314' name='L314'></a>\hyperlink{structBlock}{Block}$&lt;$maxB,IC,H,W,K,OC$&gt;$$\ast$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::dev}
+<a id='L315' name='L315'></a>
+<a id='L316' name='L316'></a>device shadow \mbox{\Hypertarget{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}\label{structBlock_a8e037036c2020d2ac98fc0792d3f84f4}} 
+<a id='L317' name='L317'></a>\index{Block@{Block}!lgr@{lgr}}
+<a id='L318' name='L318'></a>\index{lgr@{lgr}!Block@{Block}}
+<a id='L319' name='L319'></a>\subsubsection{\texorpdfstring{lgr}{lgr}}
+<a id='L320' name='L320'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L321' name='L321'></a>\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::lgr}
+<a id='L322' name='L322'></a>
+<a id='L323' name='L323'></a>logger \mbox{\Hypertarget{structBlock_ad91e112b767ccd7035a37873cbc121a9}\label{structBlock_ad91e112b767ccd7035a37873cbc121a9}} 
+<a id='L324' name='L324'></a>\index{Block@{Block}!opt@{opt}}
+<a id='L325' name='L325'></a>\index{opt@{opt}!Block@{Block}}
+<a id='L326' name='L326'></a>\subsubsection{\texorpdfstring{opt}{opt}}
+<a id='L327' name='L327'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L328' name='L328'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::opt}
+<a id='L329' name='L329'></a>
+<a id='L330' name='L330'></a>command line option \mbox{\Hypertarget{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}\label{structBlock_a019bcbd200d92669079eaa3c0c00ddfc}} 
+<a id='L331' name='L331'></a>\index{Block@{Block}!relu@{relu}}
+<a id='L332' name='L332'></a>\index{relu@{relu}!Block@{Block}}
+<a id='L333' name='L333'></a>\subsubsection{\texorpdfstring{relu}{relu}}
+<a id='L334' name='L334'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L335' name='L335'></a>\hyperlink{structRelu}{Relu}$&lt;$maxB,OC,H,W$&gt;$ \hyperlink{structBlock}{Block}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::relu}
+<a id='L336' name='L336'></a>
+<a id='L337' name='L337'></a>rectified linear layer 
+<a id='L338' name='L338'></a>
+<a id='L339' name='L339'></a>The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+<a id='L340' name='L340'></a>\item 
+<a id='L341' name='L341'></a>/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{block_8h}{block.\+h}\end{DoxyCompactItemize}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+341 doc/latex/structBlock.tex'  /> */</em>
+</body>
+</html>

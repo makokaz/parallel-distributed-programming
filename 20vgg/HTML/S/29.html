@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/structvec.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structvec.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structvec.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/structvec.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{structvec}{}\section{vec$&lt;$ N $&gt;$ Struct Template Reference}
+<a id='L2' name='L2'></a>\label{structvec}\index{vec$&lt;$ N $&gt;$@{vec$&lt;$ N $&gt;$}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>vector  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$vgg\+\_\+arrays.\+h$&gt;$}
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>\subsection*{Public Member Functions}
+<a id='L13' name='L13'></a>\begin{DoxyCompactItemize}
+<a id='L14' name='L14'></a>\item 
+<a id='L15' name='L15'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \&amp; \hyperlink{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}{operator()} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} i)
+<a id='L16' name='L16'></a>\begin{DoxyCompactList}\small\item\em access the i-\/th element \end{DoxyCompactList}\item 
+<a id='L17' name='L17'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_a90d5638b2de8e3a87d954130dc6d505e}{set\+\_\+n} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n})
+<a id='L18' name='L18'></a>\begin{DoxyCompactList}\small\item\em set the number of elements \end{DoxyCompactList}\item 
+<a id='L19' name='L19'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_ac4159809d118cd6c25bae8e17b49360a}{init\+\_\+const} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} c)
+<a id='L20' name='L20'></a>\begin{DoxyCompactList}\small\item\em initialize elements of the vector to a single constant value \end{DoxyCompactList}\item 
+<a id='L21' name='L21'></a>void \hyperlink{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}{init\+\_\+uniform} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+<a id='L22' name='L22'></a>\begin{DoxyCompactList}\small\item\em randomly initialize elements of the vector uniformly between p and q \end{DoxyCompactList}\item 
+<a id='L23' name='L23'></a>void \hyperlink{structvec_ada7a8f64e872717520fc50c061bddb7a}{init\+\_\+single} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+<a id='L24' name='L24'></a>\begin{DoxyCompactList}\small\item\em randomly initialize a randomly chosen single element. other elements are set to zero. \end{DoxyCompactList}\item 
+<a id='L25' name='L25'></a>void \hyperlink{structvec_a67699ea5f0b7b076b18e4dad7f62c650}{init\+\_\+normal} (\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} mu, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} sigma)
+<a id='L26' name='L26'></a>\begin{DoxyCompactList}\small\item\em initialize the vector with a normal distribution \end{DoxyCompactList}\item 
+<a id='L27' name='L27'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta, \hyperlink{structvec}{vec}$&lt;$ N $&gt;$ \&amp;dx)
+<a id='L28' name='L28'></a>\begin{DoxyCompactList}\small\item\em update the vector by eta and dx \end{DoxyCompactList}\item 
+<a id='L29' name='L29'></a>\mbox{\Hypertarget{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}\label{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}} 
+<a id='L30' name='L30'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a0d91cea4932972e60e8a4fe9ad6dc0a2}{sum} ()
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em sum of all values of the vector \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a025135937b054f373be71ef417f2bc89}{dot} (\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ \&amp;y)
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em dot product with another vector \end{DoxyCompactList}\item 
+<a id='L34' name='L34'></a>void \hyperlink{structvec_a7f8e5821a38f3ef76ed82a165e142774}{set\+\_\+dev} (\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ $\ast$\hyperlink{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}{dev})
+<a id='L35' name='L35'></a>\begin{DoxyCompactList}\small\item\em set the device shadow of this vector \end{DoxyCompactList}\item 
+<a id='L36' name='L36'></a>void \hyperlink{structvec_aa76a528a4e148d4d68e8a801c80c66e8}{make\+\_\+dev} (int gpu)
+<a id='L37' name='L37'></a>\begin{DoxyCompactList}\small\item\em allocate and set the device shadow of this vector if requested by the parameter \end{DoxyCompactList}\item 
+<a id='L38' name='L38'></a>\mbox{\Hypertarget{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}\label{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}} 
+<a id='L39' name='L39'></a>void \hyperlink{structvec_a71c7ac4018b635848bd6b6e2ea22fe04}{del\+\_\+dev} ()
+<a id='L40' name='L40'></a>\begin{DoxyCompactList}\small\item\em deallocate the device shadow of this vector \end{DoxyCompactList}\item 
+<a id='L41' name='L41'></a>\mbox{\Hypertarget{structvec_a44523c6b6412b8a23a9c5738168d76f3}\label{structvec_a44523c6b6412b8a23a9c5738168d76f3}} 
+<a id='L42' name='L42'></a>void \hyperlink{structvec_a44523c6b6412b8a23a9c5738168d76f3}{to\+\_\+dev} ()
+<a id='L43' name='L43'></a>\begin{DoxyCompactList}\small\item\em send the data to its gpu shadow \end{DoxyCompactList}\item 
+<a id='L44' name='L44'></a>\mbox{\Hypertarget{structvec_aadf14a73591b19988968c6f9bf6c88bb}\label{structvec_aadf14a73591b19988968c6f9bf6c88bb}} 
+<a id='L45' name='L45'></a>void \hyperlink{structvec_aadf14a73591b19988968c6f9bf6c88bb}{to\+\_\+host} ()
+<a id='L46' name='L46'></a>\begin{DoxyCompactList}\small\item\em get the data back from gpu shadow to host \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L47' name='L47'></a>\subsection*{Public Attributes}
+<a id='L48' name='L48'></a>\begin{DoxyCompactItemize}
+<a id='L49' name='L49'></a>\item 
+<a id='L50' name='L50'></a>\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ $\ast$ \hyperlink{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}{dev}
+<a id='L51' name='L51'></a>\item 
+<a id='L52' name='L52'></a>\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec_a8e2947aa75530f74cac781347dd97e98}{n}
+<a id='L53' name='L53'></a>\item 
+<a id='L54' name='L54'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}{w} \mbox{[}N\mbox{]}
+<a id='L55' name='L55'></a>\end{DoxyCompactItemize}
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>\subsection{Detailed Description}
+<a id='L59' name='L59'></a>\subsubsection*{template$&lt;$idx\+\_\+t N$&gt;$\newline
+<a id='L60' name='L60'></a>struct vec$&lt;$ N $&gt;$}
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>vector 
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>\begin{DoxyParams}{Parameters}
+<a id='L66' name='L66'></a>{\em (\+N)} &amp; the maximun number of elements it can hold \\
+<a id='L67' name='L67'></a>\hline
+<a id='L68' name='L68'></a>\end{DoxyParams}
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>\subsection{Member Function Documentation}
+<a id='L72' name='L72'></a>\mbox{\Hypertarget{structvec_a025135937b054f373be71ef417f2bc89}\label{structvec_a025135937b054f373be71ef417f2bc89}} 
+<a id='L73' name='L73'></a>\index{vec@{vec}!dot@{dot}}
+<a id='L74' name='L74'></a>\index{dot@{dot}!vec@{vec}}
+<a id='L75' name='L75'></a>\subsubsection{\texorpdfstring{dot()}{dot()}}
+<a id='L76' name='L76'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L77' name='L77'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::dot (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ \&amp;}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>dot product with another vector 
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>\begin{DoxyParams}{Parameters}
+<a id='L85' name='L85'></a>{\em (y)} &amp; the vector to take a dot product with \\
+<a id='L86' name='L86'></a>\hline
+<a id='L87' name='L87'></a>\end{DoxyParams}
+<a id='L88' name='L88'></a>\mbox{\Hypertarget{structvec_ac4159809d118cd6c25bae8e17b49360a}\label{structvec_ac4159809d118cd6c25bae8e17b49360a}} 
+<a id='L89' name='L89'></a>\index{vec@{vec}!init\+\_\+const@{init\+\_\+const}}
+<a id='L90' name='L90'></a>\index{init\+\_\+const@{init\+\_\+const}!vec@{vec}}
+<a id='L91' name='L91'></a>\subsubsection{\texorpdfstring{init\+\_\+const()}{init\_const()}}
+<a id='L92' name='L92'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L93' name='L93'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::init\+\_\+const (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L94' name='L94'></a>
+<a id='L95' name='L95'></a>
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>initialize elements of the vector to a single constant value 
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>\begin{DoxyParams}{Parameters}
+<a id='L101' name='L101'></a>{\em (n)} &amp; the number of elements to initialize \\
+<a id='L102' name='L102'></a>\hline
+<a id='L103' name='L103'></a>{\em (c)} &amp; the value of each element \\
+<a id='L104' name='L104'></a>\hline
+<a id='L105' name='L105'></a>\end{DoxyParams}
+<a id='L106' name='L106'></a>\mbox{\Hypertarget{structvec_a67699ea5f0b7b076b18e4dad7f62c650}\label{structvec_a67699ea5f0b7b076b18e4dad7f62c650}} 
+<a id='L107' name='L107'></a>\index{vec@{vec}!init\+\_\+normal@{init\+\_\+normal}}
+<a id='L108' name='L108'></a>\index{init\+\_\+normal@{init\+\_\+normal}!vec@{vec}}
+<a id='L109' name='L109'></a>\subsubsection{\texorpdfstring{init\+\_\+normal()}{init\_normal()}}
+<a id='L110' name='L110'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L111' name='L111'></a>void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::init\+\_\+normal (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{mu,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{sigma }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>initialize the vector with a normal distribution 
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>\begin{DoxyParams}{Parameters}
+<a id='L119' name='L119'></a>{\em (n)} &amp; the number of elements to initialize \\
+<a id='L120' name='L120'></a>\hline
+<a id='L121' name='L121'></a>{\em (rg)} &amp; random number generator \\
+<a id='L122' name='L122'></a>\hline
+<a id='L123' name='L123'></a>{\em (mu)} &amp; mean of the normal distribution \\
+<a id='L124' name='L124'></a>\hline
+<a id='L125' name='L125'></a>{\em (sigma)} &amp; sigma (standard deviation) of the normal distribution \\
+<a id='L126' name='L126'></a>\hline
+<a id='L127' name='L127'></a>\end{DoxyParams}
+<a id='L128' name='L128'></a>\mbox{\Hypertarget{structvec_ada7a8f64e872717520fc50c061bddb7a}\label{structvec_ada7a8f64e872717520fc50c061bddb7a}} 
+<a id='L129' name='L129'></a>\index{vec@{vec}!init\+\_\+single@{init\+\_\+single}}
+<a id='L130' name='L130'></a>\index{init\+\_\+single@{init\+\_\+single}!vec@{vec}}
+<a id='L131' name='L131'></a>\subsubsection{\texorpdfstring{init\+\_\+single()}{init\_single()}}
+<a id='L132' name='L132'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L133' name='L133'></a>void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::init\+\_\+single (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L134' name='L134'></a>
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>randomly initialize a randomly chosen single element. other elements are set to zero. 
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>\begin{DoxyParams}{Parameters}
+<a id='L141' name='L141'></a>{\em (n)} &amp; the number of elements to initialize \\
+<a id='L142' name='L142'></a>\hline
+<a id='L143' name='L143'></a>{\em (rg)} &amp; random number generator \\
+<a id='L144' name='L144'></a>\hline
+<a id='L145' name='L145'></a>{\em (p)} &amp; the minimum value \\
+<a id='L146' name='L146'></a>\hline
+<a id='L147' name='L147'></a>{\em (q)} &amp; the maximum value \\
+<a id='L148' name='L148'></a>\hline
+<a id='L149' name='L149'></a>\end{DoxyParams}
+<a id='L150' name='L150'></a>\mbox{\Hypertarget{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}\label{structvec_a7e46dfbdf97ef4fa6403ed7bea437c76}} 
+<a id='L151' name='L151'></a>\index{vec@{vec}!init\+\_\+uniform@{init\+\_\+uniform}}
+<a id='L152' name='L152'></a>\index{init\+\_\+uniform@{init\+\_\+uniform}!vec@{vec}}
+<a id='L153' name='L153'></a>\subsubsection{\texorpdfstring{init\+\_\+uniform()}{init\_uniform()}}
+<a id='L154' name='L154'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L155' name='L155'></a>void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::init\+\_\+uniform (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L156' name='L156'></a>
+<a id='L157' name='L157'></a>
+<a id='L158' name='L158'></a>
+<a id='L159' name='L159'></a>randomly initialize elements of the vector uniformly between p and q 
+<a id='L160' name='L160'></a>
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>\begin{DoxyParams}{Parameters}
+<a id='L163' name='L163'></a>{\em (n)} &amp; the number of elements to initialize \\
+<a id='L164' name='L164'></a>\hline
+<a id='L165' name='L165'></a>{\em (rg)} &amp; random number generator \\
+<a id='L166' name='L166'></a>\hline
+<a id='L167' name='L167'></a>{\em (p)} &amp; the minimum value \\
+<a id='L168' name='L168'></a>\hline
+<a id='L169' name='L169'></a>{\em (q)} &amp; the maximum value \\
+<a id='L170' name='L170'></a>\hline
+<a id='L171' name='L171'></a>\end{DoxyParams}
+<a id='L172' name='L172'></a>\mbox{\Hypertarget{structvec_aa76a528a4e148d4d68e8a801c80c66e8}\label{structvec_aa76a528a4e148d4d68e8a801c80c66e8}} 
+<a id='L173' name='L173'></a>\index{vec@{vec}!make\+\_\+dev@{make\+\_\+dev}}
+<a id='L174' name='L174'></a>\index{make\+\_\+dev@{make\+\_\+dev}!vec@{vec}}
+<a id='L175' name='L175'></a>\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+<a id='L176' name='L176'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L177' name='L177'></a>void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::make\+\_\+dev (\begin{DoxyParamCaption}\item[{int}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L178' name='L178'></a>
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>
+<a id='L181' name='L181'></a>allocate and set the device shadow of this vector if requested by the parameter 
+<a id='L182' name='L182'></a>
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>\begin{DoxyParams}{Parameters}
+<a id='L185' name='L185'></a>{\em (gpu)} &amp; 1 to allocate the device shadow \\
+<a id='L186' name='L186'></a>\hline
+<a id='L187' name='L187'></a>\end{DoxyParams}
+<a id='L188' name='L188'></a>\mbox{\Hypertarget{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}\label{structvec_ad73089ab6c3f3fae0b233bb16920ce5d}} 
+<a id='L189' name='L189'></a>\index{vec@{vec}!operator()@{operator()}}
+<a id='L190' name='L190'></a>\index{operator()@{operator()}!vec@{vec}}
+<a id='L191' name='L191'></a>\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+<a id='L192' name='L192'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L193' name='L193'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}\&amp; \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>access the i-\/th element 
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>
+<a id='L200' name='L200'></a>\begin{DoxyParams}{Parameters}
+<a id='L201' name='L201'></a>{\em (i)} &amp; the index of the element to access \\
+<a id='L202' name='L202'></a>\hline
+<a id='L203' name='L203'></a>\end{DoxyParams}
+<a id='L204' name='L204'></a>\mbox{\Hypertarget{structvec_a7f8e5821a38f3ef76ed82a165e142774}\label{structvec_a7f8e5821a38f3ef76ed82a165e142774}} 
+<a id='L205' name='L205'></a>\index{vec@{vec}!set\+\_\+dev@{set\+\_\+dev}}
+<a id='L206' name='L206'></a>\index{set\+\_\+dev@{set\+\_\+dev}!vec@{vec}}
+<a id='L207' name='L207'></a>\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+<a id='L208' name='L208'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L209' name='L209'></a>void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a>
+<a id='L213' name='L213'></a>set the device shadow of this vector 
+<a id='L214' name='L214'></a>
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>\begin{DoxyParams}{Parameters}
+<a id='L217' name='L217'></a>{\em (dev)} &amp; device address (may be null) \\
+<a id='L218' name='L218'></a>\hline
+<a id='L219' name='L219'></a>\end{DoxyParams}
+<a id='L220' name='L220'></a>\mbox{\Hypertarget{structvec_a90d5638b2de8e3a87d954130dc6d505e}\label{structvec_a90d5638b2de8e3a87d954130dc6d505e}} 
+<a id='L221' name='L221'></a>\index{vec@{vec}!set\+\_\+n@{set\+\_\+n}}
+<a id='L222' name='L222'></a>\index{set\+\_\+n@{set\+\_\+n}!vec@{vec}}
+<a id='L223' name='L223'></a>\subsubsection{\texorpdfstring{set\+\_\+n()}{set\_n()}}
+<a id='L224' name='L224'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L225' name='L225'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::set\+\_\+n (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>
+<a id='L228' name='L228'></a>
+<a id='L229' name='L229'></a>set the number of elements 
+<a id='L230' name='L230'></a>
+<a id='L231' name='L231'></a>
+<a id='L232' name='L232'></a>\begin{DoxyParams}{Parameters}
+<a id='L233' name='L233'></a>{\em (n)} &amp; the number of elements specified \\
+<a id='L234' name='L234'></a>\hline
+<a id='L235' name='L235'></a>\end{DoxyParams}
+<a id='L236' name='L236'></a>\mbox{\Hypertarget{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}\label{structvec_a7e0e7a2cfeeb98471a9ee4c8ea832308}} 
+<a id='L237' name='L237'></a>\index{vec@{vec}!update@{update}}
+<a id='L238' name='L238'></a>\index{update@{update}!vec@{vec}}
+<a id='L239' name='L239'></a>\subsubsection{\texorpdfstring{update()}{update()}}
+<a id='L240' name='L240'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L241' name='L241'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta,  }\item[{\hyperlink{structvec}{vec}$&lt;$ N $&gt;$ \&amp;}]{dx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L242' name='L242'></a>
+<a id='L243' name='L243'></a>
+<a id='L244' name='L244'></a>
+<a id='L245' name='L245'></a>update the vector by eta and dx 
+<a id='L246' name='L246'></a>
+<a id='L247' name='L247'></a>
+<a id='L248' name='L248'></a>\begin{DoxyParams}{Parameters}
+<a id='L249' name='L249'></a>{\em (eta)} &amp; a constant to scale dx \\
+<a id='L250' name='L250'></a>\hline
+<a id='L251' name='L251'></a>{\em (dx)} &amp; the increment vector\\
+<a id='L252' name='L252'></a>\hline
+<a id='L253' name='L253'></a>\end{DoxyParams}
+<a id='L254' name='L254'></a>it performx x += eta $\ast$ dx 
+<a id='L255' name='L255'></a>
+<a id='L256' name='L256'></a>\subsection{Member Data Documentation}
+<a id='L257' name='L257'></a>\mbox{\Hypertarget{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}\label{structvec_a8ea19d04a43f99871fcf4bff8b5b25b2}} 
+<a id='L258' name='L258'></a>\index{vec@{vec}!dev@{dev}}
+<a id='L259' name='L259'></a>\index{dev@{dev}!vec@{vec}}
+<a id='L260' name='L260'></a>\subsubsection{\texorpdfstring{dev}{dev}}
+<a id='L261' name='L261'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L262' name='L262'></a>\hyperlink{structvec}{vec}$&lt;$N$&gt;$$\ast$ \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::dev}
+<a id='L263' name='L263'></a>
+<a id='L264' name='L264'></a>pointer to the device shadow \mbox{\Hypertarget{structvec_a8e2947aa75530f74cac781347dd97e98}\label{structvec_a8e2947aa75530f74cac781347dd97e98}} 
+<a id='L265' name='L265'></a>\index{vec@{vec}!n@{n}}
+<a id='L266' name='L266'></a>\index{n@{n}!vec@{vec}}
+<a id='L267' name='L267'></a>\subsubsection{\texorpdfstring{n}{n}}
+<a id='L268' name='L268'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L269' name='L269'></a>\hyperlink{vgg__util_8h_a8e93478a00e685bea5e6a3f617bf03a3}{idx\+\_\+t} \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::n}
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>actual number of clements ($&lt;$= N) \mbox{\Hypertarget{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}\label{structvec_a3aa2e8ed9a81937b8527eaef24d4437d}} 
+<a id='L272' name='L272'></a>\index{vec@{vec}!w@{w}}
+<a id='L273' name='L273'></a>\index{w@{w}!vec@{vec}}
+<a id='L274' name='L274'></a>\subsubsection{\texorpdfstring{w}{w}}
+<a id='L275' name='L275'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t N$&gt;$ \\
+<a id='L276' name='L276'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structvec}{vec}$&lt;$ N $&gt;$\+::w\mbox{[}N\mbox{]}}
+<a id='L277' name='L277'></a>
+<a id='L278' name='L278'></a>elements 
+<a id='L279' name='L279'></a>
+<a id='L280' name='L280'></a>The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+<a id='L281' name='L281'></a>\item 
+<a id='L282' name='L282'></a>/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{vgg__arrays_8h}{vgg\+\_\+arrays.\+h}\end{DoxyCompactItemize}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+282 doc/latex/structvec.tex'  /> */</em>
+</body>
+</html>

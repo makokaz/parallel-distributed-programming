@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>set_dev</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L119'>set_dev</a>           119 include/batchnormalization.h   void set_dev(BatchNormalization&lt;maxB,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/478.html#L122'>set_dev</a>           122 include/batchnormalization.h     gamma.set_dev(dev ? &amp;dev-&gt;gamma : 0);</span>
+<span class='curline'><a href='../S/478.html#L123'>set_dev</a>           123 include/batchnormalization.h     beta.set_dev(dev ? &amp;dev-&gt;beta : 0);</span>
+<span class='curline'><a href='../S/478.html#L124'>set_dev</a>           124 include/batchnormalization.h     x_hat.set_dev(dev ? &amp;dev-&gt;x_hat : 0);</span>
+<span class='curline'><a href='../S/478.html#L125'>set_dev</a>           125 include/batchnormalization.h     inv_std.set_dev(dev ? &amp;dev-&gt;inv_std : 0);</span>
+<span class='curline'><a href='../S/478.html#L126'>set_dev</a>           126 include/batchnormalization.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/478.html#L127'>set_dev</a>           127 include/batchnormalization.h     ggamma.set_dev(dev ? &amp;dev-&gt;ggamma : 0);</span>
+<span class='curline'><a href='../S/478.html#L128'>set_dev</a>           128 include/batchnormalization.h     gbeta.set_dev(dev ? &amp;dev-&gt;gbeta : 0);</span>
+<span class='curline'><a href='../S/478.html#L129'>set_dev</a>           129 include/batchnormalization.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/478.html#L148'>set_dev</a>           148 include/batchnormalization.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/482.html#L74'>set_dev</a>            74 include/block.h   void set_dev(Block&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/482.html#L77'>set_dev</a>            77 include/block.h     conv.set_dev(dev ? &amp;dev-&gt;conv : 0);</span>
+<span class='curline'><a href='../S/482.html#L78'>set_dev</a>            78 include/block.h     bn.set_dev(dev ? &amp;dev-&gt;bn : 0);</span>
+<span class='curline'><a href='../S/482.html#L79'>set_dev</a>            79 include/block.h     relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/482.html#L98'>set_dev</a>            98 include/block.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/473.html#L118'>set_dev</a>           118 include/convolution.h   void set_dev(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/473.html#L121'>set_dev</a>           121 include/convolution.h     w.set_dev(dev ? &amp;dev-&gt;w : 0);</span>
+<span class='curline'><a href='../S/473.html#L122'>set_dev</a>           122 include/convolution.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/473.html#L123'>set_dev</a>           123 include/convolution.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/473.html#L124'>set_dev</a>           124 include/convolution.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/473.html#L143'>set_dev</a>           143 include/convolution.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/468.html#L104'>set_dev</a>           104 include/dropout.h   void set_dev(Dropout&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/468.html#L107'>set_dev</a>           107 include/dropout.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/468.html#L108'>set_dev</a>           108 include/dropout.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/468.html#L127'>set_dev</a>           127 include/dropout.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/479.html#L110'>set_dev</a>           110 include/linear.h   void set_dev(Linear&lt;maxB,IC,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/479.html#L113'>set_dev</a>           113 include/linear.h     w.set_dev(dev ? &amp;dev-&gt;w : 0);</span>
+<span class='curline'><a href='../S/479.html#L114'>set_dev</a>           114 include/linear.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/479.html#L115'>set_dev</a>           115 include/linear.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/479.html#L116'>set_dev</a>           116 include/linear.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/479.html#L135'>set_dev</a>           135 include/linear.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/474.html#L100'>set_dev</a>           100 include/maxpooling.h   void set_dev(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev) {</span>
+<span class='curline'><a href='../S/474.html#L103'>set_dev</a>           103 include/maxpooling.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/474.html#L104'>set_dev</a>           104 include/maxpooling.h     max_idx.set_dev(dev ? &amp;dev-&gt;max_idx : 0);</span>
+<span class='curline'><a href='../S/474.html#L105'>set_dev</a>           105 include/maxpooling.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/474.html#L124'>set_dev</a>           124 include/maxpooling.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/471.html#L97'>set_dev</a>            97 include/relu.h   void set_dev(Relu&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/471.html#L100'>set_dev</a>           100 include/relu.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/471.html#L101'>set_dev</a>           101 include/relu.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/471.html#L120'>set_dev</a>           120 include/relu.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/480.html#L101'>set_dev</a>           101 include/softmaxcrossentropy.h   void set_dev(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/480.html#L104'>set_dev</a>           104 include/softmaxcrossentropy.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/480.html#L105'>set_dev</a>           105 include/softmaxcrossentropy.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/480.html#L124'>set_dev</a>           124 include/softmaxcrossentropy.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/477.html#L174'>set_dev</a>           174 include/vgg.h    void set_dev(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/477.html#L177'>set_dev</a>           177 include/vgg.h      x.set_dev(dev ? &amp;dev-&gt;x : 0);</span>
+<span class='curline'><a href='../S/477.html#L178'>set_dev</a>           178 include/vgg.h      t.set_dev(dev ? &amp;dev-&gt;t : 0);</span>
+<span class='curline'><a href='../S/477.html#L179'>set_dev</a>           179 include/vgg.h      gy.set_dev(dev ? &amp;dev-&gt;gy : 0);</span>
+<span class='curline'><a href='../S/477.html#L181'>set_dev</a>           181 include/vgg.h      block1_1.set_dev(dev ? &amp;dev-&gt;block1_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L182'>set_dev</a>           182 include/vgg.h      dropout1_1.set_dev(dev ? &amp;dev-&gt;dropout1_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L183'>set_dev</a>           183 include/vgg.h      block1_2.set_dev(dev ? &amp;dev-&gt;block1_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L184'>set_dev</a>           184 include/vgg.h      max_pooling_2d1.set_dev(dev ? &amp;dev-&gt;max_pooling_2d1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L186'>set_dev</a>           186 include/vgg.h      block2_1.set_dev(dev ? &amp;dev-&gt;block2_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L187'>set_dev</a>           187 include/vgg.h      dropout2_1.set_dev(dev ? &amp;dev-&gt;dropout2_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L188'>set_dev</a>           188 include/vgg.h      block2_2.set_dev(dev ? &amp;dev-&gt;block2_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L189'>set_dev</a>           189 include/vgg.h      max_pooling_2d2.set_dev(dev ? &amp;dev-&gt;max_pooling_2d2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L191'>set_dev</a>           191 include/vgg.h      block3_1.set_dev(dev ? &amp;dev-&gt;block3_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L192'>set_dev</a>           192 include/vgg.h      dropout3_1.set_dev(dev ? &amp;dev-&gt;dropout3_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L193'>set_dev</a>           193 include/vgg.h      block3_2.set_dev(dev ? &amp;dev-&gt;block3_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L194'>set_dev</a>           194 include/vgg.h      dropout3_2.set_dev(dev ? &amp;dev-&gt;dropout3_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L195'>set_dev</a>           195 include/vgg.h      block3_3.set_dev(dev ? &amp;dev-&gt;block3_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L196'>set_dev</a>           196 include/vgg.h      max_pooling_2d3.set_dev(dev ? &amp;dev-&gt;max_pooling_2d3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L198'>set_dev</a>           198 include/vgg.h      block4_1.set_dev(dev ? &amp;dev-&gt;block4_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L199'>set_dev</a>           199 include/vgg.h      dropout4_1.set_dev(dev ? &amp;dev-&gt;dropout4_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L200'>set_dev</a>           200 include/vgg.h      block4_2.set_dev(dev ? &amp;dev-&gt;block4_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L201'>set_dev</a>           201 include/vgg.h      dropout4_2.set_dev(dev ? &amp;dev-&gt;dropout4_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L202'>set_dev</a>           202 include/vgg.h      block4_3.set_dev(dev ? &amp;dev-&gt;block4_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L203'>set_dev</a>           203 include/vgg.h      max_pooling_2d4.set_dev(dev ? &amp;dev-&gt;max_pooling_2d4 : 0);</span>
+<span class='curline'><a href='../S/477.html#L205'>set_dev</a>           205 include/vgg.h      block5_1.set_dev(dev ? &amp;dev-&gt;block5_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L206'>set_dev</a>           206 include/vgg.h      dropout5_1.set_dev(dev ? &amp;dev-&gt;dropout5_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L207'>set_dev</a>           207 include/vgg.h      block5_2.set_dev(dev ? &amp;dev-&gt;block5_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L208'>set_dev</a>           208 include/vgg.h      dropout5_2.set_dev(dev ? &amp;dev-&gt;dropout5_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L209'>set_dev</a>           209 include/vgg.h      block5_3.set_dev(dev ? &amp;dev-&gt;block5_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L210'>set_dev</a>           210 include/vgg.h      max_pooling_2d5.set_dev(dev ? &amp;dev-&gt;max_pooling_2d5 : 0);</span>
+<span class='curline'><a href='../S/477.html#L212'>set_dev</a>           212 include/vgg.h      dropout6_1.set_dev(dev ? &amp;dev-&gt;dropout6_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L213'>set_dev</a>           213 include/vgg.h      fc1.set_dev(dev ? &amp;dev-&gt;fc1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L214'>set_dev</a>           214 include/vgg.h      bn_fc1.set_dev(dev ? &amp;dev-&gt;bn_fc1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L215'>set_dev</a>           215 include/vgg.h      relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/477.html#L216'>set_dev</a>           216 include/vgg.h      dropout6_2.set_dev(dev ? &amp;dev-&gt;dropout6_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L217'>set_dev</a>           217 include/vgg.h      fc2.set_dev(dev ? &amp;dev-&gt;fc2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L219'>set_dev</a>           219 include/vgg.h      softmax_cross_entropy.set_dev(dev ? &amp;dev-&gt;softmax_cross_entropy : 0);</span>
+<span class='curline'><a href='../S/477.html#L238'>set_dev</a>           238 include/vgg.h      set_dev(dev);</span>
+<span class='curline'><a href='../S/481.html#L195'>set_dev</a>           195 include/vgg_arrays.h   void set_dev(vec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L312'>set_dev</a>           312 include/vgg_arrays.h   void set_dev(ivec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L486'>set_dev</a>           486 include/vgg_arrays.h   void set_dev(array2&lt;M,N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L710'>set_dev</a>           710 include/vgg_arrays.h   void set_dev(array4&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L896'>set_dev</a>           896 include/vgg_arrays.h   void set_dev(warray4&lt;OC,IC,H,W&gt;* dev) {</span>
+</pre>
+</body>
+</html>

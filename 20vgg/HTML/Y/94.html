@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>c</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L106'>c</a>                 106 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;* c = new BatchNormalization&lt;maxB,IC,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/478.html#L107'>c</a>                 107 include/batchnormalization.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/478.html#L108'>c</a>                 108 include/batchnormalization.h     return c;</span>
+<span class='curline'><a href='../S/482.html#L61'>c</a>                  61 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;* c = new Block&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/482.html#L62'>c</a>                  62 include/block.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/482.html#L63'>c</a>                  63 include/block.h     return c;</span>
+<span class='curline'><a href='../S/469.html#L119'>c</a>                 119 include/cifar.h           for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L120'>c</a>                 120 include/cifar.h             fprintf(wp, " %d", dataset[d].rgb[c][i][j]);</span>
+<span class='curline'><a href='../S/469.html#L175'>c</a>                 175 include/cifar.h       for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L178'>c</a>                 178 include/cifar.h             max_value = max_i(max_value, rgb[c][i][j]);</span>
+<span class='curline'><a href='../S/469.html#L185'>c</a>                 185 include/cifar.h       for (idx_t c = 0; c &lt; IC; c++) {</span>
+<span class='curline'><a href='../S/469.html#L188'>c</a>                 188 include/cifar.h             dataset[k].rgb[c][i][j] = rgb[c][i][j];</span>
+<span class='curline'><a href='../S/469.html#L189'>c</a>                 189 include/cifar.h             dataset[k](c,i,j) = rgb[c][i][j] * l_max;</span>
+<span class='curline'><a href='../S/473.html#L105'>c</a>                 105 include/convolution.h     Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * c = new Convolution2D&lt;maxB,IC,H,W,K,OC&gt;(*this);</span>
+<span class='curline'><a href='../S/473.html#L106'>c</a>                 106 include/convolution.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/473.html#L107'>c</a>                 107 include/convolution.h     return c;</span>
+<span class='curline'><a href='../S/468.html#L91'>c</a>                  91 include/dropout.h     Dropout&lt;maxB,C,H,W&gt;* c = new Dropout&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/468.html#L92'>c</a>                  92 include/dropout.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/468.html#L93'>c</a>                  93 include/dropout.h     return c;</span>
+<span class='curline'><a href='../S/468.html#L193'>c</a>                 193 include/dropout.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/468.html#L197'>c</a>                 197 include/dropout.h               y(b,c,i,j) = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L199'>c</a>                 199 include/dropout.h               y(b,c,i,j) = x(b,c,i,j) * scale;</span>
+<span class='curline'><a href='../S/468.html#L294'>c</a>                 294 include/dropout.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/468.html#L298'>c</a>                 298 include/dropout.h               gx(b,c,i,j) = 0.0;</span>
+<span class='curline'><a href='../S/468.html#L300'>c</a>                 300 include/dropout.h               gx(b,c,i,j) = scale * gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/479.html#L97'>c</a>                  97 include/linear.h     Linear&lt;maxB,IC,nC&gt;* c = new Linear&lt;maxB,IC,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/479.html#L98'>c</a>                  98 include/linear.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/479.html#L99'>c</a>                  99 include/linear.h     return c;</span>
+<span class='curline'><a href='../S/479.html#L283'>c</a>                 283 include/linear.h       for (idx_t c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/479.html#L286'>c</a>                 286 include/linear.h           s += x(b,ic,0,0) * w(ic,c);</span>
+<span class='curline'><a href='../S/479.html#L288'>c</a>                 288 include/linear.h         y(b,c,0,0) = s;</span>
+<span class='curline'><a href='../S/479.html#L380'>c</a>                 380 include/linear.h       for (idx_t c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/479.html#L383'>c</a>                 383 include/linear.h           s += gy(b,c,0,0) * x(b,ic,0,0);</span>
+<span class='curline'><a href='../S/479.html#L385'>c</a>                 385 include/linear.h         gw(ic,c) = s;</span>
+<span class='curline'><a href='../S/479.html#L391'>c</a>                 391 include/linear.h         for (idx_t c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/479.html#L392'>c</a>                 392 include/linear.h           s += gy(b,c,0,0) * w(ic,c);</span>
+<span class='curline'><a href='../S/474.html#L87'>c</a>                  87 include/maxpooling.h     MaxPooling2D&lt;maxB,C,H,W,S&gt;* c = new MaxPooling2D&lt;maxB,C,H,W,S&gt;(*this);</span>
+<span class='curline'><a href='../S/474.html#L88'>c</a>                  88 include/maxpooling.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/474.html#L89'>c</a>                  89 include/maxpooling.h     return c;</span>
+<span class='curline'><a href='../S/474.html#L186'>c</a>                 186 include/maxpooling.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/474.html#L189'>c</a>                 189 include/maxpooling.h             real s = x(b,c,S*i,S*j);</span>
+<span class='curline'><a href='../S/474.html#L193'>c</a>                 193 include/maxpooling.h                 if (s &lt; x(b,c,i_,j_)) {</span>
+<span class='curline'><a href='../S/474.html#L194'>c</a>                 194 include/maxpooling.h                   s = x(b,c,i_,j_);</span>
+<span class='curline'><a href='../S/474.html#L199'>c</a>                 199 include/maxpooling.h             y(b,c,i,j) = s;</span>
+<span class='curline'><a href='../S/474.html#L200'>c</a>                 200 include/maxpooling.h             max_idx(b,c,i,j) = idx;</span>
+<span class='curline'><a href='../S/474.html#L292'>c</a>                 292 include/maxpooling.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/474.html#L297'>c</a>                 297 include/maxpooling.h                 gx(b,c,i_,j_) = 0;</span>
+<span class='curline'><a href='../S/474.html#L300'>c</a>                 300 include/maxpooling.h             idx_t idx = max_idx(b,c,i,j);</span>
+<span class='curline'><a href='../S/474.html#L303'>c</a>                 303 include/maxpooling.h             gx(b,c,i_,j_) = gy(b,c,i,j);</span>
+<span class='curline'><a href='../S/471.html#L84'>c</a>                  84 include/relu.h     Relu&lt;maxB,C,H,W&gt;* c = new Relu&lt;maxB,C,H,W&gt;(*this);</span>
+<span class='curline'><a href='../S/471.html#L85'>c</a>                  85 include/relu.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/471.html#L86'>c</a>                  86 include/relu.h     return c;</span>
+<span class='curline'><a href='../S/471.html#L182'>c</a>                 182 include/relu.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/471.html#L185'>c</a>                 185 include/relu.h             y(b,c,i,j) = max_r(0, x(b,c,i,j));</span>
+<span class='curline'><a href='../S/471.html#L278'>c</a>                 278 include/relu.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/471.html#L281'>c</a>                 281 include/relu.h             gx(b,c,i,j) = (x(b,c,i,j) &gt;= 0 ? gy(b,c,i,j) : 0);</span>
+<span class='curline'><a href='../S/480.html#L88'>c</a>                  88 include/softmaxcrossentropy.h     SoftmaxCrossEntropy&lt;maxB,nC&gt;* c = new SoftmaxCrossEntropy&lt;maxB,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/480.html#L89'>c</a>                  89 include/softmaxcrossentropy.h     c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/480.html#L90'>c</a>                  90 include/softmaxcrossentropy.h     return c;</span>
+<span class='curline'><a href='../S/480.html#L190'>c</a>                 190 include/softmaxcrossentropy.h       for (long c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/480.html#L191'>c</a>                 191 include/softmaxcrossentropy.h         m = (x(b,m,0,0) &lt; x(b,c,0,0) ? c : m);</span>
+<span class='curline'><a href='../S/480.html#L194'>c</a>                 194 include/softmaxcrossentropy.h       for (long c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/480.html#L195'>c</a>                 195 include/softmaxcrossentropy.h         lsm(b,c) = x(b,c,0,0) - x(b,m,0,0);</span>
+<span class='curline'><a href='../S/480.html#L196'>c</a>                 196 include/softmaxcrossentropy.h         s += exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/480.html#L198'>c</a>                 198 include/softmaxcrossentropy.h       for (long c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/480.html#L199'>c</a>                 199 include/softmaxcrossentropy.h         lsm(b,c) -= log(s);</span>
+<span class='curline'><a href='../S/480.html#L320'>c</a>                 320 include/softmaxcrossentropy.h       for (idx_t c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/480.html#L321'>c</a>                 321 include/softmaxcrossentropy.h         if (c == t(b)) {</span>
+<span class='curline'><a href='../S/480.html#L322'>c</a>                 322 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * (-1 + exp(lsm(b,c)));</span>
+<span class='curline'><a href='../S/480.html#L324'>c</a>                 324 include/softmaxcrossentropy.h           gx(b,c,0,0) = gy(b) * exp(lsm(b,c));</span>
+<span class='curline'><a href='../S/477.html#L161'>c</a>                 161 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* c = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/477.html#L162'>c</a>                 162 include/vgg.h      c-&gt;make_dev();</span>
+<span class='curline'><a href='../S/477.html#L163'>c</a>                 163 include/vgg.h      return c;</span>
+<span class='curline'><a href='../S/477.html#L423'>c</a>                 423 include/vgg.h        for (idx_t c = 0; c &lt; nC; c++) {</span>
+<span class='curline'><a href='../S/477.html#L424'>c</a>                 424 include/vgg.h          if (lsm(b,pred_class) &lt; lsm(b,c)) {</span>
+<span class='curline'><a href='../S/477.html#L425'>c</a>                 425 include/vgg.h            pred_class = c;</span>
+<span class='curline'><a href='../S/481.html#L104'>c</a>                 104 include/vgg_arrays.h   void init_const(idx_t n, real c) {</span>
+<span class='curline'><a href='../S/481.html#L108'>c</a>                 108 include/vgg_arrays.h       x(i) = c;</span>
+<span class='curline'><a href='../S/481.html#L287'>c</a>                 287 include/vgg_arrays.h   void init_const(idx_t n, idx_t c) {</span>
+<span class='curline'><a href='../S/481.html#L291'>c</a>                 291 include/vgg_arrays.h       x(i) = c;</span>
+<span class='curline'><a href='../S/481.html#L571'>c</a>                 571 include/vgg_arrays.h   real&amp; operator()(idx_t b, idx_t c, idx_t i, idx_t j) {</span>
+<span class='curline'><a href='../S/481.html#L573'>c</a>                 573 include/vgg_arrays.h     range_chk(0, c, C);</span>
+<span class='curline'><a href='../S/481.html#L576'>c</a>                 576 include/vgg_arrays.h     return w[b][c][i][j];</span>
+<span class='curline'><a href='../S/481.html#L596'>c</a>                 596 include/vgg_arrays.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/481.html#L599'>c</a>                 599 include/vgg_arrays.h             a(b,c,i,j) = x;</span>
+<span class='curline'><a href='../S/481.html#L616'>c</a>                 616 include/vgg_arrays.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/481.html#L619'>c</a>                 619 include/vgg_arrays.h             a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L636'>c</a>                 636 include/vgg_arrays.h     idx_t c = rg.randi(0, C);</span>
+<span class='curline'><a href='../S/481.html#L639'>c</a>                 639 include/vgg_arrays.h     a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L652'>c</a>                 652 include/vgg_arrays.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/481.html#L655'>c</a>                 655 include/vgg_arrays.h             a(b,c,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L672'>c</a>                 672 include/vgg_arrays.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/481.html#L675'>c</a>                 675 include/vgg_arrays.h             a(b,c,i,j) += eta * da(b,c,i,j);</span>
+<span class='curline'><a href='../S/481.html#L691'>c</a>                 691 include/vgg_arrays.h       for (idx_t c = 0; c &lt; C; c++) {</span>
+<span class='curline'><a href='../S/481.html#L696'>c</a>                 696 include/vgg_arrays.h             s3 += a(b,c,i,j) * a_(b,c,i,j);</span>
+<span class='curline'><a href='../S/475.html#L276'>c</a>                 276 include/vgg_util.h     int c = getopt_long(argc, argv,</span>
+<span class='curline'><a href='../S/475.html#L278'>c</a>                 278 include/vgg_util.h     if (c == -1) break;</span>
+<span class='curline'><a href='../S/475.html#L279'>c</a>                 279 include/vgg_util.h     switch (c) {</span>
+</pre>
+</body>
+</html>

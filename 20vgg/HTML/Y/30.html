@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>N</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/481.html#L73'>N</a>                  73 include/vgg_arrays.h template&lt;idx_t N&gt;</span>
+<span class='curline'><a href='../S/481.html#L76'>N</a>                  76 include/vgg_arrays.h   vec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L79'>N</a>                  79 include/vgg_arrays.h   real w[N];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L96'>N</a>                  96 include/vgg_arrays.h     assert(n &lt;= N);</span>
+<span class='curline'><a href='../S/481.html#L106'>N</a>                 106 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L120'>N</a>                 120 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L133'>N</a>                 133 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L147'>N</a>                 147 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L159'>N</a>                 159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L161'>N</a>                 161 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L171'>N</a>                 171 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L182'>N</a>                 182 include/vgg_arrays.h   real dot(vec&lt;N&gt;&amp; y) {</span>
+<span class='curline'><a href='../S/481.html#L183'>N</a>                 183 include/vgg_arrays.h     vec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L195'>N</a>                 195 include/vgg_arrays.h   void set_dev(vec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L210'>N</a>                 210 include/vgg_arrays.h       dev = (vec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L245'>N</a>                 245 include/vgg_arrays.h       vec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L257'>N</a>                 257 include/vgg_arrays.h template&lt;idx_t N&gt;</span>
+<span class='curline'><a href='../S/481.html#L260'>N</a>                 260 include/vgg_arrays.h   ivec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L263'>N</a>                 263 include/vgg_arrays.h   idx_t w[N];                    /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L280'>N</a>                 280 include/vgg_arrays.h     assert(n &lt;= N);</span>
+<span class='curline'><a href='../S/481.html#L289'>N</a>                 289 include/vgg_arrays.h     ivec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L303'>N</a>                 303 include/vgg_arrays.h     ivec&lt;N&gt;&amp; x = *this;</span>
+<span class='curline'><a href='../S/481.html#L312'>N</a>                 312 include/vgg_arrays.h   void set_dev(ivec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L327'>N</a>                 327 include/vgg_arrays.h       dev = (ivec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L362'>N</a>                 362 include/vgg_arrays.h       ivec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L375'>N</a>                 375 include/vgg_arrays.h template&lt;idx_t M,idx_t N&gt;</span>
+<span class='curline'><a href='../S/481.html#L378'>N</a>                 378 include/vgg_arrays.h   array2&lt;M,N&gt; * dev;            /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L381'>N</a>                 381 include/vgg_arrays.h   real w[M][N];              /**&lt; elements */</span>
+<span class='curline'><a href='../S/481.html#L390'>N</a>                 390 include/vgg_arrays.h     range_chk(0, j, N);</span>
+<span class='curline'><a href='../S/481.html#L409'>N</a>                 409 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L411'>N</a>                 411 include/vgg_arrays.h       for (idx_t j = 0; j &lt; N; j++) {</span>
+<span class='curline'><a href='../S/481.html#L425'>N</a>                 425 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L427'>N</a>                 427 include/vgg_arrays.h       for (idx_t j = 0; j &lt; N; j++) {</span>
+<span class='curline'><a href='../S/481.html#L441'>N</a>                 441 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L443'>N</a>                 443 include/vgg_arrays.h       for (idx_t j = 0; j &lt; N; j++) {</span>
+<span class='curline'><a href='../S/481.html#L455'>N</a>                 455 include/vgg_arrays.h   void update(real eta, array2&lt;M,N&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L457'>N</a>                 457 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L460'>N</a>                 460 include/vgg_arrays.h       for (idx_t j = 0; j &lt; N; j++) {</span>
+<span class='curline'><a href='../S/481.html#L469'>N</a>                 469 include/vgg_arrays.h   real dot(array2&lt;M,N&gt;&amp; b) {</span>
+<span class='curline'><a href='../S/481.html#L470'>N</a>                 470 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L475'>N</a>                 475 include/vgg_arrays.h       for (idx_t j = 0; j &lt; N; j++) {</span>
+<span class='curline'><a href='../S/481.html#L486'>N</a>                 486 include/vgg_arrays.h   void set_dev(array2&lt;M,N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L501'>N</a>                 501 include/vgg_arrays.h       dev = (array2&lt;M,N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L536'>N</a>                 536 include/vgg_arrays.h       array2&lt;M,N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L959'>N</a>                 959 include/vgg_arrays.h   const int N = 10;</span>
+<span class='curline'><a href='../S/481.html#L961'>N</a>                 961 include/vgg_arrays.h   vec&lt;N&gt; v;</span>
+<span class='curline'><a href='../S/481.html#L962'>N</a>                 962 include/vgg_arrays.h   ivec&lt;N&gt; iv;</span>
+<span class='curline'><a href='../S/481.html#L963'>N</a>                 963 include/vgg_arrays.h   array2&lt;N,N&gt; a2;</span>
+<span class='curline'><a href='../S/481.html#L964'>N</a>                 964 include/vgg_arrays.h   array4&lt;N,N,N,N&gt; a4;</span>
+<span class='curline'><a href='../S/481.html#L965'>N</a>                 965 include/vgg_arrays.h   warray4&lt;N,N,N,N&gt; w4;</span>
+</pre>
+</body>
+</html>

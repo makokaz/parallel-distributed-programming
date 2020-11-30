@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>o</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L594'>o</a>                 594 include/batchnormalization.h   void set_grad(BatchNormalization&lt;maxB,IC,H,W&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/478.html#L595'>o</a>                 595 include/batchnormalization.h     ggamma = o.ggamma;</span>
+<span class='curline'><a href='../S/478.html#L596'>o</a>                 596 include/batchnormalization.h     gbeta = o.gbeta;</span>
+<span class='curline'><a href='../S/482.html#L199'>o</a>                 199 include/block.h   void set_grad(Block&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/482.html#L200'>o</a>                 200 include/block.h     conv.set_grad(o.conv);</span>
+<span class='curline'><a href='../S/482.html#L201'>o</a>                 201 include/block.h     bn.set_grad(o.bn);</span>
+<span class='curline'><a href='../S/473.html#L524'>o</a>                 524 include/convolution.h   void set_grad(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L525'>o</a>                 525 include/convolution.h     gw = o.gw;</span>
+<span class='curline'><a href='../S/473.html#L533'>o</a>                 533 include/convolution.h   real gw_dot_gw(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/473.html#L534'>o</a>                 534 include/convolution.h     return gw.dot(o.gw);</span>
+<span class='curline'><a href='../S/479.html#L486'>o</a>                 486 include/linear.h   void set_grad(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L487'>o</a>                 487 include/linear.h     gw = o.gw;</span>
+<span class='curline'><a href='../S/479.html#L495'>o</a>                 495 include/linear.h   real gw_dot_gw(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L496'>o</a>                 496 include/linear.h     return gw.dot(o.gw);</span>
+<span class='curline'><a href='../S/477.html#L503'>o</a>                 503 include/vgg.h    void set_grad(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/477.html#L504'>o</a>                 504 include/vgg.h      block1_1.set_grad(o.block1_1);</span>
+<span class='curline'><a href='../S/477.html#L505'>o</a>                 505 include/vgg.h      block1_2.set_grad(o.block1_2);</span>
+<span class='curline'><a href='../S/477.html#L507'>o</a>                 507 include/vgg.h      block2_1.set_grad(o.block2_1);</span>
+<span class='curline'><a href='../S/477.html#L508'>o</a>                 508 include/vgg.h      block2_2.set_grad(o.block2_2);</span>
+<span class='curline'><a href='../S/477.html#L510'>o</a>                 510 include/vgg.h      block3_1.set_grad(o.block3_1);</span>
+<span class='curline'><a href='../S/477.html#L511'>o</a>                 511 include/vgg.h      block3_2.set_grad(o.block3_2);</span>
+<span class='curline'><a href='../S/477.html#L512'>o</a>                 512 include/vgg.h      block3_3.set_grad(o.block3_3);</span>
+<span class='curline'><a href='../S/477.html#L514'>o</a>                 514 include/vgg.h      block4_1.set_grad(o.block4_1);</span>
+<span class='curline'><a href='../S/477.html#L515'>o</a>                 515 include/vgg.h      block4_2.set_grad(o.block4_2);</span>
+<span class='curline'><a href='../S/477.html#L516'>o</a>                 516 include/vgg.h      block4_3.set_grad(o.block4_3);</span>
+<span class='curline'><a href='../S/477.html#L518'>o</a>                 518 include/vgg.h      block5_1.set_grad(o.block5_1);</span>
+<span class='curline'><a href='../S/477.html#L519'>o</a>                 519 include/vgg.h      block5_2.set_grad(o.block5_2);</span>
+<span class='curline'><a href='../S/477.html#L520'>o</a>                 520 include/vgg.h      block5_3.set_grad(o.block5_3);</span>
+<span class='curline'><a href='../S/477.html#L522'>o</a>                 522 include/vgg.h      fc1.set_grad(o.fc1);</span>
+<span class='curline'><a href='../S/477.html#L523'>o</a>                 523 include/vgg.h      bn_fc1.set_grad(o.bn_fc1);</span>
+<span class='curline'><a href='../S/477.html#L524'>o</a>                 524 include/vgg.h      fc2.set_grad(o.fc2);</span>
+<span class='curline'><a href='../S/475.html#L220'>o</a>                 220 include/vgg_util.h   cmdline_opt o;</span>
+<span class='curline'><a href='../S/475.html#L246'>o</a>                 246 include/vgg_util.h           o.iters,</span>
+<span class='curline'><a href='../S/475.html#L247'>o</a>                 247 include/vgg_util.h           o.batch_sz,</span>
+<span class='curline'><a href='../S/475.html#L248'>o</a>                 248 include/vgg_util.h           o.algo_s,</span>
+<span class='curline'><a href='../S/475.html#L249'>o</a>                 249 include/vgg_util.h           o.verbose,</span>
+<span class='curline'><a href='../S/475.html#L250'>o</a>                 250 include/vgg_util.h           o.cifar_data,</span>
+<span class='curline'><a href='../S/475.html#L251'>o</a>                 251 include/vgg_util.h           (o.cifar_data_dump ? o.cifar_data_dump : ""),</span>
+<span class='curline'><a href='../S/475.html#L252'>o</a>                 252 include/vgg_util.h           o.learnrate,</span>
+<span class='curline'><a href='../S/475.html#L253'>o</a>                 253 include/vgg_util.h           o.partial_data,</span>
+<span class='curline'><a href='../S/475.html#L254'>o</a>                 254 include/vgg_util.h           o.single_batch,</span>
+<span class='curline'><a href='../S/475.html#L255'>o</a>                 255 include/vgg_util.h           o.dropout,</span>
+<span class='curline'><a href='../S/475.html#L256'>o</a>                 256 include/vgg_util.h           o.validate_ratio,</span>
+<span class='curline'><a href='../S/475.html#L257'>o</a>                 257 include/vgg_util.h           o.validate_interval,</span>
+<span class='curline'><a href='../S/475.html#L258'>o</a>                 258 include/vgg_util.h           o.sample_seed,</span>
+<span class='curline'><a href='../S/475.html#L259'>o</a>                 259 include/vgg_util.h           o.dropout_seed,</span>
+<span class='curline'><a href='../S/475.html#L260'>o</a>                 260 include/vgg_util.h           o.weight_seed,</span>
+<span class='curline'><a href='../S/475.html#L261'>o</a>                 261 include/vgg_util.h           o.partial_data_seed,</span>
+<span class='curline'><a href='../S/475.html#L262'>o</a>                 262 include/vgg_util.h           o.grad_dbg,</span>
+<span class='curline'><a href='../S/475.html#L263'>o</a>                 263 include/vgg_util.h           o.log</span>
+<span class='curline'><a href='../S/475.html#L282'>o</a>                 282 include/vgg_util.h         const char * o = long_options[option_index].name;</span>
+<span class='curline'><a href='../S/475.html#L283'>o</a>                 283 include/vgg_util.h         if (strcmp(o, "partial_data") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L285'>o</a>                 285 include/vgg_util.h         } else if (strcmp(o, "single_batch") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L287'>o</a>                 287 include/vgg_util.h         } else if (strcmp(o, "dropout") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L289'>o</a>                 289 include/vgg_util.h         } else if (strcmp(o, "validate_ratio") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L291'>o</a>                 291 include/vgg_util.h         } else if (strcmp(o, "validate_interval") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L293'>o</a>                 293 include/vgg_util.h         } else if (strcmp(o, "sample_seed") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L295'>o</a>                 295 include/vgg_util.h         } else if (strcmp(o, "weight_seed") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L297'>o</a>                 297 include/vgg_util.h         } else if (strcmp(o, "dropout_seed") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L299'>o</a>                 299 include/vgg_util.h         } else if (strcmp(o, "partial_data_seed") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L301'>o</a>                 301 include/vgg_util.h         } else if (strcmp(o, "grad_dbg") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L303'>o</a>                 303 include/vgg_util.h         } else if (strcmp(o, "log") == 0) {</span>
+<span class='curline'><a href='../S/475.html#L308'>o</a>                 308 include/vgg_util.h                   __FILE__, __LINE__, o);</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>forward</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L420'>forward</a>           420 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/478.html#L653'>forward</a>           653 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y = bn-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/478.html#L683'>forward</a>           683 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_minus = bn_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/478.html#L684'>forward</a>           684 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; y_plus  = bn_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/482.html#L159'>forward</a>           159 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/482.html#L160'>forward</a>           160 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x1 = conv.forward(x);</span>
+<span class='curline'><a href='../S/482.html#L161'>forward</a>           161 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; x2 = bn.forward(x1);</span>
+<span class='curline'><a href='../S/482.html#L162'>forward</a>           162 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp;  y = relu.forward(x2);</span>
+<span class='curline'><a href='../S/482.html#L258'>forward</a>           258 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y = block-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/482.html#L288'>forward</a>           288 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = block_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/482.html#L289'>forward</a>           289 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = block_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/473.html#L351'>forward</a>           351 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; forward(array4&lt;maxB,IC,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/473.html#L578'>forward</a>           578 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y = conv-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/473.html#L608'>forward</a>           608 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = conv_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/473.html#L609'>forward</a>           609 include/convolution.h   array4&lt;maxB,OC,H,W&gt;&amp; y_plus  = conv_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/468.html#L249'>forward</a>           249 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/468.html#L424'>forward</a>           424 include/dropout.h   array4&lt;maxB,C,W,H&gt;&amp; y = dropout-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/468.html#L446'>forward</a>           446 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = dropout_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/468.html#L447'>forward</a>           447 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = dropout_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/479.html#L335'>forward</a>           335 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; forward(array4&lt;maxB,IC,1,1&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/479.html#L540'>forward</a>           540 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y = linear-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/479.html#L570'>forward</a>           570 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_minus = linear_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/479.html#L571'>forward</a>           571 include/linear.h   array4&lt;maxB,nC,1,1&gt;&amp; y_plus  = linear_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/474.html#L249'>forward</a>           249 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/474.html#L426'>forward</a>           426 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y = mp-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/474.html#L448'>forward</a>           448 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_minus = mp_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/474.html#L449'>forward</a>           449 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt;&amp; y_plus  = mp_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/471.html#L234'>forward</a>           234 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; forward(array4&lt;maxB,C,H,W&gt;&amp; x) {</span>
+<span class='curline'><a href='../S/471.html#L403'>forward</a>           403 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y = relu-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/471.html#L424'>forward</a>           424 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_minus = relu_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/471.html#L425'>forward</a>           425 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y_plus  = relu_plus-&gt;forward(*x_plus);</span>
+<span class='curline'><a href='../S/480.html#L276'>forward</a>           276 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,nC,1,1&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/480.html#L450'>forward</a>           450 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y = smxe-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/480.html#L472'>forward</a>           472 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_minus = smxe_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/480.html#L473'>forward</a>           473 include/softmaxcrossentropy.h   vec&lt;maxB&gt;&amp; y_plus  = smxe_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/477.html#L320'>forward</a>           320 include/vgg.h    vec&lt;maxB&gt;&amp; forward(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t) {</span>
+<span class='curline'><a href='../S/477.html#L322'>forward</a>           322 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x1 = block1_1.forward(x);</span>
+<span class='curline'><a href='../S/477.html#L323'>forward</a>           323 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x2 = dropout1_1.forward(x1);</span>
+<span class='curline'><a href='../S/477.html#L324'>forward</a>           324 include/vgg.h      array4&lt;maxB,C1,H1,W1&gt;&amp;  x3 = block1_2.forward(x2);</span>
+<span class='curline'><a href='../S/477.html#L325'>forward</a>           325 include/vgg.h      array4&lt;maxB,C1,H2,W2&gt;&amp;  x4 = max_pooling_2d1.forward(x3);</span>
+<span class='curline'><a href='../S/477.html#L327'>forward</a>           327 include/vgg.h      array4&lt;maxB,C2,H2,W2&gt;&amp;  x5 = block2_1.forward(x4);</span>
+<span class='curline'><a href='../S/477.html#L328'>forward</a>           328 include/vgg.h      array4&lt;maxB,C2,H2,W2&gt;&amp;  x6 = dropout2_1.forward(x5);</span>
+<span class='curline'><a href='../S/477.html#L329'>forward</a>           329 include/vgg.h      array4&lt;maxB,C2,H2,W2&gt;&amp;  x7 = block2_2.forward(x6);</span>
+<span class='curline'><a href='../S/477.html#L330'>forward</a>           330 include/vgg.h      array4&lt;maxB,C2,H3,W3&gt;&amp;  x8 = max_pooling_2d2.forward(x7);</span>
+<span class='curline'><a href='../S/477.html#L332'>forward</a>           332 include/vgg.h      array4&lt;maxB,C3,H3,W3&gt;&amp;  x9 = block3_1.forward(x8);</span>
+<span class='curline'><a href='../S/477.html#L333'>forward</a>           333 include/vgg.h      array4&lt;maxB,C3,H3,W3&gt;&amp; x10 = dropout3_1.forward(x9);</span>
+<span class='curline'><a href='../S/477.html#L334'>forward</a>           334 include/vgg.h      array4&lt;maxB,C3,H3,W3&gt;&amp; x11 = block3_2.forward(x10);</span>
+<span class='curline'><a href='../S/477.html#L335'>forward</a>           335 include/vgg.h      array4&lt;maxB,C3,H3,W3&gt;&amp; x12 = dropout3_2.forward(x11);</span>
+<span class='curline'><a href='../S/477.html#L336'>forward</a>           336 include/vgg.h      array4&lt;maxB,C3,H3,W3&gt;&amp; x13 = block3_3.forward(x12);</span>
+<span class='curline'><a href='../S/477.html#L337'>forward</a>           337 include/vgg.h      array4&lt;maxB,C3,H4,W4&gt;&amp; x14 = max_pooling_2d3.forward(x13);</span>
+<span class='curline'><a href='../S/477.html#L339'>forward</a>           339 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x15 = block4_1.forward(x14);</span>
+<span class='curline'><a href='../S/477.html#L340'>forward</a>           340 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x16 = dropout4_1.forward(x15);</span>
+<span class='curline'><a href='../S/477.html#L341'>forward</a>           341 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x17 = block4_2.forward(x16);</span>
+<span class='curline'><a href='../S/477.html#L342'>forward</a>           342 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x18 = dropout4_2.forward(x17);</span>
+<span class='curline'><a href='../S/477.html#L343'>forward</a>           343 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x19 = block4_3.forward(x18);</span>
+<span class='curline'><a href='../S/477.html#L344'>forward</a>           344 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x20 = max_pooling_2d4.forward(x19);</span>
+<span class='curline'><a href='../S/477.html#L346'>forward</a>           346 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x21 = block5_1.forward(x20);</span>
+<span class='curline'><a href='../S/477.html#L347'>forward</a>           347 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x22 = dropout5_1.forward(x21);</span>
+<span class='curline'><a href='../S/477.html#L348'>forward</a>           348 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x23 = block5_2.forward(x22);</span>
+<span class='curline'><a href='../S/477.html#L349'>forward</a>           349 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x24 = dropout5_2.forward(x23);</span>
+<span class='curline'><a href='../S/477.html#L350'>forward</a>           350 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x25 = block5_3.forward(x24);</span>
+<span class='curline'><a href='../S/477.html#L351'>forward</a>           351 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x26 = max_pooling_2d5.forward(x25);</span>
+<span class='curline'><a href='../S/477.html#L353'>forward</a>           353 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x27 = dropout6_1.forward(x26);</span>
+<span class='curline'><a href='../S/477.html#L354'>forward</a>           354 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x28 = fc1.forward(x27);</span>
+<span class='curline'><a href='../S/477.html#L355'>forward</a>           355 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x29 = bn_fc1.forward(x28);</span>
+<span class='curline'><a href='../S/477.html#L356'>forward</a>           356 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x30 = relu.forward(x29);</span>
+<span class='curline'><a href='../S/477.html#L357'>forward</a>           357 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x31 = dropout6_2.forward(x30);</span>
+<span class='curline'><a href='../S/477.html#L358'>forward</a>           358 include/vgg.h      array4&lt;maxB,nC,H6,W6&gt;&amp; x32 = fc2.forward(x31);</span>
+<span class='curline'><a href='../S/477.html#L359'>forward</a>           359 include/vgg.h      vec&lt;maxB&gt;&amp; y = softmax_cross_entropy.forward(x32, t);</span>
+<span class='curline'><a href='../S/477.html#L453'>forward</a>           453 include/vgg.h      vec&lt;maxB&gt;&amp; y = forward(x, t);</span>
+<span class='curline'><a href='../S/477.html#L600'>forward</a>           600 include/vgg.h    vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/477.html#L630'>forward</a>           630 include/vgg.h    vec&lt;maxB&gt;&amp; y_minus = vgg_minus-&gt;forward(*x_minus, *t);</span>
+<span class='curline'><a href='../S/477.html#L631'>forward</a>           631 include/vgg.h    vec&lt;maxB&gt;&amp; y_plus  = vgg_plus-&gt;forward(*x_plus, *t);</span>
+<span class='curline'><a href='../S/466.html#L46'>forward</a>            46 vgg.cc               vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(vgg-&gt;x, vgg-&gt;t);</span>
+</pre>
+</body>
+</html>

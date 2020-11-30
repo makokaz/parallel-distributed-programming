@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>mnist.html</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span>mnist.html</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/mnist.html</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 mnist.html'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<a id='L2' name='L2'></a>"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+<a id='L3' name='L3'></a>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+<a id='L4' name='L4'></a>&lt;head&gt;
+<a id='L5' name='L5'></a>&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" / &gt;
+<a id='L6' name='L6'></a>&lt;title&gt;records&lt;/title&gt;
+<a id='L7' name='L7'></a>&lt;!--&lt;script src="https://d3js.org/d3.v4.min.js"&gt;&lt;/script&gt;--&gt;
+<a id='L8' name='L8'></a>&lt;script src="d3.v4.min.js"&gt;&lt;/script&gt;
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>&lt;style&gt;
+<a id='L11' name='L11'></a>body {counter-reset: h2}
+<a id='L12' name='L12'></a>  h2 {counter-reset: h3}
+<a id='L13' name='L13'></a>  h3 {counter-reset: h4}
+<a id='L14' name='L14'></a>  h4 {counter-reset: h5}
+<a id='L15' name='L15'></a>  h5 {counter-reset: h6}
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  h2:before {counter-increment: h2; content: counter(h2) ". "}
+<a id='L18' name='L18'></a>  h3:before {counter-increment: h3; content: counter(h2) "." counter(h3) ". "}
+<a id='L19' name='L19'></a>  h4:before {counter-increment: h4; content: counter(h2) "." counter(h3) "." counter(h4) ". "}
+<a id='L20' name='L20'></a>  h5:before {counter-increment: h5; content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ". "}
+<a id='L21' name='L21'></a>  h6:before {counter-increment: h6; content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ". "}
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>  h2.nocount:before, h3.nocount:before, h4.nocount:before, h5.nocount:before, h6.nocount:before { content: ""; counter-increment: none } 
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>h1 {
+<a id='L26' name='L26'></a>  font-size   : 14pt;
+<a id='L27' name='L27'></a>  font-family : serif;
+<a id='L28' name='L28'></a>  margin      : 10pt;
+<a id='L29' name='L29'></a>  padding     : 3pt 20pt;
+<a id='L30' name='L30'></a>  border-style     : solid;
+<a id='L31' name='L31'></a>  border-width     : 1pt 1pt 0pt 15pt ;
+<a id='L32' name='L32'></a>   
+<a id='L33' name='L33'></a>  border-color     : #99A1AA;
+<a id='L34' name='L34'></a>  background-color : #BBDDBB;
+<a id='L35' name='L35'></a>}
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>h2 {
+<a id='L38' name='L38'></a>  font-size   : 13pt;
+<a id='L39' name='L39'></a>  font-family : serif;
+<a id='L40' name='L40'></a>  margin      : 10pt;
+<a id='L41' name='L41'></a>  padding     : 3pt 20pt;
+<a id='L42' name='L42'></a>  border-style     : solid;
+<a id='L43' name='L43'></a>  border-width     : 1pt 1pt 0pt 15pt ;
+<a id='L44' name='L44'></a>   
+<a id='L45' name='L45'></a>  border-color     : #99A1AA;
+<a id='L46' name='L46'></a>  background-color : #CCEECC;
+<a id='L47' name='L47'></a>}
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>h3 {
+<a id='L50' name='L50'></a>  font-size   : 12pt;
+<a id='L51' name='L51'></a>  font-family : serif;
+<a id='L52' name='L52'></a>  margin      : 10pt;
+<a id='L53' name='L53'></a>  padding     : 3pt 20pt;
+<a id='L54' name='L54'></a>  border-style     : solid;
+<a id='L55' name='L55'></a>  border-width     : 1pt 1pt 0pt 1pt;
+<a id='L56' name='L56'></a>  border-color     : #99A1AA;
+<a id='L57' name='L57'></a>  background-color : #DDFFDD;
+<a id='L58' name='L58'></a>}
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>h4 {
+<a id='L61' name='L61'></a>  font-size   : 10pt;
+<a id='L62' name='L62'></a>  font-family : serif;
+<a id='L63' name='L63'></a>  margin      : 10pt;
+<a id='L64' name='L64'></a>  padding     : 3pt 20pt;
+<a id='L65' name='L65'></a>  border-style     : solid;
+<a id='L66' name='L66'></a>  border-width     : 1pt 1pt 0pt 1pt;
+<a id='L67' name='L67'></a>  border-color     : #99A1AA;
+<a id='L68' name='L68'></a>  background-color : #FFFFFF;
+<a id='L69' name='L69'></a>}
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>div {
+<a id='L72' name='L72'></a>  font-size   : 12pt;
+<a id='L73' name='L73'></a>  font-family : serif;
+<a id='L74' name='L74'></a>  margin      : 10pt;
+<a id='L75' name='L75'></a>  padding     : 3pt 20pt;
+<a id='L76' name='L76'></a>  border-color     : #99A1AA;
+<a id='L77' name='L77'></a>}
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>p {
+<a id='L80' name='L80'></a>  font-size   : 12pt;
+<a id='L81' name='L81'></a>  font-family : serif;
+<a id='L82' name='L82'></a>  border-color     : #99A1AA;
+<a id='L83' name='L83'></a>}
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>pre {
+<a id='L86' name='L86'></a>  background-color:#efe;
+<a id='L87' name='L87'></a>}
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>&lt;/style&gt;
+<a id='L90' name='L90'></a>&lt;/head&gt;
+<a id='L91' name='L91'></a>
+<a id='L92' name='L92'></a>&lt;body&gt;
+<a id='L93' name='L93'></a>  &lt;h1&gt;Mnist record page&lt;/h1&gt;
+<a id='L94' name='L94'></a>  &lt;div&gt;
+<a id='L95' name='L95'></a>    This page shows the result of submissions for the 3rd hands-on exercise
+<a id='L96' name='L96'></a>    (optimizing neural network for handwritten digits recognition).
+<a id='L97' name='L97'></a>  &lt;/div&gt;
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>  &lt;h2&gt;Options&lt;/h2&gt;
+<a id='L100' name='L100'></a>  &lt;ul&gt;
+<a id='L101' name='L101'></a>    &lt;li&gt;sorting criteria (choose one)
+<a id='L102' name='L102'></a>      &lt;div id="sort"&gt;
+<a id='L103' name='L103'></a>      &lt;/div&gt;
+<a id='L104' name='L104'></a>    &lt;/li&gt;
+<a id='L105' name='L105'></a>    &lt;li&gt;show only following users (choose any):
+<a id='L106' name='L106'></a>      &lt;div id="select_user"&gt;
+<a id='L107' name='L107'></a>        &lt;!-- &lt;input type="checkbox" class="select_user" name="select_user" value="u000" checked /&gt;u000 --&gt;
+<a id='L108' name='L108'></a>      &lt;/div&gt;
+<a id='L109' name='L109'></a>    &lt;/li&gt;
+<a id='L110' name='L110'></a>    &lt;li&gt;
+<a id='L111' name='L111'></a>      &lt;div id="show_one"&gt;
+<a id='L112' name='L112'></a>        &lt;input type="checkbox" class="one_per_user" name="one_per_user" value="1" /&gt; show only one (best) record per user
+<a id='L113' name='L113'></a>      &lt;/div&gt;
+<a id='L114' name='L114'></a>    &lt;/li&gt;
+<a id='L115' name='L115'></a>  &lt;/ul&gt;
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>  &lt;h2&gt;Table of selected records&lt;/h2&gt;
+<a id='L118' name='L118'></a>  &lt;div id="n_rows"&gt;
+<a id='L119' name='L119'></a>    show up to &lt;input type="number" class="n_rows" size="4" value="10" /&gt; rows in the table
+<a id='L120' name='L120'></a>  &lt;/div&gt;
+<a id='L121' name='L121'></a>  
+<a id='L122' name='L122'></a>  &lt;div id="table"&gt; &lt;/div&gt;
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>  &lt;h2&gt;Time series graph&lt;/h2&gt;
+<a id='L125' name='L125'></a>  &lt;div&gt;
+<a id='L126' name='L126'></a>    &lt;p&gt;The graph below shows time series of executions checked in the above table.
+<a id='L127' name='L127'></a>      If you put your mouse cursor over a small colored square in the legend,
+<a id='L128' name='L128'></a>      you can see all the parameters of the execution.
+<a id='L129' name='L129'></a>    &lt;/p&gt;
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>    &lt;div id="x_axis"&gt;
+<a id='L132' name='L132'></a>      x-axis:
+<a id='L133' name='L133'></a>      &lt;input type="radio" class="x_axis" name="x_axis" value="t" checked /&gt;t
+<a id='L134' name='L134'></a>      &lt;input type="radio" class="x_axis" name="x_axis" value="sample_end" /&gt;sample end
+<a id='L135' name='L135'></a>    &lt;/div&gt;
+<a id='L136' name='L136'></a>    
+<a id='L137' name='L137'></a>    &lt;div id="y_axis"&gt;
+<a id='L138' name='L138'></a>      y-axis:
+<a id='L139' name='L139'></a>      &lt;input type="radio" class="y_axis" name="y_axis" value="accuracy" checked /&gt;accuracy
+<a id='L140' name='L140'></a>      &lt;input type="radio" class="y_axis" name="y_axis" value="sample_end" /&gt;sample end
+<a id='L141' name='L141'></a>    &lt;/div&gt;
+<a id='L142' name='L142'></a>  
+<a id='L143' name='L143'></a>    &lt;div id="graph"&gt; &lt;/div&gt;
+<a id='L144' name='L144'></a>  &lt;/div&gt;
+<a id='L145' name='L145'></a>
+<a id='L146' name='L146'></a>  &lt;script src="draw_content.js"&gt;&lt;/script&gt;
+<a id='L147' name='L147'></a>&lt;/body&gt;
+<a id='L148' name='L148'></a>&lt;/html&gt;
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>    
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+150 mnist.html'  /> */</em>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Linear</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/479.html#L13'>Linear</a>             13 include/linear.h   struct Linear;</span>
+<span class='curline'><a href='../S/479.html#L24'>Linear</a>             24 include/linear.h __global__ void forward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L38'>Linear</a>             38 include/linear.h   __global__ void backward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L52'>Linear</a>             52 include/linear.h   __global__ void update_global(Linear&lt;maxB,IC,nC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/479.html#L71'>Linear</a>             71 include/linear.h   Linear&lt;maxB,IC,nC&gt;* dev;      /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/479.html#L96'>Linear</a>             96 include/linear.h   Linear&lt;maxB,IC,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/479.html#L97'>Linear</a>             97 include/linear.h     Linear&lt;maxB,IC,nC&gt;* c = new Linear&lt;maxB,IC,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/479.html#L110'>Linear</a>            110 include/linear.h   void set_dev(Linear&lt;maxB,IC,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/479.html#L131'>Linear</a>            131 include/linear.h       dev = (Linear&lt;maxB,IC,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/479.html#L173'>Linear</a>            173 include/linear.h       Linear&lt;maxB,IC,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/479.html#L486'>Linear</a>            486 include/linear.h   void set_grad(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L495'>Linear</a>            495 include/linear.h   real gw_dot_gw(Linear&lt;maxB,IC,nC&gt;&amp; o) {</span>
+<span class='curline'><a href='../S/479.html#L522'>Linear</a>            522 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear = new Linear&lt;maxB,IC,nC&gt;();</span>
+<span class='curline'><a href='../S/479.html#L527'>Linear</a>            527 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear_minus = linear-&gt;copy();</span>
+<span class='curline'><a href='../S/479.html#L528'>Linear</a>            528 include/linear.h   Linear&lt;maxB,IC,nC&gt; * linear_plus  = linear-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L91'>Linear</a>             91 include/vgg.h    Linear            &lt;maxB,C4,C4&gt;    fc1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L95'>Linear</a>             95 include/vgg.h    Linear            &lt;maxB,C4,nC&gt;    fc2;        /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

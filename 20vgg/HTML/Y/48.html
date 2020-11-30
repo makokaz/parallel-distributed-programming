@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>a</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L480'>a</a>                 480 include/batchnormalization.h         real a = gamma(ic) * inv_std(ic);</span>
+<span class='curline'><a href='../S/478.html#L486'>a</a>                 486 include/batchnormalization.h               gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));</span>
+<span class='curline'><a href='../S/478.html#L605'>a</a>                 605 include/batchnormalization.h     BatchNormalization&lt;maxB,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/478.html#L607'>a</a>                 607 include/batchnormalization.h     s += a.ggamma.dot(b.ggamma);</span>
+<span class='curline'><a href='../S/478.html#L608'>a</a>                 608 include/batchnormalization.h     s += a.gbeta.dot(b.gbeta);</span>
+<span class='curline'><a href='../S/482.html#L210'>a</a>                 210 include/block.h     Block&lt;maxB,IC,H,W,K,OC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/482.html#L212'>a</a>                 212 include/block.h     s += a.conv.gw_dot_gw(b.conv);</span>
+<span class='curline'><a href='../S/482.html#L213'>a</a>                 213 include/block.h     s += a.bn.gw_dot_gw(b.bn);</span>
+<span class='curline'><a href='../S/476.html#L91'>a</a>                  91 include/cuda_util.h   void * a = 0;</span>
+<span class='curline'><a href='../S/476.html#L92'>a</a>                  92 include/cuda_util.h   cudaError_t e = cudaMalloc(&amp;a, sz);</span>
+<span class='curline'><a href='../S/476.html#L93'>a</a>                  93 include/cuda_util.h   if (!a) {</span>
+<span class='curline'><a href='../S/476.html#L97'>a</a>                  97 include/cuda_util.h   return a;</span>
+<span class='curline'><a href='../S/476.html#L103'>a</a>                 103 include/cuda_util.h static void dev_free(void * a) {</span>
+<span class='curline'><a href='../S/476.html#L104'>a</a>                 104 include/cuda_util.h   cudaFree(a);</span>
+<span class='curline'><a href='../S/477.html#L533'>a</a>                 533 include/vgg.h      VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/477.html#L535'>a</a>                 535 include/vgg.h      s += a.block1_1.gw_dot_gw(b.block1_1);</span>
+<span class='curline'><a href='../S/477.html#L536'>a</a>                 536 include/vgg.h      s += a.block1_2.gw_dot_gw(b.block1_2);</span>
+<span class='curline'><a href='../S/477.html#L537'>a</a>                 537 include/vgg.h      s += a.block2_1.gw_dot_gw(b.block2_1);</span>
+<span class='curline'><a href='../S/477.html#L538'>a</a>                 538 include/vgg.h      s += a.block2_2.gw_dot_gw(b.block2_2);</span>
+<span class='curline'><a href='../S/477.html#L539'>a</a>                 539 include/vgg.h      s += a.block3_1.gw_dot_gw(b.block3_1);</span>
+<span class='curline'><a href='../S/477.html#L540'>a</a>                 540 include/vgg.h      s += a.block3_2.gw_dot_gw(b.block3_2);</span>
+<span class='curline'><a href='../S/477.html#L541'>a</a>                 541 include/vgg.h      s += a.block3_3.gw_dot_gw(b.block3_3);</span>
+<span class='curline'><a href='../S/477.html#L542'>a</a>                 542 include/vgg.h      s += a.block4_1.gw_dot_gw(b.block4_1);</span>
+<span class='curline'><a href='../S/477.html#L543'>a</a>                 543 include/vgg.h      s += a.block4_2.gw_dot_gw(b.block4_2);</span>
+<span class='curline'><a href='../S/477.html#L544'>a</a>                 544 include/vgg.h      s += a.block4_3.gw_dot_gw(b.block4_3);</span>
+<span class='curline'><a href='../S/477.html#L545'>a</a>                 545 include/vgg.h      s += a.block5_1.gw_dot_gw(b.block5_1);</span>
+<span class='curline'><a href='../S/477.html#L546'>a</a>                 546 include/vgg.h      s += a.block5_2.gw_dot_gw(b.block5_2);</span>
+<span class='curline'><a href='../S/477.html#L547'>a</a>                 547 include/vgg.h      s += a.block5_3.gw_dot_gw(b.block5_3);</span>
+<span class='curline'><a href='../S/477.html#L548'>a</a>                 548 include/vgg.h      s += a.fc1.gw.dot(b.fc1.gw);</span>
+<span class='curline'><a href='../S/477.html#L549'>a</a>                 549 include/vgg.h      s += a.bn_fc1.gw_dot_gw(b.bn_fc1);</span>
+<span class='curline'><a href='../S/477.html#L550'>a</a>                 550 include/vgg.h      s += a.fc2.gw.dot(b.fc2.gw);</span>
+<span class='curline'><a href='../S/481.html#L29'>a</a>                  29 include/vgg_arrays.h static void range_chk_(idx_t a, idx_t x, idx_t b,</span>
+<span class='curline'><a href='../S/481.html#L34'>a</a>                  34 include/vgg_arrays.h   if (!(a &lt;= x)) {</span>
+<span class='curline'><a href='../S/481.html#L41'>a</a>                  41 include/vgg_arrays.h   assert(a &lt;= x);</span>
+<span class='curline'><a href='../S/481.html#L59'>a</a>                  59 include/vgg_arrays.h #define range_chk(a, x, b) range_chk_(a, x, b, #a, #x, #b, __FILE__, __LINE__)</span>
+<span class='curline'><a href='../S/481.html#L66'>a</a>                  66 include/vgg_arrays.h #define range_chk(a, x, b) </span>
+<span class='curline'><a href='../S/481.html#L409'>a</a>                 409 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L412'>a</a>                 412 include/vgg_arrays.h         a(i,j) = x;</span>
+<span class='curline'><a href='../S/481.html#L425'>a</a>                 425 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L428'>a</a>                 428 include/vgg_arrays.h         a(i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L441'>a</a>                 441 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L444'>a</a>                 444 include/vgg_arrays.h         a(i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L457'>a</a>                 457 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L458'>a</a>                 458 include/vgg_arrays.h     assert(a.m == da.m);</span>
+<span class='curline'><a href='../S/481.html#L461'>a</a>                 461 include/vgg_arrays.h         a(i,j) += eta * da(i,j);</span>
+<span class='curline'><a href='../S/481.html#L470'>a</a>                 470 include/vgg_arrays.h     array2&lt;M,N&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L471'>a</a>                 471 include/vgg_arrays.h     assert(a.m == b.m);</span>
+<span class='curline'><a href='../S/481.html#L476'>a</a>                 476 include/vgg_arrays.h         s1 += a(i,j) * b(i,j);</span>
+<span class='curline'><a href='../S/481.html#L594'>a</a>                 594 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L599'>a</a>                 599 include/vgg_arrays.h             a(b,c,i,j) = x;</span>
+<span class='curline'><a href='../S/481.html#L614'>a</a>                 614 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L619'>a</a>                 619 include/vgg_arrays.h             a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L633'>a</a>                 633 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L634'>a</a>                 634 include/vgg_arrays.h     a.init_const(B, 0);</span>
+<span class='curline'><a href='../S/481.html#L639'>a</a>                 639 include/vgg_arrays.h     a(b,c,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L650'>a</a>                 650 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L655'>a</a>                 655 include/vgg_arrays.h             a(b,c,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L669'>a</a>                 669 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L670'>a</a>                 670 include/vgg_arrays.h     assert(a.B == da.B);</span>
+<span class='curline'><a href='../S/481.html#L675'>a</a>                 675 include/vgg_arrays.h             a(b,c,i,j) += eta * da(b,c,i,j);</span>
+<span class='curline'><a href='../S/481.html#L686'>a</a>                 686 include/vgg_arrays.h     array4&lt;maxB,C,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L687'>a</a>                 687 include/vgg_arrays.h     assert(a.B == a_.B);</span>
+<span class='curline'><a href='../S/481.html#L696'>a</a>                 696 include/vgg_arrays.h             s3 += a(b,c,i,j) * a_(b,c,i,j);</span>
+<span class='curline'><a href='../S/481.html#L801'>a</a>                 801 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L806'>a</a>                 806 include/vgg_arrays.h             a(oc,ic,i,j) = x;</span>
+<span class='curline'><a href='../S/481.html#L819'>a</a>                 819 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L824'>a</a>                 824 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand(p, q);</span>
+<span class='curline'><a href='../S/481.html#L837'>a</a>                 837 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L842'>a</a>                 842 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L857'>a</a>                 857 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L862'>a</a>                 862 include/vgg_arrays.h             a(oc,ic,i,j) += eta * da(oc,ic,i,j);</span>
+<span class='curline'><a href='../S/481.html#L873'>a</a>                 873 include/vgg_arrays.h     warray4&lt;OC,IC,H,W&gt;&amp; a = *this;</span>
+<span class='curline'><a href='../S/481.html#L882'>a</a>                 882 include/vgg_arrays.h             s3 += a(oc,ic,i,j) * a_(oc,ic,i,j);</span>
+<span class='curline'><a href='../S/475.html#L121'>a</a>                 121 include/vgg_util.h int algo_is_gpu(const char * s, algo_t a) {</span>
+<span class='curline'><a href='../S/475.html#L122'>a</a>                 122 include/vgg_util.h   (void)a;</span>
+<span class='curline'><a href='../S/475.html#L371'>a</a>                 371 include/vgg_util.h static real max_r(real a, real b) {</span>
+<span class='curline'><a href='../S/475.html#L372'>a</a>                 372 include/vgg_util.h   return (a &lt; b ? b : a);</span>
+<span class='curline'><a href='../S/475.html#L379'>a</a>                 379 include/vgg_util.h static real min_r(real a, real b) {</span>
+<span class='curline'><a href='../S/475.html#L380'>a</a>                 380 include/vgg_util.h   return (a &lt; b ? a : b);</span>
+<span class='curline'><a href='../S/475.html#L387'>a</a>                 387 include/vgg_util.h static idx_t max_i(idx_t a, idx_t b) {</span>
+<span class='curline'><a href='../S/475.html#L388'>a</a>                 388 include/vgg_util.h   return (a &lt; b ? b : a);</span>
+<span class='curline'><a href='../S/475.html#L395'>a</a>                 395 include/vgg_util.h static idx_t min_i(idx_t a, idx_t b) {</span>
+<span class='curline'><a href='../S/475.html#L396'>a</a>                 396 include/vgg_util.h   return (a &lt; b ? a : b);</span>
+<span class='curline'><a href='../S/475.html#L466'>a</a>                 466 include/vgg_util.h   double rand(double a, double b) {</span>
+<span class='curline'><a href='../S/475.html#L467'>a</a>                 467 include/vgg_util.h     return a + (b - a) * rand01();</span>
+<span class='curline'><a href='../S/475.html#L473'>a</a>                 473 include/vgg_util.h   long randi(long a, long b) {</span>
+<span class='curline'><a href='../S/475.html#L474'>a</a>                 474 include/vgg_util.h     return a + randi32() % (b - a);</span>
+</pre>
+</body>
+</html>

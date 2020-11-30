@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>C4</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/477.html#L68'>C4</a>                 68 include/vgg.h      C4 = S*C3;                  /**&lt; intermediate channels */</span>
+<span class='curline'><a href='../S/477.html#L70'>C4</a>                 70 include/vgg.h    Block       &lt;maxB,C3,H4,W4,K,C4&gt; block4_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L71'>C4</a>                 71 include/vgg.h    Dropout     &lt;maxB,C4,H4,W4&gt;      dropout4_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L72'>C4</a>                 72 include/vgg.h    Block       &lt;maxB,C4,H4,W4,K,C4&gt; block4_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L73'>C4</a>                 73 include/vgg.h    Dropout     &lt;maxB,C4,H4,W4&gt;      dropout4_2;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L74'>C4</a>                 74 include/vgg.h    Block       &lt;maxB,C4,H4,W4,K,C4&gt; block4_3;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L75'>C4</a>                 75 include/vgg.h    MaxPooling2D&lt;maxB,C4,H4,W4,S&gt;    max_pooling_2d4; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L80'>C4</a>                 80 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L81'>C4</a>                 81 include/vgg.h    Dropout     &lt;maxB,C4,H5,W5&gt;      dropout5_1;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L82'>C4</a>                 82 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L83'>C4</a>                 83 include/vgg.h    Dropout     &lt;maxB,C4,H5,W5&gt;      dropout5_2;      /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L84'>C4</a>                 84 include/vgg.h    Block       &lt;maxB,C4,H5,W5,K,C4&gt; block5_3;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L85'>C4</a>                 85 include/vgg.h    MaxPooling2D&lt;maxB,C4,H5,W5,S&gt;    max_pooling_2d5; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L90'>C4</a>                 90 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_1; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L91'>C4</a>                 91 include/vgg.h    Linear            &lt;maxB,C4,C4&gt;    fc1;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L92'>C4</a>                 92 include/vgg.h    BatchNormalization&lt;maxB,C4,H6,W6&gt; bn_fc1;     /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L93'>C4</a>                 93 include/vgg.h    Relu              &lt;maxB,C4,H6,W6&gt; relu;       /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L94'>C4</a>                 94 include/vgg.h    Dropout           &lt;maxB,C4,H6,W6&gt; dropout6_2; /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L95'>C4</a>                 95 include/vgg.h    Linear            &lt;maxB,C4,nC&gt;    fc2;        /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L339'>C4</a>                339 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x15 = block4_1.forward(x14);</span>
+<span class='curline'><a href='../S/477.html#L340'>C4</a>                340 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x16 = dropout4_1.forward(x15);</span>
+<span class='curline'><a href='../S/477.html#L341'>C4</a>                341 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x17 = block4_2.forward(x16);</span>
+<span class='curline'><a href='../S/477.html#L342'>C4</a>                342 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x18 = dropout4_2.forward(x17);</span>
+<span class='curline'><a href='../S/477.html#L343'>C4</a>                343 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; x19 = block4_3.forward(x18);</span>
+<span class='curline'><a href='../S/477.html#L344'>C4</a>                344 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x20 = max_pooling_2d4.forward(x19);</span>
+<span class='curline'><a href='../S/477.html#L346'>C4</a>                346 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x21 = block5_1.forward(x20);</span>
+<span class='curline'><a href='../S/477.html#L347'>C4</a>                347 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x22 = dropout5_1.forward(x21);</span>
+<span class='curline'><a href='../S/477.html#L348'>C4</a>                348 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x23 = block5_2.forward(x22);</span>
+<span class='curline'><a href='../S/477.html#L349'>C4</a>                349 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x24 = dropout5_2.forward(x23);</span>
+<span class='curline'><a href='../S/477.html#L350'>C4</a>                350 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; x25 = block5_3.forward(x24);</span>
+<span class='curline'><a href='../S/477.html#L351'>C4</a>                351 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x26 = max_pooling_2d5.forward(x25);</span>
+<span class='curline'><a href='../S/477.html#L353'>C4</a>                353 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x27 = dropout6_1.forward(x26);</span>
+<span class='curline'><a href='../S/477.html#L354'>C4</a>                354 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x28 = fc1.forward(x27);</span>
+<span class='curline'><a href='../S/477.html#L355'>C4</a>                355 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x29 = bn_fc1.forward(x28);</span>
+<span class='curline'><a href='../S/477.html#L356'>C4</a>                356 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x30 = relu.forward(x29);</span>
+<span class='curline'><a href='../S/477.html#L357'>C4</a>                357 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x31 = dropout6_2.forward(x30);</span>
+<span class='curline'><a href='../S/477.html#L376'>C4</a>                376 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g31 = fc2.backward(g32);</span>
+<span class='curline'><a href='../S/477.html#L377'>C4</a>                377 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g30 = dropout6_2.backward(g31);</span>
+<span class='curline'><a href='../S/477.html#L378'>C4</a>                378 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g29 = relu.backward(g30);</span>
+<span class='curline'><a href='../S/477.html#L379'>C4</a>                379 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g28 = bn_fc1.backward(g29);</span>
+<span class='curline'><a href='../S/477.html#L380'>C4</a>                380 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g27 = fc1.backward(g28);</span>
+<span class='curline'><a href='../S/477.html#L381'>C4</a>                381 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g26 = dropout6_1.backward(g27);</span>
+<span class='curline'><a href='../S/477.html#L383'>C4</a>                383 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g25 = max_pooling_2d5.backward(g26);</span>
+<span class='curline'><a href='../S/477.html#L384'>C4</a>                384 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g24 = block5_3.backward(g25);</span>
+<span class='curline'><a href='../S/477.html#L385'>C4</a>                385 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g23 = dropout5_2.backward(g24);</span>
+<span class='curline'><a href='../S/477.html#L386'>C4</a>                386 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g22 = block5_2.backward(g23);</span>
+<span class='curline'><a href='../S/477.html#L387'>C4</a>                387 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g21 = dropout5_1.backward(g22);</span>
+<span class='curline'><a href='../S/477.html#L389'>C4</a>                389 include/vgg.h      array4&lt;maxB,C4,H5,W5&gt;&amp; g20 = block5_1.backward(g21);</span>
+<span class='curline'><a href='../S/477.html#L390'>C4</a>                390 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; g19 = max_pooling_2d4.backward(g20);</span>
+<span class='curline'><a href='../S/477.html#L391'>C4</a>                391 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; g18 = block4_3.backward(g19);</span>
+<span class='curline'><a href='../S/477.html#L392'>C4</a>                392 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; g17 = dropout4_2.backward(g18);</span>
+<span class='curline'><a href='../S/477.html#L393'>C4</a>                393 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; g16 = block4_2.backward(g17);</span>
+<span class='curline'><a href='../S/477.html#L394'>C4</a>                394 include/vgg.h      array4&lt;maxB,C4,H4,W4&gt;&amp; g15 = dropout4_1.backward(g16);</span>
+</pre>
+</body>
+</html>

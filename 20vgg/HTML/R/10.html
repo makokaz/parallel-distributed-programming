@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SoftmaxCrossEntropy</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/480.html#L13'>SoftmaxCrossEntropy</a>   13 include/softmaxcrossentropy.h   struct SoftmaxCrossEntropy;</span>
+<span class='curline'><a href='../S/480.html#L25'>SoftmaxCrossEntropy</a>   25 include/softmaxcrossentropy.h   __global__ void forward_global(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/480.html#L39'>SoftmaxCrossEntropy</a>   39 include/softmaxcrossentropy.h   __global__ void backward_global(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/480.html#L64'>SoftmaxCrossEntropy</a>   64 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/480.html#L87'>SoftmaxCrossEntropy</a>   87 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt;* copy() {</span>
+<span class='curline'><a href='../S/480.html#L88'>SoftmaxCrossEntropy</a>   88 include/softmaxcrossentropy.h     SoftmaxCrossEntropy&lt;maxB,nC&gt;* c = new SoftmaxCrossEntropy&lt;maxB,nC&gt;(*this);</span>
+<span class='curline'><a href='../S/480.html#L101'>SoftmaxCrossEntropy</a>  101 include/softmaxcrossentropy.h   void set_dev(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/480.html#L120'>SoftmaxCrossEntropy</a>  120 include/softmaxcrossentropy.h       dev = (SoftmaxCrossEntropy&lt;maxB,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/480.html#L162'>SoftmaxCrossEntropy</a>  162 include/softmaxcrossentropy.h       SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/480.html#L427'>SoftmaxCrossEntropy</a>  427 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt; * smxe = new SoftmaxCrossEntropy&lt;maxB,nC&gt;();</span>
+<span class='curline'><a href='../S/480.html#L432'>SoftmaxCrossEntropy</a>  432 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt;* smxe_minus = smxe-&gt;copy();</span>
+<span class='curline'><a href='../S/480.html#L433'>SoftmaxCrossEntropy</a>  433 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt;* smxe_plus  = smxe-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L96'>SoftmaxCrossEntropy</a>   96 include/vgg.h    SoftmaxCrossEntropy&lt;maxB,nC&gt;      softmax_cross_entropy; /**&lt; sublayer */</span>
+</pre>
+</body>
+</html>

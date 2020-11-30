@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>block_minus</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L245'>block_minus</a>       245 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt; * block_minus = block-&gt;copy();</span>
+<span class='curline'><a href='../S/482.html#L279'>block_minus</a>       279 include/block.h   block_minus-&gt;rand_grad(rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L280'>block_minus</a>       280 include/block.h   block_plus-&gt;set_grad(*block_minus);</span>
+<span class='curline'><a href='../S/482.html#L282'>block_minus</a>       282 include/block.h   block_minus-&gt;to_dev();</span>
+<span class='curline'><a href='../S/482.html#L285'>block_minus</a>       285 include/block.h   block_minus-&gt;update(-0.5);      /* w -= dw/2 */</span>
+<span class='curline'><a href='../S/482.html#L288'>block_minus</a>       288 include/block.h   array4&lt;maxB,OC,H,W&gt;&amp; y_minus = block_minus-&gt;forward(*x_minus);</span>
+<span class='curline'><a href='../S/482.html#L303'>block_minus</a>       303 include/block.h   real dw_dw = block_minus-&gt;gw_dot_gw(*block_minus); /* ∂L/∂w・dw */</span>
+<span class='curline'><a href='../S/482.html#L304'>block_minus</a>       304 include/block.h   real gw_dw = block-&gt;gw_dot_gw(*block_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/482.html#L309'>block_minus</a>       309 include/block.h   block_minus-&gt;del_dev();</span>
+<span class='curline'><a href='../S/482.html#L318'>block_minus</a>       318 include/block.h   delete block_minus;</span>
+</pre>
+</body>
+</html>

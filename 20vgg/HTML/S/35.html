@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/cifar_8h.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/cifar_8h.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/cifar_8h.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/cifar_8h.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{cifar_8h}{}\section{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/cifar.h File Reference}
+<a id='L2' name='L2'></a>\label{cifar_8h}\index{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/cifar.\+h@{/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/cifar.\+h}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>cifar dataset handling  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>{\ttfamily \#include $&lt;$sys/types.\+h$&gt;$}\newline
+<a id='L9' name='L9'></a>{\ttfamily \#include $&lt;$sys/stat.\+h$&gt;$}\newline
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$unistd.\+h$&gt;$}\newline
+<a id='L11' name='L11'></a>{\ttfamily \#include \char`\"{}vgg\+\_\+util.\+h\char`\"{}}\newline
+<a id='L12' name='L12'></a>{\ttfamily \#include \char`\"{}vgg\+\_\+arrays.\+h\char`\"{}}\newline
+<a id='L13' name='L13'></a>Include dependency graph for cifar.\+h\+:\nopagebreak
+<a id='L14' name='L14'></a>\begin{figure}[H]
+<a id='L15' name='L15'></a>\begin{center}
+<a id='L16' name='L16'></a>\leavevmode
+<a id='L17' name='L17'></a>\includegraphics[width=350pt]{cifar_8h__incl}
+<a id='L18' name='L18'></a>\end{center}
+<a id='L19' name='L19'></a>\end{figure}
+<a id='L20' name='L20'></a>This graph shows which files directly or indirectly include this file\+:\nopagebreak
+<a id='L21' name='L21'></a>\begin{figure}[H]
+<a id='L22' name='L22'></a>\begin{center}
+<a id='L23' name='L23'></a>\leavevmode
+<a id='L24' name='L24'></a>\includegraphics[width=246pt]{cifar_8h__dep__incl}
+<a id='L25' name='L25'></a>\end{center}
+<a id='L26' name='L26'></a>\end{figure}
+<a id='L27' name='L27'></a>\subsection*{Classes}
+<a id='L28' name='L28'></a>\begin{DoxyCompactItemize}
+<a id='L29' name='L29'></a>\item 
+<a id='L30' name='L30'></a>struct \hyperlink{structcifar10__data__item}{cifar10\+\_\+data\+\_\+item$&lt;$ I\+C, H, W $&gt;$}
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em an input + true label \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>struct \hyperlink{structcifar10__dataset}{cifar10\+\_\+dataset$&lt;$ max\+B, I\+C, H, W $&gt;$}
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em an entire cifar10 data \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L34' name='L34'></a>\subsection*{Functions}
+<a id='L35' name='L35'></a>\begin{DoxyCompactItemize}
+<a id='L36' name='L36'></a>\item 
+<a id='L37' name='L37'></a>int \hyperlink{cifar_8h_a65bc263a51effffc5e5c83e475bee9a2}{cifar\+\_\+main} (int argc, char $\ast$$\ast$argv)
+<a id='L38' name='L38'></a>\begin{DoxyCompactList}\small\item\em entry point of this header file \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>\subsection{Detailed Description}
+<a id='L42' name='L42'></a>cifar dataset handling 
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>\subsection{Function Documentation}
+<a id='L47' name='L47'></a>\mbox{\Hypertarget{cifar_8h_a65bc263a51effffc5e5c83e475bee9a2}\label{cifar_8h_a65bc263a51effffc5e5c83e475bee9a2}} 
+<a id='L48' name='L48'></a>\index{cifar.\+h@{cifar.\+h}!cifar\+\_\+main@{cifar\+\_\+main}}
+<a id='L49' name='L49'></a>\index{cifar\+\_\+main@{cifar\+\_\+main}!cifar.\+h@{cifar.\+h}}
+<a id='L50' name='L50'></a>\subsubsection{\texorpdfstring{cifar\+\_\+main()}{cifar\_main()}}
+<a id='L51' name='L51'></a>{\footnotesize\ttfamily int cifar\+\_\+main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>entry point of this header file 
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>\begin{DoxyParams}{Parameters}
+<a id='L59' name='L59'></a>{\em (argc)} &amp; the number of command line args \\
+<a id='L60' name='L60'></a>\hline
+<a id='L61' name='L61'></a>{\em (argv)} &amp; command line args \\
+<a id='L62' name='L62'></a>\hline
+<a id='L63' name='L63'></a>\end{DoxyParams}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+63 doc/latex/cifar_8h.tex'  /> */</em>
+</body>
+</html>

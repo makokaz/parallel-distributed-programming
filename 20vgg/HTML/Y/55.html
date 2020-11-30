@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>alpha</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L643'>alpha</a>             643 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * alpha = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L644'>alpha</a>             644 include/batchnormalization.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/478.html#L645'>alpha</a>             645 include/batchnormalization.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/478.html#L646'>alpha</a>             646 include/batchnormalization.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/478.html#L654'>alpha</a>             654 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = bn-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/478.html#L690'>alpha</a>             690 include/batchnormalization.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/478.html#L691'>alpha</a>             691 include/batchnormalization.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/478.html#L692'>alpha</a>             692 include/batchnormalization.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/478.html#L705'>alpha</a>             705 include/batchnormalization.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/478.html#L713'>alpha</a>             713 include/batchnormalization.h   delete alpha;</span>
+<span class='curline'><a href='../S/482.html#L248'>alpha</a>             248 include/block.h   array4&lt;maxB,OC,H,W&gt; * alpha = new array4&lt;maxB,OC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L249'>alpha</a>             249 include/block.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/482.html#L250'>alpha</a>             250 include/block.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/482.html#L251'>alpha</a>             251 include/block.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/482.html#L259'>alpha</a>             259 include/block.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = block-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/482.html#L295'>alpha</a>             295 include/block.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/482.html#L296'>alpha</a>             296 include/block.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/482.html#L297'>alpha</a>             297 include/block.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/482.html#L311'>alpha</a>             311 include/block.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/482.html#L320'>alpha</a>             320 include/block.h   delete alpha;</span>
+<span class='curline'><a href='../S/473.html#L568'>alpha</a>             568 include/convolution.h   array4&lt;maxB,OC,H,W&gt; * alpha = new array4&lt;maxB,OC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L569'>alpha</a>             569 include/convolution.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/473.html#L570'>alpha</a>             570 include/convolution.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/473.html#L571'>alpha</a>             571 include/convolution.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/473.html#L579'>alpha</a>             579 include/convolution.h   array4&lt;maxB,IC,H,W&gt;&amp; gx = conv-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/473.html#L615'>alpha</a>             615 include/convolution.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/473.html#L616'>alpha</a>             616 include/convolution.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/473.html#L617'>alpha</a>             617 include/convolution.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/473.html#L631'>alpha</a>             631 include/convolution.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/473.html#L640'>alpha</a>             640 include/convolution.h   delete alpha;</span>
+<span class='curline'><a href='../S/468.html#L414'>alpha</a>             414 include/dropout.h   array4&lt;maxB,C,H,W&gt; * alpha = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L415'>alpha</a>             415 include/dropout.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/468.html#L416'>alpha</a>             416 include/dropout.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/468.html#L417'>alpha</a>             417 include/dropout.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/468.html#L425'>alpha</a>             425 include/dropout.h   array4&lt;maxB,C,H,W&gt;&amp; gx = dropout-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/468.html#L453'>alpha</a>             453 include/dropout.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/468.html#L454'>alpha</a>             454 include/dropout.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/468.html#L455'>alpha</a>             455 include/dropout.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/468.html#L469'>alpha</a>             469 include/dropout.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/468.html#L478'>alpha</a>             478 include/dropout.h   delete alpha;</span>
+<span class='curline'><a href='../S/479.html#L530'>alpha</a>             530 include/linear.h   array4&lt;maxB,nC,1,1&gt; * alpha = new array4&lt;maxB,nC,1,1&gt;();</span>
+<span class='curline'><a href='../S/479.html#L531'>alpha</a>             531 include/linear.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/479.html#L532'>alpha</a>             532 include/linear.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/479.html#L533'>alpha</a>             533 include/linear.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/479.html#L541'>alpha</a>             541 include/linear.h   array4&lt;maxB,IC,1,1&gt;&amp; gx = linear-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/479.html#L577'>alpha</a>             577 include/linear.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/479.html#L578'>alpha</a>             578 include/linear.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/479.html#L579'>alpha</a>             579 include/linear.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/479.html#L593'>alpha</a>             593 include/linear.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/479.html#L602'>alpha</a>             602 include/linear.h   delete alpha;</span>
+<span class='curline'><a href='../S/474.html#L416'>alpha</a>             416 include/maxpooling.h   array4&lt;maxB,C,H/S,W/S&gt; * alpha = new array4&lt;maxB,C,H/S,W/S&gt;();</span>
+<span class='curline'><a href='../S/474.html#L417'>alpha</a>             417 include/maxpooling.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/474.html#L418'>alpha</a>             418 include/maxpooling.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/474.html#L419'>alpha</a>             419 include/maxpooling.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/474.html#L427'>alpha</a>             427 include/maxpooling.h   array4&lt;maxB,C,H,W&gt;&amp; gx = mp-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/474.html#L455'>alpha</a>             455 include/maxpooling.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/474.html#L456'>alpha</a>             456 include/maxpooling.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/474.html#L457'>alpha</a>             457 include/maxpooling.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/474.html#L471'>alpha</a>             471 include/maxpooling.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/474.html#L480'>alpha</a>             480 include/maxpooling.h   delete alpha;</span>
+<span class='curline'><a href='../S/471.html#L393'>alpha</a>             393 include/relu.h   array4&lt;maxB,C,H,W&gt; * alpha = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L394'>alpha</a>             394 include/relu.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/471.html#L395'>alpha</a>             395 include/relu.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/471.html#L396'>alpha</a>             396 include/relu.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/471.html#L404'>alpha</a>             404 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; gx = relu-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/471.html#L431'>alpha</a>             431 include/relu.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/471.html#L432'>alpha</a>             432 include/relu.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/471.html#L433'>alpha</a>             433 include/relu.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/471.html#L447'>alpha</a>             447 include/relu.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/471.html#L456'>alpha</a>             456 include/relu.h   delete alpha;</span>
+<span class='curline'><a href='../S/480.html#L435'>alpha</a>             435 include/softmaxcrossentropy.h   vec&lt;maxB&gt; * alpha = new vec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/480.html#L436'>alpha</a>             436 include/softmaxcrossentropy.h   alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/480.html#L437'>alpha</a>             437 include/softmaxcrossentropy.h   alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/480.html#L438'>alpha</a>             438 include/softmaxcrossentropy.h   alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/480.html#L451'>alpha</a>             451 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt;&amp; gx = smxe-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/480.html#L479'>alpha</a>             479 include/softmaxcrossentropy.h   real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/480.html#L480'>alpha</a>             480 include/softmaxcrossentropy.h   real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/480.html#L481'>alpha</a>             481 include/softmaxcrossentropy.h   real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/480.html#L495'>alpha</a>             495 include/softmaxcrossentropy.h   alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/480.html#L505'>alpha</a>             505 include/softmaxcrossentropy.h   delete alpha;</span>
+<span class='curline'><a href='../S/477.html#L585'>alpha</a>             585 include/vgg.h    vec&lt;maxB&gt; * alpha = new vec&lt;maxB&gt;();</span>
+<span class='curline'><a href='../S/477.html#L586'>alpha</a>             586 include/vgg.h    alpha-&gt;make_dev(opt.gpu_algo);</span>
+<span class='curline'><a href='../S/477.html#L587'>alpha</a>             587 include/vgg.h    alpha-&gt;init_uniform(B, rg, 0.0, 1.0);</span>
+<span class='curline'><a href='../S/477.html#L588'>alpha</a>             588 include/vgg.h    alpha-&gt;to_dev();</span>
+<span class='curline'><a href='../S/477.html#L601'>alpha</a>             601 include/vgg.h    array4&lt;maxB,C0,H,W&gt;&amp; gx = vgg-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/477.html#L637'>alpha</a>             637 include/vgg.h    real L_minus = alpha-&gt;dot(y_minus);</span>
+<span class='curline'><a href='../S/477.html#L638'>alpha</a>             638 include/vgg.h    real L       = alpha-&gt;dot(y);</span>
+<span class='curline'><a href='../S/477.html#L639'>alpha</a>             639 include/vgg.h    real L_plus  = alpha-&gt;dot(y_plus);</span>
+<span class='curline'><a href='../S/477.html#L653'>alpha</a>             653 include/vgg.h    alpha-&gt;del_dev();</span>
+<span class='curline'><a href='../S/477.html#L662'>alpha</a>             662 include/vgg.h    delete alpha;</span>
+</pre>
+</body>
+</html>

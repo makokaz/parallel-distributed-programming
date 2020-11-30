@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>log_fp</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/475.html#L545'>log_fp</a>            545 include/vgg_util.h   FILE * log_fp;                /**&lt; log file object */</span>
+<span class='curline'><a href='../S/475.html#L570'>log_fp</a>            570 include/vgg_util.h     if (log_fp) {</span>
+<span class='curline'><a href='../S/475.html#L572'>log_fp</a>            572 include/vgg_util.h       fprintf(log_fp, "%ld: ", dt);</span>
+<span class='curline'><a href='../S/475.html#L574'>log_fp</a>            574 include/vgg_util.h       vfprintf(log_fp, format, ap);</span>
+<span class='curline'><a href='../S/475.html#L576'>log_fp</a>            576 include/vgg_util.h       fprintf(log_fp, "\n");</span>
+<span class='curline'><a href='../S/475.html#L595'>log_fp</a>            595 include/vgg_util.h     log_fp = fopen(opt.log, "wb");</span>
+<span class='curline'><a href='../S/475.html#L596'>log_fp</a>            596 include/vgg_util.h     if (!log_fp) { perror("fopen"); exit(1); }</span>
+<span class='curline'><a href='../S/475.html#L608'>log_fp</a>            608 include/vgg_util.h     if (log_fp) {</span>
+<span class='curline'><a href='../S/475.html#L610'>log_fp</a>            610 include/vgg_util.h       fclose(log_fp);</span>
+<span class='curline'><a href='../S/475.html#L611'>log_fp</a>            611 include/vgg_util.h       log_fp = 0;</span>
+</pre>
+</body>
+</html>

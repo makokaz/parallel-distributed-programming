@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/latex/structConvolution2D.tex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structConvolution2D.tex</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/487.html'>latex</a>/structConvolution2D.tex</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/latex/structConvolution2D.tex'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>\hypertarget{structConvolution2D}{}\section{Convolution2D$&lt;$ maxB, IC, H, W, K, OC $&gt;$ Struct Template Reference}
+<a id='L2' name='L2'></a>\label{structConvolution2D}\index{Convolution2\+D$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$@{Convolution2\+D$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$}}
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>convolution of images  
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>{\ttfamily \#include $&lt;$convolution.\+h$&gt;$}
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>Collaboration diagram for Convolution2D$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+:\nopagebreak
+<a id='L15' name='L15'></a>\begin{figure}[H]
+<a id='L16' name='L16'></a>\begin{center}
+<a id='L17' name='L17'></a>\leavevmode
+<a id='L18' name='L18'></a>\includegraphics[width=350pt]{structConvolution2D__coll__graph}
+<a id='L19' name='L19'></a>\end{center}
+<a id='L20' name='L20'></a>\end{figure}
+<a id='L21' name='L21'></a>\subsection*{Public Member Functions}
+<a id='L22' name='L22'></a>\begin{DoxyCompactItemize}
+<a id='L23' name='L23'></a>\item 
+<a id='L24' name='L24'></a>void \hyperlink{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}{init} (\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}{opt}, \hyperlink{structlogger}{logger} $\ast$\hyperlink{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}{lgr}, \hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg)
+<a id='L25' name='L25'></a>\begin{DoxyCompactList}\small\item\em initialize \end{DoxyCompactList}\item 
+<a id='L26' name='L26'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$ \hyperlink{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}{copy} ()
+<a id='L27' name='L27'></a>\begin{DoxyCompactList}\small\item\em make a copy of this \end{DoxyCompactList}\item 
+<a id='L28' name='L28'></a>void \hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} (\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$\hyperlink{structConvolution2D_a3b9891c27e266092619413a16518a9e9}{dev})
+<a id='L29' name='L29'></a>\begin{DoxyCompactList}\small\item\em set the device pointer for this and all subobjects \end{DoxyCompactList}\item 
+<a id='L30' name='L30'></a>void \hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} ()
+<a id='L31' name='L31'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. \end{DoxyCompactList}\item 
+<a id='L32' name='L32'></a>void \hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev} ()
+<a id='L33' name='L33'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. \end{DoxyCompactList}\item 
+<a id='L34' name='L34'></a>\mbox{\Hypertarget{structConvolution2D_a325b68731e0c4f171785238ad406b549}\label{structConvolution2D_a325b68731e0c4f171785238ad406b549}} 
+<a id='L35' name='L35'></a>void \hyperlink{structConvolution2D_a325b68731e0c4f171785238ad406b549}{to\+\_\+dev} ()
+<a id='L36' name='L36'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the host data to the device memory \end{DoxyCompactList}\item 
+<a id='L37' name='L37'></a>\mbox{\Hypertarget{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}\label{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}} 
+<a id='L38' name='L38'></a>void \hyperlink{structConvolution2D_a65bda262ba5fed9c7bb87cbf6caf86ac}{to\+\_\+host} ()
+<a id='L39' name='L39'></a>\begin{DoxyCompactList}\small\item\em if the algorithm is a gpu algorithm, dev field must not be null and send the device data to the host memory \end{DoxyCompactList}\item 
+<a id='L40' name='L40'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L41' name='L41'></a>\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$&gt;$ update\+\_\+cpu -\/$&gt;$ update\+\_\+base on cpu and and is update -\/$&gt;$ update\+\_\+gpu -\/$&gt;$ update\+\_\+global -\/$&gt;$ update\+\_\+dev -\/$&gt;$ update\+\_\+base \end{DoxyCompactList}\item 
+<a id='L42' name='L42'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L43' name='L43'></a>\begin{DoxyCompactList}\small\item\em the device function of update called from the global (non-\/member) function \end{DoxyCompactList}\item 
+<a id='L44' name='L44'></a>void \hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L45' name='L45'></a>\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+<a id='L46' name='L46'></a>void \hyperlink{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}{update\+\_\+cpu} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L47' name='L47'></a>\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (update) \end{DoxyCompactList}\item 
+<a id='L48' name='L48'></a>void \hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} (\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} eta)
+<a id='L49' name='L49'></a>\begin{DoxyCompactList}\small\item\em update weights of all sublayers with gradients that must have been computed \end{DoxyCompactList}\item 
+<a id='L50' name='L50'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L51' name='L51'></a>\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$&gt;$ forward\+\_\+cpu -\/$&gt;$ forward\+\_\+base on cpu and and is forward -\/$&gt;$ forward\+\_\+gpu -\/$&gt;$ forward\+\_\+global -\/$&gt;$ forward\+\_\+dev -\/$&gt;$ forward\+\_\+base \end{DoxyCompactList}\item 
+<a id='L52' name='L52'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L53' name='L53'></a>\begin{DoxyCompactList}\small\item\em the device function of forward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+<a id='L54' name='L54'></a>void \hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L55' name='L55'></a>\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+<a id='L56' name='L56'></a>void \hyperlink{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}{forward\+\_\+cpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L57' name='L57'></a>\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (forward) \end{DoxyCompactList}\item 
+<a id='L58' name='L58'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp; \hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;x)
+<a id='L59' name='L59'></a>\begin{DoxyCompactList}\small\item\em calc the loss function of a mini-\/batch (x) \end{DoxyCompactList}\item 
+<a id='L60' name='L60'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L61' name='L61'></a>\begin{DoxyCompactList}\small\item\em the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$&gt;$ backward\+\_\+cpu -\/$&gt;$ backward\+\_\+base on cpu and and is backward -\/$&gt;$ backward\+\_\+gpu -\/$&gt;$ backward\+\_\+global -\/$&gt;$ backward\+\_\+dev -\/$&gt;$ backward\+\_\+base \end{DoxyCompactList}\item 
+<a id='L62' name='L62'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L63' name='L63'></a>\begin{DoxyCompactList}\small\item\em the device function of backward called from the global (non-\/member) function \end{DoxyCompactList}\item 
+<a id='L64' name='L64'></a>void \hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L65' name='L65'></a>\begin{DoxyCompactList}\small\item\em a gpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+<a id='L66' name='L66'></a>void \hyperlink{structConvolution2D_a8b9838267f044544073f95a278304f06}{backward\+\_\+cpu} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L67' name='L67'></a>\begin{DoxyCompactList}\small\item\em a cpu version of baseline code called from the entry function (backward) \end{DoxyCompactList}\item 
+<a id='L68' name='L68'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp; \hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} (\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;gy)
+<a id='L69' name='L69'></a>\begin{DoxyCompactList}\small\item\em calc the gradient of loss wrt the input (x) \end{DoxyCompactList}\item 
+<a id='L70' name='L70'></a>void \hyperlink{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}{rand\+\_\+grad} (\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;rg, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} p, \hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} q)
+<a id='L71' name='L71'></a>\begin{DoxyCompactList}\small\item\em randomly set all gradients to values between p and q \end{DoxyCompactList}\item 
+<a id='L72' name='L72'></a>void \hyperlink{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}{set\+\_\+grad} (\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;o)
+<a id='L73' name='L73'></a>\begin{DoxyCompactList}\small\item\em set all gradients to gradients of another object \end{DoxyCompactList}\item 
+<a id='L74' name='L74'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}{gw\+\_\+dot\+\_\+gw} (\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;o)
+<a id='L75' name='L75'></a>\begin{DoxyCompactList}\small\item\em take the inner product of gradients \end{DoxyCompactList}\end{DoxyCompactItemize}
+<a id='L76' name='L76'></a>\subsection*{Public Attributes}
+<a id='L77' name='L77'></a>\begin{DoxyCompactItemize}
+<a id='L78' name='L78'></a>\item 
+<a id='L79' name='L79'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$ \hyperlink{structConvolution2D_a3b9891c27e266092619413a16518a9e9}{dev}
+<a id='L80' name='L80'></a>\item 
+<a id='L81' name='L81'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}{opt}
+<a id='L82' name='L82'></a>\item 
+<a id='L83' name='L83'></a>\hyperlink{structlogger}{logger} $\ast$ \hyperlink{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}{lgr}
+<a id='L84' name='L84'></a>\item 
+<a id='L85' name='L85'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ $\ast$ \hyperlink{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}{x\+\_\+ptr}
+<a id='L86' name='L86'></a>\item 
+<a id='L87' name='L87'></a>\hyperlink{structwarray4}{warray4}$&lt;$ OC, IC, K, K $&gt;$ \hyperlink{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}{w}
+<a id='L88' name='L88'></a>\item 
+<a id='L89' name='L89'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \hyperlink{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}{y}
+<a id='L90' name='L90'></a>\item 
+<a id='L91' name='L91'></a>\hyperlink{structwarray4}{warray4}$&lt;$ OC, IC, K, K $&gt;$ \hyperlink{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}{gw}
+<a id='L92' name='L92'></a>\item 
+<a id='L93' name='L93'></a>\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \hyperlink{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}{gx}
+<a id='L94' name='L94'></a>\end{DoxyCompactItemize}
+<a id='L95' name='L95'></a>
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>\subsection{Detailed Description}
+<a id='L98' name='L98'></a>\subsubsection*{template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$\newline
+<a id='L99' name='L99'></a>struct Convolution2\+D$&lt;$ max\+B, I\+C, H, W, K, O\+C $&gt;$}
+<a id='L100' name='L100'></a>
+<a id='L101' name='L101'></a>convolution of images 
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>\begin{DoxyParams}{Parameters}
+<a id='L105' name='L105'></a>{\em (max\+B)} &amp; the maximum number of images (batch size) \\
+<a id='L106' name='L106'></a>\hline
+<a id='L107' name='L107'></a>{\em (\+I\+C)} &amp; the number of channels per input image (the original input has typically three channels for R\+GB. in hidden layers, it starts from 64 and goes up to 512 in the last hidden layer) \\
+<a id='L108' name='L108'></a>\hline
+<a id='L109' name='L109'></a>{\em (\+H)} &amp; height of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L110' name='L110'></a>\hline
+<a id='L111' name='L111'></a>{\em (\+W)} &amp; width of an image (32 for an input image, down to 1 in the last hidden layer) \\
+<a id='L112' name='L112'></a>\hline
+<a id='L113' name='L113'></a>{\em (\+K)} &amp; convolution kernel size (1). filter array has (2\+K+1)$\ast$(2\+K+1) elems) \\
+<a id='L114' name='L114'></a>\hline
+<a id='L115' name='L115'></a>{\em (\+O\+C)} &amp; the number of channels per an output image\\
+<a id='L116' name='L116'></a>\hline
+<a id='L117' name='L117'></a>\end{DoxyParams}
+<a id='L118' name='L118'></a>this layer converts each I\+Cx\+WxH image to O\+Cx\+WxH image, applying I\+Cx(2\+K+1)x(2\+K+1) stencil to each pixel 
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>\subsection{Member Function Documentation}
+<a id='L121' name='L121'></a>\mbox{\Hypertarget{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}\label{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}} 
+<a id='L122' name='L122'></a>\index{Convolution2D@{Convolution2D}!backward@{backward}}
+<a id='L123' name='L123'></a>\index{backward@{backward}!Convolution2D@{Convolution2D}}
+<a id='L124' name='L124'></a>\subsubsection{\texorpdfstring{backward()}{backward()}}
+<a id='L125' name='L125'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L126' name='L126'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,IC,H,W$&gt;$\&amp; \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>calc the gradient of loss wrt the input (x) 
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>\begin{DoxyParams}{Parameters}
+<a id='L134' name='L134'></a>{\em (gy)} &amp; gradient of loss with respect to the output\\
+<a id='L135' name='L135'></a>\hline
+<a id='L136' name='L136'></a>\end{DoxyParams}
+<a id='L137' name='L137'></a>calc the gradient of loss wrt the input. along the way, it also calculates the gradient of loss wrt weights for all sublayers that have weights. since this is the entire network, gy is actually a vector whose components are all 1. (loss = sum of losses of each data). \begin{DoxySeeAlso}{See also}
+<a id='L138' name='L138'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L141' name='L141'></a>\end{DoxySeeAlso}
+<a id='L142' name='L142'></a>\mbox{\Hypertarget{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}\label{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}} 
+<a id='L143' name='L143'></a>\index{Convolution2D@{Convolution2D}!backward\+\_\+base@{backward\+\_\+base}}
+<a id='L144' name='L144'></a>\index{backward\+\_\+base@{backward\+\_\+base}!Convolution2D@{Convolution2D}}
+<a id='L145' name='L145'></a>\subsubsection{\texorpdfstring{backward\+\_\+base()}{backward\_base()}}
+<a id='L146' name='L146'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L147' name='L147'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>the baseline (serial) implementation of backward called both by cpu implementation (backward\+\_\+cpu) and gpu implementation (backward\+\_\+dev). the call sequence backward -\/$&gt;$ backward\+\_\+cpu -\/$&gt;$ backward\+\_\+base on cpu and and is backward -\/$&gt;$ backward\+\_\+gpu -\/$&gt;$ backward\+\_\+global -\/$&gt;$ backward\+\_\+dev -\/$&gt;$ backward\+\_\+base 
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>
+<a id='L154' name='L154'></a>\begin{DoxyParams}{Parameters}
+<a id='L155' name='L155'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L156' name='L156'></a>\hline
+<a id='L157' name='L157'></a>\end{DoxyParams}
+<a id='L158' name='L158'></a>\begin{DoxySeeAlso}{See also}
+<a id='L159' name='L159'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L160' name='L160'></a>
+<a id='L161' name='L161'></a>\hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} 
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L164' name='L164'></a>
+<a id='L165' name='L165'></a>\hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} 
+<a id='L166' name='L166'></a>\end{DoxySeeAlso}
+<a id='L167' name='L167'></a>\mbox{\Hypertarget{structConvolution2D_a8b9838267f044544073f95a278304f06}\label{structConvolution2D_a8b9838267f044544073f95a278304f06}} 
+<a id='L168' name='L168'></a>\index{Convolution2D@{Convolution2D}!backward\+\_\+cpu@{backward\+\_\+cpu}}
+<a id='L169' name='L169'></a>\index{backward\+\_\+cpu@{backward\+\_\+cpu}!Convolution2D@{Convolution2D}}
+<a id='L170' name='L170'></a>\subsubsection{\texorpdfstring{backward\+\_\+cpu()}{backward\_cpu()}}
+<a id='L171' name='L171'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L172' name='L172'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>
+<a id='L176' name='L176'></a>a cpu version of baseline code called from the entry function (backward) 
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>
+<a id='L179' name='L179'></a>\begin{DoxyParams}{Parameters}
+<a id='L180' name='L180'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L181' name='L181'></a>\hline
+<a id='L182' name='L182'></a>\end{DoxyParams}
+<a id='L183' name='L183'></a>\begin{DoxySeeAlso}{See also}
+<a id='L184' name='L184'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L185' name='L185'></a>
+<a id='L186' name='L186'></a>\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+<a id='L187' name='L187'></a>\end{DoxySeeAlso}
+<a id='L188' name='L188'></a>\mbox{\Hypertarget{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}\label{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}} 
+<a id='L189' name='L189'></a>\index{Convolution2D@{Convolution2D}!backward\+\_\+dev@{backward\+\_\+dev}}
+<a id='L190' name='L190'></a>\index{backward\+\_\+dev@{backward\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L191' name='L191'></a>\subsubsection{\texorpdfstring{backward\+\_\+dev()}{backward\_dev()}}
+<a id='L192' name='L192'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L193' name='L193'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>the device function of backward called from the global (non-\/member) function 
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>
+<a id='L200' name='L200'></a>\begin{DoxyParams}{Parameters}
+<a id='L201' name='L201'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L202' name='L202'></a>\hline
+<a id='L203' name='L203'></a>\end{DoxyParams}
+<a id='L204' name='L204'></a>\begin{DoxySeeAlso}{See also}
+<a id='L205' name='L205'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>\hyperlink{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}{backward\+\_\+gpu} 
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+<a id='L212' name='L212'></a>\end{DoxySeeAlso}
+<a id='L213' name='L213'></a>\mbox{\Hypertarget{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}\label{structConvolution2D_af7105f910c11a7bd93e27a7abc06e502}} 
+<a id='L214' name='L214'></a>\index{Convolution2D@{Convolution2D}!backward\+\_\+gpu@{backward\+\_\+gpu}}
+<a id='L215' name='L215'></a>\index{backward\+\_\+gpu@{backward\+\_\+gpu}!Convolution2D@{Convolution2D}}
+<a id='L216' name='L216'></a>\subsubsection{\texorpdfstring{backward\+\_\+gpu()}{backward\_gpu()}}
+<a id='L217' name='L217'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L218' name='L218'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::backward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, OC, H, W $&gt;$ \&amp;}]{gy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L219' name='L219'></a>
+<a id='L220' name='L220'></a>
+<a id='L221' name='L221'></a>
+<a id='L222' name='L222'></a>a gpu version of baseline code called from the entry function (backward) 
+<a id='L223' name='L223'></a>
+<a id='L224' name='L224'></a>
+<a id='L225' name='L225'></a>\begin{DoxyParams}{Parameters}
+<a id='L226' name='L226'></a>{\em (gy)} &amp; gradient of loss with respect to the output \\
+<a id='L227' name='L227'></a>\hline
+<a id='L228' name='L228'></a>\end{DoxyParams}
+<a id='L229' name='L229'></a>\begin{DoxySeeAlso}{See also}
+<a id='L230' name='L230'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L231' name='L231'></a>
+<a id='L232' name='L232'></a>\hyperlink{softmaxcrossentropy_8h_a47d56a9a23e08247b227f4aac17413e0}{backward\+\_\+global} 
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>\hyperlink{structConvolution2D_a144c8af173f1cbb9e7efade3b2f19f1e}{backward\+\_\+dev} 
+<a id='L235' name='L235'></a>
+<a id='L236' name='L236'></a>\hyperlink{structConvolution2D_af202e85ae6c5aa5e4aae6869a8891fc3}{backward\+\_\+base} 
+<a id='L237' name='L237'></a>\end{DoxySeeAlso}
+<a id='L238' name='L238'></a>\mbox{\Hypertarget{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}\label{structConvolution2D_aec12842fd665f7d7a0d6d68db68f4fed}} 
+<a id='L239' name='L239'></a>\index{Convolution2D@{Convolution2D}!copy@{copy}}
+<a id='L240' name='L240'></a>\index{copy@{copy}!Convolution2D@{Convolution2D}}
+<a id='L241' name='L241'></a>\subsubsection{\texorpdfstring{copy()}{copy()}}
+<a id='L242' name='L242'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L243' name='L243'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$maxB,IC,H,W,K,OC$&gt;$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L244' name='L244'></a>
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>
+<a id='L247' name='L247'></a>make a copy of this 
+<a id='L248' name='L248'></a>
+<a id='L249' name='L249'></a>if this object has a device pointer, the copy will have a device pointer too, but its contents are N\+OT copied \mbox{\Hypertarget{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}\label{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}} 
+<a id='L250' name='L250'></a>\index{Convolution2D@{Convolution2D}!del\+\_\+dev@{del\+\_\+dev}}
+<a id='L251' name='L251'></a>\index{del\+\_\+dev@{del\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L252' name='L252'></a>\subsubsection{\texorpdfstring{del\+\_\+dev()}{del\_dev()}}
+<a id='L253' name='L253'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L254' name='L254'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::del\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L255' name='L255'></a>
+<a id='L256' name='L256'></a>
+<a id='L257' name='L257'></a>
+<a id='L258' name='L258'></a>if the algorithm is a gpu algorithm, dev field must not be null and deallocate it. 
+<a id='L259' name='L259'></a>
+<a id='L260' name='L260'></a>\begin{DoxySeeAlso}{See also}
+<a id='L261' name='L261'></a>\hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} 
+<a id='L262' name='L262'></a>
+<a id='L263' name='L263'></a>\hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} 
+<a id='L264' name='L264'></a>\end{DoxySeeAlso}
+<a id='L265' name='L265'></a>\mbox{\Hypertarget{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}\label{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}} 
+<a id='L266' name='L266'></a>\index{Convolution2D@{Convolution2D}!forward@{forward}}
+<a id='L267' name='L267'></a>\index{forward@{forward}!Convolution2D@{Convolution2D}}
+<a id='L268' name='L268'></a>\subsubsection{\texorpdfstring{forward()}{forward()}}
+<a id='L269' name='L269'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L270' name='L270'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,OC,H,W$&gt;$\&amp; \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L271' name='L271'></a>
+<a id='L272' name='L272'></a>
+<a id='L273' name='L273'></a>
+<a id='L274' name='L274'></a>calc the loss function of a mini-\/batch (x) 
+<a id='L275' name='L275'></a>
+<a id='L276' name='L276'></a>
+<a id='L277' name='L277'></a>\begin{DoxyParams}{Parameters}
+<a id='L278' name='L278'></a>{\em (x)} &amp; input images \\
+<a id='L279' name='L279'></a>\hline
+<a id='L280' name='L280'></a>\end{DoxyParams}
+<a id='L281' name='L281'></a>\begin{DoxySeeAlso}{See also}
+<a id='L282' name='L282'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L283' name='L283'></a>
+<a id='L284' name='L284'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L285' name='L285'></a>\end{DoxySeeAlso}
+<a id='L286' name='L286'></a>\mbox{\Hypertarget{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}\label{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}} 
+<a id='L287' name='L287'></a>\index{Convolution2D@{Convolution2D}!forward\+\_\+base@{forward\+\_\+base}}
+<a id='L288' name='L288'></a>\index{forward\+\_\+base@{forward\+\_\+base}!Convolution2D@{Convolution2D}}
+<a id='L289' name='L289'></a>\subsubsection{\texorpdfstring{forward\+\_\+base()}{forward\_base()}}
+<a id='L290' name='L290'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L291' name='L291'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L292' name='L292'></a>
+<a id='L293' name='L293'></a>
+<a id='L294' name='L294'></a>
+<a id='L295' name='L295'></a>the baseline (serial) implementation of forward called both by cpu implementation (forward\+\_\+cpu) and gpu implementation (forward\+\_\+dev). the call sequence forward -\/$&gt;$ forward\+\_\+cpu -\/$&gt;$ forward\+\_\+base on cpu and and is forward -\/$&gt;$ forward\+\_\+gpu -\/$&gt;$ forward\+\_\+global -\/$&gt;$ forward\+\_\+dev -\/$&gt;$ forward\+\_\+base 
+<a id='L296' name='L296'></a>
+<a id='L297' name='L297'></a>
+<a id='L298' name='L298'></a>\begin{DoxyParams}{Parameters}
+<a id='L299' name='L299'></a>{\em (x)} &amp; input images \\
+<a id='L300' name='L300'></a>\hline
+<a id='L301' name='L301'></a>\end{DoxyParams}
+<a id='L302' name='L302'></a>\begin{DoxySeeAlso}{See also}
+<a id='L303' name='L303'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L304' name='L304'></a>
+<a id='L305' name='L305'></a>\hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} 
+<a id='L306' name='L306'></a>
+<a id='L307' name='L307'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L308' name='L308'></a>
+<a id='L309' name='L309'></a>\hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} 
+<a id='L310' name='L310'></a>\end{DoxySeeAlso}
+<a id='L311' name='L311'></a>\mbox{\Hypertarget{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}\label{structConvolution2D_ac1dcf1aebcf205c34bbf604d3b68562b}} 
+<a id='L312' name='L312'></a>\index{Convolution2D@{Convolution2D}!forward\+\_\+cpu@{forward\+\_\+cpu}}
+<a id='L313' name='L313'></a>\index{forward\+\_\+cpu@{forward\+\_\+cpu}!Convolution2D@{Convolution2D}}
+<a id='L314' name='L314'></a>\subsubsection{\texorpdfstring{forward\+\_\+cpu()}{forward\_cpu()}}
+<a id='L315' name='L315'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L316' name='L316'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>
+<a id='L319' name='L319'></a>
+<a id='L320' name='L320'></a>a cpu version of baseline code called from the entry function (forward) 
+<a id='L321' name='L321'></a>
+<a id='L322' name='L322'></a>
+<a id='L323' name='L323'></a>\begin{DoxyParams}{Parameters}
+<a id='L324' name='L324'></a>{\em (x)} &amp; input images \\
+<a id='L325' name='L325'></a>\hline
+<a id='L326' name='L326'></a>\end{DoxyParams}
+<a id='L327' name='L327'></a>\begin{DoxySeeAlso}{See also}
+<a id='L328' name='L328'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L329' name='L329'></a>
+<a id='L330' name='L330'></a>\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+<a id='L331' name='L331'></a>\end{DoxySeeAlso}
+<a id='L332' name='L332'></a>\mbox{\Hypertarget{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}\label{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}} 
+<a id='L333' name='L333'></a>\index{Convolution2D@{Convolution2D}!forward\+\_\+dev@{forward\+\_\+dev}}
+<a id='L334' name='L334'></a>\index{forward\+\_\+dev@{forward\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L335' name='L335'></a>\subsubsection{\texorpdfstring{forward\+\_\+dev()}{forward\_dev()}}
+<a id='L336' name='L336'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L337' name='L337'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L338' name='L338'></a>
+<a id='L339' name='L339'></a>
+<a id='L340' name='L340'></a>
+<a id='L341' name='L341'></a>the device function of forward called from the global (non-\/member) function 
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>
+<a id='L344' name='L344'></a>\begin{DoxyParams}{Parameters}
+<a id='L345' name='L345'></a>{\em (x)} &amp; input images \\
+<a id='L346' name='L346'></a>\hline
+<a id='L347' name='L347'></a>\end{DoxyParams}
+<a id='L348' name='L348'></a>\begin{DoxySeeAlso}{See also}
+<a id='L349' name='L349'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L350' name='L350'></a>
+<a id='L351' name='L351'></a>\hyperlink{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}{forward\+\_\+gpu} 
+<a id='L352' name='L352'></a>
+<a id='L353' name='L353'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L354' name='L354'></a>
+<a id='L355' name='L355'></a>\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+<a id='L356' name='L356'></a>\end{DoxySeeAlso}
+<a id='L357' name='L357'></a>\mbox{\Hypertarget{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}\label{structConvolution2D_ac8bbdceed275bddaaf937e1b7ce2e5ac}} 
+<a id='L358' name='L358'></a>\index{Convolution2D@{Convolution2D}!forward\+\_\+gpu@{forward\+\_\+gpu}}
+<a id='L359' name='L359'></a>\index{forward\+\_\+gpu@{forward\+\_\+gpu}!Convolution2D@{Convolution2D}}
+<a id='L360' name='L360'></a>\subsubsection{\texorpdfstring{forward\+\_\+gpu()}{forward\_gpu()}}
+<a id='L361' name='L361'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L362' name='L362'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::forward\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{structarray4}{array4}$&lt;$ maxB, IC, H, W $&gt;$ \&amp;}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L363' name='L363'></a>
+<a id='L364' name='L364'></a>
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>a gpu version of baseline code called from the entry function (forward) 
+<a id='L367' name='L367'></a>
+<a id='L368' name='L368'></a>
+<a id='L369' name='L369'></a>\begin{DoxyParams}{Parameters}
+<a id='L370' name='L370'></a>{\em (x)} &amp; input images \\
+<a id='L371' name='L371'></a>\hline
+<a id='L372' name='L372'></a>\end{DoxyParams}
+<a id='L373' name='L373'></a>\begin{DoxySeeAlso}{See also}
+<a id='L374' name='L374'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L375' name='L375'></a>
+<a id='L376' name='L376'></a>\hyperlink{softmaxcrossentropy_8h_a578aeeb166bd06e800d9b396eab48b35}{forward\+\_\+global} 
+<a id='L377' name='L377'></a>
+<a id='L378' name='L378'></a>\hyperlink{structConvolution2D_a1e5d3b49b05f8444178be5f73f59bedd}{forward\+\_\+dev} 
+<a id='L379' name='L379'></a>
+<a id='L380' name='L380'></a>\hyperlink{structConvolution2D_aa969d35c6c2ca209354d3fd9249fcf82}{forward\+\_\+base} 
+<a id='L381' name='L381'></a>\end{DoxySeeAlso}
+<a id='L382' name='L382'></a>\mbox{\Hypertarget{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}\label{structConvolution2D_a41442b7f48f34045660dbcd64301d14b}} 
+<a id='L383' name='L383'></a>\index{Convolution2D@{Convolution2D}!gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}}
+<a id='L384' name='L384'></a>\index{gw\+\_\+dot\+\_\+gw@{gw\+\_\+dot\+\_\+gw}!Convolution2D@{Convolution2D}}
+<a id='L385' name='L385'></a>\subsubsection{\texorpdfstring{gw\+\_\+dot\+\_\+gw()}{gw\_dot\_gw()}}
+<a id='L386' name='L386'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L387' name='L387'></a>\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real} \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::gw\+\_\+dot\+\_\+gw (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L388' name='L388'></a>
+<a id='L389' name='L389'></a>
+<a id='L390' name='L390'></a>
+<a id='L391' name='L391'></a>take the inner product of gradients 
+<a id='L392' name='L392'></a>
+<a id='L393' name='L393'></a>
+<a id='L394' name='L394'></a>\begin{DoxyParams}{Parameters}
+<a id='L395' name='L395'></a>{\em (o)} &amp; the object to take the inner product with\\
+<a id='L396' name='L396'></a>\hline
+<a id='L397' name='L397'></a>\end{DoxyParams}
+<a id='L398' name='L398'></a>take the inner product of this object\textquotesingle{}s gradients and b\textquotesingle{}s gradients \mbox{\Hypertarget{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}\label{structConvolution2D_aa3c6a51a0b4278dacf8dff4f80e86943}} 
+<a id='L399' name='L399'></a>\index{Convolution2D@{Convolution2D}!init@{init}}
+<a id='L400' name='L400'></a>\index{init@{init}!Convolution2D@{Convolution2D}}
+<a id='L401' name='L401'></a>\subsubsection{\texorpdfstring{init()}{init()}}
+<a id='L402' name='L402'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L403' name='L403'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::init (\begin{DoxyParamCaption}\item[{\hyperlink{structcmdline__opt}{cmdline\+\_\+opt}}]{opt,  }\item[{\hyperlink{structlogger}{logger} $\ast$}]{lgr,  }\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L404' name='L404'></a>
+<a id='L405' name='L405'></a>
+<a id='L406' name='L406'></a>
+<a id='L407' name='L407'></a>initialize 
+<a id='L408' name='L408'></a>
+<a id='L409' name='L409'></a>
+<a id='L410' name='L410'></a>\begin{DoxyParams}{Parameters}
+<a id='L411' name='L411'></a>{\em (opt)} &amp; command line options \\
+<a id='L412' name='L412'></a>\hline
+<a id='L413' name='L413'></a>{\em (lgr)} &amp; logger \\
+<a id='L414' name='L414'></a>\hline
+<a id='L415' name='L415'></a>{\em (rg)} &amp; random number generator for initializing weights \\
+<a id='L416' name='L416'></a>\hline
+<a id='L417' name='L417'></a>\end{DoxyParams}
+<a id='L418' name='L418'></a>\mbox{\Hypertarget{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}\label{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}} 
+<a id='L419' name='L419'></a>\index{Convolution2D@{Convolution2D}!make\+\_\+dev@{make\+\_\+dev}}
+<a id='L420' name='L420'></a>\index{make\+\_\+dev@{make\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L421' name='L421'></a>\subsubsection{\texorpdfstring{make\+\_\+dev()}{make\_dev()}}
+<a id='L422' name='L422'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L423' name='L423'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::make\+\_\+dev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L424' name='L424'></a>
+<a id='L425' name='L425'></a>
+<a id='L426' name='L426'></a>
+<a id='L427' name='L427'></a>if the algorithm is a gpu algorithm, allocate a device shadow of this object and set dev field of this and all subobjects. otherwise it sets all dev fields to null. 
+<a id='L428' name='L428'></a>
+<a id='L429' name='L429'></a>\begin{DoxySeeAlso}{See also}
+<a id='L430' name='L430'></a>\hyperlink{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}{set\+\_\+dev} 
+<a id='L431' name='L431'></a>
+<a id='L432' name='L432'></a>\hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev} 
+<a id='L433' name='L433'></a>\end{DoxySeeAlso}
+<a id='L434' name='L434'></a>\mbox{\Hypertarget{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}\label{structConvolution2D_ac66223a9688f45e3422bbdd24c891f70}} 
+<a id='L435' name='L435'></a>\index{Convolution2D@{Convolution2D}!rand\+\_\+grad@{rand\+\_\+grad}}
+<a id='L436' name='L436'></a>\index{rand\+\_\+grad@{rand\+\_\+grad}!Convolution2D@{Convolution2D}}
+<a id='L437' name='L437'></a>\subsubsection{\texorpdfstring{rand\+\_\+grad()}{rand\_grad()}}
+<a id='L438' name='L438'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L439' name='L439'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::rand\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structrnd__gen__t}{rnd\+\_\+gen\+\_\+t} \&amp;}]{rg,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{p,  }\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L440' name='L440'></a>
+<a id='L441' name='L441'></a>
+<a id='L442' name='L442'></a>
+<a id='L443' name='L443'></a>randomly set all gradients to values between p and q 
+<a id='L444' name='L444'></a>
+<a id='L445' name='L445'></a>
+<a id='L446' name='L446'></a>\begin{DoxyParams}{Parameters}
+<a id='L447' name='L447'></a>{\em (rg)} &amp; random number generator \\
+<a id='L448' name='L448'></a>\hline
+<a id='L449' name='L449'></a>{\em (p)} &amp; minimum value of a component \\
+<a id='L450' name='L450'></a>\hline
+<a id='L451' name='L451'></a>{\em (q)} &amp; maximum value of a component \\
+<a id='L452' name='L452'></a>\hline
+<a id='L453' name='L453'></a>\end{DoxyParams}
+<a id='L454' name='L454'></a>\mbox{\Hypertarget{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}\label{structConvolution2D_a4e0dca3719249dbceb4afe64f8844f7f}} 
+<a id='L455' name='L455'></a>\index{Convolution2D@{Convolution2D}!set\+\_\+dev@{set\+\_\+dev}}
+<a id='L456' name='L456'></a>\index{set\+\_\+dev@{set\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L457' name='L457'></a>\subsubsection{\texorpdfstring{set\+\_\+dev()}{set\_dev()}}
+<a id='L458' name='L458'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L459' name='L459'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::set\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ $\ast$}]{dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L460' name='L460'></a>
+<a id='L461' name='L461'></a>
+<a id='L462' name='L462'></a>
+<a id='L463' name='L463'></a>set the device pointer for this and all subobjects 
+<a id='L464' name='L464'></a>
+<a id='L465' name='L465'></a>
+<a id='L466' name='L466'></a>\begin{DoxyParams}{Parameters}
+<a id='L467' name='L467'></a>{\em (dev)} &amp; a device memory or null \\
+<a id='L468' name='L468'></a>\hline
+<a id='L469' name='L469'></a>\end{DoxyParams}
+<a id='L470' name='L470'></a>\begin{DoxySeeAlso}{See also}
+<a id='L471' name='L471'></a>\hyperlink{structConvolution2D_a9c6908bf3797c1b38dec8c33beb8df49}{make\+\_\+dev} 
+<a id='L472' name='L472'></a>
+<a id='L473' name='L473'></a>\hyperlink{structConvolution2D_a3f508b68dc981593f5a2980e6b88a247}{del\+\_\+dev}
+<a id='L474' name='L474'></a>\end{DoxySeeAlso}
+<a id='L475' name='L475'></a>if dev is not null, dev fields of all subojects point to the corresponding subjects in the device memory. if dev is not null, all dev fields become null. \mbox{\Hypertarget{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}\label{structConvolution2D_a8b1f4363ec5f6d3d69890599a0e426da}} 
+<a id='L476' name='L476'></a>\index{Convolution2D@{Convolution2D}!set\+\_\+grad@{set\+\_\+grad}}
+<a id='L477' name='L477'></a>\index{set\+\_\+grad@{set\+\_\+grad}!Convolution2D@{Convolution2D}}
+<a id='L478' name='L478'></a>\subsubsection{\texorpdfstring{set\+\_\+grad()}{set\_grad()}}
+<a id='L479' name='L479'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L480' name='L480'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::set\+\_\+grad (\begin{DoxyParamCaption}\item[{\hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$ \&amp;}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L481' name='L481'></a>
+<a id='L482' name='L482'></a>
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>set all gradients to gradients of another object 
+<a id='L485' name='L485'></a>
+<a id='L486' name='L486'></a>
+<a id='L487' name='L487'></a>\begin{DoxyParams}{Parameters}
+<a id='L488' name='L488'></a>{\em (o)} &amp; the object from which gradients get copied\\
+<a id='L489' name='L489'></a>\hline
+<a id='L490' name='L490'></a>\end{DoxyParams}
+<a id='L491' name='L491'></a>transfer gradients of o to this object \mbox{\Hypertarget{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}\label{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}} 
+<a id='L492' name='L492'></a>\index{Convolution2D@{Convolution2D}!update@{update}}
+<a id='L493' name='L493'></a>\index{update@{update}!Convolution2D@{Convolution2D}}
+<a id='L494' name='L494'></a>\subsubsection{\texorpdfstring{update()}{update()}}
+<a id='L495' name='L495'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L496' name='L496'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L497' name='L497'></a>
+<a id='L498' name='L498'></a>
+<a id='L499' name='L499'></a>
+<a id='L500' name='L500'></a>update weights of all sublayers with gradients that must have been computed 
+<a id='L501' name='L501'></a>
+<a id='L502' name='L502'></a>
+<a id='L503' name='L503'></a>\begin{DoxyParams}{Parameters}
+<a id='L504' name='L504'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L505' name='L505'></a>\hline
+<a id='L506' name='L506'></a>\end{DoxyParams}
+<a id='L507' name='L507'></a>\begin{DoxySeeAlso}{See also}
+<a id='L508' name='L508'></a>\hyperlink{structConvolution2D_ae6dcfaea38b779de24bbda730c57083e}{forward} 
+<a id='L509' name='L509'></a>
+<a id='L510' name='L510'></a>\hyperlink{structConvolution2D_ace928f0589a42b6505f5787652ffbacd}{backward} 
+<a id='L511' name='L511'></a>\end{DoxySeeAlso}
+<a id='L512' name='L512'></a>\mbox{\Hypertarget{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}\label{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}} 
+<a id='L513' name='L513'></a>\index{Convolution2D@{Convolution2D}!update\+\_\+base@{update\+\_\+base}}
+<a id='L514' name='L514'></a>\index{update\+\_\+base@{update\+\_\+base}!Convolution2D@{Convolution2D}}
+<a id='L515' name='L515'></a>\subsubsection{\texorpdfstring{update\+\_\+base()}{update\_base()}}
+<a id='L516' name='L516'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L517' name='L517'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update\+\_\+base (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L518' name='L518'></a>
+<a id='L519' name='L519'></a>
+<a id='L520' name='L520'></a>
+<a id='L521' name='L521'></a>the baseline (serial) implementation of update called both by cpu implementation (update\+\_\+cpu) and gpu implementation (update\+\_\+dev). the call sequence update -\/$&gt;$ update\+\_\+cpu -\/$&gt;$ update\+\_\+base on cpu and and is update -\/$&gt;$ update\+\_\+gpu -\/$&gt;$ update\+\_\+global -\/$&gt;$ update\+\_\+dev -\/$&gt;$ update\+\_\+base 
+<a id='L522' name='L522'></a>
+<a id='L523' name='L523'></a>
+<a id='L524' name='L524'></a>\begin{DoxyParams}{Parameters}
+<a id='L525' name='L525'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L526' name='L526'></a>\hline
+<a id='L527' name='L527'></a>\end{DoxyParams}
+<a id='L528' name='L528'></a>\begin{DoxySeeAlso}{See also}
+<a id='L529' name='L529'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L530' name='L530'></a>
+<a id='L531' name='L531'></a>\hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} 
+<a id='L532' name='L532'></a>
+<a id='L533' name='L533'></a>\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+<a id='L534' name='L534'></a>
+<a id='L535' name='L535'></a>\hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} 
+<a id='L536' name='L536'></a>\end{DoxySeeAlso}
+<a id='L537' name='L537'></a>\mbox{\Hypertarget{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}\label{structConvolution2D_a3768142c7d9dc9649b6afb1d2321449a}} 
+<a id='L538' name='L538'></a>\index{Convolution2D@{Convolution2D}!update\+\_\+cpu@{update\+\_\+cpu}}
+<a id='L539' name='L539'></a>\index{update\+\_\+cpu@{update\+\_\+cpu}!Convolution2D@{Convolution2D}}
+<a id='L540' name='L540'></a>\subsubsection{\texorpdfstring{update\+\_\+cpu()}{update\_cpu()}}
+<a id='L541' name='L541'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L542' name='L542'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update\+\_\+cpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L543' name='L543'></a>
+<a id='L544' name='L544'></a>
+<a id='L545' name='L545'></a>
+<a id='L546' name='L546'></a>a cpu version of baseline code called from the entry function (update) 
+<a id='L547' name='L547'></a>
+<a id='L548' name='L548'></a>
+<a id='L549' name='L549'></a>\begin{DoxyParams}{Parameters}
+<a id='L550' name='L550'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L551' name='L551'></a>\hline
+<a id='L552' name='L552'></a>\end{DoxyParams}
+<a id='L553' name='L553'></a>\begin{DoxySeeAlso}{See also}
+<a id='L554' name='L554'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L555' name='L555'></a>
+<a id='L556' name='L556'></a>\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+<a id='L557' name='L557'></a>\end{DoxySeeAlso}
+<a id='L558' name='L558'></a>\mbox{\Hypertarget{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}\label{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}} 
+<a id='L559' name='L559'></a>\index{Convolution2D@{Convolution2D}!update\+\_\+dev@{update\+\_\+dev}}
+<a id='L560' name='L560'></a>\index{update\+\_\+dev@{update\+\_\+dev}!Convolution2D@{Convolution2D}}
+<a id='L561' name='L561'></a>\subsubsection{\texorpdfstring{update\+\_\+dev()}{update\_dev()}}
+<a id='L562' name='L562'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L563' name='L563'></a>\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update\+\_\+dev (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L564' name='L564'></a>
+<a id='L565' name='L565'></a>
+<a id='L566' name='L566'></a>
+<a id='L567' name='L567'></a>the device function of update called from the global (non-\/member) function 
+<a id='L568' name='L568'></a>
+<a id='L569' name='L569'></a>
+<a id='L570' name='L570'></a>\begin{DoxyParams}{Parameters}
+<a id='L571' name='L571'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L572' name='L572'></a>\hline
+<a id='L573' name='L573'></a>\end{DoxyParams}
+<a id='L574' name='L574'></a>\begin{DoxySeeAlso}{See also}
+<a id='L575' name='L575'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L576' name='L576'></a>
+<a id='L577' name='L577'></a>\hyperlink{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}{update\+\_\+gpu} 
+<a id='L578' name='L578'></a>
+<a id='L579' name='L579'></a>\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+<a id='L580' name='L580'></a>
+<a id='L581' name='L581'></a>\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+<a id='L582' name='L582'></a>\end{DoxySeeAlso}
+<a id='L583' name='L583'></a>\mbox{\Hypertarget{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}\label{structConvolution2D_af189fb21ba3ecb6b9f7553c414f35446}} 
+<a id='L584' name='L584'></a>\index{Convolution2D@{Convolution2D}!update\+\_\+gpu@{update\+\_\+gpu}}
+<a id='L585' name='L585'></a>\index{update\+\_\+gpu@{update\+\_\+gpu}!Convolution2D@{Convolution2D}}
+<a id='L586' name='L586'></a>\subsubsection{\texorpdfstring{update\+\_\+gpu()}{update\_gpu()}}
+<a id='L587' name='L587'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L588' name='L588'></a>void \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::update\+\_\+gpu (\begin{DoxyParamCaption}\item[{\hyperlink{vgg__util_8h_a1082d08aaa761215ec83e7149f27ad16}{real}}]{eta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+<a id='L589' name='L589'></a>
+<a id='L590' name='L590'></a>
+<a id='L591' name='L591'></a>
+<a id='L592' name='L592'></a>a gpu version of baseline code called from the entry function (update) 
+<a id='L593' name='L593'></a>
+<a id='L594' name='L594'></a>
+<a id='L595' name='L595'></a>\begin{DoxyParams}{Parameters}
+<a id='L596' name='L596'></a>{\em (eta)} &amp; the learning rate \\
+<a id='L597' name='L597'></a>\hline
+<a id='L598' name='L598'></a>\end{DoxyParams}
+<a id='L599' name='L599'></a>\begin{DoxySeeAlso}{See also}
+<a id='L600' name='L600'></a>\hyperlink{structConvolution2D_ac9fd666f96904bb7f62dc39cebae7a25}{update} 
+<a id='L601' name='L601'></a>
+<a id='L602' name='L602'></a>\hyperlink{linear_8h_a810703be28422bb9483665cbdbafd968}{update\+\_\+global} 
+<a id='L603' name='L603'></a>
+<a id='L604' name='L604'></a>\hyperlink{structConvolution2D_a724e0e31fb47f11af0f022adf983ca41}{update\+\_\+dev} 
+<a id='L605' name='L605'></a>
+<a id='L606' name='L606'></a>\hyperlink{structConvolution2D_a5134826f56423c7629434f4c9ea40a1f}{update\+\_\+base} 
+<a id='L607' name='L607'></a>\end{DoxySeeAlso}
+<a id='L608' name='L608'></a>
+<a id='L609' name='L609'></a>
+<a id='L610' name='L610'></a>\subsection{Member Data Documentation}
+<a id='L611' name='L611'></a>\mbox{\Hypertarget{structConvolution2D_a3b9891c27e266092619413a16518a9e9}\label{structConvolution2D_a3b9891c27e266092619413a16518a9e9}} 
+<a id='L612' name='L612'></a>\index{Convolution2D@{Convolution2D}!dev@{dev}}
+<a id='L613' name='L613'></a>\index{dev@{dev}!Convolution2D@{Convolution2D}}
+<a id='L614' name='L614'></a>\subsubsection{\texorpdfstring{dev}{dev}}
+<a id='L615' name='L615'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L616' name='L616'></a>\hyperlink{structConvolution2D}{Convolution2D}$&lt;$maxB,IC,H,W,K,OC$&gt;$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::dev}
+<a id='L617' name='L617'></a>
+<a id='L618' name='L618'></a>device shadow \mbox{\Hypertarget{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}\label{structConvolution2D_acbd8375eef9aa08bd061b3898dbdc403}} 
+<a id='L619' name='L619'></a>\index{Convolution2D@{Convolution2D}!gw@{gw}}
+<a id='L620' name='L620'></a>\index{gw@{gw}!Convolution2D@{Convolution2D}}
+<a id='L621' name='L621'></a>\subsubsection{\texorpdfstring{gw}{gw}}
+<a id='L622' name='L622'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L623' name='L623'></a>\hyperlink{structwarray4}{warray4}$&lt;$OC,IC,K,K$&gt;$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::gw}
+<a id='L624' name='L624'></a>
+<a id='L625' name='L625'></a>∂\+L/∂w \mbox{\Hypertarget{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}\label{structConvolution2D_a1bc2147fc750b2587a82d865eef24d2c}} 
+<a id='L626' name='L626'></a>\index{Convolution2D@{Convolution2D}!gx@{gx}}
+<a id='L627' name='L627'></a>\index{gx@{gx}!Convolution2D@{Convolution2D}}
+<a id='L628' name='L628'></a>\subsubsection{\texorpdfstring{gx}{gx}}
+<a id='L629' name='L629'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L630' name='L630'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,IC,H,W$&gt;$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::gx}
+<a id='L631' name='L631'></a>
+<a id='L632' name='L632'></a>∂\+L/∂x \mbox{\Hypertarget{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}\label{structConvolution2D_a1c0363cbb527e0dcdb032a2b6b5ea9e6}} 
+<a id='L633' name='L633'></a>\index{Convolution2D@{Convolution2D}!lgr@{lgr}}
+<a id='L634' name='L634'></a>\index{lgr@{lgr}!Convolution2D@{Convolution2D}}
+<a id='L635' name='L635'></a>\subsubsection{\texorpdfstring{lgr}{lgr}}
+<a id='L636' name='L636'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L637' name='L637'></a>\hyperlink{structlogger}{logger}$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::lgr}
+<a id='L638' name='L638'></a>
+<a id='L639' name='L639'></a>logger \mbox{\Hypertarget{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}\label{structConvolution2D_ad873766a934a3589b2feec7933dc11f2}} 
+<a id='L640' name='L640'></a>\index{Convolution2D@{Convolution2D}!opt@{opt}}
+<a id='L641' name='L641'></a>\index{opt@{opt}!Convolution2D@{Convolution2D}}
+<a id='L642' name='L642'></a>\subsubsection{\texorpdfstring{opt}{opt}}
+<a id='L643' name='L643'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L644' name='L644'></a>\hyperlink{structcmdline__opt}{cmdline\+\_\+opt} \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::opt}
+<a id='L645' name='L645'></a>
+<a id='L646' name='L646'></a>command line option \mbox{\Hypertarget{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}\label{structConvolution2D_a20027e8ac911e6ec9db15a7ecaf4a16a}} 
+<a id='L647' name='L647'></a>\index{Convolution2D@{Convolution2D}!w@{w}}
+<a id='L648' name='L648'></a>\index{w@{w}!Convolution2D@{Convolution2D}}
+<a id='L649' name='L649'></a>\subsubsection{\texorpdfstring{w}{w}}
+<a id='L650' name='L650'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L651' name='L651'></a>\hyperlink{structwarray4}{warray4}$&lt;$OC,IC,K,K$&gt;$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::w}
+<a id='L652' name='L652'></a>
+<a id='L653' name='L653'></a>y = w $\ast$ x (convolution) \mbox{\Hypertarget{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}\label{structConvolution2D_a404b6e9b9a932e463f237d5bd35b2154}} 
+<a id='L654' name='L654'></a>\index{Convolution2D@{Convolution2D}!x\+\_\+ptr@{x\+\_\+ptr}}
+<a id='L655' name='L655'></a>\index{x\+\_\+ptr@{x\+\_\+ptr}!Convolution2D@{Convolution2D}}
+<a id='L656' name='L656'></a>\subsubsection{\texorpdfstring{x\+\_\+ptr}{x\_ptr}}
+<a id='L657' name='L657'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L658' name='L658'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,IC,H,W$&gt;$$\ast$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::x\+\_\+ptr}
+<a id='L659' name='L659'></a>
+<a id='L660' name='L660'></a>pointer to the input to forward (x) \mbox{\Hypertarget{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}\label{structConvolution2D_ae321933a802088a32112cdbd16b16c0f}} 
+<a id='L661' name='L661'></a>\index{Convolution2D@{Convolution2D}!y@{y}}
+<a id='L662' name='L662'></a>\index{y@{y}!Convolution2D@{Convolution2D}}
+<a id='L663' name='L663'></a>\subsubsection{\texorpdfstring{y}{y}}
+<a id='L664' name='L664'></a>{\footnotesize\ttfamily template$&lt;$idx\+\_\+t maxB, idx\+\_\+t IC, idx\+\_\+t H, idx\+\_\+t W, idx\+\_\+t K, idx\+\_\+t OC$&gt;$ \\
+<a id='L665' name='L665'></a>\hyperlink{structarray4}{array4}$&lt;$maxB,OC,H,W$&gt;$ \hyperlink{structConvolution2D}{Convolution2D}$&lt;$ maxB, IC, H, W, K, OC $&gt;$\+::y}
+<a id='L666' name='L666'></a>
+<a id='L667' name='L667'></a>y = forward(x) 
+<a id='L668' name='L668'></a>
+<a id='L669' name='L669'></a>The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+<a id='L670' name='L670'></a>\item 
+<a id='L671' name='L671'></a>/home/tau/public\+\_\+html/lecture/parallel\+\_\+distributed/2018/handson/tau/parallel-\/distributed-\/handson/20vgg/include/\hyperlink{convolution_8h}{convolution.\+h}\end{DoxyCompactItemize}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+671 doc/latex/structConvolution2D.tex'  /> */</em>
+</body>
+</html>

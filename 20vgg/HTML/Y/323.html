@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>n</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/469.html#L72'>n</a>                  72 include/cifar.h   long get_decimal_digits(long n) {</span>
+<span class='curline'><a href='../S/469.html#L79'>n</a>                  79 include/cifar.h     for (d = 1; x &lt; n; d++) {</span>
+<span class='curline'><a href='../S/469.html#L82'>n</a>                  82 include/cifar.h     assert(n &lt;= x);</span>
+<span class='curline'><a href='../S/480.html#L316'>n</a>                 316 include/softmaxcrossentropy.h     const idx_t B = gy.n;</span>
+<span class='curline'><a href='../S/477.html#L418'>n</a>                 418 include/vgg.h      const idx_t B = idxs.n;</span>
+<span class='curline'><a href='../S/481.html#L78'>n</a>                  78 include/vgg_arrays.h   idx_t n;                      /**&lt; actual number of clements (&lt;= N)  */</span>
+<span class='curline'><a href='../S/481.html#L86'>n</a>                  86 include/vgg_arrays.h     range_chk(0, i, n);</span>
+<span class='curline'><a href='../S/481.html#L94'>n</a>                  94 include/vgg_arrays.h   void set_n(idx_t n) {</span>
+<span class='curline'><a href='../S/481.html#L95'>n</a>                  95 include/vgg_arrays.h     this-&gt;n = n;</span>
+<span class='curline'><a href='../S/481.html#L96'>n</a>                  96 include/vgg_arrays.h     assert(n &lt;= N);</span>
+<span class='curline'><a href='../S/481.html#L104'>n</a>                 104 include/vgg_arrays.h   void init_const(idx_t n, real c) {</span>
+<span class='curline'><a href='../S/481.html#L105'>n</a>                 105 include/vgg_arrays.h     set_n(n);</span>
+<span class='curline'><a href='../S/481.html#L107'>n</a>                 107 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L118'>n</a>                 118 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L119'>n</a>                 119 include/vgg_arrays.h     set_n(n);</span>
+<span class='curline'><a href='../S/481.html#L121'>n</a>                 121 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L132'>n</a>                 132 include/vgg_arrays.h   void init_single(idx_t n, rnd_gen_t&amp; rg, real p, real q) {</span>
+<span class='curline'><a href='../S/481.html#L134'>n</a>                 134 include/vgg_arrays.h     x.init_const(n, 0);</span>
+<span class='curline'><a href='../S/481.html#L135'>n</a>                 135 include/vgg_arrays.h     idx_t i = rg.randi(0, n);</span>
+<span class='curline'><a href='../S/481.html#L145'>n</a>                 145 include/vgg_arrays.h   void init_normal(idx_t n, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L146'>n</a>                 146 include/vgg_arrays.h     set_n(n);</span>
+<span class='curline'><a href='../S/481.html#L148'>n</a>                 148 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L162'>n</a>                 162 include/vgg_arrays.h     assert(x.n == dx.n);</span>
+<span class='curline'><a href='../S/481.html#L163'>n</a>                 163 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L173'>n</a>                 173 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L184'>n</a>                 184 include/vgg_arrays.h     assert(x.n == y.n);</span>
+<span class='curline'><a href='../S/481.html#L186'>n</a>                 186 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L262'>n</a>                 262 include/vgg_arrays.h   idx_t n;                      /**&lt; actual number of clements (&lt;= N)  */</span>
+<span class='curline'><a href='../S/481.html#L270'>n</a>                 270 include/vgg_arrays.h     range_chk(0, i, n);</span>
+<span class='curline'><a href='../S/481.html#L278'>n</a>                 278 include/vgg_arrays.h   void set_n(idx_t n) {</span>
+<span class='curline'><a href='../S/481.html#L279'>n</a>                 279 include/vgg_arrays.h     this-&gt;n = n;</span>
+<span class='curline'><a href='../S/481.html#L280'>n</a>                 280 include/vgg_arrays.h     assert(n &lt;= N);</span>
+<span class='curline'><a href='../S/481.html#L287'>n</a>                 287 include/vgg_arrays.h   void init_const(idx_t n, idx_t c) {</span>
+<span class='curline'><a href='../S/481.html#L288'>n</a>                 288 include/vgg_arrays.h     set_n(n);</span>
+<span class='curline'><a href='../S/481.html#L290'>n</a>                 290 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L301'>n</a>                 301 include/vgg_arrays.h   void init_uniform(idx_t n, rnd_gen_t&amp; rg, idx_t p, idx_t q) {</span>
+<span class='curline'><a href='../S/481.html#L302'>n</a>                 302 include/vgg_arrays.h     set_n(n);</span>
+<span class='curline'><a href='../S/481.html#L304'>n</a>                 304 include/vgg_arrays.h     for (idx_t i = 0; i &lt; n; i++) {</span>
+<span class='curline'><a href='../S/481.html#L960'>n</a>                 960 include/vgg_arrays.h   const int n = 8;</span>
+<span class='curline'><a href='../S/481.html#L966'>n</a>                 966 include/vgg_arrays.h   v.init_const(n, 1);</span>
+<span class='curline'><a href='../S/481.html#L967'>n</a>                 967 include/vgg_arrays.h   iv.init_const(n, 2);</span>
+<span class='curline'><a href='../S/481.html#L968'>n</a>                 968 include/vgg_arrays.h   a2.init_const(n, 3);</span>
+<span class='curline'><a href='../S/481.html#L969'>n</a>                 969 include/vgg_arrays.h   a4.init_const(n, 4);</span>
+<span class='curline'><a href='../S/481.html#L971'>n</a>                 971 include/vgg_arrays.h   v(n-1) = opt.iters;</span>
+<span class='curline'><a href='../S/481.html#L972'>n</a>                 972 include/vgg_arrays.h   iv(n-1) = 6;</span>
+<span class='curline'><a href='../S/481.html#L973'>n</a>                 973 include/vgg_arrays.h   a2(n-1,n-1) = 7;</span>
+<span class='curline'><a href='../S/481.html#L974'>n</a>                 974 include/vgg_arrays.h   a4(n-1,n-1,n-1,n-1) = 8;</span>
+<span class='curline'><a href='../S/481.html#L975'>n</a>                 975 include/vgg_arrays.h   w4(n-1,n-1,n-1,n-1) = 9;</span>
+</pre>
+</body>
+</html>

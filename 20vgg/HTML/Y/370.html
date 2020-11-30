@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>relu</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/482.html#L41'>relu</a>               41 include/block.h   Relu              &lt;maxB,OC,H,W&gt;      relu; /**&lt; rectified linear layer  */</span>
+<span class='curline'><a href='../S/482.html#L53'>relu</a>               53 include/block.h     relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/482.html#L79'>relu</a>               79 include/block.h     relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/482.html#L162'>relu</a>              162 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp;  y = relu.forward(x2);</span>
+<span class='curline'><a href='../S/482.html#L177'>relu</a>              177 include/block.h     array4&lt;maxB,OC,H,W&gt;&amp; g2 = relu.backward(gy);</span>
+<span class='curline'><a href='../S/471.html#L385'>relu</a>              385 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu = new Relu&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L386'>relu</a>              386 include/relu.h   relu-&gt;init(opt, lgr);</span>
+<span class='curline'><a href='../S/471.html#L387'>relu</a>              387 include/relu.h   relu-&gt;make_dev();</span>
+<span class='curline'><a href='../S/471.html#L388'>relu</a>              388 include/relu.h   relu-&gt;to_dev();</span>
+<span class='curline'><a href='../S/471.html#L390'>relu</a>              390 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_minus = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/471.html#L391'>relu</a>              391 include/relu.h   Relu&lt;maxB,C,H,W&gt; * relu_plus  = relu-&gt;copy();</span>
+<span class='curline'><a href='../S/471.html#L403'>relu</a>              403 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; y = relu-&gt;forward(*x);</span>
+<span class='curline'><a href='../S/471.html#L404'>relu</a>              404 include/relu.h   array4&lt;maxB,C,H,W&gt;&amp; gx = relu-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/471.html#L405'>relu</a>              405 include/relu.h   relu-&gt;to_host();</span>
+<span class='curline'><a href='../S/471.html#L444'>relu</a>              444 include/relu.h   relu-&gt;del_dev();</span>
+<span class='curline'><a href='../S/471.html#L453'>relu</a>              453 include/relu.h   delete relu;</span>
+<span class='curline'><a href='../S/477.html#L93'>relu</a>               93 include/vgg.h    Relu              &lt;maxB,C4,H6,W6&gt; relu;       /**&lt; sublayer */</span>
+<span class='curline'><a href='../S/477.html#L149'>relu</a>              149 include/vgg.h      relu.init(opt, lgr);</span>
+<span class='curline'><a href='../S/477.html#L215'>relu</a>              215 include/vgg.h      relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/477.html#L356'>relu</a>              356 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; x30 = relu.forward(x29);</span>
+<span class='curline'><a href='../S/477.html#L378'>relu</a>              378 include/vgg.h      array4&lt;maxB,C4,H6,W6&gt;&amp; g29 = relu.backward(g30);</span>
+</pre>
+</body>
+</html>

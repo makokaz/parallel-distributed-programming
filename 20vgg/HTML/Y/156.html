@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dx</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L660'>dx</a>                660 include/batchnormalization.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/478.html#L661'>dx</a>                661 include/batchnormalization.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/478.html#L668'>dx</a>                668 include/batchnormalization.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/478.html#L669'>dx</a>                669 include/batchnormalization.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/478.html#L695'>dx</a>                695 include/batchnormalization.h   real dx_dx = dx-&gt;dot(*dx);                     /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/478.html#L696'>dx</a>                696 include/batchnormalization.h   real gx_dx = gx.dot(*dx);                      /* dx・dx */</span>
+<span class='curline'><a href='../S/478.html#L707'>dx</a>                707 include/batchnormalization.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/478.html#L715'>dx</a>                715 include/batchnormalization.h   delete dx;</span>
+<span class='curline'><a href='../S/482.html#L265'>dx</a>                265 include/block.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/482.html#L266'>dx</a>                266 include/block.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/482.html#L273'>dx</a>                273 include/block.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/482.html#L274'>dx</a>                274 include/block.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/482.html#L300'>dx</a>                300 include/block.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/482.html#L301'>dx</a>                301 include/block.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/482.html#L313'>dx</a>                313 include/block.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/482.html#L322'>dx</a>                322 include/block.h   delete dx;</span>
+<span class='curline'><a href='../S/473.html#L585'>dx</a>                585 include/convolution.h   array4&lt;maxB,IC,H,W&gt; * dx = new array4&lt;maxB,IC,H,W&gt;();</span>
+<span class='curline'><a href='../S/473.html#L586'>dx</a>                586 include/convolution.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/473.html#L593'>dx</a>                593 include/convolution.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/473.html#L594'>dx</a>                594 include/convolution.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/473.html#L620'>dx</a>                620 include/convolution.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/473.html#L621'>dx</a>                621 include/convolution.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/473.html#L633'>dx</a>                633 include/convolution.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/473.html#L642'>dx</a>                642 include/convolution.h   delete dx;</span>
+<span class='curline'><a href='../S/468.html#L430'>dx</a>                430 include/dropout.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/468.html#L431'>dx</a>                431 include/dropout.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/468.html#L437'>dx</a>                437 include/dropout.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/468.html#L438'>dx</a>                438 include/dropout.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/468.html#L458'>dx</a>                458 include/dropout.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/468.html#L459'>dx</a>                459 include/dropout.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/468.html#L471'>dx</a>                471 include/dropout.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/468.html#L480'>dx</a>                480 include/dropout.h   delete dx;</span>
+<span class='curline'><a href='../S/479.html#L547'>dx</a>                547 include/linear.h   array4&lt;maxB,IC,1,1&gt; * dx = new array4&lt;maxB,IC,1,1&gt;();</span>
+<span class='curline'><a href='../S/479.html#L548'>dx</a>                548 include/linear.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/479.html#L555'>dx</a>                555 include/linear.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L556'>dx</a>                556 include/linear.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/479.html#L582'>dx</a>                582 include/linear.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/479.html#L583'>dx</a>                583 include/linear.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/479.html#L595'>dx</a>                595 include/linear.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/479.html#L604'>dx</a>                604 include/linear.h   delete dx;</span>
+<span class='curline'><a href='../S/474.html#L432'>dx</a>                432 include/maxpooling.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/474.html#L433'>dx</a>                433 include/maxpooling.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/474.html#L439'>dx</a>                439 include/maxpooling.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/474.html#L440'>dx</a>                440 include/maxpooling.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/474.html#L460'>dx</a>                460 include/maxpooling.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/474.html#L461'>dx</a>                461 include/maxpooling.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/474.html#L473'>dx</a>                473 include/maxpooling.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/474.html#L482'>dx</a>                482 include/maxpooling.h   delete dx;</span>
+<span class='curline'><a href='../S/471.html#L408'>dx</a>                408 include/relu.h   array4&lt;maxB,C,H,W&gt; * dx = new array4&lt;maxB,C,H,W&gt;();</span>
+<span class='curline'><a href='../S/471.html#L409'>dx</a>                409 include/relu.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/471.html#L415'>dx</a>                415 include/relu.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/471.html#L416'>dx</a>                416 include/relu.h   x_plus-&gt;update(0.5, *dx);</span>
+<span class='curline'><a href='../S/471.html#L436'>dx</a>                436 include/relu.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/471.html#L437'>dx</a>                437 include/relu.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/471.html#L449'>dx</a>                449 include/relu.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/471.html#L458'>dx</a>                458 include/relu.h   delete dx;</span>
+<span class='curline'><a href='../S/480.html#L456'>dx</a>                456 include/softmaxcrossentropy.h   array4&lt;maxB,nC,1,1&gt; * dx = new array4&lt;maxB,nC,1,1&gt;();</span>
+<span class='curline'><a href='../S/480.html#L457'>dx</a>                457 include/softmaxcrossentropy.h   dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/480.html#L463'>dx</a>                463 include/softmaxcrossentropy.h   x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/480.html#L464'>dx</a>                464 include/softmaxcrossentropy.h   x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/480.html#L484'>dx</a>                484 include/softmaxcrossentropy.h   real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/480.html#L485'>dx</a>                485 include/softmaxcrossentropy.h   real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/480.html#L498'>dx</a>                498 include/softmaxcrossentropy.h   dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/480.html#L508'>dx</a>                508 include/softmaxcrossentropy.h   delete dx;</span>
+<span class='curline'><a href='../S/477.html#L607'>dx</a>                607 include/vgg.h    array4&lt;maxB,C0,H,W&gt; * dx = new array4&lt;maxB,C0,H,W&gt;();</span>
+<span class='curline'><a href='../S/477.html#L608'>dx</a>                608 include/vgg.h    dx-&gt;init_uniform(B, rg, -e, e);</span>
+<span class='curline'><a href='../S/477.html#L615'>dx</a>                615 include/vgg.h    x_minus-&gt;update(-0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L616'>dx</a>                616 include/vgg.h    x_plus-&gt;update( 0.5, *dx);</span>
+<span class='curline'><a href='../S/477.html#L642'>dx</a>                642 include/vgg.h    real dx_dx = dx-&gt;dot(*dx);                       /* ∂L/∂x・dx */</span>
+<span class='curline'><a href='../S/477.html#L643'>dx</a>                643 include/vgg.h    real gx_dx = gx.dot(*dx);                        /* dx・dx */</span>
+<span class='curline'><a href='../S/477.html#L655'>dx</a>                655 include/vgg.h    dx-&gt;del_dev();</span>
+<span class='curline'><a href='../S/477.html#L664'>dx</a>                664 include/vgg.h    delete dx;</span>
+<span class='curline'><a href='../S/481.html#L159'>dx</a>                159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L162'>dx</a>                162 include/vgg_arrays.h     assert(x.n == dx.n);</span>
+<span class='curline'><a href='../S/481.html#L164'>dx</a>                164 include/vgg_arrays.h       x(i) += eta * dx(i);</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>data</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/466.html#L15'>data</a>               15 vgg.cc                           cifar10_dataset&lt;maxB,C0,H,W&gt;&amp; data, idx_t B, long count) {</span>
+<span class='curline'><a href='../S/466.html#L18'>data</a>               18 vgg.cc             data.set_seed(vgg-&gt;opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L20'>data</a>               20 vgg.cc           data.get_data_train(vgg-&gt;x, vgg-&gt;t, vgg-&gt;idxs, B);</span>
+<span class='curline'><a href='../S/466.html#L37'>data</a>               37 vgg.cc                              cifar10_dataset&lt;maxB,C0,H,W&gt;&amp; data, long count) {</span>
+<span class='curline'><a href='../S/466.html#L38'>data</a>               38 vgg.cc           if (data.n_validate &gt; 0) {</span>
+<span class='curline'><a href='../S/466.html#L39'>data</a>               39 vgg.cc             vgg-&gt;lgr-&gt;log(1, "=== validate %ld - %ld ===", count, count + data.n_validate);</span>
+<span class='curline'><a href='../S/466.html#L43'>data</a>               43 vgg.cc             while (read_from &lt; data.n_validate) {</span>
+<span class='curline'><a href='../S/466.html#L44'>data</a>               44 vgg.cc               long read_to = min_i(read_from + maxB, data.n_validate);</span>
+<span class='curline'><a href='../S/466.html#L45'>data</a>               45 vgg.cc               data.get_data_validate(vgg-&gt;x, vgg-&gt;t, vgg-&gt;idxs, read_from, read_to);</span>
+<span class='curline'><a href='../S/466.html#L52'>data</a>               52 vgg.cc             real L = Lsum / data.n_validate;</span>
+<span class='curline'><a href='../S/466.html#L54'>data</a>               54 vgg.cc                           correct, data.n_validate, correct / (double)data.n_validate);</span>
+<span class='curline'><a href='../S/466.html#L107'>data</a>              107 vgg.cc           cifar10_dataset&lt;maxB,C0,H,W&gt; data;</span>
+<span class='curline'><a href='../S/466.html#L108'>data</a>              108 vgg.cc           data.load(lgr, opt.cifar_data, opt.partial_data,</span>
+<span class='curline'><a href='../S/466.html#L111'>data</a>              111 vgg.cc           data.set_seed(opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L118'>data</a>              118 vgg.cc             real train_loss = train(vgg, data, B, n_trained);</span>
+<span class='curline'><a href='../S/466.html#L122'>data</a>              122 vgg.cc             if (data.n_validate &gt; 0 &amp;&amp;</span>
+<span class='curline'><a href='../S/466.html#L123'>data</a>              123 vgg.cc                 n_trained &gt;= opt.validate_interval * (n_validated + data.n_validate)) {</span>
+<span class='curline'><a href='../S/466.html#L124'>data</a>              124 vgg.cc               real validate_loss = validate(vgg, data, n_validated);</span>
+<span class='curline'><a href='../S/466.html#L126'>data</a>              126 vgg.cc               n_validated += data.n_validate;</span>
+</pre>
+</body>
+</html>

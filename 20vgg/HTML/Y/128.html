@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dev</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L24'>dev</a>                24 include/batchnormalization.h __global__ void forward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L26'>dev</a>                26 include/batchnormalization.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/478.html#L38'>dev</a>                38 include/batchnormalization.h __global__ void backward_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/478.html#L40'>dev</a>                40 include/batchnormalization.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/478.html#L52'>dev</a>                52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L53'>dev</a>                53 include/batchnormalization.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/478.html#L76'>dev</a>                76 include/batchnormalization.h   BatchNormalization&lt;maxB,IC,H,W&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/478.html#L119'>dev</a>               119 include/batchnormalization.h   void set_dev(BatchNormalization&lt;maxB,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/478.html#L121'>dev</a>               121 include/batchnormalization.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/478.html#L122'>dev</a>               122 include/batchnormalization.h     gamma.set_dev(dev ? &amp;dev-&gt;gamma : 0);</span>
+<span class='curline'><a href='../S/478.html#L123'>dev</a>               123 include/batchnormalization.h     beta.set_dev(dev ? &amp;dev-&gt;beta : 0);</span>
+<span class='curline'><a href='../S/478.html#L124'>dev</a>               124 include/batchnormalization.h     x_hat.set_dev(dev ? &amp;dev-&gt;x_hat : 0);</span>
+<span class='curline'><a href='../S/478.html#L125'>dev</a>               125 include/batchnormalization.h     inv_std.set_dev(dev ? &amp;dev-&gt;inv_std : 0);</span>
+<span class='curline'><a href='../S/478.html#L126'>dev</a>               126 include/batchnormalization.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/478.html#L127'>dev</a>               127 include/batchnormalization.h     ggamma.set_dev(dev ? &amp;dev-&gt;ggamma : 0);</span>
+<span class='curline'><a href='../S/478.html#L128'>dev</a>               128 include/batchnormalization.h     gbeta.set_dev(dev ? &amp;dev-&gt;gbeta : 0);</span>
+<span class='curline'><a href='../S/478.html#L129'>dev</a>               129 include/batchnormalization.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/478.html#L131'>dev</a>               131 include/batchnormalization.h     (void)dev;</span>
+<span class='curline'><a href='../S/478.html#L144'>dev</a>               144 include/batchnormalization.h       dev = (BatchNormalization&lt;maxB,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/478.html#L146'>dev</a>               146 include/batchnormalization.h       dev = 0;</span>
+<span class='curline'><a href='../S/478.html#L148'>dev</a>               148 include/batchnormalization.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/478.html#L160'>dev</a>               160 include/batchnormalization.h       assert(dev);</span>
+<span class='curline'><a href='../S/478.html#L161'>dev</a>               161 include/batchnormalization.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/478.html#L162'>dev</a>               162 include/batchnormalization.h       dev = 0;</span>
+<span class='curline'><a href='../S/478.html#L173'>dev</a>               173 include/batchnormalization.h       assert(dev);</span>
+<span class='curline'><a href='../S/478.html#L174'>dev</a>               174 include/batchnormalization.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/478.html#L185'>dev</a>               185 include/batchnormalization.h       assert(dev);</span>
+<span class='curline'><a href='../S/478.html#L186'>dev</a>               186 include/batchnormalization.h       BatchNormalization&lt;maxB,IC,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/478.html#L188'>dev</a>               188 include/batchnormalization.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/478.html#L233'>dev</a>               233 include/batchnormalization.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/478.html#L401'>dev</a>               401 include/batchnormalization.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/478.html#L527'>dev</a>               527 include/batchnormalization.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/482.html#L35'>dev</a>                35 include/block.h   Block&lt;maxB,IC,H,W,K,OC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/482.html#L74'>dev</a>                74 include/block.h   void set_dev(Block&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/482.html#L76'>dev</a>                76 include/block.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/482.html#L77'>dev</a>                77 include/block.h     conv.set_dev(dev ? &amp;dev-&gt;conv : 0);</span>
+<span class='curline'><a href='../S/482.html#L78'>dev</a>                78 include/block.h     bn.set_dev(dev ? &amp;dev-&gt;bn : 0);</span>
+<span class='curline'><a href='../S/482.html#L79'>dev</a>                79 include/block.h     relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/482.html#L81'>dev</a>                81 include/block.h     (void)dev;</span>
+<span class='curline'><a href='../S/482.html#L94'>dev</a>                94 include/block.h       dev = (Block&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/482.html#L96'>dev</a>                96 include/block.h       dev = 0;</span>
+<span class='curline'><a href='../S/482.html#L98'>dev</a>                98 include/block.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/482.html#L110'>dev</a>               110 include/block.h       assert(dev);</span>
+<span class='curline'><a href='../S/482.html#L111'>dev</a>               111 include/block.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/482.html#L112'>dev</a>               112 include/block.h       dev = 0;</span>
+<span class='curline'><a href='../S/482.html#L123'>dev</a>               123 include/block.h       assert(dev);</span>
+<span class='curline'><a href='../S/482.html#L124'>dev</a>               124 include/block.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/482.html#L135'>dev</a>               135 include/block.h       assert(dev);</span>
+<span class='curline'><a href='../S/482.html#L136'>dev</a>               136 include/block.h       Block&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/482.html#L138'>dev</a>               138 include/block.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/473.html#L23'>dev</a>                23 include/convolution.h __global__ void forward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L26'>dev</a>                26 include/convolution.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/473.html#L38'>dev</a>                38 include/convolution.h __global__ void backward_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev,</span>
+<span class='curline'><a href='../S/473.html#L40'>dev</a>                40 include/convolution.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/473.html#L52'>dev</a>                52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L53'>dev</a>                53 include/convolution.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/473.html#L79'>dev</a>                79 include/convolution.h   Convolution2D&lt;maxB,IC,H,W,K,OC&gt; * dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/473.html#L118'>dev</a>               118 include/convolution.h   void set_dev(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev) {</span>
+<span class='curline'><a href='../S/473.html#L120'>dev</a>               120 include/convolution.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/473.html#L121'>dev</a>               121 include/convolution.h     w.set_dev(dev ? &amp;dev-&gt;w : 0);</span>
+<span class='curline'><a href='../S/473.html#L122'>dev</a>               122 include/convolution.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/473.html#L123'>dev</a>               123 include/convolution.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/473.html#L124'>dev</a>               124 include/convolution.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/473.html#L126'>dev</a>               126 include/convolution.h     (void)dev;</span>
+<span class='curline'><a href='../S/473.html#L139'>dev</a>               139 include/convolution.h       dev = (Convolution2D&lt;maxB,IC,H,W,K,OC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/473.html#L141'>dev</a>               141 include/convolution.h       dev = 0;</span>
+<span class='curline'><a href='../S/473.html#L143'>dev</a>               143 include/convolution.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/473.html#L155'>dev</a>               155 include/convolution.h       assert(dev);</span>
+<span class='curline'><a href='../S/473.html#L156'>dev</a>               156 include/convolution.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/473.html#L157'>dev</a>               157 include/convolution.h       dev = 0;</span>
+<span class='curline'><a href='../S/473.html#L168'>dev</a>               168 include/convolution.h       assert(dev);</span>
+<span class='curline'><a href='../S/473.html#L169'>dev</a>               169 include/convolution.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/473.html#L180'>dev</a>               180 include/convolution.h       assert(dev);</span>
+<span class='curline'><a href='../S/473.html#L181'>dev</a>               181 include/convolution.h       Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/473.html#L183'>dev</a>               183 include/convolution.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/473.html#L227'>dev</a>               227 include/convolution.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/473.html#L332'>dev</a>               332 include/convolution.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/473.html#L458'>dev</a>               458 include/convolution.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/468.html#L23'>dev</a>                23 include/dropout.h   __global__ void forward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L25'>dev</a>                25 include/dropout.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/468.html#L37'>dev</a>                37 include/dropout.h   __global__ void backward_global(Dropout&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/468.html#L39'>dev</a>                39 include/dropout.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/468.html#L62'>dev</a>                62 include/dropout.h   Dropout&lt;maxB,C,H,W&gt;* dev;     /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/468.html#L104'>dev</a>               104 include/dropout.h   void set_dev(Dropout&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/468.html#L106'>dev</a>               106 include/dropout.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/468.html#L107'>dev</a>               107 include/dropout.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/468.html#L108'>dev</a>               108 include/dropout.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/468.html#L110'>dev</a>               110 include/dropout.h     (void)dev;</span>
+<span class='curline'><a href='../S/468.html#L123'>dev</a>               123 include/dropout.h       dev = (Dropout&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/468.html#L125'>dev</a>               125 include/dropout.h       dev = 0;</span>
+<span class='curline'><a href='../S/468.html#L127'>dev</a>               127 include/dropout.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/468.html#L139'>dev</a>               139 include/dropout.h       assert(dev);</span>
+<span class='curline'><a href='../S/468.html#L140'>dev</a>               140 include/dropout.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/468.html#L141'>dev</a>               141 include/dropout.h       dev = 0;</span>
+<span class='curline'><a href='../S/468.html#L152'>dev</a>               152 include/dropout.h       assert(dev);</span>
+<span class='curline'><a href='../S/468.html#L153'>dev</a>               153 include/dropout.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/468.html#L164'>dev</a>               164 include/dropout.h       assert(dev);</span>
+<span class='curline'><a href='../S/468.html#L165'>dev</a>               165 include/dropout.h       Dropout&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/468.html#L167'>dev</a>               167 include/dropout.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/468.html#L230'>dev</a>               230 include/dropout.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/468.html#L331'>dev</a>               331 include/dropout.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/479.html#L24'>dev</a>                24 include/linear.h __global__ void forward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L26'>dev</a>                26 include/linear.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/479.html#L38'>dev</a>                38 include/linear.h   __global__ void backward_global(Linear&lt;maxB,IC,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/479.html#L40'>dev</a>                40 include/linear.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/479.html#L52'>dev</a>                52 include/linear.h   __global__ void update_global(Linear&lt;maxB,IC,nC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/479.html#L53'>dev</a>                53 include/linear.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/479.html#L71'>dev</a>                71 include/linear.h   Linear&lt;maxB,IC,nC&gt;* dev;      /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/479.html#L110'>dev</a>               110 include/linear.h   void set_dev(Linear&lt;maxB,IC,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/479.html#L112'>dev</a>               112 include/linear.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/479.html#L113'>dev</a>               113 include/linear.h     w.set_dev(dev ? &amp;dev-&gt;w : 0);</span>
+<span class='curline'><a href='../S/479.html#L114'>dev</a>               114 include/linear.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/479.html#L115'>dev</a>               115 include/linear.h     gw.set_dev(dev ? &amp;dev-&gt;gw : 0);</span>
+<span class='curline'><a href='../S/479.html#L116'>dev</a>               116 include/linear.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/479.html#L118'>dev</a>               118 include/linear.h     (void)dev;</span>
+<span class='curline'><a href='../S/479.html#L131'>dev</a>               131 include/linear.h       dev = (Linear&lt;maxB,IC,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/479.html#L133'>dev</a>               133 include/linear.h       dev = 0;</span>
+<span class='curline'><a href='../S/479.html#L135'>dev</a>               135 include/linear.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/479.html#L147'>dev</a>               147 include/linear.h       assert(dev);</span>
+<span class='curline'><a href='../S/479.html#L148'>dev</a>               148 include/linear.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/479.html#L149'>dev</a>               149 include/linear.h       dev = 0;</span>
+<span class='curline'><a href='../S/479.html#L160'>dev</a>               160 include/linear.h       assert(dev);</span>
+<span class='curline'><a href='../S/479.html#L161'>dev</a>               161 include/linear.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/479.html#L172'>dev</a>               172 include/linear.h       assert(dev);</span>
+<span class='curline'><a href='../S/479.html#L173'>dev</a>               173 include/linear.h       Linear&lt;maxB,IC,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/479.html#L175'>dev</a>               175 include/linear.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/479.html#L219'>dev</a>               219 include/linear.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/479.html#L316'>dev</a>               316 include/linear.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/479.html#L422'>dev</a>               422 include/linear.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/474.html#L23'>dev</a>                23 include/maxpooling.h   __global__ void forward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L25'>dev</a>                25 include/maxpooling.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/474.html#L37'>dev</a>                37 include/maxpooling.h   __global__ void backward_global(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev,</span>
+<span class='curline'><a href='../S/474.html#L39'>dev</a>                39 include/maxpooling.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/474.html#L65'>dev</a>                65 include/maxpooling.h   MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev; /**&lt; device shadow  */</span>
+<span class='curline'><a href='../S/474.html#L100'>dev</a>               100 include/maxpooling.h   void set_dev(MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev) {</span>
+<span class='curline'><a href='../S/474.html#L102'>dev</a>               102 include/maxpooling.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/474.html#L103'>dev</a>               103 include/maxpooling.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/474.html#L104'>dev</a>               104 include/maxpooling.h     max_idx.set_dev(dev ? &amp;dev-&gt;max_idx : 0);</span>
+<span class='curline'><a href='../S/474.html#L105'>dev</a>               105 include/maxpooling.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/474.html#L107'>dev</a>               107 include/maxpooling.h     (void)dev;</span>
+<span class='curline'><a href='../S/474.html#L120'>dev</a>               120 include/maxpooling.h       dev = (MaxPooling2D&lt;maxB,C,H,W,S&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/474.html#L122'>dev</a>               122 include/maxpooling.h       dev = 0;</span>
+<span class='curline'><a href='../S/474.html#L124'>dev</a>               124 include/maxpooling.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/474.html#L136'>dev</a>               136 include/maxpooling.h       assert(dev);</span>
+<span class='curline'><a href='../S/474.html#L137'>dev</a>               137 include/maxpooling.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/474.html#L138'>dev</a>               138 include/maxpooling.h       dev = 0;</span>
+<span class='curline'><a href='../S/474.html#L149'>dev</a>               149 include/maxpooling.h       assert(dev);</span>
+<span class='curline'><a href='../S/474.html#L150'>dev</a>               150 include/maxpooling.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/474.html#L161'>dev</a>               161 include/maxpooling.h       assert(dev);</span>
+<span class='curline'><a href='../S/474.html#L162'>dev</a>               162 include/maxpooling.h       MaxPooling2D&lt;maxB,C,H,W,S&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/474.html#L164'>dev</a>               164 include/maxpooling.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/474.html#L230'>dev</a>               230 include/maxpooling.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/474.html#L333'>dev</a>               333 include/maxpooling.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/471.html#L23'>dev</a>                23 include/relu.h   __global__ void forward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L25'>dev</a>                25 include/relu.h   dev-&gt;forward_dev(*x_dev);</span>
+<span class='curline'><a href='../S/471.html#L37'>dev</a>                37 include/relu.h   __global__ void backward_global(Relu&lt;maxB,C,H,W&gt;* dev,</span>
+<span class='curline'><a href='../S/471.html#L39'>dev</a>                39 include/relu.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/471.html#L62'>dev</a>                62 include/relu.h   Relu&lt;maxB,C,H,W&gt;* dev;        /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/471.html#L97'>dev</a>                97 include/relu.h   void set_dev(Relu&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/471.html#L99'>dev</a>                99 include/relu.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/471.html#L100'>dev</a>               100 include/relu.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/471.html#L101'>dev</a>               101 include/relu.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/471.html#L103'>dev</a>               103 include/relu.h     (void)dev;</span>
+<span class='curline'><a href='../S/471.html#L116'>dev</a>               116 include/relu.h       dev = (Relu&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/471.html#L118'>dev</a>               118 include/relu.h       dev = 0;</span>
+<span class='curline'><a href='../S/471.html#L120'>dev</a>               120 include/relu.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/471.html#L132'>dev</a>               132 include/relu.h       assert(dev);</span>
+<span class='curline'><a href='../S/471.html#L133'>dev</a>               133 include/relu.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/471.html#L134'>dev</a>               134 include/relu.h       dev = 0;</span>
+<span class='curline'><a href='../S/471.html#L145'>dev</a>               145 include/relu.h       assert(dev);</span>
+<span class='curline'><a href='../S/471.html#L146'>dev</a>               146 include/relu.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/471.html#L157'>dev</a>               157 include/relu.h       assert(dev);</span>
+<span class='curline'><a href='../S/471.html#L158'>dev</a>               158 include/relu.h       Relu&lt;maxB,C,H,W&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/471.html#L160'>dev</a>               160 include/relu.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/471.html#L215'>dev</a>               215 include/relu.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev)));</span>
+<span class='curline'><a href='../S/471.html#L311'>dev</a>               311 include/relu.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/480.html#L25'>dev</a>                25 include/softmaxcrossentropy.h   __global__ void forward_global(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/480.html#L27'>dev</a>                27 include/softmaxcrossentropy.h   dev-&gt;forward_dev(*x_dev, *t_dev);</span>
+<span class='curline'><a href='../S/480.html#L39'>dev</a>                39 include/softmaxcrossentropy.h   __global__ void backward_global(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev,</span>
+<span class='curline'><a href='../S/480.html#L41'>dev</a>                41 include/softmaxcrossentropy.h   dev-&gt;backward_dev(*gy_dev);</span>
+<span class='curline'><a href='../S/480.html#L64'>dev</a>                64 include/softmaxcrossentropy.h   SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/480.html#L101'>dev</a>               101 include/softmaxcrossentropy.h   void set_dev(SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/480.html#L103'>dev</a>               103 include/softmaxcrossentropy.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/480.html#L104'>dev</a>               104 include/softmaxcrossentropy.h     y.set_dev(dev ? &amp;dev-&gt;y : 0);</span>
+<span class='curline'><a href='../S/480.html#L105'>dev</a>               105 include/softmaxcrossentropy.h     gx.set_dev(dev ? &amp;dev-&gt;gx : 0);</span>
+<span class='curline'><a href='../S/480.html#L107'>dev</a>               107 include/softmaxcrossentropy.h     (void)dev;</span>
+<span class='curline'><a href='../S/480.html#L120'>dev</a>               120 include/softmaxcrossentropy.h       dev = (SoftmaxCrossEntropy&lt;maxB,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/480.html#L122'>dev</a>               122 include/softmaxcrossentropy.h       dev = 0;</span>
+<span class='curline'><a href='../S/480.html#L124'>dev</a>               124 include/softmaxcrossentropy.h     set_dev(dev);</span>
+<span class='curline'><a href='../S/480.html#L136'>dev</a>               136 include/softmaxcrossentropy.h       assert(dev);</span>
+<span class='curline'><a href='../S/480.html#L137'>dev</a>               137 include/softmaxcrossentropy.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/480.html#L138'>dev</a>               138 include/softmaxcrossentropy.h       dev = 0;</span>
+<span class='curline'><a href='../S/480.html#L149'>dev</a>               149 include/softmaxcrossentropy.h       assert(dev);</span>
+<span class='curline'><a href='../S/480.html#L150'>dev</a>               150 include/softmaxcrossentropy.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/480.html#L161'>dev</a>               161 include/softmaxcrossentropy.h       assert(dev);</span>
+<span class='curline'><a href='../S/480.html#L162'>dev</a>               162 include/softmaxcrossentropy.h       SoftmaxCrossEntropy&lt;maxB,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/480.html#L164'>dev</a>               164 include/softmaxcrossentropy.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/480.html#L255'>dev</a>               255 include/softmaxcrossentropy.h     launch_and_sync((forward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, x.dev, t.dev)));</span>
+<span class='curline'><a href='../S/480.html#L353'>dev</a>               353 include/softmaxcrossentropy.h     launch_and_sync((backward_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, gy.dev)));</span>
+<span class='curline'><a href='../S/477.html#L29'>dev</a>                29 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev; /**&lt; device shadow */</span>
+<span class='curline'><a href='../S/477.html#L174'>dev</a>               174 include/vgg.h    void set_dev(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev) {</span>
+<span class='curline'><a href='../S/477.html#L176'>dev</a>               176 include/vgg.h      this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/477.html#L177'>dev</a>               177 include/vgg.h      x.set_dev(dev ? &amp;dev-&gt;x : 0);</span>
+<span class='curline'><a href='../S/477.html#L178'>dev</a>               178 include/vgg.h      t.set_dev(dev ? &amp;dev-&gt;t : 0);</span>
+<span class='curline'><a href='../S/477.html#L179'>dev</a>               179 include/vgg.h      gy.set_dev(dev ? &amp;dev-&gt;gy : 0);</span>
+<span class='curline'><a href='../S/477.html#L181'>dev</a>               181 include/vgg.h      block1_1.set_dev(dev ? &amp;dev-&gt;block1_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L182'>dev</a>               182 include/vgg.h      dropout1_1.set_dev(dev ? &amp;dev-&gt;dropout1_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L183'>dev</a>               183 include/vgg.h      block1_2.set_dev(dev ? &amp;dev-&gt;block1_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L184'>dev</a>               184 include/vgg.h      max_pooling_2d1.set_dev(dev ? &amp;dev-&gt;max_pooling_2d1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L186'>dev</a>               186 include/vgg.h      block2_1.set_dev(dev ? &amp;dev-&gt;block2_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L187'>dev</a>               187 include/vgg.h      dropout2_1.set_dev(dev ? &amp;dev-&gt;dropout2_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L188'>dev</a>               188 include/vgg.h      block2_2.set_dev(dev ? &amp;dev-&gt;block2_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L189'>dev</a>               189 include/vgg.h      max_pooling_2d2.set_dev(dev ? &amp;dev-&gt;max_pooling_2d2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L191'>dev</a>               191 include/vgg.h      block3_1.set_dev(dev ? &amp;dev-&gt;block3_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L192'>dev</a>               192 include/vgg.h      dropout3_1.set_dev(dev ? &amp;dev-&gt;dropout3_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L193'>dev</a>               193 include/vgg.h      block3_2.set_dev(dev ? &amp;dev-&gt;block3_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L194'>dev</a>               194 include/vgg.h      dropout3_2.set_dev(dev ? &amp;dev-&gt;dropout3_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L195'>dev</a>               195 include/vgg.h      block3_3.set_dev(dev ? &amp;dev-&gt;block3_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L196'>dev</a>               196 include/vgg.h      max_pooling_2d3.set_dev(dev ? &amp;dev-&gt;max_pooling_2d3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L198'>dev</a>               198 include/vgg.h      block4_1.set_dev(dev ? &amp;dev-&gt;block4_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L199'>dev</a>               199 include/vgg.h      dropout4_1.set_dev(dev ? &amp;dev-&gt;dropout4_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L200'>dev</a>               200 include/vgg.h      block4_2.set_dev(dev ? &amp;dev-&gt;block4_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L201'>dev</a>               201 include/vgg.h      dropout4_2.set_dev(dev ? &amp;dev-&gt;dropout4_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L202'>dev</a>               202 include/vgg.h      block4_3.set_dev(dev ? &amp;dev-&gt;block4_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L203'>dev</a>               203 include/vgg.h      max_pooling_2d4.set_dev(dev ? &amp;dev-&gt;max_pooling_2d4 : 0);</span>
+<span class='curline'><a href='../S/477.html#L205'>dev</a>               205 include/vgg.h      block5_1.set_dev(dev ? &amp;dev-&gt;block5_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L206'>dev</a>               206 include/vgg.h      dropout5_1.set_dev(dev ? &amp;dev-&gt;dropout5_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L207'>dev</a>               207 include/vgg.h      block5_2.set_dev(dev ? &amp;dev-&gt;block5_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L208'>dev</a>               208 include/vgg.h      dropout5_2.set_dev(dev ? &amp;dev-&gt;dropout5_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L209'>dev</a>               209 include/vgg.h      block5_3.set_dev(dev ? &amp;dev-&gt;block5_3 : 0);</span>
+<span class='curline'><a href='../S/477.html#L210'>dev</a>               210 include/vgg.h      max_pooling_2d5.set_dev(dev ? &amp;dev-&gt;max_pooling_2d5 : 0);</span>
+<span class='curline'><a href='../S/477.html#L212'>dev</a>               212 include/vgg.h      dropout6_1.set_dev(dev ? &amp;dev-&gt;dropout6_1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L213'>dev</a>               213 include/vgg.h      fc1.set_dev(dev ? &amp;dev-&gt;fc1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L214'>dev</a>               214 include/vgg.h      bn_fc1.set_dev(dev ? &amp;dev-&gt;bn_fc1 : 0);</span>
+<span class='curline'><a href='../S/477.html#L215'>dev</a>               215 include/vgg.h      relu.set_dev(dev ? &amp;dev-&gt;relu : 0);</span>
+<span class='curline'><a href='../S/477.html#L216'>dev</a>               216 include/vgg.h      dropout6_2.set_dev(dev ? &amp;dev-&gt;dropout6_2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L217'>dev</a>               217 include/vgg.h      fc2.set_dev(dev ? &amp;dev-&gt;fc2 : 0);</span>
+<span class='curline'><a href='../S/477.html#L219'>dev</a>               219 include/vgg.h      softmax_cross_entropy.set_dev(dev ? &amp;dev-&gt;softmax_cross_entropy : 0);</span>
+<span class='curline'><a href='../S/477.html#L221'>dev</a>               221 include/vgg.h      (void)dev;</span>
+<span class='curline'><a href='../S/477.html#L234'>dev</a>               234 include/vgg.h        dev = (VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/477.html#L236'>dev</a>               236 include/vgg.h        dev = 0;</span>
+<span class='curline'><a href='../S/477.html#L238'>dev</a>               238 include/vgg.h      set_dev(dev);</span>
+<span class='curline'><a href='../S/477.html#L250'>dev</a>               250 include/vgg.h        assert(dev);</span>
+<span class='curline'><a href='../S/477.html#L251'>dev</a>               251 include/vgg.h        dev_free(dev);</span>
+<span class='curline'><a href='../S/477.html#L252'>dev</a>               252 include/vgg.h        dev = 0;</span>
+<span class='curline'><a href='../S/477.html#L263'>dev</a>               263 include/vgg.h        assert(dev);</span>
+<span class='curline'><a href='../S/477.html#L264'>dev</a>               264 include/vgg.h        ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/477.html#L275'>dev</a>               275 include/vgg.h        assert(dev);</span>
+<span class='curline'><a href='../S/477.html#L277'>dev</a>               277 include/vgg.h        VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;* dev_ = dev;</span>
+<span class='curline'><a href='../S/477.html#L279'>dev</a>               279 include/vgg.h        assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/481.html#L76'>dev</a>                76 include/vgg_arrays.h   vec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L195'>dev</a>               195 include/vgg_arrays.h   void set_dev(vec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L197'>dev</a>               197 include/vgg_arrays.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/481.html#L199'>dev</a>               199 include/vgg_arrays.h     (void)dev;</span>
+<span class='curline'><a href='../S/481.html#L210'>dev</a>               210 include/vgg_arrays.h       dev = (vec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L212'>dev</a>               212 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L223'>dev</a>               223 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L224'>dev</a>               224 include/vgg_arrays.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/481.html#L225'>dev</a>               225 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L234'>dev</a>               234 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L235'>dev</a>               235 include/vgg_arrays.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L244'>dev</a>               244 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L245'>dev</a>               245 include/vgg_arrays.h       vec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L247'>dev</a>               247 include/vgg_arrays.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/481.html#L260'>dev</a>               260 include/vgg_arrays.h   ivec&lt;N&gt; * dev;                 /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L312'>dev</a>               312 include/vgg_arrays.h   void set_dev(ivec&lt;N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L314'>dev</a>               314 include/vgg_arrays.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/481.html#L316'>dev</a>               316 include/vgg_arrays.h     (void)dev;</span>
+<span class='curline'><a href='../S/481.html#L327'>dev</a>               327 include/vgg_arrays.h       dev = (ivec&lt;N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L329'>dev</a>               329 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L340'>dev</a>               340 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L341'>dev</a>               341 include/vgg_arrays.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/481.html#L342'>dev</a>               342 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L351'>dev</a>               351 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L352'>dev</a>               352 include/vgg_arrays.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L361'>dev</a>               361 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L362'>dev</a>               362 include/vgg_arrays.h       ivec&lt;N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L364'>dev</a>               364 include/vgg_arrays.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/481.html#L378'>dev</a>               378 include/vgg_arrays.h   array2&lt;M,N&gt; * dev;            /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L486'>dev</a>               486 include/vgg_arrays.h   void set_dev(array2&lt;M,N&gt; * dev) {</span>
+<span class='curline'><a href='../S/481.html#L488'>dev</a>               488 include/vgg_arrays.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/481.html#L490'>dev</a>               490 include/vgg_arrays.h     (void)dev;</span>
+<span class='curline'><a href='../S/481.html#L501'>dev</a>               501 include/vgg_arrays.h       dev = (array2&lt;M,N&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L503'>dev</a>               503 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L514'>dev</a>               514 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L515'>dev</a>               515 include/vgg_arrays.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/481.html#L516'>dev</a>               516 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L525'>dev</a>               525 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L526'>dev</a>               526 include/vgg_arrays.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L535'>dev</a>               535 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L536'>dev</a>               536 include/vgg_arrays.h       array2&lt;M,N&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L538'>dev</a>               538 include/vgg_arrays.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/481.html#L559'>dev</a>               559 include/vgg_arrays.h   array4&lt;maxB,C,H,W&gt; * dev;     /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L710'>dev</a>               710 include/vgg_arrays.h   void set_dev(array4&lt;maxB,C,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L712'>dev</a>               712 include/vgg_arrays.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/481.html#L714'>dev</a>               714 include/vgg_arrays.h     (void)dev;</span>
+<span class='curline'><a href='../S/481.html#L725'>dev</a>               725 include/vgg_arrays.h       dev = (array4&lt;maxB,C,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L727'>dev</a>               727 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L738'>dev</a>               738 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L739'>dev</a>               739 include/vgg_arrays.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/481.html#L740'>dev</a>               740 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L749'>dev</a>               749 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L750'>dev</a>               750 include/vgg_arrays.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L759'>dev</a>               759 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L760'>dev</a>               760 include/vgg_arrays.h       array4&lt;maxB,C,H,W&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L762'>dev</a>               762 include/vgg_arrays.h       assert(dev_ == dev);</span>
+<span class='curline'><a href='../S/481.html#L778'>dev</a>               778 include/vgg_arrays.h   warray4&lt;OC,IC,H,W&gt; * dev;     /**&lt; pointer to the device shadow */</span>
+<span class='curline'><a href='../S/481.html#L896'>dev</a>               896 include/vgg_arrays.h   void set_dev(warray4&lt;OC,IC,H,W&gt;* dev) {</span>
+<span class='curline'><a href='../S/481.html#L898'>dev</a>               898 include/vgg_arrays.h     this-&gt;dev = dev;</span>
+<span class='curline'><a href='../S/481.html#L900'>dev</a>               900 include/vgg_arrays.h     (void)dev;</span>
+<span class='curline'><a href='../S/481.html#L911'>dev</a>               911 include/vgg_arrays.h       dev = (warray4&lt;OC,IC,H,W&gt;*)dev_malloc(sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L913'>dev</a>               913 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L924'>dev</a>               924 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L925'>dev</a>               925 include/vgg_arrays.h       dev_free(dev);</span>
+<span class='curline'><a href='../S/481.html#L926'>dev</a>               926 include/vgg_arrays.h       dev = 0;</span>
+<span class='curline'><a href='../S/481.html#L935'>dev</a>               935 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L936'>dev</a>               936 include/vgg_arrays.h       ::to_dev(dev, this, sizeof(*this));</span>
+<span class='curline'><a href='../S/481.html#L945'>dev</a>               945 include/vgg_arrays.h     if (dev) {</span>
+<span class='curline'><a href='../S/481.html#L946'>dev</a>               946 include/vgg_arrays.h       warray4&lt;OC,IC,H,W&gt; * dev_ = dev;</span>
+<span class='curline'><a href='../S/481.html#L948'>dev</a>               948 include/vgg_arrays.h       assert(dev_ == dev);</span>
+</pre>
+</body>
+</html>

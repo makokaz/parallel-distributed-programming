@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>doc/html/menu.js</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<!-- beginning of fixed guide -->
+<div id='guide'><ul>
+<li><a href='#TOP'><img class='icon' src='../icons/first.png' alt='[^]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/last.png' alt='[v]' /></a></li>
+<li><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a></li>
+<li><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a></li>
+<li><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a></li>
+<li><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a></li>
+<li class='standout'><span><a href='../files/484.html'>doc</a>/<a href='../files/485.html'>html</a>/menu.js</span></li>
+</ul></div>
+<!-- end of fixed guide -->
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/484.html'>doc</a>/<a href='../files/485.html'>html</a>/menu.js</h2>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><img class='icon' src='../icons/n_top.png' alt='[top]' /><a href='#BOTTOM'><img class='icon' src='../icons/bottom.png' alt='[bottom]' /></a><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+1 doc/html/menu.js'  /> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>function initMenu(relPath,searchEnabled,serverSide,searchPage,search) {
+<a id='L2' name='L2'></a>  function makeTree(data,relPath) {
+<a id='L3' name='L3'></a>    var result='';
+<a id='L4' name='L4'></a>    if ('children' in data) {
+<a id='L5' name='L5'></a>      result+='&lt;ul&gt;';
+<a id='L6' name='L6'></a>      for (var i in data.children) {
+<a id='L7' name='L7'></a>        result+='&lt;li&gt;&lt;a href="'+relPath+data.children[i].url+'"&gt;'+
+<a id='L8' name='L8'></a>                                data.children[i].text+'&lt;/a&gt;'+
+<a id='L9' name='L9'></a>                                makeTree(data.children[i],relPath)+'&lt;/li&gt;';
+<a id='L10' name='L10'></a>      }
+<a id='L11' name='L11'></a>      result+='&lt;/ul&gt;';
+<a id='L12' name='L12'></a>    }
+<a id='L13' name='L13'></a>    return result;
+<a id='L14' name='L14'></a>  }
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  $('#main-nav').append(makeTree(menudata,relPath));
+<a id='L17' name='L17'></a>  $('#main-nav').children(':first').addClass('sm sm-dox').attr('id','main-menu');
+<a id='L18' name='L18'></a>  if (searchEnabled) {
+<a id='L19' name='L19'></a>    if (serverSide) {
+<a id='L20' name='L20'></a>      $('#main-menu').append('&lt;li style="float:right"&gt;&lt;div id="MSearchBox" class="MSearchBoxInactive"&gt;&lt;div class="left"&gt;&lt;form id="FSearchBox" action="'+searchPage+'" method="get"&gt;&lt;img id="MSearchSelect" src="'+relPath+'search/mag.png" alt=""/&gt;&lt;input type="text" id="MSearchField" name="query" value="'+search+'" size="20" accesskey="S" onfocus="searchBox.OnSearchFieldFocus(true)" onblur="searchBox.OnSearchFieldFocus(false)"&gt;&lt;/form&gt;&lt;/div&gt;&lt;div class="right"&gt;&lt;/div&gt;&lt;/div&gt;&lt;/li&gt;');
+<a id='L21' name='L21'></a>    } else {
+<a id='L22' name='L22'></a>      $('#main-menu').append('&lt;li style="float:right"&gt;&lt;div id="MSearchBox" class="MSearchBoxInactive"&gt;&lt;span class="left"&gt;&lt;img id="MSearchSelect" src="'+relPath+'search/mag_sel.png" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()" alt=""/&gt;&lt;input type="text" id="MSearchField" value="'+search+'" accesskey="S" onfocus="searchBox.OnSearchFieldFocus(true)" onblur="searchBox.OnSearchFieldFocus(false)" onkeyup="searchBox.OnSearchFieldChange(event)"/&gt;&lt;/span&gt;&lt;span class="right"&gt;&lt;a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"&gt;&lt;img id="MSearchCloseImg" border="0" src="'+relPath+'search/close.png" alt=""/&gt;&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;');
+<a id='L23' name='L23'></a>    }
+<a id='L24' name='L24'></a>  }
+<a id='L25' name='L25'></a>  $('#main-menu').smartmenus();
+<a id='L26' name='L26'></a>}
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* <img class='icon' src='../icons/n_left.png' alt='[previous]' /><img class='icon' src='../icons/n_right.png' alt='[next]' /><img class='icon' src='../icons/n_first.png' alt='[first]' /><img class='icon' src='../icons/n_last.png' alt='[last]' /><a href='#TOP'><img class='icon' src='../icons/top.png' alt='[top]' /></a><img class='icon' src='../icons/n_bottom.png' alt='[bottom]' /><a href='../mains.html'><img class='icon' src='../icons/index.png' alt='[index]' /></a><a href='../help.html'><img class='icon' src='../icons/help.png' alt='[help]' /></a>&nbsp;<input type='text' readonly onfocus='this.select();' value='+26 doc/html/menu.js'  /> */</em>
+</body>
+</html>

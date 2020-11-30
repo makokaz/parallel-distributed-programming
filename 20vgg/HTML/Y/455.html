@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vgg</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/477.html#L577'>vgg</a>               577 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/477.html#L578'>vgg</a>               578 include/vgg.h    vgg-&gt;init(opt, lgr, rg);</span>
+<span class='curline'><a href='../S/477.html#L579'>vgg</a>               579 include/vgg.h    vgg-&gt;make_dev();</span>
+<span class='curline'><a href='../S/477.html#L580'>vgg</a>               580 include/vgg.h    vgg-&gt;to_dev();</span>
+<span class='curline'><a href='../S/477.html#L582'>vgg</a>               582 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_minus = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L583'>vgg</a>               583 include/vgg.h    VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg_plus  = vgg-&gt;copy();</span>
+<span class='curline'><a href='../S/477.html#L600'>vgg</a>               600 include/vgg.h    vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(*x, *t);</span>
+<span class='curline'><a href='../S/477.html#L601'>vgg</a>               601 include/vgg.h    array4&lt;maxB,C0,H,W&gt;&amp; gx = vgg-&gt;backward(*alpha);</span>
+<span class='curline'><a href='../S/477.html#L603'>vgg</a>               603 include/vgg.h    vgg-&gt;to_host();</span>
+<span class='curline'><a href='../S/477.html#L644'>vgg</a>               644 include/vgg.h    real gw_gw = vgg-&gt;gw_dot_gw(*vgg);             /* ∂L/∂w・∂L/∂w */</span>
+<span class='curline'><a href='../S/477.html#L646'>vgg</a>               646 include/vgg.h    real gw_dw = vgg-&gt;gw_dot_gw(*vgg_minus);       /* dw・dw */</span>
+<span class='curline'><a href='../S/477.html#L650'>vgg</a>               650 include/vgg.h    vgg-&gt;del_dev();</span>
+<span class='curline'><a href='../S/477.html#L659'>vgg</a>               659 include/vgg.h    delete vgg;</span>
+<span class='curline'><a href='../S/466.html#L14'>vgg</a>                14 vgg.cc         static real train(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L16'>vgg</a>                16 vgg.cc           vgg-&gt;lgr-&gt;log(1, "=== train %ld - %ld ===", count, count + B);</span>
+<span class='curline'><a href='../S/466.html#L17'>vgg</a>                17 vgg.cc           if (vgg-&gt;opt.single_batch) {</span>
+<span class='curline'><a href='../S/466.html#L18'>vgg</a>                18 vgg.cc             data.set_seed(vgg-&gt;opt.sample_seed);</span>
+<span class='curline'><a href='../S/466.html#L20'>vgg</a>                20 vgg.cc           data.get_data_train(vgg-&gt;x, vgg-&gt;t, vgg-&gt;idxs, B);</span>
+<span class='curline'><a href='../S/466.html#L21'>vgg</a>                21 vgg.cc           real Lsum = vgg-&gt;forward_backward_update(vgg-&gt;x, vgg-&gt;t, vgg-&gt;opt.learnrate);</span>
+<span class='curline'><a href='../S/466.html#L23'>vgg</a>                23 vgg.cc           int correct = vgg-&gt;log_minibatch(0);</span>
+<span class='curline'><a href='../S/466.html#L24'>vgg</a>                24 vgg.cc           vgg-&gt;lgr-&gt;log(1, "train accuracy %d / %d = %.3f",</span>
+<span class='curline'><a href='../S/466.html#L26'>vgg</a>                26 vgg.cc           vgg-&gt;lgr-&gt;log(1, "train loss = %.9f", L);</span>
+<span class='curline'><a href='../S/466.html#L36'>vgg</a>                36 vgg.cc         static real validate(VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg,</span>
+<span class='curline'><a href='../S/466.html#L39'>vgg</a>                39 vgg.cc             vgg-&gt;lgr-&gt;log(1, "=== validate %ld - %ld ===", count, count + data.n_validate);</span>
+<span class='curline'><a href='../S/466.html#L45'>vgg</a>                45 vgg.cc               data.get_data_validate(vgg-&gt;x, vgg-&gt;t, vgg-&gt;idxs, read_from, read_to);</span>
+<span class='curline'><a href='../S/466.html#L46'>vgg</a>                46 vgg.cc               vec&lt;maxB&gt;&amp; y = vgg-&gt;forward(vgg-&gt;x, vgg-&gt;t);</span>
+<span class='curline'><a href='../S/466.html#L49'>vgg</a>                49 vgg.cc               correct += vgg-&gt;log_minibatch(read_from);</span>
+<span class='curline'><a href='../S/466.html#L53'>vgg</a>                53 vgg.cc             vgg-&gt;lgr-&gt;log(1, "validate accuracy %d / %d = %.3f",</span>
+<span class='curline'><a href='../S/466.html#L55'>vgg</a>                55 vgg.cc             vgg-&gt;lgr-&gt;log(1, "validate loss = %.9f", L);</span>
+<span class='curline'><a href='../S/466.html#L101'>vgg</a>               101 vgg.cc           VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt; * vgg = new VGG&lt;maxB,C0,H,W,K,S,C1,nC&gt;();</span>
+<span class='curline'><a href='../S/466.html#L102'>vgg</a>               102 vgg.cc           vgg-&gt;init(opt, &amp;lgr, rg);</span>
+<span class='curline'><a href='../S/466.html#L103'>vgg</a>               103 vgg.cc           vgg-&gt;make_dev();</span>
+<span class='curline'><a href='../S/466.html#L104'>vgg</a>               104 vgg.cc           vgg-&gt;to_dev();</span>
+<span class='curline'><a href='../S/466.html#L118'>vgg</a>               118 vgg.cc             real train_loss = train(vgg, data, B, n_trained);</span>
+<span class='curline'><a href='../S/466.html#L124'>vgg</a>               124 vgg.cc               real validate_loss = validate(vgg, data, n_validated);</span>
+</pre>
+</body>
+</html>

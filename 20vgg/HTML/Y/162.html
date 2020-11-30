@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>eta</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L52'>eta</a>                52 include/batchnormalization.h   __global__ void update_global(BatchNormalization&lt;maxB,IC,H,W&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/478.html#L53'>eta</a>                53 include/batchnormalization.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/478.html#L205'>eta</a>               205 include/batchnormalization.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L206'>eta</a>               206 include/batchnormalization.h     gamma.update(eta, ggamma);</span>
+<span class='curline'><a href='../S/478.html#L207'>eta</a>               207 include/batchnormalization.h     beta.update(eta, gbeta);</span>
+<span class='curline'><a href='../S/478.html#L220'>eta</a>               220 include/batchnormalization.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L221'>eta</a>               221 include/batchnormalization.h     update_base(eta);</span>
+<span class='curline'><a href='../S/478.html#L232'>eta</a>               232 include/batchnormalization.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L233'>eta</a>               233 include/batchnormalization.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/478.html#L243'>eta</a>               243 include/batchnormalization.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L244'>eta</a>               244 include/batchnormalization.h     update_base(eta);</span>
+<span class='curline'><a href='../S/478.html#L253'>eta</a>               253 include/batchnormalization.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/478.html#L259'>eta</a>               259 include/batchnormalization.h       update_cpu(eta); break;</span>
+<span class='curline'><a href='../S/478.html#L262'>eta</a>               262 include/batchnormalization.h       update_gpu(eta); break;</span>
+<span class='curline'><a href='../S/478.html#L267'>eta</a>               267 include/batchnormalization.h         update_gpu(eta);</span>
+<span class='curline'><a href='../S/478.html#L272'>eta</a>               272 include/batchnormalization.h         update_cpu(eta);</span>
+<span class='curline'><a href='../S/482.html#L149'>eta</a>               149 include/block.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/482.html#L150'>eta</a>               150 include/block.h     conv.update(eta);</span>
+<span class='curline'><a href='../S/482.html#L151'>eta</a>               151 include/block.h     bn.update(eta);</span>
+<span class='curline'><a href='../S/473.html#L52'>eta</a>                52 include/convolution.h   __global__ void update_global(Convolution2D&lt;maxB,IC,H,W,K,OC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/473.html#L53'>eta</a>                53 include/convolution.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/473.html#L200'>eta</a>               200 include/convolution.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L201'>eta</a>               201 include/convolution.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/473.html#L214'>eta</a>               214 include/convolution.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L215'>eta</a>               215 include/convolution.h     update_base(eta);</span>
+<span class='curline'><a href='../S/473.html#L226'>eta</a>               226 include/convolution.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L227'>eta</a>               227 include/convolution.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/473.html#L237'>eta</a>               237 include/convolution.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L238'>eta</a>               238 include/convolution.h     update_base(eta);</span>
+<span class='curline'><a href='../S/473.html#L247'>eta</a>               247 include/convolution.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/473.html#L253'>eta</a>               253 include/convolution.h       update_cpu(eta); break;</span>
+<span class='curline'><a href='../S/473.html#L256'>eta</a>               256 include/convolution.h       update_gpu(eta); break;</span>
+<span class='curline'><a href='../S/473.html#L261'>eta</a>               261 include/convolution.h         update_gpu(eta);</span>
+<span class='curline'><a href='../S/473.html#L266'>eta</a>               266 include/convolution.h         update_cpu(eta);</span>
+<span class='curline'><a href='../S/479.html#L52'>eta</a>                52 include/linear.h   __global__ void update_global(Linear&lt;maxB,IC,nC&gt;* dev, real eta) {</span>
+<span class='curline'><a href='../S/479.html#L53'>eta</a>                53 include/linear.h   dev-&gt;update_dev(eta);</span>
+<span class='curline'><a href='../S/479.html#L192'>eta</a>               192 include/linear.h   void update_base(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L193'>eta</a>               193 include/linear.h     w.update(eta, gw);</span>
+<span class='curline'><a href='../S/479.html#L206'>eta</a>               206 include/linear.h   void update_dev(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L207'>eta</a>               207 include/linear.h     update_base(eta);</span>
+<span class='curline'><a href='../S/479.html#L218'>eta</a>               218 include/linear.h   void update_gpu(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L219'>eta</a>               219 include/linear.h     launch_and_sync((update_global&lt;&lt;&lt;1,1&gt;&gt;&gt;(dev, eta)));</span>
+<span class='curline'><a href='../S/479.html#L229'>eta</a>               229 include/linear.h   void update_cpu(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L230'>eta</a>               230 include/linear.h     update_base(eta);</span>
+<span class='curline'><a href='../S/479.html#L239'>eta</a>               239 include/linear.h   void update(real eta) {</span>
+<span class='curline'><a href='../S/479.html#L245'>eta</a>               245 include/linear.h       update_cpu(eta); break;</span>
+<span class='curline'><a href='../S/479.html#L248'>eta</a>               248 include/linear.h       update_gpu(eta); break;</span>
+<span class='curline'><a href='../S/479.html#L253'>eta</a>               253 include/linear.h         update_gpu(eta);</span>
+<span class='curline'><a href='../S/479.html#L258'>eta</a>               258 include/linear.h         update_cpu(eta);</span>
+<span class='curline'><a href='../S/477.html#L290'>eta</a>               290 include/vgg.h    void update(real eta) {</span>
+<span class='curline'><a href='../S/477.html#L291'>eta</a>               291 include/vgg.h      block1_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L292'>eta</a>               292 include/vgg.h      block1_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L294'>eta</a>               294 include/vgg.h      block2_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L295'>eta</a>               295 include/vgg.h      block2_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L297'>eta</a>               297 include/vgg.h      block3_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L298'>eta</a>               298 include/vgg.h      block3_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L299'>eta</a>               299 include/vgg.h      block3_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L301'>eta</a>               301 include/vgg.h      block4_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L302'>eta</a>               302 include/vgg.h      block4_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L303'>eta</a>               303 include/vgg.h      block4_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L305'>eta</a>               305 include/vgg.h      block5_1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L306'>eta</a>               306 include/vgg.h      block5_2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L307'>eta</a>               307 include/vgg.h      block5_3.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L309'>eta</a>               309 include/vgg.h      fc1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L310'>eta</a>               310 include/vgg.h      bn_fc1.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L311'>eta</a>               311 include/vgg.h      fc2.update(eta);</span>
+<span class='curline'><a href='../S/477.html#L450'>eta</a>               450 include/vgg.h    real forward_backward_update(array4&lt;maxB,C0,H,W&gt;&amp; x, ivec&lt;maxB&gt;&amp; t, real eta) {</span>
+<span class='curline'><a href='../S/477.html#L460'>eta</a>               460 include/vgg.h      real e = eta / B;</span>
+<span class='curline'><a href='../S/481.html#L159'>eta</a>               159 include/vgg_arrays.h   void update(real eta, vec&lt;N&gt;&amp; dx) {</span>
+<span class='curline'><a href='../S/481.html#L164'>eta</a>               164 include/vgg_arrays.h       x(i) += eta * dx(i);</span>
+<span class='curline'><a href='../S/481.html#L455'>eta</a>               455 include/vgg_arrays.h   void update(real eta, array2&lt;M,N&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L461'>eta</a>               461 include/vgg_arrays.h         a(i,j) += eta * da(i,j);</span>
+<span class='curline'><a href='../S/481.html#L668'>eta</a>               668 include/vgg_arrays.h   void update(real eta, array4&lt;maxB,C,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L675'>eta</a>               675 include/vgg_arrays.h             a(b,c,i,j) += eta * da(b,c,i,j);</span>
+<span class='curline'><a href='../S/481.html#L855'>eta</a>               855 include/vgg_arrays.h   void update(real eta, warray4&lt;OC,IC,H,W&gt;&amp; da) {</span>
+<span class='curline'><a href='../S/481.html#L862'>eta</a>               862 include/vgg_arrays.h             a(oc,ic,i,j) += eta * da(oc,ic,i,j);</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>mu</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.6.4' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/478.html#L316'>mu</a>                316 include/batchnormalization.h   vec&lt;IC&gt;&amp; inv_std_bij(array4&lt;maxB,IC,H,W&gt;&amp; x, vec&lt;IC&gt;&amp; mu) {</span>
+<span class='curline'><a href='../S/478.html#L326'>mu</a>                326 include/batchnormalization.h             real ds = x(b,ic,i,j) - mu(ic);</span>
+<span class='curline'><a href='../S/478.html#L353'>mu</a>                353 include/batchnormalization.h       vec&lt;IC&gt; mu = mean_bij(x);</span>
+<span class='curline'><a href='../S/478.html#L354'>mu</a>                354 include/batchnormalization.h       inv_std = inv_std_bij(x, mu);</span>
+<span class='curline'><a href='../S/478.html#L359'>mu</a>                359 include/batchnormalization.h               x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);</span>
+<span class='curline'><a href='../S/481.html#L145'>mu</a>                145 include/vgg_arrays.h   void init_normal(idx_t n, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L149'>mu</a>                149 include/vgg_arrays.h       x(i) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L439'>mu</a>                439 include/vgg_arrays.h   void init_normal(idx_t m, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L444'>mu</a>                444 include/vgg_arrays.h         a(i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L648'>mu</a>                648 include/vgg_arrays.h   void init_normal(idx_t B, rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L655'>mu</a>                655 include/vgg_arrays.h             a(b,c,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/481.html#L836'>mu</a>                836 include/vgg_arrays.h   void init_normal(rnd_gen_t&amp; rg, real mu, real sigma) {</span>
+<span class='curline'><a href='../S/481.html#L842'>mu</a>                842 include/vgg_arrays.h             a(oc,ic,i,j) = rg.rand_normal(mu, sigma);</span>
+<span class='curline'><a href='../S/475.html#L484'>mu</a>                484 include/vgg_util.h   real rand_normal(real mu, real sigma) {</span>
+<span class='curline'><a href='../S/475.html#L488'>mu</a>                488 include/vgg_util.h     return mu + x * sigma;</span>
+</pre>
+</body>
+</html>
