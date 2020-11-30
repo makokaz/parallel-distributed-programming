@@ -12,8 +12,8 @@ Try the following and check if they work.
 -------------------
 
 ```
-$ srun -p big -t 0:01:00 hostname     # Intel Skylake
-$ srun -p knm -t 0:01:00 hostname     # Intel many core Knights Mill
+$ srun -p big -t 0:01:00              hostname # Intel Skylake
+$ srun -p knm -t 0:01:00              hostname # Intel many core Knights Mill
 $ srun -p p   -t 0:01:00 --gres gpu:1 hostname # NVIDIA P100
 $ srun -p v   -t 0:01:00 --gres gpu:1 hostname # NVIDIA V100
 ```
@@ -27,8 +27,8 @@ Run an interactive shell
 -------------------
 
 ```
-$ srun -p big -t 0:01:00 --pty bash
-$ srun -p knm -t 0:01:00 --pty bash
+$ srun -p big -t 0:01:00 --pty              bash
+$ srun -p knm -t 0:01:00 --pty              bash
 $ srun -p p   -t 0:01:00 --pty --gres gpu:1 bash
 $ srun -p v   -t 0:01:00 --pty --gres gpu:1 bash
 ```
@@ -45,8 +45,8 @@ Run a debugger
 -------------------
 
 ```
-$ srun -p big -t 0:01:00 --pty gdb
-$ srun -p knm -t 0:01:00 --pty gdb
+$ srun -p big -t 0:01:00 --pty              gdb
+$ srun -p knm -t 0:01:00 --pty              gdb
 $ srun -p p   -t 0:01:00 --pty --gres gpu:1 cuda-gdb
 $ srun -p v   -t 0:01:00 --pty --gres gpu:1 cuda-gdb
 ```
@@ -63,8 +63,8 @@ In class hours, I may reserve a node of each type so that students do not have t
 In that case, the following should work during classes.
 
 ```
-$ srun -p big -t 0:01:00 --reservation bigtau hostname
-$ srun -p knm -t 0:01:00 --reservation knmtau hostname
+$ srun -p big -t 0:01:00 --reservation bigtau            hostname
+$ srun -p knm -t 0:01:00 --reservation knmtau            hostname
 $ srun -p p   -t 0:01:00 --reservation ptau --gres gpu:1 hostname
 $ srun -p v   -t 0:01:00 --reservation vtau --gres gpu:1 hostname
 ```
@@ -83,7 +83,7 @@ $ srun -p <partition> -t <time_limit> [--gres gpu:1] <command>
 
 Example:
 ```
-$ srun -p p -t 0:01:00 hostname
+$ srun -p p -t 0:01:00 --gres gpu:1 hostname
 p101
 ```
 
@@ -154,7 +154,7 @@ $ srun -p p --reservation ptau -t 0:01:00 --gres gpu:1 hostname
 p101
 ```
 
-(there is no point in claiming GPU to run hostname command, but just for illustration)
+(there is no point in claiming GPU to run hostname command, but just so that you do not forget)
 
 Outside the reservation period, you will see the following message.
 
