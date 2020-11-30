@@ -474,9 +474,10 @@ def main():
     with open(log) as fp:
         psr = log_parser(fp)
         psr.parse_file()
-        psr.write_samples_csv("samples.csv")
-        psr.write_loss_accuracy_csv("loss_accuracy.csv")
-        psr.write_kernel_times_csv("kernel_times.csv")
+        if 0:
+            psr.write_samples_csv("samples.csv")
+            psr.write_loss_accuracy_csv("loss_accuracy.csv")
+            psr.write_kernel_times_csv("kernel_times.csv")
         samples_json = psr.write_samples_json()
         loss_accuracy_json = psr.write_loss_accuracy_json()
         kernel_times_json = psr.write_kernel_times_json()
