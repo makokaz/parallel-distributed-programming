@@ -3,7 +3,7 @@ CXX := g++
 #CXX := clang
 #CXX:=nvcc
 
-cc_files := $(wildcard axpy.cc)
+cc_files := $(wildcard axpb.cc)
 exes := $(patsubst %.cc,%.$(CXX),$(cc_files))
 asms := $(patsubst %.cc,%.S,$(cc_files))
 ptxs := $(patsubst %.cc,%.ptx,$(cc_files))
