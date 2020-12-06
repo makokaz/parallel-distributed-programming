@@ -1,7 +1,7 @@
-#CXX := g++
+CXX := g++
 #CXX := icpc
 #CXX := clang
-CXX:=nvcc
+#CXX:=nvcc
 
 cc_files := $(wildcard axpy.cc)
 exes := $(patsubst %.cc,%.$(CXX),$(cc_files))
