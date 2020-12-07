@@ -1,8 +1,9 @@
-/* 
- * mmc00.h
- */
-#include "mmc.h"
+//% file: mm_2.c
+//% cmd: g++ -Wall -Wextra -O3 -march=native mm_2.c -I. -o mm_2 
 
+#include "mm_main.h"
+
+/* vectorize this code. hint: along j axis */
 template<idx_t M,idx_t N,idx_t K,
   idx_t lda,idx_t ldb,idx_t ldc,
   idx_t bM,idx_t bN>
@@ -18,3 +19,4 @@ long gemm(matrix_c<M,K,lda>& A, matrix_c<K,N,ldb>& B, matrix_c<M,N,ldc>& C) {
   }
   return (long)M * (long)N * (long)K;
 }
+

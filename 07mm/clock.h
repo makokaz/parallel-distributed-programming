@@ -1,5 +1,5 @@
 /**
-   @file cycle.h
+   @file clock.h
    @brief a small procedure to get CPU/reference cycle
  */
 
@@ -39,7 +39,7 @@ static inline long long rdtsc() {
 /**
    this is a wrapper to Linux system call perf_event_open
  */
-static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
+static int perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
                             int cpu, int group_fd, unsigned long flags) {
   int ret;
   ret = syscall(__NR_perf_event_open, hw_event, pid, cpu,
@@ -83,19 +83,25 @@ static cpu_clock_counter_t mk_cpu_clock_counter() {
   int fd = perf_event_open(&pe, 0, -1, -1, 0);
   if (fd == -1) {
     perror("perf_event_open");
-    exit(EXIT_FAILURE);
   }
-  if (ioctl(fd, PERF_EVENT_IOC_RESET, 0) == -1) {
+  if (fd != -1 && ioctl(fd, PERF_EVENT_IOC_RESET, 0) == -1) {
     perror("ioctl");
-    exit(EXIT_FAILURE);
+    close(fd);
+    fd = -1;
   }
-  if (ioctl(fd, PERF_EVENT_IOC_ENABLE, 0) == -1) {
+  if (fd != -1 && ioctl(fd, PERF_EVENT_IOC_ENABLE, 0) == -1) {
     perror("ioctl");
-    exit(EXIT_FAILURE);
+    close(fd);
+    fd = -1;
+  }
+  if (fd == -1) {
+    fprintf(stderr,
+            "%s:%d:warning: the environment does not support perf_event."
+            " CPU clock cannot be obtained\n", __FILE__, __LINE__);
   }
   cpu_clock_counter_t cc = { tid, fd };
 #else
-  fprintf(stderr, "%s:%d:warning: OS does not support perf_event. CPU clock is replaced with REF clock\n", __FILE__, __LINE__);
+  fprintf(stderr, "%s:%d:warning: OS does not support perf_event. CPU clock cannot be obtained\n", __FILE__, __LINE__);
   cpu_clock_counter_t cc = { tid };
 #endif
   return cc;
@@ -106,7 +112,9 @@ static cpu_clock_counter_t mk_cpu_clock_counter() {
   */
 static void cpu_clock_counter_destroy(cpu_clock_counter_t cc) {
 #if HAVE_PERF_EVENT
-  close(cc.fd);
+  if (cc.fd != -1) {
+    close(cc.fd);
+  }
 #else
   (void)cc;
 #endif
@@ -126,12 +134,16 @@ static long long cpu_clock_counter_get(cpu_clock_counter_t cc) {
   } else {
     long long c;
 #if HAVE_PERF_EVENT
-    ssize_t rd = read(cc.fd, &c, sizeof(long long));
-    if (rd == -1) {
-      perror("read"); 
-      exit(EXIT_FAILURE);
+    if (cc.fd == -1) {
+      c = 0; // rdtsc();
+    } else {
+      ssize_t rd = read(cc.fd, &c, sizeof(long long));
+      if (rd == -1) {
+        perror("read"); 
+        exit(EXIT_FAILURE);
+      }
+      assert(rd == sizeof(long long));
     }
-    assert(rd == sizeof(long long));
 #else
     c = rdtsc();
 #endif
@@ -157,4 +169,32 @@ static inline long long cur_time_ns() {
   }
   return tv->tv_sec * 1000000000L + tv->tv_usec * 1000L;
 #endif
+}
+
+typedef struct {
+  cpu_clock_counter_t cc;
+} clock_counters_t;
+
+typedef struct {
+  long long ref_clock;
+  long long cpu_clock;
+  long long wall_clock;
+} clocks_t;
+
+static inline clock_counters_t mk_clock_counters() {
+  clock_counters_t cc;
+  cc.cc = mk_cpu_clock_counter();
+  return cc;
+}
+
+static inline clocks_t clock_counters_get(clock_counters_t cc) {
+  clocks_t c;
+  c.ref_clock = rdtsc();
+  c.wall_clock = cur_time_ns();
+  c.cpu_clock = cpu_clock_counter_get(cc.cc);
+  return c;
+}
+
+static inline void clock_counters_destroy(clock_counters_t cc) {
+  cpu_clock_counter_destroy(cc.cc);
 }
