@@ -702,6 +702,7 @@ int main(int argc, char ** argv) {
   printf("    m = %ld (the number of FP numbers to update)\n", opt.m);
   printf("    n = %ld (the number of times to update each variable)\n", opt.n);
   printf("    L = %d (SIMD lanes on the CPU)\n", L);
+  fflush(stdout);
   
   unsigned short rg[3] = {
     (unsigned short)(opt.seed >> 16),
@@ -711,7 +712,8 @@ int main(int argc, char ** argv) {
 
   float a = erand48(rg);
   float b = erand48(rg);
-  float * X = (float *)malloc(sizeof(float) * opt.m);
+  float * X = (float *)aligned_alloc(valign, sizeof(float) * opt.m);
+  //float * X = (float *)malloc(sizeof(float) * opt.m);
   if (!X) err(1, "malloc");
   for (long j = 0; j < opt.m; j++) { X[j] = j; }
   long flops = 2 * opt.m * opt.n;
