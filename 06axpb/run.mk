@@ -29,7 +29,7 @@ endif
 # single variable
 
 ifeq ($(processor),cpu)
-exe := axpy.g++
+exe := axpb.g++
 algo := scalar simd simd_c
 m := 0
 c := 1
@@ -38,7 +38,7 @@ threads := 1
 $(define_rules)
 
 # simd_c with many vars
-exe := axpy.g++
+exe := axpb.g++
 algo := simd_c
 m := 0
 c := $(shell seq 2 15)
@@ -47,7 +47,7 @@ threads := 1
 $(define_rules)
 
 # simd_m 
-exe := axpy.g++
+exe := axpb.g++
 algo := simd_m
 m := $(shell seq 16 16 320)
 c := 1
@@ -56,7 +56,7 @@ threads := 1
 $(define_rules)
 
 # simd_m_mnm
-exe := axpy.g++
+exe := axpb.g++
 algo := simd_m_mnm
 m := $(shell seq 16 16 512)
 c := $(shell seq 1 16)
@@ -69,7 +69,7 @@ endif
 ifeq ($(processor),gpu)
 
 # cuda cuda_c
-exe := axpy.nvcc
+exe := axpb.nvcc
 algo := cuda
 m := 1
 c := $(shell seq 1 1 8)
@@ -78,7 +78,7 @@ threads := 1
 #$(define_rules)
 
 # cuda_c
-exe := axpy.nvcc
+exe := axpb.nvcc
 algo := cuda_c
 m := 1
 c := $(shell seq 1 1 8)
@@ -87,7 +87,7 @@ threads := 1
 #$(define_rules)
 
 # cuda_c
-exe := axpy.nvcc
+exe := axpb.nvcc
 algo := cuda_c
 m := $(shell seq 1024 1024 163840)
 c := 4

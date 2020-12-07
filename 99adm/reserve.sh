@@ -1,9 +1,10 @@
 #!/bin/bash
 
-start=2020-11-09T15:00:00
+start=2020-12-07T15:00:00
 reservation=tau
-partitions="big p v"
+partitions="big p v knm"
 #partitions="knm"
+#partitions="v"
 
 get_valid_users() {
     v="tau"
