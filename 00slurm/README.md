@@ -233,6 +233,21 @@ big          up 2-00:00:00      1    mix big001
 big          up 2-00:00:00      1   idle big000
 ```
 
+Running a multicore job
+===================
+
+ * running a multicore (OpenMP, TBB, etc.) job is trickier than it should be
+ * this is a formula to run a multicore job on big partition
+```
+$ srun -p big -t 0:01:00 -n 1 -c NUM_CORES_PER_PROCESS hostname
+```
+ * if you want to occupy the entire node (and you are sure you have a legitimate reason to do so), do this
+```
+$ srun -p big -t 0:01:00 -n 1 --exclusive hostname
+```
+ * when you specify `-c`, always give `-n 1`
+
+
 More info
 ===================
 
