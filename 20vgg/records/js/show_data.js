@@ -10,6 +10,36 @@
 
 var g_data;
 
+function group_by_seqid(data) {
+    var result = [];
+    for (var i = 0; i < data.length; i++) {
+        var seqid = data[i].seqid;
+        if (!(seqid in result)) {
+            result[seqid] = [];
+        }
+        result[seqid].push(data[i]);
+    }
+    return result;
+}
+
+function group_attr_by_seqid(attr) {
+    var dic = {};
+    for (var i = 0; i < attr.length; i++) {
+        var seqid = attr[i].seqid;
+        var key = attr[i].key;
+        var val = attr[i].val;
+        if (!(seqid in dic)) dic[seqid] = {"seqid" : seqid};
+        dic[seqid][key] = val;
+    }
+    var seqids = Object.keys(dic);
+    var result = [];
+    for (var i = 0; i < seqids.length; i++) {
+        var seqid = seqids[i];
+        result.push(dic[seqid]);
+    }
+    return result;
+}
+
 function update_loss_graph() {
     // graph area 1000x500
     var W = { x : 1000, y : 500 };
@@ -24,12 +54,16 @@ function update_loss_graph() {
     var svg = d3.select(div_id).append('svg')
         .attr('width',  W.x)
         .attr('height', W.y);
+    function fx(d) { return (+d.t) / 1000000000.0; };
+    function fy(d) { return +d.train_loss; };
+    const x_attr = "t";
+    const y_attr = "train_loss";
     // x, y functions
-    var x = d3.scaleLinear();
-    x.domain([0, d3.max(data, function(d) { return +d.samples; })])
+    var x = d3.scaleLinear()
+        .domain([0, d3.max(data, fx)])
         .range([ O.x, W.x ]);
     var y = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return +d.train_loss; })])
+        .domain([0, d3.max(data, fy)])
         .range([ W.y - O.y, 0 ]);
     // x-axis
     var xaxis = svg.append('g') // create a <g> element
@@ -42,22 +76,54 @@ function update_loss_graph() {
         .attr('transform', 'translate(' + O.x + ',' + 0 + ')')
         .call(d3.axisLeft(y)); // let the axis do its thing
 
-    // line
-    var line = d3.line()
-        .x(function (d) { return x(d.samples); })
-        .y(function (d) { return y(d.train_loss); });
-    svg.append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", line);
+    var lines_data = group_by_seqid(data);
+    var seqids = Object.keys(lines_data);
+    var color = d3.scaleOrdinal()
+        .domain(seqids)
+        .range(d3.schemeSet2);
+    for (var i = 0; i < lines_data.length; i++) {
+        var line_data = lines_data[i];
+        // line
+        var line = d3.line()
+            .x(function (d) { return x(fx(d)); })
+            .y(function (d) { return y(fy(d)); });
+        svg.append("path")
+            .datum(line_data)
+            .attr("fill", "none")
+            .attr("stroke", color(seqids[i]))
+            .attr("stroke-width", 1.5)
+            .attr("d", line);
+    }
     // x label
     svg.append('g') // create a <g> element
         .attr('class', 'x axis') // specify classes
         .attr('transform', 'translate(' + W.x/2 + ',' + (W.y - font_height) + ')')
         .append("text")
-        .text("samples");
+        .text(x_attr);
+    svg.append('g') // create a <g> element
+        .attr('class', 'y axis') // specify classes
+        .attr('transform', 'translate(' + 0 + ',' + font_height + ')')
+        .append("text")
+        .text(y_attr);
+    // legend
+    var attrs = group_attr_by_seqid(g_data.attr);
+    var legend_id = "#loss_legend";
+    d3.select(legend_id).selectAll("*").remove();
+    var table = d3.select(legend_id).append('table').attr('border', 1);
+    var tr = table.append('tr');
+    tr.append('th').text("seqid");
+    tr.append('th').text("user");
+    tr.append('th').text("submit_time");
+    for (var i = 0; i < attrs.length; i++) {
+        var s = attrs[i];
+        var tr = table.append('tr');
+        let t = new Date(s.submit_time);
+        //Sun Dec 20 2020 19:08:57
+        let x = t.toDateString() + " " + t.toLocaleTimeString([], { hour12 : false })
+        tr.append('td').text(s.seqid);
+        tr.append('td').text(s.user);
+        tr.append('td').text(x);
+    }
 }
 
 function update_samples_table() {
@@ -242,13 +308,13 @@ function update_kernel_times_table() {
 }
 
 function refresh_page() {
+    //update_kernel_times_table();
     update_loss_graph();
-    update_samples_table();
-    update_kernel_times_table();
+    //update_samples_table();
 }
 
-function real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv) {
-    if (samples_csv == null) {
+function real_main(meta, samples, loss_accuracy, kernel_times, attr) {
+    if (samples == null) {
         d3.select("#history")
             .append("p")
             .append("font")
@@ -257,10 +323,11 @@ function real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv) {
             .text("no data available (submit one)");
     } else {
         g_data = {
-            samples : samples_csv,
-            meta : meta_csv,
-            loss_accuracy : loss_accuracy_csv,
-            kernel_times : kernel_times_csv,
+            samples : samples,
+            meta : meta,
+            loss_accuracy : loss_accuracy,
+            kernel_times : kernel_times,
+            attr : attr,
             group_keys : ["cls", "cargs", "fun", "fargs"],
             sort_keys : ["cls", "fun"],
             sort_dir : 1,
@@ -271,7 +338,7 @@ function real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv) {
 }
 
 function main() {
-    var meta_csv = [{"class": "airplane"},
+    var meta_json = [{"class": "airplane"},
                     {"class": "automobile"},
                     {"class": "bird"},
                     {"class": "cat"},
@@ -281,17 +348,7 @@ function main() {
                     {"class": "horse"},
                     {"class": "ship"},
                     {"class": "truck"}];
-    if (0) {
-        d3.csv('data/samples.csv').then(function (samples_csv) {
-            d3.csv('data/loss_accuracy.csv').then(function (loss_accuracy_csv) {
-                d3.csv('data/kernel_times.csv').then(function (kernel_times_csv) {
-	            real_main(meta_csv, samples_csv, loss_accuracy_csv, kernel_times_csv);
-                })
-            })
-        });
-    } else {
-	real_main(meta_csv, samples_json, loss_accuracy_json, kernel_times_json);
-    }
+    real_main(meta_json, samples_json, loss_accuracy_json, kernel_times_json, attr_json);
 }
 
 main()

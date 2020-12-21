@@ -3,7 +3,8 @@ import sys,os,types
 
 # ------------- preamble -------------
 
-import smart_gnuplotter
+#import smart_gnuplotter
+import lots_plots as lp
 
 def Es(s):
     sys.stderr.write(s)
@@ -21,7 +22,8 @@ def get_max(g, db, f):
 select max(%s) from a 
 ''' % f)
 
-g = smart_gnuplotter.smart_gnuplotter()
+#g = smart_gnuplotter.smart_gnuplotter()
+g = lp.lots_plots()
 
 sqlite_file = sys.argv[1] if len(sys.argv) > 1 else "a.sqlite"
 out_dir     = sys.argv[2] if len(sys.argv) > 2 else "graphs"
@@ -62,25 +64,25 @@ select sz,
        cimin(cpu_clocks_per_rec,0.05),
        cimax(cpu_clocks_per_rec,0.05)
 from a 
-where host="%(host)s"
+where host="{host}"
   and method="ptrchase"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=0
-  and cpu_node %(eq)s mem_node
+  and cpu_node {eq} mem_node
 group by sz 
 order by sz;
 ''',
                   "","",[]),
-                 output="%(out_dir)s/latency_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 output="{out_dir}/latency_{conf}_{host}_{min_sz}_{max_sz}",
                  graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
-                 graph_title="latency per load in a random list traversal [%(min_sz)s,%(max_sz)s]",
+                 graph_title="latency per load in a random list traversal [{min_sz},{max_sz}]",
                  graph_attr='''
 set logscale x 2
 set xtics rotate by -20
@@ -114,20 +116,20 @@ where method="ptrchase"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=1
-  and cpu_node %(eq)s mem_node
+  and cpu_node {eq} mem_node
 group by sz 
 order by sz
 ''',
                   "","",[]),
-                 output="%(out_dir)s/bw_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 output="{out_dir}/bw_{conf}_{host}_{min_sz}_{max_sz}",
                  graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
-                 graph_title="bandwidth of list traversal [%(min_sz)s,%(max_sz)s]",
+                 graph_title="bandwidth of list traversal [{min_sz},{max_sz}]",
                  graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -158,23 +160,23 @@ def graph_bw_ptrchase_chains():
 select sz,avg(gb_per_sec) 
 from a 
 where method="ptrchase"
-  and nc=%(nc)s
+  and nc={nc}
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=1
-  and cpu_node %(eq)s mem_node
+  and cpu_node {eq} mem_node
 group by sz 
 order by sz
 ''',
                   "","",[]),
-                 output="%(out_dir)s/bw_chains_%(conf)s_%(host)s_%(min_sz)s_%(max_sz)s",
+                 output="{out_dir}/bw_chains_{conf}_{host}_{min_sz}_{max_sz}",
                  graph_vars=[ "out_dir", "conf", "host", "min_sz__max_sz" ],
-                 graph_title="bandwidth with a number of chains [%(min_sz)s,%(max_sz)s]",
+                 graph_title="bandwidth with a number of chains [{min_sz},{max_sz}]",
                  graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -185,7 +187,7 @@ set key right
                  ylabel="bandwidth (GB/sec)",
                  xlabel="size of the region (bytes)",
                  plot_with="linespoints",
-                 plot_title="%(nc)s chains",
+                 plot_title="{nc} chains",
                  out_dir=[out_dir],
                  conf=[conf],
                  host=get_unique(g, db, "host"),
@@ -207,20 +209,20 @@ where method="ptrchase"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
-  and prefetch=%(prefetch)s
+  and prefetch={prefetch}
   and payload=1
   and cpu_node=mem_node
 group by sz 
 order by sz
 ''',
               "","",[]),
-             output="%(out_dir)s/bw_prefetch_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/bw_prefetch_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth w/ and w/o prefetch [%(min_sz)s,%(max_sz)s]",
+             graph_title="bandwidth w/ and w/o prefetch [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -231,7 +233,7 @@ set key right
              ylabel="bandwidth (GB/sec)",
              xlabel="size of the region (bytes)",
              plot_with="linespoints",
-             plot_title="prefetch=%(prefetch)s",
+             plot_title="prefetch={prefetch}",
              out_dir=[out_dir],
              host=get_unique(g, db, "host"),
              min_sz__max_sz=ws_ranges,
@@ -250,13 +252,13 @@ def graph_methods():
               '''
 select sz,avg(gb_per_sec) 
 from a 
-where method = "%(method)s"
+where method = "{method}"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=1
@@ -265,9 +267,9 @@ group by sz
 order by sz
 ''',
               "","",[]),
-             output="%(out_dir)s/methods_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/methods_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="list traversal vs random access vs sequential access [%(min_sz)s,%(max_sz)s]",
+             graph_title="list traversal vs random access vs sequential access [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -278,7 +280,7 @@ set key right
              ylabel="bandwidth (GB/sec)",
              xlabel="size of the region (bytes)",
              plot_with="linespoints",
-             plot_title="%(method)s",
+             plot_title="{method}",
              out_dir=[out_dir],
              host=get_unique(g, db, "host"),
              min_sz__max_sz=ws_ranges,
@@ -306,10 +308,10 @@ where method="ptrchase"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
-  and shuffle=%(shuffle)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
+  and shuffle={shuffle}
   and prefetch=0
   and payload=1
   and cpu_node=mem_node
@@ -317,9 +319,9 @@ group by sz
 order by sz
 ''',
               "","",[]),
-             output="%(out_dir)s/sorted_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/sorted_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth of random list traversal vs address-ordered list traversal [%(min_sz)s,%(max_sz)s]",
+             graph_title="bandwidth of random list traversal vs address-ordered list traversal [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -358,24 +360,24 @@ def graph_summary():
               '''
 select sz,avg(gb_per_sec) 
 from a 
-where method="%(method)s"
-  and nc=%(nc)s
+where method="{method}"
+  and nc={nc}
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
-  and shuffle=%(shuffle)s
-  and prefetch=%(prefetch)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
+  and shuffle={shuffle}
+  and prefetch={prefetch}
   and payload=1
   and cpu_node=mem_node
 group by sz 
 order by sz
 ''',
               "","",[]),
-             output="%(out_dir)s/summary_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/summary_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="summary of various access patterns [%(min_sz)s,%(max_sz)s]",
+             graph_title="summary of various access patterns [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -407,12 +409,12 @@ def graph_bw_ptrchase_threads():
 select sz,avg(gb_per_sec) 
 from a 
 where method="ptrchase"
-  and nc=%(nc)s
-  and nthreads=%(nthreads)s
+  and nc={nc}
+  and nthreads={nthreads}
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and payload=1
   and cpu_node=mem_node
@@ -420,9 +422,9 @@ group by sz
 order by sz
 ''',
                   "","",[]),
-             output="%(out_dir)s/bw_threads_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/bw_threads_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth with a number of threads [%(min_sz)s,%(max_sz)s]",
+             graph_title="bandwidth with a number of threads [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -433,7 +435,7 @@ set key right
              ylabel="bandwidth (GB/sec)",
              xlabel="size of the region (bytes)",
              plot_with="linespoints",
-             plot_title="%(nc)s chains, %(nthreads)s threads",
+             plot_title="{nc} chains, {nthreads} threads",
              out_dir=[out_dir],
              host=get_unique(g, db, "host"),
              min_sz__max_sz=ws_ranges,
@@ -453,13 +455,13 @@ def graph_bw_methods_threads():
               '''
 select sz,avg(gb_per_sec) 
 from a 
-where method = "%(method)s"
+where method = "{method}"
   and nc=1
-  and nthreads=%(nthreads)s
+  and nthreads={nthreads}
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=1
@@ -468,9 +470,9 @@ group by sz
 order by sz
 ''',
               "","",[]),
-             output="%(out_dir)s/bw_methods_threads_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/bw_methods_threads_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="bandwidth with various methods and number of threads [%(min_sz)s,%(max_sz)s]",
+             graph_title="bandwidth with various methods and number of threads [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -481,7 +483,7 @@ set key right
              ylabel="bandwidth (GB/sec)",
              xlabel="size of the region (bytes)",
              plot_with="linespoints",
-             plot_title="%(method)s %(nthreads)s threads",
+             plot_title="{method} {nthreads} threads",
              out_dir=[out_dir],
              host=get_unique(g, db, "host"),
              min_sz__max_sz=ws_ranges,
@@ -505,18 +507,18 @@ def graph_cache(events):
               '''
               select 
               sz,
-              avg(%(event)s/(nloads+0.0)),
-              cimin(%(event)s/(nloads+0.0),0.05),
-              cimax(%(event)s/(nloads+0.0),0.05)
+              avg({event}/(nloads+0.0)),
+              cimin({event}/(nloads+0.0),0.05),
+              cimax({event}/(nloads+0.0),0.05)
 from a 
-where host="%(host)s"
+where host="{host}"
   and method="ptrchase"
   and nc=1
   and nthreads=1
   and rep>=1
-  and rec_sz=%(rec_sz)s
-  and %(min_sz)s<=sz
-  and sz<=%(max_sz)s
+  and rec_sz={rec_sz}
+  and {min_sz}<=sz
+  and sz<={max_sz}
   and shuffle=1
   and prefetch=0
   and payload=0
@@ -524,9 +526,9 @@ group by sz
 order by sz;
 ''',
                   "","",[]),
-             output="%(out_dir)s/cache_miss_%(host)s_%(min_sz)s_%(max_sz)s",
+             output="{out_dir}/cache_miss_{host}_{min_sz}_{max_sz}",
              graph_vars=[ "out_dir", "host", "min_sz__max_sz" ],
-             graph_title="cache miss rate of a random list traversal [%(min_sz)s,%(max_sz)s]",
+             graph_title="cache miss rate of a random list traversal [{min_sz},{max_sz}]",
              graph_attr='''
 set logscale x
 #set xtics rotate by -20
@@ -537,7 +539,7 @@ set key left
              ylabel="miss rate",
              xlabel="size of the region (bytes)",
              plot_with="yerrorlines",
-             plot_title="%(event)s rec_sz=%(rec_sz)s",
+             plot_title="{event} rec_sz={rec_sz}",
              out_dir=[out_dir],
              host=get_unique(g, db, "host"),
              min_sz__max_sz=ws_ranges,
