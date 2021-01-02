@@ -13,8 +13,13 @@ import sqlite3
 # the app object
 ################################################
 
-app = dash.Dash(__name__)
-a_sqlite = "dat/a.sqlite"
+if __name__ == "__main__":
+    app = dash.Dash(__name__)
+else:
+    app = dash.Dash(__name__, requests_pathname_prefix='/viewer/')
+
+application = app.server
+a_sqlite = "/home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/viewer/dat/a.sqlite"
 
 ################################################
 # nuts and bolts
@@ -209,4 +214,4 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, host="0.0.0.0")
