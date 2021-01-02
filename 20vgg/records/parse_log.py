@@ -49,7 +49,7 @@ class log_parser_base:
         self.patterns = {tok : re.compile(pat_time + pat) for tok, pat in tokens.items()}
         self.patterns["EOF"] = re.compile("^$")
         self.kpsr = kernel_parser()
-        self.line_no = 0
+        self.lines = []
         self.next_line()
 
     def next_line(self):
@@ -57,7 +57,8 @@ class log_parser_base:
         get next line, set token kind
         """
         self.line = self.fp.readline()
-        self.line_no += 1
+        if self.line != "":
+            self.lines.append(self.line)
         for tok, regex in self.patterns.items():
             match = regex.match(self.line)
             if match:
@@ -88,7 +89,7 @@ class log_parser_base:
         raise parse error
         """
         raise parse_error("%s:%d:error: expected %s but got %s\n[%s]\n" %
-                          (self.fp.name, self.line_no, tok, self.tok, self.line))
+                          (self.fp.name, len(self.lines), tok, self.tok, self.line))
     def parse_kernel_start(self):
         """
         ...: starts
@@ -386,6 +387,13 @@ class log_parser(log_parser_base):
         self.n_training_samples = 0
         self.loss_acc = []
         self.kernels = []
+        self.key_vals = []
+    def action_open_log(self, data):
+        self.key_vals.append(("start_at", data["when"]))
+    def action_close_log(self, data):
+        self.key_vals.append(("end_at", data["when"]))
+    def action_env(self, data):
+        self.key_vals.append((data["var"], data["val"]))
     def action_train_begin(self, data):
         """
         action on train begin
@@ -447,6 +455,14 @@ class log_parser(log_parser_base):
         t1 = int(data["t"])
         kt = kernel_time
         self.kernels[-1] = (t0, t1, ks, kt)
+    def get_key_vals(self):
+        """
+        get environment variables
+        """
+        jsn = []
+        for key, val in self.key_vals:
+            jsn.append(dict(key=key, val=val))
+        return jsn
     def get_samples(self):
         """
         get samples
@@ -489,6 +505,8 @@ class log_parser(log_parser_base):
             if kind == "train_accuracy":
                 data["t"] = t
         return jsn
+    def get_all_data(self):
+        return "".join(self.lines)
     def write_samples_csv(self, filename):
         """
         write samples into csv
@@ -597,27 +615,34 @@ def parse_log(log):
         fp = open(log)
     psr = log_parser(fp)
     psr.parse_file()
+    key_vals = psr.get_key_vals()
     samples = psr.get_samples()
     loss_accuracy = psr.get_loss_accuracy()
     kernel_times = psr.get_kernel_times()
-    # classes = ["airplane", "automobile", "bird", "cat",
-    # "deer", "dog", "frog", "horse", "ship", "truck"]
-    # meta = [{"class": x} for x in classes]
-    # "meta"          : meta,
+    all_data = psr.get_all_data()
+    classes = ["airplane", "automobile", "bird", "cat",
+               "deer", "dog", "frog", "horse", "ship", "truck"]
+    meta = [{"class": x} for x in classes]
     if log != "-":
         fp.close()
-    return {"samples"       : samples,
-            "loss_accuracy" : loss_accuracy,
-            "kernel_times"  : kernel_times}
+    return ({"key_vals"      : key_vals,
+             "samples"       : samples,
+             "loss_accuracy" : loss_accuracy,
+             "kernel_times"  : kernel_times,
+             "meta"          : meta},
+            all_data)
+
 def main():
     """
     main
     """
     log = sys.argv[1] if len(sys.argv) > 1 else "../vgg.log"
-    plog = parse_log(log)
+    plog, _ = parse_log(log)
     with open("vars.js", "w") as wp:
         wp.write("var meta_json = %s;\n"
                  % json.dumps(plog["meta"]))
+        wp.write("var key_vals_json = %s;\n"
+                 % json.dumps(plog["key_vals"]))
         wp.write("var samples_json = %s;\n"
                  % json.dumps(plog["samples"]))
         wp.write("var loss_accuracy_json = %s;\n"
@@ -636,4 +661,4 @@ def mainx():
     kpsr = kernel_parser()
     return kpsr.parse(s)
 
-#main()
+main()
