@@ -426,7 +426,7 @@ Details you should not (but occasionally might) have to know
 * data are stored at /home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/vgg_records/ on taulec.zapto.org
 * to allow you to write to it, which you normally cannot, `submit` is a setuid program that effectively runs as tau 
 
-Performance criteria and the regulation
+(Updated on Jan 3 2021) Performance criteria and the regulation
 ==========================
 
 The ultimate goal for training is to get a good classification performance (accuracy) as fast as possible.  So, ideally, our performance criteria should be the time until you meet a certain accuracy (or conversely, the achieved accuracy in a given amount of time).  It is a bit challenging to define a good regulation along this line, because meeting any meaningful accuracy would take a large amount of time (at least until you get a very high performance code) that makes your experiments very time consuming.  Accuracy also depends on many heuristics such as learning rate or how you update weights, which are orthogonal to the main objective of our study (making a given computation fast).  To simplify your goal and make the amount of time for experiments shorter, we set our performance criteria and the regulation as follows.
