@@ -374,7 +374,7 @@ Navigating the source code
 1. open HTML/index.html in your browser
 1. compile it with -O0 -g (edit Makefile) run it under the debugger
 
-Performance profiling
+<font color="red">(Deprecated Jan 3, 2021)</font> Performance profiling
 ==========================
 
 1. after you run, you will get vgg.log that has a detailed execution log
@@ -388,13 +388,54 @@ $ ./parse_log ../vgg.log
 $ open index.html with your browser
 ``
 
+<font color="red">This tool is superseded by another tool with which you can compare multiple runs by you and friends.</font>  See the next section for the new tool.
+
+This tool is now meaningful only to have fun by seeing how correctly/incorrectly labeled pictures change over time. 
+
+<font color="red">(Added on Jan 3 2021)</font> A record submission tool and record viewers
+=============
+
+* Here is a tool to submit a result of executing vgg and a web page to see results submitted by all
+* You are required to submit at least the final result you report in your final term paper, but you are encouraged to submit your results whenever you think you made a progress.  Don't wait until you think you are finished
+* You can submit your results as many times as you want; you can also (though not encouraged to) delete them if you think there are too many to comfortably see (you can filter out unnecessary records, so you should not have to do this)
+
+Submit your run
+-------------
+
+* Running a vgg executable leaves a log file, called vgg.log by default (you can change it with --log option)
+* Data is stored and viewed on taulec, as IST cluster cannot host a user's web page
+* Assume you ran vgg on IST cluster.  
+* Do the following to submit your result from IST cluster.
+```
+ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit < vgg.log
+```
+* `submit` is a hand-made tool installed (globally) on taulec.  You do not find it in the repository
+
+* Note that in order to run the above command, you should be able to ssh from IST cluster to taulec.  If you are not, see this page.
+
+View your run
+-------------
+
+* visit https://taulec.zapto.org/viewer/ to see the results
+* it is going to evolve (translation: I am still working on it)
+
+Details you should not (but occasionally might) have to know
+-------------
+
+* `submit` is a tailor-made command installed at /usr/local/bin/submit on taulec.zapto.org
+* data are stored at /home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/vgg_records/ on taulec.zapto.org
+* to allow you to write to it, which you normally cannot, `submit` is a setuid program that effectively runs as tau 
+
 Performance criteria and the regulation
 ==========================
 
-The ultimate goal for training is to get a good classification performance (accuracy) as fast as possible.  So, ideally, our performance criteria should be the time until you meet a certain accuracy (or conversly, the achieved accuracy in a given amount of time).  It is a bit challenging to define a good regulation along this line, because meeting any meaningful accuracy would take a large amount of time (at least until you get a very high performance code) that makes your experiments very time consuming.  Accuracy also depends on many heuristics such as learning rate or how you update weights, which are orthogonal to the main objective of our study (making a given computation fast).  To simplify your goal and make the amount of time for experiments shorter, we set our performance criteria and the regulation as follows.
+The ultimate goal for training is to get a good classification performance (accuracy) as fast as possible.  So, ideally, our performance criteria should be the time until you meet a certain accuracy (or conversely, the achieved accuracy in a given amount of time).  It is a bit challenging to define a good regulation along this line, because meeting any meaningful accuracy would take a large amount of time (at least until you get a very high performance code) that makes your experiments very time consuming.  Accuracy also depends on many heuristics such as learning rate or how you update weights, which are orthogonal to the main objective of our study (making a given computation fast).  To simplify your goal and make the amount of time for experiments shorter, we set our performance criteria and the regulation as follows.
 
  * The performance criteria is the number of trained samples per second.  For example, if you train the network with 256 images in 50 seconds, your score will be 256/50 = 5.12 samples/sec.  Your goal is simply to maximize this number.
- * Relevant data for measuring performance are taken from lines reporting the progress of training in the execution log.
+ * You can get a relevant number easily in the above viewer page https://taulec.zapto.org/viewer/
+   * in "Loss/accuracy evolution with samples/time" by setting x-axis to t and y-axis samples; the samples per second is simply the gradient of the curve (which should be almost straight)
+   * in "Execution time breakdown", the total height of the stack is the execution time (in ns) per sample.  Samples per second is simply the reciprocal of the height, multiplied by $10^9$. The shorter the bar is, the higher the throughput of your program is.
+ * These data are taken from the execution log, so you may want to look at them yourself.
  * For example, the following log
 
 ```
@@ -413,10 +454,10 @@ The ultimate goal for training is to get a good classification performance (accu
 1245300919526: train loss = 2.518893003   (the last line of this form)
 ```
 
-indicates the traing started at time 815859250 and ended at time 1245300919526 (times are shown in nano seconds) and it processed 1280 images.  The score is then 1280 / (1245.300919526 - 0.815859250) = 1.02853 images/sec.
+indicates the training started at time 815859250 and ended at time 1245300919526 (times are shown in nano seconds) and it processed 1280 images.  The score is then 1280 / (1245.300919526 - 0.815859250) = 1.02853 images/sec.
  * In order to get a good throughput with vectorization and/or parallelization, you almost certainly want to process many images at a time (a fairly large batch size).  Try to play with it.
  * While the number of images per second is the goal, following constraints are imposed to preclude meaningless optimizations
-  - You can use only a subset of the dataset (otherwise the training may take too much time until you get a noticeabl improvement on the loss), but your data must have at least 64 images for training
+  - You can use only a subset of the dataset (otherwise the training may take too much time until you get a noticeable improvement on the loss), but your data must have at least 64 images for training
   - When you report the result, your network must achieve the average a loss <= 1.0 for at least the images used for training.  The easiest setting is to use only 64 images for training, like this.
 ```
 ./vgg.g++ --partial_data 64 --validate_ratio 0
@@ -424,6 +465,8 @@ indicates the traing started at time 815859250 and ended at time 1245300919526 (
   - The baseline code should achieve a training loss = 0.851912320 after 4 iterations (256 images have been processed) and took about 4 minutes on my laptop.  Your code should achieve a similar loss in a similar setting unless you somehow break it.  It should be much faster, of course.
 
 Remarks: The setting (of achieving loss = 0.85.. for the same 64 images used for training) is not very meaningful as a machine learning task.  First, it achieves good classification performance only for data used for training and not for validation data.  If you check the network against a validation data, the loss is still very large, so clearly the mission has not been accomplished.  Having a large gap between training data and validation data means the network may be over-fitting.  Second, the dataset is obviously too small to be meaningful.  We nevertheless allow such settings to make a single experiment finish quickly and make it still possible to observe that the loss is decreasing (so you got the job done correctly).  Having a more stringent condition, e.g., achieve a similar loss for validation data, would make the training time much longer.
+
+* With all that said, you are encouraged to run the program in more practically useful settings (e.g., use the full data set, leaving a tenth of it for validation and run long enough to achieve a good loss/accuracy) once you have a reasonably fast code.
 
 Guide for development
 ==========================
@@ -805,33 +848,3 @@ How small is small enough?  It actually depends on layers and the type of floati
 |relu               | 0.170680821 | 0.019997066 | 0.136701009 | 0.014832921 |
 |softmaxcrossentropy| 0.034060795 | 0.007438810 | 0.000000000 | 0.000000000 |
 
-A record sharing and viewing tool
-=============
-
-* Here is a tool to submit the result of your run and a page to see them with results by others
-* You are required to submit at least the final result you mention in your final term paper, but you are encouraged to submit your results whenever you think you made a progress
-* You can submit your results as many times as you want; you can also (though not encouraged to) delete them if you think there are too many 
-
-Submit your run
--------------
-
-* Running a vgg executable leaves a log file, called vgg.log by default (you can change it with --log option)
-* Assume you ran vgg on IST cluster.  Data is stored and viewed on tauelc, as IST cannot host a web page
-* As such, do the following to submit your result
-```
-ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit < vgg.log
-```
-
-View your run
--------------
-
-* visit https://taulec.zapto.org/viewer/ to see the results
-* it is going to evolve (translation: I am still working on it)
-
-
-Details you should not (but occasionally might) have to know
--------------
-
-* `submit` is a tailor-made command installed at /usr/local/bin/submit on taulec.zapto.org
-* data are stored at /home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/vgg_records/ on taulec.zapto.org
-* to allow you to write to it, which you normally cannot write to, submit is a setuid program that effectively runs as tau 
