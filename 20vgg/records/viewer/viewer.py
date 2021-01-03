@@ -35,16 +35,28 @@ def do_sql(conn, cmd):
 
 def run_table_div():
     div = html.Div([
-        html.P("sql selector"),
+        html.P("Enter a condition (SQL expression) to filter runs you want to display. e.g.,"),
+        html.Ul([
+            html.Li("seqid = 1"),
+            html.Li('host like "big%"'),
+            html.Li('USER = "u01234"'),
+            html.Li('USER = "u01234" and algo_s like "cpu_%"'),
+        ]),
+        html.P(('In order to be useful, you do not want to display too many runs.'
+                ' Come up with a filtering expression that chooses what you want to compare.'
+                ' I will hopefully make some buttons to quickly display most "interesting" runs'
+                ' (e.g., "best" in various criterion, such as best samples/time, best achieved loss, etc.)')),
         dcc.Input(id="sql_selector"),
         html.Button("select", id="sql_selector_button"),
+        html.P("? runs selected", id="how_many_runs"),
         dcc.Graph(id="run_table"),
         # dcc.Graph(id="cols_table"),
     ])
     return div
 
 @app.callback(
-    Output("run_table",    "figure"),
+    Output("how_many_runs",  "children"),
+    Output("run_table",      "figure"),
     # Output("cols_table",   "figure"),
     Input( "sql_selector_button", "n_clicks"),
     State( "sql_selector", "value"),
@@ -69,9 +81,10 @@ def update_run_table(n_clicks, cond):
         cells = []
     table = go.Table(header=dict(values=cols), cells=dict(values=cells))
     run_tbl = go.Figure(data=[table])
-    run_tbl.update_layout(height=1000)
+    run_tbl.update_layout(height=800)
+    n_runs = "%d runs selected" % len(result)
     #return run_tbl, run_tbl
-    return run_tbl
+    return n_runs, run_tbl
 
 ################################################
 # loss accuracy
@@ -82,9 +95,11 @@ def loss_accuracy_graph_div():
             "train_loss", "train_accuracy", "validate_loss", "validate_accuracy"]
     options = [{'label': x, 'value': x} for x in cols]
     div = html.Div([
-        html.P("x:"),
+        html.P("This section is mainly for displaying how loss or accuracy evolves over time.  x-axis is typically t (for wall clock time time) or samples (the number of samples trained) and y-axis loss (measured by the cross entropy between the predicted probability distribution over the ten classses and the true distribution (1 for the true class and 0 for others)) or accuracy (the proportion of the correctly labeled samples).  Each is measured for training samples (a mini batch) or the samples left for validation."),
+        html.P("You may also want to set x-axis to t and y-axis samples, to show the throughput of your program in terms of samples/sec."),
+        html.P("choose x-axis:"),
         dcc.RadioItems(id="loss_accuracy_graph_x", options=options, value="samples"),
-        html.P("y:"),
+        html.P("choose y-axis:"),
         dcc.RadioItems(id="loss_accuracy_graph_y", options=options, value="train_loss"),
         dcc.Graph(id="loss_accuracy_graph"),
     ])
@@ -149,8 +164,25 @@ def update_kernel_times_table(kernel_times_table_cond):
 
 def kernel_times_bar_chart_div():
     div = html.Div([
-        html.P("group by"),
-        dcc.Input(id="kernel_times_bar_chart_group_by", value="cls,fun"),
+        html.P("Per-sample execution time of each kernel, in the form of stacked bar chart."
+               " This is useful when you want to see the performance of your parallelized/vectorized/optimized code relative to baseline (either by you or friends)."
+               " Each area in the stack shows time spent per sample in each function."
+               " That is, the time is the total time spent in each function / total number of samples processed."),
+        html.P("The expression below specifies attributes with which to group (aggregate) execution times."
+               "You can specify comma-separated list of the following."),
+        html.Ul([
+            html.Li("cls : kernel name such as Convolution2D, Linear, etc.  Each kernel is implemented as a class template taking size parameters."),
+            html.Li("cargs : values that instantiate the class templates, representing the size of input/output/parameters"),
+            html.Li("fun : function name, either of forward, backward, or update"),
+        ]
+        ),
+        html.P("For example, cls,fun distinguishes Convolution2D::forward, Convolution2D::backward, Convolution2D::update, Linear::forward, etc.,"
+               " but does not distinguish different instantiations of Convolution2D with different size parameters."),
+        html.Ul([
+            html.Li(["select: ", dcc.Input(id="kernel_times_bar_chart_cond", value="") ]),
+            html.Li(["group by: ", dcc.Input(id="kernel_times_bar_chart_group_by", value="cls,fun")])
+        ]),
+        html.Button("update", id="kernel_times_bar_chart_update_button"),
         dcc.Graph(id="kernel_times_bar_chart"),
     ])
     return div
@@ -171,30 +203,33 @@ def make_kernel_name(row, group_by):
 @app.callback(
     Output("kernel_times_bar_chart",      "figure"),
     Input( "sql_selector_button", "n_clicks"),
+    Input( "kernel_times_bar_chart_update_button", "n_clicks"),
     State( "sql_selector", "value"),
+    State( "kernel_times_bar_chart_cond", "value"),
     State( "kernel_times_bar_chart_group_by", "value"),
 )
-def update_kernel_times_bar_chart(n_clicks, cond, group_by):
+def update_kernel_times_bar_chart(sql_selector_n_clicks, kernel_times_n_clicks, cond0, cond1, group_by):
     conn = sqlite3.connect(a_sqlite)
     conn.row_factory = sqlite3.Row
-    where = "where {}".format(cond) if cond else ""
-    cmd = "select seqid from info {}".format(where)
+    where0 = "where {}".format(cond0) if cond0 else ""
+    cmd = "select seqid from info {}".format(where0)
     seqids = [str(seqid) for seqid, in do_sql(conn, cmd)]
     fields = "seqid,{}".format(group_by) if group_by else "seqid"
-    cmd = ("""select {},sum(dt)
+    where1 = "and {}".format(cond1) if cond1 else ""
+    cmd = ("""select {},sum(dt)/sum(b-a) as avg_dt
     from kernel_times 
-    where seqid in ({})
+    where seqid in ({}) {}
     group by {}
-    order by seqid,sum(dt) desc
+    order by seqid,avg_dt desc
 """
-           .format(fields, ",".join(seqids), fields))
+           .format(fields, ",".join(seqids), where1, fields))
     result = list(do_sql(conn, cmd))
     conn.close()
     seqid = [row["seqid"] for row in result]
     kernel = [make_kernel_name(row, fields) for row in result]
-    sum_dt = [row["sum(dt)"] for row in result]
-    df = pd.DataFrame({"seqid" : seqid, "kernel" : kernel, "sum_dt" : sum_dt})
-    fig = px.bar(df, x="seqid", y="sum_dt", color="kernel")
+    avg_dt = [row["avg_dt"] for row in result]
+    df = pd.DataFrame({"seqid" : seqid, "kernel" : kernel, "avg_dt" : avg_dt})
+    fig = px.bar(df, x="seqid", y="avg_dt", color="kernel")
     fig.update_layout(height=2000)
     return fig
 
@@ -204,11 +239,11 @@ def update_kernel_times_bar_chart(n_clicks, cond, group_by):
 
 app.layout = html.Div(
     [
-        html.H2("select"),
+        html.H2("Select runs to display"),
         run_table_div(),
-        html.H2("loss/accuracy over samples/time"),
+        html.H2("Loss/accuracy evolution with samples/time"),
         loss_accuracy_graph_div(),
-        html.H2("kernel times bar chart"),
+        html.H2("Execution time breakdown"),
         kernel_times_bar_chart_div(),
     ],
     style={"padding": "2%", "margin": "auto"},

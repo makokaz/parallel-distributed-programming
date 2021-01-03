@@ -384,6 +384,7 @@ class log_parser(log_parser_base):
     def __init__(self, fp):
         super().__init__(fp)
         self.samples = []
+        self.phase = None
         self.n_training_samples = 0
         self.loss_acc = []
         self.kernels = []
@@ -398,12 +399,14 @@ class log_parser(log_parser_base):
         """
         action on train begin
         """
+        self.phase = ("train", int(data["a"]), int(data["b"]))
         self.n_training_samples = int(data["b"])
         self.samples.append(("t", []))
     def action_validate_begin(self, _):
         """
         action on validate begin
         """
+        self.phase = ("validate", int(data["a"]), int(data["b"]))
         self.samples.append(("v", []))
     def action_train_loss(self, data):
         """
@@ -440,7 +443,9 @@ class log_parser(log_parser_base):
         action on kernel start
         """
         kernel = self.kpsr.parse(data["kernel"])
-        self.kernels.append((int(data["t"]), None, kernel, None))
+        t_v, a, b = self.phase
+        # start time, end time, kernel info, elapsed time, train/validate, sample_idx0, sample_idx1
+        self.kernels.append((int(data["t"]), None, kernel, None, t_v, a, b))
     def action_kernel_end(self, data):
         """
         action on kernel end
@@ -448,13 +453,13 @@ class log_parser(log_parser_base):
         kernel = self.kpsr.parse(data["kernel"])
         kernel_time = int(data["kernel_time"])
         ker1 = self.kernels[-1]
-        t0, t1, ks, kt = ker1
+        t0, t1, ks, kt, t_v, a, b = ker1
         assert(t1 is None), ker1
         assert(ks == kernel), ker1
         assert(kt is None), ker1
         t1 = int(data["t"])
         kt = kernel_time
-        self.kernels[-1] = (t0, t1, ks, kt)
+        self.kernels[-1] = (t0, t1, ks, kt, t_v, a, b)
     def get_key_vals(self):
         """
         get environment variables
@@ -477,13 +482,14 @@ class log_parser(log_parser_base):
         get kernel times
         """
         jsn = []
-        for t0, t1, kernel, dt in self.kernels:
+        for t0, t1, kernel, dt, t_v, a, b in self.kernels:
             cls, cargs, fun, fargs = self.instantiate(kernel)
             if cargs is not None:
                 cargs = "<%s>" % ",".join("%s" % x for x in cargs)
             if fargs is not None:
                 fargs = "<%s>" % ",".join("%s" % x for x in fargs)
-            jsn.append(dict(t0=t0, t1=t1, cls=cls, cargs=cargs, fun=fun, fargs=fargs, dt=dt))
+            jsn.append(dict(t0=t0, t1=t1, cls=cls, cargs=cargs, fun=fun, fargs=fargs, dt=dt,
+                            t_v=t_v, a=a, b=b))
         return jsn
     def get_loss_accuracy(self):
         """
@@ -573,14 +579,15 @@ class log_parser(log_parser_base):
         with open(filename, "w") as wp:
             csv_wp = csv.DictWriter(wp, ["t0", "t1", "cls", "cargs", "fun", "fargs", "dt"])
             csv_wp.writeheader()
-            for t0, t1, kernel, dt in self.kernels:
+            for t0, t1, kernel, dt, t_v, a, b in self.kernels:
                 cls, cargs, fun, fargs = self.instantiate(kernel)
                 if cargs is not None:
                     cargs = "<%s>" % ",".join("%s" % x for x in cargs)
                 if fargs is not None:
                     fargs = "<%s>" % ",".join("%s" % x for x in fargs)
                 csv_wp.writerow(dict(t0=t0, t1=t1, cls=cls, cargs=cargs,
-                                     fun=fun, fargs=fargs, dt=dt))
+                                     fun=fun, fargs=fargs, dt=dt,
+                                     t_v=t_v, a=a, b=b))
     def write_loss_accuracy_csv(self, filename):
         """
         write loss_accuracy into csv
