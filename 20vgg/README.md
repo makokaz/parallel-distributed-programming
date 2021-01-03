@@ -411,7 +411,7 @@ ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit < vgg.log
 ```
 * `submit` is a hand-made tool installed (globally) on taulec.  You do not find it in the repository
 
-* Note that in order to run the above command, you should be able to ssh from IST cluster to taulec.  If you are not, see this page.
+* Note that in order to run the above command, you should be able to ssh from IST cluster to taulec.  If you are not, see <a href="https://www.eidos.ic.i.u-tokyo.ac.jp/~tau/lecture/parallel_distributed/html/ist_cluster.html#ist-to-taulec" target="_blank">this page</a>.
 
 View your run
 -------------
