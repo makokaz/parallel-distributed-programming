@@ -46,9 +46,8 @@ def run_table_div():
                 ' Come up with a filtering expression that chooses what you want to compare.'
                 ' I will hopefully make some buttons to quickly display most "interesting" runs'
                 ' (e.g., "best" in various criterion, such as best samples/time, best achieved loss, etc.)')),
-        dcc.Input(id="sql_selector"),
-        html.Button("select", id="sql_selector_button"),
-        html.P("? runs selected", id="how_many_runs"),
+        html.P(["select seqid,USER,... from info where ", dcc.Input(id="sql_selector"), html.Button("update", id="sql_selector_button")]),
+        html.P("", id="how_many_runs"),
         dcc.Graph(id="run_table"),
         # dcc.Graph(id="cols_table"),
     ])
@@ -168,21 +167,33 @@ def kernel_times_bar_chart_div():
                " This is useful when you want to see the performance of your parallelized/vectorized/optimized code relative to baseline (either by you or friends)."
                " Each area in the stack shows time spent per sample in each function."
                " That is, the time is the total time spent in each function / total number of samples processed."),
-        html.P("The expression below specifies attributes with which to group (aggregate) execution times."
-               "You can specify comma-separated list of the following."),
+        html.P("The expression below specifies expressions to choose kernels of interest and attributes with which to group (aggregate) their execution times."
+               "Below are 10 selected records of kernel execution times."
+               "You can specify expressions involving the columns of the table to choose kernels."),
         html.Ul([
             html.Li("cls : kernel name such as Convolution2D, Linear, etc.  Each kernel is implemented as a class template taking size parameters."),
             html.Li("cargs : values that instantiate the class templates, representing the size of input/output/parameters"),
             html.Li("fun : function name, either of forward, backward, or update"),
         ]
         ),
-        html.P("For example, cls,fun distinguishes Convolution2D::forward, Convolution2D::backward, Convolution2D::update, Linear::forward, etc.,"
-               " but does not distinguish different instantiations of Convolution2D with different size parameters."),
+        html.P("For example,"),
         html.Ul([
-            html.Li(["select: ", dcc.Input(id="kernel_times_bar_chart_cond", value="") ]),
-            html.Li(["group by: ", dcc.Input(id="kernel_times_bar_chart_group_by", value="cls,fun")])
+            html.Li('cls = "Linear" : only shows execution time of the Linear kernel'),
+            html.Li('fun = "forward" : only shows forward kernels'),
+        ]
+        ),
+        dcc.Graph(id="kernel_times_table"),
+        html.P("You can specify comma-separated list of columns to specify attributes with which to group (aggregate) their execution times."
+               "For example,"),
+        html.Ul([
+            html.Li('cls,fun : distinguishes Convolution2D::forward, Convolution2D::backward, Convolution2D::update, Linear::forward, etc.,'
+                    ' but does not distinguish different instantiations of Convolution2D with different size parameters.'),
+            html.Li('cls,cargs,fun : distinguishes different instantiations of all kernels'),
         ]),
-        html.Button("update", id="kernel_times_bar_chart_update_button"),
+        html.Ul([
+            html.Li(["select *,sum(dt)/sum(b-a) from kernel_times where ", dcc.Input(id="kernel_times_cond", value=""), " group by ", dcc.Input(id="kernel_times_group_by", value="cls,fun")])
+        ]),
+        html.Button("update", id="kernel_times_update_button"),
         dcc.Graph(id="kernel_times_bar_chart"),
     ])
     return div
@@ -201,12 +212,13 @@ def make_kernel_name(row, group_by):
         return fun_fargs
 
 @app.callback(
-    Output("kernel_times_bar_chart",      "figure"),
+    Output("kernel_times_table",      "figure"),
+    Output("kernel_times_bar_chart",  "figure"),
     Input( "sql_selector_button", "n_clicks"),
-    Input( "kernel_times_bar_chart_update_button", "n_clicks"),
+    Input( "kernel_times_update_button", "n_clicks"),
     State( "sql_selector", "value"),
-    State( "kernel_times_bar_chart_cond", "value"),
-    State( "kernel_times_bar_chart_group_by", "value"),
+    State( "kernel_times_cond", "value"),
+    State( "kernel_times_group_by", "value"),
 )
 def update_kernel_times_bar_chart(sql_selector_n_clicks, kernel_times_n_clicks, cond0, cond1, group_by):
     conn = sqlite3.connect(a_sqlite)
@@ -216,22 +228,40 @@ def update_kernel_times_bar_chart(sql_selector_n_clicks, kernel_times_n_clicks, 
     seqids = [str(seqid) for seqid, in do_sql(conn, cmd)]
     fields = "seqid,{}".format(group_by) if group_by else "seqid"
     where1 = "and {}".format(cond1) if cond1 else ""
-    cmd = ("""select {},sum(dt)/sum(b-a) as avg_dt
+    # table
+    cmd0 = ("""select *
+    from kernel_times 
+    where seqid in ({}) {}
+    limit 10
+"""
+            .format(",".join(seqids), where1))
+    result0 = list(do_sql(conn, cmd0))
+    if len(result0) > 0:
+        row = result0[0]
+        cols = row.keys()
+        cells = [[row[col] for row in result0] for col in cols]
+    else:
+        cols = []
+        cells = []
+    table = go.Table(header=dict(values=cols), cells=dict(values=cells))
+    tbl = go.Figure(data=[table])
+    # graph
+    cmd1 = ("""select {},sum(dt)/sum(b-a) as avg_dt
     from kernel_times 
     where seqid in ({}) {}
     group by {}
     order by seqid,avg_dt desc
 """
-           .format(fields, ",".join(seqids), where1, fields))
-    result = list(do_sql(conn, cmd))
+            .format(fields, ",".join(seqids), where1, fields))
+    result1 = list(do_sql(conn, cmd1))
     conn.close()
-    seqid = [row["seqid"] for row in result]
-    kernel = [make_kernel_name(row, fields) for row in result]
-    avg_dt = [row["avg_dt"] for row in result]
+    seqid = [row["seqid"] for row in result1]
+    kernel = [make_kernel_name(row, fields) for row in result1]
+    avg_dt = [row["avg_dt"] for row in result1]
     df = pd.DataFrame({"seqid" : seqid, "kernel" : kernel, "avg_dt" : avg_dt})
     fig = px.bar(df, x="seqid", y="avg_dt", color="kernel")
     fig.update_layout(height=2000)
-    return fig
+    return tbl, fig
 
 ################################################
 # the whole page

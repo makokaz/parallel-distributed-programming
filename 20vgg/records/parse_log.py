@@ -6,6 +6,7 @@ import csv
 import json
 import re
 import sys
+import time
 #import pdb
 
 class parse_error(Exception):
@@ -390,9 +391,13 @@ class log_parser(log_parser_base):
         self.kernels = []
         self.key_vals = []
     def action_open_log(self, data):
-        self.key_vals.append(("start_at", data["when"]))
+        stime = time.strptime(data["when"])
+        when = time.strftime("%Y-%m-%dT%H-%M-%S", stime)
+        self.key_vals.append(("start_at", when))
     def action_close_log(self, data):
-        self.key_vals.append(("end_at", data["when"]))
+        stime = time.strptime(data["when"])
+        when = time.strftime("%Y-%m-%dT%H-%M-%S", stime)
+        self.key_vals.append(("end_at", when))
     def action_env(self, data):
         self.key_vals.append((data["var"], data["val"]))
     def action_train_begin(self, data):
