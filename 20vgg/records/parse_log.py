@@ -661,4 +661,4 @@ def mainx():
     kpsr = kernel_parser()
     return kpsr.parse(s)
 
-main()
+#main()

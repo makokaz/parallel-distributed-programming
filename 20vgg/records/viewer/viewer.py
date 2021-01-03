@@ -19,7 +19,7 @@ else:
     app = dash.Dash(__name__, requests_pathname_prefix='/viewer/')
 
 application = app.server
-a_sqlite = "/home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/viewer/dat/a.sqlite"
+a_sqlite = "/home/tau/vgg_records/a.sqlite"
 
 ################################################
 # nuts and bolts

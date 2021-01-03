@@ -1,4 +1,34 @@
 
+
+ssh you@taulec.zapto.org submit < vgg.log
+
+will write to taulec.zapto.org:/home/tau/vgg_records/a.sqlite
+
+https://taulec.zapto.org/viewer
+
+consuluts /etc/apache2/sites-enabled/000-default-le-ssl.conf
+
+and based on
+
+WSGIScriptAlias /viewer /home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/viewer/viewer.wsgi
+
+it will invoke
+
+/home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/viewer/viewer.wsgi
+
+which then
+
+/home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/viewer/viewer.py
+
+which then reads
+
+/home/tau/vgg_records/a.sqlite
+
+
+
+
+
+
 # note
 
 * this directory is in a premature state

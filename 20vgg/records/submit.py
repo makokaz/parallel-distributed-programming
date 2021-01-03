@@ -8,6 +8,7 @@ import argparse
 import errno
 import json
 import os
+import pwd
 import re
 import sqlite3
 import sys
@@ -31,14 +32,6 @@ def Es(msg):
     write to stderr
     """
     sys.stderr.write(msg)
-
-def chmod(filename, perm):
-    """
-    change mode
-    """
-    stat = os.stat(filename)
-    if os.geteuid() == stat.st_uid:
-        os.chmod(filename, perm)
 
 def ensure_directory(directory):
     """
@@ -96,18 +89,33 @@ def open_for_transaction(sqlite3_file):
     con = sqlite3.connect(sqlite3_file)
     con.row_factory = sqlite3.Row
     schema = read_schema(con)
+    if "seq_counter" not in schema:
+        do_sql(con, "create table seq_counter(x)", 1)
+        do_sql(con, "insert into seq_counter(x) values(?)", 1, 0)
+    schema = read_schema(con)
     return con, schema
 
-def delete_from_db(con, schema, delete_seqids, user_me, delete_mine):
+def get_next_seqid(con, schema):
+    """
+    return next seqid
+    """
+    [(x,)] = list(do_sql(con, "select x from seq_counter", 1))
+    do_sql(con, "update seq_counter set x = ?", 1, x + 1)
+    return x
+
+def delete_from_db(con, schema, delete_seqids, delete_mine, user):
     """
     delete records of specified seqids from database
     """
     if "info" in schema:
-        query_cmd = 'select distinct seqid from info where USER = ?'
-        user_seqids = {row["seqid"] for row in do_sql(con, query_cmd, 1, user_me)}
+        user_seqids_q = 'select distinct seqid from info where owner = ?'
+        user_seqids = {row["seqid"] for row in do_sql(con, user_seqids_q, 1, user)}
+        delete_seqids_q = ('select distinct seqid from info where seqid in ({})'
+                           .format(",".join([str(x) for x in delete_seqids])))
+        delete_seqids = {row["seqid"] for row in do_sql(con, delete_seqids_q, 1)}
     else:
         user_seqids = set()
-    delete_seqids = set(delete_seqids)
+        delete_seqids = set()
     diff = delete_seqids.difference(user_seqids)
     if len(diff) > 0:
         Es("warning: you can't delete seqids %s, as they are not yours\n"
@@ -119,21 +127,12 @@ def delete_from_db(con, schema, delete_seqids, user_me, delete_mine):
     if len(seqids) > 0:
         seqids_comma = ",".join([("%d" % x) for x in sorted(list(seqids))])
         for tbl, _ in schema.items():
-            cmd = "delete from %s where seqid in (%s)" % (tbl, seqids_comma)
-            do_sql(con, cmd, 1)
-    return len(seqids)
-
-def get_next_seqid(con, schema):
-    """
-    return next seqid
-    """
-    if "info" not in schema:
-        return 0
-    count_seqid_cmd = "select max(seqid) from info"
-    [(seqid,)] = list(do_sql(con, count_seqid_cmd, 1))
-    if seqid is None:
-        return 0
-    return seqid + 1
+            if tbl != "seq_counter":
+                cmd = "select count(*) from %s where seqid in (%s)" % (tbl, seqids_comma)
+                [(c,)] = list(do_sql(con, cmd, 1))
+                cmd = "delete from %s where seqid in (%s)" % (tbl, seqids_comma)
+                do_sql(con, cmd, 1)
+    return seqids
 
 def parse_val(x):
     """
@@ -181,40 +180,32 @@ def make_row_from_key_vals(rows):
         dic[row["key"]] = row["val"]
     return keys, dic
 
-def insert_into_db(con, schema, logs):
+def insert_into_db(con, schema, user, logs):
     """
     insert all records in plogs into database
     """
-    seqid = get_next_seqid(con, schema)
-    n_inserted = 0
-    for i, (parsed, _) in enumerate(logs):
+    seqids = []
+    for parsed, _ in logs:
+        seqid = get_next_seqid(con, schema)
+        seqids.append(seqid)
         for tbl, rows in parsed.items():
             if tbl == "key_vals":
+                rows.append(dict(key="owner", val=user))
                 _, dic = make_row_from_key_vals(rows)
-                n_inserted += insert_row(con, schema, "info", dic, seqid + i)
+                insert_row(con, schema, "info", dic, seqid)
             else:
-                n_inserted += insert_rows(con, schema, tbl, rows, seqid + i)
-    return n_inserted
-
-def sqlite_to_json(con, schema, data_json):
-    with open(data_json, "w") as wp:
-        for tbl, cols in schema.items():
-            cmd = "select {} from {}".format(",".join(cols), tbl)
-            jsn = []
-            for i, row in enumerate(do_sql(con, cmd, 1)):
-                jsn.append(dict(row))
-            wp.write("var {}_json = {};\n".format(tbl, json.dumps(jsn)))
+                insert_rows(con, schema, tbl, rows, seqid)
+    return seqids
 
 def ensure_data_dir(data_dir):
     queue_dir = "{}/queue".format(data_dir)
     commit_dir = "{}/commit".format(data_dir)
+    deleted_dir = "{}/deleted".format(data_dir)
     ensure_directory(data_dir)
-    chmod(data_dir, 0o777)
     ensure_directory(queue_dir)
-    chmod(queue_dir, 0o777)
     ensure_directory(commit_dir)
-    chmod(commit_dir, 0o777)
-    return queue_dir, commit_dir
+    ensure_directory(deleted_dir)
+    return queue_dir, commit_dir, deleted_dir
 
 # ------------------------------
 
@@ -251,13 +242,23 @@ def parse_logs(logs, q_dir):
         result.append((parsed, q_log))
     return result
 
-def move_to_dir(file, dir):
+def move_to_dir(file, seqid, dir):
     orig_dir, orig_file = os.path.split(file)
-    dest_file = "{}/{}".format(dir, orig_file)
+    dest_file = "{}/{:06d}-{}".format(dir, seqid, orig_file)
     os.rename(file, dest_file)
 
+def create_file(seqid, dir):
+    dest_file = "{}/{:06d}".format(dir, seqid)
+    wp = open(dest_file, "w")
+    wp.close()
+    
 def get_user():
-    return os.environ.get("USER", "unknown")
+    uid = os.getuid()
+    return pwd.getpwuid(uid).pw_name
+
+def get_euser():
+    uid = os.geteuid()
+    return pwd.getpwuid(uid).pw_name
 
 def parse_args(argv):
     """
@@ -271,7 +272,7 @@ def parse_args(argv):
     psr.add_argument("--user", "-u", metavar="USER",
                      action="store", help="pretend user USER")
     psr.add_argument("--data", metavar="DIRECTORY",
-                     default="viewer/dat", action="store",
+                     default="/home/tau/vgg_records", action="store",
                      help="generate database/csv under DIRECTORY")
     psr.add_argument("--delete-seqids", "-d", metavar="ID,ID,...",
                      action="store",
@@ -279,12 +280,24 @@ def parse_args(argv):
     psr.add_argument("--delete-mine", "-D",
                      action="store_true",
                      help="delete all data of submitting user")
+    psr.add_argument("--dbg", type=int, default=0,
+                     help="specify debug level")
     opt = psr.parse_args(argv)
-    if opt.user is None:
+    if opt.user:
+        user = get_user()
+        euser = get_euser()
+        if user != euser and user != opt.user:
+            Es("you ({}) cannot specify a different user with --user {}\n".format(user, opt.user))
+            return None
+    else:
         opt.user = get_user()
     opt.delete_seqids = parse_delete_seqids(opt.delete_seqids)
     if opt.delete_seqids is None:
         return None
+    if len(opt.delete_seqids) == 0 and (not opt.delete_mine) and len(opt.files) == 0:
+        opt.files.append("-")
+    global dbg
+    dbg = opt.dbg
     return opt
 
 def main():
@@ -300,21 +313,23 @@ def main():
         Es("submit.py: dry run. do nothing\n")
         return 0
     data_dir = args.data
-    q_dir, c_dir = ensure_data_dir(data_dir)
+    q_dir, c_dir, d_dir = ensure_data_dir(data_dir)
     # parse and queue the contents
     q_logs = parse_logs(logs, q_dir)
     a_sqlite = "{}/a.sqlite".format(data_dir)
     con, schema = open_for_transaction(a_sqlite)
-    n_deleted = delete_from_db(con, schema,
-                               args.delete_seqids, args.user, args.delete_mine)
-    n_inserted = insert_into_db(con, schema, q_logs)
+    deleted = delete_from_db(con, schema,
+                             args.delete_seqids, args.delete_mine, args.user)
+    inserted = insert_into_db(con, schema, args.user, q_logs)
     con.commit()
     con.close()
-    chmod(a_sqlite, 0o666)
-    for _, q_log in q_logs:
-        move_to_dir(q_log, c_dir)
-    if n_deleted + n_inserted > 0:
-        Es("database %s updated\n" % a_sqlite)
+    for (_, q_log), seqid in zip(q_logs, inserted):
+        move_to_dir(q_log, seqid, c_dir)
+    for seqid in deleted:
+        create_file(seqid, d_dir)
+    if len(deleted) + len(inserted) > 0:
+        Es("database {} updated ({} deleted, {} inserted)\n"
+           .format(a_sqlite, len(deleted), len(inserted)))
     return 0
 
 main()
