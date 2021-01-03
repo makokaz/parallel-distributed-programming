@@ -825,7 +825,7 @@ ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit < vgg.log
 View your run
 -------------
 
-* visit 
+* visit https://taulec.zapto.org/viewer/ to see the results
 
 
 

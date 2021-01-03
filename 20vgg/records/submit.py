@@ -313,15 +313,15 @@ def parse_args(argv):
     psr.add_argument("--dbg", type=int, default=0,
                      help="specify debug level")
     opt = psr.parse_args(argv)
-    if opt.user:
+    if opt.pretend:
         user = get_user()
         euser = get_euser()
-        if user not in [euser, opt.user]:
-            Es("you ({}) cannot specify a different user with --user {}\n"
-               .format(user, opt.user))
+        if user not in [euser, opt.pretend]:
+            Es("you ({}) cannot specify a different user with --pretend {}\n"
+               .format(user, opt.pretend))
             return None
     else:
-        opt.user = get_user()
+        opt.pretend = get_user()
     opt.delete_seqids = parse_delete_seqids(opt.delete_seqids)
     if opt.delete_seqids is None:
         return None
@@ -350,8 +350,8 @@ def main():
     a_sqlite = "{}/a.sqlite".format(data_dir)
     con, schema = open_for_transaction(a_sqlite)
     deleted = delete_from_db(con, schema,
-                             args.delete_seqids, args.delete_mine, args.user)
-    inserted = insert_into_db(con, schema, args.user, q_logs)
+                             args.delete_seqids, args.delete_mine, args.pretend)
+    inserted = insert_into_db(con, schema, args.pretend, q_logs)
     con.commit()
     con.close()
     for (_, q_log), seqid in zip(q_logs, inserted):
