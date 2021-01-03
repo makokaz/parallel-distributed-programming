@@ -805,3 +805,33 @@ How small is small enough?  It actually depends on layers and the type of floati
 |relu               | 0.170680821 | 0.019997066 | 0.136701009 | 0.014832921 |
 |softmaxcrossentropy| 0.034060795 | 0.007438810 | 0.000000000 | 0.000000000 |
 
+A record sharing and viewing tool
+=============
+
+* Here is a tool to submit the result of your run and a page to see them with results by others
+* You are required to submit at least the final result you mention in your final term paper, but you are encouraged to submit your results whenever you think you made a progress
+* You can submit your results as many times as you want; you can also (though not encouraged to) delete them if you think there are too many 
+
+Submit your run
+-------------
+
+* Running a vgg executable leaves a log file, called vgg.log by default (you can change it with --log option)
+* Assume you ran vgg on IST cluster.  Data is stored and viewed on tauelc, as IST cannot host a web page
+* As such, do the following to submit your result
+```
+ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit < vgg.log
+```
+
+View your run
+-------------
+
+* visit 
+
+
+
+Details you should not (but occasionally might) have to know
+-------------
+
+* `submit` is a tailor-made command installed at /usr/local/bin/submit on taulec.zapto.org
+* data are stored at /home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/vgg_records/ on taulec.zapto.org
+* to allow you to write to it, which you normally cannot write to, submit is a setuid program that effectively runs as tau 

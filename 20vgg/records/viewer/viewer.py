@@ -19,7 +19,7 @@ else:
     app = dash.Dash(__name__, requests_pathname_prefix='/viewer/')
 
 application = app.server
-a_sqlite = "/home/tau/vgg_records/a.sqlite"
+a_sqlite = "/home/tau/public_html/lecture/parallel_distributed/parallel-distributed-handson/20vgg/records/vgg_records/a.sqlite"
 
 ################################################
 # nuts and bolts
@@ -39,13 +39,13 @@ def run_table_div():
         dcc.Input(id="sql_selector"),
         html.Button("select", id="sql_selector_button"),
         dcc.Graph(id="run_table"),
-        dcc.Graph(id="cols_table"),
+        # dcc.Graph(id="cols_table"),
     ])
     return div
 
 @app.callback(
     Output("run_table",    "figure"),
-    Output("cols_table",   "figure"),
+    # Output("cols_table",   "figure"),
     Input( "sql_selector_button", "n_clicks"),
     State( "sql_selector", "value"),
 )
@@ -53,7 +53,7 @@ def update_run_table(n_clicks, cond):
     conn = sqlite3.connect(a_sqlite)
     conn.row_factory = sqlite3.Row
     where = "where {}".format(cond) if cond else ""
-    cols = ["seqid", "USER", "host", "algo_s", "algo", "gpu_algo", 
+    cols = ["seqid", "USER", "owner", "host", "algo_s", "gpu_algo", 
             "batch_sz", "learnrate", "start_at", "end_at", 
             "SLURM_JOB_CPUS_PER_NODE", "SLURM_NTASKS", "SLURM_NPROCS"]
     cmd = ("select {} from info {} order by seqid"
@@ -70,7 +70,8 @@ def update_run_table(n_clicks, cond):
     table = go.Table(header=dict(values=cols), cells=dict(values=cells))
     run_tbl = go.Figure(data=[table])
     run_tbl.update_layout(height=1000)
-    return run_tbl, run_tbl
+    #return run_tbl, run_tbl
+    return run_tbl
 
 ################################################
 # loss accuracy

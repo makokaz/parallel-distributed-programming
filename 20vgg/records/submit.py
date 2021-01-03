@@ -6,7 +6,7 @@ submit execution log
 
 import argparse
 import errno
-import json
+#import json
 import os
 import pwd
 import re
@@ -15,6 +15,10 @@ import sys
 import tempfile
 import time
 import parse_log
+
+default_data_dir = ("/home/tau/public_html/lecture/"
+                    "parallel_distributed/parallel-distributed-handson/"
+                    "20vgg/records/vgg_records")
 
 dbg = 0
 
@@ -55,13 +59,16 @@ def do_sql(con, cmd, dbg_level, *vals):
     return con.execute(cmd, vals)
 
 def read_schema(con):
+    """
+    read schema of all tables
+    """
     col_cmd = 'select name, sql from sqlite_master where type = "table"'
-    pat = re.compile("CREATE TABLE [^\(]+\((?P<cols>.*)\)")
+    pat = re.compile(r"CREATE TABLE [^\(]+\((?P<cols>.*)\)")
     schema = {}
     for name, create_table in do_sql(con, col_cmd, 1):
-        m = pat.match(create_table)
-        assert(m), create_table
-        cols = m.group("cols")
+        match = pat.match(create_table)
+        assert(match), create_table
+        cols = match.group("cols")
         schema[name] = [s.strip() for s in cols.split(",")]
     return schema
 
@@ -95,13 +102,13 @@ def open_for_transaction(sqlite3_file):
     schema = read_schema(con)
     return con, schema
 
-def get_next_seqid(con, schema):
+def get_next_seqid(con):
     """
     return next seqid
     """
-    [(x,)] = list(do_sql(con, "select x from seq_counter", 1))
-    do_sql(con, "update seq_counter set x = ?", 1, x + 1)
-    return x
+    [(seqid,)] = list(do_sql(con, "select x from seq_counter", 1))
+    do_sql(con, "update seq_counter set x = ?", 1, seqid + 1)
+    return seqid
 
 def delete_from_db(con, schema, delete_seqids, delete_mine, user):
     """
@@ -128,8 +135,6 @@ def delete_from_db(con, schema, delete_seqids, delete_mine, user):
         seqids_comma = ",".join([("%d" % x) for x in sorted(list(seqids))])
         for tbl, _ in schema.items():
             if tbl != "seq_counter":
-                cmd = "select count(*) from %s where seqid in (%s)" % (tbl, seqids_comma)
-                [(c,)] = list(do_sql(con, cmd, 1))
                 cmd = "delete from %s where seqid in (%s)" % (tbl, seqids_comma)
                 do_sql(con, cmd, 1)
     return seqids
@@ -174,6 +179,12 @@ def insert_rows(con, schema, tbl, rows, seqid):
     return n_inserted
 
 def make_row_from_key_vals(rows):
+    """
+    rows is a list of {"key" : x, "val" y}.
+    return a dictionary of {x : y, ...}
+    along with the list of keys as they appeared
+    in rows
+    """
     dic = {}
     keys = [row["key"] for row in rows]
     for row in rows:
@@ -186,7 +197,7 @@ def insert_into_db(con, schema, user, logs):
     """
     seqids = []
     for parsed, _ in logs:
-        seqid = get_next_seqid(con, schema)
+        seqid = get_next_seqid(con)
         seqids.append(seqid)
         for tbl, rows in parsed.items():
             if tbl == "key_vals":
@@ -198,6 +209,9 @@ def insert_into_db(con, schema, user, logs):
     return seqids
 
 def ensure_data_dir(data_dir):
+    """
+    ensure directories data_dir/{queue,commit,deleted} exist
+    """
     queue_dir = "{}/queue".format(data_dir)
     commit_dir = "{}/commit".format(data_dir)
     deleted_dir = "{}/deleted".format(data_dir)
@@ -235,28 +249,40 @@ def parse_logs(logs, q_dir):
             q_log = None
         else:
             prefix = time.strftime("%Y-%m-%d-%H-%M-%S")
-            fd, q_log = tempfile.mkstemp(suffix=".log", prefix=prefix, dir=q_dir)
-            wp = os.fdopen(fd, "w")
-            wp.write(raw_data)
-            wp.close()
+            tmp_fd, q_log = tempfile.mkstemp(suffix=".log", prefix=prefix, dir=q_dir)
+            tmp_wp = os.fdopen(tmp_fd, "w")
+            tmp_wp.write(raw_data)
+            tmp_wp.close()
         result.append((parsed, q_log))
     return result
 
-def move_to_dir(file, seqid, dir):
-    orig_dir, orig_file = os.path.split(file)
-    dest_file = "{}/{:06d}-{}".format(dir, seqid, orig_file)
+def move_to_dir(file, seqid, to_dir):
+    """
+    move FILE to TO_DIR/SEQID-FILE
+    """
+    _, orig_file = os.path.split(file)
+    dest_file = "{}/{:06d}-{}".format(to_dir, seqid, orig_file)
     os.rename(file, dest_file)
 
-def create_file(seqid, dir):
-    dest_file = "{}/{:06d}".format(dir, seqid)
-    wp = open(dest_file, "w")
-    wp.close()
-    
+def create_file(seqid, dire):
+    """
+    create an empty file in DIRE, to record SEQID is deleted
+    """
+    dest_file = "{}/{:06d}".format(dire, seqid)
+    dest_wp = open(dest_file, "w")
+    dest_wp.close()
+
 def get_user():
+    """
+    get real user ID of the process
+    """
     uid = os.getuid()
     return pwd.getpwuid(uid).pw_name
 
 def get_euser():
+    """
+    get effective user ID of the process
+    """
     uid = os.geteuid()
     return pwd.getpwuid(uid).pw_name
 
@@ -269,10 +295,14 @@ def parse_args(argv):
                      nargs="*", help="files to submit")
     psr.add_argument("--dryrun", "-n",
                      action="store_true", help="dry run")
-    psr.add_argument("--user", "-u", metavar="USER",
-                     action="store", help="pretend user USER")
+    psr.add_argument("--pretend", "-p", metavar="USER",
+                     action="store",
+                     help=("pretend as if USER is executing this command."
+                           "  Affect the owner field of inserted records"
+                           " and records deleted by --delete-mine;"
+                           " only the owner of the command can pretend other users"))
     psr.add_argument("--data", metavar="DIRECTORY",
-                     default="/home/tau/vgg_records", action="store",
+                     default=default_data_dir, action="store",
                      help="generate database/csv under DIRECTORY")
     psr.add_argument("--delete-seqids", "-d", metavar="ID,ID,...",
                      action="store",
@@ -286,8 +316,9 @@ def parse_args(argv):
     if opt.user:
         user = get_user()
         euser = get_euser()
-        if user != euser and user != opt.user:
-            Es("you ({}) cannot specify a different user with --user {}\n".format(user, opt.user))
+        if user not in [euser, opt.user]:
+            Es("you ({}) cannot specify a different user with --user {}\n"
+               .format(user, opt.user))
             return None
     else:
         opt.user = get_user()
