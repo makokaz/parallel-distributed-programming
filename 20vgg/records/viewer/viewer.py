@@ -29,6 +29,17 @@ def do_sql(conn, cmd):
     print(cmd)
     return conn.execute(cmd)
 
+def preface_div():
+    div = html.Div([
+        html.P("This is a page showing the results of executing vgg."
+               " It accumulates all submitted results and allows you to"
+               " choose runs you are interested in"
+               " and see different aspects of them."),
+        html.P("In order to submit a result, you do <t>ssh YOUR-USER-ID-ON-TAULEC@taulec.zapto.org submit &lt; vgg.log vgg.log</t>"
+               " from IST (or whichever machine you have vgg.log in)"),
+    ])
+    return div
+
 ################################################
 # selector + run table
 ################################################
