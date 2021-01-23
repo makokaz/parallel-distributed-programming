@@ -6,6 +6,7 @@ import csv
 import json
 import re
 import sys
+import time
 #import pdb
 
 class parse_error(Exception):
@@ -49,7 +50,7 @@ class log_parser_base:
         self.patterns = {tok : re.compile(pat_time + pat) for tok, pat in tokens.items()}
         self.patterns["EOF"] = re.compile("^$")
         self.kpsr = kernel_parser()
-        self.line_no = 0
+        self.lines = []
         self.next_line()
 
     def next_line(self):
@@ -57,7 +58,8 @@ class log_parser_base:
         get next line, set token kind
         """
         self.line = self.fp.readline()
-        self.line_no += 1
+        if self.line != "":
+            self.lines.append(self.line)
         for tok, regex in self.patterns.items():
             match = regex.match(self.line)
             if match:
@@ -88,7 +90,7 @@ class log_parser_base:
         raise parse error
         """
         raise parse_error("%s:%d:error: expected %s but got %s\n[%s]\n" %
-                          (self.fp.name, self.line_no, tok, self.tok, self.line))
+                          (self.fp.name, len(self.lines), tok, self.tok, self.line))
     def parse_kernel_start(self):
         """
         ...: starts
@@ -383,19 +385,33 @@ class log_parser(log_parser_base):
     def __init__(self, fp):
         super().__init__(fp)
         self.samples = []
+        self.phase = None
         self.n_training_samples = 0
         self.loss_acc = []
         self.kernels = []
+        self.key_vals = []
+    def action_open_log(self, data):
+        stime = time.strptime(data["when"])
+        when = time.strftime("%Y-%m-%dT%H-%M-%S", stime)
+        self.key_vals.append(("start_at", when))
+    def action_close_log(self, data):
+        stime = time.strptime(data["when"])
+        when = time.strftime("%Y-%m-%dT%H-%M-%S", stime)
+        self.key_vals.append(("end_at", when))
+    def action_env(self, data):
+        self.key_vals.append((data["var"], data["val"]))
     def action_train_begin(self, data):
         """
         action on train begin
         """
+        self.phase = ("train", int(data["a"]), int(data["b"]))
         self.n_training_samples = int(data["b"])
         self.samples.append(("t", []))
     def action_validate_begin(self, _):
         """
         action on validate begin
         """
+        self.phase = ("validate", int(data["a"]), int(data["b"]))
         self.samples.append(("v", []))
     def action_train_loss(self, data):
         """
@@ -432,7 +448,9 @@ class log_parser(log_parser_base):
         action on kernel start
         """
         kernel = self.kpsr.parse(data["kernel"])
-        self.kernels.append((int(data["t"]), None, kernel, None))
+        t_v, a, b = self.phase
+        # start time, end time, kernel info, elapsed time, train/validate, sample_idx0, sample_idx1
+        self.kernels.append((int(data["t"]), None, kernel, None, t_v, a, b))
     def action_kernel_end(self, data):
         """
         action on kernel end
@@ -440,13 +458,21 @@ class log_parser(log_parser_base):
         kernel = self.kpsr.parse(data["kernel"])
         kernel_time = int(data["kernel_time"])
         ker1 = self.kernels[-1]
-        t0, t1, ks, kt = ker1
+        t0, t1, ks, kt, t_v, a, b = ker1
         assert(t1 is None), ker1
         assert(ks == kernel), ker1
         assert(kt is None), ker1
         t1 = int(data["t"])
         kt = kernel_time
-        self.kernels[-1] = (t0, t1, ks, kt)
+        self.kernels[-1] = (t0, t1, ks, kt, t_v, a, b)
+    def get_key_vals(self):
+        """
+        get environment variables
+        """
+        jsn = []
+        for key, val in self.key_vals:
+            jsn.append(dict(key=key, val=val))
+        return jsn
     def get_samples(self):
         """
         get samples
@@ -461,13 +487,14 @@ class log_parser(log_parser_base):
         get kernel times
         """
         jsn = []
-        for t0, t1, kernel, dt in self.kernels:
+        for t0, t1, kernel, dt, t_v, a, b in self.kernels:
             cls, cargs, fun, fargs = self.instantiate(kernel)
             if cargs is not None:
                 cargs = "<%s>" % ",".join("%s" % x for x in cargs)
             if fargs is not None:
                 fargs = "<%s>" % ",".join("%s" % x for x in fargs)
-            jsn.append(dict(t0=t0, t1=t1, cls=cls, cargs=cargs, fun=fun, fargs=fargs, dt=dt))
+            jsn.append(dict(t0=t0, t1=t1, cls=cls, cargs=cargs, fun=fun, fargs=fargs, dt=dt,
+                            t_v=t_v, a=a, b=b))
         return jsn
     def get_loss_accuracy(self):
         """
@@ -489,6 +516,8 @@ class log_parser(log_parser_base):
             if kind == "train_accuracy":
                 data["t"] = t
         return jsn
+    def get_all_data(self):
+        return "".join(self.lines)
     def write_samples_csv(self, filename):
         """
         write samples into csv
@@ -555,14 +584,15 @@ class log_parser(log_parser_base):
         with open(filename, "w") as wp:
             csv_wp = csv.DictWriter(wp, ["t0", "t1", "cls", "cargs", "fun", "fargs", "dt"])
             csv_wp.writeheader()
-            for t0, t1, kernel, dt in self.kernels:
+            for t0, t1, kernel, dt, t_v, a, b in self.kernels:
                 cls, cargs, fun, fargs = self.instantiate(kernel)
                 if cargs is not None:
                     cargs = "<%s>" % ",".join("%s" % x for x in cargs)
                 if fargs is not None:
                     fargs = "<%s>" % ",".join("%s" % x for x in fargs)
                 csv_wp.writerow(dict(t0=t0, t1=t1, cls=cls, cargs=cargs,
-                                     fun=fun, fargs=fargs, dt=dt))
+                                     fun=fun, fargs=fargs, dt=dt,
+                                     t_v=t_v, a=a, b=b))
     def write_loss_accuracy_csv(self, filename):
         """
         write loss_accuracy into csv
@@ -597,27 +627,34 @@ def parse_log(log):
         fp = open(log)
     psr = log_parser(fp)
     psr.parse_file()
+    key_vals = psr.get_key_vals()
     samples = psr.get_samples()
     loss_accuracy = psr.get_loss_accuracy()
     kernel_times = psr.get_kernel_times()
-    # classes = ["airplane", "automobile", "bird", "cat",
-    # "deer", "dog", "frog", "horse", "ship", "truck"]
-    # meta = [{"class": x} for x in classes]
-    # "meta"          : meta,
+    all_data = psr.get_all_data()
+    classes = ["airplane", "automobile", "bird", "cat",
+               "deer", "dog", "frog", "horse", "ship", "truck"]
+    meta = [{"class": x} for x in classes]
     if log != "-":
         fp.close()
-    return {"samples"       : samples,
-            "loss_accuracy" : loss_accuracy,
-            "kernel_times"  : kernel_times}
+    return ({"key_vals"      : key_vals,
+             "samples"       : samples,
+             "loss_accuracy" : loss_accuracy,
+             "kernel_times"  : kernel_times,
+             "meta"          : meta},
+            all_data)
+
 def main():
     """
     main
     """
     log = sys.argv[1] if len(sys.argv) > 1 else "../vgg.log"
-    plog = parse_log(log)
+    plog, _ = parse_log(log)
     with open("vars.js", "w") as wp:
         wp.write("var meta_json = %s;\n"
                  % json.dumps(plog["meta"]))
+        wp.write("var key_vals_json = %s;\n"
+                 % json.dumps(plog["key_vals"]))
         wp.write("var samples_json = %s;\n"
                  % json.dumps(plog["samples"]))
         wp.write("var loss_accuracy_json = %s;\n"
