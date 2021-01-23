@@ -305,6 +305,30 @@ struct Convolution2D {
       }
     }
   }
+  __device__ __host__
+  void forward_simd(array4<maxB, IC, H, W> &x) {
+    idx_t B = x.B;
+    y.set_n_rows(B);
+    x_ptr = &x; /* save pointer to input */
+    for (idx_t b = 0; b < B; b++) { // samples
+      for (idx_t oc = 0; oc < OC; oc++) { // output channels
+        for (idx_t i = 0; i < H; i++) { // width
+          for (idx_t j = 0; j < W; j++) { // height
+            real s = 0.0;
+            for (idx_t ic = 0; ic < IC; ic++) { // input channel
+              /* -K<=i_<=K, 0<=i+i_<H => -K<=i_&-i<i_; i_<=K&i_<H-i*/
+              for (idx_t i_ = max_i(-K, -i); i_ <= min_i(K, H - i - 1); i_++) {
+                for (idx_t j_ = max_i(-K, -j); j_ <= min_i(K, W - j - 1); j_++) {
+                  s += w(oc, ic, i_, j_) * x(b, ic, i + i_, j + j_);
+                }
+              }
+            }
+            y(b, oc, i, j) = s;
+          }
+        }
+      }
+    }
+  }
 #if __NVCC__
   /**
      @brief the device function of forward called from the 
@@ -342,6 +366,9 @@ struct Convolution2D {
   void forward_cpu(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
+  void forward_cpu_simd(array4<maxB, IC, H, W> &x) {
+    forward_simd(x);
+  }
   /**
      @brief calc the loss function of a mini-batch (x)
      @param (x) input images
@@ -355,6 +382,8 @@ struct Convolution2D {
       /* add case for your implementations here */
     case algo_cpu_base:
       forward_cpu(x); break;
+    case algo_cpu_simd:
+      forward_cpu_simd(x); break;
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
