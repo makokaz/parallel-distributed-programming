@@ -374,6 +374,61 @@ struct BatchNormalization {
       }
     }
   }
+
+  const int vwidth = 64;
+  // const int vwidth = 32;
+  enum
+  {
+    valign = sizeof(real),
+    //valign = vwidth
+  };
+  typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+  enum
+  {
+    L = sizeof(realv) / sizeof(real)
+  };
+  #define V(lv) *((realv *)&lv)
+
+  __device__ __host__
+  void forward_simd(array4<maxB, IC, H, W> &x) {
+    // SIMD preparations
+    // Assumption: W is a multiple of SIMD lanes
+    const idx_t vwidth = 32; // Be careful: This only works here because H,W=32!! If they are not a multiple of 32, the array is indexed outside allocated data!
+    const idx_t valign = sizeof(real);
+    typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+    const idx_t L = sizeof(realv) / sizeof(real);
+
+    // General loop
+    const idx_t B = x.B;
+    x_hat.set_n_rows(B);
+    y.set_n_rows(B);
+    if (B * H * W > 1) {
+      vec<IC> mu = mean_bij(x);
+      inv_std = inv_std_bij(x, mu);
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i++) {
+            for (idx_t j = 0; j < W; j+=L) {
+              *((realv *)&x_hat(b, ic, i, j)) = (*((realv *)&x(b, ic, i, j)) - mu(ic)) * inv_std(ic);
+              *((realv *)&y(b, ic, i, j)) = gamma(ic) * *((realv *)&x_hat(b, ic, i, j)) + beta(ic);
+            }
+          }
+        }
+      }
+    }
+    else {
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i++) {
+            for (idx_t j = 0; j < W; j+=L) {
+              *((realv *)&y(b, ic, i, j)) = *((realv *)&x(b, ic, i, j));
+            }
+          }
+        }
+      }
+    }
+  }
+
 #if __NVCC__
   /**
      @brief the device function of forward called from the 
@@ -411,6 +466,9 @@ struct BatchNormalization {
   void forward_cpu(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
+  void forward_cpu_simd(array4<maxB, IC, H, W> &x) {
+    forward_simd(x);
+  }
   /**
      @brief calc the loss function of a mini-batch (x,t)
      @param (x) input images
@@ -424,6 +482,8 @@ struct BatchNormalization {
       /* add case for your implementations here */
     case algo_cpu_base:
       forward_cpu(x); break;
+    case algo_cpu_simd:
+      forward_cpu_simd(x); break;
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;

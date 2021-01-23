@@ -6,6 +6,7 @@
 
 #include "vgg_util.h"
 #include "vgg_arrays.h"
+#include <omp.h>
 
 #if __NVCC__
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
@@ -305,8 +306,22 @@ struct Convolution2D {
       }
     }
   }
+
+  // const int vwidth = 64;
+  // // const int vwidth = 32;
+  // enum
+  // {
+  //   valign = sizeof(real),
+  //   //valign = vwidth
+  // };
+  // typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+  // enum
+  // {
+  //   L = sizeof(realv) / sizeof(real)
+  // };
+  // #define V(lv) *((realv *)&lv)
   __device__ __host__
-  void forward_simd(array4<maxB, IC, H, W> &x) {
+  void forward_omp(array4<maxB, IC, H, W> &x) {
     idx_t B = x.B;
     y.set_n_rows(B);
     x_ptr = &x; /* save pointer to input */
@@ -317,6 +332,7 @@ struct Convolution2D {
             real s = 0.0;
             for (idx_t ic = 0; ic < IC; ic++) { // input channel
               /* -K<=i_<=K, 0<=i+i_<H => -K<=i_&-i<i_; i_<=K&i_<H-i*/
+//#pragma omp parallel for collapse(2) schedule(dynamic)
               for (idx_t i_ = max_i(-K, -i); i_ <= min_i(K, H - i - 1); i_++) {
                 for (idx_t j_ = max_i(-K, -j); j_ <= min_i(K, W - j - 1); j_++) {
                   s += w(oc, ic, i_, j_) * x(b, ic, i + i_, j + j_);
@@ -366,8 +382,8 @@ struct Convolution2D {
   void forward_cpu(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
-  void forward_cpu_simd(array4<maxB, IC, H, W> &x) {
-    forward_simd(x);
+  void forward_cpu_omp(array4<maxB, IC, H, W> &x) {
+    forward_omp(x);
   }
   /**
      @brief calc the loss function of a mini-batch (x)
@@ -383,7 +399,7 @@ struct Convolution2D {
     case algo_cpu_base:
       forward_cpu(x); break;
     case algo_cpu_simd:
-      forward_cpu_simd(x); break;
+      forward_cpu_omp(x); break;
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
