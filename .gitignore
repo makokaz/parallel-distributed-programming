@@ -1,3 +1,13 @@
+#Exclude all files without an extension
+*
+!/**/
+!*.*
+
+#Exclude files with the following extensions
 *.log
 *.g++
+*.S
+
+#Exclude the following specific files by names
 *cifar-10-batches-bin
+*DS_Store
