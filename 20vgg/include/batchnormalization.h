@@ -375,28 +375,31 @@ struct BatchNormalization {
     }
   }
 
-  const int vwidth = 64;
-  // const int vwidth = 32;
-  enum
-  {
-    valign = sizeof(real),
-    //valign = vwidth
-  };
-  typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
-  enum
-  {
-    L = sizeof(realv) / sizeof(real)
-  };
-  #define V(lv) *((realv *)&lv)
+  // enum
+  // {
+  //    //vwidth = 64
+  //    vwidth = 32
+  // };
+  // enum
+  // {
+  //   valign = sizeof(real),
+  //   //valign = vwidth
+  // };
+  // typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+  // enum
+  // {
+  //   L = sizeof(realv) / sizeof(real)
+  // };
+  // #define V(lv) *((realv *)&lv)
 
   __device__ __host__
   void forward_simd(array4<maxB, IC, H, W> &x) {
     // SIMD preparations
     // Assumption: W is a multiple of SIMD lanes
-    const idx_t vwidth = 32; // Be careful: This only works here because H,W=32!! If they are not a multiple of 32, the array is indexed outside allocated data!
-    const idx_t valign = sizeof(real);
+    enum{ vwidth = 32 }; // Be careful: This only works here because H,W=32!! If they are not a multiple of 32, the array is indexed outside allocated data!
+    enum{ valign = sizeof(real) };
     typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
-    const idx_t L = sizeof(realv) / sizeof(real);
+    enum{ L = sizeof(realv) / sizeof(real) };
 
     // General loop
     const idx_t B = x.B;
