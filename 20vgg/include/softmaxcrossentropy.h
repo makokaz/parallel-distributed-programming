@@ -26,6 +26,10 @@ template<idx_t maxB,idx_t nC>
                                  array4<maxB,nC,1,1>* x_dev, ivec<maxB>* t_dev) {
   dev->forward_dev(*x_dev, *t_dev);
 }
+template<idx_t maxB,idx_t nC>
+  __global__ void forward_fast_global(SoftmaxCrossEntropy<maxB,nC>* dev, array4<maxB,nC,1,1>* x_dev, ivec<maxB>* t_dev) {
+  dev->forward_fast_dev(*x_dev, *t_dev);
+}
 
 /**
    @brief a global CUDA function that implements the baseline 
@@ -36,9 +40,12 @@ template<idx_t maxB,idx_t nC>
    @sa backward_gpu
   */
 template<idx_t maxB,idx_t nC>
-  __global__ void backward_global(SoftmaxCrossEntropy<maxB,nC>* dev,
-                                  vec<maxB>* gy_dev) {
+  __global__ void backward_global(SoftmaxCrossEntropy<maxB,nC>* dev, vec<maxB>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t nC>
+  __global__ void backward_fast_global(SoftmaxCrossEntropy<maxB,nC>* dev, vec<maxB>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 #endif
 
@@ -201,6 +208,34 @@ struct SoftmaxCrossEntropy {
     }
     return lsm;
   }
+#if __NVCC__
+  __device__
+  void logsoftmax_gpu_fast(array4<maxB,nC,1,1>& x) {
+    // Thread IDs
+    int b = blockDim.x * blockIdx.x + threadIdx.x;
+    int nthreads = gridDim.x * blockDim.x;
+
+    // Check if called by enough threads and skip ones that are not needed
+    const idx_t B = x.B;
+    assert(nthreads >= B);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    long m = 0;
+    for (long c = 0; c < nC; c++) {
+      m = (x(b,m,0,0) < x(b,c,0,0) ? c : m);
+    }
+    real s = 0.0;
+    for (long c = 0; c < nC; c++) {
+      lsm(b,c) = x(b,c,0,0) - x(b,m,0,0);
+      s += exp(lsm(b,c));
+    }
+    for (long c = 0; c < nC; c++) {
+      lsm(b,c) -= log(s);
+    }
+    // return lsm;
+  }
+#endif
   /**
      @brief the baseline (serial) implementation of forward
      called both by cpu implementation (forward_cpu) and 
@@ -241,6 +276,26 @@ struct SoftmaxCrossEntropy {
   void forward_dev(array4<maxB,nC,1,1>& x, ivec<maxB>& t) {
     forward_base(x, t);
   }
+  __device__
+  void forward_fast_dev(array4<maxB,nC,1,1>& x, ivec<maxB>& t) {
+    // Thread IDs
+    int b = blockDim.x * blockIdx.x + threadIdx.x;
+    int nthreads = gridDim.x * blockDim.x;
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    lsm.set_n_rows(B);
+    y.set_n(B);
+    t_ptr = &t;
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    logsoftmax_gpu_fast(x);
+    y(b) = -lsm(b,t(b));
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -253,6 +308,14 @@ struct SoftmaxCrossEntropy {
   */
   void forward_gpu(array4<maxB,nC,1,1>& x, ivec<maxB>& t) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev, t.dev)));
+  }
+  void forward_gpu_fast(array4<maxB,nC,1,1>& x, ivec<maxB>& t) {
+    int num_blocks = 1;
+    int block_sz = maxB; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev, t.dev)));
+    double t1 = cur_time();
+    printf("Finished forward@softmax with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
   }
 #endif
   /**
@@ -283,6 +346,8 @@ struct SoftmaxCrossEntropy {
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x, t); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x, t); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -340,6 +405,30 @@ struct SoftmaxCrossEntropy {
   void backward_dev(vec<maxB>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(vec<maxB>& gy) {
+    // Thread IDs
+    int b = blockDim.x * blockIdx.x + threadIdx.x;
+    int c = blockDim.y * blockIdx.y + threadIdx.y;
+    int nthreadsx = gridDim.x * blockDim.x;
+    int nthreadsy = gridDim.y * blockDim.y;
+
+    // Init output and temp variables
+    const idx_t B = gy.n;
+    gx.set_n_rows(B);
+    ivec<maxB>& t = *t_ptr;
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreadsx >= B);
+    assert(nthreadsy >= nC);
+    if (b >= B || c >= nC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    gx(b,c,0,0) = gy(b) * exp(lsm(b,c));
+    if (c == t(b)) {
+      gx(b,c,0,0) += -gy(b);
+    }
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -351,6 +440,14 @@ struct SoftmaxCrossEntropy {
   */
   void backward_gpu(vec<maxB>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(vec<maxB>& gy) {
+    dim3 num_blocks(1,1);
+    dim3 block_sz(gy.n,nC); // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    double t1 = cur_time();
+    printf("Finished backward@softmax with nb=(%i,%i), bs=(%i,%i) in t=%f sec\n", num_blocks.x, num_blocks.y, block_sz.x, block_sz.y, t1 - t0);
   }
 #endif
   /**
@@ -384,6 +481,8 @@ struct SoftmaxCrossEntropy {
 #if __NVCC__
     case algo_gpu_base:
       backward_gpu(gy); break;
+    case algo_gpu_fast:
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -538,14 +637,17 @@ int softmaxcrossentropy_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = softmaxcrossentropy_grad_check_rand<maxB,nC>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("Finished @softmaxcrossentropy in t=%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }

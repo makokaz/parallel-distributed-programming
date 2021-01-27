@@ -462,6 +462,28 @@ struct array2 {
       }
     }
   }
+#if __NVCC__
+  __device__
+  void update_gpu_fast(real eta, array2<M,N>& da) {
+    // Thread IDs
+    int i = blockDim.x * blockIdx.x + threadIdx.x;
+    int j = blockDim.y * blockIdx.y + threadIdx.y;
+    int nthreadsx = gridDim.x * blockDim.x;
+    int nthreadsy = gridDim.y * blockDim.y;
+
+    // Check if called by enough threads
+    assert(nthreadsx >= m);
+    assert(nthreadsy >= N);
+    if (i >= m || j >= N) return;  // Threads that are too much and not needed -> stop here
+
+    // Init output and temp variables
+    array2<M,N>& a = *this;
+    assert(a.m == da.m);
+
+    // Compute: a += eta * da
+    a(i,j) += eta * da(i,j);
+  }
+#endif
   /**
      @brief dot product with another matrix
      @param (b) the matrix to take a dot product with

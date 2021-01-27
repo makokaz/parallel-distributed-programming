@@ -6,6 +6,7 @@
 #Exclude files with the following extensions
 *.log
 *.g++
+*.nvcc
 *.S
 
 #Exclude the following specific files by names

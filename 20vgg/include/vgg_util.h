@@ -16,6 +16,15 @@
 #include <unistd.h>
 #include <ieee754.h>
 
+/**
+    @brief for returning time in seconds
+*/
+double cur_time() {
+  struct timespec tp[1];
+  clock_gettime(CLOCK_REALTIME, tp);
+  return tp->tv_sec + tp->tv_nsec * 1.0e-9;
+}
+
 #if __NVCC__
 #include "cuda_util.h"
 #else
@@ -82,6 +91,7 @@ typedef enum {
   algo_cpu_omp,
   /* algo_cpu_simd_omp? */
   /* algo_cpu_super_fast? */
+  algo_gpu_fast,
   /* algo_gpu_super_fast? */
   
   algo_invalid,
@@ -95,16 +105,18 @@ typedef enum {
 static algo_t parse_algo(const char * s) {
   if (strcmp(s, "cpu_base") == 0) {
     return algo_cpu_base;
-  } else if (strcmp(s, "cpu_omp") == 0) {
-    return algo_cpu_omp;
-  } else if (strcmp(s, "cpu_simd") == 0) {
-    return algo_cpu_simd;
   } else if (strcmp(s, "gpu_base") == 0) {
     return algo_gpu_base;
     /* add cases here to handle your algorithms
        } else if (strcmp(s, "gpu_base") == 0) {
        return algo_gpu_base;
     */
+  } else if (strcmp(s, "cpu_omp") == 0) {
+    return algo_cpu_omp;
+  } else if (strcmp(s, "cpu_simd") == 0) {
+    return algo_cpu_simd;
+  } else if (strcmp(s, "gpu_fast") == 0) {
+    return algo_gpu_fast;
   }
   else
   {

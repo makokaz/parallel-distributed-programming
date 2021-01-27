@@ -21,9 +21,12 @@ template<idx_t maxB,idx_t IC,idx_t nC>
    @sa forward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t nC>
-__global__ void forward_global(Linear<maxB,IC,nC>* dev,
-                               array4<maxB,IC,1,1>* x_dev) {
+__global__ void forward_global(Linear<maxB,IC,nC>* dev, array4<maxB,IC,1,1>* x_dev) {
   dev->forward_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t nC>
+__global__ void forward_fast_global(Linear<maxB,IC,nC>* dev, array4<maxB,IC,1,1>* x_dev) {
+  dev->forward_fast_dev(*x_dev);
 }
 
 /**
@@ -35,9 +38,12 @@ __global__ void forward_global(Linear<maxB,IC,nC>* dev,
    @sa backward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t nC>
-  __global__ void backward_global(Linear<maxB,IC,nC>* dev,
-                                  array4<maxB,nC,1,1>* gy_dev) {
+  __global__ void backward_global(Linear<maxB,IC,nC>* dev, array4<maxB,nC,1,1>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t nC>
+  __global__ void backward_fast_global(Linear<maxB,IC,nC>* dev, array4<maxB,nC,1,1>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 
 /**
@@ -51,6 +57,10 @@ template<idx_t maxB,idx_t IC,idx_t nC>
 template<idx_t maxB,idx_t IC,idx_t nC>
   __global__ void update_global(Linear<maxB,IC,nC>* dev, real eta) {
   dev->update_dev(eta);
+}
+template<idx_t maxB,idx_t IC,idx_t nC>
+  __global__ void update_fast_global(Linear<maxB,IC,nC>* dev, real eta) {
+  dev->update_fast_dev(eta);
 }
 #endif
 
@@ -206,6 +216,10 @@ struct Linear {
   void update_dev(real eta) {
     update_base(eta);
   }
+  __device__
+  void update_fast_dev(real eta) {
+    w.update_gpu_fast(eta, gw);
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (update)
@@ -217,6 +231,14 @@ struct Linear {
   */
   void update_gpu(real eta) {
     launch_and_sync((update_global<<<1,1>>>(dev, eta)));
+  }
+  void update_gpu_fast(real eta) {
+    dim3 num_blocks(4,2);
+    dim3 block_sz(ceil(gw.m/4),ceil(nC/2)); // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((update_fast_global<<<num_blocks,block_sz>>>(dev, eta)));
+    double t1 = cur_time();
+    printf("Finished update@linear with nb=(%i,%i), bs=(%i,%i) in t=%f sec\n", num_blocks.x, num_blocks.y, block_sz.x, block_sz.y, t1 - t0);
   }
 #endif
   /**
@@ -246,6 +268,8 @@ struct Linear {
 #if __NVCC__
     case algo_gpu_base:
       update_gpu(eta); break;
+    case algo_gpu_fast:
+      update_gpu_fast(eta); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -303,6 +327,33 @@ struct Linear {
   void forward_dev(array4<maxB,IC,1,1>& x) {
     forward_base(x);
   }
+  __device__
+  void forward_fast_dev(array4<maxB,IC,1,1>& x) {
+    // Thread IDs
+    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
+    int nthreads = gridDim.x * blockDim.x;
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    y.set_n_rows(B);
+    x_ptr = &x;
+
+    // Check if called by enough threads
+    assert(nthreads >= B * nC);
+
+    // Indexes
+    idx_t b = idx_thread % B;
+    idx_t c = (idx_thread / B) % nC;
+    if (c >= nC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    /* y = x * maxB (x : maxBxIC, w : ICxnC -> y : maxBxnC) */
+    real s = 0.0;
+    for (idx_t ic = 0; ic < IC; ic++) {
+      s += x(b,ic,0,0) * w(ic,c);
+    }
+    y(b,c,0,0) = s;
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -314,6 +365,14 @@ struct Linear {
   */
   void forward_gpu(array4<maxB,IC,1,1>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
+  }
+  void forward_gpu_fast(array4<maxB,IC,1,1>& x) {
+    int num_blocks = nC;
+    int block_sz = maxB; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+    double t1 = cur_time();
+    printf("Finished forward@linear with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
   }
 #endif
   /**
@@ -342,6 +401,8 @@ struct Linear {
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -409,6 +470,54 @@ struct Linear {
   void backward_dev(array4<maxB,nC,1,1>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(array4<maxB,nC,1,1>& gy) {
+    // Thread IDs
+    int idx_threadx = blockDim.x * blockIdx.x + threadIdx.x;
+    int idx_thready = blockDim.y * blockIdx.y + threadIdx.y;
+    int nthreadsx = gridDim.x * blockDim.x;
+    int nthreadsy = gridDim.y * blockDim.y;
+    assert(nthreadsy == 2);
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+    gw.set_n_rows(IC);
+    gx.set_n_rows(B);
+    array4<maxB,IC,1,1>& x = *x_ptr;
+
+    // Switch based on dimension what to calculate
+    if (idx_thready == 0) {
+      // Check if called by enough threads
+      assert(nthreadsx >= IC * nC);
+
+      // Indexes
+      idx_t ic = idx_threadx % IC;
+      idx_t c = (idx_threadx / IC) % nC;
+      if (c >= nC) return;  // Threads that are too much and not needed -> stop here
+
+      // Compute
+      real s = 0.0;
+      for (idx_t b = 0; b < B; b++) {
+        s += gy(b,c,0,0) * x(b,ic,0,0);
+      }
+      gw(ic,c) = s;
+    } else {
+      // Check if called by enough threads
+      assert(nthreadsx >= IC * B);
+
+      // Indexes
+      idx_t ic = idx_threadx % IC;
+      idx_t b = (idx_threadx / IC) % B;
+      if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+      // Compute
+      real s = 0.0;
+      for (idx_t c = 0; c < nC; c++) {
+        s += gy(b,c,0,0) * w(ic,c);
+      }
+      gx(b,ic,0,0) = s;
+    }
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -420,6 +529,14 @@ struct Linear {
   */
   void backward_gpu(array4<maxB,nC,1,1>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(array4<maxB,nC,1,1>& gy) {
+    dim3 num_blocks(gy.B, 2);
+    dim3 block_sz(IC,1); // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    double t1 = cur_time();
+    printf("Finished backward@linear with nb=(%i,%i), bs=(%i,%i) in t=%f sec\n", num_blocks.x, num_blocks.y, block_sz.x, block_sz.y, t1 - t0);
   }
 #endif
   /**
@@ -453,6 +570,8 @@ struct Linear {
 #if __NVCC__
     case algo_gpu_base:
       backward_gpu(gy); break;
+    case algo_gpu_fast:
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -635,14 +754,17 @@ int linear_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = linear_grad_check_rand<maxB,IC,nC>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("Finished @linear in t=%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }

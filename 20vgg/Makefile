@@ -9,14 +9,15 @@
 cxxs :=
 cxxs += g++
 #cxxs += clang++
-#cxxs += nvcc
+cxxs += nvcc
 
 #
 # specify the full path to compilers if necessary
 #
 g++ := g++
 clang++ := clang++
-nvcc := nvcc
+#nvcc := nvcc
+nvcc := /usr/local/cuda-10.1/bin/nvcc
 
 #
 # flags common across both compilers (g++ and nvcc)
@@ -38,6 +39,7 @@ flags += -DN_FIRST_CHANNELS=16
 #
 # flags applied only to g++
 #
+g++flags += -fopenmp
 g++flags += -Wall -Wextra
 g++flags += -Wno-strict-overflow
 #g++flags += -march=native

@@ -20,9 +20,12 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W>
    @sa forward_gpu
   */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W>
-  __global__ void forward_global(Relu<maxB,C,H,W>* dev,
-                                 array4<maxB,C,H,W>* x_dev) {
+  __global__ void forward_global(Relu<maxB,C,H,W>* dev, array4<maxB,C,H,W>* x_dev) {
   dev->forward_dev(*x_dev);
+}
+template<idx_t maxB,idx_t C,idx_t H,idx_t W>
+  __global__ void forward_fast_global(Relu<maxB,C,H,W>* dev, array4<maxB,C,H,W>* x_dev) {
+  dev->forward_fast_dev(*x_dev);
 }
 
 /**
@@ -34,9 +37,12 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W>
    @sa backward_gpu
   */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W>
-  __global__ void backward_global(Relu<maxB,C,H,W>* dev,
-                                  array4<maxB,C,H,W>* gy_dev) {
+  __global__ void backward_global(Relu<maxB,C,H,W>* dev, array4<maxB,C,H,W>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t C,idx_t H,idx_t W>
+  __global__ void backward_fast_global(Relu<maxB,C,H,W>* dev, array4<maxB,C,H,W>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 #endif
 
@@ -202,6 +208,29 @@ struct Relu {
   void forward_dev(array4<maxB,C,H,W>& x) {
     forward_base(x);
   }
+  __device__
+  void forward_fast_dev(array4<maxB,C,H,W>& x) {
+    // ToDo: If there are too less threads, this program has a bug and stops executing at assert() -> Put somewhere a for loop
+    // Thread IDs
+    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
+    int nthreads = gridDim.x * blockDim.x;
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    y.set_n_rows(B);
+    x_ptr = &x;
+    assert(nthreads >= B*C*H*W);
+
+    // Indexes
+    idx_t j = idx_thread % W;
+    idx_t i = (idx_thread / W) % H;
+    idx_t c = (idx_thread / (W*H)) % C;
+    idx_t b = (idx_thread / (W*H*C));
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    y(b,c,i,j) = max_r(0, x(b,c,i,j));
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -213,6 +242,14 @@ struct Relu {
   */
   void forward_gpu(array4<maxB,C,H,W>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
+  }
+  void forward_gpu_fast(array4<maxB,C,H,W>& x) {
+    int num_blocks = 3*64;
+    int block_sz = 32*32; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+    double t1 = cur_time();
+    printf("Finished forward@relu with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
   }
 #endif
   /**
@@ -241,6 +278,8 @@ struct Relu {
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -298,6 +337,46 @@ struct Relu {
   void backward_dev(array4<maxB,C,H,W>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(array4<maxB,C,H,W>& gy) {
+    // ToDo: If there are too less threads, this program has a bug and stops executing at assert() -> Put somewhere a for loop
+    // Thread IDs
+    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
+    int nthreads = gridDim.x * blockDim.x;
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+    gx.set_n_rows(B);
+    array4<maxB,C,H,W>& x = *x_ptr;
+    assert(nthreads >= B*C*H*W);
+
+    // Indexes
+    idx_t j = idx_thread % W;
+    idx_t i = (idx_thread / W) % H;
+    idx_t c = (idx_thread / (W*H)) % C;
+    idx_t b = (idx_thread / (W*H*C));
+    if (b >= B) return;  // Threads that are too much and not needed stop here
+
+    // Compute
+    gx(b,c,i,j) = (x(b,c,i,j) >= 0 ? gy(b,c,i,j) : 0);
+
+    // OLD CODE FOR 3DIM
+    // // Init output and temp variables
+    // const idx_t B = gy.B;
+    // gx.set_n_rows(B);
+    // array4<maxB,C,H,W>& x = *x_ptr;
+
+    // // Indexes
+    // int b  = blockDim.x * blockIdx.x + threadIdx.x;
+    // int c  = blockDim.y * blockIdx.y + threadIdx.y;
+    // int ij = blockDim.z * blockIdx.z + threadIdx.z;
+    // if (b >= B || c >= C || ij >= H*W) return;  // Threads that are too much and not needed stop here
+
+    // // Compute
+    // int i = ij / W;
+    // int j = ij % W;
+    // gx(b,c,i,j) = (x(b,c,i,j) >= 0 ? gy(b,c,i,j) : 0);
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -309,6 +388,22 @@ struct Relu {
   */
   void backward_gpu(array4<maxB,C,H,W>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(array4<maxB,C,H,W>& gy) {
+    int num_blocks = 3*64;
+    int block_sz = 32*32; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    double t1 = cur_time();
+    printf("Finished backward@relu with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
+
+    // OLD CODE FOR 3DIM
+    // dim3 num_blocks(2,3,32);
+    // dim3 block_sz(32,1,32);
+    // double t0 = cur_time();
+    // launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    // double t1 = cur_time();
+    // printf("Finished backward@relu with nb=dim3, bs=dim3 in t=%f sec\n", t1 - t0);
   }
 #endif
   /**
@@ -342,6 +437,8 @@ struct Relu {
 #if __NVCC__
     case algo_gpu_base:
       backward_gpu(gy); break;
+    case algo_gpu_fast:
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -490,14 +587,30 @@ int relu_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+
+
+  // for (int iter = 0; iter < 1024*192; iter++) {
+  //   // Indexes
+  //   idx_t j = iter % W;
+  //   idx_t i = (iter / W) % H;
+  //   idx_t c = (iter / (W*H)) % C;
+  //   idx_t b = (iter / (W*H*C));
+
+  //   printf("j=%i, i=%i, c=%i, b=%i\n", j, i, c, b);
+  // }
+
+
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = relu_grad_check_rand<maxB,C,H,W>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }

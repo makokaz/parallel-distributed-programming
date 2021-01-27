@@ -15,11 +15,12 @@ real_types += double
 
 cxxs :=
 cxxs += g++
-#cxxs += nvcc
+cxxs += nvcc
 
 g++ := g++
-nvcc := nvcc
+#nvcc := nvcc
 #nvcc := /usr/local/bin/nvcc
+nvcc := /usr/local/cuda-10.1/bin/nvcc
 
 flags :=
 flags += -O3
@@ -29,6 +30,7 @@ flags += -DARRAY_INDEX_CHECK=0
 flags += -DMAX_BATCH_SIZE=64
 #flags += -DMAX_BATCH_SIZE=1
 
+g++flags += -fopenmp
 g++flags += -Wall -Wextra
 g++flags += -Wno-strict-overflow
 
@@ -39,6 +41,7 @@ nvccflags += --gpu-architecture compute_60
 #nvccflags += -Xptxas -O3,-v
 nvccflags += -Xptxas -O0,-v -G
 nvccflags += -x cu
+nvccflags += -rdc=true
 
 #
 # template of compilation rules

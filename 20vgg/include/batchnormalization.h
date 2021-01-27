@@ -7,6 +7,17 @@
 #include <math.h>
 #include "vgg_util.h"
 #include "vgg_arrays.h"
+#if __NVCC__
+#include <cooperative_groups.h>
+// Optionally include for memcpy_async() collective
+//#include <cooperative_groups/memcpy_async.h>
+// Optionally include for reduce() collective
+//#include <cooperative_groups/reduce.h>
+namespace cg = cooperative_groups;
+#else
+#include <omp.h>
+#endif
+
 
 #if __NVCC__
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
@@ -21,9 +32,12 @@ template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
    @sa forward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
-__global__ void forward_global(BatchNormalization<maxB,IC,H,W>* dev,
-                               array4<maxB,IC,H,W>* x_dev) {
+__global__ void forward_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
   dev->forward_dev(*x_dev);
+}
+template <idx_t maxB, idx_t IC, idx_t H, idx_t W>
+__global__ void forward_fast_global(BatchNormalization<maxB, IC, H, W>* dev, array4<maxB, IC, H, W>* x_dev) {
+  dev->forward_fast_dev(*x_dev);
 }
 
 /**
@@ -35,9 +49,12 @@ __global__ void forward_global(BatchNormalization<maxB,IC,H,W>* dev,
    @sa backward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
-__global__ void backward_global(BatchNormalization<maxB,IC,H,W>* dev,
-                                array4<maxB,IC,H,W>* gy_dev) {
+__global__ void backward_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void backward_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 
 /**
@@ -51,6 +68,10 @@ __global__ void backward_global(BatchNormalization<maxB,IC,H,W>* dev,
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
   __global__ void update_global(BatchNormalization<maxB,IC,H,W>* dev, real eta) {
   dev->update_dev(eta);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+  __global__ void update_fast_global(BatchNormalization<maxB,IC,H,W>* dev, real eta) {
+  dev->update_fast_dev(eta);
 }
 #endif
 
@@ -220,6 +241,11 @@ struct BatchNormalization {
   void update_dev(real eta) {
     update_base(eta);
   }
+  __device__
+  void update_fast_dev(real eta) {
+    // ToDo: IMPLEMENT ME
+    update_base(eta);
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (update)
@@ -231,6 +257,17 @@ struct BatchNormalization {
   */
   void update_gpu(real eta) {
     launch_and_sync((update_global<<<1,1>>>(dev, eta)));
+  }
+  void update_gpu_fast(real eta) {
+    double t0 = cur_time();
+    //launch_and_sync((update_global<<<1, 1>>>(dev, eta)));
+    double t1 = cur_time();
+    printf("Finished update@batchnormalization with nb=%i, bs=%i in t=%f sec\n", 1, 1, t1 - t0);
+    // int num_blocks = 1000;
+    // int block_sz = 32; // Should be a multiple of 32! [Limit: 1024]
+    // //printf("START with nb=%i, bs=%i\n", num_blocks, block_sz);
+    // launch_and_sync((update_fast_global<<<num_blocks, block_sz>>>(dev, eta)));
+    // //printf("Finished with nb=%i, bs=%i\n", num_blocks, block_sz);
   }
 #endif
   /**
@@ -260,6 +297,8 @@ struct BatchNormalization {
 #if __NVCC__
     case algo_gpu_base:
       update_gpu(eta); break;
+    case algo_gpu_fast:
+      update_gpu_fast(eta); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -374,64 +413,6 @@ struct BatchNormalization {
       }
     }
   }
-
-  // enum
-  // {
-  //    //vwidth = 64
-  //    vwidth = 32
-  // };
-  // enum
-  // {
-  //   valign = sizeof(real),
-  //   //valign = vwidth
-  // };
-  // typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
-  // enum
-  // {
-  //   L = sizeof(realv) / sizeof(real)
-  // };
-  // #define V(lv) *((realv *)&lv)
-
-  __device__ __host__
-  void forward_simd(array4<maxB, IC, H, W> &x) {
-    // SIMD preparations
-    // Assumption: W is a multiple of SIMD lanes
-    enum{ vwidth = 32 }; // Be careful: This only works here because H,W=32!! If they are not a multiple of 32, the array is indexed outside allocated data!
-    enum{ valign = sizeof(real) };
-    typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
-    enum{ L = sizeof(realv) / sizeof(real) };
-
-    // General loop
-    const idx_t B = x.B;
-    x_hat.set_n_rows(B);
-    y.set_n_rows(B);
-    if (B * H * W > 1) {
-      vec<IC> mu = mean_bij(x);
-      inv_std = inv_std_bij(x, mu);
-      for (idx_t b = 0; b < B; b++) {
-        for (idx_t ic = 0; ic < IC; ic++) {
-          for (idx_t i = 0; i < H; i++) {
-            for (idx_t j = 0; j < W; j+=L) {
-              *((realv *)&x_hat(b, ic, i, j)) = (*((realv *)&x(b, ic, i, j)) - mu(ic)) * inv_std(ic);
-              *((realv *)&y(b, ic, i, j)) = gamma(ic) * *((realv *)&x_hat(b, ic, i, j)) + beta(ic);
-            }
-          }
-        }
-      }
-    }
-    else {
-      for (idx_t b = 0; b < B; b++) {
-        for (idx_t ic = 0; ic < IC; ic++) {
-          for (idx_t i = 0; i < H; i++) {
-            for (idx_t j = 0; j < W; j+=L) {
-              *((realv *)&y(b, ic, i, j)) = *((realv *)&x(b, ic, i, j));
-            }
-          }
-        }
-      }
-    }
-  }
-
 #if __NVCC__
   /**
      @brief the device function of forward called from the 
@@ -446,6 +427,39 @@ struct BatchNormalization {
   void forward_dev(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
+  __device__
+  void forward_fast_dev(array4<maxB, IC, H, W>& x) {
+    // ToDo:
+    //    1. Compute mean_bij & inv_std in parallel -> We need to use barrier functions
+    //    2. Remove bug when too less threads are called -> currently, too less thread mean that some work is not calculated -> Add some for loops
+    // Thread IDs
+    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
+    //int nthreads = gridDim.x * blockDim.x;
+    //printf("Test: %i\n", idx_thread);
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    x_hat.set_n_rows(B);
+    y.set_n_rows(B);
+
+    // Indexes
+    // ToDo: Add the for-loop exactly HERE
+    idx_t j  = idx_thread % W;
+    idx_t i  = (idx_thread / W) % H;
+    idx_t ic = (idx_thread / H) % IC;
+    idx_t b  = (idx_thread / IC);
+    if (b >=B) return; // Threads that are too much and not needed stop here
+
+    // Compute
+    if (B * H * W > 1) {
+      vec<IC> mu = mean_bij(x);
+      inv_std = inv_std_bij(x, mu);
+      x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);
+      y(b,ic,i,j) = gamma(ic) * x_hat(b,ic,i,j) + beta(ic);
+    } else {
+      y(b,ic,i,j) = x(b,ic,i,j);
+    }
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -458,6 +472,17 @@ struct BatchNormalization {
   void forward_gpu(array4<maxB,IC,H,W>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
+  void forward_gpu_fast(array4<maxB, IC, H, W>& x) {
+    int num_blocks = 1000;
+    int block_sz = 32; // Should be a multiple of 32! [Limit: 1024]
+    //printf("START with nb=%i, bs=%i\n", num_blocks, block_sz);
+    //printf("Finished with nb=%i, bs=%i\n", num_blocks, block_sz);
+
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+    double t1 = cur_time();
+    printf("Finished forward@batchnormalization with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
+  }
 #endif
   /**
      @brief a cpu version of baseline code called from the 
@@ -469,8 +494,91 @@ struct BatchNormalization {
   void forward_cpu(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
+  enum { vwidth = 64 };
+  enum { valign = 4 }; //enum { valign = sizeof(real) };
+  typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+  enum { L = 16 };  // enum { L = sizeof(realv) / sizeof(real) };
+  enum { bH = 8 };
+  enum { bW = 32 };
+#define V(lv) *((realv *)&lv)
   void forward_cpu_simd(array4<maxB, IC, H, W> &x) {
-    forward_simd(x);
+    // SIMD preparations
+    // Assumption: W is a multiple of SIMD lanes
+    // enum { vwidth = 64 };  // Be careful: This only works here because H,W=32!! If they are not a multiple of 32, the array is indexed outside allocated data!
+    // enum { valign = sizeof(real) };
+    // typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
+    // enum { L = sizeof(realv) / sizeof(real) };
+
+    const idx_t B = x.B;
+    x_hat.set_n_rows(B);
+    y.set_n_rows(B);
+    if (B * H * W > 1) {
+      vec<IC> mu = mean_bij(x);
+      inv_std = inv_std_bij(x, mu);
+#pragma omp parallel for schedule(dynamic)
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i+=bH) {
+            for (idx_t j = 0; j < W; j+=bW) {
+              for (idx_t di = 0; di < bH; di++) {
+                for (idx_t dj = j; dj < j+bW; dj+=L) {
+                  V(x_hat(b, ic, i+di, j+dj)) = (V(x(b, ic, i+di, j+dj)) - mu(ic)) * inv_std(ic);
+                  V(y(b, ic, i+di, j+dj)) = gamma(ic) * V(x_hat(b, ic, i+di, j+dj)) + beta(ic);
+                }
+              }
+            }
+          }
+        }
+      }
+    } else {
+#pragma omp parallel for schedule(dynamic)
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i+=bH) {
+            for (idx_t j = 0; j < W; j+=bW) {
+              for (idx_t di = 0; di < bH; di++) {
+                for (idx_t dj = j; dj < j+bW; dj+=L) {
+                  V(y(b, ic, i + di, j+dj)) = V(x(b, ic, i + di, j+dj));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  void forward_cpu_omp(array4<maxB, IC, H, W>& x) {
+    const idx_t B = x.B;
+    x_hat.set_n_rows(B);
+    y.set_n_rows(B);
+    if (B * H * W > 1) {
+      vec<IC> mu = mean_bij(x);
+      inv_std = inv_std_bij(x, mu);
+#pragma omp parallel for schedule(dynamic)
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i++) {
+            for (idx_t j = 0; j < W; j++) {
+              x_hat(b, ic, i, j) = (x(b, ic, i, j) - mu(ic)) * inv_std(ic);
+              y(b, ic, i, j) = gamma(ic) * x_hat(b, ic, i, j) + beta(ic);
+            }
+          }
+        }
+        #pragma omp taskwait
+      }
+    } else {
+#pragma omp parallel for schedule(dynamic)
+      for (idx_t b = 0; b < B; b++) {
+        for (idx_t ic = 0; ic < IC; ic++) {
+          for (idx_t i = 0; i < H; i++) {
+            for (idx_t j = 0; j < W; j++) {
+              y(b, ic, i, j) = x(b, ic, i, j);
+            }
+          }
+        }
+      }
+    }
   }
   /**
      @brief calc the loss function of a mini-batch (x,t)
@@ -485,11 +593,15 @@ struct BatchNormalization {
       /* add case for your implementations here */
     case algo_cpu_base:
       forward_cpu(x); break;
+    case algo_cpu_omp:
+      forward_cpu_omp(x); break;
     case algo_cpu_simd:
       forward_cpu_simd(x); break;
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -577,6 +689,88 @@ struct BatchNormalization {
   void backward_dev(array4<maxB,IC,H,W>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(array4<maxB,IC,H,W>& gy) {
+    // Thread IDs
+    cg::grid_group g = cg::this_grid();
+    int idx_thread = g.thread_rank();
+    int nthreads = g.size();
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+    gx.set_n_rows(B);
+    gbeta.set_n(IC);
+    ggamma.set_n(IC);
+
+    // Indexes
+    idx_t j  = idx_thread % W;
+    idx_t i  = (idx_thread / W) % H;
+    idx_t ic = (idx_thread / H) % IC;
+    idx_t b  = (idx_thread / IC);
+    if (b >= B) return;  // Threads that are too much and not needed stop here
+
+    // Compute
+    if (B * H * W > 1) {
+      // Update gbeta, ggamma
+      real ds = gy(b,ic,i,j);
+      real dt = gy(b,ic,i,j) * x_hat(b,ic,i,j);
+      atomicAdd(&gbeta(ic),ds);
+      atomicAdd(&ggamma(ic),dt);
+
+      // Wait for all threads to have finally computed their part of gbeta, ggamma
+      g.sync();
+      printf("REACHED\n");
+
+      // Continue calculating gx
+      real l_BHW = 1 / (real)(B * H * W);
+      real a = gamma(ic) * inv_std(ic);
+      real gg = ggamma(ic);
+      real gb = gbeta(ic);
+      gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));
+    } else {
+      // Copying everything over
+      gx(b,ic,i,j) = gy(b,ic,i,j);
+    }
+  }
+  // void backward_fast_dev(array4<maxB,IC,H,W>& gy) {
+  //   // printf("ENTER backward@batchnormalization\n");
+  //   // Thread IDs
+  //   // cg::grid_group g = cg::this_grid();
+  //   // int idx_thread = g.thread_rank();
+  //   // int nthreads = g.size();
+  //   int idx_threadx = blockDim.x * blockIdx.x + threadIdx.x;
+  //   int idx_thready = blockDim.y * blockIdx.y + threadIdx.y;
+  //   // int nthreads = gridDim.x * blockDim.x;
+  //   // printf("Test: %i\n", idx_thread);
+
+  //   // Init output and temp variables
+  //   const idx_t B = gy.B;
+  //   gx.set_n_rows(B);
+  //   gbeta.set_n(IC);
+  //   ggamma.set_n(IC);
+
+  //   // Indexes
+  //   idx_t j  = idx_threadx % W;
+  //   idx_t i  = (idx_threadx / W) % H;
+  //   idx_t ic = idx_thready;
+  //   idx_t b  = (idx_threadx / H);
+  //   if (b >= B) return;  // Threads that are too much and not needed stop here
+
+  //   // Compute
+  //   if (B * H * W > 1) {
+  //     real ds = gy(b,ic,i,j);
+  //     real dt = gy(b,ic,i,j) * x_hat(b,ic,i,j);
+  //     atomicAdd(&gbeta(ic),ds);
+  //     atomicAdd(&ggamma(ic),dt);
+  //     real l_BHW = 1 / (real)(B * H * W);
+  //     real a = gamma(ic) * inv_std(ic);
+  //     real gg = ggamma(ic);
+  //     real gb = gbeta(ic);
+  //     gx(b,ic,i,j) = a * (gy(b,ic,i,j) - l_BHW * (gg * x_hat(b,ic,i,j) + gb));
+  //   } else {
+  //     gx(b,ic,i,j) = gy(b,ic,i,j);
+  //   }
+  // }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -588,6 +782,17 @@ struct BatchNormalization {
   */
   void backward_gpu(array4<maxB,IC,H,W>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(array4<maxB,IC,H,W>& gy) {
+    int num_blocks = 256;
+    int block_sz = 128; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    void* args[2] = {(void*)&dev,(void*)&gy.dev};
+    cudaLaunchCooperativeKernel((void*)backward_fast_global<maxB,IC,H,W>,num_blocks,block_sz,args);
+    cudaDeviceSynchronize();
+    double t1 = cur_time();
+    printf("Finished backward@batchnormalization with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1-t0);
+    // launch_and_sync((backward_global<<<1, 1>>>(dev, gy.dev)));
   }
 #endif
   /**
@@ -620,6 +825,8 @@ struct BatchNormalization {
       backward_cpu(gy); break;
 #if __NVCC__
     case algo_gpu_base:
+      backward_gpu(gy); break;
+    case algo_gpu_fast:
       backward_gpu(gy); break;
 #endif
     default:
@@ -810,14 +1017,17 @@ int batchnormalization_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = batchnormalization_grad_check_rand<maxB,IC,H,W>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }
