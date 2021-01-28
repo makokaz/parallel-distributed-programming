@@ -277,7 +277,9 @@ struct MaxPooling2D {
     double t0 = cur_time();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
+#if VERBOSE
     printf("Finished %s@maxpooling with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
+#endif
   }
 #endif
   /**
@@ -421,7 +423,9 @@ struct MaxPooling2D {
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();
+#if VERBOSE
     printf("Finished %s@maxpooling with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
+#endif
   }
 #endif
   /**

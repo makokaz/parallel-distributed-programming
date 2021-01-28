@@ -29,6 +29,9 @@ flags += -DARRAY_INDEX_CHECK=0
 #flags += -DARRAY_INDEX_CHECK=1
 flags += -DMAX_BATCH_SIZE=64
 #flags += -DMAX_BATCH_SIZE=1
+# ---- measure function call times ----
+# flags += -DVERBOSE=0
+flags += -DVERBOSE=1
 
 g++flags += -fopenmp
 g++flags += -Wall -Wextra

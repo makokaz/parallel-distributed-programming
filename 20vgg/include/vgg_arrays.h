@@ -939,13 +939,14 @@ struct warray4 {
     int nthreads = get_nthreads();
 
     // Index
-    idx_t j  =   idx_thread              % W;
-    idx_t i  = ( idx_thread / W )        % H;
-    idx_t ic = ( idx_thread / (W*H) )    % IC;
-    idx_t oc = ( idx_thread / (W*H*IC) );
+    idx_t j  =   idx_thread                           % (2*W+1);
+    idx_t i  = ( idx_thread / (2*W+1) )               % (2*H+1);
+    idx_t ic = ( idx_thread / ((2*W+1)*(2*H+1)) )     % IC;
+    idx_t oc = ( idx_thread / ((2*W+1)*(2*H+1)*IC) );
+    j -= W; i -= H;
 
     // Check if called by enough threads
-    assert(nthreads >= OC*IC*H*W);
+    assert(nthreads >= OC*IC*(2*H+1)*(2*W+1));
     if (oc >= OC) return;  // Threads that are too much and not needed -> stop here
 
     // Init output and temp variables

@@ -6,7 +6,9 @@
 
 #include "vgg_util.h"
 #include "vgg_arrays.h"
+#if! __NVCC__
 #include <omp.h>
+#endif
 
 #if __NVCC__
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
@@ -21,10 +23,14 @@ template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
    @sa forward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
-__global__ void forward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
-                               array4<maxB,IC,H,W>* x_dev) {
+__global__ void forward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, array4<maxB,IC,H,W>* x_dev) {
   /* call the member function */
   dev->forward_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void forward_fast_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, array4<maxB,IC,H,W>* x_dev) {
+  /* call the member function */
+  dev->forward_fast_dev(*x_dev);
 }
 
 /**
@@ -36,9 +42,12 @@ __global__ void forward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
    @sa backward_gpu
   */
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
-__global__ void backward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
-                                array4<maxB,OC,H,W>* gy_dev) {
+__global__ void backward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, array4<maxB,OC,H,W>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+__global__ void backward_fast_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, array4<maxB,OC,H,W>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 
 /**
@@ -52,6 +61,10 @@ __global__ void backward_global(Convolution2D<maxB,IC,H,W,K,OC>* dev,
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
   __global__ void update_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, real eta) {
   dev->update_dev(eta);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W,idx_t K,idx_t OC>
+  __global__ void update_fast_global(Convolution2D<maxB,IC,H,W,K,OC>* dev, real eta) {
+  dev->update_fast_dev(eta);
 }
 #endif
 
@@ -215,6 +228,10 @@ struct Convolution2D {
   void update_dev(real eta) {
     update_base(eta);
   }
+  __device__
+  void update_fast_dev(real eta) {
+    w.update_gpu_fast(eta, gw);
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (update)
@@ -226,6 +243,16 @@ struct Convolution2D {
   */
   void update_gpu(real eta) {
     launch_and_sync((update_global<<<1,1>>>(dev, eta)));
+  }
+  void update_gpu_fast(real eta) {
+    int num_blocks = (2*K+1)*(2*K+1);
+    int block_sz = OC*IC; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((update_fast_global<<<num_blocks,block_sz>>>(dev, eta)));
+    double t1 = cur_time();
+#if VERBOSE
+    printf("Finished %s@convolution with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
+#endif
   }
 #endif
   /**
@@ -255,6 +282,8 @@ struct Convolution2D {
 #if __NVCC__
     case algo_gpu_base:
       update_gpu(eta); break;
+    case algo_gpu_fast:
+      update_gpu_fast(eta); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -289,8 +318,8 @@ struct Convolution2D {
     x_ptr = &x;                 /* save pointer to input */
     for (idx_t b = 0; b < B; b++) {       // samples
       for (idx_t oc = 0; oc < OC; oc++) { // output channels
-        for (idx_t i = 0; i < H; i++) {   // width
-          for (idx_t j = 0; j < W; j++) { // height
+        for (idx_t i = 0; i < H; i++) {   // height
+          for (idx_t j = 0; j < W; j++) { // width
             real s = 0.0;
             for (idx_t ic = 0; ic < IC; ic++) { // input channel
               /* -K<=i_<=K, 0<=i+i_<H => -K<=i_&-i<i_; i_<=K&i_<H-i*/
@@ -301,45 +330,6 @@ struct Convolution2D {
               }
             }
             y(b,oc,i,j) = s;
-          }
-        }
-      }
-    }
-  }
-
-  // const int vwidth = 64;
-  // // const int vwidth = 32;
-  // enum
-  // {
-  //   valign = sizeof(real),
-  //   //valign = vwidth
-  // };
-  // typedef real realv __attribute__((vector_size(vwidth), aligned(valign)));
-  // enum
-  // {
-  //   L = sizeof(realv) / sizeof(real)
-  // };
-  // #define V(lv) *((realv *)&lv)
-  __device__ __host__
-  void forward_omp(array4<maxB, IC, H, W> &x) {
-    idx_t B = x.B;
-    y.set_n_rows(B);
-    x_ptr = &x; /* save pointer to input */
-    for (idx_t b = 0; b < B; b++) { // samples
-      for (idx_t oc = 0; oc < OC; oc++) { // output channels
-        for (idx_t i = 0; i < H; i++) { // width
-          for (idx_t j = 0; j < W; j++) { // height
-            real s = 0.0;
-            for (idx_t ic = 0; ic < IC; ic++) { // input channel
-              /* -K<=i_<=K, 0<=i+i_<H => -K<=i_&-i<i_; i_<=K&i_<H-i*/
-//#pragma omp parallel for collapse(2) schedule(dynamic)
-              for (idx_t i_ = max_i(-K, -i); i_ <= min_i(K, H - i - 1); i_++) {
-                for (idx_t j_ = max_i(-K, -j); j_ <= min_i(K, W - j - 1); j_++) {
-                  s += w(oc, ic, i_, j_) * x(b, ic, i + i_, j + j_);
-                }
-              }
-            }
-            y(b, oc, i, j) = s;
           }
         }
       }
@@ -359,6 +349,39 @@ struct Convolution2D {
   void forward_dev(array4<maxB,IC,H,W>& x) {
     forward_base(x);
   }
+  __device__
+  void forward_fast_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    y.set_n_rows(B);
+    x_ptr = &x; /* save pointer to input */
+
+    // Index
+    idx_t j  =   idx_thread              % W;   // width
+    idx_t i  = ( idx_thread / W )        % H;   // height
+    idx_t oc = ( idx_thread / (W*H) )    % OC;  // output channels
+    idx_t b  = ( idx_thread / (W*H*OC) );       // samples
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*OC*H*W);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    real s = 0.0;
+    for (idx_t ic = 0; ic < IC; ic++) { // input channel
+      /* -K<=i_<=K, 0<=i+i_<H => -K<=i_&-i<i_; i_<=K&i_<H-i*/
+      for (idx_t i_ = max_i(-K,-i); i_ <= min_i(K,H-i-1); i_++) {
+        for (idx_t j_ = max_i(-K,-j); j_ <= min_i(K,W-j-1); j_++) {
+          s += w(oc,ic,i_,j_) * x(b,ic,i+i_,j+j_);
+        }
+      }
+    }
+    y(b,oc,i,j) = s;
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -371,6 +394,16 @@ struct Convolution2D {
   void forward_gpu(array4<maxB,IC,H,W>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
+  void forward_gpu_fast(array4<maxB,IC,H,W>& x) {
+    int num_blocks = x.B*OC;
+    int block_sz = W*H; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+    double t1 = cur_time();
+#if VERBOSE
+    printf("Finished %s@convolution with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
+#endif
+  }
 #endif
   /**
      @brief a cpu version of baseline code called from the 
@@ -381,9 +414,6 @@ struct Convolution2D {
   */
   void forward_cpu(array4<maxB,IC,H,W>& x) {
     forward_base(x);
-  }
-  void forward_cpu_omp(array4<maxB, IC, H, W> &x) {
-    forward_omp(x);
   }
   /**
      @brief calc the loss function of a mini-batch (x)
@@ -398,11 +428,11 @@ struct Convolution2D {
       /* add case for your implementations here */
     case algo_cpu_base:
       forward_cpu(x); break;
-    case algo_cpu_simd:
-      forward_cpu_omp(x); break;
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -490,6 +520,73 @@ struct Convolution2D {
   void backward_dev(array4<maxB,OC,H,W>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(array4<maxB,OC,H,W>& gy) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+    gx.set_n_rows(B);
+    array4<maxB,IC,H,W>& x = *x_ptr; /* save pointer to input */
+
+    // Check if called by enough threads and skip ones that are not needed
+    const idx_t threshold = max(B*IC*H*W, OC*IC*(2*K+1)*(2*K+1));
+    assert(nthreads >= threshold);
+    if (idx_thread >= threshold) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute gw
+    if (idx_thread < OC*IC*(2*K+1)*(2*K+1)) {
+      // Index
+      idx_t j_ =   idx_thread                             % (2*K+1); // width
+      idx_t i_ = ( idx_thread / (2*K+1) )                 % (2*K+1); // height
+      idx_t ic = ( idx_thread / ((2*K+1)*(2*K+1)) )       % IC;      // input channels
+      idx_t oc = ( idx_thread / ( (2*K+1)*(2*K+1)*IC ) );            // output channels
+      j_ -= K;
+      i_ -= K;
+
+      // Compute
+      real s = 0.0;
+      for (idx_t b = 0; b < B; b++) { // samples
+        for (idx_t i = max_i(0,-i_); i < min_i(H,H-i_); i++) {   // width
+          for (idx_t j = max_i(0,-j_); j < min_i(W,W-j_); j++) { // height
+            s += gy(b,oc,i,j) * x(b,ic,i+i_,j+j_);
+          }
+        }
+      }
+      gw(oc,ic,i_,j_) = s;
+    }
+    
+    //__syncthreads();
+    // Note: gw is updated, but not used afterwards. Same for gx afterwards, as it is not used beforehand that might hit other threads' execution.
+    //       We therefore do not need to split this function into two kernel functions, since there is no race-condition on gw and gx.
+
+    // Compute gx
+    if (idx_thread < B*IC*H*W) {
+      // Index
+      idx_t j  =   idx_thread              % W;   // width
+      idx_t i  = ( idx_thread / W )        % H;   // height
+      idx_t ic = ( idx_thread / (W*H) )    % IC;  // input channels
+      idx_t b  = ( idx_thread / (W*H*IC) );       // samples
+
+      // Compute
+      real s = 0.0;
+      for (idx_t oc = 0; oc < OC; oc++) { // output channels
+        for (idx_t i_ = max_i(-K,i-H+1); i_ <= min_i(K,i); i_++) {
+          for (idx_t j_ = max_i(-K,j-W+1); j_ <= min_i(K,j); j_++) {
+            /* max(-K,i-H+1) <= i_ <= min(K,i)
+                i-H+1 <= i_ <= i
+                -i+H-1 >= -i_ >= -i
+                H-1 >= i-i_ >= 0
+            */
+            s += gy(b,oc,i-i_,j-j_) * w(oc,ic,i_,j_);
+          }
+        }
+      }
+      gx(b,ic,i,j) = s;
+    }
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -501,6 +598,17 @@ struct Convolution2D {
   */
   void backward_gpu(array4<maxB,OC,H,W>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(array4<maxB,OC,H,W>& gy) {
+    const idx_t B = gy.B;
+    int num_blocks = max( B*IC, OC*IC*(2*K+1)*(2*K+1)/(W*H) + 1 );
+    int block_sz = W*H; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    double t1 = cur_time();
+#if VERBOSE
+    printf("Finished %s@convolution with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
+#endif
   }
 #endif
   /**
@@ -534,6 +642,8 @@ struct Convolution2D {
 #if __NVCC__
     case algo_gpu_base:
       backward_gpu(gy); break;
+    case algo_gpu_fast:
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -722,14 +832,17 @@ int convolution_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = convolution_grad_check_rand<maxB,IC,H,W,K,OC>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("Finished @convolution in t=%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }

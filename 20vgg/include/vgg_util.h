@@ -16,6 +16,10 @@
 #include <unistd.h>
 #include <ieee754.h>
 
+#ifndef VERBOSE
+#define VERBOSE 0
+#endif
+
 /**
     @brief for returning time in seconds
 */

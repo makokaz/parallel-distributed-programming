@@ -35,6 +35,9 @@ flags += -DMAX_BATCH_SIZE=64
 # ---- channels of the first stage ---- 
 #flags += -DN_FIRST_CHANNELS=64
 flags += -DN_FIRST_CHANNELS=16
+# ---- measure function call times ----
+#flags += -DVERBOSE=0
+flags += -DVERBOSE=1
 
 #
 # flags applied only to g++

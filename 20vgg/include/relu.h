@@ -249,7 +249,9 @@ struct Relu {
     double t0 = cur_time();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
+#if VERBOSE
     printf("Finished forward@relu with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
+#endif
   }
 #endif
   /**
@@ -395,7 +397,9 @@ struct Relu {
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();
+#if VERBOSE
     printf("Finished backward@relu with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
+#endif
 
     // OLD CODE FOR 3DIM
     // dim3 num_blocks(2,3,32);
