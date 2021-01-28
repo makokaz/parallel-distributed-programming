@@ -1,5 +1,0 @@
-#Exclude files with the following names
-ieee754.h
-
-#Exclude the following directories completely
-#*.vscode
