@@ -9,6 +9,9 @@
 *.nvcc
 *.S
 
+#Exclude the following directories completely
+**.vscode
+
 #Exclude the following specific files by names
 *cifar-10-batches-bin
 *DS_Store

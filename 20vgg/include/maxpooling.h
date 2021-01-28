@@ -20,9 +20,12 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
    @sa forward_gpu
   */
 template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
-  __global__ void forward_global(MaxPooling2D<maxB,C,H,W,S>* dev,
-                                 array4<maxB,C,H,W>* x_dev) {
+  __global__ void forward_global(MaxPooling2D<maxB,C,H,W,S>* dev, array4<maxB,C,H,W>* x_dev) {
   dev->forward_dev(*x_dev);
+}
+template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
+  __global__ void forward_fast_global(MaxPooling2D<maxB,C,H,W,S>* dev, array4<maxB,C,H,W>* x_dev) {
+  dev->forward_fast_dev(*x_dev);
 }
 
 /**
@@ -37,6 +40,10 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
   __global__ void backward_global(MaxPooling2D<maxB,C,H,W,S>* dev,
                                   array4<maxB,C,H/S,W/S>* gy_dev) {
   dev->backward_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t C,idx_t H,idx_t W,idx_t S>
+  __global__ void backward_fast_global(MaxPooling2D<maxB,C,H,W,S>* dev, array4<maxB,C,H/S,W/S>* gy_dev) {
+  dev->backward_fast_dev(*gy_dev);
 }
 #endif
 
@@ -217,6 +224,41 @@ struct MaxPooling2D {
   void forward_dev(array4<maxB,C,H,W>& x) {
     forward_base(x);
   }
+  __device__
+  void forward_fast_dev(array4<maxB,C,H,W>& x) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    y.set_n_rows(B);
+    max_idx.set_n_rows(B);
+
+    // Index
+    idx_t j =   idx_thread                      % (W/S);
+    idx_t i = ( idx_thread / (W/S) )            % (H/S);
+    idx_t c = ( idx_thread / ((W/S)*(H/S)) )    % C;
+    idx_t b = ( idx_thread / ((W/S)*(H/S)*C) );
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= W/S*H/S*C*B);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    real s = x(b,c,S*i,S*j);
+    idx_t idx = W * S * i  + S * j;
+    for (idx_t i_ = S * i; i_ < S * (i + 1); i_++) {
+      for (idx_t j_ = S * j; j_ < S * (j + 1); j_++) {
+        if (s < x(b,c,i_,j_)) {
+          s = x(b,c,i_,j_);
+          idx = W * i_ + j_;
+        }
+      }
+    }
+    y(b,c,i,j) = s;
+    max_idx(b,c,i,j) = idx;
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -228,6 +270,14 @@ struct MaxPooling2D {
   */
   void forward_gpu(array4<maxB,C,H,W>& x) {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
+  }
+  void forward_gpu_fast(array4<maxB,C,H,W>& x) {
+    int num_blocks = x.B*C;
+    int block_sz = H/S*W/S; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+    double t1 = cur_time();
+    printf("Finished %s@maxpooling with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
   }
 #endif
   /**
@@ -256,6 +306,8 @@ struct MaxPooling2D {
 #if __NVCC__
     case algo_gpu_base:
       forward_gpu(x); break;
+    case algo_gpu_fast:
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -320,6 +372,37 @@ struct MaxPooling2D {
   void backward_dev(array4<maxB,C,H/S,W/S>& gy) {
     backward_base(gy);
   }
+  __device__
+  void backward_fast_dev(array4<maxB,C,H/S,W/S>& gy) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+    gx.set_n_rows(B);
+
+    // Index
+    idx_t j =   idx_thread                      % (W/S);
+    idx_t i = ( idx_thread / (W/S) )            % (H/S);
+    idx_t c = ( idx_thread / ((W/S)*(H/S)) )    % C;
+    idx_t b = ( idx_thread / ((W/S)*(H/S)*C) );
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= W/S*H/S*C*B);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    for (idx_t i_ = S * i; i_ < S * (i + 1); i_++) {
+      for (idx_t j_ = S * j; j_ < S * (j + 1); j_++) {
+        gx(b,c,i_,j_) = 0;
+      }
+    }
+    idx_t idx = max_idx(b,c,i,j);
+    idx_t i_ = idx / W;
+    idx_t j_ = idx % W;
+    gx(b,c,i_,j_) = gy(b,c,i,j);
+  }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (backward)
@@ -331,6 +414,14 @@ struct MaxPooling2D {
   */
   void backward_gpu(array4<maxB,C,H/S,W/S>& gy) {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
+  }
+  void backward_gpu_fast(array4<maxB,C,H/S,W/S>& gy) {
+    int num_blocks = gy.B*C;
+    int block_sz = H/S*W/S; // Should be a multiple of 32! [Limit: 1024]
+    double t0 = cur_time();
+    launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
+    double t1 = cur_time();
+    printf("Finished %s@maxpooling with nb=%i, bs=%i in t=%f sec\n", __func__, num_blocks, block_sz, t1 - t0);
   }
 #endif
   /**
@@ -364,6 +455,8 @@ struct MaxPooling2D {
 #if __NVCC__
     case algo_gpu_base:
       backward_gpu(gy); break;
+    case algo_gpu_fast:
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -515,14 +608,17 @@ int maxpooling_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
+  double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
     real e = maxpooling_grad_check_rand<maxB,C,H,W,S>(opt, &lgr, rg, B);
     max_e = max_r(max_e, e);
     sum_e += e;
   }
+  double t1 = cur_time();
   printf("max relative error = %.9f\n", max_e);
   printf("avg relative error = %.9f\n", sum_e / n_checks);
+  printf("Finished @maxpooling in t=%f sec\n", t1 - t0);
   lgr.end_log();
   return 0;
 }

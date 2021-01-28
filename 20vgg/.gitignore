@@ -2,4 +2,4 @@
 ieee754.h
 
 #Exclude the following directories completely
-*.vscode
+#*.vscode

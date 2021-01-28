@@ -4,6 +4,11 @@
    @author Kenjiro Taura
    @date Oct. 14, 2018
  */
+#include <cuda.h>
+//#include <cuda_device_runtime_api.h>
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <stdio.h>
 
 /**
    @brief do not use this function directly. use check_api_error macro

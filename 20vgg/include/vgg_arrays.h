@@ -164,6 +164,25 @@ struct vec {
       x(i) += eta * dx(i);
     }
   }
+#if __NVCC__
+  __device__
+  void update_gpu_fast(real eta, vec<N>& dx) {
+    // Thread IDs
+    int i = get_thread_id();
+    int nthreads = get_nthreads();
+
+    // Init output and temp variables
+    vec<N>& x = *this;
+    assert(x.n == dx.n);
+
+    // Check if called by enough threads
+    assert(nthreads >= x.n);
+    if (i >= x.n) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute: this += eta * dv
+    x(i) += eta * dx(i);
+  }
+#endif
   /**
      @brief sum of all values of the vector
   */
@@ -466,10 +485,10 @@ struct array2 {
   __device__
   void update_gpu_fast(real eta, array2<M,N>& da) {
     // Thread IDs
-    int i = blockDim.x * blockIdx.x + threadIdx.x;
-    int j = blockDim.y * blockIdx.y + threadIdx.y;
-    int nthreadsx = gridDim.x * blockDim.x;
-    int nthreadsy = gridDim.y * blockDim.y;
+    int i = get_thread_id_x();
+    int j = get_thread_id_y();
+    int nthreadsx = get_nthreads_x();
+    int nthreadsy = get_nthreads_y();
 
     // Check if called by enough threads
     assert(nthreadsx >= m);
@@ -700,6 +719,31 @@ struct array4 {
       }
     }
   }
+#if __NVCC__
+  __device__
+  void update_gpu_fast(real eta, array4<maxB,C,H,W>& da) {
+    // Thread IDs
+    int idx_thread = get_thread_id();
+    int nthreads = get_nthreads();
+
+    // Index
+    idx_t j =   idx_thread              % W;
+    idx_t i = ( idx_thread / W )        % H;
+    idx_t c = ( idx_thread / (W*H) )    % C;
+    idx_t b = ( idx_thread / (W*H*C) );
+
+    // Check if called by enough threads
+    assert(nthreads >= B*C*H*W);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Init output and temp variables
+    array4<maxB,C,H,W>& a = *this;
+    assert(a.B == da.B);
+
+    // Compute: a += eta * da
+    a(b,c,i,j) += eta * da(b,c,i,j);
+  }
+#endif
   /**
      @brief dot product with another array
      @param (a_) the array to take a dot product with
@@ -887,6 +931,30 @@ struct warray4 {
       }
     }
   }
+#if __NVCC__
+  __device__
+  void update_gpu_fast(real eta, warray4<OC,IC,H,W>& da) {
+    // Thread IDs
+    int idx_thread = get_thread_id();
+    int nthreads = get_nthreads();
+
+    // Index
+    idx_t j  =   idx_thread              % W;
+    idx_t i  = ( idx_thread / W )        % H;
+    idx_t ic = ( idx_thread / (W*H) )    % IC;
+    idx_t oc = ( idx_thread / (W*H*IC) );
+
+    // Check if called by enough threads
+    assert(nthreads >= OC*IC*H*W);
+    if (oc >= OC) return;  // Threads that are too much and not needed -> stop here
+
+    // Init output and temp variables
+    warray4<OC,IC,H,W>& a = *this;
+
+    // Compute: a += eta * da
+    a(oc,ic,i,j) += eta * da(oc,ic,i,j);
+  }
+#endif
   /**
      @brief dot product with another array
      @param (a_) the array to take a dot product with

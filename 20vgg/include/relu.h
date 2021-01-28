@@ -587,19 +587,6 @@ int relu_main(int argc, char ** argv) {
   /* check errors */
   real max_e = 0.0;
   real sum_e = 0.0;
-
-
-  // for (int iter = 0; iter < 1024*192; iter++) {
-  //   // Indexes
-  //   idx_t j = iter % W;
-  //   idx_t i = (iter / W) % H;
-  //   idx_t c = (iter / (W*H)) % C;
-  //   idx_t b = (iter / (W*H*C));
-
-  //   printf("j=%i, i=%i, c=%i, b=%i\n", j, i, c, b);
-  // }
-
-
   double t0 = cur_time();
   for (int iter = 0; iter < n_checks; iter++) {
     printf("==== %d ====\n", iter);
