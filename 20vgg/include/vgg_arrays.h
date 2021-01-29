@@ -167,9 +167,10 @@ struct vec {
 #if __NVCC__
   __device__
   void update_gpu_fast(real eta, vec<N>& dx) {
+    // Assumption: function is running in one threadblock.
     // Thread IDs
-    int i = get_thread_id();
-    int nthreads = get_nthreads();
+    int i = threadIdx.x;
+    int nthreads = blockDim.x;
 
     // Init output and temp variables
     vec<N>& x = *this;
@@ -485,19 +486,20 @@ struct array2 {
   __device__
   void update_gpu_fast(real eta, array2<M,N>& da) {
     // Thread IDs
-    int i = get_thread_id_x();
-    int j = get_thread_id_y();
-    int nthreadsx = get_nthreads_x();
-    int nthreadsy = get_nthreads_y();
-
-    // Check if called by enough threads
-    assert(nthreadsx >= m);
-    assert(nthreadsy >= N);
-    if (i >= m || j >= N) return;  // Threads that are too much and not needed -> stop here
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
 
     // Init output and temp variables
     array2<M,N>& a = *this;
     assert(a.m == da.m);
+
+    // Index
+    idx_t j  =   idx_thread        % N;  // width
+    idx_t i  = ( idx_thread / N );       // height
+
+    // Check if called by enough threads
+    assert(nthreads >= m*N);
+    if (i >= m) return;  // Threads that are too much and not needed -> stop here
 
     // Compute: a += eta * da
     a(i,j) += eta * da(i,j);

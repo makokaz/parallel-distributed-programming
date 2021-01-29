@@ -233,8 +233,10 @@ struct Linear {
     launch_and_sync((update_global<<<1,1>>>(dev, eta)));
   }
   void update_gpu_fast(real eta) {
-    dim3 num_blocks(4,2);
-    dim3 block_sz(ceil(gw.m/4),ceil(nC/2)); // Should be a multiple of 32! [Limit: 1024]
+    ::to_host(&gw.m, &gw.dev->m, sizeof(idx_t));
+    int num_blocks = nC;
+    int block_sz = gw.m; // Should be a multiple of 32! [Limit: 1024]
+    // printf("Attempting %s@linear with nb=%i, bs=%i : (m=%i, nC=%i)\n", __func__, num_blocks, block_sz, gw.m, nC);
     double t0 = cur_time();
     launch_and_sync((update_fast_global<<<num_blocks,block_sz>>>(dev, eta)));
     double t1 = cur_time();
@@ -369,8 +371,9 @@ struct Linear {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,IC,1,1>& x) {
+    ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
     int num_blocks = nC;
-    int block_sz = maxB; // Should be a multiple of 32! [Limit: 1024]
+    int block_sz = x.B; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
@@ -477,10 +480,10 @@ struct Linear {
   __device__
   void backward_fast_dev(array4<maxB,nC,1,1>& gy) {
     // Thread IDs
-    int idx_threadx = blockDim.x * blockIdx.x + threadIdx.x;
-    int idx_thready = blockDim.y * blockIdx.y + threadIdx.y;
-    int nthreadsx = gridDim.x * blockDim.x;
-    int nthreadsy = gridDim.y * blockDim.y;
+    int idx_threadx = get_thread_id_x();
+    int idx_thready = get_thread_id_y();
+    int nthreadsx = get_nthreads_x();
+    int nthreadsy = get_nthreads_y();
     assert(nthreadsy == 2);
 
     // Init output and temp variables
@@ -535,7 +538,8 @@ struct Linear {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
   void backward_gpu_fast(array4<maxB,nC,1,1>& gy) {
-    dim3 num_blocks(gy.B, 2);
+    ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
+    dim3 num_blocks(max(gy.B, nC), 2);
     dim3 block_sz(IC,1); // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));

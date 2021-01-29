@@ -272,6 +272,7 @@ struct MaxPooling2D {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,C,H,W>& x) {
+    ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
     int num_blocks = x.B*C;
     int block_sz = H/S*W/S; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
@@ -418,6 +419,7 @@ struct MaxPooling2D {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
   void backward_gpu_fast(array4<maxB,C,H/S,W/S>& gy) {
+    ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
     int num_blocks = gy.B*C;
     int block_sz = H/S*W/S; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();

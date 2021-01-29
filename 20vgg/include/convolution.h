@@ -245,9 +245,10 @@ struct Convolution2D {
     launch_and_sync((update_global<<<1,1>>>(dev, eta)));
   }
   void update_gpu_fast(real eta) {
-    int num_blocks = (2*K+1)*(2*K+1);
-    int block_sz = OC*IC; // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks = OC*(2*K+1);
+    int block_sz = IC*(2*K+1); // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
+    // printf("Attempting %s@convolution with nb=%i, bs=%i (K=%i, OC=%i, IC=%i)\n", __func__, num_blocks, block_sz, K, OC, IC);
     launch_and_sync((update_fast_global<<<num_blocks,block_sz>>>(dev, eta)));
     double t1 = cur_time();
 #if VERBOSE
@@ -395,6 +396,7 @@ struct Convolution2D {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,IC,H,W>& x) {
+    ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
     int num_blocks = x.B*OC;
     int block_sz = W*H; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
@@ -600,6 +602,7 @@ struct Convolution2D {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
   void backward_gpu_fast(array4<maxB,OC,H,W>& gy) {
+    ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
     const idx_t B = gy.B;
     int num_blocks = max( B*IC, OC*IC*(2*K+1)*(2*K+1)/(W*H) + 1 );
     int block_sz = W*H; // Should be a multiple of 32! [Limit: 1024]

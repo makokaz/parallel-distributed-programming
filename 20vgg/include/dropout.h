@@ -267,6 +267,7 @@ struct Dropout {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,C,H,W>& x) {
+    ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
     int num_blocks = x.B*C;
     int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
@@ -305,7 +306,7 @@ struct Dropout {
     case algo_gpu_base:
       forward_gpu(x); break;
     case algo_gpu_fast:
-      forward_gpu_fast(x); break;
+      forward_gpu(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -409,6 +410,7 @@ struct Dropout {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
   void backward_gpu_fast(array4<maxB,C,H,W>& gy) {
+    ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
     int num_blocks = gy.B*C;
     int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
@@ -452,7 +454,7 @@ struct Dropout {
     case algo_gpu_base:
       backward_gpu(gy); break;
     case algo_gpu_fast:
-      backward_gpu_fast(gy); break;
+      backward_gpu(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {

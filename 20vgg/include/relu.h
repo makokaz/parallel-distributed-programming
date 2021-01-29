@@ -212,20 +212,22 @@ struct Relu {
   void forward_fast_dev(array4<maxB,C,H,W>& x) {
     // ToDo: If there are too less threads, this program has a bug and stops executing at assert() -> Put somewhere a for loop
     // Thread IDs
-    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
-    int nthreads = gridDim.x * blockDim.x;
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
 
     // Init output and temp variables
     const idx_t B = x.B;
     y.set_n_rows(B);
     x_ptr = &x;
-    assert(nthreads >= B*C*H*W);
 
     // Indexes
     idx_t j = idx_thread % W;
     idx_t i = (idx_thread / W) % H;
     idx_t c = (idx_thread / (W*H)) % C;
     idx_t b = (idx_thread / (W*H*C));
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*C*H*W);
     if (b >= B) return;  // Threads that are too much and not needed -> stop here
 
     // Compute
@@ -244,8 +246,9 @@ struct Relu {
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,C,H,W>& x) {
-    int num_blocks = 3*64;
-    int block_sz = 32*32; // Should be a multiple of 32! [Limit: 1024]
+    ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
+    int num_blocks = x.B*C;
+    int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
@@ -343,20 +346,22 @@ struct Relu {
   void backward_fast_dev(array4<maxB,C,H,W>& gy) {
     // ToDo: If there are too less threads, this program has a bug and stops executing at assert() -> Put somewhere a for loop
     // Thread IDs
-    int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
-    int nthreads = gridDim.x * blockDim.x;
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
 
     // Init output and temp variables
     const idx_t B = gy.B;
     gx.set_n_rows(B);
     array4<maxB,C,H,W>& x = *x_ptr;
-    assert(nthreads >= B*C*H*W);
 
     // Indexes
     idx_t j = idx_thread % W;
     idx_t i = (idx_thread / W) % H;
     idx_t c = (idx_thread / (W*H)) % C;
     idx_t b = (idx_thread / (W*H*C));
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*C*H*W);
     if (b >= B) return;  // Threads that are too much and not needed stop here
 
     // Compute
@@ -392,8 +397,9 @@ struct Relu {
     launch_and_sync((backward_global<<<1,1>>>(dev, gy.dev)));
   }
   void backward_gpu_fast(array4<maxB,C,H,W>& gy) {
-    int num_blocks = 3*64;
-    int block_sz = 32*32; // Should be a multiple of 32! [Limit: 1024]
+    ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
+    int num_blocks = gy.B*C;
+    int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();
