@@ -413,6 +413,7 @@ struct VGG {
     return g0;
   }
   int log_minibatch(idx_t start_offset) {
+    softmax_cross_entropy.to_host();
     array2<maxB,nC>& lsm = softmax_cross_entropy.lsm;
     lsm.to_host();
     const idx_t B = idxs.n;
