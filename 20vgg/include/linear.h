@@ -241,7 +241,7 @@ struct Linear {
     launch_and_sync((update_fast_global<<<num_blocks,block_sz>>>(dev, eta)));
     double t1 = cur_time();
 #if VERBOSE
-    printf("Finished update@linear with nb=(%i,%i), bs=(%i,%i) in t=%f sec\n", num_blocks.x, num_blocks.y, block_sz.x, block_sz.y, t1 - t0);
+    printf("Finished update@linear with nb=%i, bs=%i in t=%f sec\n", num_blocks, block_sz, t1 - t0);
 #endif
   }
 #endif

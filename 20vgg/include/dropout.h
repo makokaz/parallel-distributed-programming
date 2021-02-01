@@ -8,6 +8,9 @@
 #include "vgg_arrays.h"
 
 #if __NVCC__
+#include <curand.h>
+#include <curand_kernel.h>
+
 template<idx_t maxB,idx_t C,idx_t H,idx_t W>
   struct Dropout;
 
@@ -44,6 +47,12 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W>
   __global__ void backward_fast_global(Dropout<maxB,C,H,W>* dev, array4<maxB,C,H,W>* gy_dev) {
   dev->backward_fast_dev(*gy_dev);
 }
+
+/* this GPU kernel function is used to initialize the random states */
+template<idx_t maxB,idx_t C,idx_t H,idx_t W>
+  __global__ void curand_init_global(Dropout<maxB, C, H, W>* dev, unsigned int seed) {
+  dev->curand_init_dev(seed);
+}
 #endif
 
 /**
@@ -66,6 +75,8 @@ template<idx_t maxB,idx_t C,idx_t H,idx_t W>
 struct Dropout {
 #if __NVCC__
   Dropout<maxB,C,H,W>* dev;     /**< device shadow */
+  curandState_t states[maxB*C*H*W]; /* CUDA's random number library uses curandState_t to keep track of the seed value
+                                       we will store a random state for every thread  */
 #endif
   cmdline_opt opt;              /**< command line option */
   logger * lgr;                 /**< logger */
@@ -74,6 +85,7 @@ struct Dropout {
   array4<maxB,C,H,W> gx;        /**< gradient of loss wrt to input x */
   real drop_ratio;              /**< drop probability */
   long state_forward;           /**< random number state at the forward function */
+  //vec<maxB*C*H*W> dropoutIdx;   /**< indices whose outputs should be set to zero */
   /**
      @brief initialize 
      @param (opt) command line options
@@ -87,7 +99,24 @@ struct Dropout {
     this->lgr = lgr;
     this->drop_ratio = drop_ratio;
     rg.seed(drop_seed);
+// #if __NVCC__
+//     states = 0;
+// #endif
   }
+#if __NVCC__
+  /* this GPU kernel function is used to initialize the random states */
+  __device__ void curand_init_dev(unsigned int seed) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    /* we have to initialize the state */
+    curand_init(seed, /* the seed controls the sequence of random values that are produced */
+                idx_thread, /* the sequence number is only important with multiple cores */
+                0, /* the offset is how much extra we advance in the sequence for each call, can be 0 */
+                &states[idx_thread]);
+  }
+#endif
   /**
      @brief make a copy of this 
      @details if this object has a device pointer, the copy will have
@@ -112,6 +141,10 @@ struct Dropout {
     this->dev = dev;
     y.set_dev(dev ? &dev->y : 0);
     gx.set_dev(dev ? &dev->gx : 0);
+    //dev->states = &dev->states;
+    int num_blocks = maxB * C * W;
+    int block_sz = H;  // Should be a multiple of 32! [Limit: 1024]
+    launch_and_sync((curand_init_global<<<num_blocks,block_sz>>>(dev, rg.get_state())));
 #else
     (void)dev;
 #endif
@@ -233,6 +266,9 @@ struct Dropout {
     const idx_t B = x.B;
     y.set_n_rows(B);
 
+    // ToDo: Setup Curand ?
+    // state_forward = rg.get_state();
+
     // Index
     idx_t j =   idx_thread             % W;
     idx_t i = ( idx_thread / W )       % H;
@@ -249,7 +285,7 @@ struct Dropout {
        will stay approximately the same */
     const real scale = 1.0 / (1 - drop_ratio);
     y(b,c,i,j) = x(b,c,i,j) * scale;
-    double rval = rg.rand01(); // ToDo: This is a race-condition, since all threads take the same random value and do not wait until the internal table is shifted. Look in the web for cuRAND => Random values generated on NVidia-GPU
+    real rval = curand_uniform(&states[idx_thread]);
     if (rval < drop_ratio) {
       y(b,c,i,j) = 0.0;
     }
@@ -271,7 +307,6 @@ struct Dropout {
     int num_blocks = x.B*C;
     int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
-    state_forward = rg.get_state();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
 #if VERBOSE
@@ -306,7 +341,7 @@ struct Dropout {
     case algo_gpu_base:
       forward_gpu(x); break;
     case algo_gpu_fast:
-      forward_gpu(x); break;
+      forward_gpu_fast(x); break;
 #endif
     default:
       if (opt.gpu_algo) {
@@ -392,7 +427,7 @@ struct Dropout {
     // Compute
     const real scale = 1.0 / (1 - drop_ratio);
     gx(b,c,i,j) = scale * gy(b,c,i,j);
-    double rval = rg.rand01(); // ToDo: This is a race-condition, since all threads take the same random value and do not wait until the internal table is shifted. Look in the web for cuRAND => Random values generated on NVidia-GPU
+    real rval = curand_uniform(&states[idx_thread]);
     if (rval < drop_ratio) {
       gx(b,c,i,j) = 0.0;
     }
@@ -414,7 +449,7 @@ struct Dropout {
     int num_blocks = gy.B*C;
     int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
-    rg.seed(state_forward);
+    // rg.seed(state_forward);
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();
 #if VERBOSE
@@ -454,7 +489,7 @@ struct Dropout {
     case algo_gpu_base:
       backward_gpu(gy); break;
     case algo_gpu_fast:
-      backward_gpu(gy); break;
+      backward_gpu_fast(gy); break;
 #endif
     default:
       if (opt.gpu_algo) {
