@@ -141,6 +141,9 @@ struct Dropout {
      point to the corresponding subjects in the device memory.
      if dev is not null, all dev fields become null.
   */
+  void set_dev(Dropout<maxB, C, H, W>* dev) {
+    set_dev(dev,true);
+  }
   void set_dev(Dropout<maxB,C,H,W>* dev, bool initCurand) {
 #if __NVCC__
     this->dev = dev;
@@ -177,14 +180,7 @@ struct Dropout {
      @sa del_dev
   */
   void make_dev() {
-#if __NVCC__
-    if (opt.gpu_algo) {
-      dev = (Dropout<maxB,C,H,W>*)dev_malloc(sizeof(*this));
-    } else {
-      dev = 0;
-    }
-    set_dev(dev, true);
-#endif
+    make_dev(true);
   }
   void make_dev(bool initCurand) {
 #if __NVCC__
