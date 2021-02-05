@@ -567,39 +567,6 @@ struct BatchNormalization {
     // Compute
     y(b,ic,i,j) = x(b,ic,i,j);
   }
-  // __device__
-  // void forward_fast_dev(array4<maxB, IC, H, W>& x) {
-  //   // ToDo:
-  //   //    1. Compute mean_bij & inv_std in parallel -> We need to use barrier functions
-  //   //    2. Remove bug when too less threads are called -> currently, too less thread mean that some work is not calculated -> Add some for loops
-  //   // Thread IDs
-  //   int idx_thread = blockDim.x * blockIdx.x + threadIdx.x;
-  //   //int nthreads = gridDim.x * blockDim.x;
-  //   //printf("Test: %i\n", idx_thread);
-
-  //   // Init output and temp variables
-  //   const idx_t B = x.B;
-  //   x_hat.set_n_rows(B);
-  //   y.set_n_rows(B);
-
-  //   // Indexes
-  //   // ToDo: Add the for-loop exactly HERE
-  //   idx_t j  = idx_thread % W;
-  //   idx_t i  = (idx_thread / W) % H;
-  //   idx_t ic = (idx_thread / H) % IC;
-  //   idx_t b  = (idx_thread / IC);
-  //   if (b >=B) return; // Threads that are too much and not needed stop here
-
-  //   // Compute
-  //   if (B * H * W > 1) {
-  //     vec<IC> mu = mean_bij(x);
-  //     inv_std = inv_std_bij(x, mu);
-  //     x_hat(b,ic,i,j) = (x(b,ic,i,j) - mu(ic)) * inv_std(ic);
-  //     y(b,ic,i,j) = gamma(ic) * x_hat(b,ic,i,j) + beta(ic);
-  //   } else {
-  //     y(b,ic,i,j) = x(b,ic,i,j);
-  //   }
-  // }
   /**
      @brief a gpu version of baseline code called from the 
      entry function (forward)
@@ -610,7 +577,6 @@ struct BatchNormalization {
      @sa forward_base
   */
   void forward_gpu(array4<maxB,IC,H,W>& x) {
-    printf("Attempting %s@batchnormalization (B=%i)\n", __func__, x.B);
     launch_and_sync((forward_global<<<1,1>>>(dev, x.dev)));
   }
   void forward_gpu_fast(array4<maxB,IC,H,W>& x) {

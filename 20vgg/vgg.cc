@@ -114,6 +114,7 @@ int main(int argc, char ** argv) {
   long n_trained = 0;
   long n_validated = 0;
   lgr.log(1, "training starts");
+  double t0 = cur_time();
   for (long i = 0; i < opt.iters; i++) {
     /* train with a mini-batch */
     real train_loss = train(vgg, data, B, n_trained);
@@ -127,7 +128,9 @@ int main(int argc, char ** argv) {
       n_validated += data.n_validate;
     }
   }
+  double t1 = cur_time();
   lgr.log(1, "training ends");
+  printf("Finished %li iterations in t=%f sec\n", opt.iters, t1 - t0);
   lgr.end_log();
   return 0;
 }
