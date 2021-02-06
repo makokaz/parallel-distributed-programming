@@ -247,8 +247,8 @@ struct Relu {
   }
   void forward_gpu_fast(array4<maxB,C,H,W>& x) {
     ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
-    int num_blocks = x.B*C;
-    int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks = x.B*C*H*W/1024 + 1;
+    int block_sz = 1024; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((forward_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     double t1 = cur_time();
@@ -398,8 +398,8 @@ struct Relu {
   }
   void backward_gpu_fast(array4<maxB,C,H,W>& gy) {
     ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
-    int num_blocks = gy.B*C;
-    int block_sz = H*W; // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks = gy.B*C*H*W/1024 + 1;
+    int block_sz = 1024; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();

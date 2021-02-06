@@ -27,6 +27,14 @@ template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void mean_bij_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
   dev->mean_bij_fast_dev(*x_dev);
 }
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void mean_bij_faster_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
+  dev->mean_bij_faster_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void mean_bij_faster2_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
+  dev->mean_bij_faster2_dev(*x_dev);
+}
 
 /**
    @brief a global CUDA function that calculates the
@@ -38,6 +46,14 @@ __global__ void mean_bij_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void inv_std_bij_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
   dev->inv_std_bij_fast_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void std_bij_faster_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
+  dev->std_bij_faster_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void inv_std_bij_faster_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
+  dev->inv_std_bij_faster_dev(*x_dev);
 }
 
 /**
@@ -51,6 +67,10 @@ __global__ void inv_std_bij_fast_global(BatchNormalization<maxB,IC,H,W>* dev, ar
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void forward_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* x_dev) {
   dev->forward_dev(*x_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void forward_setup_fast_global(BatchNormalization<maxB, IC, H, W>* dev, array4<maxB, IC, H, W>* x_dev) {
+  dev->forward_setup_fast_dev(*x_dev);
 }
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void forward_multi_fast_global(BatchNormalization<maxB, IC, H, W>* dev, array4<maxB, IC, H, W>* x_dev) {
@@ -74,8 +94,16 @@ __global__ void backward_global(BatchNormalization<maxB,IC,H,W>* dev, array4<max
   dev->backward_dev(*gy_dev);
 }
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void backward_multi_setup_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
+  dev->backward_multi_setup_fast_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void backward_multi_params_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
   dev->backward_multi_params_fast_dev(*gy_dev);
+}
+template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
+__global__ void backward_multi_params_faster_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
+  dev->backward_multi_params_faster_dev(*gy_dev);
 }
 template<idx_t maxB,idx_t IC,idx_t H,idx_t W>
 __global__ void backward_multi_gx_fast_global(BatchNormalization<maxB,IC,H,W>* dev, array4<maxB,IC,H,W>* gy_dev) {
@@ -387,8 +415,6 @@ struct BatchNormalization {
 
     // Init output and temp variables
     const idx_t B = x.B;
-    mu.set_n(IC);
-    // mu.init_const(IC, 0);
 
     // Compute
     real s = 0.0;
@@ -400,6 +426,46 @@ struct BatchNormalization {
       }
     }
     mu(ic) = s / (B * H * W);
+  }
+  __device__
+  void mean_bij_faster_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+
+    // Index
+    idx_t j  =   idx_thread              % W;  // width
+    idx_t i  = ( idx_thread / W )        % H;  // height
+    idx_t b  = ( idx_thread / (W*H) )    % B;  // samples
+    idx_t ic = ( idx_thread / (W*H*B));        // input channels
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*H*W*IC);
+    if (ic>= IC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    // real ds = x(b,ic,i,j) / (B * H * W); // The numbers are too small when running on float precision. This is why one should NOT divide here already.
+    real ds = x(b,ic,i,j);
+    atomicAdd(&(mu.w[ic]), ds);
+  }
+  __device__
+  void mean_bij_faster2_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int ic = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= IC);
+    if (ic>= IC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    mu(ic) = mu(ic)/(B*H*W);
   }
 #endif
   /**
@@ -461,6 +527,51 @@ struct BatchNormalization {
     }
     inv_std(ic) = 1.0 / sqrt(s * l_BHW + epsilon);
   }
+  __device__
+  void std_bij_faster_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    inv_std.set_n(IC);
+
+    // Index
+    idx_t j  =   idx_thread              % W;  // width
+    idx_t i  = ( idx_thread / W )        % H;  // height
+    idx_t b  = ( idx_thread / (W*H) )    % B;  // samples
+    idx_t ic = ( idx_thread / (W*H*B));        // input channels
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*H*W*IC);
+    if (ic >= IC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    real ds = x(b,ic,i,j) - mu(ic);
+    real s = ds * ds;
+    atomicAdd(&inv_std(ic),s);
+  }
+  __device__
+  void inv_std_bij_faster_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int ic = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    const real epsilon = 2.0e-5;
+    const real l_BHW = 1 / (real)(B * H * W);
+    inv_std.set_n(IC);
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= IC);
+    if (ic >= IC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    real s = inv_std(ic);
+    inv_std(ic) = 1.0 / sqrt(s * l_BHW + epsilon);
+  }
 #endif
   /**
      @brief the baseline (serial) implementation of forward
@@ -517,6 +628,27 @@ struct BatchNormalization {
   __device__
   void forward_dev(array4<maxB,IC,H,W>& x) {
     forward_base(x);
+  }
+  __device__
+  void forward_setup_fast_dev(array4<maxB,IC,H,W>& x) {
+    // Thread IDs
+    int ic = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = x.B;
+    x_hat.set_n_rows(B);
+    y.set_n_rows(B);
+    mu.set_n(IC);
+    inv_std.set_n(IC);
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= IC);
+    if (ic >= IC) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    mu(ic) = 0;
+    inv_std(ic) = 0;
   }
   __device__
   void forward_multi_fast_dev(array4<maxB,IC,H,W>& x) {
@@ -581,11 +713,16 @@ struct BatchNormalization {
   }
   void forward_gpu_fast(array4<maxB,IC,H,W>& x) {
     ::to_host(&x.B, &x.dev->B, sizeof(idx_t));
-    int num_blocks = IC*x.B;
-    int block_sz = W*H; // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks = IC*x.B*W*H/1024 + 1;
+    int block_sz = 1024; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
+    launch_and_sync((forward_setup_fast_global<<<1,IC>>>(dev, x.dev)));
     if (x.B * H * W > 1) {
-      launch_and_sync((mean_bij_fast_global<<<1, IC>>>(dev, x.dev)));
+      // launch_and_sync((mean_bij_faster_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+      // launch_and_sync((mean_bij_faster2_global<<<1,IC>>>(dev, x.dev)));
+      launch_and_sync((mean_bij_fast_global<<<1,IC>>>(dev, x.dev)));
+      // launch_and_sync((std_bij_faster_global<<<num_blocks,block_sz>>>(dev, x.dev)));
+      // launch_and_sync((inv_std_bij_faster_global<<<1,IC>>>(dev, x.dev)));
       launch_and_sync((inv_std_bij_fast_global<<<1,IC>>>(dev, x.dev)));
       launch_and_sync((forward_multi_fast_global<<<num_blocks,block_sz>>>(dev, x.dev)));
     } else {
@@ -803,7 +940,7 @@ struct BatchNormalization {
     backward_base(gy);
   }
   __device__
-  void backward_multi_params_fast_dev(array4<maxB,IC,H,W>& gy) {
+  void backward_multi_setup_fast_dev(array4<maxB,IC,H,W>& gy) {
     // Thread IDs
     int idx_thread = get_thread_id_x();
     int nthreads = get_nthreads_x();
@@ -813,6 +950,30 @@ struct BatchNormalization {
     gx.set_n_rows(B);
     gbeta.set_n(IC);
     ggamma.set_n(IC);
+
+    // Index
+    idx_t j  =   idx_thread              % W;   // width
+    idx_t i  = ( idx_thread / W )        % H;   // height
+    idx_t b  = ( idx_thread / (W*H) )    % B;   // samples
+    idx_t ic = ( idx_thread / (W*H*IC) );       // input channels
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= W*H*IC*B);
+    if (idx_thread >= W*H*IC*B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    gbeta(ic) = 0.0;
+    ggamma(ic) = 0.0;
+    gx(b,ic,i,j) = 0.0;
+  }
+  __device__
+  void backward_multi_params_fast_dev(array4<maxB,IC,H,W>& gy) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
 
     // Index
     idx_t ic = idx_thread % IC;  // input channels
@@ -835,6 +996,37 @@ struct BatchNormalization {
     ggamma(ic) = t;
   }
   __device__
+  void backward_multi_params_faster_dev(array4<maxB,IC,H,W>& gy) {
+    // Thread IDs
+    int idx_thread = get_thread_id_x();
+    int nthreads = get_nthreads_x();
+
+    // Init output and temp variables
+    const idx_t B = gy.B;
+
+    // Index
+    idx_t j  =   idx_thread              % W;   // width
+    idx_t i  = ( idx_thread / W )        % H;   // height
+    idx_t ic = ( idx_thread / (W*H) )    % IC;  // input channels
+    idx_t b  = ( idx_thread / (W*H*IC) );       // samples
+
+    // Check if called by enough threads and skip ones that are not needed
+    assert(nthreads >= B*IC*H*W);
+    if (b >= B) return;  // Threads that are too much and not needed -> stop here
+
+    // Compute
+    // real s = gy(b, ic, i, j);
+    // real t = gy(b, ic, i, j) * x_hat(b, ic, i, j);
+
+    // atomicAdd(&(gbeta.w[ic]), s);
+    // atomicAdd(&(ggamma.w[ic]), t);
+
+    real s = gy(b,ic,i,j);
+    real t = gy(b,ic,i,j) * x_hat(b,ic,i,j);
+    atomicAdd(&gbeta(ic),s);
+    atomicAdd(&ggamma(ic),t);
+  }
+  __device__
   void backward_multi_gx_fast_dev(array4<maxB,IC,H,W>& gy) {
     // Thread IDs
     int idx_thread = get_thread_id_x();
@@ -842,9 +1034,6 @@ struct BatchNormalization {
 
     // Init output and temp variables
     const idx_t B = gy.B;
-    gx.set_n_rows(B);
-    gbeta.set_n(IC);
-    ggamma.set_n(IC);
 
     // Index
     idx_t j  =   idx_thread              % W;   // width
@@ -871,9 +1060,6 @@ struct BatchNormalization {
 
     // Init output and temp variables
     const idx_t B = gy.B;
-    gx.set_n_rows(B);
-    gbeta.set_n(IC);
-    ggamma.set_n(IC);
 
     // Index
     idx_t j  =   idx_thread              % W;   // width
@@ -902,11 +1088,13 @@ struct BatchNormalization {
   }
   void backward_gpu_fast(array4<maxB,IC,H,W>& gy) {
     ::to_host(&gy.B, &gy.dev->B, sizeof(idx_t));
-    int num_blocks = IC * gy.B;
-    int block_sz = H * W; // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks = IC * gy.B * H * W / 1024 + 1;
+    int block_sz = 1024; // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
+    launch_and_sync((backward_multi_setup_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     if (gy.B * H * W > 1) {
       launch_and_sync((backward_multi_params_fast_global<<<1,IC>>>(dev, gy.dev)));
+      // launch_and_sync((backward_multi_params_faster_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
       launch_and_sync((backward_multi_gx_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     } else {
       launch_and_sync((backward_single_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));

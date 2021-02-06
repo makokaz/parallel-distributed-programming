@@ -28,12 +28,13 @@ flags += -O3
 #flags += -O0 -g
 # ---- turn on/off array index checking ---- 
 flags += -DARRAY_INDEX_CHECK=0
-#flags += -DARRAY_INDEX_CHECK=1
+# flags += -DARRAY_INDEX_CHECK=1
 # ---- maximum batch size ---- 
+# flags += -DMAX_BATCH_SIZE=128
 flags += -DMAX_BATCH_SIZE=64
-#flags += -DMAX_BATCH_SIZE=1
+# flags += -DMAX_BATCH_SIZE=1
 # ---- channels of the first stage ---- 
-#flags += -DN_FIRST_CHANNELS=64
+# flags += -DN_FIRST_CHANNELS=64
 flags += -DN_FIRST_CHANNELS=16
 # ---- measure function call times ----
 flags += -DVERBOSE=0

@@ -446,8 +446,17 @@ struct SoftmaxCrossEntropy {
   }
   void backward_gpu_fast(vec<maxB>& gy) {
     ::to_host(&gy.n, &gy.dev->n, sizeof(idx_t));
-    dim3 num_blocks(1,1);
-    dim3 block_sz(gy.n,nC); // Should be a multiple of 32! [Limit: 1024]
+    int num_blocks_x = 1;
+    int num_blocks_y = 1;
+    int block_sz_x = gy.n;
+    int block_sz_y = nC;
+    if(block_sz_x * block_sz_y > 1024) {
+      int scale = 1024 / (block_sz_x * block_sz_y);
+      block_sz_x = gy.n / scale + 1;
+      num_blocks_x = scale;
+    }
+    dim3 num_blocks(num_blocks_x, num_blocks_y);
+    dim3 block_sz(block_sz_x, block_sz_y);  // Should be a multiple of 32! [Limit: 1024]
     double t0 = cur_time();
     launch_and_sync((backward_fast_global<<<num_blocks,block_sz>>>(dev, gy.dev)));
     double t1 = cur_time();
